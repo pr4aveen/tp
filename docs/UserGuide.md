@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+Momentum is a **desktop app** that **helps freelancers track time spent on different projects** and **gain insights on how their time is spent**. It is optimized for **Command Line Interface(CLI) users** so that frequent tasks can be done faster by typing in commands.
 
 * Table of Contents
 {:toc}
@@ -14,9 +14,9 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 1. Ensure you have Java `11` or above installed in your Computer.
 
-1. Download the latest `addressbook.jar` from [here](https://github.com/se-edu/addressbook-level3/releases).
+1. Download the latest `momentum.jar` from [here](https://github.com/AY2021S1-CS2103T-T10-1/tp/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+1. Copy the file to the folder you want to use as the _home folder_ for your Momentum.
 
 1. Double-click the file to start the app. The GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
@@ -24,17 +24,27 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * **`list`** : Lists all contacts.
+   * **`project`**`n/Momentum d/CS2103T Team Project` : Adds a project named `Momentum` to the Project Book.
 
-   * **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * **`edit`**`3 n/NewMomentum d/newDescription` : Update the 3rd project in the current list. The name will be changed to “NewMomentum” and the description will be changed to “NewDescription”.
 
-   * **`delete`**`3` : Deletes the 3rd contact shown in the current list.
+   * **`delete`**`3` : Deletes the 3rd project shown in the current list.
 
-   * **`clear`** : Deletes all contacts.
+   * **`/home`** : Go to Home dashboard.
 
-   * **`exit`** : Exits the app.
+   * **`/stats`** : Go to Statistics tab.
 
-1. Refer to the [Features](#features) below for details of each command.
+   * **`/projects`** : Go to Projects tab.
+
+   * **`/settings`** : Go to Settings tab.
+
+   * **`start`**`3` : Start the timer of the 3rd project shown in the current list.
+
+   * **`end`**`3` : End the timer of the 3rd project shown in the current list.
+
+   * **`/exit`** : Exits the app.
+
+2. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -58,110 +68,121 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 </div>
 
-### Viewing help : `help`
+<!-- ### Viewing help : `help`
 
 Shows a message explaning how to access the help page.
 
 ![help message](images/helpMessage.png)
 
-Format: `help`
+Format: `help` -->
 
+### Creating a project: `project`
 
-### Adding a person: `add`
+Create a project to be tracked by the application.
 
-Adds a person to the address book.
-
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `project n/NAME d/DESCRIPTION [t/TAG]`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A person can have any number of tags (including 0)
 </div>
 
-Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+Example: `project n/Momentum d/CS2103T Team Project t/impt`
 
-### Listing all persons : `list`
+Result: Creates a project named “Momentum” with a description “CS2103T Team Project” and a tag "impt".
 
-Shows a list of all persons in the address book.
+### Updating a project: `edit`
 
-Format: `list`
+Update a project that has been previously created.
 
-### Editing a person : `edit`
+Format: `edit PROJECT_ID n/NAME d/DESCRIPTION [t/TAG]`
 
-Edits an existing person in the address book.
+* Edits the person at the specified `PROJECT_ID`.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Example: `project 3 n/NewMomentum d/NewDescription t\normal`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+Result: Updates the project with id 3. The name will be changed to “NewMomentum”, the description will be changed to “NewDescription”, the tag will be changed to normal.
 
-Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+### Deleting a project: `delete`
 
-### Locating persons by name: `find`
+Deletes a project in the list.
 
-Finds persons whose names contain any of the given keywords.
+Format: `delete PROJECT_ID`
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+* Deletes the person at the specified `PROJECT_ID`.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+Example: `delete 2`
 
-Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+Result: Deletes the second project in the list.
 
-### Deleting a person : `delete`
+### View
 
-Deletes the specified person from the address book.
+View different tabs of the application.
 
-Format: `delete INDEX`
+Format: <br> `\home` <br> `\stats` <br> `\projects` <br> `\settings`
 
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* /home brings user to home dashboard
+* /stats brings user to Statistics tab
+* /projects brings user to Projects tab
+* /settings brings user to Settings tab
 
-Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+Result: Moves to different tabs in the application.
 
-### Clearing all entries : `clear`
+#### Home View
 
-Clears all entries from the address book.
+<img src="images/user-guide/homeView.ppg" width="300" />
 
-Format: `clear`
+#### Projects View
 
-### Exiting the program : `exit`
+<img src="images/user-guide/projectsView.png" width="300" />
 
-Exits the program.
+#### Statistics View
 
-Format: `exit`
+<img src="images/user-guide/statisticsView.png" width="300" />
 
-### Saving the data
+### Timer
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+Start and end a timer to record the duration of a project.
 
-### Archiving data files `[coming in v2.0]`
+#### Start Timer: `start`
 
-_{explain the feature here}_
+Format: `start PROJECT_ID`
+
+* Starts the timer with `PROJECT_ID` specified
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
+
+Example: `start 1`
+
+Result: Start timer with project id 1.
+
+#### End Timer: `end`
+
+Format: `end PROJECT_ID`
+
+* Ends the timer with `PROJECT_ID` specified
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
+
+Example: `end 1`
+
+Result: End timer with project id 1.
+
+### Exiting the program : /`exit`
+
+Format: `/exit`
+
+Result: Exits the program.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Momentum home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -169,10 +190,9 @@ _{explain the feature here}_
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List** | `list`
-**Help** | `help`
+**Create** | `project n/NAME d/DESCRIPTION [t\Tag]​` <br> e.g., `project n/Momentum d/CS2103T Team Project`
+**Update** | `edit PROJECT_ID n/NAME d/DESCRIPTION [t\Tag]` <br> e.g., `project 3 n/NewMomentum d/NewDescription t\normal`
+**Delete** | `delete PROJECT_ID`<br> e.g., `delete 3`
+**View** | `/home​` <br> `/stats`<br> `/projects`<br> `/settings` 
+**Timer** | `start PROJECT_ID` <br> e.g., `start 3` <br> `end PROJECT_ID` <br> e.g., `end 3`
+**Exit** | `/exit`
