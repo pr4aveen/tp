@@ -35,8 +35,6 @@ public class ProjectCard extends UiPart<Region> {
     @FXML
     private Label phone;
     @FXML
-    private Label address;
-    @FXML
     private Label email;
     @FXML
     private FlowPane tags;
@@ -50,7 +48,6 @@ public class ProjectCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(project.getName().fullName);
         phone.setText(project.getPhone().value);
-        address.setText(project.getAddress().value);
         email.setText(project.getEmail().value);
         project.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
