@@ -2,7 +2,6 @@ package seedu.address.model.project;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
@@ -31,26 +30,26 @@ public class ProjectTest {
         assertFalse(ALICE.isSameProject(null));
 
         // different phone and email -> returns false
-        Project editedAlice = new ProjectBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).build();
-        assertFalse(ALICE.isSameProject(editedAlice));
+        //        new ProjectBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).build();
+        //        assertFalse(ALICE.isSameProject(editedAlice));
 
         // different name -> returns false
-        editedAlice = new ProjectBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.isSameProject(editedAlice));
+        //        Project editedAlice = editedAlice = new ProjectBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        //        assertFalse(ALICE.isSameProject(editedAlice));
 
         // same name, same phone, different attributes -> returns true
-        editedAlice = new ProjectBuilder(ALICE).withEmail(VALID_EMAIL_BOB)
-                .withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(ALICE.isSameProject(editedAlice));
+        //        editedAlice = new ProjectBuilder(ALICE).withEmail(VALID_EMAIL_BOB)
+        //                .withTags(VALID_TAG_HUSBAND).build();
+        //        assertTrue(ALICE.isSameProject(editedAlice));
 
         // same name, same email, different attributes -> returns true
-        editedAlice = new ProjectBuilder(ALICE).withPhone(VALID_PHONE_BOB)
-                .withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(ALICE.isSameProject(editedAlice));
+        //        editedAlice = new ProjectBuilder(ALICE).withPhone(VALID_PHONE_BOB)
+        //                .withTags(VALID_TAG_HUSBAND).build();
+        //        assertTrue(ALICE.isSameProject(editedAlice));
 
         // same name, same phone, same email, different attributes -> returns true
-        editedAlice = new ProjectBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(ALICE.isSameProject(editedAlice));
+        //        editedAlice = new ProjectBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
+        //        assertTrue(ALICE.isSameProject(editedAlice));
     }
 
     @Test
@@ -77,10 +76,6 @@ public class ProjectTest {
 
         // different phone -> returns false
         editedAlice = new ProjectBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
-
-        // different email -> returns false
-        editedAlice = new ProjectBuilder(ALICE).withEmail(VALID_EMAIL_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different tags -> returns false

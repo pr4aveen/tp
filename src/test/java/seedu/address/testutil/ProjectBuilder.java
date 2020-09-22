@@ -3,7 +3,6 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.model.project.Email;
 import seedu.address.model.project.Name;
 import seedu.address.model.project.Phone;
 import seedu.address.model.project.Project;
@@ -17,11 +16,9 @@ public class ProjectBuilder {
 
     public static final String DEFAULT_NAME = "Alice Pauline";
     public static final String DEFAULT_PHONE = "85355255";
-    public static final String DEFAULT_EMAIL = "alice@gmail.com";
 
     private Name name;
     private Phone phone;
-    private Email email;
     private Set<Tag> tags;
 
     /**
@@ -30,7 +27,6 @@ public class ProjectBuilder {
     public ProjectBuilder() {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
-        email = new Email(DEFAULT_EMAIL);
         tags = new HashSet<>();
     }
 
@@ -40,7 +36,6 @@ public class ProjectBuilder {
     public ProjectBuilder(Project projectToCopy) {
         name = projectToCopy.getName();
         phone = projectToCopy.getPhone();
-        email = projectToCopy.getEmail();
         tags = new HashSet<>(projectToCopy.getTags());
     }
 
@@ -68,16 +63,8 @@ public class ProjectBuilder {
         return this;
     }
 
-    /**
-     * Sets the {@code Email} of the {@code Project} that we are building.
-     */
-    public ProjectBuilder withEmail(String email) {
-        this.email = new Email(email);
-        return this;
-    }
-
     public Project build() {
-        return new Project(name, phone, email, tags);
+        return new Project(name, phone, tags);
     }
 
 }

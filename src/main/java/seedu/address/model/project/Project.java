@@ -18,18 +18,16 @@ public class Project {
     // Identity fields
     private final Name name;
     private final Phone phone;
-    private final Email email;
 
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Project(Name name, Phone phone, Email email, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, tags);
+    public Project(Name name, Phone phone, Set<Tag> tags) {
+        requireAllNonNull(name, phone, tags);
         this.name = name;
         this.phone = phone;
-        this.email = email;
         this.tags.addAll(tags);
     }
 
@@ -39,10 +37,6 @@ public class Project {
 
     public Phone getPhone() {
         return phone;
-    }
-
-    public Email getEmail() {
-        return email;
     }
 
     /**
@@ -64,7 +58,7 @@ public class Project {
 
         return otherProject != null
                 && otherProject.getName().equals(getName())
-                && (otherProject.getPhone().equals(getPhone()) || otherProject.getEmail().equals(getEmail()));
+                && otherProject.getPhone().equals(getPhone());
     }
 
     /**
@@ -84,14 +78,13 @@ public class Project {
         Project otherProject = (Project) other;
         return otherProject.getName().equals(getName())
                 && otherProject.getPhone().equals(getPhone())
-                && otherProject.getEmail().equals(getEmail())
                 && otherProject.getTags().equals(getTags());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, tags);
+        return Objects.hash(name, phone, tags);
     }
 
     @Override
@@ -100,8 +93,6 @@ public class Project {
         builder.append(getName())
                 .append(" Phone: ")
                 .append(getPhone())
-                .append(" Email: ")
-                .append(getEmail())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();

@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.project.Email;
 import seedu.address.model.project.Name;
 import seedu.address.model.project.Phone;
 import seedu.address.model.project.Project;
@@ -18,17 +17,17 @@ import seedu.address.model.tag.Tag;
 public class SampleDataUtil {
     public static Project[] getSampleProjects() {
         return new Project[] {
-            new Project(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
+            new Project(new Name("Alex Yeoh"), new Phone("87438807"),
                 getTagSet("friends")),
-            new Project(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
+            new Project(new Name("Bernice Yu"), new Phone("99272758"),
                 getTagSet("colleagues", "friends")),
-            new Project(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
+            new Project(new Name("Charlotte Oliveiro"), new Phone("93210283"),
                 getTagSet("neighbours")),
-            new Project(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
+            new Project(new Name("David Li"), new Phone("91031282"),
                 getTagSet("family")),
-            new Project(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
+            new Project(new Name("Irfan Ibrahim"), new Phone("92492021"),
                 getTagSet("classmates")),
-            new Project(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
+            new Project(new Name("Roy Balakrishnan"), new Phone("92624417"),
                 getTagSet("colleagues"))
         };
     }

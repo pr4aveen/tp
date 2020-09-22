@@ -1,7 +1,5 @@
 package seedu.address.testutil;
 
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
@@ -22,35 +20,29 @@ import seedu.address.model.project.Project;
 public class TypicalProjects {
 
     public static final Project ALICE = new ProjectBuilder().withName("Alice Pauline")
-            .withEmail("alice@example.com")
             .withPhone("94351253")
             .withTags("friends").build();
     public static final Project BENSON = new ProjectBuilder().withName("Benson Meier")
-            .withEmail("johnd@example.com").withPhone("98765432")
-            .withTags("owesMoney", "friends").build();
-    public static final Project CARL = new ProjectBuilder().withName("Carl Kurz").withPhone("95352563")
-            .withEmail("heinz@example.com").build();
+            .withPhone("98765432").withTags("owesMoney", "friends").build();
+    public static final Project CARL = new ProjectBuilder().withName("Carl Kurz").withPhone("95352563").build();
     public static final Project DANIEL = new ProjectBuilder().withName("Daniel Meier").withPhone("87652533")
-            .withEmail("cornelia@example.com").withTags("friends").build();
+            .withTags("friends").build();
     public static final Project ELLE = new ProjectBuilder().withName("Elle Meyer").withPhone("9482224")
-            .withEmail("werner@example.com").build();
-    public static final Project FIONA = new ProjectBuilder().withName("Fiona Kunz").withPhone("9482427")
-            .withEmail("lydia@example.com").build();
-    public static final Project GEORGE = new ProjectBuilder().withName("George Best").withPhone("9482442")
-            .withEmail("anna@example.com").build();
+            .build();
+    public static final Project FIONA = new ProjectBuilder().withName("Fiona Kunz").withPhone("9482427").build();
+    public static final Project GEORGE = new ProjectBuilder().withName("George Best").withPhone("9482442").build();
 
     // Manually added
     public static final Project HOON = new ProjectBuilder().withName("Hoon Meier").withPhone("8482424")
-            .withEmail("stefan@example.com").build();
+            .build();
     public static final Project IDA = new ProjectBuilder().withName("Ida Mueller").withPhone("8482131")
-            .withEmail("hans@example.com").build();
+            .build();
 
     // Manually added - Project's details found in {@code CommandTestUtil}
     public static final Project AMY = new ProjectBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
-            .withEmail(VALID_EMAIL_AMY).withTags(VALID_TAG_FRIEND).build();
+            .withTags(VALID_TAG_FRIEND).build();
     public static final Project BOB = new ProjectBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-            .withEmail(VALID_EMAIL_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
-            .build();
+            .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
 
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 
