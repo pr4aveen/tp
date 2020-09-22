@@ -27,7 +27,7 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_newProject_success() {
-        Project validProject = new ProjectBuilder().build();
+        Project validProject = new ProjectBuilder().withName("TEST").build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.addProject(validProject);

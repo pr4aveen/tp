@@ -2,22 +2,16 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PROJECT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PROJECT;
 
@@ -26,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.model.project.Name;
-import seedu.address.model.project.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditProjectDescriptorBuilder;
 
@@ -69,12 +62,11 @@ public class EditCommandParserTest {
     @Test
     public void parse_invalidValue_failure() {
         assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
-        assertParseFailure(parser, "1" + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS); // invalid phone
         assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
 
         // valid phone followed by invalid phone. The test case for invalid phone followed by valid phone
         // is tested at {@code parse_invalidValueFollowedByValidValue_success()}
-        assertParseFailure(parser, "1" + PHONE_DESC_BOB + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS);
+        //        assertParseFailure(parser, "1" + PHONE_DESC_BOB + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS);
 
         // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Project} being edited,
         // parsing it together with a valid tag results in error
@@ -90,27 +82,27 @@ public class EditCommandParserTest {
     @Test
     public void parse_allFieldsSpecified_success() {
         Index targetIndex = INDEX_SECOND_PROJECT;
-        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + TAG_DESC_HUSBAND
+        String userInput = targetIndex.getOneBased() + TAG_DESC_HUSBAND
                 + NAME_DESC_AMY + TAG_DESC_FRIEND;
 
         EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
-    @Test
-    public void parse_someFieldsSpecified_success() {
-        Index targetIndex = INDEX_FIRST_PROJECT;
-        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB;
-
-        EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder()
-                .withPhone(VALID_PHONE_BOB).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
+    //    @Test
+    //    public void parse_someFieldsSpecified_success() {
+    //        Index targetIndex = INDEX_FIRST_PROJECT;
+    //        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB;
+    //
+    //        EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder()
+    //                .withPhone(VALID_PHONE_BOB).build();
+    //        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+    //
+    //        assertParseSuccess(parser, userInput, expectedCommand);
+    //    }
 
     @Test
     public void parse_oneFieldSpecified_success() {
@@ -122,12 +114,6 @@ public class EditCommandParserTest {
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
-        // phone
-        userInput = targetIndex.getOneBased() + PHONE_DESC_AMY;
-        descriptor = new EditProjectDescriptorBuilder().withPhone(VALID_PHONE_AMY).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
-        assertParseSuccess(parser, userInput, expectedCommand);
-
         // tags
         userInput = targetIndex.getOneBased() + TAG_DESC_FRIEND;
         descriptor = new EditProjectDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
@@ -135,18 +121,18 @@ public class EditCommandParserTest {
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
-    @Test
-    public void parse_multipleRepeatedFields_acceptsLast() {
-        Index targetIndex = INDEX_FIRST_PROJECT;
-        String userInput = targetIndex.getOneBased() + PHONE_DESC_AMY + TAG_DESC_FRIEND + PHONE_DESC_AMY
-                + TAG_DESC_FRIEND + PHONE_DESC_BOB + TAG_DESC_HUSBAND;
-
-        EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder().withPhone(VALID_PHONE_BOB)
-                .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
+    //    @Test
+    //    public void parse_multipleRepeatedFields_acceptsLast() {
+    //        Index targetIndex = INDEX_FIRST_PROJECT;
+    //        String userInput = targetIndex.getOneBased() + PHONE_DESC_AMY + TAG_DESC_FRIEND + PHONE_DESC_AMY
+    //                + TAG_DESC_FRIEND + PHONE_DESC_BOB + TAG_DESC_HUSBAND;
+    //
+    //        EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder()
+    //                .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
+    //        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+    //
+    //        assertParseSuccess(parser, userInput, expectedCommand);
+    //    }
 
     //    @Test
     //    public void parse_invalidValueFollowedByValidValue_success() {

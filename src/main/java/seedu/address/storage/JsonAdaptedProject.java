@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.project.Name;
-import seedu.address.model.project.Phone;
 import seedu.address.model.project.Project;
 import seedu.address.model.tag.Tag;
 
@@ -23,17 +22,15 @@ class JsonAdaptedProject {
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Project's %s field is missing!";
 
     private final String name;
-    private final String phone;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedProject} with the given project details.
      */
     @JsonCreator
-    public JsonAdaptedProject(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
+    public JsonAdaptedProject(@JsonProperty("name") String name,
                               @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
         this.name = name;
-        this.phone = phone;
         if (tagged != null) {
             this.tagged.addAll(tagged);
         }
@@ -44,7 +41,6 @@ class JsonAdaptedProject {
      */
     public JsonAdaptedProject(Project source) {
         name = source.getName().fullName;
-        phone = source.getPhone().value;
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -69,16 +65,8 @@ class JsonAdaptedProject {
         }
         final Name modelName = new Name(name);
 
-        if (phone == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
-        }
-        if (!Phone.isValidPhone(phone)) {
-            throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
-        }
-        final Phone modelPhone = new Phone(phone);
-
         final Set<Tag> modelTags = new HashSet<>(projectTags);
-        return new Project(modelName, modelPhone, modelTags);
+        return new Project(modelName, modelTags);
     }
 
 }
