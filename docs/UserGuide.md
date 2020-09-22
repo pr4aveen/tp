@@ -193,6 +193,6 @@ Action | Format, Examples
 **Create** | `project n/NAME d/DESCRIPTION [t\Tag]​` <br> e.g., `project n/Momentum d/CS2103T Team Project`
 **Update** | `edit PROJECT_ID n/NAME d/DESCRIPTION [t\Tag]` <br> e.g., `project 3 n/NewMomentum d/NewDescription t\normal`
 **Delete** | `delete PROJECT_ID`<br> e.g., `delete 3`
-**View** | `/home​` <br> `/stats`<br> `/projects`<br> `/settings` 
+**View** | `/home​` <br> `/stats`<br> `/projects`<br> `/settings`
 **Timer** | `start PROJECT_ID` <br> e.g., `start 3` <br> `end PROJECT_ID` <br> e.g., `end 3`
 **Exit** | `/exit`
