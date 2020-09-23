@@ -5,9 +5,13 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
+import javafx.collections.ObservableList;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.work_duration.UniqueDurationList;
+import seedu.address.model.work_duration.WorkDuration;
 
 /**
  * Represents a Project in the address book.
@@ -20,6 +24,9 @@ public class Project {
 
     private final Set<Tag> tags = new HashSet<>();
 
+    private final Optional<WorkDuration> activeDuration;
+    private final UniqueDurationList durations;
+
     /**
      * Every field must be present and not null.
      */
@@ -27,6 +34,8 @@ public class Project {
         requireAllNonNull(name, tags);
         this.name = name;
         this.tags.addAll(tags);
+        this.activeDuration = Optional.empty();
+        this.durations = new UniqueDurationList();
     }
 
     public Name getName() {
@@ -39,6 +48,14 @@ public class Project {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    public ObservableList<WorkDuration> getDurationList() {
+        return durations.asUnmodifiableObservableList();
+    }
+
+    public void addDuration(WorkDuration duration) {
+        durations.add(duration);
     }
 
     /**

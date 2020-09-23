@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -12,6 +13,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.project.Project;
+import seedu.address.model.work_duration.WorkDuration;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -22,6 +24,8 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Project> filteredProjects;
+
+    private Optional<WorkDuration> activeDuration;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -35,6 +39,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredProjects = new FilteredList<>(this.addressBook.getProjectList());
+        this.activeDuration = Optional.empty();
     }
 
     public ModelManager() {
@@ -110,6 +115,30 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedProject);
 
         addressBook.setProject(target, editedProject);
+    }
+
+    //=========== Timers ======================================================================================
+    @Override
+    public WorkDuration startTimer(Project project) {
+        assert(activeDuration.isEmpty());
+        WorkDuration duration = new WorkDuration(project);
+        activeDuration = Optional.of(duration);
+        return activeDuration.get();
+    }
+
+    @Override
+    public WorkDuration stopTimer(Project project) {
+        assert(activeDuration.isPresent());
+        WorkDuration duration = new WorkDuration(activeDuration.get().getProject(),
+                activeDuration.get().getStartTime());
+        project.addDuration(duration);
+        activeDuration = Optional.empty();
+        return duration;
+    }
+
+    @Override
+    public boolean hasActiveTimer() {
+        return activeDuration.isPresent();
     }
 
     //=========== Filtered Project List Accessors =============================================================

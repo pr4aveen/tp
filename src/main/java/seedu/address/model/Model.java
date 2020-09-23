@@ -1,11 +1,13 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.project.Project;
+import seedu.address.model.work_duration.WorkDuration;
 
 /**
  * The API of the Model component.
@@ -85,4 +87,10 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredProjectList(Predicate<Project> predicate);
+
+    WorkDuration startTimer(Project project);
+
+    WorkDuration stopTimer(Project project);
+
+    boolean hasActiveTimer();
 }

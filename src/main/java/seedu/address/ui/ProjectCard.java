@@ -4,9 +4,11 @@ import java.util.Comparator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import seedu.address.model.project.Project;
 
 /**
@@ -25,6 +27,7 @@ public class ProjectCard extends UiPart<Region> {
      */
 
     public final Project project;
+    private DurationListPanel durationListPanel;
 
     @FXML
     private HBox cardPane;
@@ -34,6 +37,8 @@ public class ProjectCard extends UiPart<Region> {
     private Label id;
     @FXML
     private FlowPane tags;
+    @FXML
+    private StackPane durationListPanelPlaceholder;
 
     /**
      * Creates a {@code ProjectCode} with the given {@code Project} and index to display.
@@ -46,6 +51,8 @@ public class ProjectCard extends UiPart<Region> {
         project.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        durationListPanel = new DurationListPanel(project.getDurationList());
+        durationListPanelPlaceholder.getChildren().add(durationListPanel.getRoot());
     }
 
     @Override
