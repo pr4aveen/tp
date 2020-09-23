@@ -1,13 +1,13 @@
 package seedu.momentum.model;
 
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.work_duration.WorkDuration;
+import seedu.momentum.model.timer.Timer;
+import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * The API of the Model component.
@@ -88,7 +88,7 @@ public interface Model {
      */
     void updateFilteredProjectList(Predicate<Project> predicate);
 
-    WorkDuration startTimer(Project project);
+    Timer startTimer(Project project);
 
     WorkDuration stopTimer(Project project);
 

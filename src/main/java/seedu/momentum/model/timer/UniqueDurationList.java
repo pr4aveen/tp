@@ -1,4 +1,4 @@
-package seedu.momentum.model.work_duration;
+package seedu.momentum.model.timer;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
@@ -8,16 +8,14 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.address.model.work_duration.exceptions.DuplicateDurationException;
-import seedu.address.model.work_duration.exceptions.DurationNotFoundException;
+import seedu.momentum.model.timer.exceptions.DuplicateDurationException;
+import seedu.momentum.model.timer.exceptions.DurationNotFoundException;
 
 /**
- * A list of timers that enforces uniqueness between its elements and does not allow nulls.
- * A person is considered unique by comparing using {@code Person#isSamePerson(Person)}. As such, adding and updating of
- * persons uses Person#isSamePerson(Person) for equality so as to ensure that the person being added or updated is
- * unique in terms of identity in the UniquePersonList. However, the removal of a person uses Person#equals(Object) so
- * as to ensure that the person with exactly the same fields will be removed.
- *
+ * A list of durations that enforces uniqueness between its elements and does not allow nulls.
+ * A duration is considered unique by comparing using {@code duration#isSameDuration(WorkDuration)}. As such, adding
+ * and updating of durations uses WorkDuration#isSameDuration(WorkDuration) for equality so as to ensure that the
+ * duration being added is unique.
  * Supports a minimal set of list operations.
  *
  * @see WorkDuration#isSameDuration(WorkDuration)
@@ -53,7 +51,7 @@ public class UniqueDurationList implements Iterable<WorkDuration> {
      * {@code target} must exist in the list.
      * The timer identity of {@code editedDuration} must not be the same as another existing duration in the list.
      */
-    public void setTimer(WorkDuration target, WorkDuration editedDuration) {
+    public void setDuration(WorkDuration target, WorkDuration editedDuration) {
         requireAllNonNull(target, editedDuration);
 
         int index = internalList.indexOf(target);
@@ -79,7 +77,7 @@ public class UniqueDurationList implements Iterable<WorkDuration> {
         }
     }
 
-    public void setPersons(UniqueDurationList replacement) {
+    public void setDurations(UniqueDurationList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
     }
@@ -88,7 +86,7 @@ public class UniqueDurationList implements Iterable<WorkDuration> {
      * Replaces the contents of this list with {@code persons}.
      * {@code persons} must not contain duplicate persons.
      */
-    public void setPersons(List<WorkDuration> durations) {
+    public void setDurations(List<WorkDuration> durations) {
         requireAllNonNull(durations);
         if (!timersAreUnique(durations)) {
             throw new DuplicateDurationException();

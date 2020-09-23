@@ -9,6 +9,8 @@ import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
+import seedu.momentum.model.timer.UniqueDurationList;
+import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Contains utility methods for populating {@code ProjectBook} with sample data.
@@ -40,6 +42,15 @@ public class SampleDataUtil {
         return Arrays.stream(strings)
                 .map(Tag::new)
                 .collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns a UniqueDurationList containing the list of strings given.
+     */
+    public static UniqueDurationList getDurationList(WorkDuration... durations) {
+        UniqueDurationList durationList = new UniqueDurationList();
+        durationList.setDurations(Arrays.asList(durations));
+        return durationList;
     }
 
 }

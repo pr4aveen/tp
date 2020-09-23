@@ -9,11 +9,10 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.work_duration.DurationUtil;
-import seedu.momentum.model.work_duration.WorkDuration;
+import seedu.momentum.model.timer.Timer;
 
 /**
- * Deletes a person identified using it's displayed index from the address book.
+ * Starts a timer tracking a project identified using it's displayed index.
  */
 public class StartCommand extends Command {
 
@@ -49,10 +48,10 @@ public class StartCommand extends Command {
             throw new CommandException(MESSAGE_EXISTING_TIMER_ERROR);
         }
 
-        WorkDuration duration = model.startTimer(projectToStart);
+        Timer timer = model.startTimer(projectToStart);
 
-        return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased()) +
-                duration.getStartTime().format(DurationUtil.dateTimeFormatter));
+        return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())
+                + timer.getStartTime().toString());
     }
 
     @Override

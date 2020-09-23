@@ -13,7 +13,8 @@ import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.work_duration.WorkDuration;
+import seedu.momentum.model.timer.Timer;
+import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Represents the in-memory model of the project book data.
@@ -25,7 +26,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Project> filteredProjects;
 
-    private Optional<WorkDuration> activeDuration;
+    private Optional<Timer> activeTimer;
 
     /**
      * Initializes a ModelManager with the given projectBook and userPrefs.
@@ -38,7 +39,7 @@ public class ModelManager implements Model {
 
         this.projectBook = new ProjectBook(projectBook);
         this.userPrefs = new UserPrefs(userPrefs);
-        this.activeDuration = Optional.empty();
+        this.activeTimer = Optional.empty();
         filteredProjects = new FilteredList<>(this.projectBook.getProjectList());
     }
 
@@ -119,26 +120,28 @@ public class ModelManager implements Model {
 
     //=========== Timers ======================================================================================
     @Override
-    public WorkDuration startTimer(Project project) {
-        assert(activeDuration.isEmpty());
-        WorkDuration duration = new WorkDuration(project);
-        activeDuration = Optional.of(duration);
-        return activeDuration.get();
+    public Timer startTimer(Project project) {
+        assert(activeTimer.isEmpty());
+        Timer timer = new Timer(project);
+        timer.start();
+        activeTimer = Optional.of(timer);
+        return activeTimer.get();
     }
 
     @Override
     public WorkDuration stopTimer(Project project) {
-        assert(activeDuration.isPresent());
-        WorkDuration duration = new WorkDuration(activeDuration.get().getProject(),
-                activeDuration.get().getStartTime());
+        assert(activeTimer.isPresent());
+        Timer timer = activeTimer.get();
+        timer.stop();
+        WorkDuration duration = new WorkDuration(timer.getStartTime(), timer.getStopTime());
         project.addDuration(duration);
-        activeDuration = Optional.empty();
+        activeTimer = Optional.empty();
         return duration;
     }
 
     @Override
     public boolean hasActiveTimer() {
-        return activeDuration.isPresent();
+        return activeTimer.isPresent();
     }
 
     //=========== Filtered Project List Accessors =============================================================
@@ -174,7 +177,9 @@ public class ModelManager implements Model {
         ModelManager other = (ModelManager) obj;
         return projectBook.equals(other.projectBook)
                 && userPrefs.equals(other.userPrefs)
-                && filteredProjects.equals(other.filteredProjects);
+                && filteredProjects.equals(other.filteredProjects)
+                && hasActiveTimer() == other.hasActiveTimer()
+                && activeTimer.equals(other.activeTimer);
     }
 
 }

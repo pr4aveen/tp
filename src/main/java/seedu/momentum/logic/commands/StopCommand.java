@@ -10,10 +10,10 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.work_duration.WorkDuration;
+import seedu.momentum.model.timer.WorkDuration;
 
 /**
- * Deletes a person identified using it's displayed index from the address book.
+ * Stops a previously started timer tracking a project identified using it's displayed index.
  */
 public class StopCommand extends Command {
 

@@ -4,14 +4,11 @@ import java.util.Comparator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import seedu.momentum.model.project.Project;
 import javafx.scene.layout.StackPane;
-import seedu.momentum.ui.DurationListPanel;
-import seedu.momentum.ui.UiPart;
+import seedu.momentum.model.project.Project;
 
 /**
  * An UI component that displays information of a {@code Project}.

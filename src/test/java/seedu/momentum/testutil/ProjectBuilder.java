@@ -6,6 +6,8 @@ import java.util.Set;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
+import seedu.momentum.model.timer.UniqueDurationList;
+import seedu.momentum.model.timer.WorkDuration;
 import seedu.momentum.model.util.SampleDataUtil;
 
 /**
@@ -17,6 +19,7 @@ public class ProjectBuilder {
 
     private Name name;
     private Set<Tag> tags;
+    private UniqueDurationList durations;
 
     /**
      * Creates a {@code ProjectBuilder} with the default details.
@@ -24,6 +27,7 @@ public class ProjectBuilder {
     public ProjectBuilder() {
         name = new Name(DEFAULT_NAME);
         tags = new HashSet<>();
+        durations = new UniqueDurationList();
     }
 
     /**
@@ -32,6 +36,10 @@ public class ProjectBuilder {
     public ProjectBuilder(Project projectToCopy) {
         name = projectToCopy.getName();
         tags = new HashSet<>(projectToCopy.getTags());
+        durations = new UniqueDurationList();
+        for (WorkDuration duration : projectToCopy.getDurationList()) {
+            durations.add(duration);
+        }
     }
 
     /**
@@ -47,6 +55,15 @@ public class ProjectBuilder {
      */
     public ProjectBuilder withTags(String ... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
+        return this;
+    }
+
+    /**
+     * Parses the {@code durations} into a {@code UniqueDurationList} and set it to the {@code Project} that we
+     * are building.
+     */
+    public ProjectBuilder withDurations(WorkDuration... durations) {
+        this.durations = SampleDataUtil.getDurationList(durations);
         return this;
     }
 

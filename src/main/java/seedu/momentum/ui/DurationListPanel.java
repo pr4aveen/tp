@@ -8,10 +8,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.momentum.commons.core.LogsCenter;
-import seedu.momentum.model.project.Project;
-import seedu.momentum.model.work_duration.WorkDuration;
-import seedu.momentum.ui.UiPart;
-import seedu.momentum.ui.DurationCard;
+import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Panel containing the list of projects.

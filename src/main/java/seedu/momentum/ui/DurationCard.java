@@ -1,16 +1,10 @@
 package seedu.momentum.ui;
 
-import java.util.Comparator;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import seedu.momentum.model.project.Project;
-import seedu.momentum.model.work_duration.DurationUtil;
-import seedu.momentum.model.work_duration.WorkDuration;
-import seedu.momentum.ui.UiPart;
+import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * An UI component that displays information of a {@code WorkDuration}.
@@ -45,8 +39,8 @@ public class DurationCard extends UiPart<Region> {
         super(FXML);
         this.duration = duration;
         id.setText(displayedIndex + ". ");
-        startTime.setText("Start: " + duration.getStartTime().format(DurationUtil.dateTimeFormatter));
-        stopTime.setText("Stop: " + duration.getStopTime().format(DurationUtil.dateTimeFormatter));
+        startTime.setText("Start: " + duration.getStartTime().toString());
+        stopTime.setText("Stop: " + duration.getStopTime().toString());
     }
 
     @Override

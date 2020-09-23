@@ -13,6 +13,8 @@ import seedu.momentum.commons.exceptions.IllegalValueException;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
+import seedu.momentum.model.timer.UniqueDurationList;
+import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Jackson-friendly version of {@link Project}.
@@ -23,16 +25,21 @@ class JsonAdaptedProject {
 
     private final String name;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
+    private final List<JsonAdaptedWorkDuration> durations = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedProject} with the given project details.
      */
     @JsonCreator
     public JsonAdaptedProject(@JsonProperty("name") String name,
-                              @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
+                              @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
+                              @JsonProperty("durations") List<JsonAdaptedWorkDuration> durations) {
         this.name = name;
         if (tagged != null) {
             this.tagged.addAll(tagged);
+        }
+        if (durations != null) {
+            this.durations.addAll(durations);
         }
     }
 
@@ -43,6 +50,9 @@ class JsonAdaptedProject {
         name = source.getName().fullName;
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
+                .collect(Collectors.toList()));
+        durations.addAll(source.getDurationList().stream()
+                .map(JsonAdaptedWorkDuration::new)
                 .collect(Collectors.toList()));
     }
 
@@ -66,7 +76,15 @@ class JsonAdaptedProject {
         final Name modelName = new Name(name);
 
         final Set<Tag> modelTags = new HashSet<>(projectTags);
-        return new Project(modelName, modelTags);
+
+        final List<WorkDuration> projectDurations = new ArrayList<>();
+        for (JsonAdaptedWorkDuration duration : durations) {
+            projectDurations.add(duration.toModelType());
+        }
+
+        UniqueDurationList modelDurations = new UniqueDurationList();
+        modelDurations.setDurations(projectDurations);
+        return new Project(modelName, modelTags, modelDurations);
     }
 
 }

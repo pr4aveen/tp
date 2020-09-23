@@ -1,48 +1,45 @@
-package seedu.momentum.model.work_duration;
+package seedu.momentum.model.timer;
 
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import seedu.momentum.model.project.Project;
-
+/**
+ * Represents a duration of time spent working on a project.
+ *  * Guarantees: immutable.
+ */
 public class WorkDuration {
-    private final LocalDateTime startTime;
-    private final LocalDateTime stopTime;
-    private final Project project;
+    private final Time startTime;
+    private final Time stopTime;
 
-    public WorkDuration(Project project) {
-        this(project, LocalDateTime.now(), LocalDateTime.now());
-    }
-
-    public WorkDuration(Project project, LocalDateTime startTime, LocalDateTime stopTime) {
-        this.project = project;
+    /**
+     * Constructs a {@code WorkDuration}.
+     *
+     * @param startTime A valid start time.
+     * @param stopTime A valid stop time.
+     */
+    public WorkDuration(Time startTime, Time stopTime) {
         this.startTime = startTime;
         this.stopTime = stopTime;
     }
 
-    public WorkDuration(Project project, LocalDateTime startTime) {
-        this(project, startTime, LocalDateTime.now());
-    }
-
-    public LocalDateTime getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public LocalDateTime getStopTime() {
+    public Time getStopTime() {
         return stopTime;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
+    /**
+     * Returns the length of time tracked in this duration, in (@code unit) units.
+     * @param unit The units for the length of time.
+     * @return The length of time in the provided units.
+     */
     public long getTimeBetween(ChronoUnit unit) {
-        return unit.between(startTime, stopTime);
+        return unit.between(startTime.getTime(), stopTime.getTime());
     }
 
     /**
-     * Returns true if both persons of the same name have at least one other identity field that is the same.
-     * This defines a weaker notion of equality between two persons.
+     * Returns true if both durations have the same start and stop time.
      */
     public boolean isSameDuration(WorkDuration otherDuration) {
         if (otherDuration == this) {
