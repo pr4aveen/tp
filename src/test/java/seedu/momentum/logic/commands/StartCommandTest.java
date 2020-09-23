@@ -33,8 +33,7 @@ public class StartCommandTest {
         Project projectToStart = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS,
-                INDEX_FIRST_PROJECT.getOneBased())
-                + new Time(LocalDateTime.now()).toString();
+                INDEX_FIRST_PROJECT.getOneBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         expectedModel.startTimer(projectToStart);
@@ -64,8 +63,7 @@ public class StartCommandTest {
         Project projectToStart = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS,
-                INDEX_FIRST_PROJECT.getOneBased())
-                + new Time(LocalDateTime.now()).toString();
+                INDEX_FIRST_PROJECT.getOneBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         expectedModel.startTimer(projectToStart);

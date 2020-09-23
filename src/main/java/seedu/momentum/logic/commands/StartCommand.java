@@ -50,8 +50,7 @@ public class StartCommand extends Command {
 
         Timer timer = model.startTimer(projectToStart);
 
-        return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())
-                + timer.getStartTime().toString());
+        return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased()));
     }
 
     @Override
