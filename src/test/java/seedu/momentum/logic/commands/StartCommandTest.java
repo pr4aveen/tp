@@ -9,8 +9,6 @@ import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND_PROJECT;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
-import java.time.LocalDateTime;
-
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.Messages;
@@ -19,8 +17,6 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.timer.Time;
-
 /**
  * Contains unit tests for {@code StartCommand}.
  */
