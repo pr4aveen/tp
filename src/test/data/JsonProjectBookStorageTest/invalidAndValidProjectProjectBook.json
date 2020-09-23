@@ -1,0 +1,7 @@
+{
+  "projects": [ {
+    "name": "Valid Project"
+  }, {
+    "name": "Project With Invalid Name Field"
+  } ]
+}
