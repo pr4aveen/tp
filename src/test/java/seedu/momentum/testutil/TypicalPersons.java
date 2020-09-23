@@ -63,11 +63,11 @@ public class TypicalPersons {
      * Returns an {@code ProjectBook} with all the typical persons.
      */
     public static ProjectBook getTypicalProjectBook() {
-        ProjectBook ab = new ProjectBook();
+        ProjectBook projectBook = new ProjectBook();
         for (Person person : getTypicalPersons()) {
-            ab.addPerson(person);
+            projectBook.addPerson(person);
         }
-        return ab;
+        return projectBook;
     }
 
     public static List<Person> getTypicalPersons() {

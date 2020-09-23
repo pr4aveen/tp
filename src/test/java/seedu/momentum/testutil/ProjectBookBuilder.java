@@ -6,7 +6,7 @@ import seedu.momentum.model.person.Person;
 /**
  * A utility class to help with building Addressbook objects.
  * Example usage: <br>
- *     {@code ProjectBook ab = new ProjectBookBuilder().withPerson("John", "Doe").build();}
+ *     {@code ProjectBook projectBook = new ProjectBookBuilder().withPerson("John", "Doe").build();}
  */
 public class ProjectBookBuilder {
 
