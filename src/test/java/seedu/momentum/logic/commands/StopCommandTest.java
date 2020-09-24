@@ -28,14 +28,16 @@ public class StopCommandTest {
     @Test
     public void execute_validIndexUnfilteredList_success() {
         Project projectToStop = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
-        StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
-        String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
-                INDEX_FIRST_PROJECT.getOneBased(), 1);
-        model.startTimer(projectToStop);
+
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         expectedModel.startTimer(projectToStop);
         expectedModel.stopTimer(projectToStop);
+
+        StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
+        String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
+                INDEX_FIRST_PROJECT.getOneBased(), 1);
+        model.startTimer(projectToStop);
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
     }
 
