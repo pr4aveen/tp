@@ -178,7 +178,6 @@ public class ModelManager implements Model {
         return projectBook.equals(other.projectBook)
                 && userPrefs.equals(other.userPrefs)
                 && filteredProjects.equals(other.filteredProjects)
-                && hasActiveTimer() == other.hasActiveTimer()
                 && activeTimer.equals(other.activeTimer);
     }
 

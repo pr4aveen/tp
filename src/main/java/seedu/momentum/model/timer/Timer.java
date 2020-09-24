@@ -17,6 +17,7 @@ public class Timer {
 
     /**
      * Create a timer that is tracker a specific project.
+     *
      * @param project The project being tracked.
      */
     public Timer(Project project) {

@@ -7,7 +7,7 @@ import seedu.momentum.logic.commands.StopCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 
 /**
- * Parses input arguments and creates a new StartCommand object
+ * Parses input arguments and creates a new StopCommand object
  */
 public class StopCommandParser implements Parser<StopCommand> {
 

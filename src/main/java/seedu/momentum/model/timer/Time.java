@@ -12,7 +12,8 @@ import java.time.format.DateTimeParseException;
  */
 public class Time {
 
-    public static final String MESSAGE_CONSTRAINTS = "Times should be in ISO8601 format";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Times should be in ISO8601 format. e.g. 2020-09-23T16:55:12.83012";
 
     private final LocalDateTime time;
 

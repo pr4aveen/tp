@@ -26,7 +26,11 @@ public class Project {
     private final UniqueDurationList durations;
 
     /**
-     * Every field must be present and not null.
+     * Constructs a {@code Project}.
+     *
+     * @param name A valid name.
+     * @param tags A set of tags associated to the project.
+     * @param durations A list of {@code WorkDuration} associated with the project
      */
     public Project(Name name, Set<Tag> tags, UniqueDurationList durations) {
         requireAllNonNull(name, tags);
@@ -36,7 +40,10 @@ public class Project {
     }
 
     /**
-     * Every field must be present and not null.
+     * Constructs a new {@code Project}
+     *
+     * @param name A valid name.
+     * @param tags A set of tags associated to the project.
      */
     public Project(Name name, Set<Tag> tags) {
         requireAllNonNull(name, tags);
@@ -67,6 +74,7 @@ public class Project {
     /**
      * Adds a WorkDuration to the duration list.
      * Duplicates will not be added.
+     *
      * @param duration
      */
     public void addDuration(WorkDuration duration) {

@@ -83,8 +83,8 @@ public class UniqueDurationList implements Iterable<WorkDuration> {
     }
 
     /**
-     * Replaces the contents of this list with {@code persons}.
-     * {@code persons} must not contain duplicate persons.
+     * Replaces the contents of this list with {@code WorkDurations}.
+     * {@code durations} must not contain duplicate durations.
      */
     public void setDurations(List<WorkDuration> durations) {
         requireAllNonNull(durations);
