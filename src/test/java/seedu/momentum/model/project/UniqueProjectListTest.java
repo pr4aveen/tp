@@ -3,6 +3,7 @@ package seedu.momentum.model.project;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
@@ -41,8 +42,7 @@ public class UniqueProjectListTest {
     @Test
     public void contains_projectWithSameIdentityFieldsInList_returnsTrue() {
         uniqueProjectList.add(ALICE);
-        Project editedAlice = new ProjectBuilder(ALICE).withTags(VALID_TAG_HUSBAND)
-                .build();
+        Project editedAlice = new ProjectBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertTrue(uniqueProjectList.contains(editedAlice));
     }
 
@@ -84,8 +84,8 @@ public class UniqueProjectListTest {
     @Test
     public void setProject_editedProjectHasSameIdentity_success() {
         uniqueProjectList.add(ALICE);
-        Project editedAlice = new ProjectBuilder(ALICE).withTags(VALID_TAG_HUSBAND)
-                .build();
+        Project editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_DESCRIPTION_BOB)
+                .withTags(VALID_TAG_HUSBAND).build();
         uniqueProjectList.setProject(ALICE, editedAlice);
         UniqueProjectList expectedUniqueProjectList = new UniqueProjectList();
         expectedUniqueProjectList.add(editedAlice);

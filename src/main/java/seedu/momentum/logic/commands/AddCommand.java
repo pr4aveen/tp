@@ -1,6 +1,7 @@
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -18,9 +19,11 @@ public class AddCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a project to the project book. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
+            + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
+            + PREFIX_DESCRIPTION + "random project"
             + PREFIX_TAG + "friends "
             + PREFIX_TAG + "owesMoney";
 

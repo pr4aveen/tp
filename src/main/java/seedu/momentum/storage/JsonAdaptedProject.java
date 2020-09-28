@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.momentum.commons.exceptions.IllegalValueException;
+import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
@@ -22,6 +23,7 @@ class JsonAdaptedProject {
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Project's %s field is missing!";
 
     private final String name;
+    private final String description;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
 
     /**
@@ -29,8 +31,10 @@ class JsonAdaptedProject {
      */
     @JsonCreator
     public JsonAdaptedProject(@JsonProperty("name") String name,
+                              @JsonProperty("description") String description,
                               @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
         this.name = name;
+        this.description = description;
         if (tagged != null) {
             this.tagged.addAll(tagged);
         }
@@ -41,6 +45,7 @@ class JsonAdaptedProject {
      */
     public JsonAdaptedProject(Project source) {
         name = source.getName().fullName;
+        description = source.getDescription().value;
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -64,9 +69,10 @@ class JsonAdaptedProject {
             throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
         }
         final Name modelName = new Name(name);
+        final Description modelDescription = new Description(description);
 
         final Set<Tag> modelTags = new HashSet<>(projectTags);
-        return new Project(modelName, modelTags);
+        return new Project(modelName, modelDescription, modelTags);
     }
 
 }

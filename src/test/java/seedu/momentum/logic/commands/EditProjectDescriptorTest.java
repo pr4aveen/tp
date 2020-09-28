@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.DESC_BOB;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
@@ -34,6 +35,10 @@ public class EditProjectDescriptorTest {
         // different name -> returns false
         EditCommand.EditProjectDescriptor editedAmy =
                 new EditProjectDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
+        assertFalse(DESC_AMY.equals(editedAmy));
+
+        // different description -> returns false
+        editedAmy = new EditProjectDescriptorBuilder(DESC_AMY).withDescription(VALID_DESCRIPTION_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different tags -> returns false

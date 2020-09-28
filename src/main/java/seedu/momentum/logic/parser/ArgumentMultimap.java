@@ -33,8 +33,22 @@ public class ArgumentMultimap {
 
     /**
      * Returns the last value of {@code prefix}.
+     * If the prefix does not exist or has no values, this will return an Optional.empty.
      */
     public Optional<String> getValue(Prefix prefix) {
+        List<String> values = getAllValues(prefix);
+        return values.isEmpty() ? Optional.empty() : Optional.of(values.get(values.size() - 1));
+    }
+
+    /**
+     * getValue method for PREFIX_DESCRIPTION in parse method of AddCommandParser class
+     * Returns the last value of {@code prefix}.
+     * If the prefix does not exist or has no values, this will return an Optional.empty.
+     */
+    public Optional<String> getAddCommandDescriptionValue(Prefix prefix) {
+        if (!argMultimap.containsKey(prefix)) {
+            return Optional.ofNullable("");
+        }
         List<String> values = getAllValues(prefix);
         return values.isEmpty() ? Optional.empty() : Optional.of(values.get(values.size() - 1));
     }

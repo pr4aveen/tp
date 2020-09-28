@@ -2,6 +2,7 @@ package seedu.momentum.model.project;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.momentum.testutil.Assert.assertThrows;
@@ -28,13 +29,13 @@ public class ProjectTest {
         // null -> returns false
         assertFalse(ALICE.isSameProject(null));
 
-        // different phone and email -> returns false
-        //        new ProjectBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).build();
-        //        assertFalse(ALICE.isSameProject(editedAlice));
+        // different description -> returns false
+        Project editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_DESCRIPTION_BOB).build();
+        assertFalse(ALICE.isSameProject(editedAlice));
 
         // different name -> returns false
-        //        Project editedAlice = editedAlice = new ProjectBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        //        assertFalse(ALICE.isSameProject(editedAlice));
+        editedAlice = new ProjectBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        assertFalse(ALICE.isSameProject(editedAlice));
 
         // same name, same phone, different attributes -> returns true
         //        editedAlice = new ProjectBuilder(ALICE).withEmail(VALID_EMAIL_BOB)
@@ -71,6 +72,10 @@ public class ProjectTest {
 
         // different name -> returns false
         Project editedAlice = new ProjectBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        assertFalse(ALICE.equals(editedAlice));
+
+        // different description -> returns false
+        editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_DESCRIPTION_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different tags -> returns false
