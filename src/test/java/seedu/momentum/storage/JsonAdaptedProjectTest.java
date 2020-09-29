@@ -47,7 +47,8 @@ public class JsonAdaptedProjectTest {
     @Test
     public void toModelType_nullName_throwsIllegalValueException() {
         JsonAdaptedProject project =
-                new JsonAdaptedProject(null, VALID_DESCRIPTION, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
+                new JsonAdaptedProject(null, VALID_DESCRIPTION, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, project::toModelType);
     }
 
