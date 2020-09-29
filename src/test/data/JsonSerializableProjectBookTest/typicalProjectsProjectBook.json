@@ -2,9 +2,11 @@
   "_comment": "ProjectBook save file which contains the same Project values as in TypicalProjects#getTypicalProjectBook()",
   "projects" : [ {
     "name" : "Alice Pauline",
+    "description": "Likes coding",
     "tagged" : [ "friends" ]
   }, {
     "name" : "Benson Meier",
+    "description": "Likes dogs",
     "tagged" : [ "owesMoney", "friends" ],
     "durations" : [ {
       "startTime" : "2019-01-01T00:00:00.00000",
@@ -17,18 +19,23 @@
     }
   }, {
     "name" : "Carl Kurz",
+    "description": "Likes poodles",
     "tagged" : [ ]
   }, {
     "name" : "Daniel Meier",
+    "description": "Likes cats",
     "tagged" : [ "friends" ]
   }, {
     "name" : "Elle Meyer",
+    "description": "Likes elephants",
     "tagged" : [ ]
   }, {
     "name" : "Fiona Kunz",
+    "description": "Likes starbucks",
     "tagged" : [ ]
   }, {
     "name" : "George Best",
+    "description": "Likes you",
     "tagged" : [ ]
   } ]
 }

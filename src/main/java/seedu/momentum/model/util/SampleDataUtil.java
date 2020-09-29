@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
+import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
@@ -18,12 +19,12 @@ import seedu.momentum.model.timer.WorkDuration;
 public class SampleDataUtil {
     public static Project[] getSampleProjects() {
         return new Project[] {
-            new Project(new Name("Alex Yeoh"), getTagSet("friends")),
-            new Project(new Name("Bernice Yu"), getTagSet("colleagues", "friends")),
-            new Project(new Name("Charlotte Oliveiro"), getTagSet("neighbours")),
-            new Project(new Name("David Li"), getTagSet("family")),
-            new Project(new Name("Irfan Ibrahim"), getTagSet("classmates")),
-            new Project(new Name("Roy Balakrishnan"), getTagSet("colleagues"))
+            new Project(new Name("Alex Yeoh"), new Description("description"), getTagSet("friends")),
+            new Project(new Name("Bernice Yu"), new Description("description"), getTagSet("colleagues", "friends")),
+            new Project(new Name("Charlotte Oliveiro"), new Description("description"), getTagSet("neighbours")),
+            new Project(new Name("David Li"), new Description("description"), getTagSet("family")),
+            new Project(new Name("Irfan Ibrahim"), Description.EMPTY_DESCRIPTION, getTagSet("classmates")),
+            new Project(new Name("Roy Balakrishnan"), Description.EMPTY_DESCRIPTION, getTagSet("colleagues"))
         };
     }
 

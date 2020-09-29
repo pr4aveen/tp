@@ -3,6 +3,7 @@ package seedu.momentum.logic;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX;
 import static seedu.momentum.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.momentum.logic.commands.CommandTestUtil.DESCRIPTION_DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.AMY;
@@ -76,7 +77,7 @@ public class LogicManagerTest {
         logic = new LogicManager(model, storage);
 
         // Execute add command
-        String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY;
+        String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + DESCRIPTION_DESC_AMY;
         Project expectedProject = new ProjectBuilder(AMY).withTags().build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addProject(expectedProject);

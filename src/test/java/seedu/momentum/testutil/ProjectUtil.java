@@ -1,5 +1,6 @@
 package seedu.momentum.testutil;
 
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 
@@ -28,6 +29,7 @@ public class ProjectUtil {
     public static String getProjectDetails(Project project) {
         StringBuilder sb = new StringBuilder();
         sb.append(PREFIX_NAME + project.getName().fullName + " ");
+        sb.append(PREFIX_DESCRIPTION + project.getDescription().value + " ");
         project.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
@@ -40,6 +42,8 @@ public class ProjectUtil {
     public static String getEditProjectDescriptorDetails(EditProjectDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();
         descriptor.getName().ifPresent(name -> sb.append(PREFIX_NAME).append(name.fullName).append(" "));
+        descriptor.getDescription().ifPresent(description -> sb.append(PREFIX_DESCRIPTION).append(description.value)
+                .append(" "));
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
             if (tags.isEmpty()) {

@@ -22,10 +22,10 @@ public class Project {
     // Identity fields
     private final Name name;
 
+    // data fields
+    private final Description description;
     private final Set<Tag> tags = new HashSet<>();
-
     private final Timer timer;
-
     private final UniqueDurationList durations;
 
     /**
@@ -35,9 +35,10 @@ public class Project {
      * @param tags A set of tags associated to the project.
      * @param durations A list of {@code WorkDuration} associated with the project
      */
-    public Project(Name name, Set<Tag> tags, UniqueDurationList durations, Timer timer) {
+    public Project(Name name, Description description, Set<Tag> tags, UniqueDurationList durations, Timer timer) {
         requireAllNonNull(name, tags);
         this.name = name;
+        this.description = description;
         this.tags.addAll(tags);
         this.durations = durations;
         this.timer = timer;
@@ -49,9 +50,10 @@ public class Project {
      * @param name A valid name.
      * @param tags A set of tags associated to the project.
      */
-    public Project(Name name, Set<Tag> tags) {
+    public Project(Name name, Description description, Set<Tag> tags) {
         requireAllNonNull(name, tags);
         this.name = name;
+        this.description = description;
         this.tags.addAll(tags);
         this.durations = new UniqueDurationList();
         this.timer = new Timer();
@@ -59,6 +61,10 @@ public class Project {
 
     public Name getName() {
         return name;
+    }
+
+    public Description getDescription() {
+        return description;
     }
 
     /**
@@ -83,7 +89,7 @@ public class Project {
      */
     public Project startTimer() {
         Timer newTimer = timer.start();
-        return new Project(name, tags, durations, newTimer);
+        return new Project(name, description, tags, durations, newTimer);
     }
 
     /**
@@ -98,7 +104,7 @@ public class Project {
         UniqueDurationList newDurations = new UniqueDurationList();
         newDurations.setDurations(durations);
         newDurations.add(duration);
-        return new Project(name, tags, newDurations, newTimer);
+        return new Project(name, description, tags, newDurations, newTimer);
     }
 
     public Timer getTimer() {
@@ -122,7 +128,7 @@ public class Project {
         }
 
         return otherProject != null
-                && otherProject.getName().equals(getName());
+                && otherProject.getName().equals(getName()) && otherProject.getDescription().equals(getDescription());
     }
 
     /**
@@ -142,19 +148,22 @@ public class Project {
         Project otherProject = (Project) other;
         return otherProject.getName().equals(getName())
                 && otherProject.getTags().equals(getTags())
-                && durations.equals(((Project) other).durations);
+                && durations.equals(((Project) other).durations)
+                && otherProject.getDescription().equals(getDescription());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, tags);
+        return Objects.hash(name, description, tags, durations, timer);
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(getName())
+                .append(" Description: ")
+                .append(getDescription())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();

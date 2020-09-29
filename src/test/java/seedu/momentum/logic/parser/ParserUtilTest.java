@@ -14,6 +14,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.tag.Tag;
 
@@ -22,6 +23,7 @@ public class ParserUtilTest {
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = "Rachel Walker";
+    private static final String VALID_DESCRIPTION = "Loves to eat";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
 
@@ -68,6 +70,24 @@ public class ParserUtilTest {
         String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
         Name expectedName = new Name(VALID_NAME);
         assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
+    }
+
+    @Test
+    public void parseDescription_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseDescription((String) null));
+    }
+
+    @Test
+    public void parseDescription_validValueWithoutWhitespace_returnsDescription() throws Exception {
+        Description expectedDescription = new Description(VALID_DESCRIPTION);
+        assertEquals(expectedDescription, ParserUtil.parseDescription(VALID_DESCRIPTION));
+    }
+
+    @Test
+    public void parseDescription_validValueWithWhitespace_returnsTrimmedDescription() throws Exception {
+        String descriptionWithWhitespace = WHITESPACE + VALID_DESCRIPTION + WHITESPACE;
+        Description expectedDescription = new Description(VALID_DESCRIPTION);
+        assertEquals(expectedDescription, ParserUtil.parseDescription(descriptionWithWhitespace));
     }
 
     @Test
