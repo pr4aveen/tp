@@ -20,7 +20,8 @@ public class TypicalProjects {
             .withTags("friends").build();
     public static final Project BENSON = new ProjectBuilder().withName("Benson Meier")
             .withTags("owesMoney", "friends")
-            .withDurations(TypicalWorkDuration.DURATION_ONE_DAY).build();
+            .withDurations(TypicalWorkDuration.DURATION_ONE_DAY)
+            .withTimer(TypicalTimers.DAY).build();
     public static final Project CARL = new ProjectBuilder().withName("Carl Kurz").build();
     public static final Project DANIEL = new ProjectBuilder().withName("Daniel Meier").withTags("friends").build();
     public static final Project ELLE = new ProjectBuilder().withName("Elle Meyer").build();
@@ -56,6 +57,15 @@ public class TypicalProjects {
     }
 
     public static List<Project> getTypicalProjects() {
-        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
+        return new ArrayList<>(Arrays.asList(
+                new ProjectBuilder(ALICE).build(),
+                new ProjectBuilder(BENSON).build(),
+                new ProjectBuilder(CARL).build(),
+                new ProjectBuilder(DANIEL).build(),
+                new ProjectBuilder(ELLE).build(),
+                new ProjectBuilder(FIONA).build(),
+                new ProjectBuilder(GEORGE).build())
+        );
+
     }
 }

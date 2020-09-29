@@ -9,7 +9,6 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.timer.Timer;
 
 /**
  * Starts a timer tracking a project identified using it's displayed index.
@@ -44,13 +43,15 @@ public class StartCommand extends Command {
 
         Project projectToStart = lastShownList.get(targetIndex.getZeroBased());
 
-        if (model.hasActiveTimer()) {
+        if (projectToStart.isRunning()) {
             throw new CommandException(MESSAGE_EXISTING_TIMER_ERROR);
         }
 
-        Timer timer = model.startTimer(projectToStart);
+        Project newProject = projectToStart.startTimer();
+        model.setProject(projectToStart, newProject);
 
-        return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased()));
+        return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())
+                + newProject.getTimer().getStartTime());
     }
 
     @Override

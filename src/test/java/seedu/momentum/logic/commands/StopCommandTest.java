@@ -9,14 +9,18 @@ import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND_PROJECT;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
+import java.time.temporal.ChronoUnit;
+
 import org.junit.jupiter.api.Test;
 
+import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.testutil.TypicalTimes;
 
 /**
  * Contains unit tests for {@code StartCommand}.
@@ -27,18 +31,24 @@ public class StopCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
+        Clock.initManual(TypicalTimes.DAY);
+
         Project projectToStop = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
-
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        expectedModel.startTimer(projectToStop);
-        expectedModel.stopTimer(projectToStop);
+        Project startedProject = projectToStop.startTimer();
 
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 1);
-        model.startTimer(projectToStop);
+        model.setProject(projectToStop, startedProject);
+
+        Clock.advance(1, ChronoUnit.HOURS);
+
+        expectedModel.setProject(startedProject, startedProject.stopTimer());
+
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
+        Clock.reset();
     }
 
     @Test
@@ -48,6 +58,7 @@ public class StopCommandTest {
 
         assertCommandFailure(stopCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
     }
+
     @Test
     public void execute_noTimer_throwsCommandException() {
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
@@ -57,20 +68,26 @@ public class StopCommandTest {
 
     @Test
     public void execute_validIndexFilteredList_success() {
+        Clock.initManual(TypicalTimes.DAY);
+
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
         Project projectToStop = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 1);
-        model.startTimer(projectToStop);
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        expectedModel.startTimer(projectToStop);
-        expectedModel.stopTimer(projectToStop);
+        Project startedProject = projectToStop.startTimer();
+        model.setProject(projectToStop, startedProject);
+
+        Clock.advance(1, ChronoUnit.HOURS);
+
+        expectedModel.setProject(startedProject, startedProject.stopTimer());
         showProjectAtIndex(expectedModel, INDEX_FIRST_PROJECT);
 
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
+        Clock.reset();
     }
 
     @Test

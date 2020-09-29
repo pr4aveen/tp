@@ -6,8 +6,6 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.timer.Timer;
-import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * The API of the Model component.
@@ -87,10 +85,4 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredProjectList(Predicate<Project> predicate);
-
-    Timer startTimer(Project project);
-
-    WorkDuration stopTimer(Project project);
-
-    boolean hasActiveTimer();
 }

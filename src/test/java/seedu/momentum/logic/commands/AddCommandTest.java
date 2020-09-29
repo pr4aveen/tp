@@ -21,8 +21,6 @@ import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.ReadOnlyUserPrefs;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.timer.Timer;
-import seedu.momentum.model.timer.WorkDuration;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class AddCommandTest {
@@ -147,21 +145,6 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredProjectList(Predicate<Project> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasActiveTimer() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Timer startTimer(Project project) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public WorkDuration stopTimer(Project project) {
             throw new AssertionError("This method should not be called.");
         }
     }

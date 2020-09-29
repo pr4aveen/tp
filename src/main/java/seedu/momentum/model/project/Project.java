@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javafx.collections.ObservableList;
 import seedu.momentum.model.tag.Tag;
+import seedu.momentum.model.timer.Timer;
 import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 
@@ -23,6 +24,8 @@ public class Project {
 
     private final Set<Tag> tags = new HashSet<>();
 
+    private final Timer timer;
+
     private final UniqueDurationList durations;
 
     /**
@@ -32,11 +35,12 @@ public class Project {
      * @param tags A set of tags associated to the project.
      * @param durations A list of {@code WorkDuration} associated with the project
      */
-    public Project(Name name, Set<Tag> tags, UniqueDurationList durations) {
+    public Project(Name name, Set<Tag> tags, UniqueDurationList durations, Timer timer) {
         requireAllNonNull(name, tags);
         this.name = name;
         this.tags.addAll(tags);
         this.durations = durations;
+        this.timer = timer;
     }
 
     /**
@@ -50,6 +54,7 @@ public class Project {
         this.name = name;
         this.tags.addAll(tags);
         this.durations = new UniqueDurationList();
+        this.timer = new Timer();
     }
 
     public Name getName() {
@@ -72,13 +77,39 @@ public class Project {
     }
 
     /**
-     * Adds a WorkDuration to the duration list.
-     * Duplicates will not be added.
+     * Returns a copy of this project with its timer started.
      *
-     * @param duration
+     * @return A copy of this project, but with its timer started
      */
-    public void addDuration(WorkDuration duration) {
-        durations.add(duration);
+    public Project startTimer() {
+        Timer newTimer = timer.start();
+        return new Project(name, tags, durations, newTimer);
+    }
+
+    /**
+     * Returns a copy of this project with its timer stopped, then adds the timed duration into
+     * the list.
+     *
+     * @return A copy of this project, but with its timer stopped
+     */
+    public Project stopTimer() {
+        Timer newTimer = timer.stop();
+        WorkDuration duration = new WorkDuration(newTimer.getStartTime(), newTimer.getStopTime());
+        UniqueDurationList newDurations = new UniqueDurationList();
+        newDurations.setDurations(durations);
+        newDurations.add(duration);
+        return new Project(name, tags, newDurations, newTimer);
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    /**
+     * Checks if the project's timer is currently running.
+     */
+    public boolean isRunning() {
+        return timer.isRunning();
     }
 
     /**
@@ -110,7 +141,8 @@ public class Project {
 
         Project otherProject = (Project) other;
         return otherProject.getName().equals(getName())
-                && otherProject.getTags().equals(getTags());
+                && otherProject.getTags().equals(getTags())
+                && durations.equals(((Project) other).durations);
     }
 
     @Override

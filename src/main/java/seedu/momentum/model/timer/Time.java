@@ -5,6 +5,7 @@ import static seedu.momentum.commons.util.AppUtil.checkArgument;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Represents a WorkDuration's time in the project book.
@@ -30,6 +31,26 @@ public class Time {
 
     public Time(LocalDateTime time) {
         this.time = time;
+    }
+
+    /**
+     * Returns a new Time that is after this Time be a specified amount
+     * @param amount Amount to increase by.
+     * @param unit Unit to increase with.
+     * @return
+     */
+    public Time plus(long amount, ChronoUnit unit) {
+        return new Time(time.plus(amount, unit));
+    }
+
+    /**
+     * Returns a new Time that is before this Time by a specified amount.
+     * @param amount Amount to decrease by.
+     * @param unit Unit to decrease with.
+     * @return
+     */
+    public Time minus(long amount, ChronoUnit unit) {
+        return new Time(time.minus(amount, unit));
     }
 
     /**

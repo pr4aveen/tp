@@ -11,12 +11,15 @@ import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.testutil.TypicalTimes;
+
 /**
  * Contains unit tests for {@code StartCommand}.
  */
@@ -26,14 +29,22 @@ public class StartCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Project projectToStart = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        Clock.initFixed(TypicalTimes.DAY);
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
-        String expectedMessage = String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS,
-                INDEX_FIRST_PROJECT.getOneBased());
+
+        Project projectToStart = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        expectedModel.startTimer(projectToStart);
+        Project startedProject = projectToStart.startTimer();
+        expectedModel.setProject(projectToStart, startedProject);
+
+        String expectedMessage =
+                String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST_PROJECT.getOneBased())
+                + startedProject.getTimer().getStartTime();
+
+
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);
+        Clock.reset();
     }
 
     @Test
@@ -45,26 +56,32 @@ public class StartCommandTest {
     }
     @Test
     public void execute_alreadyRunning_throwsCommandException() {
-        Project projectToStart = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
+        Project projectToStart = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
-        model.startTimer(projectToStart);
+        model.setProject(projectToStart, projectToStart.startTimer());
+
         assertCommandFailure(startCommand, model, StartCommand.MESSAGE_EXISTING_TIMER_ERROR);
     }
 
     @Test
     public void execute_validIndexFilteredList_success() {
+        Clock.initFixed(TypicalTimes.DAY);
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
         Project projectToStart = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
-        StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
-        String expectedMessage = String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS,
-                INDEX_FIRST_PROJECT.getOneBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        expectedModel.startTimer(projectToStart);
+        Project startedProject = projectToStart.startTimer();
+
+        StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
+        String expectedMessage =
+                String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST_PROJECT.getOneBased())
+                        + startedProject.getTimer().getStartTime();
+
         showProjectAtIndex(expectedModel, INDEX_FIRST_PROJECT);
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);
+        Clock.reset();
     }
 
     @Test

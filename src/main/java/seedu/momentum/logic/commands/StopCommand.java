@@ -10,7 +10,6 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Stops a previously started timer tracking a project identified using it's displayed index.
@@ -45,14 +44,15 @@ public class StopCommand extends Command {
 
         Project projectToStop = lastShownList.get(targetIndex.getZeroBased());
 
-        if (!model.hasActiveTimer()) {
+        if (!projectToStop.isRunning()) {
             throw new CommandException(MESSAGE_NO_TIMER_ERROR);
         }
 
-        WorkDuration duration = model.stopTimer(projectToStop);
+        Project newProject = projectToStop.stopTimer();
+        model.setProject(projectToStop, newProject);
 
         return new CommandResult(String.format(MESSAGE_STOP_TIMER_SUCCESS, targetIndex.getOneBased(),
-                duration.getTimeBetween(ChronoUnit.MINUTES)));
+                newProject.getTimer().getTimeBetween(ChronoUnit.MINUTES)));
     }
 
     @Override

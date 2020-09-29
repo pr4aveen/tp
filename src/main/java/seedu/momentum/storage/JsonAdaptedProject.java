@@ -13,6 +13,7 @@ import seedu.momentum.commons.exceptions.IllegalValueException;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
+import seedu.momentum.model.timer.Timer;
 import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 
@@ -26,6 +27,7 @@ class JsonAdaptedProject {
     private final String name;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
     private final List<JsonAdaptedWorkDuration> durations = new ArrayList<>();
+    private final JsonAdaptedTimer timer;
 
     /**
      * Constructs a {@code JsonAdaptedProject} with the given project details.
@@ -33,7 +35,8 @@ class JsonAdaptedProject {
     @JsonCreator
     public JsonAdaptedProject(@JsonProperty("name") String name,
                               @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
-                              @JsonProperty("durations") List<JsonAdaptedWorkDuration> durations) {
+                              @JsonProperty("durations") List<JsonAdaptedWorkDuration> durations,
+                              @JsonProperty("timer") JsonAdaptedTimer timer) {
         this.name = name;
         if (tagged != null) {
             this.tagged.addAll(tagged);
@@ -41,6 +44,7 @@ class JsonAdaptedProject {
         if (durations != null) {
             this.durations.addAll(durations);
         }
+        this.timer = timer;
     }
 
     /**
@@ -54,6 +58,7 @@ class JsonAdaptedProject {
         durations.addAll(source.getDurationList().stream()
                 .map(JsonAdaptedWorkDuration::new)
                 .collect(Collectors.toList()));
+        timer = new JsonAdaptedTimer(source.getTimer());
     }
 
     /**
@@ -84,7 +89,10 @@ class JsonAdaptedProject {
 
         UniqueDurationList modelDurations = new UniqueDurationList();
         modelDurations.setDurations(projectDurations);
-        return new Project(modelName, modelTags, modelDurations);
+
+        final Timer modelTimer = timer == null ? new Timer() : timer.toModelType();
+
+        return new Project(modelName, modelTags, modelDurations, modelTimer);
     }
 
 }

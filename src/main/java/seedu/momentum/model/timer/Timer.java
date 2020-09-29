@@ -1,11 +1,9 @@
 package seedu.momentum.model.timer;
 
-import static java.util.Objects.requireNonNull;
-
-import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-import seedu.momentum.model.project.Project;
+import seedu.momentum.commons.core.Clock;
 
 /**
  * Represents a timer in momentum.
@@ -13,42 +11,69 @@ import seedu.momentum.model.project.Project;
 public class Timer {
     private Time startTime;
     private Time stopTime;
-    private Project project;
+    private boolean isRunning;
 
     /**
-     * Create a timer that is tracker a specific project.
-     *
-     * @param project The project being tracked.
+     * Constructs a timer with default settings.
      */
-    public Timer(Project project) {
-        requireNonNull(project);
-        this.project = project;
+    public Timer() {
+        this.startTime = Clock.now();
+        this.stopTime = Clock.now();
+        this.isRunning = false;
+    }
+
+    /**
+     * Constructs a timer with the provided data.
+     *
+     * @param startTime The time when the timer was started.
+     * @param stopTime The time when the timer was stopped.
+     * @param isRunning Whether the timer is running.
+     */
+    public Timer(Time startTime, Time stopTime, boolean isRunning) {
+        this.startTime = startTime;
+        this.stopTime = stopTime;
+        this.isRunning = isRunning;
     }
 
     /**
      * Start the timer.
      */
-    public void start() {
-        startTime = new Time(LocalDateTime.now());
+    public Timer start() {
+        assert (!isRunning);
+        return new Timer(Clock.now(), Clock.now(), true);
+
     }
 
     /**
      * Stop the timer.
      */
-    public void stop() {
-        stopTime = new Time(LocalDateTime.now());
+    public Timer stop() {
+        assert (isRunning);
+        return new Timer(startTime, Clock.now(), false);
     }
 
     public Time getStartTime() {
+        assert (startTime != null);
         return startTime;
     }
 
     public Time getStopTime() {
+        assert (stopTime != null);
         return stopTime;
     }
 
-    public Project getProject() {
-        return project;
+    /**
+     * Returns the length of time tracked in this timer, in (@code unit) units.
+     * @param unit The units for the length of time.
+     * @return The length of time in the provided units.
+     */
+    public long getTimeBetween(ChronoUnit unit) {
+        assert (!isRunning);
+        return unit.between(startTime.getTime(), stopTime.getTime());
+    }
+
+    public boolean isRunning() {
+        return isRunning;
     }
 
     @Override
@@ -59,12 +84,16 @@ public class Timer {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Timer timer = (Timer) o;
-        return project.equals(timer.project);
+        Timer other = (Timer) o;
+
+        return startTime.equals(other.startTime)
+                && Objects.equals(startTime, other.startTime)
+                && Objects.equals(stopTime, other.stopTime)
+                && Objects.equals(isRunning, other.isRunning);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(project);
+        return Objects.hash(startTime, stopTime, isRunning);
     }
 }

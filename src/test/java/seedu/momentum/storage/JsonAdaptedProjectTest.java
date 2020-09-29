@@ -27,6 +27,8 @@ public class JsonAdaptedProjectTest {
     private static final List<JsonAdaptedWorkDuration> VALID_DURATIONS =
             BENSON.getDurationList().stream().map(JsonAdaptedWorkDuration::new).collect(Collectors.toList());
 
+    private static final JsonAdaptedTimer VALID_TIMER = new JsonAdaptedTimer(BENSON.getTimer());
+
     @Test
     public void toModelType_validProjectDetails_returnsProject() throws Exception {
         JsonAdaptedProject project = new JsonAdaptedProject(BENSON);
@@ -36,14 +38,14 @@ public class JsonAdaptedProjectTest {
     @Test
     public void toModelType_invalidName_throwsIllegalValueException() {
         JsonAdaptedProject project =
-                new JsonAdaptedProject(INVALID_NAME, VALID_TAGS, VALID_DURATIONS);
+                new JsonAdaptedProject(INVALID_NAME, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);
         String expectedMessage = Name.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, project::toModelType);
     }
 
     @Test
     public void toModelType_nullName_throwsIllegalValueException() {
-        JsonAdaptedProject project = new JsonAdaptedProject(null, VALID_TAGS, VALID_DURATIONS);
+        JsonAdaptedProject project = new JsonAdaptedProject(null, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, project::toModelType);
     }
@@ -53,7 +55,7 @@ public class JsonAdaptedProjectTest {
         List<JsonAdaptedTag> invalidTags = new ArrayList<>(VALID_TAGS);
         invalidTags.add(new JsonAdaptedTag(INVALID_TAG));
         JsonAdaptedProject project =
-                new JsonAdaptedProject(VALID_NAME, invalidTags, VALID_DURATIONS);
+                new JsonAdaptedProject(VALID_NAME, invalidTags, VALID_DURATIONS, VALID_TIMER);
         assertThrows(IllegalValueException.class, project::toModelType);
     }
 
@@ -62,8 +64,7 @@ public class JsonAdaptedProjectTest {
         List<JsonAdaptedWorkDuration> invalidDurations = new ArrayList<>(VALID_DURATIONS);
         invalidDurations.add(new JsonAdaptedWorkDuration(INVALID_START_TIME, INVALID_STOP_TIME));
         JsonAdaptedProject project =
-                new JsonAdaptedProject(VALID_NAME, VALID_TAGS, invalidDurations);
+                new JsonAdaptedProject(VALID_NAME, VALID_TAGS, invalidDurations, VALID_TIMER);
         assertThrows(IllegalValueException.class, project::toModelType);
     }
-
 }

@@ -1,6 +1,7 @@
 package seedu.momentum.model.timer;
 
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 /**
  * Represents a duration of time spent working on a project.
@@ -49,5 +50,17 @@ public class WorkDuration {
         return otherDuration != null
                 && otherDuration.getStartTime().equals(getStartTime())
                 && otherDuration.getStopTime().equals(getStopTime());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof WorkDuration // instanceof handles nulls
+                && isSameDuration((WorkDuration) other)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startTime, stopTime);
     }
 }

@@ -7,19 +7,15 @@ import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_PROJECTS;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
 import static seedu.momentum.testutil.TypicalProjects.BENSON;
-import static seedu.momentum.testutil.TypicalProjects.BOB;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.model.project.NameContainsKeywordsPredicate;
-import seedu.momentum.model.timer.Timer;
-import seedu.momentum.model.timer.WorkDuration;
 import seedu.momentum.testutil.ProjectBookBuilder;
 
 public class ModelManagerTest {
@@ -96,36 +92,6 @@ public class ModelManagerTest {
     public void getFilteredProjectList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredProjectList().remove(0));
     }
-
-    @Test
-    public void startTimer_normal_returnsCorrectTimer() {
-        Timer timer = modelManager.startTimer(ALICE);
-        assertEquals(new Timer(ALICE), timer);
-        modelManager.stopTimer(ALICE);
-    }
-
-    @Test
-    public void stopTimer_normal_returnsCorrectWorkDuration() {
-        modelManager.startTimer(ALICE);
-        WorkDuration duration = modelManager.stopTimer(ALICE);
-        assertEquals(duration.getStartTime().getTime().getSecond(), LocalDateTime.now().getSecond());
-        assertEquals(duration.getStopTime().getTime().getSecond(), LocalDateTime.now().getSecond());
-    }
-
-    @Test
-    public void hasActiveTimer_timerActive_true() {
-        modelManager.startTimer(ALICE);
-        assertTrue(modelManager.hasActiveTimer());
-        modelManager.stopTimer(ALICE);
-    }
-
-    @Test
-    public void hasActiveTimer_timerNotActive_false() {
-        modelManager.startTimer(ALICE);
-        modelManager.stopTimer(ALICE);
-        assertFalse(modelManager.hasActiveTimer());
-    }
-
     @Test
     public void equals() {
         ProjectBook projectBook = new ProjectBookBuilder().withProject(ALICE).withProject(BENSON).build();
@@ -161,18 +127,5 @@ public class ModelManagerTest {
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setProjectBookFilePath(Paths.get("differentFilePath"));
         assertFalse(modelManager.equals(new ModelManager(projectBook, differentUserPrefs)));
-
-        // different active timers -> returns false
-        ModelManager startedModel = new ModelManager(projectBook, userPrefs);
-        startedModel.startTimer(ALICE);
-        assertFalse(modelManager.equals(startedModel));
-        startedModel.stopTimer(ALICE);
-
-        // different project tiemrs -> returns false
-        ModelManager diffProject = new ModelManager(projectBook, userPrefs);
-        startedModel.startTimer(ALICE);
-        modelManager.startTimer(BOB);
-        assertFalse(modelManager.equals(diffProject));
-
     }
 }
