@@ -18,7 +18,7 @@ public class Project {
     // Identity fields
     private final Name name;
 
-    //data fields
+    // data fields
     private final Description description;
     private final Set<Tag> tags = new HashSet<>();
 

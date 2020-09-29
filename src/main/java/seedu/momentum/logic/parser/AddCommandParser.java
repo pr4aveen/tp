@@ -35,8 +35,15 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        Description description = ParserUtil.parseDescription(
-                argMultimap.getAddCommandDescriptionValue(PREFIX_DESCRIPTION).get());
+        Description description;
+
+        if (!argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
+            description = Description.EMPTY_DESCRIPTION;
+        } else {
+            description = ParserUtil.parseDescription(
+                    argMultimap.getValue(PREFIX_DESCRIPTION).get());
+        }
+
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
         Project project = new Project(name, description, tagList);
