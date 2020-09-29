@@ -35,17 +35,6 @@ class ClockTest {
     void reverse_notManual_throwsAssertionError() {
         assertThrows(AssertionError.class, () -> Clock.reverse(1, ChronoUnit.HOURS));
     }
-    @Test
-    void reset() {
-        Clock.initFixed(TypicalTimes.DAY);
-        Clock.reset();
-        assertTrue(LocalDateTime.now().isBefore(Clock.now().getTime()));
-    }
-
-    @Test
-    void now_normal_returnSystemTime() {
-        assertTrue(LocalDateTime.now().isBefore(Clock.now().getTime()));
-    }
 
     @Test
     void now_fixed_returnCorrectTime() {
