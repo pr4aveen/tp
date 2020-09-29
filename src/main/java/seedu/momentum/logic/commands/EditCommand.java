@@ -1,6 +1,7 @@
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_PROJECTS;
@@ -16,6 +17,7 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
@@ -32,6 +34,7 @@ public class EditCommand extends Command {
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
+            + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 ";
 
@@ -83,9 +86,10 @@ public class EditCommand extends Command {
         assert projectToEdit != null;
 
         Name updatedName = editProjectDescriptor.getName().orElse(projectToEdit.getName());
+        Description updatedDescription = editProjectDescriptor.getDescription().orElse(projectToEdit.getDescription());
         Set<Tag> updatedTags = editProjectDescriptor.getTags().orElse(projectToEdit.getTags());
 
-        return new Project(updatedName, updatedTags);
+        return new Project(updatedName, updatedDescription, updatedTags);
     }
 
     @Override
@@ -112,6 +116,7 @@ public class EditCommand extends Command {
      */
     public static class EditProjectDescriptor {
         private Name name;
+        private Description description;
         private Set<Tag> tags;
 
         public EditProjectDescriptor() {}
@@ -122,6 +127,7 @@ public class EditCommand extends Command {
          */
         public EditProjectDescriptor(EditProjectDescriptor toCopy) {
             setName(toCopy.name);
+            setDescription(toCopy.description);
             setTags(toCopy.tags);
         }
 
@@ -129,7 +135,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, tags);
+            return CollectionUtil.isAnyNonNull(name, description, tags);
         }
 
         public void setName(Name name) {
@@ -138,6 +144,14 @@ public class EditCommand extends Command {
 
         public Optional<Name> getName() {
             return Optional.ofNullable(name);
+        }
+
+        public void setDescription(Description description) {
+            this.description = description;
+        }
+
+        public Optional<Description> getDescription() {
+            return Optional.ofNullable(description);
         }
 
         /**
@@ -173,6 +187,7 @@ public class EditCommand extends Command {
             EditProjectDescriptor e = (EditProjectDescriptor) other;
 
             return getName().equals(e.getName())
+                    && getDescription().equals(e.getDescription())
                     && getTags().equals(e.getTags());
         }
     }

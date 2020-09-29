@@ -1,8 +1,10 @@
 {
   "projects": [ {
     "name": "Alice Pauline",
+    "description": "Likes coding",
     "tagged": [ "friends" ]
   }, {
-    "name": "Alice Pauline"
+    "name": "Alice Pauline",
+    "description": "Likes coding"
   } ]
 }

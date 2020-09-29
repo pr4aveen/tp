@@ -72,8 +72,7 @@ public class ProjectBookTest {
     @Test
     public void hasProject_projectWithSameIdentityFieldsInProjectBook_returnsTrue() {
         projectBook.addProject(ALICE);
-        Project editedAlice = new ProjectBuilder(ALICE).withTags(VALID_TAG_HUSBAND)
-                .build();
+        Project editedAlice = new ProjectBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertTrue(projectBook.hasProject(editedAlice));
     }
 

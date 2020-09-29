@@ -1,17 +1,22 @@
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.momentum.logic.commands.CommandTestUtil.DESCRIPTION_DESC_AMY;
+import static seedu.momentum.logic.commands.CommandTestUtil.DESCRIPTION_DESC_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.momentum.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.momentum.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_AMY;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND_PROJECT;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_THIRD_PROJECT;
 
@@ -83,9 +88,10 @@ public class EditCommandParserTest {
     public void parse_allFieldsSpecified_success() {
         Index targetIndex = INDEX_SECOND_PROJECT;
         String userInput = targetIndex.getOneBased() + TAG_DESC_HUSBAND
-                + NAME_DESC_AMY + TAG_DESC_FRIEND;
+                + NAME_DESC_AMY + DESCRIPTION_DESC_AMY + TAG_DESC_FRIEND;
 
         EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY)
+                .withDescription(VALID_DESCRIPTION_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
@@ -114,6 +120,12 @@ public class EditCommandParserTest {
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
+        // description
+        userInput = targetIndex.getOneBased() + DESCRIPTION_DESC_AMY;
+        descriptor = new EditProjectDescriptorBuilder().withDescription(VALID_DESCRIPTION_AMY).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
         // tags
         userInput = targetIndex.getOneBased() + TAG_DESC_FRIEND;
         descriptor = new EditProjectDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
@@ -121,18 +133,18 @@ public class EditCommandParserTest {
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
-    //    @Test
-    //    public void parse_multipleRepeatedFields_acceptsLast() {
-    //        Index targetIndex = INDEX_FIRST_PROJECT;
-    //        String userInput = targetIndex.getOneBased() + PHONE_DESC_AMY + TAG_DESC_FRIEND + PHONE_DESC_AMY
-    //                + TAG_DESC_FRIEND + PHONE_DESC_BOB + TAG_DESC_HUSBAND;
-    //
-    //        EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder()
-    //                .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
-    //        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
-    //
-    //        assertParseSuccess(parser, userInput, expectedCommand);
-    //    }
+    @Test
+    public void parse_multipleRepeatedFields_acceptsLast() {
+        Index targetIndex = INDEX_FIRST_PROJECT;
+        String userInput = targetIndex.getOneBased() + DESCRIPTION_DESC_AMY + TAG_DESC_FRIEND
+                + DESCRIPTION_DESC_AMY + TAG_DESC_FRIEND + DESCRIPTION_DESC_BOB + TAG_DESC_HUSBAND;
+
+        EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder()
+                .withDescription(VALID_DESCRIPTION_BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
 
     //    @Test
     //    public void parse_invalidValueFollowedByValidValue_success() {
