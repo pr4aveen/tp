@@ -2,16 +2,17 @@
 layout: page
 title: Developer Guide
 ---
-* Table of Contents
-{:toc}
 
---------------------------------------------------------------------------------------------------------------------
+* Table of Contents
+  {:toc}
+
+---
 
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
---------------------------------------------------------------------------------------------------------------------
+---
 
 ## **Design**
 
@@ -19,7 +20,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <img src="images/ArchitectureDiagram.png" width="450" />
 
-The ***Architecture Diagram*** given above explains the high-level design of the App. Given below is a quick overview of each component.
+The **_Architecture Diagram_** given above explains the high-level design of the App. Given below is a quick overview of each component.
 
 <div markdown="span" class="alert alert-primary">
 
@@ -28,6 +29,7 @@ The ***Architecture Diagram*** given above explains the high-level design of the
 </div>
 
 **`Main`** has two classes called [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java). It is responsible for,
+
 * At app launch: Initializes the components in the correct sequence, and connects them up with each other.
 * At shut down: Shuts down the components and invokes cleanup methods where necessary.
 
@@ -42,7 +44,7 @@ The rest of the App consists of four components.
 
 Each of the four components,
 
-* defines its *API* in an `interface` with the same name as the Component.
+* defines its _API_ in an `interface` with the same name as the Component.
 * exposes its functionality using a concrete `{Component Name}Manager` class (which implements the corresponding API `interface` mentioned in the previous point.
 
 For example, the `Logic` component (see the class diagram given below) defines its API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class which implements the `Logic` interface.
@@ -51,7 +53,7 @@ For example, the `Logic` component (see the class diagram given below) defines i
 
 **How the architecture components interact with each other**
 
-The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
 
 <img src="images/ArchitectureSequenceDiagram.png" width="574" />
 
@@ -64,7 +66,7 @@ The sections below give more details of each component.
 **API** :
 [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `ProjectListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
 
@@ -103,10 +105,11 @@ The `Model`,
 
 * stores a `UserPref` object that represents the user’s preferences.
 * stores the project book data.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* exposes an unmodifiable `ObservableList<Project>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
-<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `ProjectBook`, which `Person` references. This allows `ProjectBook` to only require one `Tag` object per unique `Tag`, instead of each `Person` needing their own `Tag` object.<br>
+<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `ProjectBook`, which `Project` references. This allows `ProjectBook` to only require one `Tag` object per unique `Tag`, instead of each `Project` needing their own `Tag` object.<br>
+
 ![BetterModelClassDiagram](images/BetterModelClassDiagram.png)
 
 </div>
@@ -118,6 +121,7 @@ The `Model`,
 **API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
 
 The `Storage` component,
+
 * can save `UserPref` objects in json format and read it back.
 * can save the project book data in json format and read it back.
 
@@ -125,7 +129,7 @@ The `Storage` component,
 
 Classes used by multiple components are in the `seedu.momentum.commons` package.
 
---------------------------------------------------------------------------------------------------------------------
+---
 
 ## **Implementation**
 
@@ -215,8 +219,7 @@ _{more aspects and alternatives to be added}_
 
 _{Explain here how the data archiving feature will be implemented}_
 
-
---------------------------------------------------------------------------------------------------------------------
+---
 
 ## **Documentation, logging, testing, configuration, dev-ops**
 
@@ -226,7 +229,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * [Configuration guide](Configuration.md)
 * [DevOps guide](DevOps.md)
 
---------------------------------------------------------------------------------------------------------------------
+---
 
 ## **Appendix: Requirements**
 
@@ -234,33 +237,65 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
-* prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
+* Freelancers
+  * Freelancers may take on multiple projects simultaneously, so they need to manage and track the time they spend on each project.
+  * Freelancers want to know how much time they spend on a project in order to accurately bill their clients and set future rates.
+  * Freelancers might want to know more about how they distribute their time and track the time spent on each project so that they can better understand their working style, and plan their time more efficiently.
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**:
 
+* Time tracking app
+  * Dashboard view for freelancer to get an overview of all projects
+  * Multiple groups to represent different categories to help in grouping of tasks such as freelance projects.
+  * Predefined groups that are commonly used for freelancers, such as projects and self-learning/improvement
+  * Timer to track the duration of a task or Indicate start time and end time for a task, so that the user can price their rates and charge clients more accurately.
+  * Reminder to start doing a task (only when application is open).
+  * Users can generate reports of time usage after a week/any specified duration to understand their work style better and optimise their time usage so that they can plan their time better.
+  * Users can also generate reports of their income over a period of time from various freelance projects
+  * Interesting/creative views for visualizing the reports/data.
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
-| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new project               |                                                                        |
-| `* * *`  | user                                       | delete a project                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a project by name          | locate details of projects without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many projects in the project book | sort projects by name           | locate a project easily                                                 |
-
-*{More to be added}*
+| Priority | As a …​                                     | I want to …​                         | So that I can…​                                                         |
+| -------- | ------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------- |
+| `* * *`  | new user                                    | see usage instructions               | refer to instructions when I forget how to use the App                  |
+| `* * *`  | user                                        | add a new project                    |                                                                         |
+| `* * *`  | user                                        | delete a project                     | remove entries that I no longer need                                    |
+| `* * *`  | user                                        | find a project by name               | locate details of projects without having to go through the entire list |
+| `* *`    | user                                        | hide private contact details         | minimize chance of someone else seeing them by accident                 |
+| `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
+| `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
+_{More to be added}_
 
 ### Use cases
 
+(For all use cases below, the **System** is the `Momentum` and the **Actor** is the `user`, unless specified otherwise)
+
+**Use case: Start and End a Timer**
+
+**MSS**
+
+1.  User requests to start a timer for a specific project in the list
+2.  Momemtum starts the timer for the project
+3.  User requests to end a timer for a specific project in the list
+4.  Momemtum ends the timer for the project
 (For all use cases below, the **System** is the `ProjectBook` and the **Actor** is the `user`, unless specified otherwise)
+
+**Extensions**
+
+* 3a. There is no ongoing timer for the given project id.
+  
+  * a1. Momentum shows an error message.
+
+    Use case ends.
+
+* *a. The given project id is invalid.
+  
+  * a1. Momentum shows an error message.
+
+    Use case ends.
 
 **Use case: Delete a project**
 
@@ -275,32 +310,30 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 2a. The list is empty.
+* 3a. The given project id is invalid.
+  
+  * a1. Momentum  shows an error message.
 
-  Use case ends.
+    Use case ends.
 
-* 3a. The given index is invalid.
-
-    * 3a1. ProjectBook shows an error message.
-
-      Use case resumes at step 2.
-
-*{More to be added}*
+_{More to be added}_
 
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
 2.  Should be able to hold up to 1000 projects without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4.  
 
-*{More to be added}*
+_{More to be added}_
 
 ### Glossary
 
+* **Command Line Interface(CLI)**: Command Line Interface processes commands in the form of text
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
 * **Private contact detail**: A contact detail that is not meant to be shared with others
 
---------------------------------------------------------------------------------------------------------------------
+---
 
 ## **Appendix: Instructions for manual testing**
 
@@ -324,7 +357,7 @@ testers are expected to do more *exploratory* testing.
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
    1. Re-launch the app by double-clicking the jar file.<br>
-       Expected: The most recent window size and location is retained.
+      Expected: The most recent window size and location is retained.
 
 1. _{ more test cases …​ }_
 
