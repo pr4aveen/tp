@@ -10,18 +10,18 @@ Momentum is a **desktop app** that **helps freelancers track time spent on diffe
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Quick start
+## Quick Start
 
 1. Ensure you have Java `11` or above installed in your Computer.
 
-1. Download the latest `momentum.jar` from [here](https://github.com/AY2021S1-CS2103T-T10-1/tp/releases).
+2. Download the latest `momentum.jar` from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your Momentum.
+3. Copy the file to the folder you want to use as the _home folder_ for your ProjectBook.
 
-1. Double-click the file to start the app. The GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+4. Double-click the file to start the app. The GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * **`project`**`n/Momentum d/CS2103T Team Project` : Adds a project named `Momentum` to the Project Book.
@@ -30,21 +30,13 @@ Momentum is a **desktop app** that **helps freelancers track time spent on diffe
 
    * **`delete`**`3` : Deletes the 3rd project shown in the current list.
 
-   * **`/home`** : Go to Home dashboard.
-
-   * **`/stats`** : Go to Statistics tab.
-
-   * **`/projects`** : Go to Projects tab.
-
-   * **`/settings`** : Go to Settings tab.
-
    * **`start`**`3` : Start the timer of the 3rd project shown in the current list.
 
    * **`end`**`3` : End the timer of the 3rd project shown in the current list.
 
    * **`/exit`** : Exits the app.
 
-2. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -76,41 +68,50 @@ Shows a message explaning how to access the help page.
 
 Format: `help` -->
 
-### Creating a project: `project`
+### Creating a Project: `project`
 
 Create a project to be tracked by the application.
 
-Format: `project n/NAME d/DESCRIPTION [t/TAG]`
+Format: `project n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]`
+
+_deadline field is coming soon_
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
+A project can have any number of tags (including 0)
 </div>
 
-Example: `project n/Momentum d/CS2103T Team Project t/impt`
+Example: `project n/Momentum d/CS2103T Team Project dl/2020-12-07 t/impt`
 
-Result: Creates a project named “Momentum” with a description “CS2103T Team Project” and a tag "impt".
+Result: Creates a project named “Momentum” with a description “CS2103T Team Project”, a tag "impt" and deadline 2020-10-07.
 
-### Updating a project: `edit`
+### Editing a Project: `edit`
 
-Update a project that has been previously created.
+Edit a project that has been previously created.
 
-Format: `edit PROJECT_ID n/NAME d/DESCRIPTION [t/TAG]`
+Format: `edit PROJECT_ID [n/NAME] [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]`
 
-* Edits the person at the specified `PROJECT_ID`.
+_deadline field is coming soon_
+
+* Edits the project at the specified `PROJECT_ID`.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
+* At least one of the optional fields must be provided.
+* Existing values will be updated to the input values.
+* Removing a description or deadline by typing `d/` or `dl/` without specifying anything after it.
+* When editing tags, the existing tags of the project will be removed i.e adding of tags is not cumulative.
+* You can remove all the project’s tags by typing `t/` without specifying any tags after it.
 
-Example: `project 3 n/NewMomentum d/NewDescription t\normal`
+Example: `project 3 n/NewMomentum d/NewDescription dl\2020-12-07 t\normal`
 
-Result: Updates the project with id 3. The name will be changed to “NewMomentum”, the description will be changed to “NewDescription”, the tag will be changed to normal.
+Result: Updates the project with id 3. The name will be changed to “NewMomentum”, the description will be changed to “NewDescription”, all the tags will be removed and a tag named normal is added, and the deadline will be changed to 2020-12-07.
 
-### Deleting a project: `delete`
+### Deleting a Project: `delete`
 
 Deletes a project in the list.
 
 Format: `delete PROJECT_ID`
 
-* Deletes the person at the specified `PROJECT_ID`.
+* Deletes the project at the specified `PROJECT_ID`.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
@@ -120,28 +121,39 @@ Result: Deletes the second project in the list.
 
 ### View
 
-View different tabs of the application.
+#### View All Projects : `list`
 
-Format: <br> `\home` <br> `\stats` <br> `\projects` <br> `\settings`
+Shows a list of all projects in the project book.
 
-* /home brings user to home dashboard
-* /stats brings user to Statistics tab
-* /projects brings user to Projects tab
-* /settings brings user to Settings tab
+Format: `list`
 
-Result: Moves to different tabs in the application.
+#### View a Project (_coming soon_)
 
-#### Home View
+Format: `\p PROJECT_ID`
 
-<img src="images/user-guide/homeView.ppg" width="300" />
+* View the project at the specified `PROJECT_ID`.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
 
-#### Projects View
+Example: `\p 2`
 
-<img src="images/user-guide/projectsView.png" width="300" />
+Result: Navigates to the project page of the second project in the list.
 
-#### Statistics View
+#### View Home (_coming soon_)
 
-<img src="images/user-guide/statisticsView.png" width="300" />
+Go to home page.
+
+Format: `\home`
+
+#### View Settings (_coming soon_)
+
+Go to settings page.
+
+Format: `\settings`
+
+#### Filtering Projects: `find` (_coming soon_)
+
+Finds projects.
 
 ### Timer
 
@@ -154,6 +166,9 @@ Format: `start PROJECT_ID`
 * Starts the timer with `PROJECT_ID` specified
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
+* Deletes the project at the specified `INDEX`.
+* The index refers to the index number shown in the displayed project list.
+* The index **must be a positive integer** 1, 2, 3, …​
 
 Example: `start 1`
 
@@ -171,7 +186,8 @@ Example: `end 1`
 
 Result: End timer with project id 1.
 
-### Exiting the program : /`exit`
+### Exiting the Program : /`exit`
+ProjectBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 Format: `/exit`
 
@@ -181,18 +197,18 @@ Result: Exits the program.
 
 ## FAQ
 
-**Q**: How do I transfer my data to another Computer?<br>
+**Q**: How do I transfer my data to another Computer? <br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Momentum home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command summary
+## Command Summary
 
 Action | Format, Examples
 --------|------------------
-**Create** | `project n/NAME d/DESCRIPTION [t\Tag]​` <br> e.g., `project n/Momentum d/CS2103T Team Project`
-**Update** | `edit PROJECT_ID n/NAME d/DESCRIPTION [t\Tag]` <br> e.g., `project 3 n/NewMomentum d/NewDescription t\normal`
-**Delete** | `delete PROJECT_ID`<br> e.g., `delete 3`
-**View** | `/home​` <br> `/stats`<br> `/projects`<br> `/settings`
+**Create** | `project n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]​` <br> e.g., `project n/Momentum d/CS2103T Team Project dl/2020-12-07 t/impt`
+**Edit** | `edit PROJECT_ID n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]` <br> e.g., `project 3 n/NewMomentum d/NewDescription dl\2020-12-07 t\normal`
+**Delete** | `delete PROJECT_ID` <br> e.g., `delete 3`
+**Navigation** (_coming soon_) | `list` <br> `/project PROJECT_ID` <br> e.g., `\p 2` <br> `/settings`  
 **Timer** | `start PROJECT_ID` <br> e.g., `start 3` <br> `end PROJECT_ID` <br> e.g., `end 3`
 **Exit** | `/exit`
