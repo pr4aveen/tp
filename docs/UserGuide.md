@@ -166,9 +166,6 @@ Format: `start PROJECT_ID`
 * Starts the timer with `PROJECT_ID` specified
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
-* Deletes the project at the specified `INDEX`.
-* The index refers to the index number shown in the displayed project list.
-* The index **must be a positive integer** 1, 2, 3, …​
 
 Example: `start 1`
 
