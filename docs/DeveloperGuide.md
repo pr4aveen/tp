@@ -285,6 +285,21 @@ _{More to be added}_
 
 **Extensions**
 
+1.  User requests to start a timer for a specific project in the list
+2.  Momemtum starts the timer for the project
+3.  User works on their project for an amount of time
+4.  User requests to end a timer for a specific project in the list
+5.  Momemtum ends the timer for the project
+6.  Momentum displays the time period that the timer ran for
+
+**Extensions**
+
+* 2a. There is an existing timer for the given project id.
+  
+  * a1. Momentum shows an error message.
+
+    Use case ends.
+
 * 3a. There is no ongoing timer for the given project id.
   
   * a1. Momentum shows an error message.

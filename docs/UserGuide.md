@@ -151,6 +151,32 @@ Format: `\settings`
 
 Finds projects.
 
+#### Starting a Timer for a Project: `start`
+
+Format: `\start PROJECT_ID`
+
+* Starts a timer for the project at the specified `PROJECT_ID`.
+* Only 1 timer can be running for a project at any time.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
+
+Example: `\start 2`
+
+Result: Starts a timer for the second project in the list.
+
+#### Stopping a Timer for a Project: `stop`
+
+Format: `\stop PROJECT_ID`
+
+* Stops a running timer for the project at the specified `PROJECT_ID`.
+* A timer can only be stopped if there is one already running.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
+
+Example: `\stop 2`
+
+Result: Stops the timer for the second project in the list.
+
 ### Exiting the Program : /`exit`
 ProjectBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
@@ -175,4 +201,6 @@ Action | Format, Examples
 **Edit** | `edit PROJECT_ID n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]` <br> e.g., `project 3 n/NewMomentum d/NewDescription dl\2020-12-07 t\normal`
 **Delete** | `delete PROJECT_ID` <br> e.g., `delete 3`
 **Navigation** (_coming soon_) | `list` <br> `/project PROJECT_ID` <br> e.g., `\p 2` <br> `/settings`  
+**Start Timer** | `start PROJECT_ID` <br> e.g., `start 2`
+**Stop Timer** | `stop PROJECT_ID` <br> e.g., `stop 2`
 **Exit** | `/exit`
