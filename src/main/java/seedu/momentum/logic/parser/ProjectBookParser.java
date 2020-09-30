@@ -15,6 +15,8 @@ import seedu.momentum.logic.commands.ExitCommand;
 import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.commands.HelpCommand;
 import seedu.momentum.logic.commands.ListCommand;
+import seedu.momentum.logic.commands.StartCommand;
+import seedu.momentum.logic.commands.StopCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 
 /**
@@ -68,6 +70,11 @@ public class ProjectBookParser {
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
 
+        case StartCommand.COMMAND_WORD:
+            return new StartCommandParser().parse(arguments);
+
+        case StopCommand.COMMAND_WORD:
+            return new StopCommandParser().parse(arguments);
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }

@@ -19,10 +19,14 @@ import seedu.momentum.model.project.Project;
  */
 public class TypicalProjects {
 
-    public static final Project ALICE = new ProjectBuilder().withName("Alice Pauline").withDescription("Likes coding")
+    public static final Project ALICE = new ProjectBuilder().withName("Alice Pauline")
+            .withDescription("Likes coding")
             .withTags("friends").build();
-    public static final Project BENSON = new ProjectBuilder().withName("Benson Meier").withDescription("Likes dogs")
-            .withTags("owesMoney", "friends").build();
+    public static final Project BENSON = new ProjectBuilder().withName("Benson Meier")
+            .withDescription("Likes dogs")
+            .withTags("owesMoney", "friends")
+            .withDurations(TypicalWorkDuration.DURATION_ONE_DAY)
+            .withTimer(TypicalTimers.DAY).build();
     public static final Project CARL = new ProjectBuilder().withName("Carl Kurz")
             .withDescription("Likes poodles").build();
     public static final Project DANIEL = new ProjectBuilder().withName("Daniel Meier")

@@ -7,7 +7,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javafx.collections.ObservableList;
 import seedu.momentum.model.tag.Tag;
+import seedu.momentum.model.timer.Timer;
+import seedu.momentum.model.timer.UniqueDurationList;
+import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Represents a Project in the project book.
@@ -21,15 +25,41 @@ public class Project {
     // data fields
     private final Description description;
     private final Set<Tag> tags = new HashSet<>();
+    private final Timer timer;
+    private final UniqueDurationList durations;
 
     /**
-     * Every field must be present and not null.
+     * Constructs a {@code Project}.
+     *
+     * @param name A valid name.
+     * @param description A description of the project.
+     * @param tags A set of tags associated to the project.
+     * @param durations A list of {@code WorkDuration} associated with the project.
+     * @param timer A timer associated with the project.
+     */
+    public Project(Name name, Description description, Set<Tag> tags, UniqueDurationList durations, Timer timer) {
+        requireAllNonNull(name, tags);
+        this.name = name;
+        this.description = description;
+        this.tags.addAll(tags);
+        this.durations = durations;
+        this.timer = timer;
+    }
+
+    /**
+     * Constructs a new {@code Project}
+     *
+     * @param name A valid name.
+     * @param description A description of the project.
+     * @param tags A set of tags associated to the project.
      */
     public Project(Name name, Description description, Set<Tag> tags) {
         requireAllNonNull(name, tags);
         this.name = name;
         this.description = description;
         this.tags.addAll(tags);
+        this.durations = new UniqueDurationList();
+        this.timer = new Timer();
     }
 
     public Name getName() {
@@ -46,6 +76,49 @@ public class Project {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * Returns an unmodifiable view of the durations list.
+     */
+    public ObservableList<WorkDuration> getDurationList() {
+        return durations.asUnmodifiableObservableList();
+    }
+
+    /**
+     * Returns a copy of this project with its timer started.
+     *
+     * @return A copy of this project, but with its timer started
+     */
+    public Project startTimer() {
+        Timer newTimer = timer.start();
+        return new Project(name, description, tags, durations, newTimer);
+    }
+
+    /**
+     * Returns a copy of this project with its timer stopped, then adds the timed duration into
+     * the list.
+     *
+     * @return A copy of this project, but with its timer stopped
+     */
+    public Project stopTimer() {
+        Timer newTimer = timer.stop();
+        WorkDuration duration = new WorkDuration(newTimer.getStartTime(), newTimer.getStopTime());
+        UniqueDurationList newDurations = new UniqueDurationList();
+        newDurations.setDurations(durations);
+        newDurations.add(duration);
+        return new Project(name, description, tags, newDurations, newTimer);
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    /**
+     * Checks if the project's timer is currently running.
+     */
+    public boolean isRunning() {
+        return timer.isRunning();
     }
 
     /**
@@ -77,14 +150,15 @@ public class Project {
 
         Project otherProject = (Project) other;
         return otherProject.getName().equals(getName())
-                && otherProject.getDescription().equals(getDescription())
-                && otherProject.getTags().equals(getTags());
+                && otherProject.getTags().equals(getTags())
+                && otherProject.durations.equals(durations)
+                && otherProject.getDescription().equals(getDescription());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, description, tags);
+        return Objects.hash(name, description, tags, durations, timer);
     }
 
     @Override
