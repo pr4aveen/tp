@@ -3,38 +3,36 @@ layout: page
 title: User Guide
 ---
 
-ProjectBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+Momentum is a **desktop app** that **helps freelancers track time spent on different projects** and **gain insights on how their time is spent**. It is optimized for **Command Line Interface(CLI) users** so that frequent tasks can be done faster by typing in commands.
 
 * Table of Contents
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Quick start
+## Quick Start
 
 1. Ensure you have Java `11` or above installed in your Computer.
 
-1. Download the latest `momentum.jar` from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `momentum.jar` from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your ProjectBook.
+3. Copy the file to the folder you want to use as the _home folder_ for your ProjectBook.
 
-1. Double-click the file to start the app. The GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+4. Double-click the file to start the app. The GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * **`list`** : Lists all contacts.
+   * **`project`**`n/Momentum d/CS2103T Team Project` : Adds a project named `Momentum` to the Project Book.
 
-   * **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Project Book.
+   * **`edit`**`3 n/NewMomentum d/newDescription` : Update the 3rd project in the current list. The name will be changed to “NewMomentum” and the description will be changed to “NewDescription”.
 
-   * **`delete`**`3` : Deletes the 3rd contact shown in the current list.
+   * **`delete`**`3` : Deletes the 3rd project shown in the current list.
 
-   * **`clear`** : Deletes all contacts.
+   * **`/exit`** : Exits the app.
 
-   * **`exit`** : Exits the app.
-
-1. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -58,119 +56,123 @@ ProjectBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 </div>
 
-### Viewing help : `help`
+<!-- ### Viewing help : `help`
 
 Shows a message explaning how to access the help page.
 
 ![help message](images/helpMessage.png)
 
-Format: `help`
+Format: `help` -->
 
-### Adding a project: `add`
+### Creating a Project: `project`
 
-Adds a project to the project book.
+Create a project to be tracked by the application.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `project n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]`
+
+_deadline field is coming soon_
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A project can have any number of tags (including 0)
 </div>
 
-Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+Example: `project n/Momentum d/CS2103T Team Project dl/2020-12-07 t/impt`
 
-### Listing all projects : `list`
+Result: Creates a project named “Momentum” with a description “CS2103T Team Project”, a tag "impt" and deadline 2020-10-07.
 
-Shows a list of all projects in the project book.
-Format: `list`
+### Editing a Project: `edit`
 
-### Editing a project : `edit`
+Edit a project that has been previously created.
 
-Edits an existing project in the project book.
+Format: `edit PROJECT_ID [n/NAME] [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]`
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+_deadline field is coming soon_
 
-* Edits the project at the specified `INDEX`. The index refers to the index number shown in the displayed project list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the project at the specified `PROJECT_ID`.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* Removing a description or deadline by typing `d/` or `dl/` without specifying anything after it.
 * When editing tags, the existing tags of the project will be removed i.e adding of tags is not cumulative.
-* You can remove all the project’s tags by typing `t/` without
-    specifying any tags after it.
+* You can remove all the project’s tags by typing `t/` without specifying any tags after it.
 
-Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st project to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd project to be `Betsy Crower` and clears all existing tags.
+Example: `project 3 n/NewMomentum d/NewDescription dl\2020-12-07 t\normal`
 
-### Locating projects by name: `find`
+Result: Updates the project with id 3. The name will be changed to “NewMomentum”, the description will be changed to “NewDescription”, all the tags will be removed and a tag named normal is added, and the deadline will be changed to 2020-12-07.
 
-Finds projects whose names contain any of the given keywords.
+### Deleting a Project: `delete`
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Deletes a project in the list.
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+Format: `delete PROJECT_ID`
 
-Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* Deletes the project at the specified `PROJECT_ID`.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
 
-### Deleting a project : `delete`
+Example: `delete 2`
 
-Deletes the specified project from the project book.
+Result: Deletes the second project in the list.
 
-Format: `delete INDEX`
+### View
 
-* Deletes the project at the specified `INDEX`.
-* The index refers to the index number shown in the displayed project list.
-* The index **must be a positive integer** 1, 2, 3, …​
+#### View All Projects : `list`
 
-Examples:
-* `list` followed by `delete 2` deletes the 2nd project in the project book.
-* `find Betsy` followed by `delete 1` deletes the 1st project in the results of the `find` command.
+Shows a list of all projects in the project book.
 
-### Clearing all entries : `clear`
+Format: `list`
 
-Clears all entries from the project book.
+#### View a Project (_coming soon_)
 
-Format: `clear`
+Format: `\p PROJECT_ID`
 
-### Exiting the program : `exit`
+* View the project at the specified `PROJECT_ID`.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
 
-Exits the program.
+Example: `\p 2`
 
-Format: `exit`
+Result: Navigates to the project page of the second project in the list.
 
-### Saving the data
+#### View Home (_coming soon_)
 
+Go to home page.
+
+Format: `\home`
+
+#### View Settings (_coming soon_)
+
+Go to settings page.
+
+Format: `\settings`
+
+#### Filtering Projects: `find` (_coming soon_)
+
+Finds projects.
+
+### Exiting the Program : /`exit`
 ProjectBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
-### Archiving data files `[coming in v2.0]`
+Format: `/exit`
 
-_{explain the feature here}_
+Result: Exits the program.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
 
-**Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous ProjectBook home folder.
+**Q**: How do I transfer my data to another Computer? <br>
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Momentum home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command summary
+## Command Summary
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List** | `list`
-**Help** | `help`
+**Create** | `project n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]​` <br> e.g., `project n/Momentum d/CS2103T Team Project dl/2020-12-07 t/impt`
+**Edit** | `edit PROJECT_ID n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]` <br> e.g., `project 3 n/NewMomentum d/NewDescription dl\2020-12-07 t\normal`
+**Delete** | `delete PROJECT_ID` <br> e.g., `delete 3`
+**Navigation** (_coming soon_) | `list` <br> `/project PROJECT_ID` <br> e.g., `\p 2` <br> `/settings`  
+**Exit** | `/exit`
