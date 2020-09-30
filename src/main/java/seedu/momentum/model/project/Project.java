@@ -18,19 +18,26 @@ public class Project {
     // Identity fields
     private final Name name;
 
+    // data fields
+    private final Description description;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Project(Name name, Set<Tag> tags) {
+    public Project(Name name, Description description, Set<Tag> tags) {
         requireAllNonNull(name, tags);
         this.name = name;
+        this.description = description;
         this.tags.addAll(tags);
     }
 
     public Name getName() {
         return name;
+    }
+
+    public Description getDescription() {
+        return description;
     }
 
     /**
@@ -51,7 +58,7 @@ public class Project {
         }
 
         return otherProject != null
-                && otherProject.getName().equals(getName());
+                && otherProject.getName().equals(getName()) && otherProject.getDescription().equals(getDescription());
     }
 
     /**
@@ -70,19 +77,22 @@ public class Project {
 
         Project otherProject = (Project) other;
         return otherProject.getName().equals(getName())
+                && otherProject.getDescription().equals(getDescription())
                 && otherProject.getTags().equals(getTags());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, tags);
+        return Objects.hash(name, description, tags);
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(getName())
+                .append(" Description: ")
+                .append(getDescription())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();

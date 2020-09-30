@@ -33,6 +33,7 @@ public class ArgumentMultimap {
 
     /**
      * Returns the last value of {@code prefix}.
+     * If the prefix does not exist or has no values, this will return an Optional.empty.
      */
     public Optional<String> getValue(Prefix prefix) {
         List<String> values = getAllValues(prefix);

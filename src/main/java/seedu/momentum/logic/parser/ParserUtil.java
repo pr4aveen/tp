@@ -9,6 +9,7 @@ import java.util.Set;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.StringUtil;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.tag.Tag;
 
@@ -45,6 +46,16 @@ public class ParserUtil {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
         return new Name(trimmedName);
+    }
+
+    /**
+     * Parses a {@code String description} into an {@code Description}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static Description parseDescription(String description) {
+        requireNonNull(description);
+        String trimmedAddress = description.trim();
+        return new Description(trimmedAddress);
     }
 
     /**
