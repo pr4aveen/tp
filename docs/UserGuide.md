@@ -30,10 +30,6 @@ Momentum is a **desktop app** that **helps freelancers track time spent on diffe
 
    * **`delete`**`3` : Deletes the 3rd project shown in the current list.
 
-   * **`start`**`3` : Start the timer of the 3rd project shown in the current list.
-
-   * **`end`**`3` : End the timer of the 3rd project shown in the current list.
-
    * **`/exit`** : Exits the app.
 
 6. Refer to the [Features](#features) below for details of each command.
@@ -155,34 +151,6 @@ Format: `\settings`
 
 Finds projects.
 
-### Timer
-
-Start and end a timer to record the duration of a project.
-
-#### Start Timer: `start`
-
-Format: `start PROJECT_ID`
-
-* Starts the timer with `PROJECT_ID` specified
-* The id refers to the id number shown in the displayed project list.
-* The id **must be a positive integer** 1, 2, 3, …​
-
-Example: `start 1`
-
-Result: Start timer with project id 1.
-
-#### End Timer: `end`
-
-Format: `end PROJECT_ID`
-
-* Ends the timer with `PROJECT_ID` specified
-* The id refers to the id number shown in the displayed project list.
-* The id **must be a positive integer** 1, 2, 3, …​
-
-Example: `end 1`
-
-Result: End timer with project id 1.
-
 ### Exiting the Program : /`exit`
 ProjectBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
@@ -207,5 +175,4 @@ Action | Format, Examples
 **Edit** | `edit PROJECT_ID n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]` <br> e.g., `project 3 n/NewMomentum d/NewDescription dl\2020-12-07 t\normal`
 **Delete** | `delete PROJECT_ID` <br> e.g., `delete 3`
 **Navigation** (_coming soon_) | `list` <br> `/project PROJECT_ID` <br> e.g., `\p 2` <br> `/settings`  
-**Timer** | `start PROJECT_ID` <br> e.g., `start 3` <br> `end PROJECT_ID` <br> e.g., `end 3`
 **Exit** | `/exit`
