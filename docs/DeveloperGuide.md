@@ -109,6 +109,7 @@ The `Model`,
 * does not depend on any of the other three components.
 
 <div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `ProjectBook`, which `Project` references. This allows `ProjectBook` to only require one `Tag` object per unique `Tag`, instead of each `Project` needing their own `Tag` object.<br>
+
 ![BetterModelClassDiagram](images/BetterModelClassDiagram.png)
 
 </div>
