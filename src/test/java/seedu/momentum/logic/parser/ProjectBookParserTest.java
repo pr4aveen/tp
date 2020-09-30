@@ -21,6 +21,8 @@ import seedu.momentum.logic.commands.ExitCommand;
 import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.commands.HelpCommand;
 import seedu.momentum.logic.commands.ListCommand;
+import seedu.momentum.logic.commands.StartCommand;
+import seedu.momentum.logic.commands.StopCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.project.NameContainsKeywordsPredicate;
 import seedu.momentum.model.project.Project;
@@ -85,6 +87,20 @@ public class ProjectBookParserTest {
     public void parseCommand_list() throws Exception {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
+    }
+
+    @Test
+    public void parseCommand_start() throws Exception {
+        StartCommand command = (StartCommand) parser.parseCommand(
+                StartCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased());
+        assertEquals(new StartCommand(INDEX_FIRST_PROJECT), command);
+    }
+
+    @Test
+    public void parseCommand_stop() throws Exception {
+        StopCommand command = (StopCommand) parser.parseCommand(
+                StopCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased());
+        assertEquals(new StopCommand(INDEX_FIRST_PROJECT), command);
     }
 
     @Test

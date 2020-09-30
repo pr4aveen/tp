@@ -14,6 +14,9 @@ import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
+import seedu.momentum.model.timer.Timer;
+import seedu.momentum.model.timer.UniqueDurationList;
+import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Jackson-friendly version of {@link Project}.
@@ -25,6 +28,8 @@ class JsonAdaptedProject {
     private final String name;
     private final String description;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
+    private final List<JsonAdaptedWorkDuration> durations = new ArrayList<>();
+    private final JsonAdaptedTimer timer;
 
     /**
      * Constructs a {@code JsonAdaptedProject} with the given project details.
@@ -32,12 +37,18 @@ class JsonAdaptedProject {
     @JsonCreator
     public JsonAdaptedProject(@JsonProperty("name") String name,
                               @JsonProperty("description") String description,
-                              @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
+                              @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
+                              @JsonProperty("durations") List<JsonAdaptedWorkDuration> durations,
+                              @JsonProperty("timer") JsonAdaptedTimer timer) {
         this.name = name;
         this.description = description;
         if (tagged != null) {
             this.tagged.addAll(tagged);
         }
+        if (durations != null) {
+            this.durations.addAll(durations);
+        }
+        this.timer = timer;
     }
 
     /**
@@ -49,6 +60,10 @@ class JsonAdaptedProject {
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        durations.addAll(source.getDurationList().stream()
+                .map(JsonAdaptedWorkDuration::new)
+                .collect(Collectors.toList()));
+        timer = new JsonAdaptedTimer(source.getTimer());
     }
 
     /**
@@ -72,7 +87,18 @@ class JsonAdaptedProject {
         final Description modelDescription = new Description(description);
 
         final Set<Tag> modelTags = new HashSet<>(projectTags);
-        return new Project(modelName, modelDescription, modelTags);
+
+        final List<WorkDuration> projectDurations = new ArrayList<>();
+        for (JsonAdaptedWorkDuration duration : durations) {
+            projectDurations.add(duration.toModelType());
+        }
+
+        UniqueDurationList modelDurations = new UniqueDurationList();
+        modelDurations.setDurations(projectDurations);
+
+        final Timer modelTimer = timer == null ? new Timer() : timer.toModelType();
+
+        return new Project(modelName, modelDescription, modelTags, modelDurations, modelTimer);
     }
 
 }

@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import seedu.momentum.model.project.Project;
 
 /**
@@ -25,6 +26,7 @@ public class ProjectCard extends UiPart<Region> {
      */
 
     public final Project project;
+    private DurationListPanel durationListPanel;
 
     @FXML
     private HBox cardPane;
@@ -36,6 +38,8 @@ public class ProjectCard extends UiPart<Region> {
     private Label description;
     @FXML
     private FlowPane tags;
+    @FXML
+    private StackPane durationListPanelPlaceholder;
 
     /**
      * Creates a {@code ProjectCode} with the given {@code Project} and index to display.
@@ -49,6 +53,8 @@ public class ProjectCard extends UiPart<Region> {
         project.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        durationListPanel = new DurationListPanel(project.getDurationList());
+        durationListPanelPlaceholder.getChildren().add(durationListPanel.getRoot());
     }
 
     @Override

@@ -7,7 +7,16 @@
   }, {
     "name" : "Benson Meier",
     "description": "Likes dogs",
-    "tagged" : [ "owesMoney", "friends" ]
+    "tagged" : [ "owesMoney", "friends" ],
+    "durations" : [ {
+      "startTime" : "2019-01-01T00:00:00.00000",
+      "stopTime" : "2019-01-02T00:00:00.00000"
+    } ],
+    "timer" : {
+      "startTime" : "2019-01-01T00:00:00.00000",
+      "stopTime" : "2019-01-02T00:00:00.00000",
+      "isRunning" : false
+    }
   }, {
     "name" : "Carl Kurz",
     "description": "Likes poodles",

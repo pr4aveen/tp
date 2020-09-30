@@ -92,7 +92,6 @@ public class ModelManagerTest {
     public void getFilteredProjectList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredProjectList().remove(0));
     }
-
     @Test
     public void equals() {
         ProjectBook projectBook = new ProjectBookBuilder().withProject(ALICE).withProject(BENSON).build();

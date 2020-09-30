@@ -7,6 +7,9 @@ import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
+import seedu.momentum.model.timer.Timer;
+import seedu.momentum.model.timer.UniqueDurationList;
+import seedu.momentum.model.timer.WorkDuration;
 import seedu.momentum.model.util.SampleDataUtil;
 
 /**
@@ -20,6 +23,8 @@ public class ProjectBuilder {
     private Name name;
     private Description description;
     private Set<Tag> tags;
+    private UniqueDurationList durations;
+    private Timer timer;
 
     /**
      * Creates a {@code ProjectBuilder} with the default details.
@@ -28,6 +33,8 @@ public class ProjectBuilder {
         name = new Name(DEFAULT_NAME);
         description = new Description(DEFAULT_DESCRIPTION);
         tags = new HashSet<>();
+        durations = new UniqueDurationList();
+        timer = new Timer();
     }
 
     /**
@@ -37,6 +44,11 @@ public class ProjectBuilder {
         name = projectToCopy.getName();
         description = projectToCopy.getDescription();
         tags = new HashSet<>(projectToCopy.getTags());
+        durations = new UniqueDurationList();
+        for (WorkDuration duration : projectToCopy.getDurationList()) {
+            durations.add(duration);
+        }
+        timer = projectToCopy.getTimer();
     }
 
     /**
@@ -71,8 +83,25 @@ public class ProjectBuilder {
         return this;
     }
 
-    public Project build() {
-        return new Project(name, description, tags);
+    /**
+     * Parses the {@code durations} into a {@code UniqueDurationList} and set it to the {@code Project} that we
+     * are building.
+     */
+    public ProjectBuilder withDurations(WorkDuration... durations) {
+        this.durations = SampleDataUtil.getDurationList(durations);
+        return this;
     }
 
+    /**
+     * Parses the {@code timer} into a {@code Timer} and set it to the {@code Project} that we
+     * are building.
+     */
+    public ProjectBuilder withTimer(Timer timer) {
+        this.timer = timer;
+        return this;
+    }
+
+    public Project build() {
+        return new Project(name, description, tags, durations, timer);
+    }
 }

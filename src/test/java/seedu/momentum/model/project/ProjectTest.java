@@ -55,8 +55,9 @@ public class ProjectTest {
     @Test
     public void equals() {
         // same values -> returns true
-        Project aliceCopy = new ProjectBuilder(ALICE).build();
-        assertTrue(ALICE.equals(aliceCopy));
+        Project aliceCopy1 = new ProjectBuilder(ALICE).build();
+        Project aliceCopy2 = new ProjectBuilder(ALICE).build();
+        assertTrue(aliceCopy1.equals(aliceCopy2));
 
         // same object -> returns true
         assertTrue(ALICE.equals(ALICE));
