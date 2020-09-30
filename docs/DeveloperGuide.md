@@ -277,20 +277,12 @@ _{More to be added}_
 
 **MSS**
 
-1.  User requests to start a timer for a specific project in the list
-2.  Momemtum starts the timer for the project
-3.  User requests to end a timer for a specific project in the list
-4.  Momemtum ends the timer for the project
-(For all use cases below, the **System** is the `ProjectBook` and the **Actor** is the `user`, unless specified otherwise)
-
-**Extensions**
-
-1.  User requests to start a timer for a specific project in the list
-2.  Momemtum starts the timer for the project
-3.  User works on their project for an amount of time
-4.  User requests to end a timer for a specific project in the list
-5.  Momemtum ends the timer for the project
-6.  Momentum displays the time period that the timer ran for
+1.  User requests to start a timer for a specific project in the list.
+2.  Momemtum starts the timer for the project.
+3.  User requests to end a timer for a specific project in the list.
+4.  Momemtum ends the timer for the project.
+(For all use cases below, the **System** is the `ProjectBook` and the **Actor** is the `user`, unless specified
+ otherwise).
 
 **Extensions**
 
