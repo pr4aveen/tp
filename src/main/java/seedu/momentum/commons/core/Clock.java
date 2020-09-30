@@ -14,6 +14,7 @@ public class Clock {
 
     /**
      * Gets the current time according to the state of the clock.
+     *
      * @return System time if normal, A fixed time if fixed, and The set time if manual.
      */
     public static Time now() {
@@ -26,6 +27,7 @@ public class Clock {
 
     /**
      * Starts the clock with a fixed time.
+     *
      * @param fixedTime The time to start the clock at.
      */
     public static void initFixed(Time fixedTime) {
@@ -35,6 +37,7 @@ public class Clock {
 
     /**
      * Starts a manually adjustable clock.
+     *
      * @param startTime The starting time of the clock.
      */
     public static void initManual(Time startTime) {

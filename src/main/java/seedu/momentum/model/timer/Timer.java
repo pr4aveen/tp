@@ -41,7 +41,6 @@ public class Timer {
     public Timer start() {
         assert (!isRunning);
         return new Timer(Clock.now(), Clock.now(), true);
-
     }
 
     /**
@@ -64,6 +63,7 @@ public class Timer {
 
     /**
      * Returns the length of time tracked in this timer, in (@code unit) units.
+     *
      * @param unit The units for the length of time.
      * @return The length of time in the provided units.
      */

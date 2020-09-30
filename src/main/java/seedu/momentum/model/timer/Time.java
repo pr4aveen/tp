@@ -35,9 +35,10 @@ public class Time {
 
     /**
      * Returns a new Time that is after this Time be a specified amount
+     *
      * @param amount Amount to increase by.
      * @param unit Unit to increase with.
-     * @return
+     * @return The new time
      */
     public Time plus(long amount, ChronoUnit unit) {
         return new Time(time.plus(amount, unit));
@@ -45,9 +46,10 @@ public class Time {
 
     /**
      * Returns a new Time that is before this Time by a specified amount.
+     *
      * @param amount Amount to decrease by.
      * @param unit Unit to decrease with.
-     * @return
+     * @return The new time
      */
     public Time minus(long amount, ChronoUnit unit) {
         return new Time(time.minus(amount, unit));

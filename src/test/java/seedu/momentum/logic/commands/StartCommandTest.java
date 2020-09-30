@@ -54,6 +54,7 @@ public class StartCommandTest {
 
         assertCommandFailure(startCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
     }
+
     @Test
     public void execute_alreadyRunning_throwsCommandException() {
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);

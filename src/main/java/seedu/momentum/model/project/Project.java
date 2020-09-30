@@ -32,8 +32,10 @@ public class Project {
      * Constructs a {@code Project}.
      *
      * @param name A valid name.
+     * @param description A description of the project.
      * @param tags A set of tags associated to the project.
-     * @param durations A list of {@code WorkDuration} associated with the project
+     * @param durations A list of {@code WorkDuration} associated with the project.
+     * @param timer A timer associated with the project.
      */
     public Project(Name name, Description description, Set<Tag> tags, UniqueDurationList durations, Timer timer) {
         requireAllNonNull(name, tags);
@@ -48,6 +50,7 @@ public class Project {
      * Constructs a new {@code Project}
      *
      * @param name A valid name.
+     * @param description A description of the project.
      * @param tags A set of tags associated to the project.
      */
     public Project(Name name, Description description, Set<Tag> tags) {
@@ -148,7 +151,7 @@ public class Project {
         Project otherProject = (Project) other;
         return otherProject.getName().equals(getName())
                 && otherProject.getTags().equals(getTags())
-                && durations.equals(((Project) other).durations)
+                && otherProject.durations.equals(durations)
                 && otherProject.getDescription().equals(getDescription());
     }
 

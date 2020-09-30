@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  * Represents a duration of time spent working on a project.
- *  * Guarantees: immutable.
+ * Guarantees: immutable.
  */
 public class WorkDuration {
     private final Time startTime;
@@ -32,6 +32,7 @@ public class WorkDuration {
 
     /**
      * Returns the length of time tracked in this duration, in (@code unit) units.
+     *
      * @param unit The units for the length of time.
      * @return The length of time in the provided units.
      */
