@@ -29,7 +29,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Farrell Nah Jun Hao
 
-<img src="images/boundtotheearth.jpeg" width="200px">
+<img src="images/boundtotheearth.png" width="200px">
 
 [[github](https://github.com/boundtotheearth)]
 

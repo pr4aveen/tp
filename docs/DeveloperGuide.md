@@ -277,13 +277,20 @@ _{More to be added}_
 
 **MSS**
 
-1.  User requests to start a timer for a specific project in the list
-2.  Momemtum starts the timer for the project
-3.  User requests to end a timer for a specific project in the list
-4.  Momemtum ends the timer for the project
-(For all use cases below, the **System** is the `ProjectBook` and the **Actor** is the `user`, unless specified otherwise)
+1.  User requests to start a timer for a specific project in the list.
+2.  Momemtum starts the timer for the project.
+3.  User requests to end a timer for a specific project in the list.
+4.  Momemtum ends the timer for the project.
+(For all use cases below, the **System** is the `ProjectBook` and the **Actor** is the `user`, unless specified
+ otherwise).
 
 **Extensions**
+
+* 2a. There is an existing timer for the given project id.
+  
+  * a1. Momentum shows an error message.
+
+    Use case ends.
 
 * 3a. There is no ongoing timer for the given project id.
   
