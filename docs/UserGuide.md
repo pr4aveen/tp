@@ -70,8 +70,6 @@ Create a project to be tracked by the application.
 
 Format: `project n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]`
 
-_deadline field is coming soon_
-
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A project can have any number of tags (including 0)
 </div>
@@ -80,13 +78,20 @@ Example: `project n/Momentum d/CS2103T Team Project dl/2020-12-07 t/impt`
 
 Result: Creates a project named “Momentum” with a description “CS2103T Team Project”, a tag "impt" and deadline 2020-10-07.
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+A project can have an empty description
+</div>
+
+Example: `project n/Momentum dl/2020-12-07 t/impt` 
+Example: `project n/Momentum d/ dl/2020-12-07 t/impt`
+
+Result: Creates a project named “Momentum” with a tag "impt" and deadline 2020-10-07.
+
 ### Editing a Project: `edit`
 
 Edit a project that has been previously created.
 
 Format: `edit PROJECT_ID [n/NAME] [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]`
-
-_deadline field is coming soon_
 
 * Edits the project at the specified `PROJECT_ID`.
 * The id refers to the id number shown in the displayed project list.
