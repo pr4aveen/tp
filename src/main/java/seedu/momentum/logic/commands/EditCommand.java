@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import seedu.momentum.commons.core.Date;
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.CollectionUtil;
@@ -87,9 +88,10 @@ public class EditCommand extends Command {
 
         Name updatedName = editProjectDescriptor.getName().orElse(projectToEdit.getName());
         Description updatedDescription = editProjectDescriptor.getDescription().orElse(projectToEdit.getDescription());
+        Date createdDate = projectToEdit.getCreatedDate();
         Set<Tag> updatedTags = editProjectDescriptor.getTags().orElse(projectToEdit.getTags());
 
-        return new Project(updatedName, updatedDescription, updatedTags);
+        return new Project(updatedName, updatedDescription, createdDate, updatedTags);
     }
 
     @Override

@@ -6,8 +6,8 @@ import static seedu.momentum.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.momentum.commons.core.DateTime;
 import seedu.momentum.commons.exceptions.IllegalValueException;
-import seedu.momentum.model.timer.Time;
 import seedu.momentum.model.timer.Timer;
 
 public class JsonAdaptedTimerTest {
@@ -17,14 +17,14 @@ public class JsonAdaptedTimerTest {
     @Test
     public void toModelType_validTimerDetails_returnsTimer() throws Exception {
         JsonAdaptedTimer timer = new JsonAdaptedTimer(VALID_TIME, VALID_TIME, false);
-        Timer expectedTimer = new Timer(new Time(VALID_TIME), new Time(VALID_TIME), false);
+        Timer expectedTimer = new Timer(new DateTime(VALID_TIME), new DateTime(VALID_TIME), false);
         assertEquals(timer.toModelType(), expectedTimer);
     }
 
     @Test
     public void toModelType_invalidStartTime_throwsIllegalValueException() {
         JsonAdaptedTimer timer = new JsonAdaptedTimer(INVALID_TIME, VALID_TIME, false);
-        String expectedMessage = Time.MESSAGE_CONSTRAINTS;
+        String expectedMessage = DateTime.MESSAGE_CONSTRAINTS;
 
         assertThrows(IllegalValueException.class, expectedMessage, timer::toModelType);
     }
@@ -32,7 +32,7 @@ public class JsonAdaptedTimerTest {
     @Test
     public void toModelType_nullStartTime_throwsIllegalValueException() {
         JsonAdaptedTimer timer = new JsonAdaptedTimer(null, VALID_TIME, false);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Time.class.getSimpleName());
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, DateTime.class.getSimpleName());
 
         assertThrows(IllegalValueException.class, expectedMessage, timer::toModelType);
     }
@@ -40,7 +40,7 @@ public class JsonAdaptedTimerTest {
     @Test
     public void toModelType_invalidStopTime_throwsIllegalValueException() {
         JsonAdaptedTimer timer = new JsonAdaptedTimer(VALID_TIME, INVALID_TIME, false);
-        String expectedMessage = Time.MESSAGE_CONSTRAINTS;
+        String expectedMessage = DateTime.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, timer::toModelType);
     }
 
@@ -48,7 +48,7 @@ public class JsonAdaptedTimerTest {
     public void toModelType_nullStopTime_throwsIllegalValueException() {
         JsonAdaptedTimer timer = new JsonAdaptedTimer(VALID_TIME, null, false);
 
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Time.class.getSimpleName());
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, DateTime.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, timer::toModelType);
     }
 

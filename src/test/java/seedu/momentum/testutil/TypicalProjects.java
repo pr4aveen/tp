@@ -1,5 +1,7 @@
 package seedu.momentum.testutil;
 
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_AMY;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_AMY;
@@ -21,22 +23,32 @@ public class TypicalProjects {
 
     public static final Project ALICE = new ProjectBuilder().withName("Alice Pauline")
             .withDescription("Likes coding")
+            .withCreatedDate("2019-11-05")
             .withTags("friends").build();
     public static final Project BENSON = new ProjectBuilder().withName("Benson Meier")
             .withDescription("Likes dogs")
+            .withCreatedDate("2019-11-05")
             .withTags("owesMoney", "friends")
             .withDurations(TypicalWorkDuration.DURATION_ONE_DAY)
             .withTimer(TypicalTimers.DAY).build();
     public static final Project CARL = new ProjectBuilder().withName("Carl Kurz")
-            .withDescription("Likes poodles").build();
+            .withDescription("Likes poodles")
+            .withCreatedDate("2019-08-02").build();
     public static final Project DANIEL = new ProjectBuilder().withName("Daniel Meier")
-            .withDescription("Likes cats").withTags("friends").build();
+            .withDescription("Likes cats")
+            .withCreatedDate("2019-05-21")
+            .withTags("friends").build();
     public static final Project ELLE = new ProjectBuilder().withName("Elle Meyer")
-            .withDescription("Likes elephants").build();
+            .withDescription("Likes elephants")
+            .withCreatedDate("2019-07-21").build();
     public static final Project FIONA = new ProjectBuilder().withName("Fiona Kunz")
-            .withDescription("Likes starbucks").build();
+            .withDescription("Likes starbucks")
+            .withCreatedDate("2019-03-21")
+            .build();
     public static final Project GEORGE = new ProjectBuilder().withName("George Best")
-            .withDescription("Likes you").build();
+            .withDescription("Likes you")
+            .withCreatedDate("2019-07-28")
+            .build();
 
     // Manually added
     public static final Project HOON = new ProjectBuilder().withName("Hoon Meier")
@@ -46,9 +58,13 @@ public class TypicalProjects {
 
     // Manually added - Project's details found in {@code CommandTestUtil}
     public static final Project AMY = new ProjectBuilder().withName(VALID_NAME_AMY)
-            .withDescription(VALID_DESCRIPTION_AMY).withTags(VALID_TAG_FRIEND).build();
+            .withDescription(VALID_DESCRIPTION_AMY)
+            .withCreatedDate(VALID_CREATED_DATE_AMY)
+            .withTags(VALID_TAG_FRIEND).build();
     public static final Project BOB = new ProjectBuilder().withName(VALID_NAME_BOB)
-            .withDescription(VALID_DESCRIPTION_BOB).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+            .withDescription(VALID_DESCRIPTION_BOB)
+            .withCreatedDate(VALID_CREATED_DATE_BOB)
+            .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
 
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 

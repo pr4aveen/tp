@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.model.timer.Time;
+import seedu.momentum.commons.core.DateTime;
 import seedu.momentum.model.timer.WorkDuration;
 import seedu.momentum.testutil.TypicalWorkDuration;
 
@@ -52,13 +52,13 @@ public class WorkDurationTest {
         assertFalse(TypicalWorkDuration.DURATION_ONE_DAY.isSameDuration(TypicalWorkDuration.DURATION_ONE_MONTH));
 
         // different startTime -> returns false
-        WorkDuration diffStart = new WorkDuration(new Time(LocalDateTime.now()),
+        WorkDuration diffStart = new WorkDuration(new DateTime(LocalDateTime.now()),
                 TypicalWorkDuration.DURATION_ONE_DAY.getStopTime());
         assertFalse(TypicalWorkDuration.DURATION_ONE_DAY.isSameDuration(diffStart));
 
         // different stopTime -> returns false
         WorkDuration diffEnd = new WorkDuration(TypicalWorkDuration.DURATION_ONE_DAY.getStartTime(),
-                new Time(LocalDateTime.now()));
+                new DateTime(LocalDateTime.now()));
         assertFalse(TypicalWorkDuration.DURATION_ONE_DAY.isSameDuration(diffEnd));
     }
 }

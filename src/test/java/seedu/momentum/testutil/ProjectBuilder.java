@@ -3,6 +3,8 @@ package seedu.momentum.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.momentum.commons.core.Clock;
+import seedu.momentum.commons.core.Date;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
@@ -19,9 +21,11 @@ public class ProjectBuilder {
 
     public static final String DEFAULT_NAME = "Alice Pauline";
     public static final String DEFAULT_DESCRIPTION = "Likes coding";
+    public static final String DEFAULT_DATE = "2019-11-05";
 
     private Name name;
     private Description description;
+    private Date createdDate;
     private Set<Tag> tags;
     private UniqueDurationList durations;
     private Timer timer;
@@ -32,6 +36,7 @@ public class ProjectBuilder {
     public ProjectBuilder() {
         name = new Name(DEFAULT_NAME);
         description = new Description(DEFAULT_DESCRIPTION);
+        createdDate = new Date(DEFAULT_DATE);
         tags = new HashSet<>();
         durations = new UniqueDurationList();
         timer = new Timer();
@@ -43,6 +48,7 @@ public class ProjectBuilder {
     public ProjectBuilder(Project projectToCopy) {
         name = projectToCopy.getName();
         description = projectToCopy.getDescription();
+        createdDate = projectToCopy.getCreatedDate();
         tags = new HashSet<>(projectToCopy.getTags());
         durations = new UniqueDurationList();
         for (WorkDuration duration : projectToCopy.getDurationList()) {
@@ -76,6 +82,22 @@ public class ProjectBuilder {
     }
 
     /**
+     * Sets the {@code CreatedDate} of the {@code Project} that we are building with current date.
+     */
+    public ProjectBuilder withCurrentCreatedDate() {
+        this.createdDate = new Date(Clock.now().getDate());
+        return this;
+    }
+
+    /**
+     * Sets the {@code CreatedDate} of the {@code Project} that we are building.
+     */
+    public ProjectBuilder withCreatedDate(String createdDate) {
+        this.createdDate = new Date(createdDate);
+        return this;
+    }
+
+    /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Project} that we are building.
      */
     public ProjectBuilder withTags(String ... tags) {
@@ -102,6 +124,6 @@ public class ProjectBuilder {
     }
 
     public Project build() {
-        return new Project(name, description, tags, durations, timer);
+        return new Project(name, description, createdDate, tags, durations, timer);
     }
 }

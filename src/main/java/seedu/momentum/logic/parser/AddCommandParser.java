@@ -8,6 +8,8 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import seedu.momentum.commons.core.Clock;
+import seedu.momentum.commons.core.Date;
 import seedu.momentum.logic.commands.AddCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.project.Description;
@@ -44,9 +46,11 @@ public class AddCommandParser implements Parser<AddCommand> {
                     argMultimap.getValue(PREFIX_DESCRIPTION).get());
         }
 
+        Date createdDate = new Date(Clock.now().getDate());
+
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Project project = new Project(name, description, tagList);
+        Project project = new Project(name, description, createdDate, tagList);
 
         return new AddCommand(project);
     }

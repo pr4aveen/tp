@@ -37,6 +37,8 @@ public class ProjectCard extends UiPart<Region> {
     @FXML
     private Label description;
     @FXML
+    private Label createdDate;
+    @FXML
     private FlowPane tags;
     @FXML
     private StackPane durationListPanelPlaceholder;
@@ -50,6 +52,7 @@ public class ProjectCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(project.getName().fullName);
         description.setText(project.getDescription().value);
+        createdDate.setText(project.getCreatedDate().getFormattedDate());
         project.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

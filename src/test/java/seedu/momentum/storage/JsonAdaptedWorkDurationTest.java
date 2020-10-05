@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.momentum.commons.core.DateTime;
 import seedu.momentum.commons.exceptions.IllegalValueException;
-import seedu.momentum.model.timer.Time;
 import seedu.momentum.testutil.TypicalWorkDuration;
 
 public class JsonAdaptedWorkDurationTest {
@@ -25,24 +25,24 @@ public class JsonAdaptedWorkDurationTest {
     public void toModelType_validDurationDetails_returnsDuration() throws Exception {
         JsonAdaptedWorkDuration duration = new JsonAdaptedWorkDuration(TypicalWorkDuration.DURATION_ONE_DAY);
 
-        assertEquals(TypicalWorkDuration.DURATION_ONE_DAY.getStartTime().getTime().getSecond(),
-                duration.toModelType().getStartTime().getTime().getSecond());
-        assertEquals(TypicalWorkDuration.DURATION_ONE_DAY.getStopTime().getTime().getSecond(),
-                duration.toModelType().getStopTime().getTime().getSecond());
+        assertEquals(TypicalWorkDuration.DURATION_ONE_DAY.getStartTime().getDateTime().getSecond(),
+                duration.toModelType().getStartTime().getDateTime().getSecond());
+        assertEquals(TypicalWorkDuration.DURATION_ONE_DAY.getStopTime().getDateTime().getSecond(),
+                duration.toModelType().getStopTime().getDateTime().getSecond());
     }
 
     @Test
     public void toModelType_invalidStartTime_throwsIllegalValueException() {
         JsonAdaptedWorkDuration duration =
                 new JsonAdaptedWorkDuration(INVALID_TIME, VALID_TIME);
-        String expectedMessage = Time.MESSAGE_CONSTRAINTS;
+        String expectedMessage = DateTime.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, duration::toModelType);
     }
 
     @Test
     public void toModelType_nullStartTime_throwsIllegalValueException() {
         JsonAdaptedWorkDuration duration = new JsonAdaptedWorkDuration(null, VALID_TIME);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Time.class.getSimpleName());
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, DateTime.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, duration::toModelType);
     }
 
@@ -50,7 +50,7 @@ public class JsonAdaptedWorkDurationTest {
     public void toModelType_invalidStopTime_throwsIllegalValueException() {
         JsonAdaptedWorkDuration duration =
                 new JsonAdaptedWorkDuration(VALID_TIME, INVALID_TIME);
-        String expectedMessage = Time.MESSAGE_CONSTRAINTS;
+        String expectedMessage = DateTime.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, duration::toModelType);
     }
 
@@ -58,7 +58,7 @@ public class JsonAdaptedWorkDurationTest {
     public void toModelType_nullStopTime_throwsIllegalValueException() {
         JsonAdaptedWorkDuration duration =
                 new JsonAdaptedWorkDuration(VALID_TIME, null);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Time.class.getSimpleName());
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, DateTime.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, duration::toModelType);
     }
 

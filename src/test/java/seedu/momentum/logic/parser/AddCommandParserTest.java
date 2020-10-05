@@ -33,7 +33,8 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_allFieldsPresent_success() {
-        Project expectedProject = new ProjectBuilder(BOB).withTags(VALID_TAG_FRIEND).build();
+        Project expectedProject = new ProjectBuilder(BOB).withTags(VALID_TAG_FRIEND)
+                .withCurrentCreatedDate().build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + DESCRIPTION_DESC_BOB
@@ -49,7 +50,7 @@ public class AddCommandParserTest {
 
         // multiple tags - all accepted
         Project expectedProjectMultipleTags = new ProjectBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
-                .build();
+                .withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, new AddCommand(expectedProjectMultipleTags));
     }
@@ -57,12 +58,12 @@ public class AddCommandParserTest {
     @Test
     public void parse_optionalFieldsMissing_success() {
         // no description
-        Project expectedProject = new ProjectBuilder(AMY).withDescription().build();
+        Project expectedProject = new ProjectBuilder(AMY).withDescription().withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + TAG_DESC_FRIEND,
                 new AddCommand(expectedProject));
 
         // zero tags
-        expectedProject = new ProjectBuilder(AMY).withTags().build();
+        expectedProject = new ProjectBuilder(AMY).withTags().withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + DESCRIPTION_DESC_AMY,
                 new AddCommand(expectedProject));
     }

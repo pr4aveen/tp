@@ -4,34 +4,35 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import seedu.momentum.commons.core.Clock;
+import seedu.momentum.commons.core.DateTime;
 
 /**
  * Represents a timer in momentum.
  */
 public class Timer {
-    private Time startTime;
-    private Time stopTime;
+    private DateTime startDateTime;
+    private DateTime stopDateTime;
     private boolean isRunning;
 
     /**
      * Constructs a timer with default settings.
      */
     public Timer() {
-        this.startTime = Clock.now();
-        this.stopTime = Clock.now();
+        this.startDateTime = Clock.now();
+        this.stopDateTime = Clock.now();
         this.isRunning = false;
     }
 
     /**
      * Constructs a timer with the provided data.
      *
-     * @param startTime The time when the timer was started.
-     * @param stopTime The time when the timer was stopped.
+     * @param startDateTime The dateTime when the timer was started.
+     * @param stopDateTime The dateTime when the timer was stopped.
      * @param isRunning Whether the timer is running.
      */
-    public Timer(Time startTime, Time stopTime, boolean isRunning) {
-        this.startTime = startTime;
-        this.stopTime = stopTime;
+    public Timer(DateTime startDateTime, DateTime stopDateTime, boolean isRunning) {
+        this.startDateTime = startDateTime;
+        this.stopDateTime = stopDateTime;
         this.isRunning = isRunning;
     }
 
@@ -48,28 +49,28 @@ public class Timer {
      */
     public Timer stop() {
         assert (isRunning);
-        return new Timer(startTime, Clock.now(), false);
+        return new Timer(startDateTime, Clock.now(), false);
     }
 
-    public Time getStartTime() {
-        assert (startTime != null);
-        return startTime;
+    public DateTime getStartTime() {
+        assert (startDateTime != null);
+        return startDateTime;
     }
 
-    public Time getStopTime() {
-        assert (stopTime != null);
-        return stopTime;
+    public DateTime getStopTime() {
+        assert (stopDateTime != null);
+        return stopDateTime;
     }
 
     /**
-     * Returns the length of time tracked in this timer, in (@code unit) units.
+     * Returns the length of dateTime tracked in this timer, in (@code unit) units.
      *
-     * @param unit The units for the length of time.
-     * @return The length of time in the provided units.
+     * @param unit The units for the length of dateTime.
+     * @return The length of dateTime in the provided units.
      */
     public long getTimeBetween(ChronoUnit unit) {
         assert (!isRunning);
-        return unit.between(startTime.getTime(), stopTime.getTime());
+        return unit.between(startDateTime.getDateTime(), stopDateTime.getDateTime());
     }
 
     public boolean isRunning() {
@@ -86,14 +87,14 @@ public class Timer {
         }
         Timer other = (Timer) o;
 
-        return startTime.equals(other.startTime)
-                && Objects.equals(startTime, other.startTime)
-                && Objects.equals(stopTime, other.stopTime)
+        return startDateTime.equals(other.startDateTime)
+                && Objects.equals(startDateTime, other.startDateTime)
+                && Objects.equals(stopDateTime, other.stopDateTime)
                 && Objects.equals(isRunning, other.isRunning);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(startTime, stopTime, isRunning);
+        return Objects.hash(startDateTime, stopDateTime, isRunning);
     }
 }

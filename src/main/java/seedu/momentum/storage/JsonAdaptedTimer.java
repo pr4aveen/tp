@@ -3,9 +3,9 @@ package seedu.momentum.storage;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import seedu.momentum.commons.core.DateTime;
 import seedu.momentum.commons.exceptions.IllegalValueException;
-import seedu.momentum.model.timer.DurationUtil;
-import seedu.momentum.model.timer.Time;
+import seedu.momentum.commons.util.DateTimeUtil;
 import seedu.momentum.model.timer.Timer;
 
 /**
@@ -35,8 +35,8 @@ class JsonAdaptedTimer {
      * Converts a given {@code WorkDuration} into this class for Jackson use.
      */
     public JsonAdaptedTimer(Timer source) {
-        startTime = source.getStartTime().getTime().format(DurationUtil.FORMAT_DATA);
-        stopTime = source.getStopTime().getTime().format(DurationUtil.FORMAT_DATA);
+        startTime = source.getStartTime().getDateTime().format(DateTimeUtil.FORMAT_DATA);
+        stopTime = source.getStopTime().getDateTime().format(DateTimeUtil.FORMAT_DATA);
         isRunning = source.isRunning();
     }
 
@@ -47,30 +47,32 @@ class JsonAdaptedTimer {
      */
     public Timer toModelType() throws IllegalValueException {
         if (startTime == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Time.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    DateTime.class.getSimpleName()));
         }
 
-        if (!Time.isValidTime(startTime)) {
-            throw new IllegalValueException(Time.MESSAGE_CONSTRAINTS);
+        if (!DateTime.isValidDateTime(startTime)) {
+            throw new IllegalValueException(DateTime.MESSAGE_CONSTRAINTS);
         }
 
-        final Time modelStartTime = new Time(startTime);
+        final DateTime modelStartDateTime = new DateTime(startTime);
 
         if (stopTime == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Time.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    DateTime.class.getSimpleName()));
         }
 
-        if (!Time.isValidTime(stopTime)) {
-            throw new IllegalValueException(Time.MESSAGE_CONSTRAINTS);
+        if (!DateTime.isValidDateTime(stopTime)) {
+            throw new IllegalValueException(DateTime.MESSAGE_CONSTRAINTS);
         }
 
-        final Time modelStopTime = new Time(stopTime);
+        final DateTime modelStopDateTime = new DateTime(stopTime);
 
         if (isRunning == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "isRunning"));
         }
 
-        return new Timer(modelStartTime, modelStopTime, isRunning);
+        return new Timer(modelStartDateTime, modelStopDateTime, isRunning);
     }
 
 }

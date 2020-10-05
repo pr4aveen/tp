@@ -2,6 +2,7 @@ package seedu.momentum.model.project;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
@@ -35,6 +36,10 @@ public class ProjectTest {
 
         // different name -> returns false
         editedAlice = new ProjectBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        assertFalse(ALICE.isSameProject(editedAlice));
+
+        // different created date -> returns false
+        editedAlice = new ProjectBuilder(ALICE).withCreatedDate(VALID_CREATED_DATE_BOB).build();
         assertFalse(ALICE.isSameProject(editedAlice));
 
         // same name, same phone, different attributes -> returns true
@@ -77,6 +82,10 @@ public class ProjectTest {
 
         // different description -> returns false
         editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_DESCRIPTION_BOB).build();
+        assertFalse(ALICE.equals(editedAlice));
+
+        // different created date -> returns false
+        editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_CREATED_DATE_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different tags -> returns false

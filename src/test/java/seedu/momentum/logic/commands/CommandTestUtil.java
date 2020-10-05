@@ -28,6 +28,8 @@ public class CommandTestUtil {
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_DESCRIPTION_AMY = "Loves coffee";
     public static final String VALID_DESCRIPTION_BOB = "Hates coffee";
+    public static final String VALID_CREATED_DATE_AMY = "2019-12-02";
+    public static final String VALID_CREATED_DATE_BOB = "2019-10-02";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
 
@@ -48,9 +50,11 @@ public class CommandTestUtil {
     public static final EditCommand.EditProjectDescriptor DESC_BOB;
 
     static {
-        DESC_AMY = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY).withDescription(VALID_DESCRIPTION_AMY)
+        DESC_AMY = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY)
+                .withDescription(VALID_DESCRIPTION_AMY)
                 .withTags(VALID_TAG_FRIEND).build();
-        DESC_BOB = new EditProjectDescriptorBuilder().withName(VALID_NAME_BOB).withDescription(VALID_DESCRIPTION_BOB)
+        DESC_BOB = new EditProjectDescriptorBuilder().withName(VALID_NAME_BOB)
+                .withDescription(VALID_DESCRIPTION_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
     }
 

@@ -78,7 +78,7 @@ public class LogicManagerTest {
 
         // Execute add command
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + DESCRIPTION_DESC_AMY;
-        Project expectedProject = new ProjectBuilder(AMY).withTags().build();
+        Project expectedProject = new ProjectBuilder(AMY).withTags().withCurrentCreatedDate().build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addProject(expectedProject);
         String expectedMessage = LogicManager.FILE_OPS_ERROR_MESSAGE + DUMMY_IO_EXCEPTION;

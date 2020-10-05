@@ -3,10 +3,12 @@
   "projects" : [ {
     "name" : "Alice Pauline",
     "description": "Likes coding",
+    "createdDate": "2019-11-05",
     "tagged" : [ "friends" ]
   }, {
     "name" : "Benson Meier",
     "description": "Likes dogs",
+    "createdDate": "2019-11-05",
     "tagged" : [ "owesMoney", "friends" ],
     "durations" : [ {
       "startTime" : "2019-01-01T00:00:00.00000",
@@ -20,22 +22,27 @@
   }, {
     "name" : "Carl Kurz",
     "description": "Likes poodles",
+    "createdDate": "2019-08-02",
     "tagged" : [ ]
   }, {
     "name" : "Daniel Meier",
     "description": "Likes cats",
+    "createdDate": "2019-05-21",
     "tagged" : [ "friends" ]
   }, {
     "name" : "Elle Meyer",
     "description": "Likes elephants",
+    "createdDate": "2019-07-21",
     "tagged" : [ ]
   }, {
     "name" : "Fiona Kunz",
     "description": "Likes starbucks",
+    "createdDate": "2019-03-21",
     "tagged" : [ ]
   }, {
     "name" : "George Best",
     "description": "Likes you",
+    "createdDate": "2019-07-28",
     "tagged" : [ ]
   } ]
 }
