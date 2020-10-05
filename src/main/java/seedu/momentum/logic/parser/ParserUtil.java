@@ -68,7 +68,7 @@ public class ParserUtil {
      * Leading and trailing whitespaces will be trimmed.
      */
     public static Deadline parseDeadline(Optional<String> date, Optional<String> time) throws ParseException {
-        if (date.isEmpty()) {
+        if (date.isEmpty() || date.get().isBlank()) {
             return new Deadline();
         }
 
@@ -77,7 +77,7 @@ public class ParserUtil {
             throw new ParseException(Date.MESSAGE_CONSTRAINTS);
         }
 
-        if (time.isEmpty()) {
+        if (time.isEmpty() || time.get().isBlank()) {
             return new Deadline(trimmedDate);
         }
 
