@@ -262,6 +262,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | -------- | ------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------- |
 | `* * *`  | new user                                    | see usage instructions               | refer to instructions when I forget how to use the App                  |
 | `* * *`  | user                                        | add a new project                    |                                                                         |
+| `* * *`  | user                                        | view the project creation date                    |                                                                         |
+| `* * *`  | user                                        | add and edit a deadline for a project                    |                                                                         |
 | `* * *`  | user                                        | delete a project                     | remove entries that I no longer need                                    |
 | `* * *`  | user                                        | find a project by name               | locate details of projects without having to go through the entire list |
 | `* *`    | user                                        | hide private contact details         | minimize chance of someone else seeing them by accident                 |
@@ -338,7 +340,6 @@ _{More to be added}_
 
 * **Command Line Interface(CLI)**: Command Line Interface processes commands in the form of text
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
-* **Private contact detail**: A contact detail that is not meant to be shared with others
 
 ---
 
