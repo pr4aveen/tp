@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import seedu.momentum.commons.util.DateUtil;
 
 public class DateTest {
+    private static final String VALID_DATE = "2019-09-23";
 
     @Test
     public void constructor_null_throwsNullPointerException() {
@@ -36,12 +37,12 @@ public class DateTest {
         assertFalse(Date.isValidDate("2019-30-23")); // not a real date
 
         // valid date time
-        assertTrue(Date.isValidDate("2019-09-23")); // typical time
+        assertTrue(Date.isValidDate(VALID_DATE)); // typical time
     }
 
     @Test
-    public void toString_formatsCorrectly() {
-        Date date = new Date("2019-09-23");
+    public void getFormattedDate_formatsCorrectly() {
+        Date date = new Date(VALID_DATE);
         assertEquals(date.getDate().format(DateUtil.FORMAT_DATE_MEDIUM), date.getFormattedDate());
     }
 }

@@ -26,6 +26,14 @@ public class JsonSerializableProjectBookTest {
                 JsonSerializableProjectBook.class).get();
         ProjectBook projectBookFromFile = dataFromFile.toModelType();
         ProjectBook typicalProjectsProjectBook = TypicalProjects.getTypicalProjectBook();
+        for (int i = 0; i < 7; i++) {
+            boolean b = projectBookFromFile.getProjectList().get(i)
+                    .equals(typicalProjectsProjectBook.getProjectList().get(i));
+            if (!b) {
+                System.out.println(projectBookFromFile.getProjectList().get(i) + "\n");
+                System.out.println(typicalProjectsProjectBook.getProjectList().get(i) + "\n");
+            }
+        }
         assertEquals(projectBookFromFile, typicalProjectsProjectBook);
     }
 

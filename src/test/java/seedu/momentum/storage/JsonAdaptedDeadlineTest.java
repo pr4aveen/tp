@@ -1,0 +1,45 @@
+package seedu.momentum.storage;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.momentum.testutil.Assert.assertThrows;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.Time;
+import seedu.momentum.commons.exceptions.IllegalValueException;
+import seedu.momentum.model.project.Deadline;
+
+public class JsonAdaptedDeadlineTest {
+    private static final String INVALID_DATE = "2020-42-99";
+    private static final String INVALID_TIME = "65:21:02";
+    private static final String VALID_DATE = "2020-02-09";
+    private static final String VALID_TIME = "05:21:02";
+
+    @Test
+    public void toModelType_validDeadlineDetails_returnsDeadline() throws Exception {
+        JsonAdaptedDeadline deadline = new JsonAdaptedDeadline(VALID_DATE, null);
+        Deadline expectedDeadline = new Deadline(VALID_DATE);
+        assertEquals(deadline.toModelType(), expectedDeadline);
+
+        deadline = new JsonAdaptedDeadline(VALID_DATE, VALID_TIME);
+        expectedDeadline = new Deadline(VALID_DATE, VALID_TIME);
+        assertEquals(deadline.toModelType(), expectedDeadline);
+    }
+
+    @Test
+    public void toModelType_invalidDeadline_throwsIllegalValueException() {
+        JsonAdaptedDeadline deadline = new JsonAdaptedDeadline(INVALID_DATE, null);
+        String expectedMessage = Date.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, deadline::toModelType);
+
+        deadline = new JsonAdaptedDeadline(VALID_DATE, INVALID_TIME);
+        expectedMessage = Time.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, deadline::toModelType);
+
+        deadline = new JsonAdaptedDeadline(INVALID_DATE, INVALID_TIME);
+        expectedMessage = Date.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, deadline::toModelType);
+    }
+
+}

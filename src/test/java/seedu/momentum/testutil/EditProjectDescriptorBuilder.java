@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.momentum.logic.commands.EditCommand;
+import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
@@ -32,6 +33,7 @@ public class EditProjectDescriptorBuilder {
         descriptor = new EditCommand.EditProjectDescriptor();
         descriptor.setName(project.getName());
         descriptor.setDescription(project.getDescription());
+        descriptor.setDeadline(project.getDeadline());
         descriptor.setTags(project.getTags());
     }
 
@@ -48,6 +50,22 @@ public class EditProjectDescriptorBuilder {
      */
     public EditProjectDescriptorBuilder withDescription(String description) {
         descriptor.setDescription(new Description(description));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Deadline} of the {@code EditProjectDescriptor} that we are building.
+     */
+    public EditProjectDescriptorBuilder withDeadline(String date) {
+        descriptor.setDeadline(new Deadline(date));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Deadline} of the {@code EditProjectDescriptor} that we are building.
+     */
+    public EditProjectDescriptorBuilder withDeadline(String date, String time) {
+        descriptor.setDeadline(new Deadline(date, time));
         return this;
     }
 
