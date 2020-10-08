@@ -54,7 +54,7 @@ public class ProjectCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(project.getName().fullName);
         description.setText(project.getDescription().value);
-        createdDate.setText(project.getCreatedDate().getFormattedDate());
+        createdDate.setText(project.getCreatedDate().getFormatted());
         deadline.setText(project.getDeadline().getFormattedDeadline());
         project.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))

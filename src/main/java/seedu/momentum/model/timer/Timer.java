@@ -70,7 +70,7 @@ public class Timer {
      */
     public long getTimeBetween(ChronoUnit unit) {
         assert (!isRunning);
-        return unit.between(startDateTime.getDateTime(), stopDateTime.getDateTime());
+        return unit.between(startDateTime.get(), stopDateTime.get());
     }
 
     public boolean isRunning() {

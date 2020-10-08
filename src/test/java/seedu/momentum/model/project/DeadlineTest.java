@@ -49,9 +49,9 @@ public class DeadlineTest {
     @Test
     public void getFormattedDeadline_formatsCorrectly() {
         assertEquals("", emptyDeadline.getFormattedDeadline());
-        assertEquals(deadlineWithDate.getDate().getFormattedDate(), deadlineWithDate.getFormattedDeadline());
-        String expectedDeadlineStr = deadlineWithDateAndTime.getDate().getFormattedDate()
-                + " " + deadlineWithDateAndTime.getTime().getFormattedTime();
+        assertEquals(deadlineWithDate.getDate().getFormatted(), deadlineWithDate.getFormattedDeadline());
+        String expectedDeadlineStr = deadlineWithDateAndTime.getDate().getFormatted()
+                + " " + deadlineWithDateAndTime.getTime().getFormatted();
         assertEquals(expectedDeadlineStr, deadlineWithDateAndTime.getFormattedDeadline());
     }
 

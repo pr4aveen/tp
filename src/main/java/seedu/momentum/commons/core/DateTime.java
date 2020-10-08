@@ -13,9 +13,9 @@ import seedu.momentum.commons.util.DateTimeUtil;
 
 /**
  * Represents a WorkDuration's dateTime in the project book.
- * Guarantees: immutable; is valid as declared in {@link #isValidDateTime(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValid(String)}
  */
-public class DateTime {
+public class DateTime implements Instance<LocalDateTime> {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Dates and Times should be in ISO8601 format. e.g. 2020-09-23T16:55:12.83012";
@@ -29,7 +29,7 @@ public class DateTime {
      */
     public DateTime(String dateTime) {
         requireNonNull(dateTime);
-        checkArgument(isValidDateTime(dateTime), MESSAGE_CONSTRAINTS);
+        checkArgument(isValid(dateTime), MESSAGE_CONSTRAINTS);
         this.dateTime = LocalDateTime.parse(dateTime, DateTimeUtil.FORMAT_DATA);
     }
 
@@ -53,7 +53,7 @@ public class DateTime {
      *
      * @param amount Amount to decrease by.
      * @param unit   Unit to decrease with.
-     * @return The new dateTime
+     * @return The new dateTime.
      */
     public DateTime minus(long amount, ChronoUnit unit) {
         return new DateTime(dateTime.minus(amount, unit));
@@ -62,7 +62,7 @@ public class DateTime {
     /**
      * Returns true if a given string is a valid dateTime.
      */
-    public static boolean isValidDateTime(String test) {
+    public static boolean isValid(String test) {
         try {
             DateTimeUtil.FORMAT_DATA.parse(test);
         } catch (DateTimeParseException e) {
@@ -75,24 +75,30 @@ public class DateTime {
         return dateTime.toLocalDate();
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
     public LocalTime getTime() {
         return dateTime.toLocalTime();
     }
 
     @Override
-    public String toString() {
+    public LocalDateTime get() {
+        return dateTime;
+    }
+
+    @Override
+    public String getFormatted() {
         return dateTime.format(DateTimeUtil.FORMAT_DATE_TIME_MEDIUM);
+    }
+
+    @Override
+    public String toString() {
+        return this.dateTime.toString();
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof DateTime // instanceof handles nulls
-                && dateTime.equals(((DateTime) other).getDateTime())); // state check
+                && dateTime.equals(((DateTime) other).get())); // state check
     }
 
     @Override

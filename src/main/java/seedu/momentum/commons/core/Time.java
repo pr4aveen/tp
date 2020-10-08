@@ -10,9 +10,9 @@ import seedu.momentum.commons.util.TimeUtil;
 
 /**
  * Represents a time in the project book.
- * Guarantees: immutable; is valid as declared in {@link #isValidTime(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValid(String)}
  */
-public class Time {
+public class Time implements Instance<LocalTime> {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Times should be in ISO8601 format. e.g. 10:15:30";
@@ -26,7 +26,7 @@ public class Time {
      */
     public Time(String time) {
         requireNonNull(time);
-        checkArgument(isValidTime(time), MESSAGE_CONSTRAINTS);
+        checkArgument(isValid(time), MESSAGE_CONSTRAINTS);
         this.time = LocalTime.parse(time, TimeUtil.FORMAT_DATA);
     }
 
@@ -37,7 +37,7 @@ public class Time {
     /**
      * Returns true if a given string is a valid time.
      */
-    public static boolean isValidTime(String test) {
+    public static boolean isValid(String test) {
         try {
             TimeUtil.FORMAT_DATA.parse(test);
         } catch (DateTimeParseException e) {
@@ -46,11 +46,13 @@ public class Time {
         return true;
     }
 
-    public LocalTime getTime() {
+    @Override
+    public LocalTime get() {
         return this.time;
     }
 
-    public String getFormattedTime() {
+    @Override
+    public String getFormatted() {
         return this.time.format(TimeUtil.FORMAT_TIME_MEDIUM);
     }
 
@@ -63,7 +65,7 @@ public class Time {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Time // instanceof handles nulls
-                && this.time.equals(((Time) other).getTime())); // state check
+                && this.time.equals(((Time) other).get())); // state check
     }
 
     @Override

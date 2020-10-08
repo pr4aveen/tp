@@ -97,7 +97,7 @@ class JsonAdaptedProject {
 
         final Description modelDescription = new Description(description);
 
-        if (!Date.isValidDate(createdDate)) {
+        if (!Date.isValid(createdDate)) {
             throw new IllegalValueException(Date.MESSAGE_CONSTRAINTS);
         }
         final Date modelCreatedDate = new Date(createdDate);

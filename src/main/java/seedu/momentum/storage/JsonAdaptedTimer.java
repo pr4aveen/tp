@@ -35,8 +35,8 @@ class JsonAdaptedTimer {
      * Converts a given {@code WorkDuration} into this class for Jackson use.
      */
     public JsonAdaptedTimer(Timer source) {
-        startTime = source.getStartTime().getDateTime().format(DateTimeUtil.FORMAT_DATA);
-        stopTime = source.getStopTime().getDateTime().format(DateTimeUtil.FORMAT_DATA);
+        startTime = source.getStartTime().get().format(DateTimeUtil.FORMAT_DATA);
+        stopTime = source.getStopTime().get().format(DateTimeUtil.FORMAT_DATA);
         isRunning = source.isRunning();
     }
 
@@ -51,7 +51,7 @@ class JsonAdaptedTimer {
                     DateTime.class.getSimpleName()));
         }
 
-        if (!DateTime.isValidDateTime(startTime)) {
+        if (!DateTime.isValid(startTime)) {
             throw new IllegalValueException(DateTime.MESSAGE_CONSTRAINTS);
         }
 
@@ -62,7 +62,7 @@ class JsonAdaptedTimer {
                     DateTime.class.getSimpleName()));
         }
 
-        if (!DateTime.isValidDateTime(stopTime)) {
+        if (!DateTime.isValid(stopTime)) {
             throw new IllegalValueException(DateTime.MESSAGE_CONSTRAINTS);
         }
 

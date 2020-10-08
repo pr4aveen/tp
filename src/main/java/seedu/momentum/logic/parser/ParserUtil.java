@@ -73,7 +73,7 @@ public class ParserUtil {
         }
 
         String trimmedDate = date.get().trim();
-        if (!Date.isValidDate(trimmedDate)) {
+        if (!Date.isValid(trimmedDate)) {
             throw new ParseException(Date.MESSAGE_CONSTRAINTS);
         }
 
@@ -82,7 +82,7 @@ public class ParserUtil {
         }
 
         String trimmedTime = time.get().trim();
-        if (!Time.isValidTime(trimmedTime)) {
+        if (!Time.isValid(trimmedTime)) {
             throw new ParseException(Time.MESSAGE_CONSTRAINTS);
         }
 

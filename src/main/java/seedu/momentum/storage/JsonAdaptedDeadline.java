@@ -51,14 +51,14 @@ class JsonAdaptedDeadline {
         if (this.date == null) {
             return new Deadline();
         }
-        if (!Date.isValidDate(date)) {
+        if (!Date.isValid(date)) {
             throw new IllegalValueException(Date.MESSAGE_CONSTRAINTS);
         }
 
         if (this.time == null) {
             return new Deadline(date);
         }
-        if (!Time.isValidTime(time)) {
+        if (!Time.isValid(time)) {
             throw new IllegalValueException(Time.MESSAGE_CONSTRAINTS);
         }
 

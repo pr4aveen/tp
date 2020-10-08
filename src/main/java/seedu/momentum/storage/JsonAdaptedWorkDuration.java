@@ -33,8 +33,8 @@ class JsonAdaptedWorkDuration {
      * Converts a given {@code WorkDuration} into this class for Jackson use.
      */
     public JsonAdaptedWorkDuration(WorkDuration source) {
-        startTime = source.getStartTime().getDateTime().format(DateTimeUtil.FORMAT_DATA);
-        stopTime = source.getStopTime().getDateTime().format(DateTimeUtil.FORMAT_DATA);
+        startTime = source.getStartTime().get().format(DateTimeUtil.FORMAT_DATA);
+        stopTime = source.getStopTime().get().format(DateTimeUtil.FORMAT_DATA);
     }
 
     /**
@@ -48,7 +48,7 @@ class JsonAdaptedWorkDuration {
                     DateTime.class.getSimpleName()));
         }
 
-        if (!DateTime.isValidDateTime(startTime)) {
+        if (!DateTime.isValid(startTime)) {
             throw new IllegalValueException(DateTime.MESSAGE_CONSTRAINTS);
         }
 
@@ -59,7 +59,7 @@ class JsonAdaptedWorkDuration {
                     DateTime.class.getSimpleName()));
         }
 
-        if (!DateTime.isValidDateTime(stopTime)) {
+        if (!DateTime.isValid(stopTime)) {
             throw new IllegalValueException(DateTime.MESSAGE_CONSTRAINTS);
         }
 

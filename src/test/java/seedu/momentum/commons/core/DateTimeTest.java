@@ -25,23 +25,23 @@ public class DateTimeTest {
     @Test
     public void isValidDateTime() {
         // null time
-        assertThrows(NullPointerException.class, () -> DateTime.isValidDateTime(null));
+        assertThrows(NullPointerException.class, () -> DateTime.isValid(null));
 
         // invalid time
-        assertFalse(DateTime.isValidDateTime("")); // empty string
-        assertFalse(DateTime.isValidDateTime(" ")); // spaces only
-        assertFalse(DateTime.isValidDateTime("^")); // only non-alphanumeric characters
-        assertFalse(DateTime.isValidDateTime("peter*")); // contains non-alphanumeric characters
-        assertFalse(DateTime.isValidDateTime("12/02/12*")); // wrong format
-        assertFalse(DateTime.isValidDateTime("2020-30-23T16:55:12.83012")); // not a real date
+        assertFalse(DateTime.isValid("")); // empty string
+        assertFalse(DateTime.isValid(" ")); // spaces only
+        assertFalse(DateTime.isValid("^")); // only non-alphanumeric characters
+        assertFalse(DateTime.isValid("peter*")); // contains non-alphanumeric characters
+        assertFalse(DateTime.isValid("12/02/12*")); // wrong format
+        assertFalse(DateTime.isValid("2020-30-23T16:55:12.83012")); // not a real date
 
         // valid time
-        assertTrue(DateTime.isValidDateTime("2020-09-23T16:55:12.83012")); // typical date time
+        assertTrue(DateTime.isValid("2020-09-23T16:55:12.83012")); // typical date time
     }
 
     @Test
     public void toString_formatsCorrectly() {
         DateTime dateTime = new DateTime("2020-09-23T16:55:12.83012");
-        assertEquals(dateTime.getDateTime().format(DateTimeUtil.FORMAT_DATE_TIME_MEDIUM), dateTime.toString());
+        assertEquals(dateTime.get().format(DateTimeUtil.FORMAT_DATE_TIME_MEDIUM), dateTime.getFormatted());
     }
 }

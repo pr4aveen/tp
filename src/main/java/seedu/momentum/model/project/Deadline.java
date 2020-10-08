@@ -35,7 +35,7 @@ public class Deadline {
      */
     public Deadline(String date) {
         requireNonNull(date);
-        checkArgument(Date.isValidDate(date), Date.MESSAGE_CONSTRAINTS);
+        checkArgument(Date.isValid(date), Date.MESSAGE_CONSTRAINTS);
         this.date = Optional.of(new Date(date));
         this.time = Optional.empty();
     }
@@ -48,8 +48,8 @@ public class Deadline {
      */
     public Deadline(String date, String time) {
         requireNonNull(date, time);
-        checkArgument(Date.isValidDate(date), Date.MESSAGE_CONSTRAINTS);
-        checkArgument(Time.isValidTime(time), Time.MESSAGE_CONSTRAINTS);
+        checkArgument(Date.isValid(date), Date.MESSAGE_CONSTRAINTS);
+        checkArgument(Time.isValid(time), Time.MESSAGE_CONSTRAINTS);
         this.date = Optional.of(new Date(date));
         this.time = Optional.of(new Time(time));
     }
@@ -71,8 +71,8 @@ public class Deadline {
     }
 
     public String getFormattedDeadline() {
-        return this.date.map(Date::getFormattedDate).orElse("")
-                + this.time.map(time -> " " + time.getFormattedTime()).orElse("");
+        return this.date.map(Date::getFormatted).orElse("")
+                + this.time.map(time -> " " + time.getFormatted()).orElse("");
     }
 
     @Override

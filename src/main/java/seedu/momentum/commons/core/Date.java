@@ -10,9 +10,9 @@ import seedu.momentum.commons.util.DateUtil;
 
 /**
  * Represents a date in the project book.
- * Guarantees: immutable; is valid as declared in {@link #isValidDate(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValid(String)}
  */
-public class Date {
+public class Date implements Instance<LocalDate> {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Dates should be in ISO8601 format. e.g. 2011-12-03";
@@ -26,7 +26,7 @@ public class Date {
      */
     public Date(String date) {
         requireNonNull(date);
-        checkArgument(isValidDate(date), MESSAGE_CONSTRAINTS);
+        checkArgument(isValid(date), MESSAGE_CONSTRAINTS);
         this.date = LocalDate.parse(date, DateUtil.FORMAT_DATA);
     }
 
@@ -37,7 +37,7 @@ public class Date {
     /**
      * Returns true if a given string is a valid date.
      */
-    public static boolean isValidDate(String test) {
+    public static boolean isValid(String test) {
         try {
             DateUtil.FORMAT_DATA.parse(test);
         } catch (DateTimeParseException e) {
@@ -46,11 +46,13 @@ public class Date {
         return true;
     }
 
-    public LocalDate getDate() {
+    @Override
+    public LocalDate get() {
         return this.date;
     }
 
-    public String getFormattedDate() {
+    @Override
+    public String getFormatted() {
         return this.date.format(DateUtil.FORMAT_DATE_MEDIUM);
     }
 
@@ -63,7 +65,7 @@ public class Date {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Date // instanceof handles nulls
-                && this.date.equals(((Date) other).getDate())); // state check
+                && this.date.equals(((Date) other).get())); // state check
     }
 
     @Override

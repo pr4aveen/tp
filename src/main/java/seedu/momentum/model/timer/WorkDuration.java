@@ -39,7 +39,7 @@ public class WorkDuration {
      * @return The length of dateTime in the provided units.
      */
     public long getTimeBetween(ChronoUnit unit) {
-        return unit.between(startDateTime.getDateTime(), stopDateTime.getDateTime());
+        return unit.between(startDateTime.get(), stopDateTime.get());
     }
 
     /**

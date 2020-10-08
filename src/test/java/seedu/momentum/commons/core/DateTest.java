@@ -26,23 +26,23 @@ public class DateTest {
     @Test
     public void isValidDate() {
         // null date time
-        assertThrows(NullPointerException.class, () -> Date.isValidDate(null));
+        assertThrows(NullPointerException.class, () -> Date.isValid(null));
 
         // invalid date time
-        assertFalse(Date.isValidDate("")); // empty string
-        assertFalse(Date.isValidDate(" ")); // spaces only
-        assertFalse(Date.isValidDate("^")); // only non-alphanumeric characters
-        assertFalse(Date.isValidDate("peter*")); // contains non-alphanumeric characters
-        assertFalse(Date.isValidDate("12/02/12*")); // wrong format
-        assertFalse(Date.isValidDate("2019-30-23")); // not a real date
+        assertFalse(Date.isValid("")); // empty string
+        assertFalse(Date.isValid(" ")); // spaces only
+        assertFalse(Date.isValid("^")); // only non-alphanumeric characters
+        assertFalse(Date.isValid("peter*")); // contains non-alphanumeric characters
+        assertFalse(Date.isValid("12/02/12*")); // wrong format
+        assertFalse(Date.isValid("2019-30-23")); // not a real date
 
         // valid date time
-        assertTrue(Date.isValidDate(VALID_DATE)); // typical time
+        assertTrue(Date.isValid(VALID_DATE)); // typical time
     }
 
     @Test
     public void getFormattedDate_formatsCorrectly() {
         Date date = new Date(VALID_DATE);
-        assertEquals(date.getDate().format(DateUtil.FORMAT_DATE_MEDIUM), date.getFormattedDate());
+        assertEquals(date.get().format(DateUtil.FORMAT_DATE_MEDIUM), date.getFormatted());
     }
 }

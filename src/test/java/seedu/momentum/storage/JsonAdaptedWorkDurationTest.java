@@ -25,10 +25,10 @@ public class JsonAdaptedWorkDurationTest {
     public void toModelType_validDurationDetails_returnsDuration() throws Exception {
         JsonAdaptedWorkDuration duration = new JsonAdaptedWorkDuration(TypicalWorkDuration.DURATION_ONE_DAY);
 
-        assertEquals(TypicalWorkDuration.DURATION_ONE_DAY.getStartTime().getDateTime().getSecond(),
-                duration.toModelType().getStartTime().getDateTime().getSecond());
-        assertEquals(TypicalWorkDuration.DURATION_ONE_DAY.getStopTime().getDateTime().getSecond(),
-                duration.toModelType().getStopTime().getDateTime().getSecond());
+        assertEquals(TypicalWorkDuration.DURATION_ONE_DAY.getStartTime().get().getSecond(),
+                duration.toModelType().getStartTime().get().getSecond());
+        assertEquals(TypicalWorkDuration.DURATION_ONE_DAY.getStopTime().get().getSecond(),
+                duration.toModelType().getStopTime().get().getSecond());
     }
 
     @Test
