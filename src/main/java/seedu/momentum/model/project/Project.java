@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import javafx.collections.ObservableList;
+import seedu.momentum.commons.core.Date;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.Timer;
 import seedu.momentum.model.timer.UniqueDurationList;
@@ -24,6 +25,8 @@ public class Project {
 
     // data fields
     private final Description description;
+    private final Date createdDate;
+    private final Deadline deadline;
     private final Set<Tag> tags = new HashSet<>();
     private final Timer timer;
     private final UniqueDurationList durations;
@@ -33,14 +36,19 @@ public class Project {
      *
      * @param name A valid name.
      * @param description A description of the project.
+     * @param createdDate A date associated with the creation of the project.
+     * @param deadline A deadline associated with the project.
      * @param tags A set of tags associated to the project.
      * @param durations A list of {@code WorkDuration} associated with the project.
      * @param timer A timer associated with the project.
      */
-    public Project(Name name, Description description, Set<Tag> tags, UniqueDurationList durations, Timer timer) {
+    public Project(Name name, Description description, Date createdDate, Deadline deadline, Set<Tag> tags,
+                   UniqueDurationList durations, Timer timer) {
         requireAllNonNull(name, tags);
         this.name = name;
         this.description = description;
+        this.createdDate = createdDate;
+        this.deadline = deadline;
         this.tags.addAll(tags);
         this.durations = durations;
         this.timer = timer;
@@ -50,13 +58,17 @@ public class Project {
      * Constructs a new {@code Project}
      *
      * @param name A valid name.
+     * @param createdDate A date associated with the creation of the project
+     * @param deadline A deadline associated with the project.
      * @param description A description of the project.
      * @param tags A set of tags associated to the project.
      */
-    public Project(Name name, Description description, Set<Tag> tags) {
+    public Project(Name name, Description description, Date createdDate, Deadline deadline, Set<Tag> tags) {
         requireAllNonNull(name, tags);
         this.name = name;
         this.description = description;
+        this.createdDate = createdDate;
+        this.deadline = deadline;
         this.tags.addAll(tags);
         this.durations = new UniqueDurationList();
         this.timer = new Timer();
@@ -68,6 +80,14 @@ public class Project {
 
     public Description getDescription() {
         return description;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public Deadline getDeadline() {
+        return deadline;
     }
 
     /**
@@ -92,7 +112,7 @@ public class Project {
      */
     public Project startTimer() {
         Timer newTimer = timer.start();
-        return new Project(name, description, tags, durations, newTimer);
+        return new Project(name, description, createdDate, deadline, tags, durations, newTimer);
     }
 
     /**
@@ -107,7 +127,7 @@ public class Project {
         UniqueDurationList newDurations = new UniqueDurationList();
         newDurations.setDurations(durations);
         newDurations.add(duration);
-        return new Project(name, description, tags, newDurations, newTimer);
+        return new Project(name, description, createdDate, deadline, tags, newDurations, newTimer);
     }
 
     public Timer getTimer() {
@@ -131,7 +151,10 @@ public class Project {
         }
 
         return otherProject != null
-                && otherProject.getName().equals(getName()) && otherProject.getDescription().equals(getDescription());
+                && otherProject.getName().equals(getName())
+                && otherProject.getDescription().equals(getDescription())
+                && otherProject.getCreatedDate().equals(getCreatedDate())
+                && otherProject.getDeadline().equals(getDeadline());
     }
 
     /**
@@ -152,13 +175,15 @@ public class Project {
         return otherProject.getName().equals(getName())
                 && otherProject.getTags().equals(getTags())
                 && otherProject.durations.equals(durations)
-                && otherProject.getDescription().equals(getDescription());
+                && otherProject.getDescription().equals(getDescription())
+                && otherProject.getCreatedDate().equals(getCreatedDate())
+                && otherProject.getDeadline().equals(getDeadline());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, description, tags, durations, timer);
+        return Objects.hash(name, description, createdDate, deadline, tags, durations, timer);
     }
 
     @Override
@@ -167,6 +192,10 @@ public class Project {
         builder.append(getName())
                 .append(" Description: ")
                 .append(getDescription())
+                .append(" Created Date: ")
+                .append(getCreatedDate())
+                .append(" Deadline: ")
+                .append(getDeadline())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();

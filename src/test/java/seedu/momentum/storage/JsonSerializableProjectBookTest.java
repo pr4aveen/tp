@@ -17,7 +17,6 @@ public class JsonSerializableProjectBookTest {
 
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonSerializableProjectBookTest");
     private static final Path TYPICAL_PROJECT_FILE = TEST_DATA_FOLDER.resolve("typicalProjectsProjectBook.json");
-    private static final Path INVALID_PROJECT_FILE = TEST_DATA_FOLDER.resolve("invalidProjectProjectBook.json");
     private static final Path DUPLICATE_PROJECT_FILE = TEST_DATA_FOLDER.resolve("duplicateProjectProjectBook.json");
 
     @Test

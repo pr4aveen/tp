@@ -4,11 +4,15 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
+import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.Time;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.StringUtil;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.tag.Tag;
@@ -23,6 +27,7 @@ public class ParserUtil {
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
+     *
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
@@ -54,8 +59,34 @@ public class ParserUtil {
      */
     public static Description parseDescription(String description) {
         requireNonNull(description);
-        String trimmedAddress = description.trim();
-        return new Description(trimmedAddress);
+        String trimmedDescription = description.trim();
+        return new Description(trimmedDescription);
+    }
+
+    /**
+     * Parses {@code Optional<String> date} and {@code Optional<String> time}into a {@code Deadline}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static Deadline parseDeadline(Optional<String> date, Optional<String> time) throws ParseException {
+        if (date.isEmpty() || date.get().isBlank()) {
+            return new Deadline();
+        }
+
+        String trimmedDate = date.get().trim();
+        if (!Date.isValid(trimmedDate)) {
+            throw new ParseException(Date.MESSAGE_CONSTRAINTS);
+        }
+
+        if (time.isEmpty() || time.get().isBlank()) {
+            return new Deadline(trimmedDate);
+        }
+
+        String trimmedTime = time.get().trim();
+        if (!Time.isValid(trimmedTime)) {
+            throw new ParseException(Time.MESSAGE_CONSTRAINTS);
+        }
+
+        return new Deadline(trimmedDate, trimmedTime);
     }
 
     /**

@@ -9,21 +9,27 @@ import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.tag.Tag;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_DATE = "2021-42-12";
+    private static final String INVALID_TIME = "42:12:12";
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_DESCRIPTION = "Loves to eat";
+    private static final String VALID_DATE = "2021-12-12";
+    private static final String VALID_TIME = "12:12:12";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
 
@@ -73,18 +79,46 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseDeadline_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseDeadline(
+                Optional.of(INVALID_DATE), Optional.empty()));
+        assertThrows(ParseException.class, () -> ParserUtil.parseDeadline(
+                Optional.of(INVALID_DATE), Optional.of(INVALID_TIME)));
+    }
+
+    @Test
+    public void parseDeadline_validValueWithoutWhitespace_returnsDeadline() throws Exception {
+        Deadline expectedDeadline = new Deadline(VALID_DATE);
+        assertEquals(expectedDeadline,
+                ParserUtil.parseDeadline(Optional.of(VALID_DATE), Optional.empty()));
+
+        expectedDeadline = new Deadline(VALID_DATE, VALID_TIME);
+        assertEquals(expectedDeadline,
+                ParserUtil.parseDeadline(Optional.of(VALID_DATE), Optional.of(VALID_TIME)));
+    }
+
+    @Test
+    public void parseDeadline_validValueWithWhitespace_returnsTrimmedDeadline() throws Exception {
+        String dateWithWhitespace = WHITESPACE + VALID_DATE + WHITESPACE;
+        String timeWithWhitespace = WHITESPACE + VALID_TIME + WHITESPACE;
+        Deadline expectedDeadline = new Deadline(VALID_DATE, VALID_TIME);
+        assertEquals(expectedDeadline,
+                ParserUtil.parseDeadline(Optional.of(dateWithWhitespace), Optional.of(timeWithWhitespace)));
+    }
+
+    @Test
     public void parseDescription_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> ParserUtil.parseDescription((String) null));
     }
 
     @Test
-    public void parseDescription_validValueWithoutWhitespace_returnsDescription() throws Exception {
+    public void parseDescription_validValueWithoutWhitespace_returnsDescription() {
         Description expectedDescription = new Description(VALID_DESCRIPTION);
         assertEquals(expectedDescription, ParserUtil.parseDescription(VALID_DESCRIPTION));
     }
 
     @Test
-    public void parseDescription_validValueWithWhitespace_returnsTrimmedDescription() throws Exception {
+    public void parseDescription_validValueWithWhitespace_returnsTrimmedDescription() {
         String descriptionWithWhitespace = WHITESPACE + VALID_DESCRIPTION + WHITESPACE;
         Description expectedDescription = new Description(VALID_DESCRIPTION);
         assertEquals(expectedDescription, ParserUtil.parseDescription(descriptionWithWhitespace));
@@ -131,7 +165,7 @@ public class ParserUtilTest {
     @Test
     public void parseTags_collectionWithValidTags_returnsTagSet() throws Exception {
         Set<Tag> actualTagSet = ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
-        Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
+        Set<Tag> expectedTagSet = new HashSet<>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
     }

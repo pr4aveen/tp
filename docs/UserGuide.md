@@ -68,47 +68,42 @@ Format: `help` -->
 
 Create a project to be tracked by the application.
 
-Format: `project n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]`
-
-_deadline field is coming soon_
+Format: `project n/NAME [d/DESCRIPTION] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [t/TAG]`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A project can have any number of tags (including 0)
 </div>
 
-Example: `project n/Momentum d/CS2103T Team Project dl/2020-12-07 t/impt`
-
-Result: Creates a project named “Momentum” with a description “CS2103T Team Project”, a tag "impt" and deadline 2020-10-07.
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+A deadline of a project can include time
+</div>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A project can have an empty description
 </div>
 
-Example: `project n/Momentum dl/2020-12-07 t/impt` 
-Example: `project n/Momentum d/ dl/2020-12-07 t/impt`
+Example: `project n/Momentum d/CS2103T Team Project dd/2020-12-07 dt/11:01:12 t/impt`
 
-Result: Creates a project named “Momentum” with a tag "impt" and deadline 2020-10-07.
+Result: Creates a project named “Momentum” with a description “CS2103T Team Project”, a tag "impt" and deadline "2020-10-07" with time "11:01:12".
 
 ### Editing a Project: `edit`
 
 Edit a project that has been previously created.
 
-Format: `edit PROJECT_ID [n/NAME] [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]`
-
-_deadline field is coming soon_
+Format: `edit PROJECT_ID [n/NAME] [d/DESCRIPTION] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [t/TAG]`
 
 * Edits the project at the specified `PROJECT_ID`.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* Removing a description or deadline by typing `d/` or `dl/` without specifying anything after it.
+* Removing a description or deadline by typing `d/` or `dd/` without specifying anything after it.
 * When editing tags, the existing tags of the project will be removed i.e adding of tags is not cumulative.
 * You can remove all the project’s tags by typing `t/` without specifying any tags after it.
 
-Example: `project 3 n/NewMomentum d/NewDescription dl\2020-12-07 t\normal`
+Example: `project 3 n/NewMomentum d/NewDescription dd/2020-12-07 t/normal`
 
-Result: Updates the project with id 3. The name will be changed to “NewMomentum”, the description will be changed to “NewDescription”, all the tags will be removed and a tag named normal is added, and the deadline will be changed to 2020-12-07.
+Result: Updates the project with id 3. The name will be changed to “NewMomentum”, the description will be changed to “NewDescription”, all the tags will be removed and a tag named normal is added, and the deadline will be changed to "2020-12-07".
 
 ### Deleting a Project: `delete`
 
@@ -134,13 +129,13 @@ Format: `list`
 
 #### View a Project (_coming soon_)
 
-Format: `\p PROJECT_ID`
+Format: `/p PROJECT_ID`
 
 * View the project at the specified `PROJECT_ID`.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
-Example: `\p 2`
+Example: `/p 2`
 
 Result: Navigates to the project page of the second project in the list.
 
@@ -148,13 +143,13 @@ Result: Navigates to the project page of the second project in the list.
 
 Go to home page.
 
-Format: `\home`
+Format: `/home`
 
 #### View Settings (_coming soon_)
 
 Go to settings page.
 
-Format: `\settings`
+Format: `/settings`
 
 #### Filtering Projects: `find` (_coming soon_)
 
@@ -162,27 +157,27 @@ Finds projects.
 
 #### Starting a Timer for a Project: `start`
 
-Format: `\start PROJECT_ID`
+Format: `/start PROJECT_ID`
 
 * Starts a timer for the project at the specified `PROJECT_ID`.
 * Only 1 timer can be running for a project at any time.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
-Example: `\start 2`
+Example: `/start 2`
 
 Result: Starts a timer for the second project in the list.
 
 #### Stopping a Timer for a Project: `stop`
 
-Format: `\stop PROJECT_ID`
+Format: `/stop PROJECT_ID`
 
 * Stops a running timer for the project at the specified `PROJECT_ID`.
 * A timer can only be stopped if there is one already running.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
-Example: `\stop 2`
+Example: `/stop 2`
 
 Result: Stops the timer for the second project in the list.
 
@@ -206,10 +201,10 @@ Result: Exits the program.
 
 Action | Format, Examples
 --------|------------------
-**Create** | `project n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]​` <br> e.g., `project n/Momentum d/CS2103T Team Project dl/2020-12-07 t/impt`
-**Edit** | `edit PROJECT_ID n/NAME [d/DESCRIPTION] [dl/DEADLINE] [t/TAG]` <br> e.g., `project 3 n/NewMomentum d/NewDescription dl\2020-12-07 t\normal`
+**Create** | `project n/NAME [d/DESCRIPTION] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [t/TAG]​` <br> e.g., `project n/Momentum d/CS2103T Team Project dd/2020-12-07 t/impt`
+**Edit** | `edit PROJECT_ID n/NAME [d/DESCRIPTION] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [t/TAG]` <br> e.g., `project 3 n/NewMomentum d/NewDescription dl/2020-12-07 t/normal`
 **Delete** | `delete PROJECT_ID` <br> e.g., `delete 3`
-**Navigation** (_coming soon_) | `list` <br> `/project PROJECT_ID` <br> e.g., `\p 2` <br> `/settings`  
+**Navigation** (_coming soon_) | `list` <br> `/project PROJECT_ID` <br> e.g., `/p 2` <br> `/settings`  
 **Start Timer** | `start PROJECT_ID` <br> e.g., `start 2`
 **Stop Timer** | `stop PROJECT_ID` <br> e.g., `stop 2`
 **Exit** | `/exit`

@@ -39,8 +39,8 @@ public class DurationCard extends UiPart<Region> {
         super(FXML);
         this.duration = duration;
         id.setText(displayedIndex + ". ");
-        startTime.setText("Start: " + duration.getStartTime().toString());
-        stopTime.setText("Stop: " + duration.getStopTime().toString());
+        startTime.setText("Start: " + duration.getStartTime().getFormatted());
+        stopTime.setText("Stop: " + duration.getStopTime().getFormatted());
     }
 
     @Override

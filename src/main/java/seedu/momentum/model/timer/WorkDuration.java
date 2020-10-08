@@ -3,45 +3,47 @@ package seedu.momentum.model.timer;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+import seedu.momentum.commons.core.DateTime;
+
 /**
- * Represents a duration of time spent working on a project.
+ * Represents a duration of dateTime spent working on a project.
  * Guarantees: immutable.
  */
 public class WorkDuration {
-    private final Time startTime;
-    private final Time stopTime;
+    private final DateTime startDateTime;
+    private final DateTime stopDateTime;
 
     /**
      * Constructs a {@code WorkDuration}.
      *
-     * @param startTime A valid start time.
-     * @param stopTime A valid stop time.
+     * @param startDateTime A valid start dateTime.
+     * @param stopDateTime A valid stop dateTime.
      */
-    public WorkDuration(Time startTime, Time stopTime) {
-        this.startTime = startTime;
-        this.stopTime = stopTime;
+    public WorkDuration(DateTime startDateTime, DateTime stopDateTime) {
+        this.startDateTime = startDateTime;
+        this.stopDateTime = stopDateTime;
     }
 
-    public Time getStartTime() {
-        return startTime;
+    public DateTime getStartTime() {
+        return startDateTime;
     }
 
-    public Time getStopTime() {
-        return stopTime;
+    public DateTime getStopTime() {
+        return stopDateTime;
     }
 
     /**
-     * Returns the length of time tracked in this duration, in (@code unit) units.
+     * Returns the length of dateTime tracked in this duration, in (@code unit) units.
      *
-     * @param unit The units for the length of time.
-     * @return The length of time in the provided units.
+     * @param unit The units for the length of dateTime.
+     * @return The length of dateTime in the provided units.
      */
     public long getTimeBetween(ChronoUnit unit) {
-        return unit.between(startTime.getTime(), stopTime.getTime());
+        return unit.between(startDateTime.get(), stopDateTime.get());
     }
 
     /**
-     * Returns true if both durations have the same start and stop time.
+     * Returns true if both durations have the same start and stop dateTime.
      */
     public boolean isSameDuration(WorkDuration otherDuration) {
         if (otherDuration == this) {
@@ -62,6 +64,6 @@ public class WorkDuration {
 
     @Override
     public int hashCode() {
-        return Objects.hash(startTime, stopTime);
+        return Objects.hash(startDateTime, stopDateTime);
     }
 }
