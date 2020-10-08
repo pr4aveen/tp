@@ -17,7 +17,6 @@ public class JsonSerializableProjectBookTest {
 
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonSerializableProjectBookTest");
     private static final Path TYPICAL_PROJECT_FILE = TEST_DATA_FOLDER.resolve("typicalProjectsProjectBook.json");
-    private static final Path INVALID_PROJECT_FILE = TEST_DATA_FOLDER.resolve("invalidProjectProjectBook.json");
     private static final Path DUPLICATE_PROJECT_FILE = TEST_DATA_FOLDER.resolve("duplicateProjectProjectBook.json");
 
     @Test
@@ -26,14 +25,6 @@ public class JsonSerializableProjectBookTest {
                 JsonSerializableProjectBook.class).get();
         ProjectBook projectBookFromFile = dataFromFile.toModelType();
         ProjectBook typicalProjectsProjectBook = TypicalProjects.getTypicalProjectBook();
-        for (int i = 0; i < 7; i++) {
-            boolean b = projectBookFromFile.getProjectList().get(i)
-                    .equals(typicalProjectsProjectBook.getProjectList().get(i));
-            if (!b) {
-                System.out.println(projectBookFromFile.getProjectList().get(i) + "\n");
-                System.out.println(typicalProjectsProjectBook.getProjectList().get(i) + "\n");
-            }
-        }
         assertEquals(projectBookFromFile, typicalProjectsProjectBook);
     }
 
