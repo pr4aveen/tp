@@ -15,8 +15,10 @@ import java.util.function.Predicate;
 
 import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.project.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.NameContainsKeywordsPredicate;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TagListContainsKeywordsPredicate;
 
 /**
  * Parses input arguments and creates a new FindCommand object
@@ -34,7 +36,7 @@ public class FindCommandParser implements Parser<FindCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_TAG, FILTER_TYPE);
 
         List<Predicate<Project>> predicateList = new ArrayList<>();
-        boolean isAllMatch = true;
+        boolean isAllMatch = false;
 
         if (argMultimap.getValue(FILTER_TYPE).isPresent()) {
             String filterType = argMultimap.getValue(FILTER_TYPE).get();
@@ -65,6 +67,34 @@ public class FindCommandParser implements Parser<FindCommand> {
             NameContainsKeywordsPredicate namePredicate =
                     new NameContainsKeywordsPredicate(isAllMatch, Arrays.asList(nameKeywords));
             predicateList.add(namePredicate);
+        }
+
+        if (argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
+            String descriptionArgs = argMultimap.getValue(PREFIX_DESCRIPTION).get();
+            String trimmedArgs = descriptionArgs.trim();
+            if (trimmedArgs.isEmpty()) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+
+            String[] descriptionKeywords = trimmedArgs.split("\\s+");
+            DescriptionContainsKeywordsPredicate descriptionPredicate =
+                    new DescriptionContainsKeywordsPredicate(isAllMatch, Arrays.asList(descriptionKeywords));
+            predicateList.add(descriptionPredicate);
+        }
+
+        if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
+            String tagArgs = argMultimap.getValue(PREFIX_TAG).get();
+            String trimmedArgs = tagArgs.trim();
+            if (trimmedArgs.isEmpty()) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+
+            String[] tagKeywords = trimmedArgs.split("\\s+");
+            TagListContainsKeywordsPredicate tagListPredicate =
+                    new TagListContainsKeywordsPredicate(isAllMatch, Arrays.asList(tagKeywords));
+            predicateList.add(tagListPredicate);
         }
         if (predicateList.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
