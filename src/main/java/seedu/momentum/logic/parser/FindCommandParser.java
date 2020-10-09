@@ -56,46 +56,26 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            String nameArgs = argMultimap.getValue(PREFIX_NAME).get();
-            String trimmedArgs = nameArgs.trim();
-            if (trimmedArgs.isEmpty()) {
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-            }
-
-            String[] nameKeywords = trimmedArgs.split("\\s+");
+            List<String> keywords = parseArguments(argMultimap, PREFIX_NAME);
             NameContainsKeywordsPredicate namePredicate =
-                    new NameContainsKeywordsPredicate(isAllMatch, Arrays.asList(nameKeywords));
+                    new NameContainsKeywordsPredicate(isAllMatch, keywords);
             predicateList.add(namePredicate);
         }
 
         if (argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
-            String descriptionArgs = argMultimap.getValue(PREFIX_DESCRIPTION).get();
-            String trimmedArgs = descriptionArgs.trim();
-            if (trimmedArgs.isEmpty()) {
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-            }
-
-            String[] descriptionKeywords = trimmedArgs.split("\\s+");
+            List<String> keywords = parseArguments(argMultimap, PREFIX_DESCRIPTION);
             DescriptionContainsKeywordsPredicate descriptionPredicate =
-                    new DescriptionContainsKeywordsPredicate(isAllMatch, Arrays.asList(descriptionKeywords));
+                    new DescriptionContainsKeywordsPredicate(isAllMatch, keywords);
             predicateList.add(descriptionPredicate);
         }
 
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
-            String tagArgs = argMultimap.getValue(PREFIX_TAG).get();
-            String trimmedArgs = tagArgs.trim();
-            if (trimmedArgs.isEmpty()) {
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-            }
-
-            String[] tagKeywords = trimmedArgs.split("\\s+");
+            List<String> keywords = parseArguments(argMultimap, PREFIX_TAG);
             TagListContainsKeywordsPredicate tagListPredicate =
-                    new TagListContainsKeywordsPredicate(isAllMatch, Arrays.asList(tagKeywords));
+                    new TagListContainsKeywordsPredicate(isAllMatch, keywords);
             predicateList.add(tagListPredicate);
         }
+
         if (predicateList.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
@@ -113,5 +93,18 @@ public class FindCommandParser implements Parser<FindCommand> {
             combinedPredicate = predicateList.stream().reduce(Predicate::or).orElse(x -> true);
         }
         return combinedPredicate;
+    }
+
+    private List<String> parseArguments (ArgumentMultimap argMultimap, Prefix prefix) throws ParseException {
+        assert argMultimap.getValue(prefix).isPresent();
+        String args = argMultimap.getValue(prefix).get();
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
+        String[] keywords = trimmedArgs.split("\\s+");
+        return Arrays.asList(keywords);
     }
 }
