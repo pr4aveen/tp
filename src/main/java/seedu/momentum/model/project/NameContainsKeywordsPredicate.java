@@ -10,15 +10,29 @@ import seedu.momentum.commons.util.StringUtil;
  */
 public class NameContainsKeywordsPredicate implements Predicate<Project> {
     private final List<String> keywords;
+    private final boolean isAllMatch;
 
-    public NameContainsKeywordsPredicate(List<String> keywords) {
+    /**
+     * Predicate to check whether the {@code Name} of a {@code Project} contains a
+     * certain keyword.
+     *
+     * @param isAllMatch boolean to indicate whether all keywords need to be successfully matched
+     * @param keywords list of keywords to check for matches.
+     */
+    public NameContainsKeywordsPredicate(boolean isAllMatch, List<String> keywords) {
+        this.isAllMatch = isAllMatch;
         this.keywords = keywords;
     }
 
     @Override
     public boolean test(Project project) {
-        return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(project.getName().fullName, keyword));
+        if (isAllMatch) {
+            return keywords.stream()
+                    .allMatch(keyword -> StringUtil.containsPartialIgnoreCase(project.getName().fullName, keyword));
+        } else {
+            return keywords.stream()
+                    .anyMatch(keyword -> StringUtil.containsPartialIgnoreCase(project.getName().fullName, keyword));
+        }
     }
 
     @Override

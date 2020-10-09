@@ -1,10 +1,14 @@
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.momentum.logic.parser.CliSyntax.FILTER_TYPE;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
+
+import java.util.function.Predicate;
 
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.project.NameContainsKeywordsPredicate;
+import seedu.momentum.model.project.Project;
 
 /**
  * Finds and lists all projects in project book whose name contains any of the argument keywords.
@@ -14,14 +18,19 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all projects whose names contain any of "
+    public static final String FILTER_ALL_MATCH = "all";
+    public static final String FILTER_ANY_MATCH = "any";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all projects whose names contain any or all of "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice bob charlie";
+            + "Parameters: "
+            + "[" + FILTER_TYPE + "FILTER_TYPE ] "
+            + "[" + PREFIX_NAME + "NAME_KEYWORD [MORE_NAME_KEYWORDS]... ] \n"
+            + "Example: " + COMMAND_WORD + " " + FILTER_TYPE + "all " + PREFIX_NAME + "alice bob charlie";
 
-    private final NameContainsKeywordsPredicate predicate;
+    private final Predicate<Project> predicate;
 
-    public FindCommand(NameContainsKeywordsPredicate predicate) {
+    public FindCommand(Predicate<Project> predicate) {
         this.predicate = predicate;
     }
 
