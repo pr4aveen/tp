@@ -55,6 +55,22 @@ public class Time {
         return new Time(time.minus(amount, unit));
     }
 
+    public boolean isBefore(Time otherTime) {
+        return time.isBefore(otherTime.getTime());
+    }
+
+    public boolean isAfter(Time otherTime) {
+        return time.isAfter(otherTime.getTime());
+    }
+
+    public boolean isEqual(Time otherTime) {
+        return time.isEqual(otherTime.getTime());
+    }
+
+    public static long getTimeBetween(Time time1, Time time2, ChronoUnit units) {
+        return units.between(time1.getTime(), time2.getTime());
+    }
+
     /**
      * Returns true if a given string is a valid time.
      */

@@ -12,6 +12,8 @@ import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.ProjectBookParser;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.logic.statistic.StatisticGenerator;
+import seedu.momentum.logic.statistic.StatisticManager;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.project.Project;
@@ -26,6 +28,7 @@ public class LogicManager implements Logic {
 
     private final Model model;
     private final Storage storage;
+    private final StatisticGenerator statistic;
     private final ProjectBookParser projectBookParser;
 
     /**
@@ -34,6 +37,7 @@ public class LogicManager implements Logic {
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
+        statistic = new StatisticManager(model);
         projectBookParser = new ProjectBookParser();
     }
 
@@ -51,7 +55,13 @@ public class LogicManager implements Logic {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
         }
 
+        statistic.updateStatistics();
+
         return commandResult;
+    }
+
+    public StatisticGenerator getStatistic() {
+        return statistic;
     }
 
     @Override
