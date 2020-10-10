@@ -2,7 +2,9 @@ package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.logic.parser.CliSyntax.FILTER_TYPE;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.function.Predicate;
 
@@ -25,8 +27,11 @@ public class FindCommand extends Command {
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: "
             + "[" + FILTER_TYPE + "FILTER_TYPE ] "
-            + "[" + PREFIX_NAME + "NAME_KEYWORD [MORE_NAME_KEYWORDS]... ] \n"
-            + "Example: " + COMMAND_WORD + " " + FILTER_TYPE + "all " + PREFIX_NAME + "alice bob charlie";
+            + "[" + PREFIX_NAME + "NAME_KEYWORD [MORE_NAME_KEYWORDS]... ] "
+            + "[" + PREFIX_DESCRIPTION + "DESCRIPTION_KEYWORD [MORE_DESCRIPTION_KEYWORDS]... ] "
+            + "[" + PREFIX_TAG + "TAG_KEYWORD [MORE_TAG_KEYWORDS]... ] \n"
+            + "Example: " + COMMAND_WORD + " " + FILTER_TYPE + "all " + PREFIX_NAME + "alice bob charlie "
+            + PREFIX_DESCRIPTION + "likes dim sum " + PREFIX_TAG + "friends";
 
     private final Predicate<Project> predicate;
 

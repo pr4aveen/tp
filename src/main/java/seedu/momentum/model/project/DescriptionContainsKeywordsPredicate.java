@@ -39,7 +39,8 @@ public class DescriptionContainsKeywordsPredicate implements Predicate<Project> 
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof DescriptionContainsKeywordsPredicate // instanceof handles nulls
-                && keywords.equals(((DescriptionContainsKeywordsPredicate) other).keywords)); // state check
+                && keywords.equals(((DescriptionContainsKeywordsPredicate) other).keywords)) // state check
+                && isAllMatch == ((DescriptionContainsKeywordsPredicate) other).isAllMatch;
     }
 
 }

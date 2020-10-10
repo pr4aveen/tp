@@ -42,7 +42,8 @@ public class TagListContainsKeywordsPredicate implements Predicate<Project> {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof TagListContainsKeywordsPredicate // instanceof handles nulls
-                && keywords.equals(((TagListContainsKeywordsPredicate) other).keywords)); // state check
+                && keywords.equals(((TagListContainsKeywordsPredicate) other).keywords)) // state check
+                && isAllMatch == ((TagListContainsKeywordsPredicate) other).isAllMatch;
     }
 
     /**

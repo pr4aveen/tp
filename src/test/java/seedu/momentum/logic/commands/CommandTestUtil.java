@@ -126,7 +126,7 @@ public class CommandTestUtil {
 
         Project project = model.getFilteredProjectList().get(targetIndex.getZeroBased());
         final String[] splitName = project.getName().fullName.split("\\s+");
-        model.updateFilteredProjectList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        model.updateFilteredProjectList(new NameContainsKeywordsPredicate(false, Arrays.asList(splitName[0])));
 
         assertEquals(1, model.getFilteredProjectList().size());
     }
