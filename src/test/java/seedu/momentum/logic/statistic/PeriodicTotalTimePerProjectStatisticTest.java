@@ -9,6 +9,10 @@ import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.collections.FXCollections;
+import seedu.momentum.commons.core.Clock;
+import seedu.momentum.testutil.TypicalTimes;
+
 class PeriodicTotalTimePerProjectStatisticTest {
     @Test
     public void constructor_nullPeriod_throwsNullPointerException() {
@@ -24,11 +28,30 @@ class PeriodicTotalTimePerProjectStatisticTest {
 
     @Test
     public void calculate_typicalProjects_correctData() {
+        Clock.initFixed(TypicalTimes.DAY_ADD_DAY);
         PeriodicTotalTimePerProjectStatistic stat =
                 new PeriodicTotalTimePerProjectStatistic(ChronoUnit.WEEKS, ChronoUnit.MINUTES);
         stat.calculate(TEST_MODEL);
 
         assertEquals(TEST_WEEKLY_TIME_PER_PROJECT, stat);
+    }
+
+    @Test
+    public void calculate_notInPeriod_correctData() {
+        Clock.initFixed(TypicalTimes.DAY_ADD_YEAR);
+        PeriodicTotalTimePerProjectStatistic stat =
+                new PeriodicTotalTimePerProjectStatistic(ChronoUnit.WEEKS, ChronoUnit.MINUTES);
+        stat.calculate(TEST_MODEL);
+        PeriodicTotalTimePerProjectStatistic expectedStat =
+                new PeriodicTotalTimePerProjectStatistic(ChronoUnit.WEEKS, ChronoUnit.MINUTES,
+                        FXCollections.observableArrayList(
+                                new StatisticEntry("Alpha", 0),
+                                new StatisticEntry("Beta", 0),
+                                new StatisticEntry("Charlie", 0),
+                                new StatisticEntry("Delta", 0)
+                        ));
+
+        assertEquals(expectedStat, stat);
     }
 
 }
