@@ -51,7 +51,7 @@ public class StartCommand extends Command {
         model.setProject(projectToStart, newProject);
 
         return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())
-                + newProject.getTimer().getStartTime());
+                + newProject.getTimer().getStartTime().getFormatted());
     }
 
     @Override

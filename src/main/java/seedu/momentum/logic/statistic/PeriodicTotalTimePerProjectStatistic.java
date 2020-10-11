@@ -60,6 +60,8 @@ public class PeriodicTotalTimePerProjectStatistic extends Statistic {
         //Only calculate statistics for projects visible to the user
         List<Project> projects = model.getFilteredProjectList();
 
+        ObservableList<StatisticEntry> newTimeList = FXCollections.observableArrayList();
+
         for (Project project : projects) {
             List<WorkDuration> durations = project.getDurationList();
             long totalDuration = 0;
@@ -79,17 +81,12 @@ public class PeriodicTotalTimePerProjectStatistic extends Statistic {
                     // Whole Duration is in the week
                     totalDuration += duration.getTimeBetween(units);
                 }
-
             }
 
             StatisticEntry entry = new StatisticEntry(project.getName().fullName, totalDuration);
 
-            if (timeList.contains(entry)) {
-                int index = timeList.indexOf(entry);
-                timeList.set(index, entry);
-            } else {
-                timeList.add(entry);
-            }
+            newTimeList.add(entry);
+            timeList = newTimeList;
         }
     }
 

@@ -1,7 +1,6 @@
 package seedu.momentum.ui;
 
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,10 +9,14 @@ import javafx.scene.chart.PieChart;
 import javafx.stage.Stage;
 import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.logic.Logic;
+import seedu.momentum.logic.statistic.StatisticEntry;
 
 public class TestStatWindow extends UiPart<Stage> {
     private static final String FXML = "TestStatWindow.fxml";
     private static final Logger logger = LogsCenter.getLogger(TestStatWindow.class);
+
+    private final Logic logic;
+    private ObservableList<PieChart.Data> dataList = FXCollections.observableArrayList();
 
     @FXML
     private PieChart piechart;
@@ -25,13 +28,15 @@ public class TestStatWindow extends UiPart<Stage> {
      */
     public TestStatWindow(Stage root, Logic logic) {
         super(FXML, root);
-        ObservableList<PieChart.Data> dataList =
-                FXCollections.observableArrayList(logic
-                        .getStatistic()
-                        .getWeeklyTimePerProjectStatistic()
-                        .stream()
-                        .map(entry -> new PieChart.Data(entry.getLabel(), entry.getValue()))
-                        .collect(Collectors.toList()));
+        this.logic = logic;
+        dataList.clear();
+        for (StatisticEntry entry : logic.getStatistic().getWeeklyTimePerProjectStatistic()) {
+            if (entry.getValue() == 0) {
+                continue;
+            }
+
+            dataList.add(new PieChart.Data(entry.getLabel(), entry.getValue()));
+        }
         piechart.setData(dataList);
     }
     /**
@@ -60,9 +65,19 @@ public class TestStatWindow extends UiPart<Stage> {
      * </ul>
      */
     public void show() {
-        logger.fine("Showing help page about the application.");
+        logger.fine("Showing test stat page.");
+
+        dataList.clear();
+        for (StatisticEntry entry : logic.getStatistic().getWeeklyTimePerProjectStatistic()) {
+            if (entry.getValue() == 0) {
+                continue;
+            }
+
+            dataList.add(new PieChart.Data(entry.getLabel(), entry.getValue()));
+        }
+
         getRoot().show();
-        getRoot().centerOnScreen();
+        //getRoot().centerOnScreen();
     }
 
     /**

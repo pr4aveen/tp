@@ -46,8 +46,8 @@ public class StatisticEntry {
             return false;
         }
         StatisticEntry that = (StatisticEntry) o;
-        return Objects.equals(label, that.label)
-                && Objects.equals(value, that.value);
+        return label.equals(that.label)
+                && value == that.value;
     }
 
     @Override

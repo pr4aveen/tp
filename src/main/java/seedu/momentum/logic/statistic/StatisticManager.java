@@ -52,6 +52,10 @@ public class StatisticManager implements StatisticGenerator {
         for (Statistic statistic : statistics) {
             statistic.calculate(model);
         }
+
+        for (StatisticEntry entry : getWeeklyTimePerProjectStatistic()) {
+            System.out.println(entry);
+        }
     }
 
     @Override
