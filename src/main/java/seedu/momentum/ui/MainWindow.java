@@ -130,8 +130,8 @@ public class MainWindow extends UiPart<Stage> {
 
         // PLACEHOLDER DATA
         ObservableList<String[]> stats = FXCollections.observableArrayList();
-        stats.add(new String[] {"label1", "value1"});
-        stats.add(new String[] {"label2", "value2"});
+        stats.add(new String[] {"lorem ipsum dolor sit amet", "4hr 30min"});
+        stats.add(new String[] {"lorem ipsum dolor sit amet", "2hr"});
         stats.add(new String[] {"label3", "value3"});
 
         statListPanel = new StatListPanel(stats);

@@ -53,7 +53,7 @@ public class ProjectCard extends UiPart<Region> {
 
         //deadline.setText(project.getDeadline().getFormattedDeadline());
         // PLACEHOLDER DATA
-        deadline.setText(getCurrentDate());
+        deadline.setText("by: " + getCurrentDate());
     }
 
     // TEMPORARY METHOD FOR TESTING
