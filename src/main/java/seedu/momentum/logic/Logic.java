@@ -7,6 +7,7 @@ import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.project.Project;
 
@@ -50,4 +51,6 @@ public interface Logic {
      * Set the user prefs' GUI settings.
      */
     void setGuiSettings(GuiSettings guiSettings);
+
+    StatisticGenerator getStatistic();
 }

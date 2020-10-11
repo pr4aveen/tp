@@ -71,6 +71,38 @@ public class DateTime implements Instance<LocalDateTime> {
         return true;
     }
 
+    /**
+     * Checks if an instance in time is before this instance.
+     *
+     * @param otherTime The time to check.
+     * @return
+     */
+    public boolean isBefore(DateTime otherTime) {
+        return dateTime.isBefore(otherTime.get());
+    }
+
+    /**
+     * Checks if an instance in time is after this instance.
+     *
+     * @param otherTime The time to check.
+     * @return
+     */
+    public boolean isAfter(DateTime otherTime) {
+        return dateTime.isAfter(otherTime.get());
+    }
+
+    /**
+     * Calculates the amount of time between two instances of time, in the provided units.
+     *
+     * @param time1 The earlier instance of time.
+     * @param time2 The later instance of time.
+     * @param units The units to the time.
+     * @return
+     */
+    public static long getTimeBetween(DateTime time1, DateTime time2, ChronoUnit units) {
+        return units.between(time1.get(), time2.get());
+    }
+
     public LocalDate getDate() {
         return dateTime.toLocalDate();
     }
