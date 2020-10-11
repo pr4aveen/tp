@@ -10,26 +10,33 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox id="cardPane" fx:id="cardPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
+<HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane HBox.hgrow="ALWAYS">
         <columnConstraints>
-          <ColumnConstraints percentWidth="75.0" />
+          <ColumnConstraints percentWidth="70.0" />
           <ColumnConstraints hgrow="ALWAYS" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox alignment="CENTER_LEFT" spacing="5.0">
+            <VBox alignment="CENTER_LEFT" spacing="4.0">
                <children>
                   <HBox spacing="5.0">
                      <children>
                         <Label fx:id="id" text="1." />
-                        <Label fx:id="name" text="Project" />
+                        <Label fx:id="name" text="\$name" />
                      </children>
                   </HBox>
-                  <FlowPane fx:id="tags" />
+                  <FlowPane fx:id="tags">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></FlowPane>
+                  <HBox fx:id="description">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></HBox>
                </children>
                <padding>
                   <Insets left="12.0" right="12.0" />
@@ -37,9 +44,28 @@
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
+               <opaqueInsets>
+                  <Insets bottom="16.0" top="16.0" />
+               </opaqueInsets>
             </VBox>
             <Separator orientation="VERTICAL" GridPane.columnIndex="1" />
-            <Label fx:id="deadline" text="13 Oct 2020" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+            <VBox alignment="CENTER" spacing="4.0" GridPane.columnIndex="1">
+               <children>
+                  <HBox fx:id="createdDate" alignment="CENTER">
+                     <children>
+                        <Label text="Created: " />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="deadline" alignment="CENTER">
+                     <children>
+                        <Label text="Due: " />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </GridPane>
    </children>

@@ -37,12 +37,16 @@ public class MainWindow extends UiPart<Stage> {
     private ResultDisplay resultDisplay;
     private StatListPanel statListPanel;
     private HelpWindow helpWindow;
+    private TestStatWindow testStatWindow;
 
     @FXML
     private StackPane commandBoxPlaceholder;
 
     @FXML
     private MenuItem helpMenuItem;
+
+    @FXML
+    private MenuItem testStatMenuItem;
 
     @FXML
     private StackPane projectListPanelPlaceholder;
@@ -72,6 +76,7 @@ public class MainWindow extends UiPart<Stage> {
         setAccelerators();
 
         helpWindow = new HelpWindow();
+        testStatWindow = new TestStatWindow(logic);
     }
 
     public Stage getPrimaryStage() {
@@ -159,6 +164,18 @@ public class MainWindow extends UiPart<Stage> {
             helpWindow.show();
         } else {
             helpWindow.focus();
+        }
+    }
+
+    /**
+     * Opens the test stat window or focuses on it if its's already opened
+     */
+    @FXML
+    public void handleTestStat() {
+        if (!testStatWindow.isShowing()) {
+            testStatWindow.show();
+        } else {
+            testStatWindow.focus();
         }
     }
 

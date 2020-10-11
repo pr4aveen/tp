@@ -1,7 +1,5 @@
 package seedu.momentum.ui;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
 import javafx.fxml.FXML;
@@ -35,9 +33,13 @@ public class ProjectCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
-    private FlowPane tags;
+    private HBox description;
     @FXML
-    private Label deadline;
+    private HBox createdDate;
+    @FXML
+    private HBox deadline;
+    @FXML
+    private FlowPane tags;
 
     /**
      * Creates a {@code ProjectCard} with the given {@code Project} and index to display.
@@ -47,20 +49,21 @@ public class ProjectCard extends UiPart<Region> {
         this.project = project;
         id.setText(displayedIndex + ". ");
         name.setText(project.getName().fullName);
+
+        if (project.hasDescription()) {
+            description.getChildren().add(new Label(project.getDescription().value));
+        }
+
+        createdDate.getChildren().add(new Label(project.getCreatedDate().getFormatted()));
+
+        String deadlineText = project.hasDeadline()
+            ? project.getDeadline().getFormattedDeadline()
+            : "No deadline set";
+        deadline.getChildren().add(new Label(deadlineText));
+
         project.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-
-        //deadline.setText(project.getDeadline().getFormattedDeadline());
-        // PLACEHOLDER DATA
-        deadline.setText("by: " + getCurrentDate());
-    }
-
-    // TEMPORARY METHOD FOR TESTING
-    private String getCurrentDate() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/MMM/yyyy");
-        LocalDate now = LocalDate.now();
-        return dtf.format(now);
     }
 
     @Override

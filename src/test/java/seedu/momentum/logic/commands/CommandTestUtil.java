@@ -2,6 +2,8 @@ package seedu.momentum.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
@@ -28,6 +30,11 @@ public class CommandTestUtil {
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_DESCRIPTION_AMY = "Loves coffee";
     public static final String VALID_DESCRIPTION_BOB = "Hates coffee";
+    public static final String VALID_CREATED_DATE_AMY = "2019-12-02";
+    public static final String VALID_CREATED_DATE_BOB = "2019-10-02";
+    public static final String VALID_DEADLINE_DATE_AMY = "2020-12-02";
+    public static final String VALID_DEADLINE_DATE_BOB = "2020-10-02";
+    public static final String VALID_DEADLINE_TIME_AMY = "11:42:53";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
 
@@ -35,10 +42,15 @@ public class CommandTestUtil {
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
     public static final String DESCRIPTION_DESC_AMY = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_AMY;
     public static final String DESCRIPTION_DESC_BOB = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_BOB;
+    public static final String DEADLINE_DATE_DESC_AMY = " " + PREFIX_DEADLINE_DATE + VALID_DEADLINE_DATE_AMY;
+    public static final String DEADLINE_DATE_DESC_BOB = " " + PREFIX_DEADLINE_DATE + VALID_DEADLINE_DATE_BOB;
+    public static final String DEADLINE_TIME_DESC_AMY = " " + PREFIX_DEADLINE_TIME + VALID_DEADLINE_TIME_AMY;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
+    public static final String INVALID_DEADLINE_DATE_DESC = " " + PREFIX_DEADLINE_DATE + "2020-91-64";
+    public static final String INVALID_DEADLINE_TIME_DESC = " " + PREFIX_DEADLINE_TIME + "09:91:12";
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
@@ -48,10 +60,16 @@ public class CommandTestUtil {
     public static final EditCommand.EditProjectDescriptor DESC_BOB;
 
     static {
-        DESC_AMY = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY).withDescription(VALID_DESCRIPTION_AMY)
-                .withTags(VALID_TAG_FRIEND).build();
-        DESC_BOB = new EditProjectDescriptorBuilder().withName(VALID_NAME_BOB).withDescription(VALID_DESCRIPTION_BOB)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+        DESC_AMY = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY)
+                .withDescription(VALID_DESCRIPTION_AMY)
+                .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY)
+                .withTags(VALID_TAG_FRIEND)
+                .build();
+        DESC_BOB = new EditProjectDescriptorBuilder().withName(VALID_NAME_BOB)
+                .withDescription(VALID_DESCRIPTION_BOB)
+                .withDeadline(VALID_DEADLINE_DATE_BOB)
+                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
+                .build();
     }
 
     /**
@@ -63,8 +81,6 @@ public class CommandTestUtil {
                                             Model expectedModel) {
         try {
             CommandResult result = command.execute(actualModel);
-            System.out.println(expectedCommandResult.getFeedbackToUser());
-            System.out.println(result.getFeedbackToUser());
             assertEquals(expectedCommandResult, result);
             assertEquals(expectedModel, actualModel);
         } catch (CommandException ce) {

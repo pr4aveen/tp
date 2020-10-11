@@ -1,6 +1,8 @@
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
@@ -12,11 +14,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import seedu.momentum.commons.core.Date;
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
@@ -35,6 +39,7 @@ public class EditCommand extends Command {
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
+            + String.format("[%sDEADLINE_DATE [%sDEADLINE_TIME] ] ", PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME)
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 ";
 
@@ -46,7 +51,7 @@ public class EditCommand extends Command {
     private final EditProjectDescriptor editProjectDescriptor;
 
     /**
-     * @param index of the project in the filtered project list to edit
+     * @param index                 of the project in the filtered project list to edit
      * @param editProjectDescriptor details to edit the project with
      */
     public EditCommand(Index index, EditProjectDescriptor editProjectDescriptor) {
@@ -87,9 +92,11 @@ public class EditCommand extends Command {
 
         Name updatedName = editProjectDescriptor.getName().orElse(projectToEdit.getName());
         Description updatedDescription = editProjectDescriptor.getDescription().orElse(projectToEdit.getDescription());
+        Date createdDate = projectToEdit.getCreatedDate();
+        Deadline updatedDeadline = editProjectDescriptor.getDeadline().orElse(projectToEdit.getDeadline());
         Set<Tag> updatedTags = editProjectDescriptor.getTags().orElse(projectToEdit.getTags());
 
-        return new Project(updatedName, updatedDescription, updatedTags);
+        return new Project(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags);
     }
 
     @Override
@@ -117,9 +124,11 @@ public class EditCommand extends Command {
     public static class EditProjectDescriptor {
         private Name name;
         private Description description;
+        private Deadline deadline;
         private Set<Tag> tags;
 
-        public EditProjectDescriptor() {}
+        public EditProjectDescriptor() {
+        }
 
         /**
          * Copy constructor.
@@ -128,6 +137,7 @@ public class EditCommand extends Command {
         public EditProjectDescriptor(EditProjectDescriptor toCopy) {
             setName(toCopy.name);
             setDescription(toCopy.description);
+            setDeadline(toCopy.deadline);
             setTags(toCopy.tags);
         }
 
@@ -135,7 +145,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, description, tags);
+            return CollectionUtil.isAnyNonNull(name, description, deadline, tags);
         }
 
         public void setName(Name name) {
@@ -152,6 +162,14 @@ public class EditCommand extends Command {
 
         public Optional<Description> getDescription() {
             return Optional.ofNullable(description);
+        }
+
+        public void setDeadline(Deadline deadline) {
+            this.deadline = deadline;
+        }
+
+        public Optional<Deadline> getDeadline() {
+            return Optional.ofNullable(deadline);
         }
 
         /**
@@ -188,6 +206,7 @@ public class EditCommand extends Command {
 
             return getName().equals(e.getName())
                     && getDescription().equals(e.getDescription())
+                    && getDeadline().equals(e.getDeadline())
                     && getTags().equals(e.getTags());
         }
     }
