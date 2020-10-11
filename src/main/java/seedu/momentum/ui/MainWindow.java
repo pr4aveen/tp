@@ -2,6 +2,8 @@ package seedu.momentum.ui;
 
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -33,6 +35,7 @@ public class MainWindow extends UiPart<Stage> {
     // Independent Ui parts residing in this Ui container
     private ProjectListPanel projectListPanel;
     private ResultDisplay resultDisplay;
+    private StatListPanel statListPanel;
     private HelpWindow helpWindow;
 
     @FXML
@@ -48,7 +51,10 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane resultDisplayPlaceholder;
 
     @FXML
-    private StackPane statusbarPlaceholder;
+    private StackPane statListPanelPlaceholder;
+
+    @FXML
+    private StackPane infoDisplayPlaceholder;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -116,11 +122,20 @@ public class MainWindow extends UiPart<Stage> {
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
-        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getProjectBookFilePath());
-        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
-
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        TagsDisplay tagsDisplay = new TagsDisplay(logic.getProjectTags());
+        infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
+
+        // PLACEHOLDER DATA
+        ObservableList<String[]> stats = FXCollections.observableArrayList();
+        stats.add(new String[] {"label1", "value1"});
+        stats.add(new String[] {"label2", "value2"});
+        stats.add(new String[] {"label3", "value3"});
+
+        statListPanel = new StatListPanel(stats);
+        statListPanelPlaceholder.getChildren().add(statListPanel.getRoot());
     }
 
     /**

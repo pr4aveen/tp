@@ -1,5 +1,7 @@
 package seedu.momentum.ui;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
 import javafx.fxml.FXML;
@@ -7,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import seedu.momentum.model.project.Project;
 
 /**
@@ -25,8 +26,7 @@ public class ProjectCard extends UiPart<Region> {
      * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on ProjectBook level 4</a>
      */
 
-    public final Project project;
-    private DurationListPanel durationListPanel;
+    private final Project project;
 
     @FXML
     private HBox cardPane;
@@ -35,26 +35,32 @@ public class ProjectCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
-    private Label description;
-    @FXML
     private FlowPane tags;
     @FXML
-    private StackPane durationListPanelPlaceholder;
+    private Label deadline;
 
     /**
-     * Creates a {@code ProjectCode} with the given {@code Project} and index to display.
+     * Creates a {@code ProjectCard} with the given {@code Project} and index to display.
      */
     public ProjectCard(Project project, int displayedIndex) {
         super(FXML);
         this.project = project;
         id.setText(displayedIndex + ". ");
         name.setText(project.getName().fullName);
-        description.setText(project.getDescription().value);
         project.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        durationListPanel = new DurationListPanel(project.getDurationList());
-        durationListPanelPlaceholder.getChildren().add(durationListPanel.getRoot());
+
+        //deadline.setText(project.getDeadline().getFormattedDeadline());
+        // PLACEHOLDER DATA
+        deadline.setText(getCurrentDate());
+    }
+
+    // TEMPORARY METHOD FOR TESTING
+    private String getCurrentDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/MMM/yyyy");
+        LocalDate now = LocalDate.now();
+        return dtf.format(now);
     }
 
     @Override
