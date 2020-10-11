@@ -3,45 +3,43 @@ package seedu.momentum.commons.core;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import seedu.momentum.model.timer.Time;
-
 /**
  * Represents a clock used by the application.
  */
 public class Clock {
     private static ClockState clockState = ClockState.NORMAL;
-    private static Time currentTime;
+    private static DateTime currentDateTime;
 
     /**
      * Gets the current time according to the state of the clock.
      *
      * @return System time if normal, A fixed time if fixed, and The set time if manual.
      */
-    public static Time now() {
+    public static DateTime now() {
         if (clockState == ClockState.NORMAL) {
-            return new Time(LocalDateTime.now());
+            return new DateTime(LocalDateTime.now());
         }
 
-        return currentTime;
+        return currentDateTime;
     }
 
     /**
      * Starts the clock with a fixed time.
      *
-     * @param fixedTime The time to start the clock at.
+     * @param fixedDateTime The time to start the clock at.
      */
-    public static void initFixed(Time fixedTime) {
-        currentTime = fixedTime;
+    public static void initFixed(DateTime fixedDateTime) {
+        currentDateTime = fixedDateTime;
         clockState = ClockState.FIXED;
     }
 
     /**
      * Starts a manually adjustable clock.
      *
-     * @param startTime The starting time of the clock.
+     * @param startDateTime The starting time of the clock.
      */
-    public static void initManual(Time startTime) {
-        currentTime = startTime;
+    public static void initManual(DateTime startDateTime) {
+        currentDateTime = startDateTime;
         clockState = ClockState.MANUAL;
     }
 
@@ -53,7 +51,7 @@ public class Clock {
      */
     public static void advance(long amount, ChronoUnit units) {
         assert(clockState == ClockState.MANUAL);
-        currentTime = currentTime.plus(amount, units);
+        currentDateTime = currentDateTime.plus(amount, units);
     }
 
     /** Reverses the clock's time.
@@ -63,14 +61,14 @@ public class Clock {
      */
     public static void reverse(long amount, ChronoUnit units) {
         assert(clockState == ClockState.MANUAL);
-        currentTime = currentTime.minus(amount, units);
+        currentDateTime = currentDateTime.minus(amount, units);
     }
 
     /**
      * Resets the Clock to a normal state.
      */
     public static void reset() {
-        currentTime = new Time(LocalDateTime.now());
+        currentDateTime = new DateTime(LocalDateTime.now());
         clockState = ClockState.NORMAL;
     }
 

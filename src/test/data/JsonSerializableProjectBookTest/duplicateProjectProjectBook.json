@@ -2,9 +2,11 @@
   "projects": [ {
     "name": "Alice Pauline",
     "description": "Likes coding",
+    "createdDate": "2019-11-05",
     "tagged": [ "friends" ]
   }, {
     "name": "Alice Pauline",
-    "description": "Likes coding"
+    "description": "Likes coding",
+    "createdDate": "2019-11-05"
   } ]
 }

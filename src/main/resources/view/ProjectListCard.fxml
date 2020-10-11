@@ -30,6 +30,8 @@
       </HBox>
       <FlowPane fx:id="tags" />
       <Label fx:id="description" styleClass="cell_small_label" text="\$description" />
+      <Label fx:id="createdDate" styleClass="cell_small_label" text="\$createdDate" />
+      <Label fx:id="deadline" styleClass="cell_small_label" text="\$deadline" />
       <VBox fx:id="durationList" styleClass="pane-with-border" minWidth="340" prefWidth="340">
         <padding>
           <Insets top="10" right="10" bottom="10" left="10" />

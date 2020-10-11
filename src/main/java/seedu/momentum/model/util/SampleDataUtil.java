@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import seedu.momentum.commons.core.Date;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
+import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
@@ -18,22 +20,46 @@ import seedu.momentum.model.timer.WorkDuration;
  */
 public class SampleDataUtil {
     public static Project[] getSampleProjects() {
-        return new Project[] {
-            new Project(new Name("Alex Yeoh"), new Description("description"), getTagSet("friends")),
-            new Project(new Name("Bernice Yu"), new Description("description"), getTagSet("colleagues", "friends")),
-            new Project(new Name("Charlotte Oliveiro"), new Description("description"), getTagSet("neighbours")),
-            new Project(new Name("David Li"), new Description("description"), getTagSet("family")),
-            new Project(new Name("Irfan Ibrahim"), Description.EMPTY_DESCRIPTION, getTagSet("classmates")),
-            new Project(new Name("Roy Balakrishnan"), Description.EMPTY_DESCRIPTION, getTagSet("colleagues"))
+        return new Project[]{
+            new Project(new Name("Alex Yeoh"),
+                    new Description("description"),
+                    new Date("2019-10-04"),
+                    new Deadline("2020-10-04"),
+                    getTagSet("friends")),
+            new Project(new Name("Bernice Yu"),
+                    new Description("description"),
+                    new Date("2019-10-10"),
+                    new Deadline("2020-10-10", "01:01:21"),
+                    getTagSet("colleagues", "friends")),
+            new Project(new Name("Charlotte Oliveiro"),
+                    new Description("description"),
+                    new Date("2019-06-22"),
+                    new Deadline(),
+                    getTagSet("neighbours")),
+            new Project(new Name("David Li"),
+                    new Description("description"),
+                    new Date("2019-11-04"),
+                    new Deadline("2020-11-04", "08:10:21"),
+                    getTagSet("family")),
+            new Project(new Name("Irfan Ibrahim"),
+                    Description.EMPTY_DESCRIPTION,
+                    new Date("2019-10-24"),
+                    new Deadline("2020-10-24"),
+                    getTagSet("classmates")),
+            new Project(new Name("Roy Balakrishnan"),
+                    Description.EMPTY_DESCRIPTION,
+                    new Date("2019-01-04"),
+                    new Deadline(),
+                    getTagSet("colleagues"))
         };
     }
 
     public static ReadOnlyProjectBook getSampleProjectBook() {
-        ProjectBook sampleAb = new ProjectBook();
+        ProjectBook sampleProjectBook = new ProjectBook();
         for (Project sampleProject : getSampleProjects()) {
-            sampleAb.addProject(sampleProject);
+            sampleProjectBook.addProject(sampleProject);
         }
-        return sampleAb;
+        return sampleProjectBook;
     }
 
     /**
@@ -41,8 +67,8 @@ public class SampleDataUtil {
      */
     public static Set<Tag> getTagSet(String... strings) {
         return Arrays.stream(strings)
-                .map(Tag::new)
-                .collect(Collectors.toSet());
+            .map(Tag::new)
+            .collect(Collectors.toSet());
     }
 
     /**

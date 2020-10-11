@@ -1,13 +1,21 @@
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.momentum.logic.commands.CommandTestUtil.DEADLINE_DATE_DESC_AMY;
+import static seedu.momentum.logic.commands.CommandTestUtil.DEADLINE_DATE_DESC_BOB;
+import static seedu.momentum.logic.commands.CommandTestUtil.DEADLINE_TIME_DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.DESCRIPTION_DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.DESCRIPTION_DESC_BOB;
+import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_DEADLINE_DATE_DESC;
+import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_DEADLINE_TIME_DESC;
 import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.momentum.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.momentum.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_DATE_AMY;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_DATE_BOB;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_TIME_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_AMY;
@@ -22,6 +30,8 @@ import static seedu.momentum.testutil.TypicalIndexes.INDEX_THIRD_PROJECT;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.Time;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.model.project.Name;
@@ -67,6 +77,10 @@ public class EditCommandParserTest {
     @Test
     public void parse_invalidValue_failure() {
         assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
+        assertParseFailure(parser, "1" + INVALID_DEADLINE_DATE_DESC,
+                Date.MESSAGE_CONSTRAINTS); // invalid date in deadline
+        assertParseFailure(parser, "1" + DEADLINE_DATE_DESC_AMY + INVALID_DEADLINE_TIME_DESC,
+                Time.MESSAGE_CONSTRAINTS); // invalid time in deadline
         assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
 
         // valid phone followed by invalid phone. The test case for invalid phone followed by valid phone
@@ -87,11 +101,12 @@ public class EditCommandParserTest {
     @Test
     public void parse_allFieldsSpecified_success() {
         Index targetIndex = INDEX_SECOND_PROJECT;
-        String userInput = targetIndex.getOneBased() + TAG_DESC_HUSBAND
-                + NAME_DESC_AMY + DESCRIPTION_DESC_AMY + TAG_DESC_FRIEND;
+        String userInput = targetIndex.getOneBased() + TAG_DESC_HUSBAND + NAME_DESC_AMY + DESCRIPTION_DESC_AMY
+                + DEADLINE_DATE_DESC_AMY + DEADLINE_TIME_DESC_AMY + TAG_DESC_FRIEND;
 
         EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withDescription(VALID_DESCRIPTION_AMY)
+                .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
@@ -123,6 +138,19 @@ public class EditCommandParserTest {
         // description
         userInput = targetIndex.getOneBased() + DESCRIPTION_DESC_AMY;
         descriptor = new EditProjectDescriptorBuilder().withDescription(VALID_DESCRIPTION_AMY).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // deadline with date
+        userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB;
+        descriptor = new EditProjectDescriptorBuilder().withDeadline(VALID_DEADLINE_DATE_BOB).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // deadline with date and time
+        userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB + DEADLINE_TIME_DESC_AMY;
+        descriptor = new EditProjectDescriptorBuilder()
+                .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_DEADLINE_TIME_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 

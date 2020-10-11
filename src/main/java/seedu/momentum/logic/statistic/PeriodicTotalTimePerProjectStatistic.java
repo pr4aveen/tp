@@ -9,9 +9,9 @@ import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.Clock;
+import seedu.momentum.commons.core.DateTime;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.timer.Time;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
@@ -54,8 +54,8 @@ public class PeriodicTotalTimePerProjectStatistic extends Statistic {
 
     @Override
     public void calculate(Model model) {
-        Time weekStart = Clock.now().minus(1, period);
-        Time weekEnd = Clock.now();
+        DateTime weekStart = Clock.now().minus(1, period);
+        DateTime weekEnd = Clock.now();
 
         //Only calculate statistics for projects visible to the user
         List<Project> projects = model.getFilteredProjectList();
@@ -65,8 +65,8 @@ public class PeriodicTotalTimePerProjectStatistic extends Statistic {
             long totalDuration = 0;
 
             for (WorkDuration duration : durations) {
-                Time startTime = duration.getStartTime();
-                Time stopTime = duration.getStopTime();
+                DateTime startTime = duration.getStartTime();
+                DateTime stopTime = duration.getStopTime();
 
                 if (stopTime.isBefore(weekStart) || startTime.isAfter(weekEnd)) {
                     continue;
@@ -74,7 +74,7 @@ public class PeriodicTotalTimePerProjectStatistic extends Statistic {
 
                 if (startTime.isBefore(weekStart) && stopTime.isBefore(weekEnd)) {
                     // Duration is cut in two by the week
-                    totalDuration += Time.getTimeBetween(weekStart, stopTime, units);
+                    totalDuration += DateTime.getTimeBetween(weekStart, stopTime, units);
                 } else {
                     // Whole Duration is in the week
                     totalDuration += duration.getTimeBetween(units);
