@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import seedu.momentum.model.project.Project;
 
 /**
@@ -25,8 +24,7 @@ public class ProjectCard extends UiPart<Region> {
      * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on ProjectBook level 4</a>
      */
 
-    public final Project project;
-    private DurationListPanel durationListPanel;
+    private final Project project;
 
     @FXML
     private HBox cardPane;
@@ -35,32 +33,37 @@ public class ProjectCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
-    private Label description;
+    private HBox description;
     @FXML
-    private Label createdDate;
+    private HBox createdDate;
     @FXML
-    private Label deadline;
+    private HBox deadline;
     @FXML
     private FlowPane tags;
-    @FXML
-    private StackPane durationListPanelPlaceholder;
 
     /**
-     * Creates a {@code ProjectCode} with the given {@code Project} and index to display.
+     * Creates a {@code ProjectCard} with the given {@code Project} and index to display.
      */
     public ProjectCard(Project project, int displayedIndex) {
         super(FXML);
         this.project = project;
         id.setText(displayedIndex + ". ");
         name.setText(project.getName().fullName);
-        description.setText(project.getDescription().value);
-        createdDate.setText(project.getCreatedDate().getFormatted());
-        deadline.setText(project.getDeadline().getFormattedDeadline());
+
+        if (project.hasDescription()) {
+            description.getChildren().add(new Label(project.getDescription().value));
+        }
+
+        createdDate.getChildren().add(new Label(project.getCreatedDate().getFormatted()));
+
+        String deadlineText = project.hasDeadline()
+            ? project.getDeadline().getFormattedDeadline()
+            : "No deadline set";
+        deadline.getChildren().add(new Label(deadlineText));
+
         project.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        durationListPanel = new DurationListPanel(project.getDurationList());
-        durationListPanelPlaceholder.getChildren().add(durationListPanel.getRoot());
     }
 
     @Override

@@ -2,6 +2,8 @@ package seedu.momentum.logic;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -17,6 +19,7 @@ import seedu.momentum.logic.statistic.StatisticManager;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.tag.Tag;
 import seedu.momentum.storage.Storage;
 
 /**
@@ -72,6 +75,13 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Project> getFilteredProjectList() {
         return model.getFilteredProjectList();
+    }
+
+    @Override
+    public Set<Tag> getProjectTags() {
+        Set<Tag> tags = new HashSet<>();
+        getFilteredProjectList().forEach(project -> tags.addAll(project.getTags()));
+        return tags;
     }
 
     @Override
