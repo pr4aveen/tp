@@ -27,6 +27,8 @@ Momentum is a **desktop app** that **helps freelancers track time spent on diffe
    * **`project`**`n/Momentum d/CS2103T Team Project` : Adds a project named `Momentum` to the Project Book.
 
    * **`edit`**`3 n/NewMomentum d/newDescription` : Update the 3rd project in the current list. The name will be changed to “NewMomentum” and the description will be changed to “NewDescription”.
+   
+   * **`find`**`n/NewMomentum` : Find a project that has `NewMomentum` in its name.
 
    * **`delete`**`3` : Deletes the 3rd project shown in the current list.
 
@@ -151,9 +153,48 @@ Go to settings page.
 
 Format: `/settings`
 
-#### Filtering Projects: `find` (_coming soon_)
+#### Filtering Projects: `find`
 
-Finds projects.
+Searches for projects in the project book based on certain parameters.
+
+Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...]`
+
+* There are two values for the `match` command.
+* `match/all` requires **all** parameters to match their respective entries in the project for it to be shown.
+* `match/any` shows the project as long as any parameter matches the user's input.
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+`match/any` will be used if the `match` type is not specified.
+</div>
+
+Example:
+
+If there are 3 projects in the project book:
+
+1. Name: `Create Logo` , Description: `Make logo for startup XYZ`, Tags: `Design`
+2. Name: `Write Song`, Description: `80s rock music, three minutes`, Tags: `Music`
+3. Name: `Write Article`, Description: `Write and article about why Momentum is the best app out there`, Tags: `Press` and `Writing`
+
+* `find match/any n/song article d/startup t/design` will return all three projects. This is because project 1 contains the keyword `startup` in its description and the tag `design`, project 2 contains the keyword `song` in its name and project 3 contains the keyword `article` in its name. 
+* `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** the `startup` in its description and the tag `design`.
+* `find match/any n/write d/rock` will return projects 2 and 3. This is because project 2 contains `write` in its name and `rock` in its description. Project 3 also contains the word `write` in its name.
+* `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name and `rock` in its description. 
+
+Searching by name: 
+* The `n/` command checks whether a project has a certain name. There can be multiple names added to this command. For example, `n/car window` will check for the projects that contain `car` or `window` in their names.
+* Searching by name only requires a partial match. This means that a project with the name `carpet` and `car` can potentially be the result of searching for the term `car`.
+
+Searching by description: 
+* The `d/` command checks whether a project has a certain description. There can be multiple descriptions added to this command. For example, `d/sunday october` will check for the projects that contain `sunday` or `october` in their description.
+* Searching by description only requires a partial match, similar to searching by name.
+
+Searching by tag: 
+* The `t/` command checks whether a project has a certain tag. There can be multiple tags added to this command. For example, `t/freelance errands` will check for the projects that contain the tags `freelance` or `errands`.
+* Searching by tags will require a full word match unlike searching by name or description. This means that searching for the tag `free` will not find a project with the tag `freelance`.
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Searches for tags require a full match whilst searches partial matches are sufficient for searches by name and description.
+</div>
 
 #### Starting a Timer for a Project: `start`
 

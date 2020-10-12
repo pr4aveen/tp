@@ -10,15 +10,15 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.momentum.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
-import seedu.momentum.model.project.NameContainsKeywordsPredicate;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.EditProjectDescriptorBuilder;
 
 /**
@@ -124,7 +124,8 @@ public class CommandTestUtil {
 
         Project project = model.getFilteredProjectList().get(targetIndex.getZeroBased());
         final String[] splitName = project.getName().fullName.split("\\s+");
-        model.updateFilteredProjectList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        model.updateFilteredProjectList(
+            new NameContainsKeywordsPredicate(false, Collections.singletonList(splitName[0])));
 
         assertEquals(1, model.getFilteredProjectList().size());
     }
