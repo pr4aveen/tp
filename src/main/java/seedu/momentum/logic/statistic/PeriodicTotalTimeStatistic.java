@@ -25,7 +25,7 @@ public class PeriodicTotalTimeStatistic extends Statistic {
     private ObservableList<StatisticEntry> timeList = FXCollections.observableArrayList();
 
     /**
-     * Constructs a {@code PeriodicTotalTimePerProjectStatistic}
+     * Constructs a {@code PeriodicTotalTimeStatistic}
      *
      * @param period Period of time to track.
      * @param units Units for the total time calculated.
@@ -37,7 +37,7 @@ public class PeriodicTotalTimeStatistic extends Statistic {
     }
 
     /**
-     * Constructs a {@code PeriodicTotalTimePerProjectStatistic} with specified data.
+     * Constructs a {@code PeriodicTotalTimeStatistic} with specified data.
      *
      * @param period Period of time to track.
      * @param units Units for the total time calculated.
