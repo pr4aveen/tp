@@ -40,7 +40,7 @@ public class StartCommandTest {
 
         String expectedMessage =
                 String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST_PROJECT.getOneBased())
-                + startedProject.getTimer().getStartTime();
+                + startedProject.getTimer().getStartTime().getFormatted();
 
 
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);
@@ -78,7 +78,7 @@ public class StartCommandTest {
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
         String expectedMessage =
                 String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST_PROJECT.getOneBased())
-                        + startedProject.getTimer().getStartTime();
+                        + startedProject.getTimer().getStartTime().getFormatted();
 
         showProjectAtIndex(expectedModel, INDEX_FIRST_PROJECT);
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);

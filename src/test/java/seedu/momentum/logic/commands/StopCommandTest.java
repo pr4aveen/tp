@@ -40,7 +40,7 @@ public class StopCommandTest {
 
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
-                INDEX_FIRST_PROJECT.getOneBased(), 1);
+                INDEX_FIRST_PROJECT.getOneBased(), 60);
         model.setProject(projectToStop, startedProject);
 
         Clock.advance(1, ChronoUnit.HOURS);
@@ -75,7 +75,7 @@ public class StopCommandTest {
         Project projectToStop = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
-                INDEX_FIRST_PROJECT.getOneBased(), 1);
+                INDEX_FIRST_PROJECT.getOneBased(), 60);
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         Project startedProject = projectToStop.startTimer();
