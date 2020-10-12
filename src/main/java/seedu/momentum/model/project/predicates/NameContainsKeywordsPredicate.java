@@ -1,9 +1,10 @@
-package seedu.momentum.model.project;
+package seedu.momentum.model.project.predicates;
 
 import java.util.List;
 import java.util.function.Predicate;
 
 import seedu.momentum.commons.util.StringUtil;
+import seedu.momentum.model.project.Project;
 
 /**
  * Tests that a {@code Project}'s {@code Name} matches any of the keywords given.
@@ -16,7 +17,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Project> {
      * Predicate to check whether the {@code Name} of a {@code Project} contains a
      * certain keyword.
      *
-     * @param isAllMatch boolean to indicate whether all keywords need to be successfully matched
+     * @param isAllMatch boolean to indicate whether all keywords need to be successfully matched.
      * @param keywords list of keywords to check for matches.
      */
     public NameContainsKeywordsPredicate(boolean isAllMatch, List<String> keywords) {

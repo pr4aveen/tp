@@ -13,5 +13,5 @@ public class CliSyntax {
     public static final Prefix PREFIX_DEADLINE_TIME = new Prefix("dt/");
 
     // Search parameters
-    public static final Prefix FILTER_TYPE = new Prefix("match/");
+    public static final Prefix FIND_TYPE = new Prefix("match/");
 }

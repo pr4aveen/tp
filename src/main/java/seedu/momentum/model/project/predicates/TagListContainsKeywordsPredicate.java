@@ -1,10 +1,11 @@
-package seedu.momentum.model.project;
+package seedu.momentum.model.project.predicates;
 
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
 import seedu.momentum.commons.util.StringUtil;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -18,7 +19,7 @@ public class TagListContainsKeywordsPredicate implements Predicate<Project> {
      * Predicate to check whether the {@code Tag} of a {@code Project} contains a
      * certain keyword.
      *
-     * @param isAllMatch boolean to indicate whether all keywords need to be successfully matched
+     * @param isAllMatch boolean to indicate whether all keywords need to be successfully matched.
      * @param keywords list of keywords to check for matches.
      */
     public TagListContainsKeywordsPredicate(boolean isAllMatch, List<String> keywords) {

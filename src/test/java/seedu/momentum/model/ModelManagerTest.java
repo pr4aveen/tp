@@ -15,7 +15,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.GuiSettings;
-import seedu.momentum.model.project.NameContainsKeywordsPredicate;
+import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.ProjectBookBuilder;
 
 public class ModelManagerTest {

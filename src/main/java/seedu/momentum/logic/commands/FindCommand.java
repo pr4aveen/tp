@@ -1,7 +1,7 @@
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.momentum.logic.parser.CliSyntax.FILTER_TYPE;
+import static seedu.momentum.logic.parser.CliSyntax.FIND_TYPE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
@@ -20,17 +20,17 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String FILTER_ALL_MATCH = "all";
-    public static final String FILTER_ANY_MATCH = "any";
+    public static final String FIND_ALL_MATCH = "all";
+    public static final String FIND_ANY_MATCH = "any";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all projects whose names contain any or all of "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: "
-            + "[" + FILTER_TYPE + "FILTER_TYPE ] "
+            + "[" + FIND_TYPE + "FILTER_TYPE ] "
             + "[" + PREFIX_NAME + "NAME_KEYWORD [MORE_NAME_KEYWORDS]... ] "
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION_KEYWORD [MORE_DESCRIPTION_KEYWORDS]... ] "
             + "[" + PREFIX_TAG + "TAG_KEYWORD [MORE_TAG_KEYWORDS]... ] \n"
-            + "Example: " + COMMAND_WORD + " " + FILTER_TYPE + "all " + PREFIX_NAME + "alice bob charlie "
+            + "Example: " + COMMAND_WORD + " " + FIND_TYPE + "all " + PREFIX_NAME + "alice bob charlie "
             + PREFIX_DESCRIPTION + "likes dim sum " + PREFIX_TAG + "friends";
 
     private final Predicate<Project> predicate;

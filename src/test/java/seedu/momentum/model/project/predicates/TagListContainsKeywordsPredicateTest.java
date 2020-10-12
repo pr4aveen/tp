@@ -1,7 +1,8 @@
-package seedu.momentum.model.project;
+package seedu.momentum.model.project.predicates;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.testutil.TypicalProjects.BENSON;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,9 +10,15 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.testutil.ProjectBuilder;
-
 public class TagListContainsKeywordsPredicateTest {
+
+    private static final List<String> SINGLE_KEYWORD = Collections.singletonList("friends");
+    private static final List<String> MULTIPLE_KEYWORDS = Arrays.asList("friends", "owesMoney");
+    private static final List<String> ONE_MATCHING_KEYWORD = Arrays.asList("dogs", "owesMoney");
+    private static final List<String> MIXED_CASE_KEYWORDS = Arrays.asList("fRiEnDs", "oWeSmOneY");
+    private static final List<String> NO_MATCHING_KEYWORDS = Arrays.asList("nothing", "matches");
+    private static final List<String> ONLY_MATCHES_NAME = Arrays.asList("Benson", "Meier");
+    private static final List<String> ONLY_MATCHES_DESCRIPTION = Collections.singletonList("dogs");
 
     @Test
     public void equals() {
@@ -54,60 +61,68 @@ public class TagListContainsKeywordsPredicateTest {
     }
 
     @Test
-    public void test_nameContainsKeywords() {
+    public void test_tagListContainsKeywords() {
         // One keyword (Any)
         TagListContainsKeywordsPredicate anyPredicate =
-                new TagListContainsKeywordsPredicate(false, Collections.singletonList("Alice"));
-        assertTrue(anyPredicate.test(new ProjectBuilder().withTags("Alice", "Bob").build()));
+                new TagListContainsKeywordsPredicate(false, SINGLE_KEYWORD);
+        assertTrue(anyPredicate.test(BENSON));
 
         // Multiple keywords (Any)
-        anyPredicate = new TagListContainsKeywordsPredicate(false, Arrays.asList("Alice", "Bob"));
-        assertTrue(anyPredicate.test(new ProjectBuilder().withTags("Alice", "Bob").build()));
+        anyPredicate = new TagListContainsKeywordsPredicate(false, MULTIPLE_KEYWORDS);
+        assertTrue(anyPredicate.test(BENSON));
 
         // Only one matching keyword (Any)
-        anyPredicate = new TagListContainsKeywordsPredicate(false, Arrays.asList("Bob", "Carol"));
-        assertTrue(anyPredicate.test(new ProjectBuilder().withTags("Alice", "Carol").build()));
+        anyPredicate = new TagListContainsKeywordsPredicate(false, ONE_MATCHING_KEYWORD);
+        assertTrue(anyPredicate.test(BENSON));
 
         // Mixed-case keywords (Any)
-        anyPredicate = new TagListContainsKeywordsPredicate(false, Arrays.asList("aLIce", "bOB"));
-        assertTrue(anyPredicate.test(new ProjectBuilder().withTags("Alice", "Bob").build()));
+        anyPredicate = new TagListContainsKeywordsPredicate(false, MIXED_CASE_KEYWORDS);
+        assertTrue(anyPredicate.test(BENSON));
 
         // One keyword (All)
         TagListContainsKeywordsPredicate allPredicate =
-                new TagListContainsKeywordsPredicate(true, Collections.singletonList("Alice"));
-        assertTrue(allPredicate.test(new ProjectBuilder().withTags("Alice", "Bob").build()));
+                new TagListContainsKeywordsPredicate(true, SINGLE_KEYWORD);
+        assertTrue(allPredicate.test(BENSON));
 
         // Multiple keywords (All)
-        allPredicate = new TagListContainsKeywordsPredicate(true, Arrays.asList("Alice", "Bob"));
-        assertTrue(allPredicate.test(new ProjectBuilder().withTags("Alice", "Bob").build()));
+        allPredicate = new TagListContainsKeywordsPredicate(true, MULTIPLE_KEYWORDS);
+        assertTrue(allPredicate.test(BENSON));
 
         // Only one matching keyword (All)
-        allPredicate = new TagListContainsKeywordsPredicate(true, Arrays.asList("Bob", "Carol"));
-        assertFalse(allPredicate.test(new ProjectBuilder().withTags("Alice", "Carol").build()));
+        allPredicate = new TagListContainsKeywordsPredicate(true, ONE_MATCHING_KEYWORD);
+        assertFalse(allPredicate.test(BENSON));
 
         // Mixed-case keywords (All)
-        allPredicate = new TagListContainsKeywordsPredicate(true, Arrays.asList("aLIce", "bOB"));
-        assertTrue(allPredicate.test(new ProjectBuilder().withTags("Alice", "Bob").build()));
+        allPredicate = new TagListContainsKeywordsPredicate(true, MIXED_CASE_KEYWORDS);
+        assertTrue(allPredicate.test(BENSON));
     }
 
     @Test
-    public void test_nameDoesNotContainKeywords_returnsFalse() {
+    public void test_tagListDoesNotContainKeywords_returnsFalse() {
         // Non-matching keyword (Any)
         TagListContainsKeywordsPredicate anyPredicate =
-                new TagListContainsKeywordsPredicate(false, Arrays.asList("Carol"));
-        assertFalse(anyPredicate.test(new ProjectBuilder().withTags("Alice", "Bob").build()));
+                new TagListContainsKeywordsPredicate(false, NO_MATCHING_KEYWORDS);
+        assertFalse(anyPredicate.test(BENSON));
+
+        // Keywords match name, but does not match tags (Any)
+        anyPredicate = new TagListContainsKeywordsPredicate(false, ONLY_MATCHES_NAME);
+        assertFalse(anyPredicate.test(BENSON));
 
         // Keywords match description, but does not match tags (Any)
-        anyPredicate = new TagListContainsKeywordsPredicate(false, Arrays.asList("Wonderful"));
-        assertFalse(anyPredicate.test(new ProjectBuilder().withTags("Alice").withDescription("Wonderful").build()));
+        anyPredicate = new TagListContainsKeywordsPredicate(false, ONLY_MATCHES_DESCRIPTION);
+        assertFalse(anyPredicate.test(BENSON));
 
         // Non-matching keyword (All)
         TagListContainsKeywordsPredicate allPredicate =
-                new TagListContainsKeywordsPredicate(true, Arrays.asList("Carol"));
-        assertFalse(allPredicate.test(new ProjectBuilder().withTags("Alice", "Bob").build()));
+                new TagListContainsKeywordsPredicate(true, NO_MATCHING_KEYWORDS);
+        assertFalse(allPredicate.test(BENSON));
+
+        // Keywords match name, but does not match tags (All)
+        allPredicate = new TagListContainsKeywordsPredicate(true, ONLY_MATCHES_NAME);
+        assertFalse(allPredicate.test(BENSON));
 
         // Keywords match description, but does not match tags (All)
-        allPredicate = new TagListContainsKeywordsPredicate(true, Arrays.asList("Wonderful"));
-        assertFalse(allPredicate.test(new ProjectBuilder().withTags("Alice").withDescription("Wonderful").build()));
+        allPredicate = new TagListContainsKeywordsPredicate(true, ONLY_MATCHES_DESCRIPTION);
+        assertFalse(allPredicate.test(BENSON));
     }
 }
