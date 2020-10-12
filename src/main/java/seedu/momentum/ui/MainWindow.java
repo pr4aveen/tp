@@ -2,7 +2,6 @@ package seedu.momentum.ui;
 
 import java.util.logging.Logger;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +17,7 @@ import seedu.momentum.logic.Logic;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.logic.statistic.StatisticEntry;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -37,7 +37,6 @@ public class MainWindow extends UiPart<Stage> {
     private ResultDisplay resultDisplay;
     private StatListPanel statListPanel;
     private HelpWindow helpWindow;
-    private TestStatWindow testStatWindow;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -76,7 +75,6 @@ public class MainWindow extends UiPart<Stage> {
         setAccelerators();
 
         helpWindow = new HelpWindow();
-        testStatWindow = new TestStatWindow(logic);
     }
 
     public Stage getPrimaryStage() {
@@ -133,11 +131,7 @@ public class MainWindow extends UiPart<Stage> {
         TagsDisplay tagsDisplay = new TagsDisplay(logic.getProjectTags());
         infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
 
-        // PLACEHOLDER DATA
-        ObservableList<String[]> stats = FXCollections.observableArrayList();
-        stats.add(new String[] {"lorem ipsum dolor sit amet", "4hr 30min"});
-        stats.add(new String[] {"lorem ipsum dolor sit amet", "2hr"});
-        stats.add(new String[] {"label3", "value3"});
+        ObservableList<StatisticEntry> stats = logic.getStatistic().getWeeklyTimePerProjectStatistic();
 
         statListPanel = new StatListPanel(stats);
         statListPanelPlaceholder.getChildren().add(statListPanel.getRoot());
@@ -164,18 +158,6 @@ public class MainWindow extends UiPart<Stage> {
             helpWindow.show();
         } else {
             helpWindow.focus();
-        }
-    }
-
-    /**
-     * Opens the test stat window or focuses on it if its's already opened
-     */
-    @FXML
-    public void handleTestStat() {
-        if (!testStatWindow.isShowing()) {
-            testStatWindow.show();
-        } else {
-            testStatWindow.focus();
         }
     }
 
