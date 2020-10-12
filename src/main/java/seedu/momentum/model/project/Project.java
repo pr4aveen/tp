@@ -82,20 +82,12 @@ public class Project {
         return description;
     }
 
-    public boolean hasDescription() {
-        return !description.equals(Description.EMPTY_DESCRIPTION);
-    }
-
     public Date getCreatedDate() {
         return createdDate;
     }
 
     public Deadline getDeadline() {
         return deadline;
-    }
-
-    public boolean hasDeadline() {
-        return !deadline.isEmpty();
     }
 
     /**
