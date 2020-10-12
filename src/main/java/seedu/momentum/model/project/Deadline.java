@@ -71,8 +71,9 @@ public class Deadline {
     }
 
     public String getFormattedDeadline() {
-        return this.date.map(Date::getFormatted).orElse("")
-                + this.time.map(time -> " " + time.getFormatted()).orElse("");
+        return isEmpty() ? "No deadline set"
+            : this.date.map(Date::getFormatted).orElse("")
+            + this.time.map(time -> " " + time.getFormatted()).orElse("");
     }
 
     @Override

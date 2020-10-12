@@ -2,11 +2,14 @@ package seedu.momentum.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javafx.collections.ObservableList;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.UniqueProjectList;
+import seedu.momentum.model.tag.Tag;
 
 /**
  * Wraps all data at the project-book level
@@ -105,6 +108,13 @@ public class ProjectBook implements ReadOnlyProjectBook {
     @Override
     public ObservableList<Project> getProjectList() {
         return projects.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public Set<Tag> getProjectTags() {
+        Set<Tag> tags = new HashSet<>();
+        getProjectList().forEach(project -> tags.addAll(project.getTags()));
+        return tags;
     }
 
     @Override

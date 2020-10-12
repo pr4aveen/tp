@@ -1,61 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.Scene?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.stage.Stage?>
 
-<fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-         title="Momentum" minWidth="450" minHeight="600" onCloseRequest="#handleExit">
-  <icons>
-    <Image url="@/images/address_book_32.png" />
-  </icons>
-  <scene>
-    <Scene>
-      <stylesheets>
-        <URL value="@DarkTheme.css" />
-        <URL value="@Extensions.css" />
-      </stylesheets>
-
-      <VBox>
-        <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
-          <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
-            <MenuItem fx:id="testStatMenuItem" mnemonicParsing="false" onAction="#handleTestStat" text="TestStat" />
-          </Menu>
-        </MenuBar>
-
-        <StackPane VBox.vgrow="NEVER" fx:id="commandBoxPlaceholder" styleClass="pane-with-border">
-          <padding>
-            <Insets top="5" right="10" bottom="5" left="10" />
-          </padding>
-        </StackPane>
-
-        <StackPane VBox.vgrow="NEVER" fx:id="resultDisplayPlaceholder" styleClass="pane-with-border"
-                   minHeight="100" prefHeight="100" maxHeight="100">
-          <padding>
-            <Insets top="5" right="10" bottom="5" left="10" />
-          </padding>
-        </StackPane>
-
-        <VBox fx:id="projectList" styleClass="pane-with-border" minWidth="340" prefWidth="340" VBox.vgrow="ALWAYS">
-          <padding>
-            <Insets top="10" right="10" bottom="10" left="10" />
-          </padding>
-          <StackPane fx:id="projectListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-        </VBox>
-
-        <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />
-      </VBox>
-    </Scene>
-  </scene>
+<fx:root minHeight="600" minWidth="900" onCloseRequest="#handleExit" title="Momentum" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
+   <icons>
+      <Image url="@/images/address_book_32.png" />
+   </icons>
+   <scene>
+      <Scene>
+         <stylesheets>
+            <URL value="@DarkTheme.css" />
+            <URL value="@Extensions.css" />
+         </stylesheets>
+         <root>
+            <VBox>
+               <children>
+                  <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
+                     <menus>
+                        <Menu mnemonicParsing="false" text="File">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
+                           </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Help">
+                           <items>
+                              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
+                           </items>
+                        </Menu>
+                     </menus>
+                  </MenuBar>
+                  <GridPane styleClass="grid-pane" VBox.vgrow="ALWAYS">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints vgrow="ALWAYS" />
+                    </rowConstraints>
+                     <children>
+                        <GridPane prefHeight="0.0" prefWidth="70.0" styleClass="grid-pane">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints percentHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+                            <RowConstraints percentHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="pane-with-border">
+                                 <children>
+                                    <Label styleClass="label-header" text="Momentum" />
+                                 </children>
+                              </StackPane>
+                              <SplitPane dividerPositions="0.3" orientation="VERTICAL" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.vgrow="ALWAYS">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                       <children>
+                                          <StackPane fx:id="infoDisplayPlaceholder" styleClass="pane-with-border" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                       <children>
+                                          <VBox fx:id="statList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <StackPane fx:id="statListPanelPlaceholder" styleClass="pane-with-border" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </GridPane>
+                        <GridPane prefHeight="82.0" prefWidth="241.0" styleClass="grid-pane" GridPane.columnIndex="1">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                            <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                            <RowConstraints vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <StackPane fx:id="commandBoxPlaceholder" styleClass="pane-with-border" />
+                              <StackPane fx:id="resultDisplayPlaceholder" styleClass="pane-with-border" GridPane.rowIndex="1" />
+                              <VBox fx:id="projectList" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+                                 <children>
+                                    <StackPane fx:id="projectListPanelPlaceholder" styleClass="pane-with-border" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+         </root>
+      </Scene>
+   </scene>
 </fx:root>

@@ -11,7 +11,9 @@ import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.exceptions.DuplicateProjectException;
+import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class ProjectBookTest {
@@ -94,6 +97,13 @@ public class ProjectBookTest {
         @Override
         public ObservableList<Project> getProjectList() {
             return projects;
+        }
+
+        @Override
+        public Set<Tag> getProjectTags() {
+            Set<Tag> tags = new HashSet<>();
+            getProjectList().forEach(project -> tags.addAll(project.getTags()));
+            return tags;
         }
     }
 

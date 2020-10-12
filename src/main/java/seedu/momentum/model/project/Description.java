@@ -23,6 +23,10 @@ public class Description {
         value = description;
     }
 
+    public boolean isEmpty() {
+        return value.equals(EMPTY_DESCRIPTION.value);
+    }
+
     @Override
     public String toString() {
         return value;
