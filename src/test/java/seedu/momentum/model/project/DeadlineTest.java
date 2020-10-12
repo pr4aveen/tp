@@ -48,7 +48,7 @@ public class DeadlineTest {
 
     @Test
     public void getFormattedDeadline_formatsCorrectly() {
-        assertEquals("", emptyDeadline.getFormattedDeadline());
+        assertEquals("No deadline set", emptyDeadline.getFormattedDeadline());
         assertEquals(deadlineWithDate.getDate().getFormatted(), deadlineWithDate.getFormattedDeadline());
         String expectedDeadlineStr = deadlineWithDateAndTime.getDate().getFormatted()
                 + " " + deadlineWithDateAndTime.getTime().getFormatted();
