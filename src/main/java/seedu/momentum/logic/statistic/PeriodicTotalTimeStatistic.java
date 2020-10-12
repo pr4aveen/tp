@@ -17,7 +17,7 @@ import seedu.momentum.model.timer.WorkDuration;
 /**
  * Tracks the total time spent on each project for a specific period of time.
  */
-public class PeriodicTotalTimePerProjectStatistic extends Statistic {
+public class PeriodicTotalTimeStatistic extends Statistic {
 
     private ChronoUnit period;
     private ChronoUnit units;
@@ -25,27 +25,27 @@ public class PeriodicTotalTimePerProjectStatistic extends Statistic {
     private ObservableList<StatisticEntry> timeList = FXCollections.observableArrayList();
 
     /**
-     * Constructs a {@code PeriodicTotalTimePerProjectStatistic}
+     * Constructs a {@code PeriodicTotalTimeStatistic}
      *
      * @param period Period of time to track.
      * @param units Units for the total time calculated.
      */
-    public PeriodicTotalTimePerProjectStatistic(ChronoUnit period, ChronoUnit units) {
+    public PeriodicTotalTimeStatistic(ChronoUnit period, ChronoUnit units) {
         requireAllNonNull(period, units);
         this.period = period;
         this.units = units;
     }
 
     /**
-     * Constructs a {@code PeriodicTotalTimePerProjectStatistic} with specified data.
+     * Constructs a {@code PeriodicTotalTimeStatistic} with specified data.
      *
      * @param period Period of time to track.
      * @param units Units for the total time calculated.
      * @param timeList Data for this statistic.
      */
-    public PeriodicTotalTimePerProjectStatistic(ChronoUnit period,
-                                                ChronoUnit units,
-                                                ObservableList<StatisticEntry> timeList) {
+    public PeriodicTotalTimeStatistic(ChronoUnit period,
+                                      ChronoUnit units,
+                                      ObservableList<StatisticEntry> timeList) {
         requireAllNonNull(period, units, timeList);
         this.period = period;
         this.units = units;
@@ -63,31 +63,37 @@ public class PeriodicTotalTimePerProjectStatistic extends Statistic {
         ObservableList<StatisticEntry> newTimeList = FXCollections.observableArrayList();
 
         for (Project project : projects) {
-            List<WorkDuration> durations = project.getDurationList();
-            long totalDuration = 0;
-
-            for (WorkDuration duration : durations) {
-                DateTime startTime = duration.getStartTime();
-                DateTime stopTime = duration.getStopTime();
-
-                if (stopTime.isBefore(weekStart) || startTime.isAfter(weekEnd)) {
-                    continue;
-                }
-
-                if (startTime.isBefore(weekStart) && stopTime.isBefore(weekEnd)) {
-                    // Duration is cut in two by the week
-                    totalDuration += DateTime.getTimeBetween(weekStart, stopTime, units);
-                } else {
-                    // Whole Duration is in the week
-                    totalDuration += duration.getTimeBetween(units);
-                }
-            }
+            long totalDuration = calculateTimeSpent(project, weekStart, weekEnd);
 
             StatisticEntry entry = new StatisticEntry(project.getName().fullName, totalDuration);
 
             newTimeList.add(entry);
             timeList = newTimeList;
         }
+    }
+
+    private long calculateTimeSpent(Project project, DateTime weekStart, DateTime weekEnd) {
+        List<WorkDuration> durations = project.getDurationList();
+        long totalDuration = 0;
+
+        for (WorkDuration duration : durations) {
+            DateTime startTime = duration.getStartTime();
+            DateTime stopTime = duration.getStopTime();
+
+            if (stopTime.isBefore(weekStart) || startTime.isAfter(weekEnd)) {
+                continue;
+            }
+
+            if (startTime.isBefore(weekStart) && stopTime.isBefore(weekEnd)) {
+                // Duration is cut in two by the week
+                totalDuration += DateTime.getTimeBetween(weekStart, stopTime, units);
+            } else {
+                // Whole Duration is in the week
+                totalDuration += duration.getTimeBetween(units);
+            }
+        }
+
+        return totalDuration;
     }
 
     @Override
@@ -103,7 +109,7 @@ public class PeriodicTotalTimePerProjectStatistic extends Statistic {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PeriodicTotalTimePerProjectStatistic that = (PeriodicTotalTimePerProjectStatistic) o;
+        PeriodicTotalTimeStatistic that = (PeriodicTotalTimeStatistic) o;
         return period == that.period
                 && units == that.units
                 && Objects.equals(timeList, that.timeList);
