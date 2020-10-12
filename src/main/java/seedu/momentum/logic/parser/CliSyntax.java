@@ -5,10 +5,13 @@ package seedu.momentum.logic.parser;
  */
 public class CliSyntax {
 
-    /* Prefix definitions */
+    // Prefix definitions
     public static final Prefix PREFIX_NAME = new Prefix("n/");
     public static final Prefix PREFIX_DESCRIPTION = new Prefix("d/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
     public static final Prefix PREFIX_DEADLINE_DATE = new Prefix("dd/");
     public static final Prefix PREFIX_DEADLINE_TIME = new Prefix("dt/");
+
+    // Search parameters
+    public static final Prefix FIND_TYPE = new Prefix("match/");
 }
