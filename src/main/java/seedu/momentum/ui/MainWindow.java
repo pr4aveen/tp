@@ -130,7 +130,7 @@ public class MainWindow extends UiPart<Stage> {
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
-        TagsDisplay tagsDisplay = new TagsDisplay(logic.getProjectTags());
+        TagsDisplay tagsDisplay = new TagsDisplay(logic.getProjectBook().getProjectTags());
         infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
 
         // PLACEHOLDER DATA

@@ -21,7 +21,7 @@ public class ProjectCard extends UiPart<Region> {
      * As a consequence, UI elements' variable names cannot be set to such keywords
      * or an exception will be thrown by JavaFX during runtime.
      *
-     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on ProjectBook level 4</a>
+     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
      */
 
     private final Project project;
@@ -50,16 +50,12 @@ public class ProjectCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(project.getName().fullName);
 
-        if (project.hasDescription()) {
+        if (project.getDescription().isEmpty()) {
             description.getChildren().add(new Label(project.getDescription().value));
         }
 
         createdDate.getChildren().add(new Label(project.getCreatedDate().getFormatted()));
-
-        String deadlineText = project.hasDeadline()
-            ? project.getDeadline().getFormattedDeadline()
-            : "No deadline set";
-        deadline.getChildren().add(new Label(deadlineText));
+        deadline.getChildren().add(new Label(project.getDeadline().getFormattedDeadline()));
 
         project.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))

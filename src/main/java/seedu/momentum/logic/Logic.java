@@ -1,7 +1,6 @@
 package seedu.momentum.logic;
 
 import java.nio.file.Path;
-import java.util.Set;
 
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiSettings;
@@ -11,7 +10,6 @@ import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.tag.Tag;
 
 /**
  * API of the Logic component
@@ -38,11 +36,6 @@ public interface Logic {
      * Returns an unmodifiable view of the filtered list of projects
      */
     ObservableList<Project> getFilteredProjectList();
-
-    /**
-     * Returns the collection of all tags that the user has entered for the projects.
-     */
-    Set<Tag> getProjectTags();
 
     /**
      * Returns the user prefs' project book file path.
