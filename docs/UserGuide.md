@@ -129,6 +129,97 @@ Shows a list of all projects in the project book.
 
 Format: `list`
 
+#### Sort Projects : `sort`
+
+Sorts the list of displayed projects in the application.
+
+Format: `sort [type/SORT_TYPE] [order/SORT_ORDER]`
+
+* There are 3 types of sort.
+    * `type/alpha` will sort the list of projects in alphabetical order.
+    * `type/deadline` will sort the list of projects according to their deadlines.
+    * `type/created` will sort the list of projects according to their date of creation.
+    
+* There are 2 sort orders.
+    * `sort/asc` will sort the list of projects in ascending order.
+    * `sort/dsc` will sort the list of projects in descending order.
+   
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+`type/alpha` and `order/asc` will be used as default if both sort type and order are not specified (i.e. command is `sort`)
+</div>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Current sort type will be used if the `type` is not specified but `order` is specified.
+</div>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+`order/asc` will be used as default if the `order` is not specified but `type` is specified.
+</div>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+For `sort type/deadline`, projects without deadlines will be ordered alphabetically after the ordered list of projects with deadlines.
+For both `sort type/deadline` and `sort type/created`, projects with same deadline or same created date will be sorted alphabetically.
+</div>
+
+Example:
+
+The following are 3 projects in the project book.
+
+Project 1. Name: `Ant Hole`, Deadline: `2020-02-02`, Created Date: `2000-02-02`
+Project 2. Name: `Brunch`, Deadline: `2010-01-01`, Created Date: `2002-09-09`
+Project 3. Name: `Create Logo` , Deadline: `2040-04-04`, Created Date: `2001-01-01`
+
+##### Sorting by Default order 
+
+Format: `sort`
+
+* Sorts projects in alphabetical, ascending order
+
+Result: [Project 1, Project 2, Project 3]
+
+##### Sorting With Only Type Specified 
+
+Format: `sort type/SORT_TYPE`
+
+* Sorts projects in a specified order
+* Since order is not specified, default order is ascending
+
+Example: `sort type/alpha`
+Result: [Project 1, Project 2, Project 3]
+
+Example: `sort type/deadline`
+Result: [Project 2, Project 1, Project 3]
+
+Example: `sort type/created`
+Result: [Project 1, Project 3, Project 2]
+
+#### Sorting With Only Order Specified 
+
+Format: `sort order/SORT_ORDER`
+
+* Sorts projects in current project order.
+* If there is no existing project order (when the application restarts), order will be alphabetical by default.
+
+Example: `sort order/dsc` (After application restarts for the first time)
+Result: [Project 3, Project 2, Project 1]
+
+Example `sort order/asc` (Current sort type is Deadline)
+Result: [Project 2, Project 1, Project 3]
+
+#### Sorting With Both Type and Order Specified
+
+* Sorts projects in specified type and order.
+* Projects that cannot be ordered in a certain type will be ordered alphabetically.
+
+Example: `sort type/alpha order/dsc`
+Result: [Project 3, Project 2, Project 1]
+
+Example: `sort type/deadline order/asc`
+Result: [Project 2, Project 1, Project 3]
+
+Example: `sort type/created order/dsc`
+Result: [Project 2, Project 3, Project 1]
+
 #### View a Project (_coming soon_)
 
 Format: `/p PROJECT_ID`
@@ -164,7 +255,7 @@ Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_
 * `match/any` shows the project as long as any parameter matches the user's input.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-`match/any` will be used if the `match` type is not specified.
+match/any` will be used if the `match` type is not specified.
 </div>
 
 Example:
