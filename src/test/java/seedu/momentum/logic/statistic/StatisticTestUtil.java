@@ -45,8 +45,8 @@ public class StatisticTestUtil {
     public static final Model TEST_MODEL = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
     // Statistics
-    public static final PeriodicTotalTimePerProjectStatistic TEST_WEEKLY_TIME_PER_PROJECT =
-            new PeriodicTotalTimePerProjectStatistic(ChronoUnit.WEEKS, ChronoUnit.MINUTES,
+    public static final PeriodicTotalTimeStatistic TEST_WEEKLY_TIME_PER_PROJECT =
+            new PeriodicTotalTimeStatistic(ChronoUnit.WEEKS, ChronoUnit.MINUTES,
                     FXCollections.observableArrayList(
                             new StatisticEntry("Alpha", 60),
                             new StatisticEntry("Beta", 0),
