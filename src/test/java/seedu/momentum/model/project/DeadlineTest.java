@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 public class DeadlineTest {
     private static final String VALID_TIME = "10:15:30";
     private static final String VALID_DATE = "2019-09-23";
+    private static final String VALID_LATER_TIME = "10:15:35";
+    private static final String VALID_LATER_DATE = "2019-09-25";
     private static final String INVALID_TIME = "10:86:30";
     private static final String INVALID_DATE = "2019-97-23";
 
@@ -62,5 +64,44 @@ public class DeadlineTest {
         String expectedDeadlineStr = deadlineWithDateAndTime.getDate().toString()
                 + deadlineWithDateAndTime.getTime().toString();
         assertEquals(expectedDeadlineStr, deadlineWithDateAndTime.toString());
+    }
+
+    @Test
+    public void compareTo_returnsCorrectValue() {
+        // second Deadline has later date -> returns -1
+        assertEquals(new Deadline(VALID_DATE).compareTo(new Deadline(VALID_LATER_DATE)), -1);
+
+        // second Deadline has earlier date -> returns 1
+        assertEquals(new Deadline(VALID_LATER_DATE).compareTo(new Deadline(VALID_DATE)), 1);
+
+        // first and second Deadline have same date -> returns 0
+        assertEquals(new Deadline(VALID_DATE).compareTo(new Deadline("2019-09-23")), 0);
+
+        // second Deadline has same date, later time -> returns -1
+        assertEquals(new Deadline(VALID_DATE, VALID_TIME).compareTo(
+                new Deadline(VALID_DATE, VALID_LATER_TIME)), -1);
+
+        // second Deadline has same date, earlier time -> returns 1
+        assertEquals(new Deadline(VALID_DATE, VALID_LATER_TIME).compareTo(
+                new Deadline(VALID_DATE, VALID_TIME)), 1);
+
+        // second Deadline has same date, SAME time -> returns 0
+        assertEquals(new Deadline(VALID_DATE, VALID_TIME).compareTo(
+                new Deadline("2019-09-23", "10:15:30")), 0);
+    }
+
+    @Test
+    public void sameDateCompare_returnsCorrectValue() {
+        // second Deadline has same date, later time -> returns -1
+        assertEquals(new Deadline(VALID_DATE, VALID_TIME).compareTo(
+                new Deadline(VALID_DATE, VALID_LATER_TIME)), -1);
+
+        // second Deadline has same date, earlier time -> returns 1
+        assertEquals(new Deadline(VALID_DATE, VALID_LATER_TIME).compareTo(
+                new Deadline(VALID_DATE, VALID_TIME)), 1);
+
+        // second Deadline has same date, SAME time -> returns 0
+        assertEquals(new Deadline(VALID_DATE, VALID_TIME).compareTo(
+                new Deadline("2019-09-23", "10:15:30")), 0);
     }
 }
