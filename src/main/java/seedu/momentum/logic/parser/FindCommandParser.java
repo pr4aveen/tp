@@ -1,8 +1,6 @@
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.momentum.logic.commands.FindCommand.FIND_ALL_MATCH;
-import static seedu.momentum.logic.commands.FindCommand.FIND_ANY_MATCH;
 import static seedu.momentum.logic.parser.CliSyntax.FIND_TYPE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
@@ -11,12 +9,15 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
+import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.TagListContainsKeywordsPredicate;
 
@@ -36,36 +37,42 @@ public class FindCommandParser implements Parser<FindCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_TAG, FIND_TYPE);
 
-        boolean isAllMatch = getMatchType(argMultimap); // only parses find type if it exists
-        List<Prefix> prefixesToParse = Arrays.asList(PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_TAG);
+        Prefix[] prefixesToParse = new Prefix[] {PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_TAG};
 
-        List<Predicate<Project>> predicateList = new ArrayList<>();
-
-        for (Prefix prefix : prefixesToParse) {
-            parseArguments(argMultimap, prefix, predicateList, isAllMatch);
-        }
-
-        if (predicateList.isEmpty()) {
+        if (!argMultimap.getPreamble().isEmpty() || !anyPrefixPresent(argMultimap, prefixesToParse)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        return new FindCommand(combinePredicates(isAllMatch, predicateList));
+        FindType findType = getMatchType(argMultimap); // only parses find type if the argument exists
+        List<Predicate<Project>> predicateList = new ArrayList<>(); // list of all predicates that will be applied
+
+        for (Prefix prefix : prefixesToParse) {
+            parseArguments(argMultimap, prefix, predicateList, findType);
+        }
+
+        return new FindCommand(combinePredicates(findType, predicateList));
     }
 
-    private Predicate<Project> combinePredicates(boolean isAllMatch, List<Predicate<Project>> predicateList) {
+    private Predicate<Project> combinePredicates(FindType findType, List<Predicate<Project>> predicateList) {
 
-        Predicate<Project> combinedPredicate;
+        BinaryOperator<Predicate<Project>> operationType;
+        switch (findType) {
+        case ALL:
+            operationType = Predicate::and;
+            break;
+        case ANY:
+            // Find any is the default type
+            // Fallthrough
+        default:
+            operationType = Predicate::or;
+            break;
 
-        if (isAllMatch) {
-            combinedPredicate = predicateList.stream().reduce(Predicate::and).orElse(x -> true);
-        } else {
-            combinedPredicate = predicateList.stream().reduce(Predicate::or).orElse(x -> true);
         }
-        return combinedPredicate;
+        return predicateList.stream().reduce(operationType).orElse(x -> true);
     }
 
     private void parseArguments (ArgumentMultimap argMultimap, Prefix prefix,
-             List<Predicate<Project>> predicateList, boolean isAllMatch) throws ParseException {
+             List<Predicate<Project>> predicateList, FindType findType) throws ParseException {
 
         if (argMultimap.getValue(prefix).isEmpty()) {
             return;
@@ -81,29 +88,36 @@ public class FindCommandParser implements Parser<FindCommand> {
         List<String> keywords = Arrays.asList(trimmedArgs.split(FIND_ARGUMENT_DELIMITER));
 
         if (prefix.equals(PREFIX_NAME)) {
-            predicateList.add(new NameContainsKeywordsPredicate(isAllMatch, keywords));
+            predicateList.add(new NameContainsKeywordsPredicate(findType, keywords));
         } else if (prefix.equals(PREFIX_DESCRIPTION)) {
-            predicateList.add(new DescriptionContainsKeywordsPredicate(isAllMatch, keywords));
+            predicateList.add(new DescriptionContainsKeywordsPredicate(findType, keywords));
         } else if (prefix.equals(PREFIX_TAG)) {
-            predicateList.add(new TagListContainsKeywordsPredicate(isAllMatch, keywords));
+            predicateList.add(new TagListContainsKeywordsPredicate(findType, keywords));
         }
     }
 
-    private boolean getMatchType(ArgumentMultimap argMultimap) throws ParseException {
+    private FindType getMatchType(ArgumentMultimap argMultimap) throws ParseException {
         if (argMultimap.getValue(FIND_TYPE).isEmpty()) {
-            return false;
+            return FindType.ANY;
         }
-        String filterType = argMultimap.getValue(FIND_TYPE).get();
-        filterType = filterType.trim();
 
-        switch (filterType) {
-        case FIND_ALL_MATCH:
-            return true;
-        case FIND_ANY_MATCH:
-            return false;
-        default:
+        String findTypeArgument = argMultimap.getValue(FIND_TYPE).get();
+        findTypeArgument = findTypeArgument.trim();
+
+        try {
+            return FindType.valueOf(findTypeArgument.toUpperCase());
+        } catch (IllegalArgumentException e) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
+
+    }
+
+    /**
+     * Returns false if all of the prefixes contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    private static boolean anyPrefixPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).anyMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }

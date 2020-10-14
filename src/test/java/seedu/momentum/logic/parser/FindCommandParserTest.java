@@ -11,6 +11,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.logic.commands.FindCommand;
+import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 
 public class FindCommandParserTest {
@@ -26,7 +27,7 @@ public class FindCommandParserTest {
     public void parse_validArgs_returnsFindCommand() {
         // no leading and trailing whitespaces
         FindCommand expectedFindCommand =
-                new FindCommand(new NameContainsKeywordsPredicate(true, Arrays.asList("Alice", "Bob")));
+                new FindCommand(new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList("Alice", "Bob")));
         String userInput = " " + PREFIX_NAME + "Alice Bob " + FIND_TYPE + "all";
         assertParseSuccess(parser, userInput, expectedFindCommand);
 

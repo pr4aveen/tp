@@ -11,28 +11,31 @@ import seedu.momentum.model.project.Project;
  */
 public class NameContainsKeywordsPredicate implements Predicate<Project> {
     private final List<String> keywords;
-    private final boolean isAllMatch;
+    private final FindType findType;
 
     /**
      * Predicate to check whether the {@code Name} of a {@code Project} contains a
      * certain keyword.
      *
-     * @param isAllMatch boolean to indicate whether all keywords need to be successfully matched.
+     * @param findType enum to indicate whether the find type to be used for this find command.
      * @param keywords list of keywords to check for matches.
      */
-    public NameContainsKeywordsPredicate(boolean isAllMatch, List<String> keywords) {
-        this.isAllMatch = isAllMatch;
+    public NameContainsKeywordsPredicate(FindType findType, List<String> keywords) {
+        this.findType = findType;
         this.keywords = keywords;
     }
 
     @Override
     public boolean test(Project project) {
-        if (isAllMatch) {
-            return keywords.stream()
-                    .allMatch(keyword -> StringUtil.containsPartialIgnoreCase(project.getName().fullName, keyword));
-        } else {
-            return keywords.stream()
-                    .anyMatch(keyword -> StringUtil.containsPartialIgnoreCase(project.getName().fullName, keyword));
+        Predicate<String> predicate =
+            keyword -> StringUtil.containsPartialIgnoreCase(project.getName().fullName, keyword);
+        switch (findType) {
+        case ALL:
+            return keywords.stream().allMatch(predicate);
+        case ANY:
+            return keywords.stream().anyMatch(predicate);
+        default:
+            return false;
         }
     }
 
@@ -41,7 +44,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Project> {
         return other == this // short circuit if same object
                 || (other instanceof NameContainsKeywordsPredicate // instanceof handles nulls
                 && keywords.equals(((NameContainsKeywordsPredicate) other).keywords)) // state check
-                && isAllMatch == ((NameContainsKeywordsPredicate) other).isAllMatch;
+                && findType == ((NameContainsKeywordsPredicate) other).findType;
     }
 
 }
