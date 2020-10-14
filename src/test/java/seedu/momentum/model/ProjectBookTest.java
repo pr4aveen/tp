@@ -7,6 +7,7 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
+import static seedu.momentum.testutil.TypicalProjectsOrders.getOrderedProjectBookByDeadlineAscending;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.exceptions.DuplicateProjectException;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
@@ -54,6 +56,21 @@ public class ProjectBookTest {
         ProjectBookStub newData = new ProjectBookStub(newProjects);
 
         assertThrows(DuplicateProjectException.class, () -> projectBook.resetData(newData));
+    }
+
+    @Test
+    public void setOrder_withSortTypeNull_throwsNullPointerException() {
+        boolean isAscending = true;
+        assertThrows(NullPointerException.class, () -> projectBook.setOrder(null, isAscending));
+    }
+
+    @Test
+    public void setOrder_withValidSortType_ordersProjectBook() {
+        ProjectBook unorderedProjectBook = getTypicalProjectBook();
+        ProjectBook orderedProjectBook = new ProjectBook();
+        orderedProjectBook.setProjects(getOrderedProjectBookByDeadlineAscending());
+        unorderedProjectBook.setOrder(SortType.DEADLINE, true);
+        assertEquals(orderedProjectBook, unorderedProjectBook);
     }
 
     @Test

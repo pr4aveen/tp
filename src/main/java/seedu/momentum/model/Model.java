@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.SortType;
 
 /**
  * The API of the Model component.
@@ -85,4 +86,10 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredProjectList(Predicate<Project> predicate);
+
+    /**
+     * Orders the list of projects in a way given by the {@code sortType}.
+     * @throws NullPointerException if {@code sortType} is null.
+     */
+    void orderFilteredProjectList(SortType sortType, boolean isAscending);
 }

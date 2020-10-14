@@ -8,6 +8,7 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
 import static seedu.momentum.testutil.TypicalProjects.BOB;
+import static seedu.momentum.testutil.TypicalProjects.getTypicalProjects;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import seedu.momentum.model.project.exceptions.DuplicateProjectException;
 import seedu.momentum.model.project.exceptions.ProjectNotFoundException;
 import seedu.momentum.testutil.ProjectBuilder;
+import seedu.momentum.testutil.TypicalProjectsOrders;
 
 public class UniqueProjectListTest {
 
@@ -159,6 +161,83 @@ public class UniqueProjectListTest {
     public void setProjects_listWithDuplicateProjects_throwsDuplicateProjectException() {
         List<Project> listWithDuplicateProjects = Arrays.asList(ALICE, ALICE);
         assertThrows(DuplicateProjectException.class, () -> uniqueProjectList.setProjects(listWithDuplicateProjects));
+    }
+
+    @Test
+    public void setOrder_nullSortType_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> uniqueProjectList.setOrder(null, true));
+    }
+
+    @Test
+    public void setOrder_alphabeticalAscendingSortType_sortsListAlphabeticallyAscending() {
+        for (Project p : getTypicalProjects()) {
+            uniqueProjectList.add(p);
+        }
+        uniqueProjectList.setOrder(SortType.ALPHA, true);
+        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+                .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalAscending());
+        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+
+    }
+
+    @Test
+    public void setOrder_alphabeticalDescendingSortType_sortsListAlphabeticallyDescending() {
+        for (Project p : getTypicalProjects()) {
+            uniqueProjectList.add(p);
+        }
+        uniqueProjectList.setOrder(SortType.ALPHA, false);
+        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+                .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalDescending());
+        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+
+    }
+
+    @Test
+    public void setOrder_deadlineAscendingSortType_sortsListDeadlineAscending() {
+        for (Project p : getTypicalProjects()) {
+            uniqueProjectList.add(p);
+        }
+        uniqueProjectList.setOrder(SortType.DEADLINE, true);
+        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+                .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByDeadlineAscending());
+        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+
+    }
+
+    @Test
+    public void setOrder_deadlineDescendingSortType_sortsListDeadlineDescending() {
+        for (Project p : getTypicalProjects()) {
+            uniqueProjectList.add(p);
+        }
+        uniqueProjectList.setOrder(SortType.DEADLINE, false);
+        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+                .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByDeadlineDescending());
+        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+
+    }
+
+    @Test
+    public void setOrder_createdDateAscendingSortType_sortsListCreatedDateAscending() {
+        for (Project p : getTypicalProjects()) {
+            uniqueProjectList.add(p);
+        }
+        uniqueProjectList.setOrder(SortType.CREATED, true);
+        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+                .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByCreatedDateAscending());
+        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+
+    }
+
+    @Test
+    public void setOrder_createdDateDescendingSortType_sortsListCreatedDateDescending() {
+        for (Project p : getTypicalProjects()) {
+            uniqueProjectList.add(p);
+        }
+        uniqueProjectList.setOrder(SortType.CREATED, false);
+        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+                .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByCreatedDateDescending());
+        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+
     }
 
     @Test

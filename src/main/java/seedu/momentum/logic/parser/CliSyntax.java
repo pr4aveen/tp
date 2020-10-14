@@ -14,4 +14,8 @@ public class CliSyntax {
 
     // Search parameters
     public static final Prefix FIND_TYPE = new Prefix("match/");
+
+    // Sort parameters
+    public static final Prefix SORT_TYPE = new Prefix("type/");
+    public static final Prefix SORT_ORDER = new Prefix("order/");
 }

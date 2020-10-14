@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.SortType;
 
 /**
  * Represents the in-memory model of the project book data.
@@ -22,6 +23,9 @@ public class ModelManager implements Model {
     private final ProjectBook projectBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Project> filteredProjects;
+    private Predicate<Project> currentPredicate;
+    private SortType currentSortType;
+    private boolean currentSortIsAscending;
 
     /**
      * Initializes a ModelManager with the given projectBook and userPrefs.
@@ -35,6 +39,9 @@ public class ModelManager implements Model {
         this.projectBook = new ProjectBook(projectBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredProjects = new FilteredList<>(this.projectBook.getProjectList());
+        this.currentPredicate = PREDICATE_SHOW_ALL_PROJECTS;
+        this.currentSortType = SortType.ALPHA;
+        this.currentSortIsAscending = true;
     }
 
     public ModelManager() {
@@ -102,6 +109,7 @@ public class ModelManager implements Model {
     @Override
     public void addProject(Project project) {
         projectBook.addProject(project);
+        orderFilteredProjectList(currentSortType, currentSortIsAscending);
         updateFilteredProjectList(PREDICATE_SHOW_ALL_PROJECTS);
     }
 
@@ -126,7 +134,17 @@ public class ModelManager implements Model {
     @Override
     public void updateFilteredProjectList(Predicate<Project> predicate) {
         requireNonNull(predicate);
+        this.currentPredicate = predicate;
         filteredProjects.setPredicate(predicate);
+    }
+
+    @Override
+    public void orderFilteredProjectList(SortType orderType, boolean isAscending) {
+        requireAllNonNull(orderType, isAscending);
+        this.currentSortIsAscending = isAscending;
+        this.currentSortType = orderType;
+        projectBook.setOrder(orderType, isAscending);
+        updateFilteredProjectList(currentPredicate);
     }
 
     @Override

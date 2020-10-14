@@ -11,6 +11,7 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.SortType;
 import seedu.momentum.testutil.ProjectBuilder;
 
 /**
@@ -34,6 +35,23 @@ public class AddCommandIntegrationTest {
 
         assertCommandSuccess(new AddCommand(validProject), model,
                 String.format(AddCommand.MESSAGE_SUCCESS, validProject), expectedModel);
+    }
+
+    /**
+     * Tests if add command places project in correct order.
+     */
+    @Test
+    public void execute_addCommand_placesProjectInOrder() {
+        Project dana = new ProjectBuilder().withName("Dana").build();
+        AddCommand addDanaCommand = new AddCommand(dana);
+
+        // alphabetical order -> Hello gets placed in between Carl and Daniel
+        Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
+        expectedModel.orderFilteredProjectList(SortType.ALPHA, true);
+        expectedModel.addProject(dana);
+
+        assertCommandSuccess(addDanaCommand, model,
+                String.format(AddCommand.MESSAGE_SUCCESS, dana), expectedModel);
     }
 
     @Test
