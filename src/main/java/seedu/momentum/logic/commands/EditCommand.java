@@ -25,6 +25,7 @@ import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
+import seedu.momentum.model.timer.UniqueDurationList;
 
 /**
  * Edits the details of an existing project in the project book.
@@ -95,8 +96,11 @@ public class EditCommand extends Command {
         Date createdDate = projectToEdit.getCreatedDate();
         Deadline updatedDeadline = editProjectDescriptor.getDeadline().orElse(projectToEdit.getDeadline());
         Set<Tag> updatedTags = editProjectDescriptor.getTags().orElse(projectToEdit.getTags());
+        UniqueDurationList durationList = new UniqueDurationList();
+        durationList.setDurations(projectToEdit.getDurationList());
 
-        return new Project(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags);
+        return new Project(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags,
+                durationList, projectToEdit.getTimer());
     }
 
     @Override
