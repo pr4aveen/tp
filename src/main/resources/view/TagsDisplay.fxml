@@ -6,19 +6,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <StackPane xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox>
          <children>
-            <HBox alignment="CENTER" prefHeight="32.0">
+            <HBox alignment="CENTER" styleClass="content-box-title">
                <children>
-                  <Label text="Tags">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
+                  <Label text="Tags" />
                </children>
             </HBox>
             <FlowPane fx:id="tags" alignment="CENTER">

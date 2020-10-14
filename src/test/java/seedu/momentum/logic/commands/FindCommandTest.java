@@ -23,6 +23,7 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
+import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.TagListContainsKeywordsPredicate;
 
@@ -41,9 +42,9 @@ public class FindCommandTest {
     @Test
     public void equals() {
         NameContainsKeywordsPredicate firstPredicate =
-                new NameContainsKeywordsPredicate(false, Collections.singletonList("first"));
+                new NameContainsKeywordsPredicate(FindType.ANY, Collections.singletonList("first"));
         NameContainsKeywordsPredicate secondPredicate =
-                new NameContainsKeywordsPredicate(false, Collections.singletonList("second"));
+                new NameContainsKeywordsPredicate(FindType.ANY, Collections.singletonList("second"));
 
         FindCommand findFirstCommand = new FindCommand(firstPredicate);
         FindCommand findSecondCommand = new FindCommand(secondPredicate);
@@ -68,7 +69,7 @@ public class FindCommandTest {
     @Test
     public void execute_zeroKeywords_noProjectFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 0);
-        NameContainsKeywordsPredicate predicate = prepareNamePredicate(false, " ");
+        NameContainsKeywordsPredicate predicate = prepareNamePredicate(FindType.ANY, " ");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -78,7 +79,7 @@ public class FindCommandTest {
     @Test
     public void anyMatch_multipleNameKeywords_multipleProjectsFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 3);
-        NameContainsKeywordsPredicate predicate = prepareNamePredicate(false, TEST_NAMES);
+        NameContainsKeywordsPredicate predicate = prepareNamePredicate(FindType.ANY, TEST_NAMES);
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -88,7 +89,7 @@ public class FindCommandTest {
     @Test
     public void allMatch_multipleNameKeywords_noProjectsFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 0);
-        NameContainsKeywordsPredicate predicate = prepareNamePredicate(true, TEST_NAMES);
+        NameContainsKeywordsPredicate predicate = prepareNamePredicate(FindType.ALL, TEST_NAMES);
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -98,7 +99,7 @@ public class FindCommandTest {
     @Test
     public void allMatch_multipleNameKeywords_oneProjectsFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 1);
-        NameContainsKeywordsPredicate predicate = prepareNamePredicate(true, "CA rL Ku Rz");
+        NameContainsKeywordsPredicate predicate = prepareNamePredicate(FindType.ALL, "CA rL Ku Rz");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -109,7 +110,7 @@ public class FindCommandTest {
     public void anyMatch_multipleDescriptionKeywords_multipleProjectsFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 3);
         DescriptionContainsKeywordsPredicate predicate =
-                prepareDescriptionPredicate(false, TEST_DESCRIPTIONS);
+                prepareDescriptionPredicate(FindType.ANY, TEST_DESCRIPTIONS);
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -120,7 +121,7 @@ public class FindCommandTest {
     public void allMatch_multipleDescriptionKeywords_noProjectsFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 0);
         DescriptionContainsKeywordsPredicate predicate =
-                prepareDescriptionPredicate(true, TEST_DESCRIPTIONS);
+                prepareDescriptionPredicate(FindType.ALL, TEST_DESCRIPTIONS);
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -131,7 +132,7 @@ public class FindCommandTest {
     public void allMatch_multipleDescriptionKeywords_oneProjectFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 1);
         DescriptionContainsKeywordsPredicate predicate =
-                prepareDescriptionPredicate(true, "likes star bucks");
+                prepareDescriptionPredicate(FindType.ALL, "likes star bucks");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -141,7 +142,7 @@ public class FindCommandTest {
     @Test
     public void anyMatch_multipleTagKeywords_multipleProjectsFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 3);
-        TagListContainsKeywordsPredicate predicate = prepareTagListPredicate(false, TEST_TAGS);
+        TagListContainsKeywordsPredicate predicate = prepareTagListPredicate(FindType.ANY, TEST_TAGS);
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -151,7 +152,7 @@ public class FindCommandTest {
     @Test
     public void allMatch_multipleTagKeywords_oneProjectFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 1);
-        TagListContainsKeywordsPredicate predicate = prepareTagListPredicate(true, TEST_TAGS);
+        TagListContainsKeywordsPredicate predicate = prepareTagListPredicate(FindType.ALL, TEST_TAGS);
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -161,23 +162,23 @@ public class FindCommandTest {
     /**
      * Parses {@code userInput} into a {@code NameContainsKeywordsPredicate}.
      */
-    private NameContainsKeywordsPredicate prepareNamePredicate(boolean isAllMatch, String userInput) {
-        return new NameContainsKeywordsPredicate(isAllMatch, Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
+    private NameContainsKeywordsPredicate prepareNamePredicate(FindType findType, String userInput) {
+        return new NameContainsKeywordsPredicate(findType, Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
     }
 
     /**
      * Parses {@code userInput} into a {@code DescriptionContainsKeywordsPredicate}.
      */
-    private DescriptionContainsKeywordsPredicate prepareDescriptionPredicate(boolean isAllMatch, String userInput) {
-        return new DescriptionContainsKeywordsPredicate(isAllMatch,
+    private DescriptionContainsKeywordsPredicate prepareDescriptionPredicate(FindType findType, String userInput) {
+        return new DescriptionContainsKeywordsPredicate(findType,
             Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
     }
 
     /**
      * Parses {@code userInput} into a {@code TagListContainsKeywordsPredicate}.
      */
-    private TagListContainsKeywordsPredicate prepareTagListPredicate(boolean isAllMatch, String userInput) {
-        return new TagListContainsKeywordsPredicate(isAllMatch,
+    private TagListContainsKeywordsPredicate prepareTagListPredicate(FindType findType, String userInput) {
+        return new TagListContainsKeywordsPredicate(findType,
             Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
     }
 }

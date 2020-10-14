@@ -15,6 +15,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.ProjectBookBuilder;
 
@@ -117,7 +118,8 @@ public class ModelManagerTest {
 
         // different filteredList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
-        modelManager.updateFilteredProjectList(new NameContainsKeywordsPredicate(false, Arrays.asList(keywords)));
+        modelManager.updateFilteredProjectList(
+                new NameContainsKeywordsPredicate(FindType.ANY, Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(projectBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests

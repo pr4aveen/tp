@@ -20,6 +20,7 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.EditProjectDescriptorBuilder;
 
@@ -135,7 +136,7 @@ public class CommandTestUtil {
         Project project = model.getFilteredProjectList().get(targetIndex.getZeroBased());
         final String[] splitName = project.getName().fullName.split("\\s+");
         model.updateFilteredProjectList(
-            new NameContainsKeywordsPredicate(false, Collections.singletonList(splitName[0])));
+            new NameContainsKeywordsPredicate(FindType.ANY, Collections.singletonList(splitName[0])));
 
         assertEquals(1, model.getFilteredProjectList().size());
     }

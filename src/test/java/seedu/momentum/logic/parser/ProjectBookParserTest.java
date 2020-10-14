@@ -29,6 +29,7 @@ import seedu.momentum.logic.commands.StartCommand;
 import seedu.momentum.logic.commands.StopCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.EditProjectDescriptorBuilder;
@@ -79,7 +80,7 @@ public class ProjectBookParserTest {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
             FindCommand.COMMAND_WORD + " " + PREFIX_NAME + String.join(" ", keywords));
-        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(false, keywords)), command);
+        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(FindType.ANY, keywords)), command);
     }
 
     @Test

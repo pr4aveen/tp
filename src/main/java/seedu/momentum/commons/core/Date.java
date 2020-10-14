@@ -5,6 +5,7 @@ import static seedu.momentum.commons.util.AppUtil.checkArgument;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 
 import seedu.momentum.commons.util.DateUtil;
 
@@ -44,6 +45,18 @@ public class Date implements Instance<LocalDate>, Comparable<Date> {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Calculates the amount of time between two instances of time, in the provided units.
+     *
+     * @param time1 The earlier instance of time.
+     * @param time2 The later instance of time.
+     * @param units The units to the time.
+     * @return
+     */
+    public static long getTimeBetween(Date time1, Date time2, ChronoUnit units) {
+        return units.between(time1.get(), time2.get());
     }
 
     @Override

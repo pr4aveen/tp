@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="cardPane" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane HBox.hgrow="ALWAYS">
         <columnConstraints>
@@ -51,15 +51,8 @@
             <Separator orientation="VERTICAL" GridPane.columnIndex="1" />
             <VBox alignment="CENTER" spacing="4.0" GridPane.columnIndex="1">
                <children>
-                  <HBox fx:id="createdDate" alignment="CENTER">
-                     <children>
-                        <Label text="Created: " />
-                     </children>
-                  </HBox>
+                  <HBox fx:id="createdDate" alignment="CENTER" />
                   <HBox fx:id="deadline" alignment="CENTER">
-                     <children>
-                        <Label text="Due: " />
-                     </children>
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>

@@ -336,6 +336,7 @@ Action | Format, Examples
 **Create** | `project n/NAME [d/DESCRIPTION] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [t/TAG]​` <br> e.g., `project n/Momentum d/CS2103T Team Project dd/2020-12-07 t/impt`
 **Edit** | `edit PROJECT_ID n/NAME [d/DESCRIPTION] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [t/TAG]` <br> e.g., `project 3 n/NewMomentum d/NewDescription dl/2020-12-07 t/normal`
 **Delete** | `delete PROJECT_ID` <br> e.g., `delete 3`
+**Find** | `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...]` <br> e.g., `find match/any n/Momentum d/new t/normal`
 **Navigation** (_coming soon_) | `list` <br> `/project PROJECT_ID` <br> e.g., `/p 2` <br> `/settings`  
 **Start Timer** | `start PROJECT_ID` <br> e.g., `start 2`
 **Stop Timer** | `stop PROJECT_ID` <br> e.g., `stop 2`
