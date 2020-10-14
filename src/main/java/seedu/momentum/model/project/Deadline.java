@@ -3,10 +3,12 @@ package seedu.momentum.model.project;
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.AppUtil.checkArgument;
 
+import java.time.temporal.ChronoUnit;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
+import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.Date;
 import seedu.momentum.commons.core.Time;
 
@@ -74,6 +76,16 @@ public class Deadline {
         return isEmpty() ? "No deadline set"
             : this.date.map(Date::getFormatted).orElse("")
             + this.time.map(time -> " " + time.getFormatted()).orElse("");
+    }
+
+    /**
+     * Gets the number of days to the date of the deadline, from the current time.
+     *
+     * @return Number of days to deadline.
+     */
+    public long daysToDeadline() {
+        //return Date.getTimeBetween(Clock.now().getDate(), getDate(), ChronoUnit.DAYS);
+        return ChronoUnit.DAYS.between(Clock.now().getDate(), getDate().get());
     }
 
     @Override

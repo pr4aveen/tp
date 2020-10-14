@@ -20,13 +20,10 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String FIND_ALL_MATCH = "all";
-    public static final String FIND_ANY_MATCH = "any";
-
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all projects whose names contain any or all of "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: "
-            + "[" + FIND_TYPE + "FILTER_TYPE ] "
+            + "[" + FIND_TYPE + "FIND_TYPE ] "
             + "[" + PREFIX_NAME + "NAME_KEYWORD [MORE_NAME_KEYWORDS]... ] "
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION_KEYWORD [MORE_DESCRIPTION_KEYWORDS]... ] "
             + "[" + PREFIX_TAG + "TAG_KEYWORD [MORE_TAG_KEYWORDS]... ] \n"

@@ -26,14 +26,14 @@ public class NameContainsKeywordsPredicateTest {
         List<String> secondPredicateKeywordList = Arrays.asList("first", "second");
 
         NameContainsKeywordsPredicate firstAnyPredicate =
-                new NameContainsKeywordsPredicate(false, firstPredicateKeywordList);
+                new NameContainsKeywordsPredicate(FindType.ANY, firstPredicateKeywordList);
         NameContainsKeywordsPredicate secondAnyPredicate =
-                new NameContainsKeywordsPredicate(false, secondPredicateKeywordList);
+                new NameContainsKeywordsPredicate(FindType.ANY, secondPredicateKeywordList);
 
         NameContainsKeywordsPredicate firstAllPredicate =
-                new NameContainsKeywordsPredicate(true, firstPredicateKeywordList);
+                new NameContainsKeywordsPredicate(FindType.ALL, firstPredicateKeywordList);
         NameContainsKeywordsPredicate secondAllPredicate =
-                new NameContainsKeywordsPredicate(true, secondPredicateKeywordList);
+                new NameContainsKeywordsPredicate(FindType.ALL, secondPredicateKeywordList);
 
         // same object -> returns true
         assertTrue(firstAnyPredicate.equals(firstAnyPredicate));
@@ -41,10 +41,10 @@ public class NameContainsKeywordsPredicateTest {
 
         // same values -> returns true
         NameContainsKeywordsPredicate firstAnyPredicateCopy =
-                new NameContainsKeywordsPredicate(false, firstPredicateKeywordList);
+                new NameContainsKeywordsPredicate(FindType.ANY, firstPredicateKeywordList);
         assertTrue(firstAnyPredicate.equals(firstAnyPredicateCopy));
         NameContainsKeywordsPredicate firstAllPredicateCopy =
-                new NameContainsKeywordsPredicate(true, firstPredicateKeywordList);
+                new NameContainsKeywordsPredicate(FindType.ALL, firstPredicateKeywordList);
         assertTrue(firstAllPredicate.equals(firstAllPredicateCopy));
 
         // different types -> returns false
@@ -64,36 +64,36 @@ public class NameContainsKeywordsPredicateTest {
     public void test_nameContainsKeywords() {
         // One keyword (Any)
         NameContainsKeywordsPredicate anyPredicate =
-                new NameContainsKeywordsPredicate(false, SINGLE_KEYWORD);
+                new NameContainsKeywordsPredicate(FindType.ANY, SINGLE_KEYWORD);
         assertTrue(anyPredicate.test(ALICE));
 
         // Multiple keywords (Any)
-        anyPredicate = new NameContainsKeywordsPredicate(false, MULTIPLE_KEYWORDS);
+        anyPredicate = new NameContainsKeywordsPredicate(FindType.ANY, MULTIPLE_KEYWORDS);
         assertTrue(anyPredicate.test(ALICE));
 
         // Only one matching keyword (Any)
-        anyPredicate = new NameContainsKeywordsPredicate(false, ONE_MATCHING_KEYWORD);
+        anyPredicate = new NameContainsKeywordsPredicate(FindType.ANY, ONE_MATCHING_KEYWORD);
         assertTrue(anyPredicate.test(ALICE));
 
         // Mixed-case keywords (Any)
-        anyPredicate = new NameContainsKeywordsPredicate(false, MIXED_CASE_KEYWORDS);
+        anyPredicate = new NameContainsKeywordsPredicate(FindType.ANY, MIXED_CASE_KEYWORDS);
         assertTrue(anyPredicate.test(ALICE));
 
         // One keyword (All)
         NameContainsKeywordsPredicate allPredicate =
-                new NameContainsKeywordsPredicate(true, SINGLE_KEYWORD);
+                new NameContainsKeywordsPredicate(FindType.ALL, SINGLE_KEYWORD);
         assertTrue(allPredicate.test(ALICE));
 
         // Multiple keywords (All)
-        allPredicate = new NameContainsKeywordsPredicate(true, MULTIPLE_KEYWORDS);
+        allPredicate = new NameContainsKeywordsPredicate(FindType.ALL, MULTIPLE_KEYWORDS);
         assertTrue(allPredicate.test(ALICE));
 
         // Only one matching keyword (All)
-        allPredicate = new NameContainsKeywordsPredicate(true, ONE_MATCHING_KEYWORD);
+        allPredicate = new NameContainsKeywordsPredicate(FindType.ALL, ONE_MATCHING_KEYWORD);
         assertFalse(allPredicate.test(ALICE));
 
         // Mixed-case keywords (All)
-        allPredicate = new NameContainsKeywordsPredicate(true, MIXED_CASE_KEYWORDS);
+        allPredicate = new NameContainsKeywordsPredicate(FindType.ALL, MIXED_CASE_KEYWORDS);
         assertTrue(allPredicate.test(ALICE));
     }
 
@@ -101,28 +101,28 @@ public class NameContainsKeywordsPredicateTest {
     public void test_nameDoesNotContainKeywords_returnsFalse() {
         // Non-matching keyword (Any)
         NameContainsKeywordsPredicate anyPredicate =
-                new NameContainsKeywordsPredicate(false, NO_MATCHING_KEYWORDS);
+                new NameContainsKeywordsPredicate(FindType.ANY, NO_MATCHING_KEYWORDS);
         assertFalse(anyPredicate.test(ALICE));
 
         // Keywords match description, but does not match name (Any)
-        anyPredicate = new NameContainsKeywordsPredicate(false, ONLY_MATCHES_DESCRIPTION);
+        anyPredicate = new NameContainsKeywordsPredicate(FindType.ANY, ONLY_MATCHES_DESCRIPTION);
         assertFalse(anyPredicate.test(ALICE));
 
         // Keywords match tag, but does not match name (Any)
-        anyPredicate = new NameContainsKeywordsPredicate(false, ONLY_MATCHES_DESCRIPTION);
+        anyPredicate = new NameContainsKeywordsPredicate(FindType.ANY, ONLY_MATCHES_DESCRIPTION);
         assertFalse(anyPredicate.test(ALICE));
 
         // Non-matching keyword (All)
         NameContainsKeywordsPredicate allPredicate =
-                new NameContainsKeywordsPredicate(true, NO_MATCHING_KEYWORDS);
+                new NameContainsKeywordsPredicate(FindType.ALL, NO_MATCHING_KEYWORDS);
         assertFalse(allPredicate.test(ALICE));
 
         // Keywords match description, but does not match name (All)
-        allPredicate = new NameContainsKeywordsPredicate(true, ONLY_MATCHES_TAG);
+        allPredicate = new NameContainsKeywordsPredicate(FindType.ALL, ONLY_MATCHES_TAG);
         assertFalse(allPredicate.test(ALICE));
 
         // Keywords match tag, but does not match name (All)
-        allPredicate = new NameContainsKeywordsPredicate(true, ONLY_MATCHES_TAG);
+        allPredicate = new NameContainsKeywordsPredicate(FindType.ALL, ONLY_MATCHES_TAG);
         assertFalse(allPredicate.test(ALICE));
     }
 }
