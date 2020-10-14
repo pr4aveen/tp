@@ -17,7 +17,7 @@ public class StatisticManager implements StatisticGenerator {
     private Model model;
 
     // Statistics being tracked by the app
-    private Statistic weeklyTotalTimePerProjectStatistic = new PeriodicTotalTimePerProjectStatistic(ChronoUnit.WEEKS,
+    private Statistic weeklyTotalTimePerProjectStatistic = new PeriodicTotalTimeStatistic(ChronoUnit.WEEKS,
             ChronoUnit.MINUTES);
 
     // Maintain an array of the above statistics for easy iteration
