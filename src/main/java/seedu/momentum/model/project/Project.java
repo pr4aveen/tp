@@ -3,6 +3,7 @@ package seedu.momentum.model.project;
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -88,6 +89,23 @@ public class Project {
 
     public Deadline getDeadline() {
         return deadline;
+    }
+
+    /**
+     * Gets Deadline and name for {@code DeadLineCompare} comparator.
+     * Returns null if deadline is empty as {@code Comparator.nullsLast} method is used.
+     */
+    public HashMap<String, Object> getNullOrDeadline() {
+        if (deadline.isEmpty()) {
+            return null;
+        }
+        Name name = getName();
+        Deadline deadline = getDeadline();
+        HashMap<String, Object> nameDeadlineMap = new HashMap<>();
+        nameDeadlineMap.put("name", name);
+        nameDeadlineMap.put("deadline", deadline);
+
+        return nameDeadlineMap;
     }
 
     /**

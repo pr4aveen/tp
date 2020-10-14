@@ -13,7 +13,7 @@ import seedu.momentum.commons.util.DateUtil;
  * Represents a date in the project book.
  * Guarantees: immutable; is valid as declared in {@link #isValid(String)}
  */
-public class Date implements Instance<LocalDate> {
+public class Date implements Instance<LocalDate>, Comparable<Date> {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Dates should be in ISO8601 format. e.g. 2011-12-03";
@@ -86,4 +86,14 @@ public class Date implements Instance<LocalDate> {
         return this.date.hashCode();
     }
 
+    @Override
+    public int compareTo(Date other) {
+        if (this.get().isBefore(other.get())) {
+            return -1;
+        } else if (this.get().isAfter(other.get())) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

@@ -11,6 +11,7 @@ import seedu.momentum.commons.util.TimeUtil;
 
 public class TimeTest {
     private static final String VALID_TIME = "10:15:30";
+    private static final String VALID_LATER_TIME = "10:15:35";
 
     @Test
     public void constructor_null_throwsNullPointerException() {
@@ -44,5 +45,17 @@ public class TimeTest {
     public void getFormattedTime_formatsCorrectly() {
         Time time = new Time(VALID_TIME);
         assertEquals(time.get().format(TimeUtil.FORMAT_TIME_MEDIUM), time.getFormatted());
+    }
+
+    @Test
+    public void compareTo_returnsCorrectValue() {
+        // second Time is later
+        assertEquals(new Time(VALID_TIME).compareTo(new Time(VALID_LATER_TIME)), -1);
+
+        // second Time is earlier
+        assertEquals(new Time(VALID_LATER_TIME).compareTo(new Time(VALID_TIME)), 1);
+
+        // both Time same time
+        assertEquals(new Time(VALID_TIME).compareTo(new Time("10:15:30")), 0);
     }
 }

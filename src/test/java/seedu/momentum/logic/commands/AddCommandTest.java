@@ -21,6 +21,7 @@ import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.ReadOnlyUserPrefs;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.SortType;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class AddCommandTest {
@@ -145,6 +146,11 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredProjectList(Predicate<Project> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void orderFilteredProjectList(SortType sortType, boolean isAscending) {
             throw new AssertionError("This method should not be called.");
         }
     }

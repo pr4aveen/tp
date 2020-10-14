@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javafx.collections.ObservableList;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.UniqueProjectList;
 import seedu.momentum.model.tag.Tag;
 
@@ -57,6 +58,19 @@ public class ProjectBook implements ReadOnlyProjectBook {
         requireNonNull(newData);
 
         setProjects(newData.getProjectList());
+    }
+
+    /// sort operations
+
+    /**
+     * Sets the order of the list of projects according to given {@code sortType} and {@code isAscending}.
+     *
+     * @param sortType type of sort.
+     * @param isAscending order of sort.
+     */
+    public void setOrder(SortType sortType, boolean isAscending) {
+        requireNonNull(sortType);
+        projects.setOrder(sortType, isAscending);
     }
 
     //// project-level operations

@@ -15,7 +15,7 @@ import seedu.momentum.commons.util.DateTimeUtil;
  * Represents a WorkDuration's dateTime in the project book.
  * Guarantees: immutable; is valid as declared in {@link #isValid(String)}
  */
-public class DateTime implements Instance<LocalDateTime> {
+public class DateTime implements Instance<LocalDateTime>, Comparable<DateTime> {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Dates and Times should be in ISO8601 format. e.g. 2020-09-23T16:55:12.83012";
@@ -136,6 +136,19 @@ public class DateTime implements Instance<LocalDateTime> {
     @Override
     public int hashCode() {
         return dateTime.hashCode();
+    }
+
+    @Override
+    public int compareTo(DateTime other) {
+        LocalDateTime thisLocalDateTime = this.get();
+        LocalDateTime otherLocalDateTime = other.get();
+        if (thisLocalDateTime.isBefore(otherLocalDateTime)) {
+            return -1;
+        } else if (thisLocalDateTime.isAfter(otherLocalDateTime)) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
 }

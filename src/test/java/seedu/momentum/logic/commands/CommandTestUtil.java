@@ -7,6 +7,8 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
+import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 import static seedu.momentum.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
@@ -53,6 +55,14 @@ public class CommandTestUtil {
     public static final String INVALID_DEADLINE_DATE_DESC = " " + PREFIX_DEADLINE_DATE + "2020-91-64";
     public static final String INVALID_DEADLINE_TIME_DESC = " " + PREFIX_DEADLINE_TIME + "09:91:12";
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+
+    public static final String INVALID_SORT_TYPE = " " + SORT_TYPE + "nomnom";
+    public static final String INVALID_SORT_ORDER = " " + SORT_ORDER + "can you not";
+    public static final String VALID_ASCENDING_SORT_ORDER = " " + SORT_ORDER + "asc";
+    public static final String VALID_DESCENDING_SORT_ORDER = " " + SORT_ORDER + "dsc";
+    public static final String VALID_ALPHA_SORT_TYPE = " " + SORT_TYPE + "alpha";
+    public static final String VALID_DEADLINE_SORT_TYPE = " " + SORT_TYPE + "deadline";
+    public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + "created";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";

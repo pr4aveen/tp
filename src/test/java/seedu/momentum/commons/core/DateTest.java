@@ -11,6 +11,7 @@ import seedu.momentum.commons.util.DateUtil;
 
 public class DateTest {
     private static final String VALID_DATE = "2019-09-23";
+    private static final String VALID_LATER_DATE = "2019-09-25";
 
     @Test
     public void constructor_null_throwsNullPointerException() {
@@ -44,5 +45,17 @@ public class DateTest {
     public void getFormattedDate_formatsCorrectly() {
         Date date = new Date(VALID_DATE);
         assertEquals(date.get().format(DateUtil.FORMAT_DATE_MEDIUM), date.getFormatted());
+    }
+
+    @Test
+    public void compareTo_returnsCorrectValue() {
+        // second Date is later
+        assertEquals(new Date(VALID_DATE).compareTo(new Date(VALID_LATER_DATE)), -1);
+
+        // second Date is earlier
+        assertEquals(new Date(VALID_LATER_DATE).compareTo(new Date(VALID_DATE)), 1);
+
+        // both Date same date
+        assertEquals(new Date(VALID_DATE).compareTo(new Date("2019-09-23")), 0);
     }
 }
