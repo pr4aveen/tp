@@ -255,7 +255,7 @@ Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_
 * `match/any` shows the project as long as any parameter matches the user's input.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-match/any` will be used if the `match` type is not specified.
+`match/any` will be used if the `match` type is not specified.
 </div>
 
 Example:
