@@ -35,9 +35,9 @@ public class TagListContainsKeywordsPredicate implements Predicate<Project> {
         case ALL:
             return keywords.stream().allMatch(predicate);
         case ANY:
-            return keywords.stream().anyMatch(predicate);
+            // Fallthrough
         default:
-            return false;
+            return keywords.stream().anyMatch(predicate);
         }
     }
 
