@@ -15,13 +15,13 @@ import static seedu.momentum.testutil.SortCommandUtil.ALPHA_ASCENDING_COMMAND;
 import static seedu.momentum.testutil.SortCommandUtil.ALPHA_DESCENDING_COMMAND;
 import static seedu.momentum.testutil.SortCommandUtil.CREATED_DATE_ASCENDING_COMMAND;
 import static seedu.momentum.testutil.SortCommandUtil.DEADLINE_ASCENDING_COMMAND;
-import static seedu.momentum.testutil.SortCommandUtil.DEFAULT_SORT_COMMAND;
 import static seedu.momentum.testutil.SortCommandUtil.NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND;
 import static seedu.momentum.testutil.SortCommandUtil.NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.logic.commands.SortCommand;
+import seedu.momentum.model.project.SortType;
 
 public class SortCommandParserTest {
 
@@ -29,6 +29,8 @@ public class SortCommandParserTest {
             MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_INVALID_SORT_TYPE_OR_ORDER);
     private static final String MESSAGE_NON_EMPTY_PREAMBLE_FAILURE = String.format(
             MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE);
+    private static final SortCommand DEFAULT_SORT_COMMAND =
+            new SortCommand(SortType.NULL, true, true);
 
     private final SortCommandParser parser = new SortCommandParser();
 
