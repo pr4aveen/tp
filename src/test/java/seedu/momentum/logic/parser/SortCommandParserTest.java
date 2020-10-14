@@ -34,7 +34,7 @@ public class SortCommandParserTest {
 
     @Test
     public void parse_emptyArg_returnsDefaultSortCommand() {
-        assertParseSuccess(parser, "", DEFAULT_SORT_COMMAND);
+        assertParseSuccess(parser, " ", DEFAULT_SORT_COMMAND);
     }
 
     @Test
