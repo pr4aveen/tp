@@ -114,26 +114,15 @@ public class UniqueProjectList implements Iterable<Project> {
 
         requireNonNull(sortType);
 
-        Comparator<Project> nameCompare = new NameCompare();
-
         switch (sortType) {
         case ALPHA:
-            nameCompare = isAscending ? nameCompare : nameCompare.reversed();
-            this.sortType = SortType.ALPHA;
-            internalList.sort(nameCompare);
+            setOrderAlphaType(isAscending);
             break;
         case DEADLINE:
-            Comparator<HashMap<String, Object>> deadlineCompare = new DeadlineCompare();
-            deadlineCompare = isAscending ? deadlineCompare : deadlineCompare.reversed();
-            this.sortType = SortType.DEADLINE;
-            internalList.sort(Comparator.comparing(Project::getNullOrDeadline, Comparator.nullsLast(deadlineCompare))
-                    .thenComparing(nameCompare));
+            setOrderDeadlineType(isAscending);
             break;
         case CREATED:
-            Comparator<Project> createdDateCompare = new CreatedDateCompare();
-            createdDateCompare = isAscending ? createdDateCompare : createdDateCompare.reversed();
-            this.sortType = SortType.CREATED;
-            internalList.sort(createdDateCompare);
+            setOrderCreatedDateType(isAscending);
             break;
         case NULL:
             setOrderNullType(isAscending);
@@ -145,12 +134,50 @@ public class UniqueProjectList implements Iterable<Project> {
     }
 
     /**
+     * Sets the order of list of projects by alphabetical order, ascending or descending based on user input.
+     *
+     * @param isAscending order of sort specified by user.
+     */
+    private void setOrderAlphaType(boolean isAscending) {
+        Comparator<Project> nameCompare = new NameCompare();
+        nameCompare = isAscending ? nameCompare : nameCompare.reversed();
+        sortType = SortType.ALPHA;
+        internalList.sort(nameCompare);
+    }
+
+    /**
+     * Sets the order of list of projects by deadline order, ascending or descending based on user input.
+     *
+     * @param isAscending order of sort specified by user.
+     */
+    private void setOrderDeadlineType(boolean isAscending) {
+        Comparator<Project> nameCompare = new NameCompare();
+        Comparator<HashMap<String, Object>> deadlineCompare = new DeadlineCompare();
+        deadlineCompare = isAscending ? deadlineCompare : deadlineCompare.reversed();
+        sortType = SortType.DEADLINE;
+        internalList.sort(Comparator.comparing(Project::getNullOrDeadline, Comparator.nullsLast(deadlineCompare))
+                .thenComparing(nameCompare));
+    }
+
+    /**
+     * Sets the order of list of projects by created date order, ascending or descending based on user input.
+     *
+     * @param isAscending order of sort specified by user.
+     */
+    private void setOrderCreatedDateType(boolean isAscending) {
+        Comparator<Project> createdDateCompare = new CreatedDateCompare();
+        createdDateCompare = isAscending ? createdDateCompare : createdDateCompare.reversed();
+        this.sortType = SortType.CREATED;
+        internalList.sort(createdDateCompare);
+    }
+
+    /**
      * Sets the order of the list of projects to current sort type with specified order
      * if sort type has not been specified by user.
      *
      * @param isAscending order of sort specified by user.
      */
-    public void setOrderNullType(boolean isAscending) {
+    private void setOrderNullType(boolean isAscending) {
         switch(this.sortType) {
         case ALPHA:
             setOrder(SortType.ALPHA, isAscending);

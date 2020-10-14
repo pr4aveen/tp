@@ -45,7 +45,7 @@ public class AddCommandIntegrationTest {
         Project dana = new ProjectBuilder().withName("Dana").build();
         AddCommand addDanaCommand = new AddCommand(dana);
 
-        // alphabetical order -> Hello gets placed in between Carl and Daniel
+        // alphabetical order -> Dana gets placed in between Carl and Daniel
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         expectedModel.orderFilteredProjectList(SortType.ALPHA, true);
         expectedModel.addProject(dana);

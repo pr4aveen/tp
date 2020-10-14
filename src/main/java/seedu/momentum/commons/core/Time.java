@@ -12,7 +12,7 @@ import seedu.momentum.commons.util.TimeUtil;
  * Represents a time in the project book.
  * Guarantees: immutable; is valid as declared in {@link #isValid(String)}
  */
-public class Time implements Instance<LocalTime> {
+public class Time implements Instance<LocalTime>, Comparable<Time> {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Times should be in ISO8601 format. e.g. 10:15:30";
@@ -71,6 +71,17 @@ public class Time implements Instance<LocalTime> {
     @Override
     public int hashCode() {
         return this.time.hashCode();
+    }
+
+    @Override
+    public int compareTo(Time other) {
+        if (this.get().isBefore(other.get())) {
+            return -1;
+        } else if (this.get().isAfter(other.get())) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
 }

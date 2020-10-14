@@ -2,6 +2,7 @@ package seedu.momentum.model.project.comparators;
 
 import java.util.Comparator;
 
+import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 
 public class NameCompare implements Comparator<Project> {
@@ -14,8 +15,8 @@ public class NameCompare implements Comparator<Project> {
      * @return integer values for comparison.
      */
     public int compare(Project p1, Project p2) {
-        String p1Name = p1.getName().toString().toLowerCase();
-        String p2Name = p2.getName().toString().toLowerCase();
+        Name p1Name = p1.getName();
+        Name p2Name = p2.getName();
         return p1Name.compareTo(p2Name);
     }
 }

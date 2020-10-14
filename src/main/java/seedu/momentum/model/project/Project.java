@@ -99,7 +99,7 @@ public class Project {
         if (deadline.isEmpty()) {
             return null;
         }
-        String name = getName().fullName;
+        Name name = getName();
         Deadline deadline = getDeadline();
         HashMap<String, Object> nameDeadlineMap = new HashMap<>();
         nameDeadlineMap.put("name", name);

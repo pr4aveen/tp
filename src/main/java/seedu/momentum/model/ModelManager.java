@@ -39,9 +39,9 @@ public class ModelManager implements Model {
         this.projectBook = new ProjectBook(projectBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredProjects = new FilteredList<>(this.projectBook.getProjectList());
-        this.currentPredicate = PREDICATE_SHOW_ALL_PROJECTS;
-        this.currentSortType = SortType.ALPHA;
-        this.currentSortIsAscending = true;
+        currentPredicate = PREDICATE_SHOW_ALL_PROJECTS;
+        currentSortType = SortType.ALPHA;
+        currentSortIsAscending = true;
     }
 
     public ModelManager() {
@@ -134,15 +134,15 @@ public class ModelManager implements Model {
     @Override
     public void updateFilteredProjectList(Predicate<Project> predicate) {
         requireNonNull(predicate);
-        this.currentPredicate = predicate;
+        currentPredicate = predicate;
         filteredProjects.setPredicate(predicate);
     }
 
     @Override
     public void orderFilteredProjectList(SortType orderType, boolean isAscending) {
         requireAllNonNull(orderType, isAscending);
-        this.currentSortIsAscending = isAscending;
-        this.currentSortType = orderType;
+        currentSortIsAscending = isAscending;
+        currentSortType = orderType;
         projectBook.setOrder(orderType, isAscending);
         updateFilteredProjectList(currentPredicate);
     }

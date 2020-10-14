@@ -5,6 +5,9 @@ import java.util.Comparator;
 import seedu.momentum.commons.core.Date;
 import seedu.momentum.model.project.Project;
 
+/**
+ * Compares date created of two projects.
+ */
 public class CreatedDateCompare implements Comparator<Project> {
 
     /**

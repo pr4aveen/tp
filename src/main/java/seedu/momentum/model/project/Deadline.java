@@ -14,7 +14,7 @@ import seedu.momentum.commons.core.Time;
  * Represents a Project's deadline in the project book.
  * Guarantees: immutable; is valid
  */
-public class Deadline {
+public class Deadline implements Comparable<Deadline> {
 
     public static final String MESSAGE_CONSTRAINTS = Date.MESSAGE_CONSTRAINTS + "\n" + Time.MESSAGE_CONSTRAINTS;
     private final Optional<Date> date;
@@ -93,6 +93,42 @@ public class Deadline {
     @Override
     public int hashCode() {
         return Objects.hash(this.date, this.time);
+    }
+
+    @Override
+    public int compareTo(Deadline other) {
+
+        Date thisDate = this.getDate();
+        Date otherDate = other.getDate();
+
+        if (thisDate.get().isBefore(otherDate.get())) {
+            return -1;
+        } else if (thisDate.get().isAfter(otherDate.get())) {
+            return 1;
+        } else {
+            return sameDateCompare(other);
+        }
+    }
+
+    /**
+     * Compares time of two deadlines with same date.
+     *
+     * @param other other deadline.
+     * @return integer to indicate order.
+     */
+    private int sameDateCompare(Deadline other) {
+
+        if (!this.hasTime() && other.hasTime()) {
+            return -1;
+        } else if (this.hasTime() && !other.hasTime()) {
+            return 1;
+        } else if (this.hasTime() && other.hasTime()) {
+            Time thisTime = this.getTime();
+            Time otherTime = other.getTime();
+            return thisTime.compareTo(otherTime);
+        } else {
+            return 0;
+        }
     }
 
 }
