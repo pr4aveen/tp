@@ -60,15 +60,14 @@ public class PeriodicTotalTimeStatistic extends Statistic {
         //Only calculate statistics for projects visible to the user
         List<Project> projects = model.getFilteredProjectList();
 
-        ObservableList<StatisticEntry> newTimeList = FXCollections.observableArrayList();
+        timeList.clear();
 
         for (Project project : projects) {
             long totalDuration = calculateTimeSpent(project, weekStart, weekEnd);
 
             StatisticEntry entry = new StatisticEntry(project.getName().fullName, totalDuration);
 
-            newTimeList.add(entry);
-            timeList = newTimeList;
+            timeList.add(entry);
         }
     }
 

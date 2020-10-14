@@ -50,16 +50,38 @@ public class ProjectCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(project.getName().fullName);
 
-        if (project.getDescription().isEmpty()) {
+        if (!project.getDescription().isEmpty()) {
             description.getChildren().add(new Label(project.getDescription().value));
         }
 
-        createdDate.getChildren().add(new Label(project.getCreatedDate().getFormatted()));
-        deadline.getChildren().add(new Label(project.getDeadline().getFormattedDeadline()));
+        createdDate.getChildren().add(new Label("Created: " + project.getCreatedDate().getFormatted()));
+
+        Label deadlineLabel = new Label("Due: " + project.getDeadline().getFormattedDeadline());
+        setDeadlineStyle(deadlineLabel);
+        deadline.getChildren().add(deadlineLabel);
 
         project.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+    }
+
+    private void setDeadlineStyle(Label deadline) {
+        String style = "-fx-text-fill: ";
+
+        if (project.getDeadline().isEmpty()) {
+            style += "-fx-cool-gray-0";
+        } else {
+            long daysToDeadline = project.getDeadline().daysToDeadline();
+            if (daysToDeadline > 7) {
+                style += "-fx-green";
+            } else if (daysToDeadline < 4) {
+                style += "-fx-red";
+            } else {
+                style += "-fx-yellow";
+            }
+        }
+
+        deadline.setStyle(style);
     }
 
     @Override
