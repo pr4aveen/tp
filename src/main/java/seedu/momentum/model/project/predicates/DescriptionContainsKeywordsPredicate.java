@@ -11,28 +11,31 @@ import seedu.momentum.model.project.Project;
  */
 public class DescriptionContainsKeywordsPredicate implements Predicate<Project> {
     private final List<String> keywords;
-    private final boolean isAllMatch;
+    private final FindType findType;
 
     /**
      * Predicate to check whether the {@code Description} of a {@code Project} contains a
      * certain keyword.
      *
-     * @param isAllMatch boolean to indicate whether all keywords need to be successfully matched.
+     * @param findType enum to indicate whether the find type to be used for this find command.
      * @param keywords list of keywords to check for matches.
      */
-    public DescriptionContainsKeywordsPredicate(boolean isAllMatch, List<String> keywords) {
-        this.isAllMatch = isAllMatch;
+    public DescriptionContainsKeywordsPredicate(FindType findType, List<String> keywords) {
+        this.findType = findType;
         this.keywords = keywords;
     }
 
     @Override
     public boolean test(Project project) {
-        if (isAllMatch) {
-            return keywords.stream()
-                    .allMatch(keyword -> StringUtil.containsPartialIgnoreCase(project.getDescription().value, keyword));
-        } else {
-            return keywords.stream()
-                    .anyMatch(keyword -> StringUtil.containsPartialIgnoreCase(project.getDescription().value, keyword));
+        Predicate<String> predicate = keyword ->
+                StringUtil.containsPartialIgnoreCase(project.getDescription().value, keyword);
+        switch (findType) {
+        case ALL:
+            return keywords.stream().allMatch(predicate);
+        case ANY:
+            // Fallthrough
+        default:
+            return keywords.stream().anyMatch(predicate);
         }
     }
 
@@ -41,7 +44,7 @@ public class DescriptionContainsKeywordsPredicate implements Predicate<Project> 
         return other == this // short circuit if same object
                 || (other instanceof DescriptionContainsKeywordsPredicate // instanceof handles nulls
                 && keywords.equals(((DescriptionContainsKeywordsPredicate) other).keywords)) // state check
-                && isAllMatch == ((DescriptionContainsKeywordsPredicate) other).isAllMatch;
+                && findType == ((DescriptionContainsKeywordsPredicate) other).findType;
     }
 
 }
