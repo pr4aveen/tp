@@ -81,9 +81,29 @@ public class SortCommandParserTest {
     }
 
     @Test
+    public void parse_nonEmptyPreambleNoArguments_success() {
+
+    }
+
+    @Test
     public void parse_nonEmptyPreamble_failure() {
-        String userInput = PREAMBLE_NON_EMPTY + VALID_ALPHA_SORT_TYPE + VALID_ASCENDING_SORT_ORDER;
+
+        // Non-empty preamble without sort type and sort order returns default command
+        String userInput = PREAMBLE_NON_EMPTY;
         assertParseFailure(parser, userInput, MESSAGE_NON_EMPTY_PREAMBLE_FAILURE);
+
+        // Non-empty preamble with valid sort type and sort order
+        userInput = PREAMBLE_NON_EMPTY + VALID_ALPHA_SORT_TYPE + VALID_ASCENDING_SORT_ORDER;
+        assertParseFailure(parser, userInput, MESSAGE_NON_EMPTY_PREAMBLE_FAILURE);
+
+        // Non-empty preamble with valid sort type
+        userInput = PREAMBLE_NON_EMPTY + VALID_ALPHA_SORT_TYPE;
+        assertParseFailure(parser, userInput, MESSAGE_NON_EMPTY_PREAMBLE_FAILURE);
+
+        // Non-empty preamble with valid sort order
+        userInput = PREAMBLE_NON_EMPTY + VALID_ASCENDING_SORT_ORDER;
+        assertParseFailure(parser, userInput, MESSAGE_NON_EMPTY_PREAMBLE_FAILURE);
+
     }
 
 }
