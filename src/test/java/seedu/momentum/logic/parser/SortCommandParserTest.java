@@ -88,7 +88,7 @@ public class SortCommandParserTest {
     @Test
     public void parse_nonEmptyPreamble_failure() {
 
-        // Non-empty preamble without sort type and sort order returns default command
+        // Non-empty preamble without sort type and sort order
         String userInput = PREAMBLE_NON_EMPTY;
         assertParseFailure(parser, userInput, MESSAGE_NON_EMPTY_PREAMBLE_FAILURE);
 
