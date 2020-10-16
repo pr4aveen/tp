@@ -27,6 +27,10 @@ public class SortCommandParser implements Parser<SortCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, SORT_TYPE, SORT_ORDER);
 
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
         String sortOrder = parseSortOrder(argMultimap);
         boolean isAscending = sortOrder.equals(INPUT_ASCENDING_ORDER);
         SortType sortType = parseSortType(argMultimap);
@@ -41,6 +45,7 @@ public class SortCommandParser implements Parser<SortCommand> {
     }
 
     private String parseSortOrder(ArgumentMultimap argMultimap) throws ParseException {
+
         if (argMultimap.getValue(SORT_ORDER).isEmpty()) {
             return INPUT_ASCENDING_ORDER;
         }
@@ -57,16 +62,13 @@ public class SortCommandParser implements Parser<SortCommand> {
     }
 
     private SortType parseSortType(ArgumentMultimap argMultimap) throws ParseException {
+
         if (argMultimap.getValue(SORT_TYPE).isEmpty()) {
             return SortType.NULL;
         }
 
         String sortType = argMultimap.getValue(SORT_TYPE).get();
         sortType = sortType.trim();
-
-        if (!argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-        }
 
         switch (sortType) {
         case INPUT_ALPHA_TYPE:
