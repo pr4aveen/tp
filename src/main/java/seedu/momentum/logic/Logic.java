@@ -38,6 +38,11 @@ public interface Logic {
     ObservableList<Project> getFilteredProjectList();
 
     /**
+     * Returns a list of projects whose timers are running
+     */
+    ObservableList<Project> getRunningTimers();
+
+    /**
      * Returns the user prefs' project book file path.
      */
     Path getProjectBookFilePath();

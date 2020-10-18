@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
@@ -23,6 +24,7 @@ public class ModelManager implements Model {
     private final ProjectBook projectBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Project> filteredProjects;
+    private final ObservableList<Project> runningTimers;
     private Predicate<Project> currentPredicate;
     private SortType currentSortType;
     private boolean currentSortIsAscending;
@@ -39,6 +41,8 @@ public class ModelManager implements Model {
         this.projectBook = new ProjectBook(projectBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredProjects = new FilteredList<>(this.projectBook.getProjectList());
+        runningTimers = FXCollections.observableArrayList();
+        initializeRunningTimers();
         currentPredicate = PREDICATE_SHOW_ALL_PROJECTS;
         currentSortType = SortType.ALPHA;
         currentSortIsAscending = true;
@@ -46,6 +50,14 @@ public class ModelManager implements Model {
 
     public ModelManager() {
         this(new ProjectBook(), new UserPrefs());
+    }
+
+    private void initializeRunningTimers() {
+        for (Project project : filteredProjects) {
+            if (project.isRunning()) {
+                runningTimers.add(project);
+            }
+        }
     }
 
     //=========== UserPrefs ==================================================================================
@@ -146,6 +158,30 @@ public class ModelManager implements Model {
         projectBook.setOrder(orderType, isAscending);
         updateFilteredProjectList(currentPredicate);
     }
+
+    //=========== Timers =============================================================
+
+    @Override
+    public ObservableList<Project> getRunningTimers() {
+        return runningTimers;
+    }
+
+    @Override
+    public void addRunningTimer(Project project) {
+        assert (project.isRunning());
+
+        runningTimers.add(project);
+    }
+
+    @Override
+    public void removeRunningTimer(Project project) {
+        assert (project.isRunning());
+        assert (runningTimers.contains(project));
+
+        runningTimers.remove(project);
+    }
+
+
 
     @Override
     public boolean equals(Object obj) {
