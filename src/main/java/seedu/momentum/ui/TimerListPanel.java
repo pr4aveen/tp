@@ -5,9 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
-import seedu.momentum.logic.statistic.StatisticEntry;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.timer.Timer;
 
 /**
  * Panel containing a list of running timers.
