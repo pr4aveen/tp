@@ -10,7 +10,7 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.timer.Timer;
 
 /**
- * Panel containing a list of time spent.
+ * Panel containing a list of running timers.
  */
 public class TimerListPanel extends UiPart<Region> {
     private static final String FXML = "TimerListPanel.fxml";
@@ -19,7 +19,7 @@ public class TimerListPanel extends UiPart<Region> {
     private ListView<Project> timerListView;
 
     /**
-     * Creates a {@code StatListPanel} with the given {@code ObservableList}.
+     * Creates a {@code TimerListPanel} with the given {@code ObservableList}.
      */
     public TimerListPanel(ObservableList<Project> projectList) {
         super(FXML);

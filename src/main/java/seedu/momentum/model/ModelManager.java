@@ -199,7 +199,8 @@ public class ModelManager implements Model {
         ModelManager other = (ModelManager) obj;
         return projectBook.equals(other.projectBook)
                 && userPrefs.equals(other.userPrefs)
-                && filteredProjects.equals(other.filteredProjects);
+                && filteredProjects.equals(other.filteredProjects)
+                && runningTimers.equals(other.runningTimers);
     }
 
 }

@@ -153,6 +153,21 @@ public class AddCommandTest {
         public void orderFilteredProjectList(SortType sortType, boolean isAscending) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public ObservableList<Project> getRunningTimers() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addRunningTimer(Project project) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeRunningTimer(Project project) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

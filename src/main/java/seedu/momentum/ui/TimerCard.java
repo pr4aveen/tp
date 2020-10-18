@@ -23,7 +23,7 @@ public class TimerCard extends UiPart<Region> {
     private Label startTime;
 
     /**
-     * Creates a {@code StatCard} with the given {@code statisticEntry} to display.
+     * Creates a {@code TimerCard} with the given {@code projectEntry} to display.
      */
     public TimerCard(Project projectEntry) {
         super(FXML);
