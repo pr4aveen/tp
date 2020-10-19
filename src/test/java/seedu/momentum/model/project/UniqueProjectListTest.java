@@ -12,7 +12,6 @@ import static seedu.momentum.testutil.TypicalProjects.getTypicalProjects;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -225,16 +224,7 @@ public class UniqueProjectListTest {
         uniqueProjectList.setOrder(SortType.CREATED, true);
         UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByCreatedDateAscending());
-        Iterator<Project> it = uniqueProjectList.iterator();
-        while (it.hasNext()) {
-            System.out.println(it.next());
-        }
-        System.out.println(uniqueProjectList);
-        it = expectedUniqueProjectList.iterator();
-        while (it.hasNext()) {
-            System.out.println(it.next());
-        }
-        System.out.println(expectedUniqueProjectList);
+        assertEquals(uniqueProjectList, expectedUniqueProjectList);
     }
 
     @Test
