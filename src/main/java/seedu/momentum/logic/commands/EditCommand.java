@@ -97,7 +97,8 @@ public class EditCommand extends Command {
         Description updatedDescription = editProjectDescriptor.getDescription().orElse(projectToEdit.getDescription());
         Date createdDate = projectToEdit.getCreatedDate();
         Deadline updatedDeadline = editProjectDescriptor.getDeadline().orElse(projectToEdit.getDeadline());
-        if (updatedDeadline.getDate().compareTo(createdDate) < 1) {
+        if (editProjectDescriptor.getDeadline().isPresent() 
+                && !Deadline.isBeforeCreatedDate(updatedDeadline.getDate().toString(), createdDate)) {
             // deadline is before created date
             // createdDate was 0001-01-01 by default
             throw new ParseException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
