@@ -18,7 +18,16 @@ import seedu.momentum.commons.core.Time;
  */
 public class Deadline implements Comparable<Deadline> {
 
-    public static final String MESSAGE_CONSTRAINTS = Date.MESSAGE_CONSTRAINTS + "\n" + Time.MESSAGE_CONSTRAINTS;
+    /**
+     * The constant CREATED_DATE_MESSAGE_CONSTRAINT.
+     */
+    public static final String CREATED_DATE_MESSAGE_CONSTRAINT = "Date of deadline cannot be earlier than created date";
+    /**
+     * The constant MESSAGE_CONSTRAINTS.
+     */
+    public static final String MESSAGE_CONSTRAINTS = Date.MESSAGE_CONSTRAINTS + "\n"
+            + Time.MESSAGE_CONSTRAINTS + "\n"
+            + CREATED_DATE_MESSAGE_CONSTRAINT;
     private final Optional<Date> date;
     private final Optional<Time> time;
 
@@ -33,11 +42,14 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Constructs a {@code Deadline}.
      *
-     * @param date A valid date.
+     * @param date        A valid date after or on created date.
+     * @param createdDate A created date.
      */
-    public Deadline(String date) {
+    public Deadline(String date, Date createdDate) {
         requireNonNull(date);
+        requireNonNull(createdDate);
         checkArgument(Date.isValid(date), Date.MESSAGE_CONSTRAINTS);
+        checkArgument(isBeforeCreatedDate(date, createdDate), CREATED_DATE_MESSAGE_CONSTRAINT);
         this.date = Optional.of(new Date(date));
         this.time = Optional.empty();
     }
@@ -45,37 +57,79 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Constructs a {@code Deadline}.
      *
-     * @param date A valid date.
-     * @param time A valid time.
+     * @param date        A valid date after or on created date.
+     * @param time        A valid time.
+     * @param createdDate A created date.
      */
-    public Deadline(String date, String time) {
+    public Deadline(String date, String time, Date createdDate) {
         requireNonNull(date, time);
+        requireNonNull(createdDate);
         checkArgument(Date.isValid(date), Date.MESSAGE_CONSTRAINTS);
         checkArgument(Time.isValid(time), Time.MESSAGE_CONSTRAINTS);
+        checkArgument(isBeforeCreatedDate(date, createdDate), CREATED_DATE_MESSAGE_CONSTRAINT);
         this.date = Optional.of(new Date(date));
         this.time = Optional.of(new Time(time));
     }
 
+    /**
+     * Returns true if the date is after or on the created date, false otherwise.
+     *
+     * @param dateStr     A string to be parsed as a date.
+     * @param createdDate A created date.
+     * @return the isBeforeCreatedDate boolean
+     */
+    public static boolean isBeforeCreatedDate(String dateStr, Date createdDate) {
+        Date date = new Date(dateStr);
+        return date.compareTo(createdDate) >= 0;
+    }
+
+    /**
+     * Returns true if the deadline is empty, false otherwise.
+     *
+     * @return the isEmpty boolean
+     */
     public boolean isEmpty() {
         return this.date.isEmpty();
     }
 
+    /**
+     * Gets date of a deadline.
+     *
+     * @return the date
+     * @throws NoSuchElementException If there is no date.
+     */
     public Date getDate() throws NoSuchElementException {
         return this.date.get();
     }
 
+    /**
+     * Returns true if the deadline has a time, false otherwise.
+     *
+     * @return the hasTime boolean
+     */
     public boolean hasTime() {
         return this.time.isPresent();
     }
 
+    /**
+     * Gets time of a deadline.
+     *
+     * @return the time
+     * @throws NoSuchElementException If there is no time.
+     */
     public Time getTime() throws NoSuchElementException {
         return this.time.get();
     }
 
+    /**
+     * Gets formatted deadline.
+     *
+     * @return the formatted deadline
+     */
     public String getFormattedDeadline() {
         return isEmpty() ? "No deadline set"
-            : this.date.map(Date::getFormatted).orElse("")
-            + this.time.map(time -> " " + time.getFormatted()).orElse("");
+                : this.date.map(Date::getFormatted).orElse("")
+                + this.time.map(time -> " " + time.getFormatted()).orElse("");
     }
 
     /**
@@ -109,7 +163,6 @@ public class Deadline implements Comparable<Deadline> {
 
     @Override
     public int compareTo(Deadline other) {
-
         Date thisDate = this.getDate();
         Date otherDate = other.getDate();
 
@@ -129,7 +182,6 @@ public class Deadline implements Comparable<Deadline> {
      * @return integer to indicate order.
      */
     private int sameDateCompare(Deadline other) {
-
         if (!this.hasTime() && other.hasTime()) {
             return -1;
         } else if (this.hasTime() && !other.hasTime()) {

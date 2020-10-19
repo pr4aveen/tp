@@ -45,9 +45,10 @@ class JsonAdaptedDeadline {
     /**
      * Converts this Jackson-friendly adapted duration object into the model's {@code Deadline} object.
      *
+     * @param createdDate the created date of the project.
      * @throws IllegalValueException if there were any data constraints violated in the adapted duration.
      */
-    public Deadline toModelType() throws IllegalValueException {
+    public Deadline toModelType(Date createdDate) throws IllegalValueException {
         if (this.date == null) {
             return new Deadline();
         }
@@ -56,13 +57,13 @@ class JsonAdaptedDeadline {
         }
 
         if (this.time == null) {
-            return new Deadline(date);
+            return new Deadline(date, createdDate);
         }
         if (!Time.isValid(time)) {
             throw new IllegalValueException(Time.MESSAGE_CONSTRAINTS);
         }
 
-        return new Deadline(date, time);
+        return new Deadline(date, time, createdDate);
     }
 
 }

@@ -19,6 +19,7 @@ import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
+import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
@@ -64,7 +65,7 @@ public class EditCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    public CommandResult execute(Model model) throws ParseException, CommandException {
         requireNonNull(model);
         List<Project> lastShownList = model.getFilteredProjectList();
 
@@ -88,13 +89,19 @@ public class EditCommand extends Command {
      * Creates and returns a {@code Project} with the details of {@code projectToEdit}
      * edited with {@code editProjectDescriptor}.
      */
-    private static Project createEditedProject(Project projectToEdit, EditProjectDescriptor editProjectDescriptor) {
+    private static Project createEditedProject(Project projectToEdit,
+                                               EditProjectDescriptor editProjectDescriptor) throws ParseException {
         assert projectToEdit != null;
 
         Name updatedName = editProjectDescriptor.getName().orElse(projectToEdit.getName());
         Description updatedDescription = editProjectDescriptor.getDescription().orElse(projectToEdit.getDescription());
         Date createdDate = projectToEdit.getCreatedDate();
         Deadline updatedDeadline = editProjectDescriptor.getDeadline().orElse(projectToEdit.getDeadline());
+        if (updatedDeadline.getDate().compareTo(createdDate) < 1) {
+            // deadline is before created date
+            // createdDate was 0001-01-01 by default
+            throw new ParseException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
+        }
         Set<Tag> updatedTags = editProjectDescriptor.getTags().orElse(projectToEdit.getTags());
         UniqueDurationList durationList = new UniqueDurationList();
         durationList.setDurations(projectToEdit.getDurationList());

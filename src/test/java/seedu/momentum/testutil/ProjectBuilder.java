@@ -22,7 +22,7 @@ public class ProjectBuilder {
 
     public static final String DEFAULT_NAME = "Alice Pauline";
     public static final String DEFAULT_DESCRIPTION = "Likes coding";
-    public static final String DEFAULT_CREATED_DATE = "2019-11-05";
+    public static final String DEFAULT_CREATED_DATE = "2000-11-05";
     public static final String DEFAULT_DEADLINE_DATE = "2020-11-05";
     public static final String DEFAULT_DEADLINE_TIME = "11:11:11";
 
@@ -41,7 +41,7 @@ public class ProjectBuilder {
         name = new Name(DEFAULT_NAME);
         description = new Description(DEFAULT_DESCRIPTION);
         createdDate = new Date(DEFAULT_CREATED_DATE);
-        deadline = new Deadline(DEFAULT_DEADLINE_DATE, DEFAULT_DEADLINE_TIME);
+        deadline = new Deadline(DEFAULT_DEADLINE_DATE, DEFAULT_DEADLINE_TIME, createdDate);
         tags = new HashSet<>();
         durations = new UniqueDurationList();
         timer = new Timer();
@@ -114,16 +114,16 @@ public class ProjectBuilder {
     /**
      * Sets the {@code Deadline} of the {@code Project} that we are building.
      */
-    public ProjectBuilder withDeadline(String date) {
-        this.deadline = new Deadline(date);
+    public ProjectBuilder withDeadline(String date, String createdDate) {
+        this.deadline = new Deadline(date, new Date(createdDate));
         return this;
     }
 
     /**
      * Sets the {@code Deadline} of the {@code Project} that we are building.
      */
-    public ProjectBuilder withDeadline(String date, String time) {
-        this.deadline = new Deadline(date, time);
+    public ProjectBuilder withDeadline(String date, String time, String createdDate) {
+        this.deadline = new Deadline(date, time, new Date(createdDate));
         return this;
     }
 

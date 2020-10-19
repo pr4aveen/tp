@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
+import seedu.momentum.commons.core.Date;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
@@ -22,6 +23,9 @@ import seedu.momentum.model.tag.Tag;
  * Parses input arguments and creates a new EditCommand object
  */
 public class EditCommandParser implements Parser<EditCommand> {
+    // use a default date to parse the deadline first
+    // check whether if the deadline is after or on created date in edit command
+    private static final Date DEFAULT_CREATED_DATE = new Date("0001-01-01");
 
     /**
      * Parses the given {@code String} of arguments in the context of the EditCommand
@@ -56,7 +60,8 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (argMultimap.getValue(PREFIX_DEADLINE_DATE).isPresent()) {
             editProjectDescriptor.setDeadline(ParserUtil.parseDeadline(
                     argMultimap.getValue(PREFIX_DEADLINE_DATE),
-                    argMultimap.getValue(PREFIX_DEADLINE_TIME)));
+                    argMultimap.getValue(PREFIX_DEADLINE_TIME),
+                    DEFAULT_CREATED_DATE));
         }
 
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editProjectDescriptor::setTags);
