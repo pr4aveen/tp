@@ -74,6 +74,10 @@ Create a project to be tracked by the application.
 
 Format: `project n/NAME [d/DESCRIPTION] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [t/TAG]`
 
+* The format for date of the deadline is YYYY-MM-DD, where YYYY denotes year, MM denotes month, and DD denotes day.
+* The format for time of the deadline is HH-MM-SS in 24 hour format, where HH denotes hour, MM denotes minute, and SS denotes second.
+* The date of the deadline cannot be earlier than the creation date of the project.
+
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A project can have any number of tags (including 0)
 </div>
@@ -99,6 +103,9 @@ Format: `edit PROJECT_ID [n/NAME] [d/DESCRIPTION] [dd/DEADLINE_DATE [dt/DEADLINE
 * Edits the project at the specified `PROJECT_ID`.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
+* The format for date of the deadline is YYYY-MM-DD, where YYYY denotes year, MM denotes month, and DD denotes day.
+* The format for time of the deadline is HH-MM-SS in 24 hour format, where HH denotes hour, MM denotes minute, and SS denotes second.
+* The date of the deadline cannot be earlier than the creation date of the project.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * Removing a description or deadline by typing `d/` or `dd/` without specifying anything after it.

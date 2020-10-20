@@ -55,7 +55,8 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         Deadline deadline = ParserUtil.parseDeadline(
                 argMultimap.getValue(PREFIX_DEADLINE_DATE),
-                argMultimap.getValue(PREFIX_DEADLINE_TIME));
+                argMultimap.getValue(PREFIX_DEADLINE_TIME),
+                createdDate);
 
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 

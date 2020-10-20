@@ -16,6 +16,7 @@ import static seedu.momentum.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.momentum.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.momentum.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.momentum.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_DATE_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_BOB;
@@ -75,7 +76,7 @@ public class AddCommandParserTest {
                 new AddCommand(expectedProject));
 
         // no time in deadline
-        expectedProject = new ProjectBuilder(AMY).withDeadline(VALID_DEADLINE_DATE_AMY)
+        expectedProject = new ProjectBuilder(AMY).withDeadline(VALID_DEADLINE_DATE_AMY, VALID_CREATED_DATE_AMY)
                 .withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + DESCRIPTION_DESC_AMY + DEADLINE_DATE_DESC_AMY + TAG_DESC_FRIEND,
                 new AddCommand(expectedProject));

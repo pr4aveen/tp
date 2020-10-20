@@ -2,6 +2,7 @@ package seedu.momentum.model.project;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_DATE_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_DATE_BOB;
@@ -46,10 +47,10 @@ public class ProjectTest {
         assertFalse(ALICE.isSameProject(editedAlice));
 
         // different deadline -> returns false
-        editedAlice = new ProjectBuilder(ALICE).withDeadline(VALID_DEADLINE_DATE_BOB).build();
+        editedAlice = new ProjectBuilder(ALICE).withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB).build();
         assertFalse(ALICE.isSameProject(editedAlice));
         Project editedBob = new ProjectBuilder(BOB)
-                .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY).build();
+                .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY).build();
         assertFalse(BOB.isSameProject(editedBob));
 
         // same name, same phone, different attributes -> returns true
@@ -99,7 +100,7 @@ public class ProjectTest {
         assertFalse(ALICE.equals(editedAlice));
 
         // different deadline -> returns false
-        editedAlice = new ProjectBuilder(ALICE).withDeadline(VALID_DEADLINE_DATE_BOB).build();
+        editedAlice = new ProjectBuilder(ALICE).withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different tags -> returns false

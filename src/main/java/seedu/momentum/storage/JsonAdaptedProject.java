@@ -102,7 +102,7 @@ class JsonAdaptedProject {
         }
         final Date modelCreatedDate = new Date(createdDate);
 
-        final Deadline modelDeadline = deadline == null ? new Deadline() : deadline.toModelType();
+        final Deadline modelDeadline = deadline == null ? new Deadline() : deadline.toModelType(modelCreatedDate);
 
         final Set<Tag> modelTags = new HashSet<>(projectTags);
 

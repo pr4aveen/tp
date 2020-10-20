@@ -69,25 +69,25 @@ public class TypicalProjectsOrders {
     public static List<Project> getOrderedProjectBookByCreatedDateAscending() {
         ProjectBook projectBook = new ProjectBook();
         List<Project> projects = new ArrayList<>(Arrays.asList(
+                ALICE,
+                BENSON,
                 FIONA,
                 DANIEL,
                 ELLE,
                 GEORGE,
-                CARL,
-                ALICE,
-                BENSON));
+                CARL));
         return projects;
     }
 
     public static List<Project> getOrderedProjectBookByCreatedDateDescending() {
         List<Project> projects = new ArrayList<>(Arrays.asList(
-                BENSON,
-                ALICE,
                 CARL,
                 GEORGE,
                 ELLE,
                 DANIEL,
-                FIONA));
+                FIONA,
+                BENSON,
+                ALICE));
         return projects;
     }
 
@@ -98,6 +98,5 @@ public class TypicalProjectsOrders {
         }
         return uniqueProjectList;
     }
-
 
 }
