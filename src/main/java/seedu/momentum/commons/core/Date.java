@@ -18,6 +18,8 @@ public class Date implements Instance<LocalDate>, Comparable<Date> {
     public static final String MESSAGE_CONSTRAINTS =
             "Dates should be in ISO8601 format. e.g. 2011-12-03";
 
+    public static final Date MIN = new Date(LocalDate.EPOCH);
+
     private final LocalDate date;
 
     /**
