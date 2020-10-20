@@ -19,7 +19,6 @@ import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
-import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
@@ -65,7 +64,7 @@ public class EditCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws ParseException, CommandException {
+    public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<Project> lastShownList = model.getFilteredProjectList();
 
@@ -90,7 +89,7 @@ public class EditCommand extends Command {
      * edited with {@code editProjectDescriptor}.
      */
     private static Project createEditedProject(Project projectToEdit,
-                                               EditProjectDescriptor editProjectDescriptor) throws ParseException {
+                                               EditProjectDescriptor editProjectDescriptor) throws CommandException {
         assert projectToEdit != null;
 
         Name updatedName = editProjectDescriptor.getName().orElse(projectToEdit.getName());
@@ -98,10 +97,10 @@ public class EditCommand extends Command {
         Date createdDate = projectToEdit.getCreatedDate();
         Deadline updatedDeadline = editProjectDescriptor.getDeadline().orElse(projectToEdit.getDeadline());
         if (editProjectDescriptor.getDeadline().isPresent()
-                && !Deadline.isBeforeCreatedDate(updatedDeadline.getDate().toString(), createdDate)) {
+                && Deadline.isBeforeCreatedDate(updatedDeadline.getDate().toString(), createdDate)) {
             // deadline is before created date
             // createdDate was 0001-01-01 by default
-            throw new ParseException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
+            throw new CommandException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
         }
         Set<Tag> updatedTags = editProjectDescriptor.getTags().orElse(projectToEdit.getTags());
         UniqueDurationList durationList = new UniqueDurationList();

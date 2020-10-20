@@ -49,7 +49,7 @@ public class Deadline implements Comparable<Deadline> {
         requireNonNull(date);
         requireNonNull(createdDate);
         checkArgument(Date.isValid(date), Date.MESSAGE_CONSTRAINTS);
-        checkArgument(isBeforeCreatedDate(date, createdDate), CREATED_DATE_MESSAGE_CONSTRAINT);
+        checkArgument(!isBeforeCreatedDate(date, createdDate), CREATED_DATE_MESSAGE_CONSTRAINT);
         this.date = Optional.of(new Date(date));
         this.time = Optional.empty();
     }
@@ -66,7 +66,7 @@ public class Deadline implements Comparable<Deadline> {
         requireNonNull(createdDate);
         checkArgument(Date.isValid(date), Date.MESSAGE_CONSTRAINTS);
         checkArgument(Time.isValid(time), Time.MESSAGE_CONSTRAINTS);
-        checkArgument(isBeforeCreatedDate(date, createdDate), CREATED_DATE_MESSAGE_CONSTRAINT);
+        checkArgument(!isBeforeCreatedDate(date, createdDate), CREATED_DATE_MESSAGE_CONSTRAINT);
         this.date = Optional.of(new Date(date));
         this.time = Optional.of(new Time(time));
     }
@@ -80,7 +80,7 @@ public class Deadline implements Comparable<Deadline> {
      */
     public static boolean isBeforeCreatedDate(String dateStr, Date createdDate) {
         Date date = new Date(dateStr);
-        return date.compareTo(createdDate) >= 0;
+        return date.compareTo(createdDate) < 0;
     }
 
     /**

@@ -78,7 +78,7 @@ public class ParserUtil {
             throw new ParseException(Date.MESSAGE_CONSTRAINTS);
         }
 
-        if (!Deadline.isBeforeCreatedDate(trimmedDate, createdDate)) {
+        if (Deadline.isBeforeCreatedDate(trimmedDate, createdDate)) {
             throw new ParseException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT);
         }
 
