@@ -65,6 +65,11 @@
                               <SplitPane dividerPositions="0.3" orientation="VERTICAL" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.vgrow="ALWAYS">
                                 <items>
                                     <StackPane fx:id="infoDisplayPlaceholder" styleClass="content-box" />
+                                    <StackPane fx:id="timerListPanelPlaceholder" styleClass="c">
+                                        <children>
+                                            <VBox fx:id="timerList" styleClass="content-box" />
+                                        </children>
+                                    </StackPane>
                                     <StackPane fx:id="statListPanelPlaceholder" styleClass="c">
                                        <children>
                                           <VBox fx:id="statList" styleClass="content-box" />

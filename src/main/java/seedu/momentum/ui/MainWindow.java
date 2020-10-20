@@ -36,6 +36,7 @@ public class MainWindow extends UiPart<Stage> {
     private ProjectListPanel projectListPanel;
     private ResultDisplay resultDisplay;
     private StatListPanel statListPanel;
+    private TimerListPanel timerListPanel;
     private HelpWindow helpWindow;
 
     @FXML
@@ -55,6 +56,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane statListPanelPlaceholder;
+
+    @FXML
+    private StackPane timerListPanelPlaceholder;
 
     @FXML
     private StackPane infoDisplayPlaceholder;
@@ -135,6 +139,9 @@ public class MainWindow extends UiPart<Stage> {
 
         statListPanel = new StatListPanel(stats);
         statListPanelPlaceholder.getChildren().add(statListPanel.getRoot());
+
+        timerListPanel = new TimerListPanel(logic.getRunningTimers());
+        timerListPanelPlaceholder.getChildren().add(timerListPanel.getRoot());
     }
 
     /**

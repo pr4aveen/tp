@@ -50,6 +50,7 @@ public class StopCommand extends Command {
 
         Project newProject = projectToStop.stopTimer();
         model.setProject(projectToStop, newProject);
+        model.removeRunningTimer(projectToStop);
 
         return new CommandResult(String.format(MESSAGE_STOP_TIMER_SUCCESS, targetIndex.getOneBased(),
                 newProject.getTimer().getTimeBetween(ChronoUnit.MINUTES)));
