@@ -81,6 +81,21 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered project list */
     ObservableList<Project> getFilteredProjectList();
 
+    /** Returns a list of projects whose timers are running */
+    ObservableList<Project> getRunningTimers();
+
+    /**
+     * Adds the given project to the running timers list.
+     * {@code project} must have a running timer.
+     * */
+    void addRunningTimer(Project project);
+
+    /**
+     * Removes the given project from the running timers list.
+     * {@code project} must have a running timer.
+     */
+    void removeRunningTimer(Project project);
+
     /**
      * Updates the filter of the filtered project list to filter by the given {@code predicate}.
      *

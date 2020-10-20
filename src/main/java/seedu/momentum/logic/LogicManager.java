@@ -75,6 +75,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public ObservableList<Project> getRunningTimers() {
+        return model.getRunningTimers();
+    }
+
+    @Override
     public Path getProjectBookFilePath() {
         return model.getProjectBookFilePath();
     }

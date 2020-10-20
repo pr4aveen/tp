@@ -31,6 +31,8 @@ Momentum is a **desktop app** that **helps freelancers track time spent on diffe
    * **`find`**`n/NewMomentum` : Find a project that has `NewMomentum` in its name.
 
    * **`delete`**`3` : Deletes the 3rd project shown in the current list.
+   
+   * **`sort`**`type/deadline order/asc` : Sorts the list of projects by deadline in ascending order.
 
    * **`/exit`** : Exits the app.
 

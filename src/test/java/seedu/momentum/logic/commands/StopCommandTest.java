@@ -37,15 +37,20 @@ public class StopCommandTest {
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         Project startedProject = projectToStop.startTimer();
+        expectedModel.setProject(projectToStop, startedProject);
+        expectedModel.addRunningTimer(startedProject);
 
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 60);
         model.setProject(projectToStop, startedProject);
+        model.addRunningTimer(startedProject);
 
         Clock.advance(1, ChronoUnit.HOURS);
 
-        expectedModel.setProject(startedProject, startedProject.stopTimer());
+        Project stoppedProject = startedProject.stopTimer();
+        expectedModel.setProject(startedProject, stoppedProject);
+        expectedModel.removeRunningTimer(startedProject);
 
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
         Clock.reset();
@@ -79,11 +84,18 @@ public class StopCommandTest {
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         Project startedProject = projectToStop.startTimer();
+        expectedModel.setProject(projectToStop, startedProject);
+        expectedModel.addRunningTimer(startedProject);
+
         model.setProject(projectToStop, startedProject);
+        model.addRunningTimer(startedProject);
 
         Clock.advance(1, ChronoUnit.HOURS);
 
-        expectedModel.setProject(startedProject, startedProject.stopTimer());
+        Project stoppedProject = startedProject.stopTimer();
+        expectedModel.setProject(startedProject, stoppedProject);
+        expectedModel.removeRunningTimer(startedProject);
+
         showProjectAtIndex(expectedModel, INDEX_FIRST_PROJECT);
 
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
