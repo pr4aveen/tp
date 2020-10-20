@@ -289,12 +289,17 @@ Searching by tag:
 Searches for tags require a full match whilst searches partial matches are sufficient for searches by name and description.
 </div>
 
-#### Starting a Timer for a Project: `start`
+#### Record the Time Spent On a Project: `start` / `stop`
+You can record the time you spend working on a project by starting a timer when you start working, and then stopping
+ the timer once you finish.
+
+##### Starting a Timer for a Project: `start`
 
 Format: `/start PROJECT_ID`
 
 * Starts a timer for the project at the specified `PROJECT_ID`.
 * Only 1 timer can be running for a project at any time.
+* Timers for different projects can run concurrently.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
@@ -302,7 +307,7 @@ Example: `/start 2`
 
 Result: Starts a timer for the second project in the list.
 
-#### Stopping a Timer for a Project: `stop`
+##### Stopping a Timer for a Project: `stop`
 
 Format: `/stop PROJECT_ID`
 
@@ -314,6 +319,18 @@ Format: `/stop PROJECT_ID`
 Example: `/stop 2`
 
 Result: Stops the timer for the second project in the list.
+
+##### Things to note:
+1. If you are working on more than 1 project at the same time, you can start a seperate timer for each project.
+2. However, you cannot start more than 1 timer for the same project.
+3. Momentum tracks and remembers the time recorded by the timer. This data is used to generate statistics for your
+ time usage.
+
+#### Statistics
+Statistics are automatically generated and updated whenever projects are 
+added/deleted/changed, and when timers are started/stopped. They can be
+seen in the bottom left of the window. 
+You do not need to use any additional commands to update or view statistics
 
 ### Exiting the Program : /`exit`
 ProjectBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.

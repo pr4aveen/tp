@@ -135,6 +135,87 @@ Classes used by multiple components are in the `seedu.momentum.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Immutability
+`Projects`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new
+ object is created with the new details, and the model is updated with the new object.
+ 
+Notable examples include:
+* Starting/Stopping a Timer: A new object is created with the updated timer state and durations, 
+* Editing a Project: A new object is created with the new project's details, with the same timer and durations recorded.
+
+Below is an example of what happens when a project's timer is stopped:
+
+![StopTimerSequenceDiagram](images/StopTimerSequenceDiagram.png)
+
+In this case, since the project's timer is being changed, new `Timer`, `WorkDuration`, `UniqueDurationList` objects are
+ created, which are then used to create a new `Project`, which is subsequently used to replace the old `Project` in
+  the model.
+
+We chose to implement projects this way as immutability makes these classes more easily testable.
+
+### Timers and Durations
+The time tracking features in Momentum are implemented using `Timer` and `WorkDuration` objects. The below diagram
+ illustrates the relevant classes that work together to produce statistics
+ 
+ ![StopTimerSequenceDiagram](images/TimerDurationClassDiagram.png)
+
+
+Each project has a `Timer` that can be started and stopped by the user (using the `start`/`stop` commands). The timer
+ does not run actively (counting each second/millisecond), instead it records the time when it was started, and the time
+  when it was stopped. 
+ 
+This implementation was chosen because it allows Momentum's timers to continue running even when the application is
+closed, bye saving the timer's start/stop times together with project data. We chose to give each `Project` its own
+ timer as that allows Momentum to support running multiple timers concurrently, one for each project, for users that
+  want to multi-task.
+
+A `WorkDuration` represents a period of time that the user spent working on a project. Each `Project` contains a list
+ of `WorkDuration` that represents each time the each the user starts and stops the timer for the project.
+ 
+We chose to do this implementation to allow for flexibility in calculating statistics
+
+### Statistics
+Statistics in Momentum are implemented using a Command design pattern, similar to how Commands are implemented. A
+ `StatisticManager` contains all the `Statistic` objects and is responsible for updating each `Statistic` whenever
+  the model is changed.
+  
+ Each `Statistic` exposes a `calculate(Model model)` method that is called by the `StatisticManager` to calculate or
+  update the data with the information in the model. The method contains instructions on how that particular
+   statistic is calculated. 
+   
+For example, the `PeriodicTotalTimeStatistic` calculates the amount of time the user
+spends on each project for some period of time, and is calculated by looking at each project in the model and
+ summing up all the `WorkDuration` for the given period.
+ 
+The statistics data is stored in each `Statistic` object as one or more `StatisticEntry` objects. A `StatisticEntry
+` represents a unit statistics data, which contains a `label` describing the data and the data's `value`.
+ 
+Here is a sequence diagram to demonstrate how the statistics for time spent per project (weekly) is calculated and
+ how the data is retrieved.
+
+![StatsSequenceDiagram](images/StatsSequenceDiagram.png)
+
+### Managing Time
+Time is managed by a `Clock` class. This class has 3 modes that allow for it to perform different functions:
+1. Normal: The normal system time is returned.
+2. Fixed: The same, preset time is always returned. Used for testing purposes.
+3. Manual: The passage of time can be manually controlled, such as fast-forwarding and rewinding time by specific
+ amounts. Used for testing purposes.
+ 
+The `Clock` class acts as a consistent, single course of the 'current time' within the application, and provides the
+ option to manually set and control the current time for testing purposes. Objects that need to know the current time
+  must obtain it from `Clock`.
+ 
+This implementation was chosen because it allows all time-related features to be more easily testable.
+
+Rejected Implementation: Using `LocalDateTime.now()` directly
+This implementation was considered but ultimately rejected as it introduced several problems in testing time-realted
+ features. Notable issues are:
+ * It is impossible to check for equality when getting system time directly using `LocalDateTime.now()` and other
+  similar methods, since time would always progress by a small amount between each call
+ * It is difficult to test features that require the passage of time, such as the `start` and `stop` commands as we
+  would need to actually wait an amount of time during the tests.
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
@@ -266,9 +347,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                        | add and edit a deadline for a project                    |                                                                         |
 | `* * *`  | user                                        | delete a project                     | remove entries that I no longer need                                    |
 | `* * *`  | user                                        | find a project by name               | locate details of projects without having to go through the entire list |
-| `* *`    | user                                        | hide private contact details         | minimize chance of someone else seeing them by accident                 |
 | `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
 | `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
+| `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
 _{More to be added}_
 
 ### Use cases
