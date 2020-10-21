@@ -2,6 +2,7 @@ package seedu.momentum.ui;
 
 import java.util.logging.Logger;
 
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticEntry;
+import seedu.momentum.model.project.Project;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -33,10 +35,12 @@ public class MainWindow extends UiPart<Stage> {
     private Logic logic;
 
     // Independent Ui parts residing in this Ui container
-    private ProjectListPanel projectListPanel;
+    private CommandBox commandBox;
     private ResultDisplay resultDisplay;
-    private StatListPanel statListPanel;
+    private ProjectListPanel projectListPanel;
+    private TagsDisplay tagsDisplay;
     private TimerListPanel timerListPanel;
+    private StatListPanel statListPanel;
     private HelpWindow helpWindow;
 
     @FXML
@@ -123,23 +127,51 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        projectListPanel = new ProjectListPanel(logic.getFilteredProjectList());
-        projectListPanelPlaceholder.getChildren().add(projectListPanel.getRoot());
+        initCommandBox();
+        initResultDisplay();
+        initProjectList();
+        initTagDisplay();
+        initTimerList();
+        initStatList();
+    }
 
+    private void initCommandBox() {
+        commandBox = new CommandBox(this::executeCommand);
+        commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+    }
+
+    private void initResultDisplay() {
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
+    }
 
-        CommandBox commandBox = new CommandBox(this::executeCommand);
-        commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+    private void initProjectList() {
+        projectListPanel = new ProjectListPanel(logic.getFilteredProjectList());
+        projectListPanelPlaceholder.getChildren().add(projectListPanel.getRoot());
+    }
 
-        TagsDisplay tagsDisplay = new TagsDisplay(logic.getProjectBook().getProjectTags());
+    private void initTagDisplay() {
+        tagsDisplay = new TagsDisplay(logic.getProjectBook().getProjectTags());
         infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
 
-        ObservableList<StatisticEntry> stats = logic.getStatistic().getWeeklyTimePerProjectStatistic();
+        // Add a listener to the project list that will update tags when there are changes made to the project list.
+        logic.getFilteredProjectList().addListener(new ListChangeListener<Project>() {
+            @Override
+            public void onChanged(Change<? extends Project> c) {
+                TagsDisplay newTagsDisplay = new TagsDisplay(logic.getProjectBook().getProjectTags());
+                infoDisplayPlaceholder.getChildren().clear();
+                infoDisplayPlaceholder.getChildren().add(newTagsDisplay.getRoot());
+            }
+        });
+    }
 
+    private void initStatList() {
+        ObservableList<StatisticEntry> stats = logic.getStatistic().getWeeklyTimePerProjectStatistic();
         statListPanel = new StatListPanel(stats);
         statListPanelPlaceholder.getChildren().add(statListPanel.getRoot());
+    }
 
+    private void initTimerList() {
         timerListPanel = new TimerListPanel(logic.getRunningTimers());
         timerListPanelPlaceholder.getChildren().add(timerListPanel.getRoot());
     }
