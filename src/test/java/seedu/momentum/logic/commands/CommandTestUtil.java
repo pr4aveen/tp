@@ -17,6 +17,7 @@ import java.util.List;
 
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
+import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.project.Project;
@@ -35,8 +36,8 @@ public class CommandTestUtil {
     public static final String VALID_DESCRIPTION_BOB = "Hates coffee";
     public static final String VALID_CREATED_DATE_AMY = "2019-12-02";
     public static final String VALID_CREATED_DATE_BOB = "2019-10-02";
-    public static final String VALID_DEADLINE_DATE_AMY = "2020-12-02";
-    public static final String VALID_DEADLINE_DATE_BOB = "2020-10-02";
+    public static final String VALID_DEADLINE_DATE_AMY = "2030-12-02";
+    public static final String VALID_DEADLINE_DATE_BOB = "2030-10-02";
     public static final String VALID_DEADLINE_TIME_AMY = "11:42:53";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
@@ -73,12 +74,12 @@ public class CommandTestUtil {
     static {
         DESC_AMY = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withDescription(VALID_DESCRIPTION_AMY)
-                .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY)
+                .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
                 .withTags(VALID_TAG_FRIEND)
                 .build();
         DESC_BOB = new EditProjectDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withDescription(VALID_DESCRIPTION_BOB)
-                .withDeadline(VALID_DEADLINE_DATE_BOB)
+                .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
                 .build();
     }
@@ -94,7 +95,7 @@ public class CommandTestUtil {
             CommandResult result = command.execute(actualModel);
             assertEquals(expectedCommandResult, result);
             assertEquals(expectedModel, actualModel);
-        } catch (CommandException ce) {
+        } catch (ParseException | CommandException ce) {
             throw new AssertionError("Execution of command should not fail.", ce);
         }
     }

@@ -88,13 +88,20 @@ public class EditCommand extends Command {
      * Creates and returns a {@code Project} with the details of {@code projectToEdit}
      * edited with {@code editProjectDescriptor}.
      */
-    private static Project createEditedProject(Project projectToEdit, EditProjectDescriptor editProjectDescriptor) {
+    private static Project createEditedProject(Project projectToEdit,
+                                               EditProjectDescriptor editProjectDescriptor) throws CommandException {
         assert projectToEdit != null;
 
         Name updatedName = editProjectDescriptor.getName().orElse(projectToEdit.getName());
         Description updatedDescription = editProjectDescriptor.getDescription().orElse(projectToEdit.getDescription());
         Date createdDate = projectToEdit.getCreatedDate();
         Deadline updatedDeadline = editProjectDescriptor.getDeadline().orElse(projectToEdit.getDeadline());
+        if (editProjectDescriptor.getDeadline().isPresent()
+                && Deadline.isBeforeCreatedDate(updatedDeadline.getDate().toString(), createdDate)) {
+            // deadline is before created date
+            // createdDate was 0001-01-01 by default
+            throw new CommandException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
+        }
         Set<Tag> updatedTags = editProjectDescriptor.getTags().orElse(projectToEdit.getTags());
         UniqueDurationList durationList = new UniqueDurationList();
         durationList.setDurations(projectToEdit.getDurationList());

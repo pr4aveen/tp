@@ -21,14 +21,14 @@ public class CreatedDateCompareTest {
             .withCreatedDate("3000-01-01")
             .build();
     public static final Project SAME_CREATED_DATE_NAME_ALPHABETICALLY_EARLIER = new ProjectBuilder().withName("AAA")
-            .withCreatedDate("2019-11-05")
+            .withCreatedDate("2000-11-05")
             .build();
     public static final Project SAME_CREATED_DATE_NAME_ALPHABETICALLY_LATER = new ProjectBuilder().withName("ZZZ")
-            .withCreatedDate("2019-11-05")
+            .withCreatedDate("2000-11-05")
             .build();
     public static final Project SAME_CREATED_DATE_NAME_ALPHABETICALLY_SAME = new ProjectBuilder()
             .withName("Alice Pauline")
-            .withCreatedDate("2019-11-05")
+            .withCreatedDate("2000-11-05")
             .build();
     public static final CreatedDateCompare CREATED_DATE_COMPARATOR = new CreatedDateCompare();
 

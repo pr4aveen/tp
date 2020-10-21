@@ -225,7 +225,6 @@ public class UniqueProjectListTest {
         UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByCreatedDateAscending());
         assertEquals(uniqueProjectList, expectedUniqueProjectList);
-
     }
 
     @Test

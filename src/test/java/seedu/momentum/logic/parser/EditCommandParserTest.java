@@ -13,6 +13,8 @@ import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.momentum.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.momentum.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_AMY;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_DATE_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_DATE_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_TIME_AMY;
@@ -106,7 +108,7 @@ public class EditCommandParserTest {
 
         EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withDescription(VALID_DESCRIPTION_AMY)
-                .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY)
+                .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
@@ -143,14 +145,15 @@ public class EditCommandParserTest {
 
         // deadline with date
         userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB;
-        descriptor = new EditProjectDescriptorBuilder().withDeadline(VALID_DEADLINE_DATE_BOB).build();
+        descriptor = new EditProjectDescriptorBuilder()
+                .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // deadline with date and time
         userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB + DEADLINE_TIME_DESC_AMY;
         descriptor = new EditProjectDescriptorBuilder()
-                .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_DEADLINE_TIME_AMY).build();
+                .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 

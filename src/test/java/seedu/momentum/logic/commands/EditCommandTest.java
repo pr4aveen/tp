@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.DESC_BOB;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_DATE_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
@@ -55,11 +56,11 @@ public class EditCommandTest {
 
         ProjectBuilder projectInList = new ProjectBuilder(lastProject);
         Project editedProject = projectInList.withName(VALID_NAME_BOB)
-                .withDeadline(VALID_DEADLINE_DATE_BOB)
+                .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
                 .withTags(VALID_TAG_HUSBAND).build();
 
         EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withDeadline(VALID_DEADLINE_DATE_BOB)
+                .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
                 .withTags(VALID_TAG_HUSBAND).build();
         EditCommand editCommand = new EditCommand(indexLastProject, descriptor);
 
