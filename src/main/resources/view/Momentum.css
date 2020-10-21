@@ -93,7 +93,7 @@
 }
 
 .separator {
-    -fx-padding: -10;
+    -fx-padding: -1000;
 }
 
 .separator .line{
@@ -159,6 +159,18 @@
     -fx-font-size: 20;
 }
 
+.project-list #id {
+    -fx-fill: -fx-white;
+}
+
+.project-list #name, #description {
+    -fx-padding: 0 8 0 0;
+}
+
+.projectCardContentBox {
+    -fx-padding: 12 8;
+}
+
 #tags {
     -fx-hgap: 7;
     -fx-vgap: 3;
@@ -170,4 +182,8 @@
     -fx-border-radius: 2;
     -fx-background-radius: 2;
     -fx-font-size: 14;
+}
+
+.statLabel {
+    -fx-padding: 0 8 0 0;
 }
