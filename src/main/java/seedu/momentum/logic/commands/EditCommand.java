@@ -20,10 +20,12 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.UniqueTrackedItemList;
 import seedu.momentum.model.tag.Tag;
@@ -52,9 +54,12 @@ public class EditCommand extends Command {
 
     private final Index index;
     private final EditTrackedItemDescriptor editTrackedItemDescriptor;
+    private final Project parentProject;
 
     /**
-     * @param index                 of the project in the filtered project list to edit
+     * Create a EditCOmmand that edits a project.
+     *
+     * @param index of the project in the filtered project list to edit
      * @param editTrackedItemDescriptor details to edit the project with
      */
     public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor) {
@@ -63,6 +68,23 @@ public class EditCommand extends Command {
 
         this.index = index;
         this.editTrackedItemDescriptor = new EditTrackedItemDescriptor(editTrackedItemDescriptor);
+        this.parentProject = null;
+    }
+
+    /**
+     * Create a EditCommand that edits a task.
+     *
+     * @param index of the project in the filtered project list to edit
+     * @param editTrackedItemDescriptor details to edit the project with
+     * @param parentProject The parent project of the task to edit.
+     */
+    public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor, Project parentProject) {
+        requireNonNull(index);
+        requireNonNull(editTrackedItemDescriptor);
+
+        this.index = index;
+        this.editTrackedItemDescriptor = new EditTrackedItemDescriptor(editTrackedItemDescriptor);
+        this.parentProject = parentProject;
     }
 
     @Override
@@ -75,13 +97,18 @@ public class EditCommand extends Command {
         }
 
         TrackedItem trackedItemToEdit = lastShownList.get(index.getZeroBased());
-        TrackedItem editedTrackedItem = createEditedTrackedItem(trackedItemToEdit, editTrackedItemDescriptor);
+        TrackedItem editedTrackedItem = createEditedTrackedItem(trackedItemToEdit, editTrackedItemDescriptor, model);
 
         if (!trackedItemToEdit.isSameTrackedItem(editedTrackedItem) && model.hasTrackedItem(editedTrackedItem)) {
             throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
         }
 
-        model.setTrackedItem(trackedItemToEdit, editedTrackedItem);
+        if (model.getViewMode() == ViewMode.PROJECTS) {
+            model.setTrackedItem(trackedItemToEdit, editedTrackedItem);
+        } else {
+            parentProject.setTask(trackedItemToEdit,editedTrackedItem);
+        }
+
         model.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
         return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));
     }
@@ -92,7 +119,8 @@ public class EditCommand extends Command {
      * @return
      */
     private static TrackedItem createEditedTrackedItem(TrackedItem trackedItemToEdit,
-                                                       EditTrackedItemDescriptor editTrackedItemDescriptor) throws CommandException {
+                                                       EditTrackedItemDescriptor editTrackedItemDescriptor,
+                                                       Model model) throws CommandException {
         assert trackedItemToEdit != null;
 
         Name updatedName = editTrackedItemDescriptor.getName().orElse(trackedItemToEdit.getName());
@@ -108,10 +136,18 @@ public class EditCommand extends Command {
         Set<Tag> updatedTags = editTrackedItemDescriptor.getTags().orElse(trackedItemToEdit.getTags());
         UniqueDurationList durationList = new UniqueDurationList();
         durationList.setDurations(trackedItemToEdit.getDurationList());
-        UniqueTrackedItemList taskList = new UniqueTrackedItemList();
 
-        return new Project(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags,
-                durationList, trackedItemToEdit.getTimer());
+        if (model.getViewMode() == ViewMode.PROJECTS) {
+            Project projectToEdit = (Project) trackedItemToEdit;
+            UniqueTrackedItemList taskList = new UniqueTrackedItemList();
+            taskList.setTrackedItems(projectToEdit.getTaskList());
+
+            return new Project(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags,
+                    durationList, trackedItemToEdit.getTimer(), taskList);
+        } else {
+            return new Task(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags,
+                    durationList, trackedItemToEdit.getTimer());
+        }
     }
 
     @Override

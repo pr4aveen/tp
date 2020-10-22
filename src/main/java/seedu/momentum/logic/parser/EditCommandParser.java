@@ -18,6 +18,7 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -69,7 +70,11 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditCommand(index, editTrackedItemDescriptor);
+        if (model.getViewMode() == ViewMode.PROJECTS) {
+            return new EditCommand(index, editTrackedItemDescriptor);
+        } else {
+            return new EditCommand(index, editTrackedItemDescriptor, model.getCurrentProject());
+        }
     }
 
     /**
