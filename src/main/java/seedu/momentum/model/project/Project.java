@@ -30,6 +30,7 @@ public class Project extends TrackedItem {
      * @param tags A set of tags associated to the project.
      * @param durations A list of {@code WorkDuration} associated with the project.
      * @param timer A timer associated with the project.
+     * @param taskList UniqueTrackedListList associated with the project.
      */
     public Project(Name name, Description description, Date createdDate, Deadline deadline,
                    Set<Tag> tags, UniqueDurationList durations, Timer timer, UniqueTrackedItemList taskList) {
@@ -37,6 +38,17 @@ public class Project extends TrackedItem {
         this.taskList = taskList;
     }
 
+    /**
+     * Constructs a {@code Project}.
+     *
+     * @param name A valid name.
+     * @param description A description of the project.
+     * @param createdDate A date associated with the creation of the project.
+     * @param deadline A deadline associated with the project.
+     * @param tags A set of tags associated to the project.
+     * @param durations A list of {@code WorkDuration} associated with the project.
+     * @param timer A timer associated with the project.
+     */
     public Project(Name name, Description description, Date createdDate, Deadline deadline,
                    Set<Tag> tags, UniqueDurationList durations, Timer timer) {
         super(name, description, createdDate, deadline, tags, durations, timer);
@@ -84,21 +96,42 @@ public class Project extends TrackedItem {
         return new Project(name, description, createdDate, deadline, tags, newDurations, newTimer, taskList);
     }
 
+    /**
+     * Adds a task in the {@code Project}'s {@code UniqueTrackedItemList}.
+     *
+     * @param task task to be added.
+     */
     public void addTask(TrackedItem task) {
         requireNonNull(task);
         this.taskList.add(task);
     }
 
+    /**
+     * Checks whether a task is in the {@code Project}'s {@code UniqueTrackedItemList}.
+     *
+     * @param task task that needs to be checked.
+     */
     public boolean hasTask(TrackedItem task) {
         requireNonNull(task);
         return taskList.contains(task);
     }
 
-    public void deleteTask(TrackedItem target) {
-        requireNonNull(target);
-        taskList.remove(target);
+    /**
+     * Deletes a task in the {@code Project}'s {@code UniqueTrackedItemList}.
+     *
+     * @param task task to be deleted.
+     */
+    public void deleteTask(TrackedItem task) {
+        requireNonNull(task);
+        taskList.remove(task);
     }
 
+    /**
+     * Edits a task is in the {@code Project}'s {@code UniqueTrackedItemList}.
+     *
+     * @param target task to be replaced.
+     * @param editedTask task to replace the original task with.
+     */
     public void setTask(TrackedItem target, TrackedItem editedTask) {
         requireAllNonNull(target, editedTask);
         taskList.setTrackedItem(target, editedTask);

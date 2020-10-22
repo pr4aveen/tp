@@ -81,18 +81,19 @@ public interface Model {
     void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem);
 
     /** Returns an unmodifiable view of the filtered project list
-     * @return*/
+     */
     ObservableList<TrackedItem> getFilteredTrackedItemList();
 
     /** Returns a list of projects whose timers are running
-     * @return*/
+     */
     ObservableList<TrackedItem> getRunningTimers();
 
     /**
      * Adds the given project to the running timers list.
      * {@code project} must have a running timer.
      *
-     * @param trackedItem*/
+     * @param trackedItem item to add a timer to.
+     */
     void addRunningTimer(TrackedItem trackedItem);
 
     /**

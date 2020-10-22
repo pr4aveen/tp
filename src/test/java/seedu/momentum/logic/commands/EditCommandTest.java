@@ -60,7 +60,8 @@ public class EditCommandTest {
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
                 .withTags(VALID_TAG_HUSBAND).build();
 
-        EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_BOB)
+        EditCommand.EditTrackedItemDescriptor descriptor =
+            new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
                 .withTags(VALID_TAG_HUSBAND).build();
         EditCommand editCommand = new EditCommand(indexLastTrackedItem, descriptor);
@@ -89,7 +90,8 @@ public class EditCommandTest {
     public void execute_filteredList_success() {
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
-        TrackedItem trackedItemInFilteredList = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemInFilteredList =
+            model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
         TrackedItem editedTrackedItem = new ProjectBuilder(trackedItemInFilteredList).withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PROJECT,
                 new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_BOB).build());
@@ -116,7 +118,8 @@ public class EditCommandTest {
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
         // edit project in filtered list into a duplicate in project book
-        TrackedItem trackedItemInList = model.getProjectBook().getTrackedItemList().get(INDEX_SECOND_PROJECT.getZeroBased());
+        TrackedItem trackedItemInList =
+            model.getProjectBook().getTrackedItemList().get(INDEX_SECOND_PROJECT.getZeroBased());
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PROJECT,
                 new EditTrackedItemDescriptorBuilder(trackedItemInList).build());
 
