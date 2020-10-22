@@ -69,6 +69,27 @@ class JsonAdaptedProject {
         }
     }
 
+    // This should not exist.
+    public JsonAdaptedProject(String name,
+                              String description,
+                              String createdDate,
+                              JsonAdaptedDeadline deadline,
+                              List<JsonAdaptedTag> tagged,
+                              List<JsonAdaptedWorkDuration> durations,
+                              JsonAdaptedTimer timer) {
+        this.name = name;
+        this.description = description;
+        this.createdDate = createdDate;
+        this.deadline = deadline;
+        if (tagged != null) {
+            this.tagged.addAll(tagged);
+        }
+        if (durations != null) {
+            this.durations.addAll(durations);
+        }
+        this.timer = timer;
+    }
+
     /**
      * Converts a given {@code TrackedItem} into this class for Jackson use.
      */
