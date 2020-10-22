@@ -121,6 +121,10 @@ public interface Model {
 
     void viewTasks(Project project);
 
+    void viewAll();
+
+    void resetView();
+
     /**
      * Returns the project that the user is currently viewing.
      *
