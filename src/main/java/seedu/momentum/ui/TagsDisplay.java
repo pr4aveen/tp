@@ -15,7 +15,7 @@ import seedu.momentum.model.tag.Tag;
 public class TagsDisplay extends UiPart<Region> {
     private static final String FXML = "TagsDisplay.fxml";
 
-    private final Set<Tag> tagsSet;
+    private Set<Tag> tagsSet;
 
     @FXML
     private FlowPane tags;
