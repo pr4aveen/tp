@@ -163,7 +163,7 @@ public class AddCommandTest {
 
         @Override
         public ViewMode getViewMode() {
-            throw new AssertionError("This method should not be called.");
+            return ViewMode.PROJECTS;
         }
 
         @Override
@@ -188,6 +188,16 @@ public class AddCommandTest {
 
         @Override
         public Project getCurrentProject() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void viewAll() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void resetView() {
             throw new AssertionError("This method should not be called.");
         }
     }
