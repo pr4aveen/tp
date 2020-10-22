@@ -25,6 +25,7 @@ import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.UniqueTrackedItemList;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.UniqueDurationList;
 
@@ -107,6 +108,7 @@ public class EditCommand extends Command {
         Set<Tag> updatedTags = editTrackedItemDescriptor.getTags().orElse(trackedItemToEdit.getTags());
         UniqueDurationList durationList = new UniqueDurationList();
         durationList.setDurations(trackedItemToEdit.getDurationList());
+        UniqueTrackedItemList taskList = new UniqueTrackedItemList();
 
         return new Project(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags,
                 durationList, trackedItemToEdit.getTimer());

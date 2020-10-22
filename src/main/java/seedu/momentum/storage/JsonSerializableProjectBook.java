@@ -37,7 +37,8 @@ class JsonSerializableProjectBook {
      * @param source future changes to this will not affect the created {@code JsonSerializableProjectBook}.
      */
     public JsonSerializableProjectBook(ReadOnlyProjectBook source) {
-        projects.addAll(source.getTrackedItemList().stream().map(JsonAdaptedProject::new).collect(Collectors.toList()));
+        projects.addAll(source.getTrackedItemList()
+                .stream().map(item -> (Project) item).map(JsonAdaptedProject::new).collect(Collectors.toList()));
     }
 
     /**

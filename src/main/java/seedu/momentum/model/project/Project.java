@@ -32,6 +32,12 @@ public class Project extends TrackedItem {
      * @param timer A timer associated with the project.
      */
     public Project(Name name, Description description, Date createdDate, Deadline deadline,
+                   Set<Tag> tags, UniqueDurationList durations, Timer timer, UniqueTrackedItemList taskList) {
+        super(name, description, createdDate, deadline, tags, durations, timer);
+        this.taskList = taskList;
+    }
+
+    public Project(Name name, Description description, Date createdDate, Deadline deadline,
                    Set<Tag> tags, UniqueDurationList durations, Timer timer) {
         super(name, description, createdDate, deadline, tags, durations, timer);
         taskList = new UniqueTrackedItemList();
@@ -59,7 +65,7 @@ public class Project extends TrackedItem {
     @Override
     public Project startTimer() {
         Timer newTimer = timer.start();
-        return new Project(name, description, createdDate, deadline, tags, durations, newTimer);
+        return new Project(name, description, createdDate, deadline, tags, durations, newTimer, taskList);
     }
 
     /**
@@ -75,7 +81,7 @@ public class Project extends TrackedItem {
         UniqueDurationList newDurations = new UniqueDurationList();
         newDurations.setDurations(durations);
         newDurations.add(duration);
-        return new Project(name, description, createdDate, deadline, tags, newDurations, newTimer);
+        return new Project(name, description, createdDate, deadline, tags, newDurations, newTimer, taskList);
     }
 
     public void addTask(Task task) {

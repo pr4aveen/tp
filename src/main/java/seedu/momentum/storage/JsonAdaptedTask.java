@@ -1,7 +1,5 @@
 package seedu.momentum.storage;
 
-import javax.sound.midi.Track;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,18 +17,17 @@ import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.UniqueTrackedItemList;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.Timer;
 import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
- * Jackson-friendly version of {@link Project}.
+ * Jackson-friendly version of {@link TrackedItem}.
  */
-class JsonAdaptedProject {
+class JsonAdaptedTask {
 
-    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Project's %s field is missing!";
+    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Task's %s field is missing!";
 
     private final String name;
     private final String description;
@@ -39,20 +36,18 @@ class JsonAdaptedProject {
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
     private final List<JsonAdaptedWorkDuration> durations = new ArrayList<>();
     private final JsonAdaptedTimer timer;
-    private final List<JsonAdaptedTask> taskList = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonAdaptedProject} with the given project details.
+     * Constructs a {@code Task} with the given project details.
      */
     @JsonCreator
-    public JsonAdaptedProject(@JsonProperty("name") String name,
-                              @JsonProperty("description") String description,
-                              @JsonProperty("createdDate") String createdDate,
-                              @JsonProperty("deadline") JsonAdaptedDeadline deadline,
-                              @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
-                              @JsonProperty("durations") List<JsonAdaptedWorkDuration> durations,
-                              @JsonProperty("timer") JsonAdaptedTimer timer,
-                              @JsonProperty("taskList") List<JsonAdaptedTask> taskList) {
+    public JsonAdaptedTask(@JsonProperty("name") String name,
+                                  @JsonProperty("description") String description,
+                                  @JsonProperty("createdDate") String createdDate,
+                                  @JsonProperty("deadline") JsonAdaptedDeadline deadline,
+                                  @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
+                                  @JsonProperty("durations") List<JsonAdaptedWorkDuration> durations,
+                                  @JsonProperty("timer") JsonAdaptedTimer timer) {
         this.name = name;
         this.description = description;
         this.createdDate = createdDate;
@@ -64,15 +59,12 @@ class JsonAdaptedProject {
             this.durations.addAll(durations);
         }
         this.timer = timer;
-        if (taskList != null) {
-            this.taskList.addAll(taskList);
-        }
     }
 
     /**
-     * Converts a given {@code TrackedItem} into this class for Jackson use.
+     * Converts a given {@code Task} into this class for Jackson use.
      */
-    public JsonAdaptedProject(Project source) {
+    public JsonAdaptedTask(TrackedItem source) {
         name = source.getName().fullName;
         description = source.getDescription().value;
         createdDate = source.getCreatedDate().toString();
@@ -84,9 +76,6 @@ class JsonAdaptedProject {
                 .map(JsonAdaptedWorkDuration::new)
                 .collect(Collectors.toList()));
         timer = new JsonAdaptedTimer(source.getTimer());
-        taskList.addAll(source.getTaskList().stream()
-                .map(JsonAdaptedTask::new)
-                .collect(Collectors.toList()));
     }
 
     /**
@@ -94,7 +83,7 @@ class JsonAdaptedProject {
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted tracked item.
      */
-    public Project toModelType() throws IllegalValueException {
+    public Task toModelType() throws IllegalValueException {
         final List<Tag> trackedItemTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tagged) {
             trackedItemTags.add(tag.toModelType());
@@ -129,15 +118,8 @@ class JsonAdaptedProject {
 
         final Timer modelTimer = timer == null ? new Timer() : timer.toModelType();
 
-        final List<TrackedItem> projectTasks = new ArrayList<>();
-        for (JsonAdaptedTask task : taskList) {
-            projectTasks.add(task.toModelType());
-        }
-        UniqueTrackedItemList modelTasks = new UniqueTrackedItemList();
-        modelTasks.setTrackedItems(projectTasks);
-
-        return new Project(modelName, modelDescription, modelCreatedDate, modelDeadline, modelTags, modelDurations,
-                modelTimer, modelTasks);
+        return new Task(modelName, modelDescription, modelCreatedDate, modelDeadline, modelTags, modelDurations,
+                modelTimer);
     }
 
 }
