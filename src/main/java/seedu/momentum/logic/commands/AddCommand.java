@@ -10,6 +10,7 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * Adds a project to the project book.
@@ -33,14 +34,14 @@ public class AddCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New project added: %1$s";
     public static final String MESSAGE_DUPLICATE_PROJECT = "This project already exists in the project book";
 
-    private final Project toAdd;
+    private final TrackedItem toAdd;
 
     /**
      * Creates an AddCommand to add the specified {@code Project}
      */
-    public AddCommand(Project project) {
-        requireNonNull(project);
-        toAdd = project;
+    public AddCommand(TrackedItem trackedItem) {
+        requireNonNull(trackedItem);
+        toAdd = trackedItem;
     }
 
     @Override

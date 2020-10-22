@@ -9,6 +9,7 @@ import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.Timer;
 import seedu.momentum.model.timer.UniqueDurationList;
@@ -50,7 +51,7 @@ public class ProjectBuilder {
     /**
      * Initializes the ProjectBuilder with the data of {@code projectToCopy}.
      */
-    public ProjectBuilder(Project projectToCopy) {
+    public ProjectBuilder(TrackedItem projectToCopy) {
         name = projectToCopy.getName();
         description = projectToCopy.getDescription();
         createdDate = projectToCopy.getCreatedDate();

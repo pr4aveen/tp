@@ -20,10 +20,10 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
-import seedu.momentum.testutil.EditProjectDescriptorBuilder;
+import seedu.momentum.testutil.EditTrackedItemDescriptorBuilder;
 
 /**
  * Contains helper methods for testing commands.
@@ -72,12 +72,12 @@ public class CommandTestUtil {
     public static final EditCommand.EditTrackedItemDescriptor DESC_BOB;
 
     static {
-        DESC_AMY = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY)
+        DESC_AMY = new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withDescription(VALID_DESCRIPTION_AMY)
                 .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
                 .withTags(VALID_TAG_FRIEND)
                 .build();
-        DESC_BOB = new EditProjectDescriptorBuilder().withName(VALID_NAME_BOB)
+        DESC_BOB = new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withDescription(VALID_DESCRIPTION_BOB)
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
@@ -120,7 +120,7 @@ public class CommandTestUtil {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         ProjectBook expectedProjectBook = new ProjectBook(actualModel.getProjectBook());
-        List<Project> expectedFilteredList = new ArrayList<>(actualModel.getFilteredTrackedItemList());
+        List<TrackedItem> expectedFilteredList = new ArrayList<>(actualModel.getFilteredTrackedItemList());
 
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedProjectBook, actualModel.getProjectBook());
@@ -134,8 +134,8 @@ public class CommandTestUtil {
     public static void showProjectAtIndex(Model model, Index targetIndex) {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredTrackedItemList().size());
 
-        Project project = model.getFilteredTrackedItemList().get(targetIndex.getZeroBased());
-        final String[] splitName = project.getName().fullName.split("\\s+");
+        TrackedItem trackedItem = model.getFilteredTrackedItemList().get(targetIndex.getZeroBased());
+        final String[] splitName = trackedItem.getName().fullName.split("\\s+");
         model.updateFilteredProjectList(
             new NameContainsKeywordsPredicate(FindType.ANY, Collections.singletonList(splitName[0])));
 

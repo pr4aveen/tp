@@ -12,6 +12,7 @@ import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.ProjectBuilder;
 
 /**
@@ -56,8 +57,8 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_duplicateProject_throwsCommandException() {
-        Project projectInList = model.getProjectBook().getTrackedItemList().get(0);
-        assertCommandFailure(new AddCommand(projectInList), model, AddCommand.MESSAGE_DUPLICATE_PROJECT);
+        TrackedItem trackedItemInList = model.getProjectBook().getTrackedItemList().get(0);
+        assertCommandFailure(new AddCommand(trackedItemInList), model, AddCommand.MESSAGE_DUPLICATE_PROJECT);
     }
 
 }

@@ -10,7 +10,7 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.testutil.EditProjectDescriptorBuilder;
+import seedu.momentum.testutil.EditTrackedItemDescriptorBuilder;
 
 public class EditTrackedItemDescriptorTest {
 
@@ -34,15 +34,15 @@ public class EditTrackedItemDescriptorTest {
 
         // different name -> returns false
         EditCommand.EditTrackedItemDescriptor editedAmy =
-                new EditProjectDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
+                new EditTrackedItemDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different description -> returns false
-        editedAmy = new EditProjectDescriptorBuilder(DESC_AMY).withDescription(VALID_DESCRIPTION_BOB).build();
+        editedAmy = new EditTrackedItemDescriptorBuilder(DESC_AMY).withDescription(VALID_DESCRIPTION_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different tags -> returns false
-        editedAmy = new EditProjectDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_HUSBAND).build();
+        editedAmy = new EditTrackedItemDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(DESC_AMY.equals(editedAmy));
     }
 }

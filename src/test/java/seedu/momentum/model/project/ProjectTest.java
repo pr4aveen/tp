@@ -29,29 +29,29 @@ public class ProjectTest {
     @Test
     public void isSameProject() {
         // same object -> returns true
-        assertTrue(ALICE.isSameProject(ALICE));
+        assertTrue(ALICE.isSameTrackedItem(ALICE));
 
         // null -> returns false
-        assertFalse(ALICE.isSameProject(null));
+        assertFalse(ALICE.isSameTrackedItem(null));
 
         // different description -> returns false
         Project editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_DESCRIPTION_BOB).build();
-        assertFalse(ALICE.isSameProject(editedAlice));
+        assertFalse(ALICE.isSameTrackedItem(editedAlice));
 
         // different name -> returns false
         editedAlice = new ProjectBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.isSameProject(editedAlice));
+        assertFalse(ALICE.isSameTrackedItem(editedAlice));
 
         // different created date -> returns false
         editedAlice = new ProjectBuilder(ALICE).withCreatedDate(VALID_CREATED_DATE_BOB).build();
-        assertFalse(ALICE.isSameProject(editedAlice));
+        assertFalse(ALICE.isSameTrackedItem(editedAlice));
 
         // different deadline -> returns false
         editedAlice = new ProjectBuilder(ALICE).withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB).build();
-        assertFalse(ALICE.isSameProject(editedAlice));
+        assertFalse(ALICE.isSameTrackedItem(editedAlice));
         Project editedBob = new ProjectBuilder(BOB)
                 .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY).build();
-        assertFalse(BOB.isSameProject(editedBob));
+        assertFalse(BOB.isSameTrackedItem(editedBob));
 
         // same name, same phone, different attributes -> returns true
         //        editedAlice = new ProjectBuilder(ALICE).withEmail(VALID_EMAIL_BOB)

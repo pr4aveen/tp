@@ -18,6 +18,7 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.TypicalTimes;
 
 /**
@@ -32,16 +33,16 @@ public class StartCommandTest {
         Clock.initFixed(TypicalTimes.DAY);
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
 
-        Project projectToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        Project startedProject = projectToStart.startTimer();
-        expectedModel.setProject(projectToStart, startedProject);
-        expectedModel.addRunningTimer(startedProject);
+        TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
+        expectedModel.setTrackedItem(trackedItemToStart, startedTrackedItem);
+        expectedModel.addRunningTimer(startedTrackedItem);
 
         String expectedMessage =
                 String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST_PROJECT.getOneBased())
-                + startedProject.getTimer().getStartTime().getFormatted();
+                + startedTrackedItem.getTimer().getStartTime().getFormatted();
 
 
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);
@@ -59,9 +60,9 @@ public class StartCommandTest {
     @Test
     public void execute_alreadyRunning_throwsCommandException() {
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
-        Project projectToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
-        model.setTrackedItem(projectToStart, projectToStart.startTimer());
+        model.setTrackedItem(trackedItemToStart, trackedItemToStart.startTimer());
 
         assertCommandFailure(startCommand, model, StartCommand.MESSAGE_EXISTING_TIMER_ERROR);
     }
@@ -71,17 +72,17 @@ public class StartCommandTest {
         Clock.initFixed(TypicalTimes.DAY);
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
-        Project projectToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        Project startedProject = projectToStart.startTimer();
-        expectedModel.setProject(projectToStart, startedProject);
-        expectedModel.addRunningTimer(startedProject);
+        TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
+        expectedModel.setTrackedItem(trackedItemToStart, startedTrackedItem);
+        expectedModel.addRunningTimer(startedTrackedItem);
 
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
         String expectedMessage =
                 String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST_PROJECT.getOneBased())
-                        + startedProject.getTimer().getStartTime().getFormatted();
+                        + startedTrackedItem.getTimer().getStartTime().getFormatted();
 
         showProjectAtIndex(expectedModel, INDEX_FIRST_PROJECT);
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);

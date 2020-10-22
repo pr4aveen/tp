@@ -38,7 +38,7 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.tag.Tag;
-import seedu.momentum.testutil.EditProjectDescriptorBuilder;
+import seedu.momentum.testutil.EditTrackedItemDescriptorBuilder;
 
 public class EditCommandParserTest {
 
@@ -106,7 +106,7 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + TAG_DESC_HUSBAND + NAME_DESC_AMY + DESCRIPTION_DESC_AMY
                 + DEADLINE_DATE_DESC_AMY + DEADLINE_TIME_DESC_AMY + TAG_DESC_FRIEND;
 
-        EditCommand.EditTrackedItemDescriptor descriptor = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY)
+        EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withDescription(VALID_DESCRIPTION_AMY)
                 .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
@@ -133,33 +133,33 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_THIRD_PROJECT;
         String userInput = targetIndex.getOneBased() + NAME_DESC_AMY;
         EditCommand.EditTrackedItemDescriptor descriptor =
-                new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY).build();
+                new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_AMY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // description
         userInput = targetIndex.getOneBased() + DESCRIPTION_DESC_AMY;
-        descriptor = new EditProjectDescriptorBuilder().withDescription(VALID_DESCRIPTION_AMY).build();
+        descriptor = new EditTrackedItemDescriptorBuilder().withDescription(VALID_DESCRIPTION_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // deadline with date
         userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB;
-        descriptor = new EditProjectDescriptorBuilder()
+        descriptor = new EditTrackedItemDescriptorBuilder()
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // deadline with date and time
         userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB + DEADLINE_TIME_DESC_AMY;
-        descriptor = new EditProjectDescriptorBuilder()
+        descriptor = new EditTrackedItemDescriptorBuilder()
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // tags
         userInput = targetIndex.getOneBased() + TAG_DESC_FRIEND;
-        descriptor = new EditProjectDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
+        descriptor = new EditTrackedItemDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -170,7 +170,7 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + DESCRIPTION_DESC_AMY + TAG_DESC_FRIEND
                 + DESCRIPTION_DESC_AMY + TAG_DESC_FRIEND + DESCRIPTION_DESC_BOB + TAG_DESC_HUSBAND;
 
-        EditCommand.EditTrackedItemDescriptor descriptor = new EditProjectDescriptorBuilder()
+        EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder()
                 .withDescription(VALID_DESCRIPTION_BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
@@ -201,7 +201,7 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_THIRD_PROJECT;
         String userInput = targetIndex.getOneBased() + TAG_EMPTY;
 
-        EditCommand.EditTrackedItemDescriptor descriptor = new EditProjectDescriptorBuilder().withTags().build();
+        EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder().withTags().build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);

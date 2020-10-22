@@ -17,6 +17,7 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
@@ -28,13 +29,13 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Project projectToDelete = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToDelete = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PROJECT);
 
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, projectToDelete);
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete);
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        expectedModel.deleteTrackedItem(projectToDelete);
+        expectedModel.deleteTrackedItem(trackedItemToDelete);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
@@ -51,13 +52,13 @@ public class DeleteCommandTest {
     public void execute_validIndexFilteredList_success() {
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
-        Project projectToDelete = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToDelete = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PROJECT);
 
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, projectToDelete);
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete);
 
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        expectedModel.deleteTrackedItem(projectToDelete);
+        expectedModel.deleteTrackedItem(trackedItemToDelete);
         showNoProject(expectedModel);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);

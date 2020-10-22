@@ -20,6 +20,7 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.TypicalTimes;
 
 /**
@@ -33,24 +34,24 @@ public class StopCommandTest {
     public void execute_validIndexUnfilteredList_success() {
         Clock.initManual(TypicalTimes.DAY);
 
-        Project projectToStop = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStop = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        Project startedProject = projectToStop.startTimer();
-        expectedModel.setProject(projectToStop, startedProject);
-        expectedModel.addRunningTimer(startedProject);
+        TrackedItem startedTrackedItem = trackedItemToStop.startTimer();
+        expectedModel.setTrackedItem(trackedItemToStop, startedTrackedItem);
+        expectedModel.addRunningTimer(startedTrackedItem);
 
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 60);
-        model.setTrackedItem(projectToStop, startedProject);
-        model.addRunningTimer(startedProject);
+        model.setTrackedItem(trackedItemToStop, startedTrackedItem);
+        model.addRunningTimer(startedTrackedItem);
 
         Clock.advance(1, ChronoUnit.HOURS);
 
-        Project stoppedProject = startedProject.stopTimer();
-        expectedModel.setProject(startedProject, stoppedProject);
-        expectedModel.removeRunningTimer(startedProject);
+        TrackedItem stoppedTrackedItem = startedTrackedItem.stopTimer();
+        expectedModel.setTrackedItem(startedTrackedItem, stoppedTrackedItem);
+        expectedModel.removeRunningTimer(startedTrackedItem);
 
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
         Clock.reset();
@@ -77,24 +78,24 @@ public class StopCommandTest {
 
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
-        Project projectToStop = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStop = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 60);
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        Project startedProject = projectToStop.startTimer();
-        expectedModel.setProject(projectToStop, startedProject);
-        expectedModel.addRunningTimer(startedProject);
+        TrackedItem startedTrackedItem = trackedItemToStop.startTimer();
+        expectedModel.setTrackedItem(trackedItemToStop, startedTrackedItem);
+        expectedModel.addRunningTimer(startedTrackedItem);
 
-        model.setTrackedItem(projectToStop, startedProject);
-        model.addRunningTimer(startedProject);
+        model.setTrackedItem(trackedItemToStop, startedTrackedItem);
+        model.addRunningTimer(startedTrackedItem);
 
         Clock.advance(1, ChronoUnit.HOURS);
 
-        Project stoppedProject = startedProject.stopTimer();
-        expectedModel.setProject(startedProject, stoppedProject);
-        expectedModel.removeRunningTimer(startedProject);
+        TrackedItem stoppedTrackedItem = startedTrackedItem.stopTimer();
+        expectedModel.setTrackedItem(startedTrackedItem, stoppedTrackedItem);
+        expectedModel.removeRunningTimer(startedTrackedItem);
 
         showProjectAtIndex(expectedModel, INDEX_FIRST_PROJECT);
 

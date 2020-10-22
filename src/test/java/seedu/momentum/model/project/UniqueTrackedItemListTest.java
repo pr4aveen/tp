@@ -144,14 +144,14 @@ public class UniqueTrackedItemListTest {
 
     @Test
     public void setProjects_nullList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setTrackedItems((List<Project>) null));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setTrackedItems((List<TrackedItem>) null));
     }
 
     @Test
     public void setProjects_list_replacesOwnListWithProvidedList() {
         uniqueTrackedItemList.add(ALICE);
-        List<Project> projectList = Collections.singletonList(BOB);
-        uniqueTrackedItemList.setTrackedItems(projectList);
+        List<TrackedItem> trackedItemList = Collections.singletonList(BOB);
+        uniqueTrackedItemList.setTrackedItems(trackedItemList);
         UniqueTrackedItemList expectedUniqueTrackedItemList = new UniqueTrackedItemList();
         expectedUniqueTrackedItemList.add(BOB);
         assertEquals(expectedUniqueTrackedItemList, uniqueTrackedItemList);
@@ -159,7 +159,7 @@ public class UniqueTrackedItemListTest {
 
     @Test
     public void setProjects_listWithDuplicateProjects_throwsDuplicateProjectException() {
-        List<Project> listWithDuplicateProjects = Arrays.asList(ALICE, ALICE);
+        List<TrackedItem> listWithDuplicateProjects = Arrays.asList(ALICE, ALICE);
         assertThrows(DuplicateProjectException.class, () -> uniqueTrackedItemList.setTrackedItems(listWithDuplicateProjects));
     }
 

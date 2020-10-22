@@ -32,7 +32,7 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
-import seedu.momentum.testutil.EditProjectDescriptorBuilder;
+import seedu.momentum.testutil.EditTrackedItemDescriptorBuilder;
 import seedu.momentum.testutil.ProjectBuilder;
 import seedu.momentum.testutil.ProjectUtil;
 
@@ -63,7 +63,7 @@ public class ProjectBookParserTest {
     @Test
     public void parseCommand_edit() throws Exception {
         Project project = new ProjectBuilder().build();
-        EditCommand.EditTrackedItemDescriptor descriptor = new EditProjectDescriptorBuilder(project).build();
+        EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(project).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PROJECT.getOneBased() + " " + ProjectUtil.getEditProjectDescriptorDetails(descriptor));
         assertEquals(new EditCommand(INDEX_FIRST_PROJECT, descriptor), command);

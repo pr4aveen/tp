@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * A utility class for test cases.
@@ -49,7 +50,7 @@ public class TestUtil {
     /**
      * Returns the project in the {@code model}'s project list at {@code index}.
      */
-    public static Project getProject(Model model, Index index) {
+    public static TrackedItem getProject(Model model, Index index) {
         return model.getFilteredTrackedItemList().get(index.getZeroBased());
     }
 }
