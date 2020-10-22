@@ -176,6 +176,13 @@ public class Project {
     }
 
     /**
+     * Returns true if the instance is a Task. Returns false otherwise.
+     */
+    public boolean isTask() {
+        return false;
+    }
+
+    /**
      * Returns true if both projects have the same identity and data fields.
      * This defines a stronger notion of equality between two projects.
      */
