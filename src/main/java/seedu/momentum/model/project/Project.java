@@ -84,24 +84,24 @@ public class Project extends TrackedItem {
         return new Project(name, description, createdDate, deadline, tags, newDurations, newTimer, taskList);
     }
 
-    public void addTask(Task task) {
-        requireNonNull(task);
-        this.taskList.add(task);
+    public void addTask(TrackedItem trackedItem) {
+        requireNonNull(trackedItem);
+        this.taskList.add(trackedItem);
     }
 
-    public boolean hasTask(Task task) {
-        requireNonNull(task);
-        return taskList.equals(task);
+    public boolean hasTask(TrackedItem trackedItem) {
+        requireNonNull(trackedItem);
+        return taskList.equals(trackedItem);
     }
 
-    public void deleteTask(Task target) {
-        requireNonNull(target);
-        taskList.remove(target);
+    public void deleteTask(TrackedItem trackedItem) {
+        requireNonNull(trackedItem);
+        taskList.remove(trackedItem);
     }
 
-    public void setTask(Task target, Task editedTask) {
-        requireAllNonNull(target, editedTask);
-        taskList.setTrackedItem(target, editedTask);
+    public void setTask(TrackedItem target, TrackedItem editedItem) {
+        requireAllNonNull(target, editedItem);
+        taskList.setTrackedItem(target, editedItem);
     }
 
     public ObservableList<TrackedItem> getTaskList() {
