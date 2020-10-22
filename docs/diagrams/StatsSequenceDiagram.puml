@@ -1,0 +1,42 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":StatisticManager" as StatisticManager LOGIC_COLOR
+participant ":PeriodicTotalTimeStatistic" as PeriodicTotalTimeStatistic LOGIC_COLOR
+participant "e:StatisticEntry" as StatisticEntry LOGIC_COLOR
+end box
+
+[-> StatisticManager : updateStatistics()
+activate StatisticManager
+
+StatisticManager -> PeriodicTotalTimeStatistic : calculate()
+activate PeriodicTotalTimeStatistic
+loop all projects
+     PeriodicTotalTimeStatistic -> PeriodicTotalTimeStatistic : calculateTimeSpent()
+     activate PeriodicTotalTimeStatistic
+     PeriodicTotalTimeStatistic --> PeriodicTotalTimeStatistic
+     deactivate PeriodicTotalTimeStatistic
+     create StatisticEntry
+     PeriodicTotalTimeStatistic -> StatisticEntry
+     activate StatisticEntry
+     StatisticEntry --> PeriodicTotalTimeStatistic : e
+     deactivate StatisticEntry
+end
+
+PeriodicTotalTimeStatistic --> StatisticManager
+deactivate PeriodicTotalTimeStatistic
+StatisticManager -->[
+deactivate StatisticManager
+
+[-> StatisticManager : getWeeklyTimePerProjectStatistic()
+activate StatisticManager
+StatisticManager -> PeriodicTotalTimeStatistic : getDisplayList()
+activate PeriodicTotalTimeStatistic
+PeriodicTotalTimeStatistic --> StatisticManager
+deactivate PeriodicTotalTimeStatistic
+StatisticManager -->[
+deactivate StatisticManager
+
+
+@enduml

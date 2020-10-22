@@ -15,13 +15,16 @@ Class ModelManager
 Class UserPrefs
 Class ReadOnlyUserPrefs
 
-Package Person {
-Class Person
-Class Address
-Class Email
+Package Project {
+Class Project
+Class Description
+Class Date
 Class Name
-Class Phone
-Class UniquePersonList
+Class Deadline
+Class Timer
+Class UniqueProjectList
+Class UniqueDurationList
+Class WorkDuration
 }
 
 Package Tag {
@@ -40,17 +43,22 @@ ModelManager o--> "1" ProjectBook
 ModelManager o-left-> "1" UserPrefs
 UserPrefs .up.|> ReadOnlyUserPrefs
 
-ProjectBook *--> "1" UniquePersonList
-UniquePersonList o--> "*" Person
-Person *--> Name
-Person *--> Phone
-Person *--> Email
-Person *--> Address
-Person *--> "*" Tag
+ProjectBook *--> "1" UniqueProjectList
+UniqueProjectList o--> "*" Project
+Project *--> Name
+Project *--> Deadline
+Project *--> Date
+Project *--> Description
+Project *--> Timer
+Project *--> "*" Tag
+Project *--> UniqueDurationList
+UniqueDurationList o--> "*" WorkDuration
 
-Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
+Name -[hidden]right-> Deadline
+Deadline -[hidden]right-> Description
+Description -[hidden]right-> Date
+UniqueDurationList -[hidden]right-> Timer
 
-ModelManager -->"1" Person : filtered list
+ModelManager -->"1" Project : filtered list
+ModelManager -->"*" Project : active timer list
 @enduml

@@ -1,0 +1,51 @@
+@startuml
+!include style.puml
+
+box Model MODEL_COLOR_T1
+participant "p1:Project" as Project1 MODEL_COLOR
+participant "t:Timer" as Timer MODEL_COLOR
+participant "d:WorkDuration" as WorkDuration MODEL_COLOR
+participant "l:UniqueDurationList" as UniqueDurationList MODEL_COLOR
+participant "p2:Project" as Project2 MODEL_COLOR
+end box
+
+[-> Project1 : stopTimer()
+activate Project1
+
+create Timer
+Project1 -> Timer
+activate Timer
+Timer --> Project1 : t
+deactivate Timer
+
+create WorkDuration
+Project1 -> WorkDuration
+activate WorkDuration
+WorkDuration --> Project1 : d
+deactivate WorkDuration
+
+create UniqueDurationList
+Project1 -> UniqueDurationList
+activate UniqueDurationList
+UniqueDurationList --> Project1 : l
+deactivate UniqueDurationList
+
+Project1 -> UniqueDurationList : setDurations()
+activate UniqueDurationList
+UniqueDurationList --> Project1
+deactivate UniqueDurationList
+
+Project1 -> UniqueDurationList : add(d)
+activate UniqueDurationList
+UniqueDurationList --> Project1
+deactivate UniqueDurationList
+
+create Project2
+Project1 -> Project2 : t, l
+activate Project2
+Project2 --> Project1
+deactivate Project2
+
+Project1 ->[ : p2
+deactivate Project1
+@enduml

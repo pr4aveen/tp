@@ -1,0 +1,70 @@
+@startuml
+!include detailed_style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
+
+package Project {
+Class Project MODEL_COLOR {
+    name : Name
+    description : Description
+    deadline : Deadline
+    createdDate : Date
+    tags : Set<Tag>
+    startTimer() : Project
+    stopTimer() : Project
+    isRunning() : boolean
+}
+Class Timer MODEL_COLOR {
+    startDateTime : DateTime
+    stopDateTime : DateTime
+    isRUnning : boolean
+    start() : void
+    stop() : void
+    getTimeBetween(ChronoUnit unit) : long
+}
+Class UniqueDurationList MODEL_COLOR
+Class WorkDuration MODEL_COLOR {
+    startDateTime : DateTime
+    stopDateTime : DateTime
+    getTimeBetween(ChronoUnit unit) : long
+}
+
+}
+
+package Logic {
+
+Interface StatisticGenerator <<Interface>> LOGIC_COLOR {
+    updateStatistics() : void
+}
+Class StatisticManager LOGIC_COLOR {
+    statistics : Statistic[]
+}
+Class XYZStatistic LOGIC_COLOR
+Class StatisticEntry LOGIC_COLOR {
+    label : String
+    value : double
+}
+Class "{abstract}\nStatistic" as Statistic LOGIC_COLOR {
+    calculate(Model model) : void { abstract }
+    getDisplayList() : ObservableList<StatisticEntry> { abstract }
+}
+note top of XYZStatistic: XYZStatistic = \nPeriodicTotalTimeStatistic, etc
+
+}
+
+
+StatisticManager .up.|> StatisticGenerator
+StatisticManager --> "*" Statistic
+Statistic ..> "1..*" StatisticEntry
+XYZStatistic --|> Statistic
+
+Project *-left-> "1" UniqueDurationList
+Project *--> "1" Timer
+UniqueDurationList o-up-> "*" WorkDuration
+
+Statistic .left.> Project
+Statistic .left.> WorkDuration
+
+
+
+@enduml
