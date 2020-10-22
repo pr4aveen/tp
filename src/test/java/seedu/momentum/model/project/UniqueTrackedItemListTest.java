@@ -61,23 +61,23 @@ public class UniqueTrackedItemListTest {
 
     @Test
     public void setProject_nullTargetProject_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setProject(null, ALICE));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setTrackedItem(null, ALICE));
     }
 
     @Test
     public void setProject_nullEditedProject_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setProject(ALICE, null));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setTrackedItem(ALICE, null));
     }
 
     @Test
     public void setProject_targetProjectNotInList_throwsProjectNotFoundException() {
-        assertThrows(ProjectNotFoundException.class, () -> uniqueTrackedItemList.setProject(ALICE, ALICE));
+        assertThrows(ProjectNotFoundException.class, () -> uniqueTrackedItemList.setTrackedItem(ALICE, ALICE));
     }
 
     @Test
     public void setProject_editedProjectIsSameProject_success() {
         uniqueTrackedItemList.add(ALICE);
-        uniqueTrackedItemList.setProject(ALICE, ALICE);
+        uniqueTrackedItemList.setTrackedItem(ALICE, ALICE);
         UniqueTrackedItemList expectedUniqueTrackedItemList = new UniqueTrackedItemList();
         expectedUniqueTrackedItemList.add(ALICE);
         assertEquals(expectedUniqueTrackedItemList, uniqueTrackedItemList);
@@ -88,7 +88,7 @@ public class UniqueTrackedItemListTest {
         uniqueTrackedItemList.add(ALICE);
         Project editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_DESCRIPTION_BOB)
                 .withTags(VALID_TAG_HUSBAND).build();
-        uniqueTrackedItemList.setProject(ALICE, editedAlice);
+        uniqueTrackedItemList.setTrackedItem(ALICE, editedAlice);
         UniqueTrackedItemList expectedUniqueTrackedItemList = new UniqueTrackedItemList();
         expectedUniqueTrackedItemList.add(editedAlice);
         assertEquals(expectedUniqueTrackedItemList, uniqueTrackedItemList);
@@ -97,7 +97,7 @@ public class UniqueTrackedItemListTest {
     @Test
     public void setProject_editedProjectHasDifferentIdentity_success() {
         uniqueTrackedItemList.add(ALICE);
-        uniqueTrackedItemList.setProject(ALICE, BOB);
+        uniqueTrackedItemList.setTrackedItem(ALICE, BOB);
         UniqueTrackedItemList expectedUniqueTrackedItemList = new UniqueTrackedItemList();
         expectedUniqueTrackedItemList.add(BOB);
         assertEquals(expectedUniqueTrackedItemList, uniqueTrackedItemList);
@@ -107,7 +107,7 @@ public class UniqueTrackedItemListTest {
     public void setProject_editedProjectHasNonUniqueIdentity_throwsDuplicateProjectException() {
         uniqueTrackedItemList.add(ALICE);
         uniqueTrackedItemList.add(BOB);
-        assertThrows(DuplicateProjectException.class, () -> uniqueTrackedItemList.setProject(ALICE, BOB));
+        assertThrows(DuplicateProjectException.class, () -> uniqueTrackedItemList.setTrackedItem(ALICE, BOB));
     }
 
     @Test

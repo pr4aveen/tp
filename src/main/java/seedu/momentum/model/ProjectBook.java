@@ -100,7 +100,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
     public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
         requireNonNull(editedTrackedItem);
 
-        trackedItems.setProject(target, editedTrackedItem);
+        trackedItems.setTrackedItem(target, editedTrackedItem);
     }
 
     /**

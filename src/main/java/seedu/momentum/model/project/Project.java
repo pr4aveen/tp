@@ -1,8 +1,10 @@
 package seedu.momentum.model.project;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.Set;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.Date;
 import seedu.momentum.model.tag.Tag;
@@ -15,6 +17,8 @@ import seedu.momentum.model.timer.WorkDuration;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Project extends TrackedItem {
+
+    private final UniqueTrackedItemList taskList;
 
     /**
      * Constructs a {@code Project}.
@@ -30,6 +34,7 @@ public class Project extends TrackedItem {
     public Project(Name name, Description description, Date createdDate, Deadline deadline,
                    Set<Tag> tags, UniqueDurationList durations, Timer timer) {
         super(name, description, createdDate, deadline, tags, durations, timer);
+        taskList = new UniqueTrackedItemList();
     }
 
     /**
@@ -43,6 +48,7 @@ public class Project extends TrackedItem {
      */
     public Project(Name name, Description description, Date createdDate, Deadline deadline, Set<Tag> tags) {
         super(name, description, createdDate, deadline, tags);
+        taskList = new UniqueTrackedItemList();
     }
 
     /**
@@ -70,6 +76,30 @@ public class Project extends TrackedItem {
         newDurations.setDurations(durations);
         newDurations.add(duration);
         return new Project(name, description, createdDate, deadline, tags, newDurations, newTimer);
+    }
+
+    public void addTask(Task task) {
+        requireNonNull(task);
+        this.taskList.add(task);
+    }
+
+    public boolean hasTask(Task task) {
+        requireNonNull(task);
+        return taskList.equals(task);
+    }
+
+    public void deleteTask(Task target) {
+        requireNonNull(target);
+        taskList.remove(target);
+    }
+
+    public void setTask(Task target, Task editedTask) {
+        requireAllNonNull(target, editedTask);
+        taskList.setTrackedItem(target, editedTask);
+    }
+
+    public ObservableList<TrackedItem> getTaskList() {
+        return taskList.asUnmodifiableObservableList();
     }
 
     /**
@@ -104,10 +134,5 @@ public class Project extends TrackedItem {
         }
 
         return super.equals(other);
-    }
-
-    //Temporary for testing
-    public ObservableList<TrackedItem> getTaskList() {
-        return FXCollections.observableArrayList();
     }
 }

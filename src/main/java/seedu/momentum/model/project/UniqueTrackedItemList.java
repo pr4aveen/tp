@@ -62,7 +62,7 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
      * The tracked item identity of {@code editedTrackedItem} must not be the same as another existing tracked item
      * in the list.
      */
-    public void setProject(TrackedItem target, TrackedItem editedTrackedItem) {
+    public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
         requireAllNonNull(target, editedTrackedItem);
 
         int index = internalList.indexOf(target);
