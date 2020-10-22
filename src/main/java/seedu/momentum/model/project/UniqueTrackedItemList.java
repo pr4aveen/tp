@@ -13,8 +13,8 @@ import javafx.collections.ObservableList;
 import seedu.momentum.model.project.comparators.CreatedDateCompare;
 import seedu.momentum.model.project.comparators.DeadlineCompare;
 import seedu.momentum.model.project.comparators.NameCompare;
-import seedu.momentum.model.project.exceptions.DuplicateProjectException;
-import seedu.momentum.model.project.exceptions.ProjectNotFoundException;
+import seedu.momentum.model.project.exceptions.DuplicateTrackableItemException;
+import seedu.momentum.model.project.exceptions.TrackableItemNotFoundException;
 
 /**
  * A list of tracked items that enforces uniqueness between its elements and does not allow nulls.
@@ -51,7 +51,7 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
     public void add(TrackedItem toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
-            throw new DuplicateProjectException();
+            throw new DuplicateTrackableItemException();
         }
         internalList.add(toAdd);
     }
@@ -67,11 +67,11 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
 
         int index = internalList.indexOf(target);
         if (index == -1) {
-            throw new ProjectNotFoundException();
+            throw new TrackableItemNotFoundException();
         }
 
         if (!target.isSameTrackedItem(editedTrackedItem) && contains(editedTrackedItem)) {
-            throw new DuplicateProjectException();
+            throw new DuplicateTrackableItemException();
         }
 
         internalList.set(index, editedTrackedItem);
@@ -84,7 +84,7 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
     public void remove(TrackedItem toRemove) {
         requireNonNull(toRemove);
         if (!internalList.remove(toRemove)) {
-            throw new ProjectNotFoundException();
+            throw new TrackableItemNotFoundException();
         }
     }
 
@@ -100,7 +100,7 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
     public void setTrackedItems(List<TrackedItem> trackedItems) {
         requireAllNonNull(trackedItems);
         if (!projectsAreUnique(trackedItems)) {
-            throw new DuplicateProjectException();
+            throw new DuplicateTrackableItemException();
         }
 
         internalList.setAll(trackedItems);

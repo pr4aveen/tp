@@ -23,7 +23,7 @@ import javafx.collections.ObservableList;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.exceptions.DuplicateProjectException;
+import seedu.momentum.model.project.exceptions.DuplicateTrackableItemException;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
 
@@ -56,7 +56,7 @@ public class ProjectBookTest {
         List<Project> newProjects = Arrays.asList(ALICE, editedAlice);
         ProjectBookStub newData = new ProjectBookStub(newProjects);
 
-        assertThrows(DuplicateProjectException.class, () -> projectBook.resetData(newData));
+        assertThrows(DuplicateTrackableItemException.class, () -> projectBook.resetData(newData));
     }
 
     @Test
