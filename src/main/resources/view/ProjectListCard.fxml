@@ -9,8 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<HBox fx:id="cardPane" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="projectCardPane" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane HBox.hgrow="ALWAYS">
         <columnConstraints>
@@ -18,15 +19,19 @@
           <ColumnConstraints hgrow="ALWAYS" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="100.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="100.0" />
         </rowConstraints>
          <children>
-            <VBox alignment="CENTER_LEFT" spacing="4.0">
+            <VBox alignment="CENTER_LEFT" spacing="4.0" styleClass="projectCardContentBox">
                <children>
-                  <HBox spacing="5.0">
+                  <HBox>
                      <children>
-                        <Label fx:id="id" text="1." />
-                        <Label fx:id="name" text="\$name" />
+                        <Text fx:id="id" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="1.">
+                           <HBox.margin>
+                              <Insets top="1.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Label fx:id="name" text="\$name" wrapText="true" />
                      </children>
                   </HBox>
                   <FlowPane fx:id="tags">
@@ -38,9 +43,6 @@
                         <Insets />
                      </VBox.margin></HBox>
                </children>
-               <padding>
-                  <Insets left="12.0" right="12.0" />
-               </padding>
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
@@ -49,7 +51,7 @@
                </opaqueInsets>
             </VBox>
             <Separator orientation="VERTICAL" GridPane.columnIndex="1" />
-            <VBox alignment="CENTER" spacing="4.0" GridPane.columnIndex="1">
+            <VBox alignment="CENTER" spacing="4.0" styleClass="projectCardContentBox" GridPane.columnIndex="1">
                <children>
                   <HBox fx:id="createdDate" alignment="CENTER" />
                   <HBox fx:id="deadline" alignment="CENTER">
