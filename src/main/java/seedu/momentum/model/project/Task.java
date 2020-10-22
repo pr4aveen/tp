@@ -45,4 +45,27 @@ public class Task extends Project {
     public boolean isTask() {
         return true;
     }
+
+    /**
+     * Returns true if both projects have the same identity and data fields.
+     * This defines a stronger notion of equality between two projects.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Project)) {
+            return false;
+        }
+
+        Project otherProject = (Project) other;
+        return otherProject.getName().equals(getName())
+                && otherProject.getTags().equals(getTags())
+                && otherProject.getDurationList().equals(getDurationList())
+                && otherProject.getDescription().equals(getDescription())
+                && otherProject.getCreatedDate().equals(getCreatedDate())
+                && otherProject.getDeadline().equals(getDeadline());
+    }
 }

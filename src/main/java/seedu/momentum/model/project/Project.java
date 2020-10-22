@@ -199,7 +199,7 @@ public class Project {
         Project otherProject = (Project) other;
         return otherProject.getName().equals(getName())
                 && otherProject.getTags().equals(getTags())
-                && otherProject.durations.equals(durations)
+                && otherProject.getDurationList().equals(getDurationList())
                 && otherProject.getDescription().equals(getDescription())
                 && otherProject.getCreatedDate().equals(getCreatedDate())
                 && otherProject.getDeadline().equals(getDeadline());
