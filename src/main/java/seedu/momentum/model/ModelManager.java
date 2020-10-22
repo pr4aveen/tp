@@ -5,6 +5,7 @@ import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
@@ -31,6 +32,7 @@ public class ModelManager implements Model {
     private SortType currentSortType;
     private boolean currentSortIsAscending;
     private ViewMode viewMode;
+    private Project currentProject;
     private ObservableList<TrackedItem> viewList;
 
     /**
@@ -118,6 +120,13 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public Project getCurrentProject() {
+        assert viewMode == ViewMode.TASKS : "Project can only be accessed in task view";
+
+        return currentProject;
+    }
+
+    @Override
     public boolean hasTrackedItem(TrackedItem trackedItem) {
         requireNonNull(trackedItem);
         return projectBook.hasTrackedItem(trackedItem);
@@ -173,6 +182,7 @@ public class ModelManager implements Model {
     @Override
     public void viewProjects() {
         viewMode = ViewMode.PROJECTS;
+        logger.log(Level.INFO, "View mode changed to project view");
         this.viewList.setAll(projectBook.getTrackedItemList());
         this.projectBook.getTrackedItemList().addListener(
                 (ListChangeListener<TrackedItem>) c -> viewList.setAll(projectBook.getTrackedItemList())
@@ -183,8 +193,10 @@ public class ModelManager implements Model {
 
     @Override
     public void viewTasks(Project project) {
+        requireNonNull(project);
+        currentProject = project;
         viewMode = ViewMode.TASKS;
-
+        logger.log(Level.INFO, "View mode changed to task view");
         this.viewList.setAll(project.getTaskList());
         project.getTaskList().addListener(
                 (ListChangeListener<TrackedItem>) c -> viewList.setAll(project.getTaskList())

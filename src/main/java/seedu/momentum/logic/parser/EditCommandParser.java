@@ -17,6 +17,7 @@ import seedu.momentum.commons.core.Date;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.Model;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -29,7 +30,7 @@ public class EditCommandParser implements Parser<EditCommand> {
      *
      * @throws ParseException if the user input does not conform the expected format
      */
-    public EditCommand parse(String args) throws ParseException {
+    public EditCommand parse(String args, Model model) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_DEADLINE_DATE,

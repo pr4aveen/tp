@@ -5,6 +5,7 @@ import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMA
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.StopCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.Model;
 
 /**
  * Parses input arguments and creates a new StopCommand object
@@ -17,7 +18,7 @@ public class StopCommandParser implements Parser<StopCommand> {
      *
      * @throws ParseException if the user input does not conform the expected format
      */
-    public StopCommand parse(String args) throws ParseException {
+    public StopCommand parse(String args, Model model) throws ParseException {
         try {
             Index index = ParserUtil.parseIndex(args);
             return new StopCommand(index);

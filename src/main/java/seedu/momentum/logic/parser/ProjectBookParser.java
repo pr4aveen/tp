@@ -21,6 +21,7 @@ import seedu.momentum.logic.commands.SortCommand;
 import seedu.momentum.logic.commands.StartCommand;
 import seedu.momentum.logic.commands.StopCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.Model;
 
 /**
  * Parses user input.
@@ -36,10 +37,11 @@ public class ProjectBookParser {
      * Parses user input into command for execution.
      *
      * @param userInput full user input string
+     * @param model the current model manager
      * @return the command based on the user input
      * @throws ParseException if the user input does not conform the expected format
      */
-    public Command parseCommand(String userInput) throws ParseException {
+    public Command parseCommand(String userInput, Model model) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
@@ -50,22 +52,22 @@ public class ProjectBookParser {
         switch (commandWord) {
 
         case AddCommand.COMMAND_WORD:
-            return new AddCommandParser().parse(arguments);
+            return new AddCommandParser().parse(arguments, model);
 
         case EditCommand.COMMAND_WORD:
-            return new EditCommandParser().parse(arguments);
+            return new EditCommandParser().parse(arguments, model);
 
         case DeleteCommand.COMMAND_WORD:
-            return new DeleteCommandParser().parse(arguments);
+            return new DeleteCommandParser().parse(arguments, model);
 
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
 
         case FindCommand.COMMAND_WORD:
-            return new FindCommandParser().parse(arguments);
+            return new FindCommandParser().parse(arguments, model);
 
         case SortCommand.COMMAND_WORD:
-            return new SortCommandParser().parse(arguments);
+            return new SortCommandParser().parse(arguments, model);
 
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
@@ -77,13 +79,13 @@ public class ProjectBookParser {
             return new HelpCommand();
 
         case StartCommand.COMMAND_WORD:
-            return new StartCommandParser().parse(arguments);
+            return new StartCommandParser().parse(arguments, model);
 
         case StopCommand.COMMAND_WORD:
-            return new StopCommandParser().parse(arguments);
+            return new StopCommandParser().parse(arguments, model);
 
         case ProjectViewCommand.COMMAND_WORD:
-            return new ProjectViewCommandParser().parse(arguments);
+            return new ProjectViewCommandParser().parse(arguments, model);
 
         case HomeCommand.COMMAND_WORD:
             return new HomeCommand();

@@ -120,5 +120,12 @@ public interface Model {
 
     void viewTasks(Project project);
 
+    /**
+     * Returns the project that the user is currently viewing.
+     *
+     * @return current project that the user is viewing
+     */
+    Project getCurrentProject();
+
     ViewMode getViewMode();
 }

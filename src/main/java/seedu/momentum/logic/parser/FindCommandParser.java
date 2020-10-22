@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.FindType;
@@ -34,7 +34,7 @@ public class FindCommandParser implements Parser<FindCommand> {
      * and returns a FindCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format.
      */
-    public FindCommand parse(String args) throws ParseException {
+    public FindCommand parse(String args, Model model) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_TAG, FIND_TYPE);
 

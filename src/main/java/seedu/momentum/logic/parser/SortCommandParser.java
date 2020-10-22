@@ -12,6 +12,7 @@ import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 
 import seedu.momentum.logic.commands.SortCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.Model;
 import seedu.momentum.model.project.SortType;
 
 public class SortCommandParser implements Parser<SortCommand> {
@@ -22,7 +23,7 @@ public class SortCommandParser implements Parser<SortCommand> {
      *
      * @throws ParseException if the user does not conform to the expected format.
      */
-    public SortCommand parse(String args) throws ParseException {
+    public SortCommand parse(String args, Model model) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, SORT_TYPE, SORT_ORDER);

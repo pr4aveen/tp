@@ -16,7 +16,6 @@ import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.logic.statistic.StatisticManager;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ReadOnlyProjectBook;
-import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.storage.Storage;
 
@@ -47,7 +46,7 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = projectBookParser.parseCommand(commandText);
+        Command command = projectBookParser.parseCommand(commandText, model);
         commandResult = command.execute(model);
 
         try {
