@@ -39,6 +39,7 @@ public class FindCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        model.viewAll();
         model.updateFilteredProjectList(predicate);
         return new CommandResult(
                 String.format(Messages.MESSAGE_PROJECTS_LISTED_OVERVIEW, model.getFilteredTrackedItemList().size()));
