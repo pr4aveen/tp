@@ -51,8 +51,8 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         if (argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
-            editTrackedItemDescriptor.setDescription(ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION)
-                    .get()));
+            editTrackedItemDescriptor.setDescription(
+                ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).get()));
         }
 
         // use a default date to parse the deadline first

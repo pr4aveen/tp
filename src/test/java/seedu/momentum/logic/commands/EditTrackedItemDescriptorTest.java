@@ -17,7 +17,8 @@ public class EditTrackedItemDescriptorTest {
     @Test
     public void equals() {
         // same values -> returns true
-        EditCommand.EditTrackedItemDescriptor descriptorWithSameValues = new EditCommand.EditTrackedItemDescriptor(DESC_AMY);
+        EditCommand.EditTrackedItemDescriptor descriptorWithSameValues =
+            new EditCommand.EditTrackedItemDescriptor(DESC_AMY);
         assertTrue(DESC_AMY.equals(descriptorWithSameValues));
 
         // same object -> returns true

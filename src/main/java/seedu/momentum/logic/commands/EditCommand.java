@@ -106,7 +106,7 @@ public class EditCommand extends Command {
         if (model.getViewMode() == ViewMode.PROJECTS) {
             model.setTrackedItem(trackedItemToEdit, editedTrackedItem);
         } else {
-            parentProject.setTask(trackedItemToEdit,editedTrackedItem);
+            parentProject.setTask(trackedItemToEdit, editedTrackedItem);
         }
 
         model.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
@@ -124,7 +124,8 @@ public class EditCommand extends Command {
         assert trackedItemToEdit != null;
 
         Name updatedName = editTrackedItemDescriptor.getName().orElse(trackedItemToEdit.getName());
-        Description updatedDescription = editTrackedItemDescriptor.getDescription().orElse(trackedItemToEdit.getDescription());
+        Description updatedDescription =
+                editTrackedItemDescriptor.getDescription().orElse(trackedItemToEdit.getDescription());
         Date createdDate = trackedItemToEdit.getCreatedDate();
         Deadline updatedDeadline = editTrackedItemDescriptor.getDeadline().orElse(trackedItemToEdit.getDeadline());
         if (editTrackedItemDescriptor.getDeadline().isPresent()

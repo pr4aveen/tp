@@ -130,7 +130,8 @@ public class UniqueTrackedItemListTest {
 
     @Test
     public void setProjects_nullUniqueProjectList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setTrackedItems((UniqueTrackedItemList) null));
+        assertThrows(NullPointerException.class, () ->
+            uniqueTrackedItemList.setTrackedItems((UniqueTrackedItemList) null));
     }
 
     @Test
@@ -160,7 +161,8 @@ public class UniqueTrackedItemListTest {
     @Test
     public void setProjects_listWithDuplicateProjects_throwsDuplicateProjectException() {
         List<TrackedItem> listWithDuplicateProjects = Arrays.asList(ALICE, ALICE);
-        assertThrows(DuplicateProjectException.class, () -> uniqueTrackedItemList.setTrackedItems(listWithDuplicateProjects));
+        assertThrows(DuplicateProjectException.class, () ->
+            uniqueTrackedItemList.setTrackedItems(listWithDuplicateProjects));
     }
 
     @Test

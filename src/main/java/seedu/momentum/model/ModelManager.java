@@ -66,15 +66,8 @@ public class ModelManager implements Model {
 
     private void initializeRunningTimers() {
         for (TrackedItem trackedItem : filteredTrackedItems) {
-            Project project = (Project) trackedItem;
-            if (project.isRunning()) {
-                runningTimers.add(project);
-            }
-
-            for (TrackedItem trackedTask : project.getTaskList()) {
-                if (trackedTask.isRunning()) {
-                    runningTimers.add(trackedTask);
-                }
+            if (trackedItem.isRunning()) {
+                runningTimers.add(trackedItem);
             }
         }
     }

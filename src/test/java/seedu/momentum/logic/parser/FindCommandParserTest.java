@@ -74,7 +74,8 @@ public class FindCommandParserTest {
         assertParseSuccess(parser, String.format(userInput, PREFIX_TAG), expectedFindCommand, model);
 
         // multiple whitespaces between keywords
-        assertParseSuccess(parser, " " + PREFIX_TAG + "\nfirst \nsecond " + FIND_TYPE + "\nall", expectedFindCommand, model);
+        assertParseSuccess(parser, " " + PREFIX_TAG + "\nfirst \nsecond " + FIND_TYPE + "\nall",
+            expectedFindCommand, model);
     }
 
 }

@@ -70,7 +70,8 @@ public class ProjectBookParserTest {
         Project project = new ProjectBuilder().build();
         EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(project).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PROJECT.getOneBased() + " " + ProjectUtil.getEditProjectDescriptorDetails(descriptor), model);
+            + INDEX_FIRST_PROJECT.getOneBased() + " "
+            + ProjectUtil.getEditProjectDescriptorDetails(descriptor), model);
         assertEquals(new EditCommand(INDEX_FIRST_PROJECT, descriptor), command);
     }
 

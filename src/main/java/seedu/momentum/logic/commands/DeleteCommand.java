@@ -29,10 +29,21 @@ public class DeleteCommand extends Command {
     private final Index targetIndex;
     private Project projectToDeleteTaskFrom;
 
+    /**
+     * Deletes a project at a given index from the project book.
+     *
+     * @param targetIndex index of the project to be deleted.
+     */
     public DeleteCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
 
+    /**
+     * Deletes a task at a given index from a certain project.
+     *
+     * @param targetIndex index of the task to be deleted.
+     * @param project project to delete the task from.
+     */
     public DeleteCommand(Index targetIndex, Project project) {
         this.targetIndex = targetIndex;
         this.projectToDeleteTaskFrom = project;

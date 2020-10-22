@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
 /**

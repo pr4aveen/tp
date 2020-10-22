@@ -18,9 +18,11 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label fx:id="trackedItem" text="Label" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                <Label fx:id="trackedItem" text="Label" wrapText="true" GridPane.halignment="CENTER"
+                       GridPane.valignment="CENTER" />
                 <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" />
-                <Label fx:id="startTime" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                <Label fx:id="startTime" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                       GridPane.valignment="CENTER" />
             </children>
         </GridPane>
     </children>
