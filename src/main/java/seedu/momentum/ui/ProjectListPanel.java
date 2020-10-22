@@ -45,5 +45,4 @@ public class ProjectListPanel extends UiPart<Region> {
             }
         }
     }
-
 }

@@ -15,10 +15,10 @@ public class StatCard extends UiPart<Region> {
     public final StatisticEntry statisticEntry;
 
     @FXML
-    private Label label;
+    private Label statLabel;
 
     @FXML
-    private Label value;
+    private Label statValue;
 
     /**
      * Creates a {@code StatCard} with the given {@code statisticEntry} to display.
@@ -26,8 +26,8 @@ public class StatCard extends UiPart<Region> {
     public StatCard(StatisticEntry statisticEntry) {
         super(FXML);
         this.statisticEntry = statisticEntry;
-        label.setText(statisticEntry.getLabel());
-        value.setText(formatToString(statisticEntry.getValue()));
+        statLabel.setText(statisticEntry.getLabel());
+        statValue.setText(formatToString(statisticEntry.getValue()));
     }
 
     private String formatToString(double value) {

@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.text.Text;
 import seedu.momentum.model.project.Project;
 
 /**
@@ -31,7 +32,7 @@ public class ProjectCard extends UiPart<Region> {
     @FXML
     private Label name;
     @FXML
-    private Label id;
+    private Text id;
     @FXML
     private HBox description;
     @FXML
@@ -51,7 +52,9 @@ public class ProjectCard extends UiPart<Region> {
         name.setText(project.getName().fullName);
 
         if (!project.getDescription().isEmpty()) {
-            description.getChildren().add(new Label(project.getDescription().value));
+            Label descLabel = new Label(project.getDescription().value);
+            descLabel.setWrapText(true);
+            description.getChildren().add(descLabel);
         }
 
         createdDate.getChildren().add(new Label("Created: " + project.getCreatedDate().getFormatted()));
@@ -61,8 +64,8 @@ public class ProjectCard extends UiPart<Region> {
         deadline.getChildren().add(deadlineLabel);
 
         project.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+            .sorted(Comparator.comparing(tag -> tag.tagName))
+            .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
 
     private void setDeadlineStyle(Label deadline) {

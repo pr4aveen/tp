@@ -8,6 +8,7 @@ import seedu.momentum.commons.core.DateTime;
 
 /**
  * Represents a timer in momentum.
+ * Guarantees: immutable.
  */
 public class Timer {
     private DateTime startDateTime;
