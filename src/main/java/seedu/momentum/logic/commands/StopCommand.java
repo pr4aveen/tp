@@ -9,7 +9,7 @@ import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * Stops a previously started timer tracking a project identified using it's displayed index.
@@ -36,24 +36,24 @@ public class StopCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        List<Project> lastShownList = model.getFilteredProjectList();
+        List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
         }
 
-        Project projectToStop = lastShownList.get(targetIndex.getZeroBased());
+        TrackedItem trackedItemToStop = lastShownList.get(targetIndex.getZeroBased());
 
-        if (!projectToStop.isRunning()) {
+        if (!trackedItemToStop.isRunning()) {
             throw new CommandException(MESSAGE_NO_TIMER_ERROR);
         }
 
-        Project newProject = projectToStop.stopTimer();
-        model.setProject(projectToStop, newProject);
-        model.removeRunningTimer(projectToStop);
+        TrackedItem newTrackedItem = trackedItemToStop.stopTimer();
+        model.setTrackedItem(trackedItemToStop, newTrackedItem);
+        model.removeRunningTimer(trackedItemToStop);
 
         return new CommandResult(String.format(MESSAGE_STOP_TIMER_SUCCESS, targetIndex.getOneBased(),
-                newProject.getTimer().getTimeBetween(ChronoUnit.MINUTES)));
+                newTrackedItem.getTimer().getTimeBetween(ChronoUnit.MINUTES)));
     }
 
     @Override

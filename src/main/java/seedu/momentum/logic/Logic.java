@@ -9,7 +9,7 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.model.ReadOnlyProjectBook;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * API of the Logic component
@@ -33,14 +33,14 @@ public interface Logic {
     ReadOnlyProjectBook getProjectBook();
 
     /**
-     * Returns an unmodifiable view of the filtered list of projects
+     * Returns an unmodifiable view of the filtered list of tracked items
      */
-    ObservableList<Project> getFilteredProjectList();
+    ObservableList<TrackedItem> getFilteredTrackedItemList();
 
     /**
      * Returns a list of projects whose timers are running
      */
-    ObservableList<Project> getRunningTimers();
+    ObservableList<TrackedItem> getRunningTimers();
 
     /**
      * Returns the user prefs' project book file path.

@@ -63,7 +63,7 @@ public class ProjectBookParserTest {
     @Test
     public void parseCommand_edit() throws Exception {
         Project project = new ProjectBuilder().build();
-        EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder(project).build();
+        EditCommand.EditTrackedItemDescriptor descriptor = new EditProjectDescriptorBuilder(project).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PROJECT.getOneBased() + " " + ProjectUtil.getEditProjectDescriptorDetails(descriptor));
         assertEquals(new EditCommand(INDEX_FIRST_PROJECT, descriptor), command);

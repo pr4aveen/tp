@@ -9,6 +9,7 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * View all of a project's tasks, identified using it's displayed index from the project book.
@@ -33,14 +34,15 @@ public class ProjectViewCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Project> lastShownList = model.getFilteredProjectList();
+        List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
         }
 
-        Project projectToView = lastShownList.get(targetIndex.getZeroBased());
+        Project projectToView = (Project) lastShownList.get(targetIndex.getZeroBased());
         model.viewTasks(projectToView);
+        //model.deleteProject(projectToDelete);
         System.out.println("Executing Project View Command");
         return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, projectToView.getName().fullName));
     }

@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import javafx.collections.ObservableList;
-import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
-import seedu.momentum.model.project.UniqueProjectList;
+import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.UniqueTrackedItemList;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -18,7 +18,7 @@ import seedu.momentum.model.tag.Tag;
  */
 public class ProjectBook implements ReadOnlyProjectBook {
 
-    private final UniqueProjectList projects;
+    private final UniqueTrackedItemList trackedItems;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -28,7 +28,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
      *   among constructors.
      */
     {
-        projects = new UniqueProjectList();
+        trackedItems = new UniqueTrackedItemList();
     }
 
     public ProjectBook() {}
@@ -44,11 +44,11 @@ public class ProjectBook implements ReadOnlyProjectBook {
     //// list overwrite operations
 
     /**
-     * Replaces the contents of the project list with {@code projects}.
-     * {@code projects} must not contain duplicate projects.
+     * Replaces the contents of the project list with {@code trackedItems}.
+     * {@code trackedItems} must not contain duplicate tracked items.
      */
-    public void setProjects(List<Project> projects) {
-        this.projects.setProjects(projects);
+    public void setTrackedItems(List<TrackedItem> trackedItems) {
+        this.trackedItems.setTrackedItems(trackedItems);
     }
 
     /**
@@ -57,7 +57,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
     public void resetData(ReadOnlyProjectBook newData) {
         requireNonNull(newData);
 
-        setProjects(newData.getProjectList());
+        setTrackedItems(newData.getTrackedItemList());
     }
 
     /// sort operations
@@ -70,64 +70,64 @@ public class ProjectBook implements ReadOnlyProjectBook {
      */
     public void setOrder(SortType sortType, boolean isAscending) {
         requireNonNull(sortType);
-        projects.setOrder(sortType, isAscending);
+        trackedItems.setOrder(sortType, isAscending);
     }
 
     //// project-level operations
 
     /**
-     * Returns true if a project with the same identity as {@code project} exists in the project book.
+     * Returns true if a tracked item with the same identity as {@code trcakedItem} exists in the project book.
      */
-    public boolean hasProject(Project project) {
-        requireNonNull(project);
-        return projects.contains(project);
+    public boolean hasTrackedItem(TrackedItem trackedItem) {
+        requireNonNull(trackedItem);
+        return trackedItems.contains(trackedItem);
     }
 
     /**
-     * Adds a project to the project book.
-     * The project must not already exist in the project book.
+     * Adds a tracked item to the project book.
+     * The tracked item must not already exist in the project book.
      */
-    public void addProject(Project p) {
-        projects.add(p);
+    public void addTrackedItem(TrackedItem trackedItem) {
+        trackedItems.add(trackedItem);
     }
 
     /**
-     * Replaces the given project {@code target} in the list with {@code editedProject}.
+     * Replaces the given tracked item {@code target} in the list with {@code editedTrackedItem}.
      * {@code target} must exist in the project book.
-     * The project identity of {@code editedProject} must not be the same as another existing project in the project
-     * book.
+     * The tracked item identity of {@code trackedItem} must not be the same as another existing tracked item in
+     * the project book.
      */
-    public void setProject(Project target, Project editedProject) {
-        requireNonNull(editedProject);
+    public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
+        requireNonNull(editedTrackedItem);
 
-        projects.setProject(target, editedProject);
+        trackedItems.setProject(target, editedTrackedItem);
     }
 
     /**
      * Removes {@code key} from this {@code ProjectBook}.
      * {@code key} must exist in the project book.
      */
-    public void renameProject(Project key) {
-        projects.remove(key);
+    public void renameTrackedItem(TrackedItem key) {
+        trackedItems.remove(key);
     }
 
     //// util methods
 
     @Override
     public String toString() {
-        return projects.asUnmodifiableObservableList().size() + " projects";
+        return trackedItems.asUnmodifiableObservableList().size() + " projects";
         // TODO: refine later
     }
 
     @Override
-    public ObservableList<Project> getProjectList() {
-        return projects.asUnmodifiableObservableList();
+    public ObservableList<TrackedItem> getTrackedItemList() {
+        return trackedItems.asUnmodifiableObservableList();
     }
 
     @Override
-    public Set<Tag> getProjectTags() {
+    public Set<Tag> getTrackedItemTags() {
         Set<Tag> tags = new HashSet<>();
-        getProjectList().forEach(project -> tags.addAll(project.getTags()));
+        getTrackedItemList().forEach(project -> tags.addAll(project.getTags()));
         return tags;
     }
 
@@ -135,11 +135,11 @@ public class ProjectBook implements ReadOnlyProjectBook {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ProjectBook // instanceof handles nulls
-                && projects.equals(((ProjectBook) other).projects));
+                && trackedItems.equals(((ProjectBook) other).trackedItems));
     }
 
     @Override
     public int hashCode() {
-        return projects.hashCode();
+        return trackedItems.hashCode();
     }
 }

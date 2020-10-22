@@ -8,7 +8,7 @@ import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * Starts a timer tracking a project identified using it's displayed index.
@@ -35,24 +35,24 @@ public class StartCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        List<Project> lastShownList = model.getFilteredProjectList();
+        List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
         }
 
-        Project projectToStart = lastShownList.get(targetIndex.getZeroBased());
+        TrackedItem trackedItemToStart = lastShownList.get(targetIndex.getZeroBased());
 
-        if (projectToStart.isRunning()) {
+        if (trackedItemToStart.isRunning()) {
             throw new CommandException(MESSAGE_EXISTING_TIMER_ERROR);
         }
 
-        Project newProject = projectToStart.startTimer();
-        model.setProject(projectToStart, newProject);
-        model.addRunningTimer(newProject);
+        TrackedItem newTrackedItem = trackedItemToStart.startTimer();
+        model.setTrackedItem(trackedItemToStart, newTrackedItem);
+        model.addRunningTimer(newTrackedItem);
 
         return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())
-                + newProject.getTimer().getStartTime().getFormatted());
+                + newTrackedItem.getTimer().getStartTime().getFormatted());
     }
 
     @Override

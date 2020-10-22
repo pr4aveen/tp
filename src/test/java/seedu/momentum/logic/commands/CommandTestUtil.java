@@ -68,8 +68,8 @@ public class CommandTestUtil {
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
-    public static final EditCommand.EditProjectDescriptor DESC_AMY;
-    public static final EditCommand.EditProjectDescriptor DESC_BOB;
+    public static final EditCommand.EditTrackedItemDescriptor DESC_AMY;
+    public static final EditCommand.EditTrackedItemDescriptor DESC_BOB;
 
     static {
         DESC_AMY = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY)
@@ -120,11 +120,11 @@ public class CommandTestUtil {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         ProjectBook expectedProjectBook = new ProjectBook(actualModel.getProjectBook());
-        List<Project> expectedFilteredList = new ArrayList<>(actualModel.getFilteredProjectList());
+        List<Project> expectedFilteredList = new ArrayList<>(actualModel.getFilteredTrackedItemList());
 
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedProjectBook, actualModel.getProjectBook());
-        assertEquals(expectedFilteredList, actualModel.getFilteredProjectList());
+        assertEquals(expectedFilteredList, actualModel.getFilteredTrackedItemList());
     }
 
     /**
@@ -132,14 +132,14 @@ public class CommandTestUtil {
      * {@code model}'s project book.
      */
     public static void showProjectAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredProjectList().size());
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredTrackedItemList().size());
 
-        Project project = model.getFilteredProjectList().get(targetIndex.getZeroBased());
+        Project project = model.getFilteredTrackedItemList().get(targetIndex.getZeroBased());
         final String[] splitName = project.getName().fullName.split("\\s+");
         model.updateFilteredProjectList(
             new NameContainsKeywordsPredicate(FindType.ANY, Collections.singletonList(splitName[0])));
 
-        assertEquals(1, model.getFilteredProjectList().size());
+        assertEquals(1, model.getFilteredTrackedItemList().size());
     }
 
 }

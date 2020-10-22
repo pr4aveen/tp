@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
-import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -14,10 +13,9 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.commons.core.LogsCenter;
-import seedu.momentum.commons.core.Messages;
-import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * Represents the in-memory model of the project book data.
@@ -27,13 +25,13 @@ public class ModelManager implements Model {
 
     private final ProjectBook projectBook;
     private final UserPrefs userPrefs;
-    private final FilteredList<Project> filteredProjects;
-    private final ObservableList<Project> runningTimers;
-    private Predicate<Project> currentPredicate;
+    private final FilteredList<TrackedItem> filteredTrackedItems;
+    private final ObservableList<TrackedItem> runningTimers;
+    private Predicate<TrackedItem> currentPredicate;
     private SortType currentSortType;
     private boolean currentSortIsAscending;
     private ViewMode viewMode;
-    private ObservableList<Project> viewList;
+    private ObservableList<TrackedItem> viewList;
 
     /**
      * Initializes a ModelManager with the given projectBook and userPrefs.
@@ -47,13 +45,13 @@ public class ModelManager implements Model {
         this.projectBook = new ProjectBook(projectBook);
         this.userPrefs = new UserPrefs(userPrefs);
 
-        currentPredicate = PREDICATE_SHOW_ALL_PROJECTS;
+        currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         currentSortType = SortType.ALPHA;
         currentSortIsAscending = true;
         viewMode = ViewMode.PROJECTS;
 
         this.viewList = FXCollections.observableArrayList();
-        filteredProjects = new FilteredList<>(viewList);
+        filteredTrackedItems = new FilteredList<>(viewList);
         viewProjects();
 
         runningTimers = FXCollections.observableArrayList();
@@ -65,9 +63,9 @@ public class ModelManager implements Model {
     }
 
     private void initializeRunningTimers() {
-        for (Project project : filteredProjects) {
-            if (project.isRunning()) {
-                runningTimers.add(project);
+        for (TrackedItem trackedItem : filteredTrackedItems) {
+            if (trackedItem.isRunning()) {
+                runningTimers.add(trackedItem);
             }
         }
     }
@@ -120,46 +118,47 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public boolean hasProject(Project project) {
-        requireNonNull(project);
-        return projectBook.hasProject(project);
+    public boolean hasTrackedItem(TrackedItem trackedItem) {
+        requireNonNull(trackedItem);
+        return projectBook.hasTrackedItem(trackedItem);
     }
 
     @Override
-    public void deleteProject(Project target) {
-        projectBook.renameProject(target);
+    public void deleteTrackedItem(TrackedItem target) {
+        projectBook.renameTrackedItem(target);
     }
 
     @Override
-    public void addProject(Project project) {
-        projectBook.addProject(project);
+    public void addTrackedItem(TrackedItem trackedItem) {
+        projectBook.addTrackedItem(trackedItem);
         orderFilteredProjectList(currentSortType, currentSortIsAscending);
-        updateFilteredProjectList(PREDICATE_SHOW_ALL_PROJECTS);
+        updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
     @Override
-    public void setProject(Project target, Project editedProject) {
-        requireAllNonNull(target, editedProject);
+    public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
+        requireAllNonNull(target, editedTrackedItem);
 
-        projectBook.setProject(target, editedProject);
+        projectBook.setTrackedItem(target, editedTrackedItem);
     }
 
     //=========== Filtered Project List Accessors =============================================================
 
     /**
-     * Returns an unmodifiable view of the list of {@code Project} backed by the internal list of
+     * Returns an unmodifiable view of the list of {@code TrackedItem} backed by the internal list of
      * {@code versionedProjectBook}
+     * @return
      */
     @Override
-    public ObservableList<Project> getFilteredProjectList() {
-        return filteredProjects;
+    public ObservableList<TrackedItem> getFilteredTrackedItemList() {
+        return filteredTrackedItems;
     }
 
     @Override
-    public void updateFilteredProjectList(Predicate<Project> predicate) {
+    public void updateFilteredProjectList(Predicate<TrackedItem> predicate) {
         requireNonNull(predicate);
         currentPredicate = predicate;
-        filteredProjects.setPredicate(predicate);
+        filteredTrackedItems.setPredicate(predicate);
     }
 
     @Override
@@ -174,9 +173,9 @@ public class ModelManager implements Model {
     @Override
     public void viewProjects() {
         viewMode = ViewMode.PROJECTS;
-        this.viewList.setAll(projectBook.getProjectList());
-        this.projectBook.getProjectList().addListener(
-                (ListChangeListener<Project>) c -> viewList.setAll(projectBook.getProjectList())
+        this.viewList.setAll(projectBook.getTrackedItemList());
+        this.projectBook.getTrackedItemList().addListener(
+                (ListChangeListener<TrackedItem>) c -> viewList.setAll(projectBook.getTrackedItemList())
         );
 
         updateFilteredProjectList(currentPredicate);
@@ -188,7 +187,7 @@ public class ModelManager implements Model {
 
         this.viewList.setAll(project.getTaskList());
         project.getTaskList().addListener(
-                (ListChangeListener<Project>) c -> viewList.setAll(project.getTaskList())
+                (ListChangeListener<TrackedItem>) c -> viewList.setAll(project.getTaskList())
         );
 
         System.out.println("View Project's Tasks");
@@ -202,23 +201,23 @@ public class ModelManager implements Model {
     //=========== Timers =============================================================
 
     @Override
-    public ObservableList<Project> getRunningTimers() {
+    public ObservableList<TrackedItem> getRunningTimers() {
         return runningTimers;
     }
 
     @Override
-    public void addRunningTimer(Project project) {
-        assert (project.isRunning());
+    public void addRunningTimer(TrackedItem trackedItem) {
+        assert (trackedItem.isRunning());
 
-        runningTimers.add(project);
+        runningTimers.add(trackedItem);
     }
 
     @Override
-    public void removeRunningTimer(Project project) {
-        assert (project.isRunning());
-        assert (runningTimers.contains(project));
+    public void removeRunningTimer(TrackedItem trackedItem) {
+        assert (trackedItem.isRunning());
+        assert (runningTimers.contains(trackedItem));
 
-        runningTimers.remove(project);
+        runningTimers.remove(trackedItem);
     }
 
     @Override
@@ -237,7 +236,7 @@ public class ModelManager implements Model {
         ModelManager other = (ModelManager) obj;
         return projectBook.equals(other.projectBook)
                 && userPrefs.equals(other.userPrefs)
-                && filteredProjects.equals(other.filteredProjects)
+                && filteredTrackedItems.equals(other.filteredTrackedItems)
                 && runningTimers.equals(other.runningTimers);
     }
 

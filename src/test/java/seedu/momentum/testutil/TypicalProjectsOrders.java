@@ -14,7 +14,7 @@ import java.util.List;
 
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.UniqueProjectList;
+import seedu.momentum.model.project.UniqueTrackedItemList;
 
 public class TypicalProjectsOrders {
 
@@ -91,12 +91,12 @@ public class TypicalProjectsOrders {
         return projects;
     }
 
-    public static UniqueProjectList getUniqueProjectList(List<Project> projects) {
-        UniqueProjectList uniqueProjectList = new UniqueProjectList();
+    public static UniqueTrackedItemList getUniqueProjectList(List<Project> projects) {
+        UniqueTrackedItemList uniqueTrackedItemList = new UniqueTrackedItemList();
         for (Project p : projects) {
-            uniqueProjectList.add(p);
+            uniqueTrackedItemList.add(p);
         }
-        return uniqueProjectList;
+        return uniqueTrackedItemList;
     }
 
 }

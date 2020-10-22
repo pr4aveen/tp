@@ -13,25 +13,25 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
 
 /**
- * A utility class to help with building EditProjectDescriptor objects.
+ * A utility class to help with building EditTrackedItemDescriptor objects.
  */
 public class EditProjectDescriptorBuilder {
 
-    private EditCommand.EditProjectDescriptor descriptor;
+    private EditCommand.EditTrackedItemDescriptor descriptor;
 
     public EditProjectDescriptorBuilder() {
-        descriptor = new EditCommand.EditProjectDescriptor();
+        descriptor = new EditCommand.EditTrackedItemDescriptor();
     }
 
-    public EditProjectDescriptorBuilder(EditCommand.EditProjectDescriptor descriptor) {
-        this.descriptor = new EditCommand.EditProjectDescriptor(descriptor);
+    public EditProjectDescriptorBuilder(EditCommand.EditTrackedItemDescriptor descriptor) {
+        this.descriptor = new EditCommand.EditTrackedItemDescriptor(descriptor);
     }
 
     /**
-     * Returns an {@code EditProjectDescriptor} with fields containing {@code project}'s details
+     * Returns an {@code EditTrackedItemDescriptor} with fields containing {@code project}'s details
      */
     public EditProjectDescriptorBuilder(Project project) {
-        descriptor = new EditCommand.EditProjectDescriptor();
+        descriptor = new EditCommand.EditTrackedItemDescriptor();
         descriptor.setName(project.getName());
         descriptor.setDescription(project.getDescription());
         descriptor.setDeadline(project.getDeadline());
@@ -39,7 +39,7 @@ public class EditProjectDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code Name} of the {@code EditProjectDescriptor} that we are building.
+     * Sets the {@code Name} of the {@code EditTrackedItemDescriptor} that we are building.
      */
     public EditProjectDescriptorBuilder withName(String name) {
         descriptor.setName(new Name(name));
@@ -47,7 +47,7 @@ public class EditProjectDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code Description} of the {@code EditProjectDescriptor} that we are building.
+     * Sets the {@code Description} of the {@code EditTrackedItemDescriptor} that we are building.
      */
     public EditProjectDescriptorBuilder withDescription(String description) {
         descriptor.setDescription(new Description(description));
@@ -55,7 +55,7 @@ public class EditProjectDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code Deadline} of the {@code EditProjectDescriptor} that we are building.
+     * Sets the {@code Deadline} of the {@code EditTrackedItemDescriptor} that we are building.
      */
     public EditProjectDescriptorBuilder withDeadline(String date, String createdDate) {
         descriptor.setDeadline(new Deadline(date, new Date(createdDate)));
@@ -63,7 +63,7 @@ public class EditProjectDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code Deadline} of the {@code EditProjectDescriptor} that we are building.
+     * Sets the {@code Deadline} of the {@code EditTrackedItemDescriptor} that we are building.
      */
     public EditProjectDescriptorBuilder withDeadline(String date, String time, String createDate) {
         descriptor.setDeadline(new Deadline(date, time, new Date(createDate)));
@@ -71,7 +71,7 @@ public class EditProjectDescriptorBuilder {
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditProjectDescriptor}
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditTrackedItemDescriptor}
      * that we are building.
      */
     public EditProjectDescriptorBuilder withTags(String... tags) {
@@ -80,7 +80,7 @@ public class EditProjectDescriptorBuilder {
         return this;
     }
 
-    public EditCommand.EditProjectDescriptor build() {
+    public EditCommand.EditTrackedItemDescriptor build() {
         return descriptor;
     }
 }

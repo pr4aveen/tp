@@ -33,7 +33,7 @@ public class StopCommandTest {
     public void execute_validIndexUnfilteredList_success() {
         Clock.initManual(TypicalTimes.DAY);
 
-        Project projectToStop = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        Project projectToStop = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         Project startedProject = projectToStop.startTimer();
@@ -43,7 +43,7 @@ public class StopCommandTest {
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 60);
-        model.setProject(projectToStop, startedProject);
+        model.setTrackedItem(projectToStop, startedProject);
         model.addRunningTimer(startedProject);
 
         Clock.advance(1, ChronoUnit.HOURS);
@@ -58,7 +58,7 @@ public class StopCommandTest {
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredProjectList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredTrackedItemList().size() + 1);
         StopCommand stopCommand = new StopCommand(outOfBoundIndex);
 
         assertCommandFailure(stopCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
@@ -77,7 +77,7 @@ public class StopCommandTest {
 
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
-        Project projectToStop = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        Project projectToStop = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 60);
@@ -87,7 +87,7 @@ public class StopCommandTest {
         expectedModel.setProject(projectToStop, startedProject);
         expectedModel.addRunningTimer(startedProject);
 
-        model.setProject(projectToStop, startedProject);
+        model.setTrackedItem(projectToStop, startedProject);
         model.addRunningTimer(startedProject);
 
         Clock.advance(1, ChronoUnit.HOURS);
@@ -108,7 +108,7 @@ public class StopCommandTest {
 
         Index outOfBoundIndex = INDEX_SECOND_PROJECT;
         // ensures that outOfBoundIndex is still in bounds of project book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getProjectBook().getProjectList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getProjectBook().getTrackedItemList().size());
 
         StopCommand stopCommand = new StopCommand(outOfBoundIndex);
 

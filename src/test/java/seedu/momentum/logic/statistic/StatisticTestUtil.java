@@ -59,7 +59,7 @@ public class StatisticTestUtil {
     public static ProjectBook getTypicalProjectBook() {
         ProjectBook projectBook = new ProjectBook();
         for (Project project : getTypicalProjects()) {
-            projectBook.addProject(project);
+            projectBook.addTrackedItem(project);
         }
         return projectBook;
     }

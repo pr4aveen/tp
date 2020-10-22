@@ -47,11 +47,11 @@ public class AddCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (model.hasProject(toAdd)) {
+        if (model.hasTrackedItem(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
         }
 
-        model.addProject(toAdd);
+        model.addTrackedItem(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 
