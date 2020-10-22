@@ -9,6 +9,8 @@ import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
@@ -27,10 +29,27 @@ public class StopCommand extends Command {
     public static final String MESSAGE_NO_TIMER_ERROR = "There is no timer running for this project.";
 
     private final Index targetIndex;
+    private final Project parentProject;
 
+    /**
+     * Creates a StopCommand that stops the timer for a project.
+     * @param targetIndex The project to stop.
+     */
     public StopCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
+        parentProject = null;
     }
+
+    /**
+     * Creates a StartCommand that stops the timer for a task.
+     * @param targetIndex The task to stop.
+     * @param parentProject The parent Project of the task.
+     */
+    public StopCommand(Index targetIndex, Project parentProject) {
+        this.targetIndex = targetIndex;
+        this.parentProject = parentProject;
+    }
+
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
@@ -49,7 +68,14 @@ public class StopCommand extends Command {
         }
 
         TrackedItem newTrackedItem = trackedItemToStop.stopTimer();
-        model.setTrackedItem(trackedItemToStop, newTrackedItem);
+
+        if (model.getViewMode() == ViewMode.PROJECTS) {
+            model.setTrackedItem(trackedItemToStop, newTrackedItem);
+        } else {
+            assert parentProject != null;
+            parentProject.setTask(trackedItemToStop, newTrackedItem);
+        }
+
         model.removeRunningTimer(trackedItemToStop);
 
         return new CommandResult(String.format(MESSAGE_STOP_TIMER_SUCCESS, targetIndex.getOneBased(),

@@ -6,6 +6,7 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.StartCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
 
 /**
  * Parses input arguments and creates a new StartCommand object
@@ -20,7 +21,13 @@ public class StartCommandParser implements Parser<StartCommand> {
     public StartCommand parse(String args, Model model) throws ParseException {
         try {
             Index index = ParserUtil.parseIndex(args);
-            return new StartCommand(index);
+
+            if (model.getViewMode() == ViewMode.PROJECTS) {
+                return new StartCommand(index);
+            } else {
+                return new StartCommand(index, model.getCurrentProject());
+            }
+
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, StartCommand.MESSAGE_USAGE), pe);

@@ -6,6 +6,7 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.StopCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
 
 /**
  * Parses input arguments and creates a new StopCommand object
@@ -21,7 +22,13 @@ public class StopCommandParser implements Parser<StopCommand> {
     public StopCommand parse(String args, Model model) throws ParseException {
         try {
             Index index = ParserUtil.parseIndex(args);
-            return new StopCommand(index);
+
+            if (model.getViewMode() == ViewMode.PROJECTS) {
+                return new StopCommand(index);
+            } else {
+                return new StopCommand(index, model.getCurrentProject());
+            }
+
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, StopCommand.MESSAGE_USAGE), pe);

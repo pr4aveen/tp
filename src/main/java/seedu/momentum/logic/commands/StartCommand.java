@@ -8,6 +8,8 @@ import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
@@ -26,9 +28,25 @@ public class StartCommand extends Command {
     public static final String MESSAGE_EXISTING_TIMER_ERROR = "There is already a timer running for this project";
 
     private final Index targetIndex;
+    private final Project parentProject;
 
+    /**
+     * Creates a StartCommand that starts the timer for a project.
+     * @param targetIndex The project to start.
+     */
     public StartCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
+        this.parentProject = null;
+    }
+
+    /**
+     * Creates a StartCOmmand that starts the timer for a task.
+     * @param targetIndex The task to start.
+     * @param parentProject The parent project of the task.
+     */
+    public StartCommand(Index targetIndex, Project parentProject) {
+        this.targetIndex = targetIndex;
+        this.parentProject = parentProject;
     }
 
     @Override
@@ -48,7 +66,13 @@ public class StartCommand extends Command {
         }
 
         TrackedItem newTrackedItem = trackedItemToStart.startTimer();
-        model.setTrackedItem(trackedItemToStart, newTrackedItem);
+        if (model.getViewMode() == ViewMode.PROJECTS) {
+            model.setTrackedItem(trackedItemToStart, newTrackedItem);
+        } else {
+            assert parentProject != null;
+            parentProject.setTask(trackedItemToStart, newTrackedItem);
+        }
+
         model.addRunningTimer(newTrackedItem);
 
         return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())
