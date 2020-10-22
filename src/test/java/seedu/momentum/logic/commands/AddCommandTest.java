@@ -185,6 +185,11 @@ public class AddCommandTest {
         public void viewProjects() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public Project getCurrentProject() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

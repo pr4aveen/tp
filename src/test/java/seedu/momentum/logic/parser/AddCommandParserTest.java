@@ -26,11 +26,15 @@ import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseFailu
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.momentum.testutil.TypicalProjects.AMY;
 import static seedu.momentum.testutil.TypicalProjects.BOB;
+import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.Date;
 import seedu.momentum.logic.commands.AddCommand;
+import seedu.momentum.model.Model;
+import seedu.momentum.model.ModelManager;
+import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
@@ -38,6 +42,7 @@ import seedu.momentum.testutil.ProjectBuilder;
 
 public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser();
+    private Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
     @Test
     public void parse_allFieldsPresent_success() {
@@ -46,21 +51,21 @@ public class AddCommandParserTest {
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + DESCRIPTION_DESC_BOB + DEADLINE_DATE_DESC_BOB
-                + TAG_DESC_FRIEND, new AddCommand(expectedProject));
+                + TAG_DESC_FRIEND, new AddCommand(expectedProject), model);
 
         // multiple names - last name accepted
         assertParseSuccess(parser, NAME_DESC_AMY + NAME_DESC_BOB + DESCRIPTION_DESC_BOB + DEADLINE_DATE_DESC_BOB
-                + TAG_DESC_FRIEND, new AddCommand(expectedProject));
+                + TAG_DESC_FRIEND, new AddCommand(expectedProject), model);
 
         // multiple descriptions - last description accepted
         assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_AMY + DESCRIPTION_DESC_BOB + DEADLINE_DATE_DESC_BOB
-                + TAG_DESC_FRIEND, new AddCommand(expectedProject));
+                + TAG_DESC_FRIEND, new AddCommand(expectedProject), model);
 
         // multiple tags - all accepted
         Project expectedProjectMultipleTags = new ProjectBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB + DEADLINE_DATE_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, new AddCommand(expectedProjectMultipleTags));
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, new AddCommand(expectedProjectMultipleTags), model);
     }
 
     @Test
@@ -68,23 +73,23 @@ public class AddCommandParserTest {
         // no description
         Project expectedProject = new ProjectBuilder(AMY).withEmptyDescription().withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + DEADLINE_DATE_DESC_AMY + DEADLINE_TIME_DESC_AMY + TAG_DESC_FRIEND,
-                new AddCommand(expectedProject));
+                new AddCommand(expectedProject), model);
 
         // no deadline
         expectedProject = new ProjectBuilder(AMY).withEmptyDeadline().withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + DESCRIPTION_DESC_AMY + TAG_DESC_FRIEND,
-                new AddCommand(expectedProject));
+                new AddCommand(expectedProject), model);
 
         // no time in deadline
         expectedProject = new ProjectBuilder(AMY).withDeadline(VALID_DEADLINE_DATE_AMY, VALID_CREATED_DATE_AMY)
                 .withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + DESCRIPTION_DESC_AMY + DEADLINE_DATE_DESC_AMY + TAG_DESC_FRIEND,
-                new AddCommand(expectedProject));
+                new AddCommand(expectedProject), model);
 
         // zero tags
         expectedProject = new ProjectBuilder(AMY).withTags().withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + DESCRIPTION_DESC_AMY + DEADLINE_DATE_DESC_AMY
-                + DEADLINE_TIME_DESC_AMY, new AddCommand(expectedProject));
+                + DEADLINE_TIME_DESC_AMY, new AddCommand(expectedProject), model);
     }
 
     @Test
@@ -93,7 +98,7 @@ public class AddCommandParserTest {
 
         // missing name prefix
         assertParseFailure(parser, VALID_NAME_BOB + VALID_DESCRIPTION_BOB,
-                expectedMessage);
+                expectedMessage, model);
 
     }
 
@@ -101,33 +106,33 @@ public class AddCommandParserTest {
     public void parse_invalidValue_failure() {
         // invalid name
         assertParseFailure(parser, INVALID_NAME_DESC + DESCRIPTION_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_CONSTRAINTS);
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_CONSTRAINTS, model);
 
         // invalid deadline with invalid date
         assertParseFailure(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB + INVALID_DEADLINE_DATE_DESC
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Date.MESSAGE_CONSTRAINTS);
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Date.MESSAGE_CONSTRAINTS, model);
 
         // invalid deadline with invalid time
         assertParseFailure(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB
                 + INVALID_DEADLINE_DATE_DESC + INVALID_DEADLINE_TIME_DESC
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Date.MESSAGE_CONSTRAINTS);
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Date.MESSAGE_CONSTRAINTS, model);
 
         // invalid deadline with invalid date and time
         assertParseFailure(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB + INVALID_DEADLINE_DATE_DESC
                 + INVALID_DEADLINE_TIME_DESC + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                Date.MESSAGE_CONSTRAINTS);
+                Date.MESSAGE_CONSTRAINTS, model);
 
         // invalid tag
         assertParseFailure(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB
-                + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_CONSTRAINTS);
+                + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_CONSTRAINTS, model);
 
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, INVALID_NAME_DESC + DESCRIPTION_DESC_BOB + INVALID_TAG_DESC,
-                Name.MESSAGE_CONSTRAINTS);
+                Name.MESSAGE_CONSTRAINTS, model);
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + DESCRIPTION_DESC_BOB
                         + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE), model);
     }
 }
