@@ -206,7 +206,7 @@ public class ModelManager implements Model {
     @Override
     public void viewAll() {
         ObservableList<TrackedItem> allItems = FXCollections.observableArrayList();
-        for(TrackedItem projectItem : projectBook.getTrackedItemList()) {
+        for (TrackedItem projectItem : projectBook.getTrackedItemList()) {
             allItems.add(projectItem);
             Project project = (Project) projectItem;
             allItems.addAll(project.getTaskList());

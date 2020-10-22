@@ -16,7 +16,6 @@ import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.logic.statistic.StatisticManager;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ReadOnlyProjectBook;
-import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.storage.Storage;
 
