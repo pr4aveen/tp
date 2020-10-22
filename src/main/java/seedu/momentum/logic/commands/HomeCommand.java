@@ -13,6 +13,7 @@ public class HomeCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
+        model.viewProjects();
         System.out.println("Executing Home Command");
         return new CommandResult(MESSAGE_EXIT_ACKNOWLEDGEMENT, false, false);
     }

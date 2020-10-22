@@ -4,14 +4,18 @@ import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.commons.core.Messages;
+import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 
@@ -28,6 +32,8 @@ public class ModelManager implements Model {
     private Predicate<Project> currentPredicate;
     private SortType currentSortType;
     private boolean currentSortIsAscending;
+    private ViewMode viewMode;
+    private ObservableList<Project> viewList;
 
     /**
      * Initializes a ModelManager with the given projectBook and userPrefs.
@@ -40,12 +46,18 @@ public class ModelManager implements Model {
 
         this.projectBook = new ProjectBook(projectBook);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredProjects = new FilteredList<>(this.projectBook.getProjectList());
-        runningTimers = FXCollections.observableArrayList();
-        initializeRunningTimers();
+
         currentPredicate = PREDICATE_SHOW_ALL_PROJECTS;
         currentSortType = SortType.ALPHA;
         currentSortIsAscending = true;
+        viewMode = ViewMode.PROJECTS;
+
+        this.viewList = FXCollections.observableArrayList();
+        filteredProjects = new FilteredList<>(viewList);
+        viewProjects();
+
+        runningTimers = FXCollections.observableArrayList();
+        initializeRunningTimers();
     }
 
     public ModelManager() {
@@ -159,6 +171,34 @@ public class ModelManager implements Model {
         updateFilteredProjectList(currentPredicate);
     }
 
+    @Override
+    public void viewProjects() {
+        viewMode = ViewMode.PROJECTS;
+        this.viewList.setAll(projectBook.getProjectList());
+        this.projectBook.getProjectList().addListener(
+                (ListChangeListener<Project>) c -> viewList.setAll(projectBook.getProjectList())
+        );
+
+        updateFilteredProjectList(currentPredicate);
+    }
+
+    @Override
+    public void viewTasks(Project project) {
+        viewMode = ViewMode.TASKS;
+
+        this.viewList.setAll(project.getTaskList());
+        project.getTaskList().addListener(
+                (ListChangeListener<Project>) c -> viewList.setAll(project.getTaskList())
+        );
+
+        System.out.println("View Project's Tasks");
+    }
+
+    @Override
+    public ViewMode getViewMode() {
+        return viewMode;
+    }
+
     //=========== Timers =============================================================
 
     @Override
@@ -180,8 +220,6 @@ public class ModelManager implements Model {
 
         runningTimers.remove(project);
     }
-
-
 
     @Override
     public boolean equals(Object obj) {

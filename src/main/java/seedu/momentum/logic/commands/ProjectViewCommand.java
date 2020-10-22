@@ -40,7 +40,7 @@ public class ProjectViewCommand extends Command {
         }
 
         Project projectToView = lastShownList.get(targetIndex.getZeroBased());
-        //model.deleteProject(projectToDelete);
+        model.viewTasks(projectToView);
         System.out.println("Executing Project View Command");
         return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, projectToView.getName().fullName));
     }

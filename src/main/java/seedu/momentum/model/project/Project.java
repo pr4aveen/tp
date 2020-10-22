@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.Date;
 import seedu.momentum.model.tag.Tag;
@@ -217,5 +218,10 @@ public class Project {
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();
+    }
+
+    //Temporary for testing
+    public ObservableList<Project> getTaskList() {
+        return FXCollections.observableArrayList();
     }
 }
