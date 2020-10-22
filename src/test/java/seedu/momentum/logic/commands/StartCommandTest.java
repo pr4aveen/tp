@@ -32,7 +32,7 @@ public class StartCommandTest {
         Clock.initFixed(TypicalTimes.DAY);
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
 
-        Project projectToStart = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        Project projectToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         Project startedProject = projectToStart.startTimer();
@@ -50,7 +50,7 @@ public class StartCommandTest {
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredProjectList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredTrackedItemList().size() + 1);
         StartCommand startCommand = new StartCommand(outOfBoundIndex);
 
         assertCommandFailure(startCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
@@ -59,9 +59,9 @@ public class StartCommandTest {
     @Test
     public void execute_alreadyRunning_throwsCommandException() {
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
-        Project projectToStart = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        Project projectToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
-        model.setProject(projectToStart, projectToStart.startTimer());
+        model.setTrackedItem(projectToStart, projectToStart.startTimer());
 
         assertCommandFailure(startCommand, model, StartCommand.MESSAGE_EXISTING_TIMER_ERROR);
     }
@@ -71,7 +71,7 @@ public class StartCommandTest {
         Clock.initFixed(TypicalTimes.DAY);
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
-        Project projectToStart = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        Project projectToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         Project startedProject = projectToStart.startTimer();
@@ -94,7 +94,7 @@ public class StartCommandTest {
 
         Index outOfBoundIndex = INDEX_SECOND_PROJECT;
         // ensures that outOfBoundIndex is still in bounds of project book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getProjectBook().getProjectList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getProjectBook().getTrackedItemList().size());
 
         StartCommand startCommand = new StartCommand(outOfBoundIndex);
 

@@ -20,6 +20,7 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticEntry;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -146,19 +147,19 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private void initProjectList() {
-        projectListPanel = new ProjectListPanel(logic.getFilteredProjectList());
+        projectListPanel = new ProjectListPanel(logic.getFilteredTrackedItemList());
         projectListPanelPlaceholder.getChildren().add(projectListPanel.getRoot());
     }
 
     private void initTagDisplay() {
-        tagsDisplay = new TagsDisplay(logic.getProjectBook().getProjectTags());
+        tagsDisplay = new TagsDisplay(logic.getProjectBook().getTrackedItemTags());
         infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
 
         // Add a listener to the project list that will update tags when there are changes made to the project list.
-        logic.getFilteredProjectList().addListener(new ListChangeListener<Project>() {
+        logic.getFilteredTrackedItemList().addListener(new ListChangeListener<TrackedItem>() {
             @Override
-            public void onChanged(Change<? extends Project> c) {
-                TagsDisplay newTagsDisplay = new TagsDisplay(logic.getProjectBook().getProjectTags());
+            public void onChanged(Change<? extends TrackedItem> c) {
+                TagsDisplay newTagsDisplay = new TagsDisplay(logic.getProjectBook().getTrackedItemTags());
                 infoDisplayPlaceholder.getChildren().clear();
                 infoDisplayPlaceholder.getChildren().add(newTagsDisplay.getRoot());
             }

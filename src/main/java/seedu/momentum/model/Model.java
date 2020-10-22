@@ -5,15 +5,15 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiSettings;
-import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * The API of the Model component.
  */
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
-    Predicate<Project> PREDICATE_SHOW_ALL_PROJECTS = unused -> true;
+    Predicate<TrackedItem> PREDICATE_SHOW_ALL_TRACKED_ITEMS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -54,54 +54,59 @@ public interface Model {
     ReadOnlyProjectBook getProjectBook();
 
     /**
-     * Returns true if a project with the same identity as {@code project} exists in the project book.
+     * Returns true if a tracked item with the same identity as {@code trackedItem} exists in the project book.
+     * @param trackedItem
      */
-    boolean hasProject(Project project);
+    boolean hasTrackedItem(TrackedItem trackedItem);
 
     /**
      * Deletes the given project.
      * The project must exist in the project book.
      */
-    void deleteProject(Project target);
+    void deleteTrackedItem(TrackedItem target);
 
     /**
      * Adds the given project.
      * {@code project} must not already exist in the project book.
      */
-    void addProject(Project project);
+    void addTrackedItem(TrackedItem trackedItem);
 
     /**
-     * Replaces the given project {@code target} with {@code editedProject}.
+     * Replaces the given tracked item {@code target} with {@code editedTrackedItem}.
      * {@code target} must exist in the project book.
-     * The project identity of {@code editedProject} must not be the same as another existing project in the project
-     * book.
+     * The tracked item identity of {@code editedTrackedItem} must not be the same as another existing tracked item in
+     * the project book.
      */
-    void setProject(Project target, Project editedProject);
+    void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem);
 
-    /** Returns an unmodifiable view of the filtered project list */
-    ObservableList<Project> getFilteredProjectList();
+    /** Returns an unmodifiable view of the filtered project list
+     * @return*/
+    ObservableList<TrackedItem> getFilteredTrackedItemList();
 
-    /** Returns a list of projects whose timers are running */
-    ObservableList<Project> getRunningTimers();
+    /** Returns a list of projects whose timers are running
+     * @return*/
+    ObservableList<TrackedItem> getRunningTimers();
 
     /**
      * Adds the given project to the running timers list.
      * {@code project} must have a running timer.
-     * */
-    void addRunningTimer(Project project);
+     *
+     * @param trackedItem*/
+    void addRunningTimer(TrackedItem trackedItem);
 
     /**
      * Removes the given project from the running timers list.
      * {@code project} must have a running timer.
+     * @param trackedItem
      */
-    void removeRunningTimer(Project project);
+    void removeRunningTimer(TrackedItem trackedItem);
 
     /**
      * Updates the filter of the filtered project list to filter by the given {@code predicate}.
      *
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredProjectList(Predicate<Project> predicate);
+    void updateFilteredProjectList(Predicate<TrackedItem> predicate);
 
     /**
      * Orders the list of projects in a way given by the {@code sortType}.

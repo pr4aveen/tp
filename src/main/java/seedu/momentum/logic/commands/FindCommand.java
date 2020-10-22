@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * Finds and lists all projects in project book whose name contains any of the argument keywords.
@@ -30,9 +30,9 @@ public class FindCommand extends Command {
             + "Example: " + COMMAND_WORD + " " + FIND_TYPE + "all " + PREFIX_NAME + "alice bob charlie "
             + PREFIX_DESCRIPTION + "likes dim sum " + PREFIX_TAG + "friends";
 
-    private final Predicate<Project> predicate;
+    private final Predicate<TrackedItem> predicate;
 
-    public FindCommand(Predicate<Project> predicate) {
+    public FindCommand(Predicate<TrackedItem> predicate) {
         this.predicate = predicate;
     }
 
@@ -41,7 +41,7 @@ public class FindCommand extends Command {
         requireNonNull(model);
         model.updateFilteredProjectList(predicate);
         return new CommandResult(
-                String.format(Messages.MESSAGE_PROJECTS_LISTED_OVERVIEW, model.getFilteredProjectList().size()));
+                String.format(Messages.MESSAGE_PROJECTS_LISTED_OVERVIEW, model.getFilteredTrackedItemList().size()));
     }
 
     @Override

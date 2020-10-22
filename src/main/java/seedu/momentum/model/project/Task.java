@@ -6,8 +6,13 @@ import seedu.momentum.commons.core.Date;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.Timer;
 import seedu.momentum.model.timer.UniqueDurationList;
+import seedu.momentum.model.timer.WorkDuration;
 
-public class Task extends Project {
+/**
+ * Represents a Task in the project book.
+ * Guarantees: details are present and not null, field values are validated, immutable.
+ */
+public class Task extends TrackedItem {
 
     /**
      * Constructs a {@code Task}.
@@ -21,7 +26,7 @@ public class Task extends Project {
      * @param timer A timer associated with the task.
      */
     public Task(Name name, Description description, Date createdDate, Deadline deadline,
-                Set<Tag> tags, UniqueDurationList durations, Timer timer) {
+                   Set<Tag> tags, UniqueDurationList durations, Timer timer) {
         super(name, description, createdDate, deadline, tags, durations, timer);
     }
 
@@ -39,6 +44,46 @@ public class Task extends Project {
     }
 
     /**
+     * Returns a copy of this task with its timer started.
+     *
+     * @return A copy of this task, but with its timer started
+     */
+    @Override
+    public Task startTimer() {
+        Timer newTimer = timer.start();
+        return new Task(name, description, createdDate, deadline, tags, durations, newTimer);
+    }
+
+    /**
+     * Returns a copy of this task with its timer stopped, then adds the timed duration into
+     * the list.
+     *
+     * @return A copy of this task, but with its timer stopped
+     */
+    @Override
+    public Task stopTimer() {
+        Timer newTimer = timer.stop();
+        WorkDuration duration = new WorkDuration(newTimer.getStartTime(), newTimer.getStopTime());
+        UniqueDurationList newDurations = new UniqueDurationList();
+        newDurations.setDurations(durations);
+        newDurations.add(duration);
+        return new Task(name, description, createdDate, deadline, tags, newDurations, newTimer);
+    }
+
+    /**
+     * Returns true if both tracked item of the same name have at least one other identity field that is the same.
+     * This defines a weaker notion of equality between two tasks.
+     */
+    @Override
+    public boolean isSameTrackedItem(TrackedItem otherTrackedItem) {
+        if (!(otherTrackedItem instanceof Task)) {
+            return false;
+        }
+
+        return super.isSameTrackedItem(otherTrackedItem);
+    }
+
+    /**
      * Returns true if the instance is a Task. Returns false otherwise.
      */
     @Override
@@ -47,25 +92,15 @@ public class Task extends Project {
     }
 
     /**
-     * Returns true if both projects have the same identity and data fields.
-     * This defines a stronger notion of equality between two projects.
+     * Returns true if both tracked items have the same identity and data fields.
+     * This defines a stronger notion of equality between two tracked items.
      */
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        if (!(other instanceof Project)) {
+        if (!(other instanceof Task)) {
             return false;
         }
 
-        Project otherProject = (Project) other;
-        return otherProject.getName().equals(getName())
-                && otherProject.getTags().equals(getTags())
-                && otherProject.getDurationList().equals(getDurationList())
-                && otherProject.getDescription().equals(getDescription())
-                && otherProject.getCreatedDate().equals(getCreatedDate())
-                && otherProject.getDeadline().equals(getDeadline());
+        return super.equals(other);
     }
 }

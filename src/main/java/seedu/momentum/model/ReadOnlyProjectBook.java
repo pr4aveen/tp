@@ -3,7 +3,7 @@ package seedu.momentum.model;
 import java.util.Set;
 
 import javafx.collections.ObservableList;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -12,13 +12,13 @@ import seedu.momentum.model.tag.Tag;
 public interface ReadOnlyProjectBook {
 
     /**
-     * Returns an unmodifiable view of the projects list.
-     * This list will not contain any duplicate projects.
+     * Returns an unmodifiable view of the tracked item list.
+     * This list will not contain any duplicate tracked items.
      */
-    ObservableList<Project> getProjectList();
+    ObservableList<TrackedItem> getTrackedItemList();
 
     /**
-     * Returns the collection of all tags that the user has entered for the projects.
+     * Returns the collection of all tags that the user has entered for the tracked item.
      */
-    Set<Tag> getProjectTags();
+    Set<Tag> getTrackedItemTags();
 }

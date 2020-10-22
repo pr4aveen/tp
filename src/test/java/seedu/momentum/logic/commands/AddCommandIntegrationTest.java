@@ -31,7 +31,7 @@ public class AddCommandIntegrationTest {
         Project validProject = new ProjectBuilder().withName("TEST").build();
 
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        expectedModel.addProject(validProject);
+        expectedModel.addTrackedItem(validProject);
 
         assertCommandSuccess(new AddCommand(validProject), model,
                 String.format(AddCommand.MESSAGE_SUCCESS, validProject), expectedModel);
@@ -48,7 +48,7 @@ public class AddCommandIntegrationTest {
         // alphabetical order -> Dana gets placed in between Carl and Daniel
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         expectedModel.orderFilteredProjectList(SortType.ALPHA, true);
-        expectedModel.addProject(dana);
+        expectedModel.addTrackedItem(dana);
 
         assertCommandSuccess(addDanaCommand, model,
                 String.format(AddCommand.MESSAGE_SUCCESS, dana), expectedModel);
@@ -56,7 +56,7 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_duplicateProject_throwsCommandException() {
-        Project projectInList = model.getProjectBook().getProjectList().get(0);
+        Project projectInList = model.getProjectBook().getTrackedItemList().get(0);
         assertCommandFailure(new AddCommand(projectInList), model, AddCommand.MESSAGE_DUPLICATE_PROJECT);
     }
 

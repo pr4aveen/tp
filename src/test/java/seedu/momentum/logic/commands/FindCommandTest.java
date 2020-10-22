@@ -73,7 +73,7 @@ public class FindCommandTest {
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredProjectList());
+        assertEquals(Collections.emptyList(), model.getFilteredTrackedItemList());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class FindCommandTest {
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredProjectList());
+        assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredTrackedItemList());
     }
 
     @Test
@@ -93,7 +93,7 @@ public class FindCommandTest {
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredProjectList());
+        assertEquals(Collections.emptyList(), model.getFilteredTrackedItemList());
     }
 
     @Test
@@ -103,7 +103,7 @@ public class FindCommandTest {
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.singletonList(CARL), model.getFilteredProjectList());
+        assertEquals(Collections.singletonList(CARL), model.getFilteredTrackedItemList());
     }
 
     @Test
@@ -114,7 +114,7 @@ public class FindCommandTest {
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(DANIEL, ELLE, FIONA), model.getFilteredProjectList());
+        assertEquals(Arrays.asList(DANIEL, ELLE, FIONA), model.getFilteredTrackedItemList());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class FindCommandTest {
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredProjectList());
+        assertEquals(Collections.emptyList(), model.getFilteredTrackedItemList());
     }
 
     @Test
@@ -136,7 +136,7 @@ public class FindCommandTest {
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.singletonList(FIONA), model.getFilteredProjectList());
+        assertEquals(Collections.singletonList(FIONA), model.getFilteredTrackedItemList());
     }
 
     @Test
@@ -146,7 +146,7 @@ public class FindCommandTest {
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getFilteredProjectList());
+        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getFilteredTrackedItemList());
     }
 
     @Test
@@ -156,7 +156,7 @@ public class FindCommandTest {
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredProjectList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.singletonList(BENSON), model.getFilteredProjectList());
+        assertEquals(Collections.singletonList(BENSON), model.getFilteredTrackedItemList());
     }
 
     /**

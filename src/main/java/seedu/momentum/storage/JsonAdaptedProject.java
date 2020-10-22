@@ -15,6 +15,7 @@ import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.Timer;
 import seedu.momentum.model.timer.UniqueDurationList;
@@ -60,9 +61,9 @@ class JsonAdaptedProject {
     }
 
     /**
-     * Converts a given {@code Project} into this class for Jackson use.
+     * Converts a given {@code TrackedItem} into this class for Jackson use.
      */
-    public JsonAdaptedProject(Project source) {
+    public JsonAdaptedProject(TrackedItem source) {
         name = source.getName().fullName;
         description = source.getDescription().value;
         createdDate = source.getCreatedDate().toString();
@@ -77,14 +78,14 @@ class JsonAdaptedProject {
     }
 
     /**
-     * Converts this Jackson-friendly adapted project object into the model's {@code Project} object.
+     * Converts this Jackson-friendly adapted project object into the model's {@code TrackedItem} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted project.
+     * @throws IllegalValueException if there were any data constraints violated in the adapted tracked item.
      */
     public Project toModelType() throws IllegalValueException {
-        final List<Tag> projectTags = new ArrayList<>();
+        final List<Tag> trackedItemTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tagged) {
-            projectTags.add(tag.toModelType());
+            trackedItemTags.add(tag.toModelType());
         }
 
         if (name == null) {
@@ -104,7 +105,7 @@ class JsonAdaptedProject {
 
         final Deadline modelDeadline = deadline == null ? new Deadline() : deadline.toModelType(modelCreatedDate);
 
-        final Set<Tag> modelTags = new HashSet<>(projectTags);
+        final Set<Tag> modelTags = new HashSet<>(trackedItemTags);
 
         final List<WorkDuration> projectDurations = new ArrayList<>();
         for (JsonAdaptedWorkDuration duration : durations) {

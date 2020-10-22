@@ -43,32 +43,32 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
 
-        EditCommand.EditProjectDescriptor editProjectDescriptor = new EditCommand.EditProjectDescriptor();
+        EditCommand.EditTrackedItemDescriptor editTrackedItemDescriptor = new EditCommand.EditTrackedItemDescriptor();
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editProjectDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
+            editTrackedItemDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
 
         if (argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
-            editProjectDescriptor.setDescription(ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION)
+            editTrackedItemDescriptor.setDescription(ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION)
                     .get()));
         }
 
         // use a default date to parse the deadline first
         // check whether if the deadline is after or on created date in edit command
         if (argMultimap.getValue(PREFIX_DEADLINE_DATE).isPresent()) {
-            editProjectDescriptor.setDeadline(ParserUtil.parseDeadline(
+            editTrackedItemDescriptor.setDeadline(ParserUtil.parseDeadline(
                     argMultimap.getValue(PREFIX_DEADLINE_DATE),
                     argMultimap.getValue(PREFIX_DEADLINE_TIME),
                     Date.MIN));
         }
 
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editProjectDescriptor::setTags);
+        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editTrackedItemDescriptor::setTags);
 
-        if (!editProjectDescriptor.isAnyFieldEdited()) {
+        if (!editTrackedItemDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditCommand(index, editProjectDescriptor);
+        return new EditCommand(index, editTrackedItemDescriptor);
     }
 
     /**

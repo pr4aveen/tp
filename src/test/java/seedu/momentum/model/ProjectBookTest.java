@@ -22,6 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.exceptions.DuplicateProjectException;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
@@ -32,7 +33,7 @@ public class ProjectBookTest {
 
     @Test
     public void constructor() {
-        assertEquals(Collections.emptyList(), projectBook.getProjectList());
+        assertEquals(Collections.emptyList(), projectBook.getTrackedItemList());
     }
 
     @Test
@@ -68,58 +69,58 @@ public class ProjectBookTest {
     public void setOrder_withValidSortType_ordersProjectBook() {
         ProjectBook unorderedProjectBook = getTypicalProjectBook();
         ProjectBook orderedProjectBook = new ProjectBook();
-        orderedProjectBook.setProjects(getOrderedProjectBookByDeadlineAscending());
+        orderedProjectBook.setTrackedItems(getOrderedProjectBookByDeadlineAscending());
         unorderedProjectBook.setOrder(SortType.DEADLINE, true);
         assertEquals(orderedProjectBook, unorderedProjectBook);
     }
 
     @Test
     public void hasProject_nullProject_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> projectBook.hasProject(null));
+        assertThrows(NullPointerException.class, () -> projectBook.hasTrackedItem(null));
     }
 
     @Test
     public void hasProject_projectNotInProjectBook_returnsFalse() {
-        assertFalse(projectBook.hasProject(ALICE));
+        assertFalse(projectBook.hasTrackedItem(ALICE));
     }
 
     @Test
     public void hasProject_projectInProjectBook_returnsTrue() {
-        projectBook.addProject(ALICE);
-        assertTrue(projectBook.hasProject(ALICE));
+        projectBook.addTrackedItem(ALICE);
+        assertTrue(projectBook.hasTrackedItem(ALICE));
     }
 
     @Test
     public void hasProject_projectWithSameIdentityFieldsInProjectBook_returnsTrue() {
-        projectBook.addProject(ALICE);
+        projectBook.addTrackedItem(ALICE);
         Project editedAlice = new ProjectBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(projectBook.hasProject(editedAlice));
+        assertTrue(projectBook.hasTrackedItem(editedAlice));
     }
 
     @Test
     public void getProjectList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> projectBook.getProjectList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> projectBook.getTrackedItemList().remove(0));
     }
 
     /**
      * A stub ReadOnlyProjectBook whose projects list can violate interface constraints.
      */
     private static class ProjectBookStub implements ReadOnlyProjectBook {
-        private final ObservableList<Project> projects = FXCollections.observableArrayList();
+        private final ObservableList<TrackedItem> trackedItems = FXCollections.observableArrayList();
 
-        ProjectBookStub(Collection<Project> projects) {
-            this.projects.setAll(projects);
+        ProjectBookStub(Collection<Project> trackedItems) {
+            this.trackedItems.setAll(trackedItems);
         }
 
         @Override
-        public ObservableList<Project> getProjectList() {
-            return projects;
+        public ObservableList<TrackedItem> getTrackedItemList() {
+            return trackedItems;
         }
 
         @Override
-        public Set<Tag> getProjectTags() {
+        public Set<Tag> getTrackedItemTags() {
             Set<Tag> tags = new HashSet<>();
-            getProjectList().forEach(project -> tags.addAll(project.getTags()));
+            getTrackedItemList().forEach(project -> tags.addAll(project.getTags()));
             return tags;
         }
     }

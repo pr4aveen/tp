@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import seedu.momentum.commons.util.StringUtil;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * Tests that a {@code Project}'s {@code Name} matches any of the keywords given.
  */
-public class NameContainsKeywordsPredicate implements Predicate<Project> {
+public class NameContainsKeywordsPredicate implements Predicate<TrackedItem> {
     private final List<String> keywords;
     private final FindType findType;
 
@@ -26,9 +26,9 @@ public class NameContainsKeywordsPredicate implements Predicate<Project> {
     }
 
     @Override
-    public boolean test(Project project) {
+    public boolean test(TrackedItem trackedItem) {
         Predicate<String> predicate =
-            keyword -> StringUtil.containsPartialIgnoreCase(project.getName().fullName, keyword);
+            keyword -> StringUtil.containsPartialIgnoreCase(trackedItem.getName().fullName, keyword);
         switch (findType) {
         case ALL:
             return keywords.stream().allMatch(predicate);

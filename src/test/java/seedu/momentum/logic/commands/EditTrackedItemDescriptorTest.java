@@ -12,12 +12,12 @@ import org.junit.jupiter.api.Test;
 
 import seedu.momentum.testutil.EditProjectDescriptorBuilder;
 
-public class EditProjectDescriptorTest {
+public class EditTrackedItemDescriptorTest {
 
     @Test
     public void equals() {
         // same values -> returns true
-        EditCommand.EditProjectDescriptor descriptorWithSameValues = new EditCommand.EditProjectDescriptor(DESC_AMY);
+        EditCommand.EditTrackedItemDescriptor descriptorWithSameValues = new EditCommand.EditTrackedItemDescriptor(DESC_AMY);
         assertTrue(DESC_AMY.equals(descriptorWithSameValues));
 
         // same object -> returns true
@@ -33,7 +33,7 @@ public class EditProjectDescriptorTest {
         assertFalse(DESC_AMY.equals(DESC_BOB));
 
         // different name -> returns false
-        EditCommand.EditProjectDescriptor editedAmy =
+        EditCommand.EditTrackedItemDescriptor editedAmy =
                 new EditProjectDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 

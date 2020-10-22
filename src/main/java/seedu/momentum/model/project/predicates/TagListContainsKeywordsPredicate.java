@@ -5,13 +5,13 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import seedu.momentum.commons.util.StringUtil;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 
 /**
- * Tests that a {@code Project}'s {@code Tag} matches any of the keywords given.
+ * Tests that a {@code TrackedItem}'s {@code Tag} matches any of the keywords given.
  */
-public class TagListContainsKeywordsPredicate implements Predicate<Project> {
+public class TagListContainsKeywordsPredicate implements Predicate<TrackedItem> {
     private final List<String> keywords;
     private final FindType findType;
 
@@ -28,8 +28,8 @@ public class TagListContainsKeywordsPredicate implements Predicate<Project> {
     }
 
     @Override
-    public boolean test(Project project) {
-        String tagString = buildTagString(project.getTags());
+    public boolean test(TrackedItem trackedItem) {
+        String tagString = buildTagString(trackedItem.getTags());
         Predicate<String> predicate = keyword -> StringUtil.containsWordIgnoreCase(tagString, keyword);
         switch (findType) {
         case ALL:

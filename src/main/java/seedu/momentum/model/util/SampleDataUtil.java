@@ -57,7 +57,7 @@ public class SampleDataUtil {
     public static ReadOnlyProjectBook getSampleProjectBook() {
         ProjectBook sampleProjectBook = new ProjectBook();
         for (Project sampleProject : getSampleProjects()) {
-            sampleProjectBook.addProject(sampleProject);
+            sampleProjectBook.addTrackedItem(sampleProject);
         }
         return sampleProjectBook;
     }

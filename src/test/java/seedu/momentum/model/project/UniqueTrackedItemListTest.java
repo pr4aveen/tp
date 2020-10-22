@@ -21,227 +21,227 @@ import seedu.momentum.model.project.exceptions.ProjectNotFoundException;
 import seedu.momentum.testutil.ProjectBuilder;
 import seedu.momentum.testutil.TypicalProjectsOrders;
 
-public class UniqueProjectListTest {
+public class UniqueTrackedItemListTest {
 
-    private final UniqueProjectList uniqueProjectList = new UniqueProjectList();
+    private final UniqueTrackedItemList uniqueTrackedItemList = new UniqueTrackedItemList();
 
     @Test
     public void contains_nullProject_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueProjectList.contains(null));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.contains(null));
     }
 
     @Test
     public void contains_projectNotInList_returnsFalse() {
-        assertFalse(uniqueProjectList.contains(ALICE));
+        assertFalse(uniqueTrackedItemList.contains(ALICE));
     }
 
     @Test
     public void contains_projectInList_returnsTrue() {
-        uniqueProjectList.add(ALICE);
-        assertTrue(uniqueProjectList.contains(ALICE));
+        uniqueTrackedItemList.add(ALICE);
+        assertTrue(uniqueTrackedItemList.contains(ALICE));
     }
 
     @Test
     public void contains_projectWithSameIdentityFieldsInList_returnsTrue() {
-        uniqueProjectList.add(ALICE);
+        uniqueTrackedItemList.add(ALICE);
         Project editedAlice = new ProjectBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(uniqueProjectList.contains(editedAlice));
+        assertTrue(uniqueTrackedItemList.contains(editedAlice));
     }
 
     @Test
     public void add_nullProject_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueProjectList.add(null));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.add(null));
     }
 
     @Test
     public void add_duplicateProject_throwsDuplicateProjectException() {
-        uniqueProjectList.add(ALICE);
-        assertThrows(DuplicateProjectException.class, () -> uniqueProjectList.add(ALICE));
+        uniqueTrackedItemList.add(ALICE);
+        assertThrows(DuplicateProjectException.class, () -> uniqueTrackedItemList.add(ALICE));
     }
 
     @Test
     public void setProject_nullTargetProject_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueProjectList.setProject(null, ALICE));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setProject(null, ALICE));
     }
 
     @Test
     public void setProject_nullEditedProject_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueProjectList.setProject(ALICE, null));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setProject(ALICE, null));
     }
 
     @Test
     public void setProject_targetProjectNotInList_throwsProjectNotFoundException() {
-        assertThrows(ProjectNotFoundException.class, () -> uniqueProjectList.setProject(ALICE, ALICE));
+        assertThrows(ProjectNotFoundException.class, () -> uniqueTrackedItemList.setProject(ALICE, ALICE));
     }
 
     @Test
     public void setProject_editedProjectIsSameProject_success() {
-        uniqueProjectList.add(ALICE);
-        uniqueProjectList.setProject(ALICE, ALICE);
-        UniqueProjectList expectedUniqueProjectList = new UniqueProjectList();
-        expectedUniqueProjectList.add(ALICE);
-        assertEquals(expectedUniqueProjectList, uniqueProjectList);
+        uniqueTrackedItemList.add(ALICE);
+        uniqueTrackedItemList.setProject(ALICE, ALICE);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = new UniqueTrackedItemList();
+        expectedUniqueTrackedItemList.add(ALICE);
+        assertEquals(expectedUniqueTrackedItemList, uniqueTrackedItemList);
     }
 
     @Test
     public void setProject_editedProjectHasSameIdentity_success() {
-        uniqueProjectList.add(ALICE);
+        uniqueTrackedItemList.add(ALICE);
         Project editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_DESCRIPTION_BOB)
                 .withTags(VALID_TAG_HUSBAND).build();
-        uniqueProjectList.setProject(ALICE, editedAlice);
-        UniqueProjectList expectedUniqueProjectList = new UniqueProjectList();
-        expectedUniqueProjectList.add(editedAlice);
-        assertEquals(expectedUniqueProjectList, uniqueProjectList);
+        uniqueTrackedItemList.setProject(ALICE, editedAlice);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = new UniqueTrackedItemList();
+        expectedUniqueTrackedItemList.add(editedAlice);
+        assertEquals(expectedUniqueTrackedItemList, uniqueTrackedItemList);
     }
 
     @Test
     public void setProject_editedProjectHasDifferentIdentity_success() {
-        uniqueProjectList.add(ALICE);
-        uniqueProjectList.setProject(ALICE, BOB);
-        UniqueProjectList expectedUniqueProjectList = new UniqueProjectList();
-        expectedUniqueProjectList.add(BOB);
-        assertEquals(expectedUniqueProjectList, uniqueProjectList);
+        uniqueTrackedItemList.add(ALICE);
+        uniqueTrackedItemList.setProject(ALICE, BOB);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = new UniqueTrackedItemList();
+        expectedUniqueTrackedItemList.add(BOB);
+        assertEquals(expectedUniqueTrackedItemList, uniqueTrackedItemList);
     }
 
     @Test
     public void setProject_editedProjectHasNonUniqueIdentity_throwsDuplicateProjectException() {
-        uniqueProjectList.add(ALICE);
-        uniqueProjectList.add(BOB);
-        assertThrows(DuplicateProjectException.class, () -> uniqueProjectList.setProject(ALICE, BOB));
+        uniqueTrackedItemList.add(ALICE);
+        uniqueTrackedItemList.add(BOB);
+        assertThrows(DuplicateProjectException.class, () -> uniqueTrackedItemList.setProject(ALICE, BOB));
     }
 
     @Test
     public void remove_nullProject_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueProjectList.remove(null));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.remove(null));
     }
 
     @Test
     public void remove_projectDoesNotExist_throwsProjectNotFoundException() {
-        assertThrows(ProjectNotFoundException.class, () -> uniqueProjectList.remove(ALICE));
+        assertThrows(ProjectNotFoundException.class, () -> uniqueTrackedItemList.remove(ALICE));
     }
 
     @Test
     public void remove_existingProject_removesProject() {
-        uniqueProjectList.add(ALICE);
-        uniqueProjectList.remove(ALICE);
-        UniqueProjectList expectedUniqueProjectList = new UniqueProjectList();
-        assertEquals(expectedUniqueProjectList, uniqueProjectList);
+        uniqueTrackedItemList.add(ALICE);
+        uniqueTrackedItemList.remove(ALICE);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = new UniqueTrackedItemList();
+        assertEquals(expectedUniqueTrackedItemList, uniqueTrackedItemList);
     }
 
     @Test
     public void setProjects_nullUniqueProjectList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueProjectList.setProjects((UniqueProjectList) null));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setTrackedItems((UniqueTrackedItemList) null));
     }
 
     @Test
     public void setProjects_uniqueProjectList_replacesOwnListWithProvidedUniqueProjectList() {
-        uniqueProjectList.add(ALICE);
-        UniqueProjectList expectedUniqueProjectList = new UniqueProjectList();
-        expectedUniqueProjectList.add(BOB);
-        uniqueProjectList.setProjects(expectedUniqueProjectList);
-        assertEquals(expectedUniqueProjectList, uniqueProjectList);
+        uniqueTrackedItemList.add(ALICE);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = new UniqueTrackedItemList();
+        expectedUniqueTrackedItemList.add(BOB);
+        uniqueTrackedItemList.setTrackedItems(expectedUniqueTrackedItemList);
+        assertEquals(expectedUniqueTrackedItemList, uniqueTrackedItemList);
     }
 
     @Test
     public void setProjects_nullList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueProjectList.setProjects((List<Project>) null));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setTrackedItems((List<Project>) null));
     }
 
     @Test
     public void setProjects_list_replacesOwnListWithProvidedList() {
-        uniqueProjectList.add(ALICE);
+        uniqueTrackedItemList.add(ALICE);
         List<Project> projectList = Collections.singletonList(BOB);
-        uniqueProjectList.setProjects(projectList);
-        UniqueProjectList expectedUniqueProjectList = new UniqueProjectList();
-        expectedUniqueProjectList.add(BOB);
-        assertEquals(expectedUniqueProjectList, uniqueProjectList);
+        uniqueTrackedItemList.setTrackedItems(projectList);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = new UniqueTrackedItemList();
+        expectedUniqueTrackedItemList.add(BOB);
+        assertEquals(expectedUniqueTrackedItemList, uniqueTrackedItemList);
     }
 
     @Test
     public void setProjects_listWithDuplicateProjects_throwsDuplicateProjectException() {
         List<Project> listWithDuplicateProjects = Arrays.asList(ALICE, ALICE);
-        assertThrows(DuplicateProjectException.class, () -> uniqueProjectList.setProjects(listWithDuplicateProjects));
+        assertThrows(DuplicateProjectException.class, () -> uniqueTrackedItemList.setTrackedItems(listWithDuplicateProjects));
     }
 
     @Test
     public void setOrder_nullSortType_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueProjectList.setOrder(null, true));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setOrder(null, true));
     }
 
     @Test
     public void setOrder_alphabeticalAscendingSortType_sortsListAlphabeticallyAscending() {
         for (Project p : getTypicalProjects()) {
-            uniqueProjectList.add(p);
+            uniqueTrackedItemList.add(p);
         }
-        uniqueProjectList.setOrder(SortType.ALPHA, true);
-        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+        uniqueTrackedItemList.setOrder(SortType.ALPHA, true);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalAscending());
-        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+        assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);
 
     }
 
     @Test
     public void setOrder_alphabeticalDescendingSortType_sortsListAlphabeticallyDescending() {
         for (Project p : getTypicalProjects()) {
-            uniqueProjectList.add(p);
+            uniqueTrackedItemList.add(p);
         }
-        uniqueProjectList.setOrder(SortType.ALPHA, false);
-        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+        uniqueTrackedItemList.setOrder(SortType.ALPHA, false);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalDescending());
-        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+        assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);
 
     }
 
     @Test
     public void setOrder_deadlineAscendingSortType_sortsListDeadlineAscending() {
         for (Project p : getTypicalProjects()) {
-            uniqueProjectList.add(p);
+            uniqueTrackedItemList.add(p);
         }
-        uniqueProjectList.setOrder(SortType.DEADLINE, true);
-        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+        uniqueTrackedItemList.setOrder(SortType.DEADLINE, true);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByDeadlineAscending());
-        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+        assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);
 
     }
 
     @Test
     public void setOrder_deadlineDescendingSortType_sortsListDeadlineDescending() {
         for (Project p : getTypicalProjects()) {
-            uniqueProjectList.add(p);
+            uniqueTrackedItemList.add(p);
         }
-        uniqueProjectList.setOrder(SortType.DEADLINE, false);
-        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+        uniqueTrackedItemList.setOrder(SortType.DEADLINE, false);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByDeadlineDescending());
-        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+        assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);
 
     }
 
     @Test
     public void setOrder_createdDateAscendingSortType_sortsListCreatedDateAscending() {
         for (Project p : getTypicalProjects()) {
-            uniqueProjectList.add(p);
+            uniqueTrackedItemList.add(p);
         }
-        uniqueProjectList.setOrder(SortType.CREATED, true);
-        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+        uniqueTrackedItemList.setOrder(SortType.CREATED, true);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByCreatedDateAscending());
-        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+        assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);
     }
 
     @Test
     public void setOrder_createdDateDescendingSortType_sortsListCreatedDateDescending() {
         for (Project p : getTypicalProjects()) {
-            uniqueProjectList.add(p);
+            uniqueTrackedItemList.add(p);
         }
-        uniqueProjectList.setOrder(SortType.CREATED, false);
-        UniqueProjectList expectedUniqueProjectList = TypicalProjectsOrders
+        uniqueTrackedItemList.setOrder(SortType.CREATED, false);
+        UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByCreatedDateDescending());
-        assertEquals(uniqueProjectList, expectedUniqueProjectList);
+        assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);
 
     }
 
     @Test
     public void asUnmodifiableObservableList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, ()
-            -> uniqueProjectList.asUnmodifiableObservableList().remove(0));
+            -> uniqueTrackedItemList.asUnmodifiableObservableList().remove(0));
     }
 }
