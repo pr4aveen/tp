@@ -57,10 +57,10 @@ public class EditCommand extends Command {
     private final Project parentProject;
 
     /**
-     * Create a EditCOmmand that edits a project.
+     * Create a EditCommand that edits a project.
      *
-     * @param index of the project in the filtered project list to edit
-     * @param editTrackedItemDescriptor details to edit the project with
+     * @param index of the project in the filtered project list to edit.
+     * @param editTrackedItemDescriptor details to edit the project with.
      */
     public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor) {
         requireNonNull(index);
@@ -74,8 +74,8 @@ public class EditCommand extends Command {
     /**
      * Create a EditCommand that edits a task.
      *
-     * @param index of the project in the filtered project list to edit
-     * @param editTrackedItemDescriptor details to edit the project with
+     * @param index of the project in the filtered project list to edit.
+     * @param editTrackedItemDescriptor details to edit the project with.
      * @param parentProject The parent project of the task to edit.
      */
     public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor, Project parentProject) {
@@ -116,7 +116,6 @@ public class EditCommand extends Command {
     /**
      * Creates and returns a {@code Project} with the details of {@code projectToEdit}
      * edited with {@code editTrackedItemDescriptor}.
-     * @return
      */
     private static TrackedItem createEditedTrackedItem(TrackedItem trackedItemToEdit,
                                                        EditTrackedItemDescriptor editTrackedItemDescriptor,

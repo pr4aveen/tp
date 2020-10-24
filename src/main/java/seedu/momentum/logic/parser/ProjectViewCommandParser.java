@@ -15,6 +15,7 @@ public class ProjectViewCommandParser implements Parser<ProjectViewCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the ProjectViewCommand
      * and returns a ProjectViewCommand object for execution.
+     *
      * @throws ParseException if the user input does not conform the expected format
      */
     public ProjectViewCommand parse(String args, Model model) throws ParseException {

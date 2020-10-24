@@ -32,6 +32,7 @@ public class StartCommand extends Command {
 
     /**
      * Creates a StartCommand that starts the timer for a project.
+     *
      * @param targetIndex The project to start.
      */
     public StartCommand(Index targetIndex) {
@@ -40,7 +41,8 @@ public class StartCommand extends Command {
     }
 
     /**
-     * Creates a StartCOmmand that starts the timer for a task.
+     * Creates a StartCommand that starts the timer for a task.
+     *
      * @param targetIndex The task to start.
      * @param parentProject The parent project of the task.
      */

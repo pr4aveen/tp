@@ -95,7 +95,7 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
 
     /**
      * Replaces the contents of this list with {@code trackedItems}.
-     * {@code projects} must not contain duplicate projects.
+     * {@code trackedItems} must not contain duplicate tracked items.
      */
     public void setTrackedItems(List<TrackedItem> trackedItems) {
         requireAllNonNull(trackedItems);

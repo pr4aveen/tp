@@ -33,6 +33,7 @@ public class StopCommand extends Command {
 
     /**
      * Creates a StopCommand that stops the timer for a project.
+     *
      * @param targetIndex The project to stop.
      */
     public StopCommand(Index targetIndex) {
@@ -42,6 +43,7 @@ public class StopCommand extends Command {
 
     /**
      * Creates a StartCommand that stops the timer for a task.
+     *
      * @param targetIndex The task to stop.
      * @param parentProject The parent Project of the task.
      */

@@ -8,7 +8,7 @@ import seedu.momentum.model.project.TrackedItem;
 public class NameCompare implements Comparator<TrackedItem> {
 
     /**
-     * Compares name of two tracked item.
+     * Compares name of two tracked items.
      *
      * @param t1 first tracked item to compare.
      * @param t2 second tracked item to compare.

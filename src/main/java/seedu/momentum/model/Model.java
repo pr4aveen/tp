@@ -80,12 +80,10 @@ public interface Model {
      */
     void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem);
 
-    /** Returns an unmodifiable view of the filtered project list
-     */
+    /** Returns an unmodifiable view of the filtered project list */
     ObservableList<TrackedItem> getFilteredTrackedItemList();
 
-    /** Returns a list of projects whose timers are running
-     */
+    /** Returns a list of projects whose timers are running */
     ObservableList<TrackedItem> getRunningTimers();
 
     /**
@@ -99,7 +97,8 @@ public interface Model {
     /**
      * Removes the given project from the running timers list.
      * {@code project} must have a running timer.
-     * @param trackedItem
+     *
+     * @param trackedItem item to remove timer from.
      */
     void removeRunningTimer(TrackedItem trackedItem);
 

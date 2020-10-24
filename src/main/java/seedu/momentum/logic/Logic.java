@@ -33,12 +33,12 @@ public interface Logic {
     ReadOnlyProjectBook getProjectBook();
 
     /**
-     * Returns an unmodifiable view of the filtered list of tracked items
+     * Returns an unmodifiable view of the filtered list of tracked items.
      */
     ObservableList<TrackedItem> getFilteredTrackedItemList();
 
     /**
-     * Returns a list of projects whose timers are running
+     * Returns a list of projects whose timers are running.
      */
     ObservableList<TrackedItem> getRunningTimers();
 

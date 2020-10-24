@@ -6,12 +6,12 @@ import seedu.momentum.commons.core.Date;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
- * Compares date created of two projects.
+ * Compares date created of two tracked items.
  */
 public class CreatedDateCompare implements Comparator<TrackedItem> {
 
     /**
-     * Compares the date created of two tracked item.
+     * Compares the date created of two tracked items.
      *
      * @param t1 first tracked item to compare.
      * @param t2 second tracked item to compare.
