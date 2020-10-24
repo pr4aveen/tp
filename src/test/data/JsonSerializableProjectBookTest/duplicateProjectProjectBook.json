@@ -2,11 +2,13 @@
   "projects": [ {
     "name": "Alice Pauline",
     "description": "Likes coding",
+    "completionStatus": false,
     "createdDate": "2000-11-05",
     "tagged": [ "friends" ]
   }, {
     "name": "Alice Pauline",
     "description": "Likes coding",
+    "completionStatus": false,
     "createdDate": "2000-11-05"
   } ]
 }

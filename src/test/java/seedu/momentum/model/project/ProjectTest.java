@@ -2,6 +2,7 @@ package seedu.momentum.model.project;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_COMPLETION_STATUS_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_DATE_AMY;
@@ -34,12 +35,16 @@ public class ProjectTest {
         // null -> returns false
         assertFalse(ALICE.isSameTrackedItem(null));
 
-        // different description -> returns false
-        Project editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_DESCRIPTION_BOB).build();
+        // different name -> returns false
+        Project editedAlice = new ProjectBuilder(ALICE).withName(VALID_NAME_BOB).build();
         assertFalse(ALICE.isSameTrackedItem(editedAlice));
 
-        // different name -> returns false
-        editedAlice = new ProjectBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        // different description -> returns false
+        editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_DESCRIPTION_BOB).build();
+        assertFalse(ALICE.isSameTrackedItem(editedAlice));
+
+        // different completion status -> returns false
+        editedAlice = new ProjectBuilder(ALICE).withCompletionStatus(VALID_COMPLETION_STATUS_BOB).build();
         assertFalse(ALICE.isSameTrackedItem(editedAlice));
 
         // different created date -> returns false
@@ -93,6 +98,10 @@ public class ProjectTest {
 
         // different description -> returns false
         editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_DESCRIPTION_BOB).build();
+        assertFalse(ALICE.equals(editedAlice));
+
+        // different completion status -> returns false
+        editedAlice = new ProjectBuilder(ALICE).withCompletionStatus(VALID_COMPLETION_STATUS_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different created date -> returns false

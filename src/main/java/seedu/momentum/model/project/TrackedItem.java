@@ -26,6 +26,7 @@ public abstract class TrackedItem {
 
     // data fields
     protected final Description description;
+    protected final CompletionStatus completionStatus;
     protected final Date createdDate;
     protected final Deadline deadline;
     protected final Set<Tag> tags = new HashSet<>();
@@ -35,19 +36,21 @@ public abstract class TrackedItem {
     /**
      * Constructs a {@code TrackedItem}.
      *
-     * @param name A valid name.
-     * @param description A description of the tracked item.
-     * @param createdDate A date associated with the creation of the tracked item.
-     * @param deadline A deadline associated with the tracked item.
-     * @param tags A set of tags associated to the tracked item.
-     * @param durations A list of {@code WorkDuration} associated with the tracked item.
-     * @param timer A timer associated with the tracked item.
+     * @param name             A valid name.
+     * @param description      A description of the tracked item.
+     * @param completionStatus A completion status of the tracked item.
+     * @param createdDate      A date associated with the creation of the tracked item.
+     * @param deadline         A deadline associated with the tracked item.
+     * @param tags             A set of tags associated to the tracked item.
+     * @param durations        A list of {@code WorkDuration} associated with the tracked item.
+     * @param timer            A timer associated with the tracked item.
      */
-    public TrackedItem(Name name, Description description, Date createdDate, Deadline deadline, Set<Tag> tags,
-                   UniqueDurationList durations, Timer timer) {
+    public TrackedItem(Name name, Description description, CompletionStatus completionStatus, Date createdDate,
+                       Deadline deadline, Set<Tag> tags, UniqueDurationList durations, Timer timer) {
         requireAllNonNull(name, tags);
         this.name = name;
         this.description = description;
+        this.completionStatus = completionStatus;
         this.createdDate = createdDate;
         this.deadline = deadline;
         this.tags.addAll(tags);
@@ -58,16 +61,19 @@ public abstract class TrackedItem {
     /**
      * Constructs a new {@code TrackedItem}
      *
-     * @param name A valid name.
-     * @param createdDate A date associated with the creation of the tracked item
-     * @param deadline A deadline associated with the tracked item.
-     * @param description A description of the tracked item.
-     * @param tags A set of tags associated to the tracked item.
+     * @param name             A valid name.
+     * @param completionStatus A completion status of the tracked item.
+     * @param createdDate      A date associated with the creation of the tracked item
+     * @param deadline         A deadline associated with the tracked item.
+     * @param description      A description of the tracked item.
+     * @param tags             A set of tags associated to the tracked item.
      */
-    public TrackedItem(Name name, Description description, Date createdDate, Deadline deadline, Set<Tag> tags) {
+    public TrackedItem(Name name, Description description, CompletionStatus completionStatus, Date createdDate,
+                       Deadline deadline, Set<Tag> tags) {
         requireAllNonNull(name, tags);
         this.name = name;
         this.description = description;
+        this.completionStatus = completionStatus;
         this.createdDate = createdDate;
         this.deadline = deadline;
         this.tags.addAll(tags);
@@ -81,6 +87,10 @@ public abstract class TrackedItem {
 
     public Description getDescription() {
         return description;
+    }
+
+    public CompletionStatus getCompletionStatus() {
+        return completionStatus;
     }
 
     public Date getCreatedDate() {
@@ -161,6 +171,7 @@ public abstract class TrackedItem {
         return otherTrackedItem != null
                 && otherTrackedItem.getName().equals(getName())
                 && otherTrackedItem.getDescription().equals(getDescription())
+                && otherTrackedItem.getCompletionStatus().equals(getCompletionStatus())
                 && otherTrackedItem.getCreatedDate().equals(getCreatedDate())
                 && otherTrackedItem.getDeadline().equals(getDeadline());
     }
@@ -186,17 +197,18 @@ public abstract class TrackedItem {
 
         TrackedItem otherTrackedItem = (TrackedItem) other;
         return otherTrackedItem.getName().equals(getName())
-                && otherTrackedItem.getTags().equals(getTags())
-                && otherTrackedItem.getDurationList().equals(getDurationList())
                 && otherTrackedItem.getDescription().equals(getDescription())
+                && otherTrackedItem.getCompletionStatus().equals(getCompletionStatus())
                 && otherTrackedItem.getCreatedDate().equals(getCreatedDate())
-                && otherTrackedItem.getDeadline().equals(getDeadline());
+                && otherTrackedItem.getDeadline().equals(getDeadline())
+                && otherTrackedItem.getTags().equals(getTags())
+                && otherTrackedItem.getDurationList().equals(getDurationList());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, description, createdDate, deadline, tags, durations, timer);
+        return Objects.hash(name, description, completionStatus, createdDate, deadline, tags, durations, timer);
     }
 
     @Override
@@ -205,6 +217,8 @@ public abstract class TrackedItem {
         builder.append(getName())
                 .append(" Description: ")
                 .append(getDescription())
+                .append("Completion Status:")
+                .append(getCompletionStatus())
                 .append(" Created Date: ")
                 .append(getCreatedDate())
                 .append(" Deadline: ")

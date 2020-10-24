@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import seedu.momentum.commons.core.Date;
 import seedu.momentum.logic.commands.EditCommand;
+import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
@@ -33,6 +34,7 @@ public class EditTrackedItemDescriptorBuilder {
     public EditTrackedItemDescriptorBuilder(TrackedItem trackedItem) {
         descriptor = new EditCommand.EditTrackedItemDescriptor();
         descriptor.setName(trackedItem.getName());
+        descriptor.setCompletionStatus(trackedItem.getCompletionStatus());
         descriptor.setDescription(trackedItem.getDescription());
         descriptor.setDeadline(trackedItem.getDeadline());
         descriptor.setTags(trackedItem.getTags());
@@ -51,6 +53,14 @@ public class EditTrackedItemDescriptorBuilder {
      */
     public EditTrackedItemDescriptorBuilder withDescription(String description) {
         descriptor.setDescription(new Description(description));
+        return this;
+    }
+
+    /**
+     * Sets the {@code CompletionStatus} of the {@code EditTrackedItemDescriptor} that we are building.
+     */
+    public EditTrackedItemDescriptorBuilder withCompletionStatus(CompletionStatus completionStatus) {
+        descriptor.setCompletionStatus(completionStatus);
         return this;
     }
 

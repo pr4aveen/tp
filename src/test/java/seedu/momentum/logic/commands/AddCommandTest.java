@@ -142,7 +142,8 @@ public class AddCommandTest {
         }
 
         @Override
-        public void orderFilteredProjectList(SortType sortType, boolean isAscending) {
+        public void orderFilteredProjectList(SortType sortType, boolean isAscending,
+                                             boolean isSortedByCompletionStatus) {
             throw new AssertionError("This method should not be called.");
         }
 

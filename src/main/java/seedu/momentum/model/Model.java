@@ -114,7 +114,7 @@ public interface Model {
      *
      * @throws NullPointerException if {@code sortType} is null.
      */
-    void orderFilteredProjectList(SortType sortType, boolean isAscending);
+    void orderFilteredProjectList(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus);
 
     void viewProjects();
 

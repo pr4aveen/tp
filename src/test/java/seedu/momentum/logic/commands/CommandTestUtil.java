@@ -2,6 +2,7 @@ package seedu.momentum.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
@@ -20,6 +21,7 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
+import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
@@ -34,6 +36,8 @@ public class CommandTestUtil {
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_DESCRIPTION_AMY = "Loves coffee";
     public static final String VALID_DESCRIPTION_BOB = "Hates coffee";
+    public static final CompletionStatus VALID_COMPLETION_STATUS_AMY = new CompletionStatus();
+    public static final CompletionStatus VALID_COMPLETION_STATUS_BOB = new CompletionStatus().reverse();
     public static final String VALID_CREATED_DATE_AMY = "2019-12-02";
     public static final String VALID_CREATED_DATE_BOB = "2019-10-02";
     public static final String VALID_DEADLINE_DATE_AMY = "2030-12-02";
@@ -46,6 +50,7 @@ public class CommandTestUtil {
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
     public static final String DESCRIPTION_DESC_AMY = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_AMY;
     public static final String DESCRIPTION_DESC_BOB = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_BOB;
+    public static final String COMPLETION_STATUS_DESC_BOB = " " + PREFIX_COMPLETION_STATUS;
     public static final String DEADLINE_DATE_DESC_AMY = " " + PREFIX_DEADLINE_DATE + VALID_DEADLINE_DATE_AMY;
     public static final String DEADLINE_DATE_DESC_BOB = " " + PREFIX_DEADLINE_DATE + VALID_DEADLINE_DATE_BOB;
     public static final String DEADLINE_TIME_DESC_AMY = " " + PREFIX_DEADLINE_TIME + VALID_DEADLINE_TIME_AMY;
@@ -63,7 +68,8 @@ public class CommandTestUtil {
     public static final String VALID_DESCENDING_SORT_ORDER = " " + SORT_ORDER + "dsc";
     public static final String VALID_ALPHA_SORT_TYPE = " " + SORT_TYPE + "alpha";
     public static final String VALID_DEADLINE_SORT_TYPE = " " + SORT_TYPE + "deadline";
-    public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + "created";
+    public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + "created"
+            + " " + PREFIX_COMPLETION_STATUS;
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
@@ -79,6 +85,7 @@ public class CommandTestUtil {
                 .build();
         DESC_BOB = new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withDescription(VALID_DESCRIPTION_BOB)
+                .withCompletionStatus(VALID_COMPLETION_STATUS_BOB)
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
                 .build();

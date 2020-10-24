@@ -24,6 +24,7 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.UserPrefs;
+import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.EditTrackedItemDescriptorBuilder;
@@ -38,7 +39,7 @@ public class EditCommandTest {
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
-        Project editedProject = new ProjectBuilder().build();
+        Project editedProject = new ProjectBuilder().withCompletionStatus(CompletionStatus.COMPLETED).build();
         EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(editedProject).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PROJECT, descriptor);
 

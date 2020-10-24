@@ -30,7 +30,8 @@ public class ModelManager implements Model {
     private final ObservableList<TrackedItem> runningTimers;
     private Predicate<TrackedItem> currentPredicate;
     private SortType currentSortType;
-    private boolean currentSortIsAscending;
+    private boolean isCurrentSortAscending;
+    private boolean isCurrentSortIsByCompletionStatus;
     private ViewMode viewMode;
     private Project currentProject;
     private ObservableList<TrackedItem> viewList;
@@ -49,7 +50,8 @@ public class ModelManager implements Model {
 
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         currentSortType = SortType.ALPHA;
-        currentSortIsAscending = true;
+        isCurrentSortAscending = true;
+        isCurrentSortIsByCompletionStatus = true;
         viewMode = ViewMode.PROJECTS;
 
         this.viewList = FXCollections.observableArrayList();
@@ -140,7 +142,7 @@ public class ModelManager implements Model {
     @Override
     public void addTrackedItem(TrackedItem trackedItem) {
         projectBook.addTrackedItem(trackedItem);
-        orderFilteredProjectList(currentSortType, currentSortIsAscending);
+        orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
         updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
@@ -171,11 +173,12 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void orderFilteredProjectList(SortType orderType, boolean isAscending) {
-        requireAllNonNull(orderType, isAscending);
-        currentSortIsAscending = isAscending;
+    public void orderFilteredProjectList(SortType orderType, boolean isAscending, boolean isSortedByCompletionStatus) {
+        requireAllNonNull(orderType, isAscending, isSortedByCompletionStatus);
+        isCurrentSortAscending = isAscending;
+        isCurrentSortIsByCompletionStatus = isSortedByCompletionStatus;
         currentSortType = orderType;
-        projectBook.setOrder(orderType, isAscending);
+        projectBook.setOrder(orderType, isAscending, isSortedByCompletionStatus);
         updateFilteredProjectList(currentPredicate);
     }
 

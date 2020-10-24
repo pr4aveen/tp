@@ -26,6 +26,7 @@ public class JsonAdaptedProjectTest {
 
     private static final String VALID_NAME = BENSON.getName().toString();
     private static final String VALID_DESCRIPTION = BENSON.getDescription().toString();
+    private static final boolean VALID_COMPLETION_STATUS = BENSON.getCompletionStatus().isCompleted();
     private static final String VALID_CREATED_DATE = BENSON.getCreatedDate().toString();
     private static final JsonAdaptedDeadline VALID_DEADLINE = new JsonAdaptedDeadline(BENSON.getDeadline());
     private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
@@ -43,24 +44,24 @@ public class JsonAdaptedProjectTest {
 
     @Test
     public void toModelType_invalidName_throwsIllegalValueException() {
-        JsonAdaptedProject project = new JsonAdaptedProject(INVALID_NAME, VALID_DESCRIPTION, VALID_CREATED_DATE,
-                VALID_DEADLINE, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);
+        JsonAdaptedProject project = new JsonAdaptedProject(INVALID_NAME, VALID_DESCRIPTION, VALID_COMPLETION_STATUS,
+                VALID_CREATED_DATE, VALID_DEADLINE, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);
         String expectedMessage = Name.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, project::toModelType);
     }
 
     @Test
     public void toModelType_nullName_throwsIllegalValueException() {
-        JsonAdaptedProject project = new JsonAdaptedProject(null, VALID_DESCRIPTION, VALID_CREATED_DATE,
-                VALID_DEADLINE, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);
+        JsonAdaptedProject project = new JsonAdaptedProject(null, VALID_DESCRIPTION, VALID_COMPLETION_STATUS,
+                VALID_CREATED_DATE, VALID_DEADLINE, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, project::toModelType);
     }
 
     @Test
     public void toModelType_invalidCreatedDate_throwsIllegalValueException() {
-        JsonAdaptedProject project = new JsonAdaptedProject(VALID_NAME, VALID_DESCRIPTION, INVALID_CREATED_DATE,
-                VALID_DEADLINE, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);
+        JsonAdaptedProject project = new JsonAdaptedProject(VALID_NAME, VALID_DESCRIPTION, VALID_COMPLETION_STATUS,
+                INVALID_CREATED_DATE, VALID_DEADLINE, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);
         String expectedMessage = Date.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, project::toModelType);
     }
@@ -69,8 +70,8 @@ public class JsonAdaptedProjectTest {
     public void toModelType_invalidDeadline_throwsIllegalValueException() {
         JsonAdaptedDeadline invalidJsonAdaptedDeadline =
                 new JsonAdaptedDeadline(INVALID_DEADLINE_DATE, INVALID_DEADLINE_TIME);
-        JsonAdaptedProject project = new JsonAdaptedProject(VALID_NAME, VALID_DESCRIPTION, INVALID_CREATED_DATE,
-                invalidJsonAdaptedDeadline, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);
+        JsonAdaptedProject project = new JsonAdaptedProject(VALID_NAME, VALID_DESCRIPTION, VALID_COMPLETION_STATUS,
+                INVALID_CREATED_DATE, invalidJsonAdaptedDeadline, VALID_TAGS, VALID_DURATIONS, VALID_TIMER);
         String expectedMessage = Date.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, project::toModelType);
     }
@@ -80,8 +81,8 @@ public class JsonAdaptedProjectTest {
     public void toModelType_invalidTags_throwsIllegalValueException() {
         List<JsonAdaptedTag> invalidTags = new ArrayList<>(VALID_TAGS);
         invalidTags.add(new JsonAdaptedTag(INVALID_TAG));
-        JsonAdaptedProject project = new JsonAdaptedProject(VALID_NAME, VALID_DESCRIPTION, VALID_CREATED_DATE,
-                VALID_DEADLINE, invalidTags, VALID_DURATIONS, VALID_TIMER);
+        JsonAdaptedProject project = new JsonAdaptedProject(VALID_NAME, VALID_DESCRIPTION, VALID_COMPLETION_STATUS,
+                VALID_CREATED_DATE, VALID_DEADLINE, invalidTags, VALID_DURATIONS, VALID_TIMER);
         assertThrows(IllegalValueException.class, project::toModelType);
     }
 
@@ -89,8 +90,8 @@ public class JsonAdaptedProjectTest {
     public void toModelType_invalidDurations_throwsIllegalValueException() {
         List<JsonAdaptedWorkDuration> invalidDurations = new ArrayList<>(VALID_DURATIONS);
         invalidDurations.add(new JsonAdaptedWorkDuration(INVALID_START_TIME, INVALID_STOP_TIME));
-        JsonAdaptedProject project = new JsonAdaptedProject(VALID_NAME, VALID_DESCRIPTION, VALID_CREATED_DATE,
-                VALID_DEADLINE, VALID_TAGS, invalidDurations, VALID_TIMER);
+        JsonAdaptedProject project = new JsonAdaptedProject(VALID_NAME, VALID_DESCRIPTION, VALID_COMPLETION_STATUS,
+                VALID_CREATED_DATE, VALID_DEADLINE, VALID_TAGS, invalidDurations, VALID_TIMER);
         assertThrows(IllegalValueException.class, project::toModelType);
     }
 }

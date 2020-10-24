@@ -67,10 +67,11 @@ public class ProjectBook implements ReadOnlyProjectBook {
      *
      * @param sortType type of sort.
      * @param isAscending order of sort.
+     * @param isSortedByCompletionStatus sorted by completion status.
      */
-    public void setOrder(SortType sortType, boolean isAscending) {
+    public void setOrder(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
         requireNonNull(sortType);
-        trackedItems.setOrder(sortType, isAscending);
+        trackedItems.setOrder(sortType, isAscending, isSortedByCompletionStatus);
     }
 
     //// project-level operations

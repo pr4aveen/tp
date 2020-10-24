@@ -1,6 +1,7 @@
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
@@ -21,6 +22,7 @@ import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ViewMode;
+import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
@@ -44,6 +46,7 @@ public class EditCommand extends Command {
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
+            + "[" + PREFIX_COMPLETION_STATUS + "] "
             + String.format("[%sDEADLINE_DATE [%sDEADLINE_TIME] ] ", PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME)
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 ";
@@ -59,7 +62,7 @@ public class EditCommand extends Command {
     /**
      * Create a EditCommand that edits a project.
      *
-     * @param index of the project in the filtered project list to edit.
+     * @param index                     of the project in the filtered project list to edit.
      * @param editTrackedItemDescriptor details to edit the project with.
      */
     public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor) {
@@ -74,9 +77,9 @@ public class EditCommand extends Command {
     /**
      * Create a EditCommand that edits a task.
      *
-     * @param index of the project in the filtered project list to edit.
+     * @param index                     of the project in the filtered project list to edit.
      * @param editTrackedItemDescriptor details to edit the project with.
-     * @param parentProject The parent project of the task to edit.
+     * @param parentProject             The parent project of the task to edit.
      */
     public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor, Project parentProject) {
         requireNonNull(index);
@@ -125,6 +128,10 @@ public class EditCommand extends Command {
         Name updatedName = editTrackedItemDescriptor.getName().orElse(trackedItemToEdit.getName());
         Description updatedDescription =
                 editTrackedItemDescriptor.getDescription().orElse(trackedItemToEdit.getDescription());
+        CompletionStatus updatedCompletionStatus = trackedItemToEdit.getCompletionStatus();
+        if (editTrackedItemDescriptor.getCompletionStatus().isPresent()) {
+            updatedCompletionStatus = updatedCompletionStatus.reverse();
+        }
         Date createdDate = trackedItemToEdit.getCreatedDate();
         Deadline updatedDeadline = editTrackedItemDescriptor.getDeadline().orElse(trackedItemToEdit.getDeadline());
         if (editTrackedItemDescriptor.getDeadline().isPresent()
@@ -142,11 +149,11 @@ public class EditCommand extends Command {
             UniqueTrackedItemList taskList = new UniqueTrackedItemList();
             taskList.setTrackedItems(projectToEdit.getTaskList());
 
-            return new Project(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags,
-                    durationList, trackedItemToEdit.getTimer(), taskList);
+            return new Project(updatedName, updatedDescription, updatedCompletionStatus, createdDate, updatedDeadline,
+                    updatedTags, durationList, trackedItemToEdit.getTimer(), taskList);
         } else {
-            return new Task(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags,
-                    durationList, trackedItemToEdit.getTimer());
+            return new Task(updatedName, updatedDescription, updatedCompletionStatus, createdDate, updatedDeadline,
+                    updatedTags, durationList, trackedItemToEdit.getTimer());
         }
     }
 
@@ -175,6 +182,7 @@ public class EditCommand extends Command {
     public static class EditTrackedItemDescriptor {
         private Name name;
         private Description description;
+        private CompletionStatus completionStatus;
         private Deadline deadline;
         private Set<Tag> tags;
 
@@ -188,6 +196,7 @@ public class EditCommand extends Command {
         public EditTrackedItemDescriptor(EditTrackedItemDescriptor toCopy) {
             setName(toCopy.name);
             setDescription(toCopy.description);
+            setCompletionStatus(toCopy.completionStatus);
             setDeadline(toCopy.deadline);
             setTags(toCopy.tags);
         }
@@ -196,7 +205,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, description, deadline, tags);
+            return CollectionUtil.isAnyNonNull(name, description, completionStatus, deadline, tags);
         }
 
         public void setName(Name name) {
@@ -213,6 +222,14 @@ public class EditCommand extends Command {
 
         public Optional<Description> getDescription() {
             return Optional.ofNullable(description);
+        }
+
+        public void setCompletionStatus(CompletionStatus completionStatus) {
+            this.completionStatus = completionStatus;
+        }
+
+        public Optional<CompletionStatus> getCompletionStatus() {
+            return Optional.ofNullable(completionStatus);
         }
 
         public void setDeadline(Deadline deadline) {
@@ -257,6 +274,7 @@ public class EditCommand extends Command {
 
             return getName().equals(e.getName())
                     && getDescription().equals(e.getDescription())
+                    && getCompletionStatus().equals(e.getCompletionStatus())
                     && getDeadline().equals(e.getDeadline())
                     && getTags().equals(e.getTags());
         }

@@ -2,6 +2,7 @@ package seedu.momentum.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
@@ -19,6 +20,7 @@ import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ViewMode;
+import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -33,9 +35,8 @@ public class EditCommandParser implements Parser<EditCommand> {
      */
     public EditCommand parse(String args, Model model) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_DEADLINE_DATE,
-                        PREFIX_DEADLINE_TIME, PREFIX_TAG);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION,
+                PREFIX_COMPLETION_STATUS, PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME, PREFIX_TAG);
 
         Index index;
 
@@ -46,13 +47,18 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         EditCommand.EditTrackedItemDescriptor editTrackedItemDescriptor = new EditCommand.EditTrackedItemDescriptor();
+
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
             editTrackedItemDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
 
         if (argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
             editTrackedItemDescriptor.setDescription(
-                ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).get()));
+                    ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).get()));
+        }
+
+        if (argMultimap.getValue(PREFIX_COMPLETION_STATUS).isPresent()) {
+            editTrackedItemDescriptor.setCompletionStatus(new CompletionStatus());
         }
 
         // use a default date to parse the deadline first

@@ -2,6 +2,7 @@ package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.momentum.logic.parser.CliSyntax.FIND_TYPE;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
@@ -18,6 +19,7 @@ import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
+import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
@@ -49,6 +51,11 @@ public class FindCommandParserTest {
 
         // prefixes (other than /match) missing
         assertParseFailure(parser, FIND_TYPE + "all",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+
+        // > 1 keyword for completion status
+        assertParseFailure(parser, String.format("%s %s %s %s %s", FIND_TYPE, "any", PREFIX_COMPLETION_STATUS,
+                CompletionStatusPredicate.COMPLETED_KEYWORD, CompletionStatusPredicate.INCOMPLETE_KEYWORD),
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
     }
 
