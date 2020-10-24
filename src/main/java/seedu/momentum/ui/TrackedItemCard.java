@@ -8,14 +8,14 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * An UI component that displays information of a {@code Project}.
  */
-public class ProjectCard extends UiPart<Region> {
+public class TrackedItemCard extends UiPart<Region> {
 
-    private static final String FXML = "ProjectListCard.fxml";
+    private static final String FXML = "TrackedItemListCard.fxml";
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
@@ -25,7 +25,7 @@ public class ProjectCard extends UiPart<Region> {
      * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
      */
 
-    private final Project project;
+    private final TrackedItem trackedItem;
 
     @FXML
     private HBox cardPane;
@@ -45,25 +45,25 @@ public class ProjectCard extends UiPart<Region> {
     /**
      * Creates a {@code ProjectCard} with the given {@code Project} and index to display.
      */
-    public ProjectCard(Project project, int displayedIndex) {
+    public TrackedItemCard(TrackedItem trackedItem, int displayedIndex) {
         super(FXML);
-        this.project = project;
+        this.trackedItem = trackedItem;
         id.setText(displayedIndex + ". ");
-        name.setText(project.getName().fullName);
+        name.setText(trackedItem.getName().fullName);
 
-        if (!project.getDescription().isEmpty()) {
-            Label descLabel = new Label(project.getDescription().value);
+        if (!trackedItem.getDescription().isEmpty()) {
+            Label descLabel = new Label(trackedItem.getDescription().value);
             descLabel.setWrapText(true);
             description.getChildren().add(descLabel);
         }
 
-        createdDate.getChildren().add(new Label("Created: " + project.getCreatedDate().getFormatted()));
+        createdDate.getChildren().add(new Label("Created: " + trackedItem.getCreatedDate().getFormatted()));
 
-        Label deadlineLabel = new Label("Due: " + project.getDeadline().getFormattedDeadline());
+        Label deadlineLabel = new Label("Due: " + trackedItem.getDeadline().getFormattedDeadline());
         setDeadlineStyle(deadlineLabel);
         deadline.getChildren().add(deadlineLabel);
 
-        project.getTags().stream()
+        trackedItem.getTags().stream()
             .sorted(Comparator.comparing(tag -> tag.tagName))
             .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
@@ -71,10 +71,10 @@ public class ProjectCard extends UiPart<Region> {
     private void setDeadlineStyle(Label deadline) {
         String style = "-fx-text-fill: ";
 
-        if (project.getDeadline().isEmpty()) {
+        if (trackedItem.getDeadline().isEmpty()) {
             style += "-fx-cool-gray-0";
         } else {
-            long daysToDeadline = project.getDeadline().daysToDeadline();
+            long daysToDeadline = trackedItem.getDeadline().daysToDeadline();
             if (daysToDeadline > 7) {
                 style += "-fx-green";
             } else if (daysToDeadline < 4) {
@@ -95,13 +95,13 @@ public class ProjectCard extends UiPart<Region> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof ProjectCard)) {
+        if (!(other instanceof TrackedItemCard)) {
             return false;
         }
 
         // state check
-        ProjectCard card = (ProjectCard) other;
+        TrackedItemCard card = (TrackedItemCard) other;
         return id.getText().equals(card.id.getText())
-                && project.equals(card.project);
+                && trackedItem.equals(card.trackedItem);
     }
 }

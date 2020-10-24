@@ -10,14 +10,15 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.testutil.EditProjectDescriptorBuilder;
+import seedu.momentum.testutil.EditTrackedItemDescriptorBuilder;
 
-public class EditProjectDescriptorTest {
+public class EditTrackedItemDescriptorTest {
 
     @Test
     public void equals() {
         // same values -> returns true
-        EditCommand.EditProjectDescriptor descriptorWithSameValues = new EditCommand.EditProjectDescriptor(DESC_AMY);
+        EditCommand.EditTrackedItemDescriptor descriptorWithSameValues =
+            new EditCommand.EditTrackedItemDescriptor(DESC_AMY);
         assertTrue(DESC_AMY.equals(descriptorWithSameValues));
 
         // same object -> returns true
@@ -33,16 +34,16 @@ public class EditProjectDescriptorTest {
         assertFalse(DESC_AMY.equals(DESC_BOB));
 
         // different name -> returns false
-        EditCommand.EditProjectDescriptor editedAmy =
-                new EditProjectDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
+        EditCommand.EditTrackedItemDescriptor editedAmy =
+                new EditTrackedItemDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different description -> returns false
-        editedAmy = new EditProjectDescriptorBuilder(DESC_AMY).withDescription(VALID_DESCRIPTION_BOB).build();
+        editedAmy = new EditTrackedItemDescriptorBuilder(DESC_AMY).withDescription(VALID_DESCRIPTION_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different tags -> returns false
-        editedAmy = new EditProjectDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_HUSBAND).build();
+        editedAmy = new EditTrackedItemDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(DESC_AMY.equals(editedAmy));
     }
 }

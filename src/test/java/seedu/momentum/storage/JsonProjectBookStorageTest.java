@@ -73,14 +73,14 @@ public class JsonProjectBookStorageTest {
         assertEquals(original, new ProjectBook(readBack));
 
         // Modify data, overwrite exiting file, and read back
-        original.addProject(HOON);
-        original.renameProject(ALICE);
+        original.addTrackedItem(HOON);
+        original.renameTrackedItem(ALICE);
         jsonProjectBookStorage.saveProjectBook(original, filePath);
         readBack = jsonProjectBookStorage.readProjectBook(filePath).get();
         assertEquals(original, new ProjectBook(readBack));
 
         // Save and read without specifying file path
-        original.addProject(IDA);
+        original.addTrackedItem(IDA);
         jsonProjectBookStorage.saveProjectBook(original); // file path not specified
         readBack = jsonProjectBookStorage.readProjectBook().get(); // file path not specified
         assertEquals(original, new ProjectBook(readBack));

@@ -82,14 +82,14 @@ public class LogicManagerTest {
                 .withCurrentCreatedDate()
                 .withEmptyDeadline().build();
         ModelManager expectedModel = new ModelManager();
-        expectedModel.addProject(expectedProject);
+        expectedModel.addTrackedItem(expectedProject);
         String expectedMessage = LogicManager.FILE_OPS_ERROR_MESSAGE + DUMMY_IO_EXCEPTION;
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }
 
     @Test
     public void getFilteredProjectList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredProjectList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredTrackedItemList().remove(0));
     }
 
     /**

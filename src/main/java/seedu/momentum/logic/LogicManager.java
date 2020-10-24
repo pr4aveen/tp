@@ -16,7 +16,7 @@ import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.logic.statistic.StatisticManager;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ReadOnlyProjectBook;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.storage.Storage;
 
 /**
@@ -45,8 +45,10 @@ public class LogicManager implements Logic {
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
+        model.resetView();
+
         CommandResult commandResult;
-        Command command = projectBookParser.parseCommand(commandText);
+        Command command = projectBookParser.parseCommand(commandText, model);
         commandResult = command.execute(model);
 
         try {
@@ -70,12 +72,12 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObservableList<Project> getFilteredProjectList() {
-        return model.getFilteredProjectList();
+    public ObservableList<TrackedItem> getFilteredTrackedItemList() {
+        return model.getFilteredTrackedItemList();
     }
 
     @Override
-    public ObservableList<Project> getRunningTimers() {
+    public ObservableList<TrackedItem> getRunningTimers() {
         return model.getRunningTimers();
     }
 

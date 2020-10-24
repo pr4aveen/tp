@@ -6,7 +6,7 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_PROJECTS;
+import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -20,10 +20,14 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.Task;
+import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.UniqueTrackedItemList;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.UniqueDurationList;
 
@@ -49,65 +53,101 @@ public class EditCommand extends Command {
     public static final String MESSAGE_DUPLICATE_PROJECT = "This project already exists in the project book.";
 
     private final Index index;
-    private final EditProjectDescriptor editProjectDescriptor;
+    private final EditTrackedItemDescriptor editTrackedItemDescriptor;
+    private final Project parentProject;
 
     /**
-     * @param index                 of the project in the filtered project list to edit
-     * @param editProjectDescriptor details to edit the project with
+     * Create a EditCommand that edits a project.
+     *
+     * @param index of the project in the filtered project list to edit.
+     * @param editTrackedItemDescriptor details to edit the project with.
      */
-    public EditCommand(Index index, EditProjectDescriptor editProjectDescriptor) {
+    public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor) {
         requireNonNull(index);
-        requireNonNull(editProjectDescriptor);
+        requireNonNull(editTrackedItemDescriptor);
 
         this.index = index;
-        this.editProjectDescriptor = new EditProjectDescriptor(editProjectDescriptor);
+        this.editTrackedItemDescriptor = new EditTrackedItemDescriptor(editTrackedItemDescriptor);
+        this.parentProject = null;
+    }
+
+    /**
+     * Create a EditCommand that edits a task.
+     *
+     * @param index of the project in the filtered project list to edit.
+     * @param editTrackedItemDescriptor details to edit the project with.
+     * @param parentProject The parent project of the task to edit.
+     */
+    public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor, Project parentProject) {
+        requireNonNull(index);
+        requireNonNull(editTrackedItemDescriptor);
+
+        this.index = index;
+        this.editTrackedItemDescriptor = new EditTrackedItemDescriptor(editTrackedItemDescriptor);
+        this.parentProject = parentProject;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Project> lastShownList = model.getFilteredProjectList();
+        List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
         }
 
-        Project projectToEdit = lastShownList.get(index.getZeroBased());
-        Project editedProject = createEditedProject(projectToEdit, editProjectDescriptor);
+        TrackedItem trackedItemToEdit = lastShownList.get(index.getZeroBased());
+        TrackedItem editedTrackedItem = createEditedTrackedItem(trackedItemToEdit, editTrackedItemDescriptor, model);
 
-        if (!projectToEdit.isSameProject(editedProject) && model.hasProject(editedProject)) {
+        if (!trackedItemToEdit.isSameTrackedItem(editedTrackedItem) && model.hasTrackedItem(editedTrackedItem)) {
             throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
         }
 
-        model.setProject(projectToEdit, editedProject);
-        model.updateFilteredProjectList(PREDICATE_SHOW_ALL_PROJECTS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedProject));
+        if (model.getViewMode() == ViewMode.PROJECTS) {
+            model.setTrackedItem(trackedItemToEdit, editedTrackedItem);
+        } else {
+            parentProject.setTask(trackedItemToEdit, editedTrackedItem);
+        }
+
+        model.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
+        return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));
     }
 
     /**
      * Creates and returns a {@code Project} with the details of {@code projectToEdit}
-     * edited with {@code editProjectDescriptor}.
+     * edited with {@code editTrackedItemDescriptor}.
      */
-    private static Project createEditedProject(Project projectToEdit,
-                                               EditProjectDescriptor editProjectDescriptor) throws CommandException {
-        assert projectToEdit != null;
+    private static TrackedItem createEditedTrackedItem(TrackedItem trackedItemToEdit,
+                                                       EditTrackedItemDescriptor editTrackedItemDescriptor,
+                                                       Model model) throws CommandException {
+        assert trackedItemToEdit != null;
 
-        Name updatedName = editProjectDescriptor.getName().orElse(projectToEdit.getName());
-        Description updatedDescription = editProjectDescriptor.getDescription().orElse(projectToEdit.getDescription());
-        Date createdDate = projectToEdit.getCreatedDate();
-        Deadline updatedDeadline = editProjectDescriptor.getDeadline().orElse(projectToEdit.getDeadline());
-        if (editProjectDescriptor.getDeadline().isPresent()
+        Name updatedName = editTrackedItemDescriptor.getName().orElse(trackedItemToEdit.getName());
+        Description updatedDescription =
+                editTrackedItemDescriptor.getDescription().orElse(trackedItemToEdit.getDescription());
+        Date createdDate = trackedItemToEdit.getCreatedDate();
+        Deadline updatedDeadline = editTrackedItemDescriptor.getDeadline().orElse(trackedItemToEdit.getDeadline());
+        if (editTrackedItemDescriptor.getDeadline().isPresent()
                 && Deadline.isBeforeCreatedDate(updatedDeadline.getDate().toString(), createdDate)) {
             // deadline is before created date
             // createdDate was 0001-01-01 by default
             throw new CommandException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
         }
-        Set<Tag> updatedTags = editProjectDescriptor.getTags().orElse(projectToEdit.getTags());
+        Set<Tag> updatedTags = editTrackedItemDescriptor.getTags().orElse(trackedItemToEdit.getTags());
         UniqueDurationList durationList = new UniqueDurationList();
-        durationList.setDurations(projectToEdit.getDurationList());
+        durationList.setDurations(trackedItemToEdit.getDurationList());
 
-        return new Project(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags,
-                durationList, projectToEdit.getTimer());
+        if (model.getViewMode() == ViewMode.PROJECTS) {
+            Project projectToEdit = (Project) trackedItemToEdit;
+            UniqueTrackedItemList taskList = new UniqueTrackedItemList();
+            taskList.setTrackedItems(projectToEdit.getTaskList());
+
+            return new Project(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags,
+                    durationList, trackedItemToEdit.getTimer(), taskList);
+        } else {
+            return new Task(updatedName, updatedDescription, createdDate, updatedDeadline, updatedTags,
+                    durationList, trackedItemToEdit.getTimer());
+        }
     }
 
     @Override
@@ -125,27 +165,27 @@ public class EditCommand extends Command {
         // state check
         EditCommand e = (EditCommand) other;
         return index.equals(e.index)
-                && editProjectDescriptor.equals(e.editProjectDescriptor);
+                && editTrackedItemDescriptor.equals(e.editTrackedItemDescriptor);
     }
 
     /**
-     * Stores the details to edit the project with. Each non-empty field value will replace the
-     * corresponding field value of the project.
+     * Stores the details to edit the tracked item with. Each non-empty field value will replace the
+     * corresponding field value of the tracked item.
      */
-    public static class EditProjectDescriptor {
+    public static class EditTrackedItemDescriptor {
         private Name name;
         private Description description;
         private Deadline deadline;
         private Set<Tag> tags;
 
-        public EditProjectDescriptor() {
+        public EditTrackedItemDescriptor() {
         }
 
         /**
          * Copy constructor.
          * A defensive copy of {@code tags} is used internally.
          */
-        public EditProjectDescriptor(EditProjectDescriptor toCopy) {
+        public EditTrackedItemDescriptor(EditTrackedItemDescriptor toCopy) {
             setName(toCopy.name);
             setDescription(toCopy.description);
             setDeadline(toCopy.deadline);
@@ -208,12 +248,12 @@ public class EditCommand extends Command {
             }
 
             // instanceof handles nulls
-            if (!(other instanceof EditProjectDescriptor)) {
+            if (!(other instanceof EditTrackedItemDescriptor)) {
                 return false;
             }
 
             // state check
-            EditProjectDescriptor e = (EditProjectDescriptor) other;
+            EditTrackedItemDescriptor e = (EditTrackedItemDescriptor) other;
 
             return getName().equals(e.getName())
                     && getDescription().equals(e.getDescription())

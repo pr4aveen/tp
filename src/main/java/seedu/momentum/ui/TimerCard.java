@@ -3,7 +3,7 @@ package seedu.momentum.ui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * An UI component that displays information of a {@code Timer}.
@@ -12,10 +12,10 @@ public class TimerCard extends UiPart<Region> {
 
     private static final String FXML = "TimerCard.fxml";
 
-    public final Project projectEntry;
+    public final TrackedItem trackedItemEntry;
 
     @FXML
-    private Label project;
+    private Label trackedItem;
 
     @FXML
     private Label startTime;
@@ -23,11 +23,11 @@ public class TimerCard extends UiPart<Region> {
     /**
      * Creates a {@code TimerCard} with the given {@code projectEntry} to display.
      */
-    public TimerCard(Project projectEntry) {
+    public TimerCard(TrackedItem trackedItemEntry) {
         super(FXML);
-        this.projectEntry = projectEntry;
-        project.setText(projectEntry.getName().fullName);
-        startTime.setText(projectEntry.getTimer().getStartTime().getFormatted());
+        this.trackedItemEntry = trackedItemEntry;
+        trackedItem.setText(trackedItemEntry.getName().fullName);
+        startTime.setText(trackedItemEntry.getTimer().getStartTime().getFormatted());
     }
 
     @Override
@@ -44,6 +44,6 @@ public class TimerCard extends UiPart<Region> {
 
         // state check
         TimerCard card = (TimerCard) other;
-        return projectEntry.equals(card.projectEntry);
+        return trackedItemEntry.equals(card.trackedItemEntry);
     }
 }

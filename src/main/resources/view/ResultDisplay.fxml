@@ -4,5 +4,6 @@
 <?import javafx.scene.layout.StackPane?>
 
 <StackPane fx:id="placeHolder" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
-  <TextArea fx:id="resultDisplay" editable="false" text="Welcome to Momentum! If you are new, enter &quot;help&quot; for the user guide." />
+  <TextArea fx:id="resultDisplay" editable="false"
+      text="Welcome to Momentum! If you are new, enter &quot;help&quot; for the user guide." />
 </StackPane>

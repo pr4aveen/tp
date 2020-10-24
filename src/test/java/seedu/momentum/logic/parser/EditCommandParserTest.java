@@ -29,6 +29,7 @@ import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseSucce
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND_PROJECT;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_THIRD_PROJECT;
+import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import org.junit.jupiter.api.Test;
 
@@ -36,9 +37,12 @@ import seedu.momentum.commons.core.Date;
 import seedu.momentum.commons.core.Time;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand;
+import seedu.momentum.model.Model;
+import seedu.momentum.model.ModelManager;
+import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.tag.Tag;
-import seedu.momentum.testutil.EditProjectDescriptorBuilder;
+import seedu.momentum.testutil.EditTrackedItemDescriptorBuilder;
 
 public class EditCommandParserTest {
 
@@ -48,42 +52,43 @@ public class EditCommandParserTest {
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
 
     private EditCommandParser parser = new EditCommandParser();
+    private Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
     @Test
     public void parse_missingParts_failure() {
         // no index specified
-        assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT, model);
 
         // no field specified
-        assertParseFailure(parser, "1", EditCommand.MESSAGE_NOT_EDITED);
+        assertParseFailure(parser, "1", EditCommand.MESSAGE_NOT_EDITED, model);
 
         // no index and no field specified
-        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT, model);
     }
 
     @Test
     public void parse_invalidPreamble_failure() {
         // negative index
-        assertParseFailure(parser, "-5" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "-5" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT, model);
 
         // zero index
-        assertParseFailure(parser, "0" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "0" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT, model);
 
         // invalid arguments being parsed as preamble
-        assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_FORMAT, model);
 
         // invalid prefix being parsed as preamble
-        assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT, model);
     }
 
     @Test
     public void parse_invalidValue_failure() {
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
+        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS, model); // invalid name
         assertParseFailure(parser, "1" + INVALID_DEADLINE_DATE_DESC,
-                Date.MESSAGE_CONSTRAINTS); // invalid date in deadline
+                Date.MESSAGE_CONSTRAINTS, model); // invalid date in deadline
         assertParseFailure(parser, "1" + DEADLINE_DATE_DESC_AMY + INVALID_DEADLINE_TIME_DESC,
-                Time.MESSAGE_CONSTRAINTS); // invalid time in deadline
-        assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
+                Time.MESSAGE_CONSTRAINTS, model); // invalid time in deadline
+        assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS, model); // invalid tag
 
         // valid phone followed by invalid phone. The test case for invalid phone followed by valid phone
         // is tested at {@code parse_invalidValueFollowedByValidValue_success()}
@@ -91,9 +96,12 @@ public class EditCommandParserTest {
 
         // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Project} being edited,
         // parsing it together with a valid tag results in error
-        assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_EMPTY + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + TAG_EMPTY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY,
+            Tag.MESSAGE_CONSTRAINTS, model);
+        assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_EMPTY + TAG_DESC_HUSBAND,
+            Tag.MESSAGE_CONSTRAINTS, model);
+        assertParseFailure(parser, "1" + TAG_EMPTY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND,
+            Tag.MESSAGE_CONSTRAINTS, model);
 
         // multiple invalid values, but only the first invalid value is captured
         // assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_PHONE_AMY,
@@ -106,13 +114,14 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + TAG_DESC_HUSBAND + NAME_DESC_AMY + DESCRIPTION_DESC_AMY
                 + DEADLINE_DATE_DESC_AMY + DEADLINE_TIME_DESC_AMY + TAG_DESC_FRIEND;
 
-        EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY)
+        EditCommand.EditTrackedItemDescriptor descriptor =
+            new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withDescription(VALID_DESCRIPTION_AMY)
                 .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseSuccess(parser, userInput, expectedCommand, model);
     }
 
     //    @Test
@@ -120,7 +129,7 @@ public class EditCommandParserTest {
     //        Index targetIndex = INDEX_FIRST_PROJECT;
     //        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB;
     //
-    //        EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder()
+    //        EditCommand.EditTrackedItemDescriptor descriptor = new EditProjectDescriptorBuilder()
     //                .withPhone(VALID_PHONE_BOB).build();
     //        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
     //
@@ -132,36 +141,36 @@ public class EditCommandParserTest {
         // name
         Index targetIndex = INDEX_THIRD_PROJECT;
         String userInput = targetIndex.getOneBased() + NAME_DESC_AMY;
-        EditCommand.EditProjectDescriptor descriptor =
-                new EditProjectDescriptorBuilder().withName(VALID_NAME_AMY).build();
+        EditCommand.EditTrackedItemDescriptor descriptor =
+                new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_AMY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseSuccess(parser, userInput, expectedCommand, model);
 
         // description
         userInput = targetIndex.getOneBased() + DESCRIPTION_DESC_AMY;
-        descriptor = new EditProjectDescriptorBuilder().withDescription(VALID_DESCRIPTION_AMY).build();
+        descriptor = new EditTrackedItemDescriptorBuilder().withDescription(VALID_DESCRIPTION_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseSuccess(parser, userInput, expectedCommand, model);
 
         // deadline with date
         userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB;
-        descriptor = new EditProjectDescriptorBuilder()
+        descriptor = new EditTrackedItemDescriptorBuilder()
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseSuccess(parser, userInput, expectedCommand, model);
 
         // deadline with date and time
         userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB + DEADLINE_TIME_DESC_AMY;
-        descriptor = new EditProjectDescriptorBuilder()
+        descriptor = new EditTrackedItemDescriptorBuilder()
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseSuccess(parser, userInput, expectedCommand, model);
 
         // tags
         userInput = targetIndex.getOneBased() + TAG_DESC_FRIEND;
-        descriptor = new EditProjectDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
+        descriptor = new EditTrackedItemDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseSuccess(parser, userInput, expectedCommand, model);
     }
 
     @Test
@@ -170,11 +179,11 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + DESCRIPTION_DESC_AMY + TAG_DESC_FRIEND
                 + DESCRIPTION_DESC_AMY + TAG_DESC_FRIEND + DESCRIPTION_DESC_BOB + TAG_DESC_HUSBAND;
 
-        EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder()
+        EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder()
                 .withDescription(VALID_DESCRIPTION_BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseSuccess(parser, userInput, expectedCommand, model);
     }
 
     //    @Test
@@ -182,7 +191,7 @@ public class EditCommandParserTest {
     //        // no other valid values specified
     //        Index targetIndex = INDEX_FIRST_PROJECT;
     //        String userInput = targetIndex.getOneBased() + INVALID_PHONE_DESC + PHONE_DESC_BOB;
-    //        EditCommand.EditProjectDescriptor descriptor =
+    //        EditCommand.EditTrackedItemDescriptor descriptor =
     //                new EditProjectDescriptorBuilder().withPhone(VALID_PHONE_BOB).build();
     //        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
     //        assertParseSuccess(parser, userInput, expectedCommand);
@@ -201,9 +210,9 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_THIRD_PROJECT;
         String userInput = targetIndex.getOneBased() + TAG_EMPTY;
 
-        EditCommand.EditProjectDescriptor descriptor = new EditProjectDescriptorBuilder().withTags().build();
+        EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder().withTags().build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseSuccess(parser, userInput, expectedCommand, model);
     }
 }

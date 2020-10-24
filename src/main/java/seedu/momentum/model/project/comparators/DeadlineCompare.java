@@ -7,12 +7,12 @@ import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Name;
 
 /**
- * Compares deadline of two projects.
+ * Compares deadline of two tracked items.
  */
 public class DeadlineCompare implements Comparator<HashMap<String, Object>> {
 
     /**
-     * Compares deadline of two projects.
+     * Compares deadline of two tracked items.
      *
      * @param p1 first project to compare.
      * @param p2 second project to compare.

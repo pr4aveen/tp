@@ -17,6 +17,8 @@ import seedu.momentum.commons.core.Date;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -29,7 +31,7 @@ public class EditCommandParser implements Parser<EditCommand> {
      *
      * @throws ParseException if the user input does not conform the expected format
      */
-    public EditCommand parse(String args) throws ParseException {
+    public EditCommand parse(String args, Model model) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_DEADLINE_DATE,
@@ -43,32 +45,36 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
 
-        EditCommand.EditProjectDescriptor editProjectDescriptor = new EditCommand.EditProjectDescriptor();
+        EditCommand.EditTrackedItemDescriptor editTrackedItemDescriptor = new EditCommand.EditTrackedItemDescriptor();
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editProjectDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
+            editTrackedItemDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
 
         if (argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
-            editProjectDescriptor.setDescription(ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION)
-                    .get()));
+            editTrackedItemDescriptor.setDescription(
+                ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).get()));
         }
 
         // use a default date to parse the deadline first
         // check whether if the deadline is after or on created date in edit command
         if (argMultimap.getValue(PREFIX_DEADLINE_DATE).isPresent()) {
-            editProjectDescriptor.setDeadline(ParserUtil.parseDeadline(
+            editTrackedItemDescriptor.setDeadline(ParserUtil.parseDeadline(
                     argMultimap.getValue(PREFIX_DEADLINE_DATE),
                     argMultimap.getValue(PREFIX_DEADLINE_TIME),
                     Date.MIN));
         }
 
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editProjectDescriptor::setTags);
+        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editTrackedItemDescriptor::setTags);
 
-        if (!editProjectDescriptor.isAnyFieldEdited()) {
+        if (!editTrackedItemDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditCommand(index, editProjectDescriptor);
+        if (model.getViewMode() == ViewMode.PROJECTS) {
+            return new EditCommand(index, editTrackedItemDescriptor);
+        } else {
+            return new EditCommand(index, editTrackedItemDescriptor, model.getCurrentProject());
+        }
     }
 
     /**

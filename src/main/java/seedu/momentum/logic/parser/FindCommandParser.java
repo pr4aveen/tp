@@ -15,7 +15,8 @@ import java.util.stream.Stream;
 
 import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.Model;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
@@ -31,9 +32,10 @@ public class FindCommandParser implements Parser<FindCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand
      * and returns a FindCommand object for execution.
+     *
      * @throws ParseException if the user input does not conform the expected format.
      */
-    public FindCommand parse(String args) throws ParseException {
+    public FindCommand parse(String args, Model model) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_TAG, FIND_TYPE);
 
@@ -44,7 +46,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         FindType findType = getMatchType(argMultimap); // only parses find type if the argument exists
-        List<Predicate<Project>> predicateList = new ArrayList<>(); // list of all predicates that will be applied
+        List<Predicate<TrackedItem>> predicateList = new ArrayList<>(); // list of all predicates that will be applied
 
         for (Prefix prefix : prefixesToParse) {
             parseArguments(argMultimap, prefix, predicateList, findType);
@@ -53,9 +55,9 @@ public class FindCommandParser implements Parser<FindCommand> {
         return new FindCommand(combinePredicates(findType, predicateList));
     }
 
-    private Predicate<Project> combinePredicates(FindType findType, List<Predicate<Project>> predicateList) {
+    private Predicate<TrackedItem> combinePredicates(FindType findType, List<Predicate<TrackedItem>> predicateList) {
 
-        BinaryOperator<Predicate<Project>> operationType;
+        BinaryOperator<Predicate<TrackedItem>> operationType;
         switch (findType) {
         case ALL:
             operationType = Predicate::and;
@@ -72,7 +74,7 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     private void parseArguments (ArgumentMultimap argMultimap, Prefix prefix,
-             List<Predicate<Project>> predicateList, FindType findType) throws ParseException {
+             List<Predicate<TrackedItem>> predicateList, FindType findType) throws ParseException {
 
         if (argMultimap.getValue(prefix).isEmpty()) {
             return;

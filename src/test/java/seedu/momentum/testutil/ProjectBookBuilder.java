@@ -24,7 +24,7 @@ public class ProjectBookBuilder {
      * Adds a new {@code Project} to the {@code ProjectBook} that we are building.
      */
     public ProjectBookBuilder withProject(Project project) {
-        projectBook.addProject(project);
+        projectBook.addTrackedItem(project);
         return this;
     }
 

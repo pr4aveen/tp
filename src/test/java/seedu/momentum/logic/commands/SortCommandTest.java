@@ -75,7 +75,7 @@ public class SortCommandTest {
         expectedModel.orderFilteredProjectList(SortType.ALPHA, true);
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DEFAULT_TYPE);
         assertCommandSuccess(DEFAULT_SORT_COMMAND, model, expectedMessage, expectedModel);
-        assertEquals(model.getFilteredProjectList(), expectedModel.getFilteredProjectList());
+        assertEquals(model.getFilteredTrackedItemList(), expectedModel.getFilteredTrackedItemList());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class SortCommandTest {
         expectedModel.orderFilteredProjectList(SortType.ALPHA, true);
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_ASCENDING_ORDER);
         assertCommandSuccess(ALPHA_ASCENDING_COMMAND, model, expectedMessage, expectedModel);
-        assertEquals(model.getFilteredProjectList(), expectedModel.getFilteredProjectList());
+        assertEquals(model.getFilteredTrackedItemList(), expectedModel.getFilteredTrackedItemList());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class SortCommandTest {
         expectedModel.orderFilteredProjectList(SortType.ALPHA, false);
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_DESCENDING_ORDER);
         assertCommandSuccess(ALPHA_DESCENDING_COMMAND, model, expectedMessage, expectedModel);
-        assertEquals(model.getFilteredProjectList(), expectedModel.getFilteredProjectList());
+        assertEquals(model.getFilteredTrackedItemList(), expectedModel.getFilteredTrackedItemList());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class SortCommandTest {
         expectedModel.orderFilteredProjectList(SortType.DEADLINE, true);
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_ASCENDING_ORDER);
         assertCommandSuccess(DEADLINE_ASCENDING_COMMAND, model, expectedMessage, expectedModel);
-        assertEquals(model.getFilteredProjectList(), expectedModel.getFilteredProjectList());
+        assertEquals(model.getFilteredTrackedItemList(), expectedModel.getFilteredTrackedItemList());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class SortCommandTest {
         expectedModel.orderFilteredProjectList(SortType.DEADLINE, false);
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_DESCENDING_ORDER);
         assertCommandSuccess(DEADLINE_DESCENDING_COMMAND, model, expectedMessage, expectedModel);
-        assertEquals(model.getFilteredProjectList(), expectedModel.getFilteredProjectList());
+        assertEquals(model.getFilteredTrackedItemList(), expectedModel.getFilteredTrackedItemList());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class SortCommandTest {
         expectedModel.orderFilteredProjectList(SortType.CREATED, true);
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_ASCENDING_ORDER);
         assertCommandSuccess(CREATED_DATE_ASCENDING_COMMAND, model, expectedMessage, expectedModel);
-        assertEquals(model.getFilteredProjectList(), expectedModel.getFilteredProjectList());
+        assertEquals(model.getFilteredTrackedItemList(), expectedModel.getFilteredTrackedItemList());
     }
 
     @Test
@@ -123,7 +123,7 @@ public class SortCommandTest {
         expectedModel.orderFilteredProjectList(SortType.CREATED, false);
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_DESCENDING_ORDER);
         assertCommandSuccess(CREATED_DATE_DESCENDING_COMMAND, model, expectedMessage, expectedModel);
-        assertEquals(model.getFilteredProjectList(), expectedModel.getFilteredProjectList());
+        assertEquals(model.getFilteredTrackedItemList(), expectedModel.getFilteredTrackedItemList());
     }
 
     @Test
@@ -132,7 +132,7 @@ public class SortCommandTest {
         expectedModel.orderFilteredProjectList(SortType.DEADLINE, true);
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_ASCENDING_ORDER);
         assertCommandSuccess(NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND, model, expectedMessage, expectedModel);
-        assertEquals(model.getFilteredProjectList(), expectedModel.getFilteredProjectList());
+        assertEquals(model.getFilteredTrackedItemList(), expectedModel.getFilteredTrackedItemList());
     }
 
     @Test
@@ -141,7 +141,7 @@ public class SortCommandTest {
         expectedModel.orderFilteredProjectList(SortType.CREATED, false);
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DESCENDING_ORDER);
         assertCommandSuccess(NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND, model, expectedMessage, expectedModel);
-        assertEquals(model.getFilteredProjectList(), expectedModel.getFilteredProjectList());
+        assertEquals(model.getFilteredTrackedItemList(), expectedModel.getFilteredTrackedItemList());
     }
 
 }

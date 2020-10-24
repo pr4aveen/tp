@@ -14,10 +14,13 @@ import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.Date;
 import seedu.momentum.logic.commands.AddCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -29,9 +32,10 @@ public class AddCommandParser implements Parser<AddCommand> {
      * Parses the given {@code String} of arguments in the context of the AddCommand
      * and returns an AddCommand object for execution.
      *
+     * @param model the current model.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public AddCommand parse(String args) throws ParseException {
+    public AddCommand parse(String args, Model model) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_DEADLINE_DATE,
                         PREFIX_DEADLINE_TIME, PREFIX_TAG);
@@ -60,9 +64,12 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Project project = new Project(name, description, createdDate, deadline, tagList);
-
-        return new AddCommand(project);
+        if (model.getViewMode() == ViewMode.PROJECTS) {
+            return new AddCommand(new Project(name, description, createdDate, deadline, tagList));
+        } else {
+            return new AddCommand(new Task(name, description, createdDate, deadline, tagList),
+                model.getCurrentProject());
+        }
     }
 
     /**

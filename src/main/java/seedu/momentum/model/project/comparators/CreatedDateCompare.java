@@ -3,24 +3,24 @@ package seedu.momentum.model.project.comparators;
 import java.util.Comparator;
 
 import seedu.momentum.commons.core.Date;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
- * Compares date created of two projects.
+ * Compares date created of two tracked items.
  */
-public class CreatedDateCompare implements Comparator<Project> {
+public class CreatedDateCompare implements Comparator<TrackedItem> {
 
     /**
-     * Compares the date created of two projects.
+     * Compares the date created of two tracked items.
      *
-     * @param p1 first project to compare.
-     * @param p2 second project to compare.
+     * @param t1 first tracked item to compare.
+     * @param t2 second tracked item to compare.
      * @return integer values for comparison.
      */
-    public int compare(Project p1, Project p2) {
+    public int compare(TrackedItem t1, TrackedItem t2) {
 
-        Date p1Date = p1.getCreatedDate();
-        Date p2Date = p2.getCreatedDate();
+        Date p1Date = t1.getCreatedDate();
+        Date p2Date = t2.getCreatedDate();
 
         NameCompare nameCompare = new NameCompare();
 
@@ -29,7 +29,7 @@ public class CreatedDateCompare implements Comparator<Project> {
         } else if (p1Date.get().isAfter(p2Date.get())) {
             return 1;
         } else {
-            return nameCompare.compare(p1, p2);
+            return nameCompare.compare(t1, t2);
         }
     }
 }

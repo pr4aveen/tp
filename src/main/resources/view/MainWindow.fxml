@@ -15,7 +15,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<fx:root minHeight="600.0" minWidth="1010.0" onCloseRequest="#handleExit" title="Momentum" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root minHeight="600.0" minWidth="1010.0" onCloseRequest="#handleExit" title="Momentum"
+     type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
    <icons>
       <Image url="@/images/address_book_32.png" />
    </icons>
@@ -33,7 +34,8 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Help">
                            <items>
-                              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
+                              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false"
+                                    onAction="#handleHelp" text="Help" />
                            </items>
                         </Menu>
                      </menus>
@@ -52,7 +54,8 @@
                             <ColumnConstraints hgrow="ALWAYS" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="56.0" valignment="CENTER" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+                                    prefHeight="56.0" valignment="CENTER" vgrow="SOMETIMES" />
                             <RowConstraints vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
@@ -61,7 +64,8 @@
                                     <Label styleClass="app-logo" text="Momentum" />
                                  </children>
                               </StackPane>
-                              <SplitPane dividerPositions="0.15, 0.3" orientation="VERTICAL" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                              <SplitPane dividerPositions="0.15, 0.3" orientation="VERTICAL"
+                                     GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                 <items>
                                     <StackPane fx:id="infoDisplayPlaceholder" styleClass="content-box" />
                                     <StackPane fx:id="timerListPanelPlaceholder" styleClass="c">
@@ -86,16 +90,19 @@
                             <ColumnConstraints hgrow="ALWAYS" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="56.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="56.0"
+                                vgrow="SOMETIMES" />
                             <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
                             <RowConstraints vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <StackPane fx:id="commandBoxPlaceholder" styleClass="command-box" />
-                              <StackPane fx:id="resultDisplayPlaceholder" styleClass="result-box" GridPane.rowIndex="1" />
+                              <StackPane fx:id="resultDisplayPlaceholder"
+                                 styleClass="result-box" GridPane.rowIndex="1" />
                               <VBox styleClass="project-list" GridPane.rowIndex="2">
                                  <children>
-                                    <StackPane fx:id="projectListPanelPlaceholder" styleClass="pane-with-border" VBox.vgrow="ALWAYS" />
+                                    <StackPane fx:id="projectListPanelPlaceholder" styleClass="pane-with-border"
+                                        VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                            </children>

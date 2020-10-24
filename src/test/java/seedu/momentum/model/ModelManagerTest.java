@@ -3,7 +3,7 @@ package seedu.momentum.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_PROJECTS;
+import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
 import static seedu.momentum.testutil.TypicalProjects.BENSON;
@@ -75,23 +75,23 @@ public class ModelManagerTest {
 
     @Test
     public void hasProject_nullProject_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> modelManager.hasProject(null));
+        assertThrows(NullPointerException.class, () -> modelManager.hasTrackedItem(null));
     }
 
     @Test
     public void hasProject_projectNotInProjectBook_returnsFalse() {
-        assertFalse(modelManager.hasProject(ALICE));
+        assertFalse(modelManager.hasTrackedItem(ALICE));
     }
 
     @Test
     public void hasProject_projectInProjectBook_returnsTrue() {
-        modelManager.addProject(ALICE);
-        assertTrue(modelManager.hasProject(ALICE));
+        modelManager.addTrackedItem(ALICE);
+        assertTrue(modelManager.hasTrackedItem(ALICE));
     }
 
     @Test
     public void getFilteredProjectList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredProjectList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredTrackedItemList().remove(0));
     }
     @Test
     public void equals() {
@@ -123,7 +123,7 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(new ModelManager(projectBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredProjectList(PREDICATE_SHOW_ALL_PROJECTS);
+        modelManager.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
 
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();

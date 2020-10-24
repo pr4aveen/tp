@@ -9,7 +9,7 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.Set;
 
 import seedu.momentum.logic.commands.AddCommand;
-import seedu.momentum.logic.commands.EditCommand.EditProjectDescriptor;
+import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.tag.Tag;
@@ -47,9 +47,9 @@ public class ProjectUtil {
     }
 
     /**
-     * Returns the part of command string for the given {@code EditProjectDescriptor}'s details.
+     * Returns the part of command string for the given {@code EditTrackedItemDescriptor}'s details.
      */
-    public static String getEditProjectDescriptorDetails(EditProjectDescriptor descriptor) {
+    public static String getEditProjectDescriptorDetails(EditCommand.EditTrackedItemDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();
         descriptor.getName().ifPresent(name -> sb.append(PREFIX_NAME).append(name.fullName).append(" "));
         descriptor.getDescription().ifPresent(description -> sb.append(PREFIX_DESCRIPTION).append(description.value)

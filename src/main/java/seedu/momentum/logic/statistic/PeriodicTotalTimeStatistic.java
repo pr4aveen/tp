@@ -11,7 +11,7 @@ import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.DateTime;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
@@ -58,21 +58,21 @@ public class PeriodicTotalTimeStatistic extends Statistic {
         DateTime weekEnd = Clock.now();
 
         //Only calculate statistics for projects visible to the user
-        List<Project> projects = model.getFilteredProjectList();
+        List<TrackedItem> trackedItems = model.getFilteredTrackedItemList();
 
         timeList.clear();
 
-        for (Project project : projects) {
-            long totalDuration = calculateTimeSpent(project, weekStart, weekEnd);
+        for (TrackedItem trackedItem : trackedItems) {
+            long totalDuration = calculateTimeSpent(trackedItem, weekStart, weekEnd);
 
-            StatisticEntry entry = new StatisticEntry(project.getName().fullName, totalDuration);
+            StatisticEntry entry = new StatisticEntry(trackedItem.getName().fullName, totalDuration);
 
             timeList.add(entry);
         }
     }
 
-    private long calculateTimeSpent(Project project, DateTime weekStart, DateTime weekEnd) {
-        List<WorkDuration> durations = project.getDurationList();
+    private long calculateTimeSpent(TrackedItem trackedItem, DateTime weekStart, DateTime weekEnd) {
+        List<WorkDuration> durations = trackedItem.getDurationList();
         long totalDuration = 0;
 
         for (WorkDuration duration : durations) {

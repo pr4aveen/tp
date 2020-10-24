@@ -8,7 +8,9 @@ import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * Deletes a project identified using it's displayed index from the project book.
@@ -25,23 +27,51 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_DELETE_PROJECT_SUCCESS = "Deleted Project: %1$s";
 
     private final Index targetIndex;
+    private Project projectToDeleteTaskFrom;
 
+    /**
+     * Deletes a project at a given index from the project book.
+     *
+     * @param targetIndex index of the project to be deleted.
+     */
     public DeleteCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
+    }
+
+    /**
+     * Deletes a task at a given index from a certain project.
+     *
+     * @param targetIndex index of the task to be deleted.
+     * @param project project to delete the task from.
+     */
+    public DeleteCommand(Index targetIndex, Project project) {
+        this.targetIndex = targetIndex;
+        this.projectToDeleteTaskFrom = project;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Project> lastShownList = model.getFilteredProjectList();
+
+        ViewMode viewMode = model.getViewMode();
+
+        List<TrackedItem> lastShownList = viewMode == ViewMode.PROJECTS
+                ? model.getFilteredTrackedItemList()
+                : projectToDeleteTaskFrom.getTaskList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
         }
 
-        Project projectToDelete = lastShownList.get(targetIndex.getZeroBased());
-        model.deleteProject(projectToDelete);
-        return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, projectToDelete));
+        TrackedItem trackedItemToDelete = lastShownList.get(targetIndex.getZeroBased());
+
+        if (viewMode == ViewMode.PROJECTS) {
+            model.deleteTrackedItem(trackedItemToDelete);
+        } else {
+            projectToDeleteTaskFrom.deleteTask(trackedItemToDelete);
+        }
+
+        return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete));
     }
 
     @Override

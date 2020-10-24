@@ -13,99 +13,101 @@ import javafx.collections.ObservableList;
 import seedu.momentum.model.project.comparators.CreatedDateCompare;
 import seedu.momentum.model.project.comparators.DeadlineCompare;
 import seedu.momentum.model.project.comparators.NameCompare;
-import seedu.momentum.model.project.exceptions.DuplicateProjectException;
-import seedu.momentum.model.project.exceptions.ProjectNotFoundException;
+import seedu.momentum.model.project.exceptions.DuplicateTrackableItemException;
+import seedu.momentum.model.project.exceptions.TrackableItemNotFoundException;
 
 /**
- * A list of projects that enforces uniqueness between its elements and does not allow nulls.
- * A project is considered unique by comparing using {@code Project#isSameProject(Project)}. As such, adding and
- * updating of projects uses Project#isSameProject(Project) for equality so as to ensure that the project being added or
- * updated is unique in terms of identity in the UniqueProjectList. However, the removal of a project uses
- * Project#equals(Object) so as to ensure that the project with exactly the same fields will be removed.
+ * A list of tracked items that enforces uniqueness between its elements and does not allow nulls.
+ * A project is considered unique by comparing using {@code TrackedItem#isSameTrackedItem(TrackedItem)}. As such, adding
+ * and updating of tracked items uses TrackedItem#isSameTrackedItem(TrackedItem) for equality so as to ensure that
+ * the tracked item being added or updated is unique in terms of identity in the UniqueTrackedItemList. However, the
+ * removal of a tracked item uses TrackedItem#equals(Object) so as to ensure that the tracked item with exactly the
+ * same fields will be removed.
  *
  * Supports a minimal set of list operations.
  *
- * @see Project#isSameProject(Project)
+ * @see TrackedItem#isSameTrackedItem(TrackedItem)
  */
-public class UniqueProjectList implements Iterable<Project> {
+public class UniqueTrackedItemList implements Iterable<TrackedItem> {
 
     public static final SortType DEFAULT_SORT_TYPE = SortType.ALPHA;
     private SortType sortType = DEFAULT_SORT_TYPE;
-    private final ObservableList<Project> internalList = FXCollections.observableArrayList();
-    private final ObservableList<Project> internalUnmodifiableList =
+    private final ObservableList<TrackedItem> internalList = FXCollections.observableArrayList();
+    private final ObservableList<TrackedItem> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
 
     /**
-     * Returns true if the list contains an equivalent project as the given argument.
+     * Returns true if the list contains an equivalent tracked item as the given argument.
      */
-    public boolean contains(Project toCheck) {
+    public boolean contains(TrackedItem toCheck) {
         requireNonNull(toCheck);
-        return internalList.stream().anyMatch(toCheck::isSameProject);
+        return internalList.stream().anyMatch(toCheck::isSameTrackedItem);
     }
 
     /**
-     * Adds a project to the list.
-     * The project must not already exist in the list.
+     * Adds a tracked item to the list.
+     * The tracked item must not already exist in the list.
      */
-    public void add(Project toAdd) {
+    public void add(TrackedItem toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
-            throw new DuplicateProjectException();
+            throw new DuplicateTrackableItemException();
         }
         internalList.add(toAdd);
     }
 
     /**
-     * Replaces the project {@code target} in the list with {@code editedProject}.
+     * Replaces the tracked item {@code target} in the list with {@code editedTrackedItem}.
      * {@code target} must exist in the list.
-     * The project identity of {@code editedProject} must not be the same as another existing project in the list.
+     * The tracked item identity of {@code editedTrackedItem} must not be the same as another existing tracked item
+     * in the list.
      */
-    public void setProject(Project target, Project editedProject) {
-        requireAllNonNull(target, editedProject);
+    public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
+        requireAllNonNull(target, editedTrackedItem);
 
         int index = internalList.indexOf(target);
         if (index == -1) {
-            throw new ProjectNotFoundException();
+            throw new TrackableItemNotFoundException();
         }
 
-        if (!target.isSameProject(editedProject) && contains(editedProject)) {
-            throw new DuplicateProjectException();
+        if (!target.isSameTrackedItem(editedTrackedItem) && contains(editedTrackedItem)) {
+            throw new DuplicateTrackableItemException();
         }
 
-        internalList.set(index, editedProject);
+        internalList.set(index, editedTrackedItem);
     }
 
     /**
-     * Removes the equivalent project from the list.
-     * The project must exist in the list.
+     * Removes the equivalent tracked item from the list.
+     * The tracked item must exist in the list.
      */
-    public void remove(Project toRemove) {
+    public void remove(TrackedItem toRemove) {
         requireNonNull(toRemove);
         if (!internalList.remove(toRemove)) {
-            throw new ProjectNotFoundException();
+            throw new TrackableItemNotFoundException();
         }
     }
 
-    public void setProjects(UniqueProjectList replacement) {
+    public void setTrackedItems(UniqueTrackedItemList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
     }
 
     /**
-     * Replaces the contents of this list with {@code projects}.
-     * {@code projects} must not contain duplicate projects.
+     * Replaces the contents of this list with {@code trackedItems}.
+     * {@code trackedItems} must not contain duplicate tracked items.
      */
-    public void setProjects(List<Project> projects) {
-        requireAllNonNull(projects);
-        if (!projectsAreUnique(projects)) {
-            throw new DuplicateProjectException();
+    public void setTrackedItems(List<TrackedItem> trackedItems) {
+        requireAllNonNull(trackedItems);
+        if (!projectsAreUnique(trackedItems)) {
+            throw new DuplicateTrackableItemException();
         }
 
-        internalList.setAll(projects);
+        internalList.setAll(trackedItems);
     }
 
     /**
-     * Sets the order of the list of projects according to given {@code sortType} and {@code isAscending}.
+     * Sets the order of the list of tracked items according to given {@code sortType} and {@code isAscending}.
      *
      * @param sortType type of sort.
      * @param isAscending order of sort.
@@ -134,45 +136,45 @@ public class UniqueProjectList implements Iterable<Project> {
     }
 
     /**
-     * Sets the order of list of projects by alphabetical order, ascending or descending based on user input.
+     * Sets the order of list of tracked items by alphabetical order, ascending or descending based on user input.
      *
      * @param isAscending order of sort specified by user.
      */
     private void setOrderAlphaType(boolean isAscending) {
-        Comparator<Project> nameCompare = new NameCompare();
+        Comparator<TrackedItem> nameCompare = new NameCompare();
         nameCompare = isAscending ? nameCompare : nameCompare.reversed();
         sortType = SortType.ALPHA;
         internalList.sort(nameCompare);
     }
 
     /**
-     * Sets the order of list of projects by deadline order, ascending or descending based on user input.
+     * Sets the order of list of tracked items by deadline order, ascending or descending based on user input.
      *
      * @param isAscending order of sort specified by user.
      */
     private void setOrderDeadlineType(boolean isAscending) {
-        Comparator<Project> nameCompare = new NameCompare();
+        Comparator<TrackedItem> nameCompare = new NameCompare();
         Comparator<HashMap<String, Object>> deadlineCompare = new DeadlineCompare();
         deadlineCompare = isAscending ? deadlineCompare : deadlineCompare.reversed();
         sortType = SortType.DEADLINE;
-        internalList.sort(Comparator.comparing(Project::getNullOrDeadline, Comparator.nullsLast(deadlineCompare))
+        internalList.sort(Comparator.comparing(TrackedItem::getNullOrDeadline, Comparator.nullsLast(deadlineCompare))
                 .thenComparing(nameCompare));
     }
 
     /**
-     * Sets the order of list of projects by created date order, ascending or descending based on user input.
+     * Sets the order of list of tracked items by created date order, ascending or descending based on user input.
      *
      * @param isAscending order of sort specified by user.
      */
     private void setOrderCreatedDateType(boolean isAscending) {
-        Comparator<Project> createdDateCompare = new CreatedDateCompare();
+        Comparator<TrackedItem> createdDateCompare = new CreatedDateCompare();
         createdDateCompare = isAscending ? createdDateCompare : createdDateCompare.reversed();
         this.sortType = SortType.CREATED;
         internalList.sort(createdDateCompare);
     }
 
     /**
-     * Sets the order of the list of projects to current sort type with specified order
+     * Sets the order of the list of tracked items to current sort type with specified order
      * if sort type has not been specified by user.
      *
      * @param isAscending order of sort specified by user.
@@ -197,20 +199,20 @@ public class UniqueProjectList implements Iterable<Project> {
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
-    public ObservableList<Project> asUnmodifiableObservableList() {
+    public ObservableList<TrackedItem> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
     }
 
     @Override
-    public Iterator<Project> iterator() {
+    public Iterator<TrackedItem> iterator() {
         return internalList.iterator();
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof UniqueProjectList // instanceof handles nulls
-                        && internalList.equals(((UniqueProjectList) other).internalList));
+                || (other instanceof UniqueTrackedItemList // instanceof handles nulls
+                        && internalList.equals(((UniqueTrackedItemList) other).internalList));
     }
 
     @Override
@@ -219,12 +221,12 @@ public class UniqueProjectList implements Iterable<Project> {
     }
 
     /**
-     * Returns true if {@code projects} contains only unique projects.
+     * Returns true if {@code trackedItems} contains only unique projects.
      */
-    private boolean projectsAreUnique(List<Project> projects) {
-        for (int i = 0; i < projects.size() - 1; i++) {
-            for (int j = i + 1; j < projects.size(); j++) {
-                if (projects.get(i).isSameProject(projects.get(j))) {
+    private boolean projectsAreUnique(List<TrackedItem> trackedItems) {
+        for (int i = 0; i < trackedItems.size() - 1; i++) {
+            for (int j = i + 1; j < trackedItems.size(); j++) {
+                if (trackedItems.get(i).isSameTrackedItem(trackedItems.get(j))) {
                     return false;
                 }
             }

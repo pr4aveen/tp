@@ -1,7 +1,7 @@
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_PROJECTS;
+import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
 
 import seedu.momentum.model.Model;
 
@@ -18,7 +18,7 @@ public class ListCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredProjectList(PREDICATE_SHOW_ALL_PROJECTS);
+        model.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

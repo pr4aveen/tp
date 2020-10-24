@@ -20,8 +20,10 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.ReadOnlyUserPrefs;
+import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class AddCommandTest {
@@ -110,7 +112,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addProject(Project project) {
+        public void addTrackedItem(TrackedItem trackedItem) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -125,27 +127,17 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hasProject(Project project) {
+        public boolean hasTrackedItem(TrackedItem trackedItem) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void deleteProject(Project target) {
+        public void deleteTrackedItem(TrackedItem target) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setProject(Project target, Project editedProject) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Project> getFilteredProjectList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updateFilteredProjectList(Predicate<Project> predicate) {
+        public ObservableList<TrackedItem> getFilteredTrackedItemList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -155,17 +147,57 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObservableList<Project> getRunningTimers() {
+        public ObservableList<TrackedItem> getRunningTimers() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void addRunningTimer(Project project) {
+        public void addRunningTimer(TrackedItem trackedItem) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void removeRunningTimer(Project project) {
+        public void removeRunningTimer(TrackedItem trackedItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ViewMode getViewMode() {
+            return ViewMode.PROJECTS;
+        }
+
+        @Override
+        public void viewTasks(Project project) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredProjectList(Predicate<TrackedItem> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void viewProjects() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Project getCurrentProject() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void viewAll() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void resetView() {
             throw new AssertionError("This method should not be called.");
         }
     }
@@ -182,9 +214,9 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hasProject(Project project) {
-            requireNonNull(project);
-            return this.project.isSameProject(project);
+        public boolean hasTrackedItem(TrackedItem trackedItem) {
+            requireNonNull(trackedItem);
+            return this.project.isSameTrackedItem(trackedItem);
         }
     }
 
@@ -192,18 +224,18 @@ public class AddCommandTest {
      * A Model stub that always accept the project being added.
      */
     private class ModelStubAcceptingProjectAdded extends ModelStub {
-        final ArrayList<Project> projectsAdded = new ArrayList<>();
+        final ArrayList<TrackedItem> projectsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasProject(Project project) {
-            requireNonNull(project);
-            return projectsAdded.stream().anyMatch(project::isSameProject);
+        public boolean hasTrackedItem(TrackedItem trackedItem) {
+            requireNonNull(trackedItem);
+            return projectsAdded.stream().anyMatch(trackedItem::isSameTrackedItem);
         }
 
         @Override
-        public void addProject(Project project) {
-            requireNonNull(project);
-            projectsAdded.add(project);
+        public void addTrackedItem(TrackedItem trackedItem) {
+            requireNonNull(trackedItem);
+            projectsAdded.add(trackedItem);
         }
 
         @Override

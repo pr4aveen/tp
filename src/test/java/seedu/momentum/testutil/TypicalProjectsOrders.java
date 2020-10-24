@@ -13,13 +13,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import seedu.momentum.model.ProjectBook;
-import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.UniqueProjectList;
+import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.UniqueTrackedItemList;
 
 public class TypicalProjectsOrders {
 
-    public static List<Project> getOrderedProjectBookByAlphabeticalAscending() {
-        List<Project> projects = new ArrayList<>(Arrays.asList(
+    public static List<TrackedItem> getOrderedProjectBookByAlphabeticalAscending() {
+        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
                 ALICE,
                 BENSON,
                 CARL,
@@ -27,11 +27,11 @@ public class TypicalProjectsOrders {
                 ELLE,
                 FIONA,
                 GEORGE));
-        return projects;
+        return trackedItems;
     }
 
-    public static List<Project> getOrderedProjectBookByAlphabeticalDescending() {
-        List<Project> projects = new ArrayList<>(Arrays.asList(
+    public static List<TrackedItem> getOrderedProjectBookByAlphabeticalDescending() {
+        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
                 GEORGE,
                 FIONA,
                 ELLE,
@@ -39,11 +39,11 @@ public class TypicalProjectsOrders {
                 CARL,
                 BENSON,
                 ALICE));
-        return projects;
+        return trackedItems;
     }
 
-    public static List<Project> getOrderedProjectBookByDeadlineAscending() {
-        List<Project> projects = new ArrayList<>(Arrays.asList(
+    public static List<TrackedItem> getOrderedProjectBookByDeadlineAscending() {
+        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
                 FIONA,
                 ELLE,
                 ALICE,
@@ -51,11 +51,11 @@ public class TypicalProjectsOrders {
                 CARL,
                 DANIEL,
                 GEORGE));
-        return projects;
+        return trackedItems;
     }
 
-    public static List<Project> getOrderedProjectBookByDeadlineDescending() {
-        List<Project> projects = new ArrayList<>(Arrays.asList(
+    public static List<TrackedItem> getOrderedProjectBookByDeadlineDescending() {
+        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
                 BENSON,
                 ALICE,
                 ELLE,
@@ -63,12 +63,12 @@ public class TypicalProjectsOrders {
                 CARL,
                 DANIEL,
                 GEORGE));
-        return projects;
+        return trackedItems;
     }
 
-    public static List<Project> getOrderedProjectBookByCreatedDateAscending() {
+    public static List<TrackedItem> getOrderedProjectBookByCreatedDateAscending() {
         ProjectBook projectBook = new ProjectBook();
-        List<Project> projects = new ArrayList<>(Arrays.asList(
+        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
                 ALICE,
                 BENSON,
                 FIONA,
@@ -76,11 +76,11 @@ public class TypicalProjectsOrders {
                 ELLE,
                 GEORGE,
                 CARL));
-        return projects;
+        return trackedItems;
     }
 
-    public static List<Project> getOrderedProjectBookByCreatedDateDescending() {
-        List<Project> projects = new ArrayList<>(Arrays.asList(
+    public static List<TrackedItem> getOrderedProjectBookByCreatedDateDescending() {
+        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
                 CARL,
                 GEORGE,
                 ELLE,
@@ -88,15 +88,15 @@ public class TypicalProjectsOrders {
                 FIONA,
                 BENSON,
                 ALICE));
-        return projects;
+        return trackedItems;
     }
 
-    public static UniqueProjectList getUniqueProjectList(List<Project> projects) {
-        UniqueProjectList uniqueProjectList = new UniqueProjectList();
-        for (Project p : projects) {
-            uniqueProjectList.add(p);
+    public static UniqueTrackedItemList getUniqueProjectList(List<TrackedItem> trackedItems) {
+        UniqueTrackedItemList uniqueTrackedItemList = new UniqueTrackedItemList();
+        for (TrackedItem p : trackedItems) {
+            uniqueTrackedItemList.add(p);
         }
-        return uniqueProjectList;
+        return uniqueTrackedItemList;
     }
 
 }

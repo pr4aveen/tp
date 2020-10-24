@@ -16,7 +16,7 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
-import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
@@ -28,20 +28,20 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Project projectToDelete = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToDelete = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PROJECT);
 
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, projectToDelete);
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete);
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        expectedModel.deleteProject(projectToDelete);
+        expectedModel.deleteTrackedItem(trackedItemToDelete);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredProjectList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredTrackedItemList().size() + 1);
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
 
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
@@ -51,13 +51,13 @@ public class DeleteCommandTest {
     public void execute_validIndexFilteredList_success() {
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
-        Project projectToDelete = model.getFilteredProjectList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToDelete = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PROJECT);
 
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, projectToDelete);
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete);
 
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        expectedModel.deleteProject(projectToDelete);
+        expectedModel.deleteTrackedItem(trackedItemToDelete);
         showNoProject(expectedModel);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
@@ -69,7 +69,7 @@ public class DeleteCommandTest {
 
         Index outOfBoundIndex = INDEX_SECOND_PROJECT;
         // ensures that outOfBoundIndex is still in bounds of project book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getProjectBook().getProjectList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getProjectBook().getTrackedItemList().size());
 
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
 
@@ -104,6 +104,6 @@ public class DeleteCommandTest {
     private void showNoProject(Model model) {
         model.updateFilteredProjectList(p -> false);
 
-        assertTrue(model.getFilteredProjectList().isEmpty());
+        assertTrue(model.getFilteredTrackedItemList().isEmpty());
     }
 }
