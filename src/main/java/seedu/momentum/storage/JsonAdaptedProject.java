@@ -66,7 +66,6 @@ class JsonAdaptedProject {
         }
     }
 
-    // This should not exist.
     public JsonAdaptedProject(String name,
                               String description,
                               String createdDate,
