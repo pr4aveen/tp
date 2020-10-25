@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.momentum.commons.core.Date;
 import seedu.momentum.commons.exceptions.IllegalValueException;
+import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
@@ -31,6 +32,7 @@ class JsonAdaptedProject {
 
     private final String name;
     private final String description;
+    private final boolean completionStatus;
     private final String createdDate;
     private final JsonAdaptedDeadline deadline;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
@@ -44,6 +46,7 @@ class JsonAdaptedProject {
     @JsonCreator
     public JsonAdaptedProject(@JsonProperty("name") String name,
                               @JsonProperty("description") String description,
+                              @JsonProperty("completionStatus") boolean completionStatus,
                               @JsonProperty("createdDate") String createdDate,
                               @JsonProperty("deadline") JsonAdaptedDeadline deadline,
                               @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
@@ -52,6 +55,7 @@ class JsonAdaptedProject {
                               @JsonProperty("taskList") List<JsonAdaptedTask> taskList) {
         this.name = name;
         this.description = description;
+        this.completionStatus = completionStatus;
         this.createdDate = createdDate;
         this.deadline = deadline;
         if (tagged != null) {
@@ -68,6 +72,7 @@ class JsonAdaptedProject {
 
     public JsonAdaptedProject(String name,
                               String description,
+                              boolean completionStatus,
                               String createdDate,
                               JsonAdaptedDeadline deadline,
                               List<JsonAdaptedTag> tagged,
@@ -75,6 +80,7 @@ class JsonAdaptedProject {
                               JsonAdaptedTimer timer) {
         this.name = name;
         this.description = description;
+        this.completionStatus = completionStatus;
         this.createdDate = createdDate;
         this.deadline = deadline;
         if (tagged != null) {
@@ -92,6 +98,7 @@ class JsonAdaptedProject {
     public JsonAdaptedProject(Project source) {
         name = source.getName().fullName;
         description = source.getDescription().value;
+        completionStatus = source.getCompletionStatus().isCompleted();
         createdDate = source.getCreatedDate().toString();
         deadline = new JsonAdaptedDeadline(source.getDeadline());
         tagged.addAll(source.getTags().stream()
@@ -127,6 +134,13 @@ class JsonAdaptedProject {
 
         final Description modelDescription = new Description(description);
 
+        final CompletionStatus modelCompletionStatus;
+        if (completionStatus) {
+            modelCompletionStatus = new CompletionStatus().reverse();
+        } else {
+            modelCompletionStatus = new CompletionStatus();
+        }
+
         if (!Date.isValid(createdDate)) {
             throw new IllegalValueException(Date.MESSAGE_CONSTRAINTS);
         }
@@ -153,8 +167,8 @@ class JsonAdaptedProject {
         UniqueTrackedItemList modelTasks = new UniqueTrackedItemList();
         modelTasks.setTrackedItems(projectTasks);
 
-        return new Project(modelName, modelDescription, modelCreatedDate, modelDeadline, modelTags, modelDurations,
-                modelTimer, modelTasks);
+        return new Project(modelName, modelDescription, modelCompletionStatus, modelCreatedDate, modelDeadline,
+                modelTags, modelDurations, modelTimer, modelTasks);
     }
 
 }

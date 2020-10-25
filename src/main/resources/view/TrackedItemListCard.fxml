@@ -33,6 +33,7 @@
                            </HBox.margin>
                         </Text>
                         <Label fx:id="name" text="\$name" wrapText="true" />
+                        <Label fx:id="completionStatus" text="\$completionStatus" wrapText="true"/>
                      </children>
                   </HBox>
                   <FlowPane fx:id="tags">

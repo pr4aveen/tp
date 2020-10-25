@@ -17,6 +17,11 @@ public class TrackedItemCard extends UiPart<Region> {
 
     private static final String FXML = "TrackedItemListCard.fxml";
 
+    private static final String STYLE_TEXT = "-fx-text-fill: ";
+    private static final String STYLE_COLOUR_RED = "-fx-red";
+    private static final String STYLE_COLOUR_GREEN = "-fx-green";
+    private static final String STYLE_COLOUR_YELLOW = "-fx-yellow";
+
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
      * As a consequence, UI elements' variable names cannot be set to such keywords
@@ -31,6 +36,8 @@ public class TrackedItemCard extends UiPart<Region> {
     private HBox cardPane;
     @FXML
     private Label name;
+    @FXML
+    private Label completionStatus;
     @FXML
     private Text id;
     @FXML
@@ -51,6 +58,9 @@ public class TrackedItemCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(trackedItem.getName().fullName);
 
+        completionStatus.setText(trackedItem.getCompletionStatus().toString());
+        setCompletionStatusStyle(completionStatus);
+
         if (!trackedItem.getDescription().isEmpty()) {
             Label descLabel = new Label(trackedItem.getDescription().value);
             descLabel.setWrapText(true);
@@ -64,23 +74,35 @@ public class TrackedItemCard extends UiPart<Region> {
         deadline.getChildren().add(deadlineLabel);
 
         trackedItem.getTags().stream()
-            .sorted(Comparator.comparing(tag -> tag.tagName))
-            .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+                .sorted(Comparator.comparing(tag -> tag.tagName))
+                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+    }
+
+    private void setCompletionStatusStyle(Label completionStatus) {
+        String style = STYLE_TEXT;
+
+        if (trackedItem.getCompletionStatus().isCompleted()) {
+            style += STYLE_COLOUR_GREEN;
+        } else {
+            style += STYLE_COLOUR_RED;
+        }
+
+        completionStatus.setStyle(style);
     }
 
     private void setDeadlineStyle(Label deadline) {
-        String style = "-fx-text-fill: ";
+        String style = STYLE_TEXT;
 
         if (trackedItem.getDeadline().isEmpty()) {
             style += "-fx-cool-gray-0";
         } else {
             long daysToDeadline = trackedItem.getDeadline().daysToDeadline();
             if (daysToDeadline > 7) {
-                style += "-fx-green";
+                style += STYLE_COLOUR_GREEN;
             } else if (daysToDeadline < 4) {
-                style += "-fx-red";
+                style += STYLE_COLOUR_RED;
             } else {
-                style += "-fx-yellow";
+                style += STYLE_COLOUR_YELLOW;
             }
         }
 

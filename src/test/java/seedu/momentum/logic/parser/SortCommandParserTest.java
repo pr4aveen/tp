@@ -9,12 +9,13 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_ASCENDING_SORT
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_SORT_TYPE;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_SORT_TYPE;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCENDING_SORT_ORDER;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.momentum.testutil.SortCommandUtil.ALPHA_ASCENDING_COMMAND;
+import static seedu.momentum.testutil.SortCommandUtil.ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS;
 import static seedu.momentum.testutil.SortCommandUtil.ALPHA_DESCENDING_COMMAND;
 import static seedu.momentum.testutil.SortCommandUtil.CREATED_DATE_ASCENDING_COMMAND;
-import static seedu.momentum.testutil.SortCommandUtil.DEADLINE_ASCENDING_COMMAND;
+import static seedu.momentum.testutil.SortCommandUtil.DEADLINE_ASCENDING_COMMAND_WITH_COMPLETION_STATUS;
 import static seedu.momentum.testutil.SortCommandUtil.NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND;
 import static seedu.momentum.testutil.SortCommandUtil.NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
@@ -34,7 +35,7 @@ public class SortCommandParserTest {
     private static final String MESSAGE_NON_EMPTY_PREAMBLE_FAILURE = String.format(
             MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE);
     private static final SortCommand DEFAULT_SORT_COMMAND =
-            new SortCommand(SortType.NULL, true, true);
+            new SortCommand(SortType.NULL, true, true, true);
 
     private final SortCommandParser parser = new SortCommandParser();
     private Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
@@ -57,12 +58,11 @@ public class SortCommandParserTest {
 
     @Test
     public void parse_missingSortOrder_returnsTypedAscendingSortCommand() {
-
         // Alphabetical type
-        assertParseSuccess(parser, VALID_ALPHA_SORT_TYPE, ALPHA_ASCENDING_COMMAND, model);
+        assertParseSuccess(parser, VALID_ALPHA_SORT_TYPE, ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS, model);
 
         // Deadline type
-        assertParseSuccess(parser, VALID_DEADLINE_SORT_TYPE, DEADLINE_ASCENDING_COMMAND, model);
+        assertParseSuccess(parser, VALID_DEADLINE_SORT_TYPE, DEADLINE_ASCENDING_COMMAND_WITH_COMPLETION_STATUS, model);
 
         // Created date type
         assertParseSuccess(parser, VALID_CREATED_DATE_SORT_TYPE, CREATED_DATE_ASCENDING_COMMAND, model);
@@ -71,7 +71,7 @@ public class SortCommandParserTest {
 
     @Test
     public void parse_allFieldsSpecified_returnsSortCommand() {
-        String userInput = VALID_ALPHA_SORT_TYPE + VALID_DESCENDING_SORT_ORDER;
+        String userInput = VALID_ALPHA_SORT_TYPE + VALID_DESCENDING_SORT_ORDER + " " + PREFIX_COMPLETION_STATUS;
         assertParseSuccess(parser, userInput, ALPHA_DESCENDING_COMMAND, model);
     }
 

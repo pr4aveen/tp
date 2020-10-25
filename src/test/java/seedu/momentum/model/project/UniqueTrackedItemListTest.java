@@ -167,7 +167,7 @@ public class UniqueTrackedItemListTest {
 
     @Test
     public void setOrder_nullSortType_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setOrder(null, true));
+        assertThrows(NullPointerException.class, () -> uniqueTrackedItemList.setOrder(null, true, true));
     }
 
     @Test
@@ -175,7 +175,7 @@ public class UniqueTrackedItemListTest {
         for (Project p : getTypicalProjects()) {
             uniqueTrackedItemList.add(p);
         }
-        uniqueTrackedItemList.setOrder(SortType.ALPHA, true);
+        uniqueTrackedItemList.setOrder(SortType.ALPHA, true, false);
         UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalAscending());
         assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);
@@ -187,7 +187,7 @@ public class UniqueTrackedItemListTest {
         for (Project p : getTypicalProjects()) {
             uniqueTrackedItemList.add(p);
         }
-        uniqueTrackedItemList.setOrder(SortType.ALPHA, false);
+        uniqueTrackedItemList.setOrder(SortType.ALPHA, false, false);
         UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalDescending());
         assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);
@@ -199,7 +199,7 @@ public class UniqueTrackedItemListTest {
         for (Project p : getTypicalProjects()) {
             uniqueTrackedItemList.add(p);
         }
-        uniqueTrackedItemList.setOrder(SortType.DEADLINE, true);
+        uniqueTrackedItemList.setOrder(SortType.DEADLINE, true, false);
         UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByDeadlineAscending());
         assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);
@@ -211,7 +211,7 @@ public class UniqueTrackedItemListTest {
         for (Project p : getTypicalProjects()) {
             uniqueTrackedItemList.add(p);
         }
-        uniqueTrackedItemList.setOrder(SortType.DEADLINE, false);
+        uniqueTrackedItemList.setOrder(SortType.DEADLINE, false, false);
         UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByDeadlineDescending());
         assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);
@@ -223,7 +223,7 @@ public class UniqueTrackedItemListTest {
         for (Project p : getTypicalProjects()) {
             uniqueTrackedItemList.add(p);
         }
-        uniqueTrackedItemList.setOrder(SortType.CREATED, true);
+        uniqueTrackedItemList.setOrder(SortType.CREATED, true, false);
         UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByCreatedDateAscending());
         assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);
@@ -234,7 +234,7 @@ public class UniqueTrackedItemListTest {
         for (Project p : getTypicalProjects()) {
             uniqueTrackedItemList.add(p);
         }
-        uniqueTrackedItemList.setOrder(SortType.CREATED, false);
+        uniqueTrackedItemList.setOrder(SortType.CREATED, false, false);
         UniqueTrackedItemList expectedUniqueTrackedItemList = TypicalProjectsOrders
                 .getUniqueProjectList(TypicalProjectsOrders.getOrderedProjectBookByCreatedDateDescending());
         assertEquals(uniqueTrackedItemList, expectedUniqueTrackedItemList);

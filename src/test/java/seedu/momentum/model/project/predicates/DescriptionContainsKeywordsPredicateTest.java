@@ -55,7 +55,7 @@ public class DescriptionContainsKeywordsPredicateTest {
         assertFalse(firstAnyPredicate.equals(null));
         assertFalse(firstAllPredicate.equals(null));
 
-        // different project -> returns false
+        // different predicate -> returns false
         assertFalse(firstAnyPredicate.equals(secondAnyPredicate));
         assertFalse(firstAllPredicate.equals(secondAllPredicate));
     }

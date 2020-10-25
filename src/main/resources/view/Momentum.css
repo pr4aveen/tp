@@ -155,7 +155,7 @@
     -fx-padding: 0 8 8 0;
 }
 
-.project-list #id, #name {
+.project-list #id, #name, #completionStatus {
     -fx-font-size: 20;
 }
 
@@ -163,7 +163,7 @@
     -fx-fill: -fx-white;
 }
 
-.project-list #name, #description {
+.project-list #name, #description, #completionStatus {
     -fx-padding: 0 8 0 0;
 }
 

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.Date;
+import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
@@ -29,6 +30,7 @@ public class ProjectBuilder {
 
     private Name name;
     private Description description;
+    private CompletionStatus completionStatus;
     private Date createdDate;
     private Deadline deadline;
     private Set<Tag> tags;
@@ -41,6 +43,7 @@ public class ProjectBuilder {
     public ProjectBuilder() {
         name = new Name(DEFAULT_NAME);
         description = new Description(DEFAULT_DESCRIPTION);
+        completionStatus = new CompletionStatus();
         createdDate = new Date(DEFAULT_CREATED_DATE);
         deadline = new Deadline(DEFAULT_DEADLINE_DATE, DEFAULT_DEADLINE_TIME, createdDate);
         tags = new HashSet<>();
@@ -51,17 +54,18 @@ public class ProjectBuilder {
     /**
      * Initializes the ProjectBuilder with the data of {@code projectToCopy}.
      */
-    public ProjectBuilder(TrackedItem projectToCopy) {
-        name = projectToCopy.getName();
-        description = projectToCopy.getDescription();
-        createdDate = projectToCopy.getCreatedDate();
-        deadline = projectToCopy.getDeadline();
-        tags = new HashSet<>(projectToCopy.getTags());
+    public ProjectBuilder(TrackedItem trackedItemToCopy) {
+        name = trackedItemToCopy.getName();
+        description = trackedItemToCopy.getDescription();
+        completionStatus = trackedItemToCopy.getCompletionStatus();
+        createdDate = trackedItemToCopy.getCreatedDate();
+        deadline = trackedItemToCopy.getDeadline();
+        tags = new HashSet<>(trackedItemToCopy.getTags());
         durations = new UniqueDurationList();
-        for (WorkDuration duration : projectToCopy.getDurationList()) {
+        for (WorkDuration duration : trackedItemToCopy.getDurationList()) {
             durations.add(duration);
         }
-        timer = projectToCopy.getTimer();
+        timer = trackedItemToCopy.getTimer();
     }
 
     /**
@@ -77,6 +81,14 @@ public class ProjectBuilder {
      */
     public ProjectBuilder withDescription(String description) {
         this.description = new Description(description);
+        return this;
+    }
+
+    /**
+     * Sets the {@code CompletionStatus} of the {@code Project} that we are building.
+     */
+    public ProjectBuilder withCompletionStatus(CompletionStatus completionStatus) {
+        this.completionStatus = completionStatus;
         return this;
     }
 
@@ -155,6 +167,6 @@ public class ProjectBuilder {
     }
 
     public Project build() {
-        return new Project(name, description, createdDate, deadline, tags, durations, timer);
+        return new Project(name, description, completionStatus, createdDate, deadline, tags, durations, timer);
     }
 }

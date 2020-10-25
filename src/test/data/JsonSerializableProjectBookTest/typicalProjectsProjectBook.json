@@ -4,6 +4,7 @@
     "name" : "Alice Pauline",
     "description": "Likes coding",
     "createdDate": "2000-11-05",
+    "completionStatus": false,
     "deadline": {
       "date": "2020-11-05",
       "time": "11:11:11"
@@ -13,6 +14,7 @@
     "name" : "Benson Meier",
     "description": "Likes dogs",
     "createdDate": "2000-11-05",
+    "completionStatus": true,
     "deadline": {
       "date": "2020-11-05",
       "time": "12:43:12"
@@ -30,16 +32,19 @@
   }, {
     "name" : "Carl Kurz",
     "description": "Likes poodles",
+    "completionStatus": true,
     "createdDate": "2019-08-02",
     "tagged" : [ ]
   }, {
     "name" : "Daniel Meier",
     "description": "Likes cats",
+    "completionStatus": false,
     "createdDate": "2019-05-21",
     "tagged" : [ "friends" ]
   }, {
     "name" : "Elle Meyer",
     "description": "Likes elephants",
+    "completionStatus": false,
     "createdDate": "2019-07-21",
     "deadline": {
       "date": "2020-07-21",
@@ -49,6 +54,7 @@
   }, {
     "name" : "Fiona Kunz",
     "description": "Likes starbucks",
+    "completionStatus": false,
     "createdDate": "2019-03-21",
     "deadline": {
       "date": "2020-03-21",
@@ -58,6 +64,7 @@
   }, {
     "name" : "George Best",
     "description": "Likes you",
+    "completionStatus": true,
     "createdDate": "2019-07-28",
     "tagged" : [ ]
   } ]

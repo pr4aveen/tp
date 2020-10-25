@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.momentum.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.momentum.logic.commands.SortCommand.INPUT_ALPHA_TYPE;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
@@ -93,8 +94,9 @@ public class ProjectBookParserTest {
     public void parseCommand_sort() throws Exception {
         assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD, model) instanceof SortCommand);
         SortCommand command = (SortCommand) parser.parseCommand(SortCommand.COMMAND_WORD + " "
-                + SORT_ORDER + SortCommand.INPUT_ASCENDING_ORDER + " " + SORT_TYPE + INPUT_ALPHA_TYPE, model);
-        assertEquals(new SortCommand(SortType.ALPHA, true, false), command);
+                + SORT_ORDER + SortCommand.INPUT_ASCENDING_ORDER + " " + SORT_TYPE + INPUT_ALPHA_TYPE + " "
+                + PREFIX_COMPLETION_STATUS, model);
+        assertEquals(new SortCommand(SortType.ALPHA, true, false, false), command);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package seedu.momentum.testutil;
 
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
@@ -33,6 +34,9 @@ public class ProjectUtil {
         StringBuilder sb = new StringBuilder();
         sb.append(PREFIX_NAME + project.getName().fullName + " ");
         sb.append(PREFIX_DESCRIPTION + project.getDescription().value + " ");
+        if (project.getCompletionStatus().isCompleted()) {
+            sb.append(PREFIX_COMPLETION_STATUS + " ");
+        }
         Deadline deadline = project.getDeadline();
         if (!deadline.isEmpty()) {
             sb.append(PREFIX_DEADLINE_DATE + deadline.getDate().toString() + " ");
@@ -54,6 +58,8 @@ public class ProjectUtil {
         descriptor.getName().ifPresent(name -> sb.append(PREFIX_NAME).append(name.fullName).append(" "));
         descriptor.getDescription().ifPresent(description -> sb.append(PREFIX_DESCRIPTION).append(description.value)
                 .append(" "));
+        descriptor.getCompletionStatus().ifPresent(editedCompletionStatus
+            -> sb.append(PREFIX_COMPLETION_STATUS).append(" "));
         if (descriptor.getDeadline().isPresent() && !descriptor.getDeadline().isEmpty()) {
             Deadline deadline = descriptor.getDeadline().get();
             sb.append(PREFIX_DEADLINE_DATE + deadline.getDate().toString() + " ");

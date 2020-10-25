@@ -61,8 +61,7 @@ public class ProjectBookTest {
 
     @Test
     public void setOrder_withSortTypeNull_throwsNullPointerException() {
-        boolean isAscending = true;
-        assertThrows(NullPointerException.class, () -> projectBook.setOrder(null, isAscending));
+        assertThrows(NullPointerException.class, () -> projectBook.setOrder(null, true, true));
     }
 
     @Test
@@ -70,7 +69,7 @@ public class ProjectBookTest {
         ProjectBook unorderedProjectBook = getTypicalProjectBook();
         ProjectBook orderedProjectBook = new ProjectBook();
         orderedProjectBook.setTrackedItems(getOrderedProjectBookByDeadlineAscending());
-        unorderedProjectBook.setOrder(SortType.DEADLINE, true);
+        unorderedProjectBook.setOrder(SortType.DEADLINE, true, false);
         assertEquals(orderedProjectBook, unorderedProjectBook);
     }
 

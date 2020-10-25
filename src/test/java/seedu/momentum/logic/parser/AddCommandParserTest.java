@@ -1,6 +1,7 @@
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.momentum.logic.commands.CommandTestUtil.COMPLETION_STATUS_DESC_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.DEADLINE_DATE_DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.DEADLINE_DATE_DESC_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.DEADLINE_TIME_DESC_AMY;
@@ -50,22 +51,36 @@ public class AddCommandParserTest {
                 .withCurrentCreatedDate().build();
 
         // whitespace only preamble
-        assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + DESCRIPTION_DESC_BOB + DEADLINE_DATE_DESC_BOB
-                + TAG_DESC_FRIEND, new AddCommand(expectedProject), model);
+        assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + DESCRIPTION_DESC_BOB
+                + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_BOB + TAG_DESC_FRIEND,
+                new AddCommand(expectedProject), model);
 
         // multiple names - last name accepted
-        assertParseSuccess(parser, NAME_DESC_AMY + NAME_DESC_BOB + DESCRIPTION_DESC_BOB + DEADLINE_DATE_DESC_BOB
-                + TAG_DESC_FRIEND, new AddCommand(expectedProject), model);
+        assertParseSuccess(parser, NAME_DESC_AMY + NAME_DESC_BOB + DESCRIPTION_DESC_BOB
+                + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_BOB + TAG_DESC_FRIEND,
+                new AddCommand(expectedProject), model);
 
         // multiple descriptions - last description accepted
-        assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_AMY + DESCRIPTION_DESC_BOB + DEADLINE_DATE_DESC_BOB
-                + TAG_DESC_FRIEND, new AddCommand(expectedProject), model);
+        assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_AMY + DESCRIPTION_DESC_BOB
+                + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_BOB + TAG_DESC_FRIEND,
+                new AddCommand(expectedProject), model);
+
+        // multiple completion status
+        assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB + COMPLETION_STATUS_DESC_BOB
+                + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_BOB + TAG_DESC_FRIEND,
+                new AddCommand(expectedProject), model);
+
+        // multiple deadlines - last deadline accepted
+        assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB + DEADLINE_DATE_DESC_AMY
+                + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_BOB + TAG_DESC_FRIEND,
+                new AddCommand(expectedProject), model);
 
         // multiple tags - all accepted
         Project expectedProjectMultipleTags = new ProjectBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .withCurrentCreatedDate().build();
-        assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB + DEADLINE_DATE_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, new AddCommand(expectedProjectMultipleTags), model);
+        assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB + COMPLETION_STATUS_DESC_BOB
+                + DEADLINE_DATE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                new AddCommand(expectedProjectMultipleTags), model);
     }
 
     @Test

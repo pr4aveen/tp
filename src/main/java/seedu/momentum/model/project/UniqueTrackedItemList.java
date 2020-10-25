@@ -10,6 +10,7 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.momentum.model.project.comparators.CompletionStatusCompare;
 import seedu.momentum.model.project.comparators.CreatedDateCompare;
 import seedu.momentum.model.project.comparators.DeadlineCompare;
 import seedu.momentum.model.project.comparators.NameCompare;
@@ -23,7 +24,7 @@ import seedu.momentum.model.project.exceptions.TrackableItemNotFoundException;
  * the tracked item being added or updated is unique in terms of identity in the UniqueTrackedItemList. However, the
  * removal of a tracked item uses TrackedItem#equals(Object) so as to ensure that the tracked item with exactly the
  * same fields will be removed.
- *
+ * <p>
  * Supports a minimal set of list operations.
  *
  * @see TrackedItem#isSameTrackedItem(TrackedItem)
@@ -109,25 +110,25 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
     /**
      * Sets the order of the list of tracked items according to given {@code sortType} and {@code isAscending}.
      *
-     * @param sortType type of sort.
-     * @param isAscending order of sort.
+     * @param sortType                   type of sort.
+     * @param isAscending                order of sort.
+     * @param isSortedByCompletionStatus sort by creation status.
      */
-    public void setOrder(SortType sortType, boolean isAscending) {
-
+    public void setOrder(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
         requireNonNull(sortType);
 
         switch (sortType) {
         case ALPHA:
-            setOrderAlphaType(isAscending);
+            setOrderAlphaType(isAscending, isSortedByCompletionStatus);
             break;
         case DEADLINE:
-            setOrderDeadlineType(isAscending);
+            setOrderDeadlineType(isAscending, isSortedByCompletionStatus);
             break;
         case CREATED:
-            setOrderCreatedDateType(isAscending);
+            setOrderCreatedDateType(isAscending, isSortedByCompletionStatus);
             break;
         case NULL:
-            setOrderNullType(isAscending);
+            setOrderNullType(isAscending, isSortedByCompletionStatus);
             break;
         default:
             // Will always be one of the above. Default does nothing.
@@ -138,57 +139,84 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
     /**
      * Sets the order of list of tracked items by alphabetical order, ascending or descending based on user input.
      *
-     * @param isAscending order of sort specified by user.
+     * @param isAscending                order of sort specified by user.
+     * @param isSortedByCompletionStatus sort by creation status.
      */
-    private void setOrderAlphaType(boolean isAscending) {
+    private void setOrderAlphaType(boolean isAscending, boolean isSortedByCompletionStatus) {
         Comparator<TrackedItem> nameCompare = new NameCompare();
         nameCompare = isAscending ? nameCompare : nameCompare.reversed();
         sortType = SortType.ALPHA;
-        internalList.sort(nameCompare);
+
+        Comparator<TrackedItem> compare;
+        if (isSortedByCompletionStatus) {
+            compare = new CompletionStatusCompare().thenComparing(nameCompare);
+        } else {
+            compare = nameCompare;
+        }
+        internalList.sort(compare);
     }
 
     /**
      * Sets the order of list of tracked items by deadline order, ascending or descending based on user input.
      *
-     * @param isAscending order of sort specified by user.
+     * @param isAscending                order of sort specified by user.
+     * @param isSortedByCompletionStatus sort by creation status.
      */
-    private void setOrderDeadlineType(boolean isAscending) {
+    private void setOrderDeadlineType(boolean isAscending, boolean isSortedByCompletionStatus) {
         Comparator<TrackedItem> nameCompare = new NameCompare();
-        Comparator<HashMap<String, Object>> deadlineCompare = new DeadlineCompare();
-        deadlineCompare = isAscending ? deadlineCompare : deadlineCompare.reversed();
+        Comparator<HashMap<String, Object>> deadlineCompareHashMap = new DeadlineCompare();
+        deadlineCompareHashMap = isAscending ? deadlineCompareHashMap : deadlineCompareHashMap.reversed();
+        Comparator<TrackedItem> deadlineCompare = Comparator.comparing(TrackedItem::getNullOrDeadline,
+                Comparator.nullsLast(deadlineCompareHashMap));
+        deadlineCompare = deadlineCompare.thenComparing(nameCompare);
         sortType = SortType.DEADLINE;
-        internalList.sort(Comparator.comparing(TrackedItem::getNullOrDeadline, Comparator.nullsLast(deadlineCompare))
-                .thenComparing(nameCompare));
+
+        Comparator<TrackedItem> compare;
+        if (isSortedByCompletionStatus) {
+            compare = new CompletionStatusCompare().thenComparing(deadlineCompare);
+        } else {
+            compare = deadlineCompare;
+        }
+        internalList.sort(compare);
     }
 
     /**
      * Sets the order of list of tracked items by created date order, ascending or descending based on user input.
      *
-     * @param isAscending order of sort specified by user.
+     * @param isAscending                order of sort specified by user.
+     * @param isSortedByCompletionStatus sort by creation status.
      */
-    private void setOrderCreatedDateType(boolean isAscending) {
+    private void setOrderCreatedDateType(boolean isAscending, boolean isSortedByCompletionStatus) {
         Comparator<TrackedItem> createdDateCompare = new CreatedDateCompare();
         createdDateCompare = isAscending ? createdDateCompare : createdDateCompare.reversed();
         this.sortType = SortType.CREATED;
-        internalList.sort(createdDateCompare);
+
+        Comparator<TrackedItem> compare;
+        if (isSortedByCompletionStatus) {
+            compare = new CompletionStatusCompare().thenComparing(createdDateCompare);
+        } else {
+            compare = createdDateCompare;
+        }
+        internalList.sort(compare);
     }
 
     /**
      * Sets the order of the list of tracked items to current sort type with specified order
      * if sort type has not been specified by user.
      *
-     * @param isAscending order of sort specified by user.
+     * @param isAscending                order of sort specified by user.
+     * @param isSortedByCompletionStatus sort by creation status.
      */
-    private void setOrderNullType(boolean isAscending) {
-        switch(this.sortType) {
+    private void setOrderNullType(boolean isAscending, boolean isSortedByCompletionStatus) {
+        switch (this.sortType) {
         case ALPHA:
-            setOrder(SortType.ALPHA, isAscending);
+            setOrder(SortType.ALPHA, isAscending, isSortedByCompletionStatus);
             break;
         case DEADLINE:
-            setOrder(SortType.DEADLINE, isAscending);
+            setOrder(SortType.DEADLINE, isAscending, isSortedByCompletionStatus);
             break;
         case CREATED:
-            setOrder(SortType.CREATED, isAscending);
+            setOrder(SortType.CREATED, isAscending, isSortedByCompletionStatus);
             break;
         default:
             // Will always be one of the above. Default does nothing.
@@ -212,7 +240,7 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof UniqueTrackedItemList // instanceof handles nulls
-                        && internalList.equals(((UniqueTrackedItemList) other).internalList));
+                && internalList.equals(((UniqueTrackedItemList) other).internalList));
     }
 
     @Override

@@ -48,7 +48,7 @@ public class AddCommandIntegrationTest {
 
         // alphabetical order -> Dana gets placed in between Carl and Daniel
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
-        expectedModel.orderFilteredProjectList(SortType.ALPHA, true);
+        expectedModel.orderFilteredProjectList(SortType.ALPHA, true, true);
         expectedModel.addTrackedItem(dana);
 
         assertCommandSuccess(addDanaCommand, model,

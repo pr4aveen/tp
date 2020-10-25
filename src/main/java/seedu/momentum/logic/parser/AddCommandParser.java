@@ -1,6 +1,7 @@
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
@@ -16,6 +17,7 @@ import seedu.momentum.logic.commands.AddCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ViewMode;
+import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
@@ -37,8 +39,8 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     public AddCommand parse(String args, Model model) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_DEADLINE_DATE,
-                        PREFIX_DEADLINE_TIME, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS,
+                        PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME, PREFIX_TAG);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -46,13 +48,18 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        Description description;
 
+        Description description;
         if (!argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
             description = Description.EMPTY_DESCRIPTION;
         } else {
             description = ParserUtil.parseDescription(
                     argMultimap.getValue(PREFIX_DESCRIPTION).get());
+        }
+
+        CompletionStatus completionStatus = new CompletionStatus();
+        if (argMultimap.getValue(PREFIX_COMPLETION_STATUS).isPresent()) {
+            completionStatus = completionStatus.reverse();
         }
 
         Date createdDate = new Date(Clock.now().getDate());
@@ -65,10 +72,10 @@ public class AddCommandParser implements Parser<AddCommand> {
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
         if (model.getViewMode() == ViewMode.PROJECTS) {
-            return new AddCommand(new Project(name, description, createdDate, deadline, tagList));
+            return new AddCommand(new Project(name, description, completionStatus, createdDate, deadline, tagList));
         } else {
-            return new AddCommand(new Task(name, description, createdDate, deadline, tagList),
-                model.getCurrentProject());
+            return new AddCommand(new Task(name, description, completionStatus, createdDate, deadline, tagList),
+                    model.getCurrentProject());
         }
     }
 

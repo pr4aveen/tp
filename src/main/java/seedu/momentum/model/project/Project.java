@@ -23,49 +23,54 @@ public class Project extends TrackedItem {
     /**
      * Constructs a {@code Project}.
      *
-     * @param name A valid name.
-     * @param description A description of the project.
-     * @param createdDate A date associated with the creation of the project.
-     * @param deadline A deadline associated with the project.
-     * @param tags A set of tags associated to the project.
-     * @param durations A list of {@code WorkDuration} associated with the project.
-     * @param timer A timer associated with the project.
-     * @param taskList UniqueTrackedListList associated with the project.
+     * @param name             A valid name.
+     * @param description      A description of the project.
+     * @param completionStatus A completion status of the project.
+     * @param createdDate      A date associated with the creation of the project.
+     * @param deadline         A deadline associated with the project.
+     * @param tags             A set of tags associated to the project.
+     * @param durations        A list of {@code WorkDuration} associated with the project.
+     * @param timer            A timer associated with the project.
+     * @param taskList         UniqueTrackedListList associated with the project.
      */
-    public Project(Name name, Description description, Date createdDate, Deadline deadline,
-                   Set<Tag> tags, UniqueDurationList durations, Timer timer, UniqueTrackedItemList taskList) {
-        super(name, description, createdDate, deadline, tags, durations, timer);
+    public Project(Name name, Description description, CompletionStatus completionStatus, Date createdDate,
+                   Deadline deadline, Set<Tag> tags, UniqueDurationList durations, Timer timer,
+                   UniqueTrackedItemList taskList) {
+        super(name, description, completionStatus, createdDate, deadline, tags, durations, timer);
         this.taskList = taskList;
     }
 
     /**
      * Constructs a {@code Project}.
      *
-     * @param name A valid name.
-     * @param description A description of the project.
-     * @param createdDate A date associated with the creation of the project.
-     * @param deadline A deadline associated with the project.
-     * @param tags A set of tags associated to the project.
-     * @param durations A list of {@code WorkDuration} associated with the project.
-     * @param timer A timer associated with the project.
+     * @param name             A valid name.
+     * @param description      A description of the project.
+     * @param completionStatus A completion status of the project.
+     * @param createdDate      A date associated with the creation of the project.
+     * @param deadline         A deadline associated with the project.
+     * @param tags             A set of tags associated to the project.
+     * @param durations        A list of {@code WorkDuration} associated with the project.
+     * @param timer            A timer associated with the project.
      */
-    public Project(Name name, Description description, Date createdDate, Deadline deadline,
-                   Set<Tag> tags, UniqueDurationList durations, Timer timer) {
-        super(name, description, createdDate, deadline, tags, durations, timer);
+    public Project(Name name, Description description, CompletionStatus completionStatus, Date createdDate,
+                   Deadline deadline, Set<Tag> tags, UniqueDurationList durations, Timer timer) {
+        super(name, description, completionStatus, createdDate, deadline, tags, durations, timer);
         taskList = new UniqueTrackedItemList();
     }
 
     /**
      * Constructs a new {@code Project}
      *
-     * @param name A valid name.
-     * @param createdDate A date associated with the creation of the project
-     * @param deadline A deadline associated with the project.
-     * @param description A description of the project.
-     * @param tags A set of tags associated to the project.
+     * @param name             A valid name.
+     * @param completionStatus A completion status of the project.
+     * @param createdDate      A date associated with the creation of the project
+     * @param deadline         A deadline associated with the project.
+     * @param description      A description of the project.
+     * @param tags             A set of tags associated to the project.
      */
-    public Project(Name name, Description description, Date createdDate, Deadline deadline, Set<Tag> tags) {
-        super(name, description, createdDate, deadline, tags);
+    public Project(Name name, Description description, CompletionStatus completionStatus, Date createdDate,
+                   Deadline deadline, Set<Tag> tags) {
+        super(name, description, completionStatus, createdDate, deadline, tags);
         taskList = new UniqueTrackedItemList();
     }
 
@@ -77,7 +82,8 @@ public class Project extends TrackedItem {
     @Override
     public Project startTimer() {
         Timer newTimer = timer.start();
-        return new Project(name, description, createdDate, deadline, tags, durations, newTimer, taskList);
+        return new Project(name, description, completionStatus, createdDate, deadline, tags, durations, newTimer,
+                taskList);
     }
 
     /**
@@ -93,7 +99,8 @@ public class Project extends TrackedItem {
         UniqueDurationList newDurations = new UniqueDurationList();
         newDurations.setDurations(durations);
         newDurations.add(duration);
-        return new Project(name, description, createdDate, deadline, tags, newDurations, newTimer, taskList);
+        return new Project(name, description, completionStatus, createdDate, deadline, tags, newDurations, newTimer,
+                taskList);
     }
 
     /**
@@ -129,7 +136,7 @@ public class Project extends TrackedItem {
     /**
      * Edits a task is in the {@code Project}'s {@code UniqueTrackedItemList}.
      *
-     * @param target task to be replaced.
+     * @param target     task to be replaced.
      * @param editedTask task to replace the original task with.
      */
     public void setTask(TrackedItem target, TrackedItem editedTask) {
