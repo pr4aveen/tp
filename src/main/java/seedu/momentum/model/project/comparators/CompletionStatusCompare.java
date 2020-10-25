@@ -9,6 +9,7 @@ import seedu.momentum.model.project.TrackedItem;
  * Represents a comparator that compares the completion status of a project.
  */
 public class CompletionStatusCompare implements Comparator<TrackedItem> {
+
     /**
      * Compares completion status of two tracked items.
      *

@@ -57,10 +57,7 @@ public class CompletionStatus implements Comparable<CompletionStatus> {
 
     @Override
     public int compareTo(CompletionStatus other) {
-        return this.completionStatus == other.completionStatus
-                ? 0
-                : completionStatus
-                ? 1 : -1;
+        return Boolean.compare(this.completionStatus, other.completionStatus);
     }
 
     @Override
