@@ -72,7 +72,7 @@ public class TrackedItemCard extends UiPart<Region> {
         String style = "-fx-text-fill: ";
 
         if (trackedItem.getDeadline().isEmpty()) {
-            style += "-fx-cool-gray-0";
+            style += "-fx-text-muted";
         } else {
             long daysToDeadline = trackedItem.getDeadline().daysToDeadline();
             if (daysToDeadline > 7) {
