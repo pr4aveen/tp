@@ -50,7 +50,7 @@ public class SortCommand extends Command {
     /**
      * Creates a SortCommand to sort the list of projects.
      *
-     * @param sortType Type of sort applied to projects.
+     * @param sortType ThemeType of sort applied to projects.
      * @param isAscending Boolean value to check if order of sort applied to projects is ascending.
      * @param isDefault Boolean value to check if SortCommand is default.
      */

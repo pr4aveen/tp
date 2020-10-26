@@ -30,6 +30,32 @@ public class Theme {
         return Paths.get("view", stylesheetName).toString();
     }
 
+    @Override
+    public String toString() {
+        return this.themeType.toString();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Theme)) {
+            return false;
+        }
+
+        Theme o = (Theme) other;
+
+        return this.themeType == o.themeType;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.themeType.hashCode();
+    }
+
+
     public enum ThemeType {
         LIGHT, DARK
     }

@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.commons.core.Theme;
 import seedu.momentum.logic.Logic;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -78,7 +79,7 @@ public class MainWindow extends UiPart<Stage> {
         this.logic = logic;
 
         // Configure the UI
-        setWindowDefaultSize(logic.getGuiSettings());
+        setWindowDefaultSizeAndTheme(logic.getGuiSettings());
 
         setAccelerators();
 
@@ -176,13 +177,14 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Sets the default size based on {@code guiSettings}.
      */
-    private void setWindowDefaultSize(GuiSettings guiSettings) {
+    private void setWindowDefaultSizeAndTheme(GuiSettings guiSettings) {
         primaryStage.setHeight(guiSettings.getWindowHeight());
         primaryStage.setWidth(guiSettings.getWindowWidth());
         if (guiSettings.getWindowCoordinates() != null) {
             primaryStage.setX(guiSettings.getWindowCoordinates().getX());
             primaryStage.setY(guiSettings.getWindowCoordinates().getY());
         }
+        primaryStage.getScene().getStylesheets().add(new Theme(Theme.ThemeType.DARK).getStylesheet());
     }
 
     /**
@@ -207,7 +209,7 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private void handleExit() {
         GuiSettings guiSettings = new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
-                (int) primaryStage.getX(), (int) primaryStage.getY());
+                (int) primaryStage.getX(), (int) primaryStage.getY(), new Theme(Theme.ThemeType.DARK));
         logic.setGuiSettings(guiSettings);
         helpWindow.hide();
         primaryStage.hide();
