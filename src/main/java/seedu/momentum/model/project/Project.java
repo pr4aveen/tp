@@ -215,7 +215,7 @@ public class Project extends TrackedItem {
             return false;
         }
 
-        return this.taskList.equals(((Project) other).taskList)
-            && super.equals(other);
+        return this.taskList.equals(((Project) other).taskList) 
+                && super.equals(other);
     }
 }
