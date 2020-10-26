@@ -143,12 +143,12 @@ public abstract class TrackedItem {
     public ObservableList<WorkDuration> getDurationList() {
         return durations.asUnmodifiableObservableList();
     }
-    
+
     /**
      * Remove the reminder of a trackedItem.
      */
     public abstract TrackedItem removeReminder();
-    
+
     /**
      * Returns a copy of this tracked item with its timerWrapper started.
      *

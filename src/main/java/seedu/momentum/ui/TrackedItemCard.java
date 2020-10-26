@@ -59,9 +59,9 @@ public class TrackedItemCard extends UiPart<Region> {
         super(FXML);
         this.trackedItem = trackedItem;
         id.setText(displayedIndex + ". ");
-        
+
         name.setText(trackedItem.getName().fullName);
-        
+
         setDescriptionLabel(trackedItem);
 
         completionStatus.setText(trackedItem.getCompletionStatus().toString());
@@ -78,10 +78,10 @@ public class TrackedItemCard extends UiPart<Region> {
 
         Label reminderLabel = new Label("Reminder: " + trackedItem.getReminder().getFormattedReminder());
         reminder.getChildren().add(reminderLabel);
-        
+
         setTagsPane(trackedItem);
     }
-    
+
     private void setDescriptionLabel(TrackedItem trackedItem) {
         if (!trackedItem.getDescription().isEmpty()) {
             Label descLabel = new Label(trackedItem.getDescription().value);
@@ -89,7 +89,7 @@ public class TrackedItemCard extends UiPart<Region> {
             description.getChildren().add(descLabel);
         }
     }
-    
+
     private void setTagsPane(TrackedItem trackedItem) {
         trackedItem.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))

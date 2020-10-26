@@ -9,8 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -18,10 +16,10 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.commons.core.LogsCenter;
-import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.reminder.ReminderManager;
 
 /**
  * Represents the in-memory model of the project book data.
@@ -170,6 +168,7 @@ public class ModelManager implements Model {
     /**
      * Returns an unmodifiable view of the list of {@code TrackedItem} backed by the internal list of
      * {@code versionedProjectBook}
+     *
      * @return
      */
     @Override
@@ -248,23 +247,19 @@ public class ModelManager implements Model {
 
     @Override
     public BooleanProperty isReminderEmpty() {
-        BooleanProperty booleanProperty = new SimpleBooleanProperty();
-        booleanProperty.set(reminderManager.isReminderEmpty());
-        return booleanProperty;
+        return reminderManager.isReminderEmpty();
     }
 
     @Override
     public StringProperty getReminder() {
-        StringProperty stringProperty = new SimpleStringProperty();
-        stringProperty.set(reminderManager.getReminder());
-        return stringProperty;
+        return reminderManager.getReminder();
     }
-    
+
     @Override
     public void removeReminder() {
         reminderManager.removeReminder();
     }
-    
+
     //=========== Timers =============================================================
 
     @Override

@@ -38,7 +38,7 @@ public class ProjectBookParser {
      * Parses user input into command for execution.
      *
      * @param userInput full user input string
-     * @param model the current model manager
+     * @param model     the current model manager
      * @return the command based on the user input
      * @throws ParseException if the user input does not conform the expected format
      */
@@ -90,10 +90,10 @@ public class ProjectBookParser {
 
         case HomeCommand.COMMAND_WORD:
             return new HomeCommand();
-            
+
         case ShowComponentCommand.COMMAND_WORD:
             return new ShowComponentCommandParser().parse(arguments, model);
-            
+
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }

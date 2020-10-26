@@ -12,9 +12,9 @@ import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
-import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.UniqueTrackedItemList;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.TimerWrapper;
 import seedu.momentum.model.timer.UniqueDurationList;
@@ -111,9 +111,9 @@ public class JsonToModel {
         if (!DateTimeWrapper.isValid(reminder)) {
             throw new IllegalValueException(DateTimeWrapper.MESSAGE_CONSTRAINTS);
         }
-        
+
         if (Reminder.isValid(reminder)) {
-            return new Reminder(reminder, modelCreatedDateWrapper);    
+            return new Reminder(reminder, modelCreatedDateWrapper);
         }
         return new Reminder();
     }

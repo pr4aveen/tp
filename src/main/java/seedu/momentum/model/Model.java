@@ -1,6 +1,5 @@
 package seedu.momentum.model;
 
-import javax.sound.midi.Track;
 import java.nio.file.Path;
 import java.util.function.Predicate;
 
@@ -10,14 +9,15 @@ import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
-import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
  * The API of the Model component.
  */
 public interface Model {
-    /** {@code Predicate} that always evaluate to true */
+    /**
+     * {@code Predicate} that always evaluate to true
+     */
     Predicate<TrackedItem> PREDICATE_SHOW_ALL_TRACKED_ITEMS = unused -> true;
 
     /**
@@ -55,11 +55,14 @@ public interface Model {
      */
     void setProjectBook(ReadOnlyProjectBook projectBook);
 
-    /** Returns the ProjectBook */
+    /**
+     * Returns the ProjectBook
+     */
     ReadOnlyProjectBook getProjectBook();
 
     /**
      * Returns true if a tracked item with the same identity as {@code trackedItem} exists in the project book.
+     *
      * @param trackedItem
      */
     boolean hasTrackedItem(TrackedItem trackedItem);
@@ -84,15 +87,19 @@ public interface Model {
      */
     void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem);
 
-    /** Returns an unmodifiable view of the filtered project list */
+    /**
+     * Returns an unmodifiable view of the filtered project list
+     */
     ObservableList<TrackedItem> getFilteredTrackedItemList();
 
-    /** Returns a list of projects whose timers are running */
+    /**
+     * Returns a list of projects whose timers are running
+     */
     ObservableList<TrackedItem> getRunningTimers();
 
     /**
      * Returns true if the reminder is empty, false otherwise.
-     * 
+     *
      * @return the boolean.
      */
     BooleanProperty isReminderEmpty();
@@ -108,7 +115,7 @@ public interface Model {
      * Remove the reminder shown.
      */
     void removeReminder();
-    
+
     /**
      * Adds the given project to the running timers list.
      * {@code project} must have a running timerWrapper.

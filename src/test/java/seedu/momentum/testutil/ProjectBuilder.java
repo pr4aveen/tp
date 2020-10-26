@@ -10,8 +10,8 @@ import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.TimerWrapper;
 import seedu.momentum.model.timer.UniqueDurationList;
@@ -163,7 +163,7 @@ public class ProjectBuilder {
     /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Project} that we are building.
      */
-    public ProjectBuilder withTags(String ... tags) {
+    public ProjectBuilder withTags(String... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }

@@ -110,7 +110,7 @@ public class ParserUtil {
         if (!DateTimeWrapper.isValid(trimmedDateTime)) {
             throw new ParseException(DateTimeWrapper.MESSAGE_CONSTRAINTS);
         }
-        
+
         if (!Reminder.isValid(trimmedDateTime)) {
             throw new ParseException(Reminder.REMINDER_MESSAGE_CONSTRAINTS);
         }

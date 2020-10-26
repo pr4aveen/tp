@@ -13,14 +13,14 @@ public class ReminderDisplay extends UiPart<Region> {
 
     private boolean isEmpty;
     private String reminderStr;
-    
+
     @FXML
     private FlowPane reminderPane;
 
     /**
      * Creates a {@code ReminderDisplay}.
-     * 
-     * @param isEmpty true if the reminder is empty.
+     *
+     * @param isEmpty     true if the reminder is empty.
      * @param reminderStr string representation of the reminder.
      */
     public ReminderDisplay(boolean isEmpty, String reminderStr) {

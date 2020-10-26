@@ -9,12 +9,12 @@ import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.LogsCenter;
-import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.UniqueTrackedItemList;
+import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -23,9 +23,9 @@ import seedu.momentum.model.tag.Tag;
  */
 public class ProjectBook implements ReadOnlyProjectBook {
 
-    private final UniqueTrackedItemList trackedItems;
-
     private static final Logger logger = LogsCenter.getLogger(ProjectBook.class);
+
+    private final UniqueTrackedItemList trackedItems;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -38,7 +38,8 @@ public class ProjectBook implements ReadOnlyProjectBook {
         trackedItems = new UniqueTrackedItemList();
     }
 
-    public ProjectBook() {}
+    public ProjectBook() {
+    }
 
     /**
      * Creates an ProjectBook using the Projects in the {@code toBeCopied}
@@ -72,8 +73,8 @@ public class ProjectBook implements ReadOnlyProjectBook {
     /**
      * Sets the order of the list of projects according to given {@code sortType} and {@code isAscending}.
      *
-     * @param sortType type of sort.
-     * @param isAscending order of sort.
+     * @param sortType                   type of sort.
+     * @param isAscending                order of sort.
      * @param isSortedByCompletionStatus sorted by completion status.
      */
     public void setOrder(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
@@ -147,7 +148,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
             reminderManager.rescheduleReminder((Project) item);
         }
     }
-    
+
     /**
      * Remove the reminder of a trackedItem.
      *
@@ -163,14 +164,14 @@ public class ProjectBook implements ReadOnlyProjectBook {
      * Remove the reminder of a trackedItem.
      *
      * @param project project that contains the task with a reminder to be removed.
-     * @param task task with a reminder to be removed.
+     * @param task    task with a reminder to be removed.
      */
     public void removeReminder(Project project, Task task) {
         Project newProject = project.removeReminder(task);
         trackedItems.setTrackedItem(project, newProject);
         logger.info("Reminder of task of project removed: " + task.getName() + " " + project.getName());
-    }    
-    
+    }
+
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object

@@ -5,8 +5,6 @@ import java.nio.file.Path;
 import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiSettings;
@@ -69,7 +67,7 @@ public class LogicManager implements Logic {
     public StatisticGenerator getStatistic() {
         return statistic;
     }
-    
+
     @Override
     public BooleanProperty isReminderEmpty() {
         return model.isReminderEmpty();

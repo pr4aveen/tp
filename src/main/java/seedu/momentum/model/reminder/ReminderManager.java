@@ -6,6 +6,8 @@ import java.util.TimerTask;
 import java.util.logging.Logger;
 
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import seedu.momentum.commons.core.LogsCenter;
@@ -17,11 +19,11 @@ import seedu.momentum.model.project.Task;
  * Manages the scheduling of reminders in the project book.
  */
 public class ReminderManager {
+    private static final Logger logger = LogsCenter.getLogger(ReminderManager.class);
+
     private final ProjectBook projectBook;
     private StringProperty currReminder;
     private Timer timer;
-
-    private static final Logger logger = LogsCenter.getLogger(ReminderManager.class);
 
     /**
      * Instantiates a new Reminder manager.
@@ -104,7 +106,7 @@ public class ReminderManager {
      * @param task    the task
      */
     public void updateCurrReminder(Project project, Task task) {
-        this.currReminder.set("Reminder: " + task.getName() + " of " + project.getName());
+        this.currReminder.set("Project: " + project.getName() + "\nTask: " + task.getName());
         logger.info("Current reminder updated to:" + currReminder);
     }
 
@@ -114,7 +116,7 @@ public class ReminderManager {
      * @param project the project
      */
     public void updateCurrReminder(Project project) {
-        this.currReminder.set("Reminder: " + project.getName());
+        this.currReminder.set("Project: " + project.getName());
         logger.info("Current reminder updated to:" + currReminder);
     }
 
@@ -123,15 +125,17 @@ public class ReminderManager {
      *
      * @return the boolean
      */
-    public boolean isReminderEmpty() {
-        return this.currReminder.get() == null;
+    public BooleanProperty isReminderEmpty() {
+        BooleanProperty booleanProperty = new SimpleBooleanProperty();
+        booleanProperty.set(this.currReminder.get() == null || this.currReminder.get().isEmpty());
+        return booleanProperty;
     }
 
     /**
      * Removes the current reminder.
      */
     public void removeReminder() {
-        this.currReminder = new SimpleStringProperty();
+        this.currReminder.set("");
         logger.info("reminder removed");
     }
 
@@ -140,8 +144,8 @@ public class ReminderManager {
      *
      * @return the reminder.
      */
-    public String getReminder() {
-        return this.currReminder.get() == null ? "" : this.currReminder.get();
+    public StringProperty getReminder() {
+        return this.currReminder;
     }
 
     private class ReminderTimerTask extends TimerTask {

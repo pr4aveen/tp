@@ -8,10 +8,10 @@ import seedu.momentum.model.Model;
 
 public class ShowComponentCommandParser implements Parser<ShowComponentCommand> {
     public static final String NO_COMPONENT_SPECIFIED = "No component specified.";
-    
+
     public enum ComponentType {
         REMINDER;
-        
+
         @Override
         public String toString() {
             return name().charAt(0) + name().substring(1).toLowerCase();
