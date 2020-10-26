@@ -1,0 +1,75 @@
+package seedu.momentum.logic.commands;
+
+import static java.util.Objects.requireNonNull;
+import static seedu.momentum.logic.parser.CliSyntax.SET_THEME;
+
+import java.util.Optional;
+
+import seedu.momentum.commons.core.Theme;
+import seedu.momentum.commons.util.CollectionUtil;
+import seedu.momentum.logic.commands.exceptions.CommandException;
+import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.model.Model;
+
+/**
+ * Adjust various settings in the application.
+ */
+public class SetCommand extends Command {
+
+    public static final String COMMAND_WORD = "set";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adjust various settings in the application.\n"
+        + "Parameters: "
+        + "[" + SET_THEME + "THEME]";
+
+    public static final String MESSAGE_NOT_CHANGED = "At least one setting must be changed.";
+
+    private final SettingsToChange settingsToChange;
+
+    /**
+     * Creates a SetCommand that changes application settings.
+     *
+     * @param settingsToChange settings to change.
+     */
+    public SetCommand(SettingsToChange settingsToChange) {
+        requireNonNull(settingsToChange);
+        this.settingsToChange = new SettingsToChange(settingsToChange);
+    }
+
+    @Override
+    public CommandResult execute(Model model) throws CommandException, ParseException {
+        requireNonNull(model);
+
+        // UI to set the stylesheet
+        return null;
+    }
+
+    public static class SettingsToChange {
+        private Theme theme;
+
+        public SettingsToChange() {
+        }
+
+        /**
+         * Copy constructor.
+         */
+        public SettingsToChange(SettingsToChange toCopy) {
+            setTheme(toCopy.theme);
+        }
+
+        /**
+         * Returns true if at least one setting is changed.
+         */
+        public boolean isAnySettingChanged() {
+            return CollectionUtil.isAnyNonNull(theme);
+        }
+
+        public void setTheme(Theme theme) {
+            this.theme = theme;
+        }
+
+        public Optional<Theme> getTheme() {
+            return Optional.ofNullable(theme);
+        }
+    }
+}

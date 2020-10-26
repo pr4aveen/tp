@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.Theme;
 import seedu.momentum.commons.core.Time;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.StringUtil;
@@ -119,5 +120,21 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String theme} into a {@code Theme}.
+     *
+     * @throws ParseException if the given {@code theme} is invalid.
+     */
+    public static Theme parseTheme(String theme) throws ParseException {
+        requireNonNull(theme);
+        String trimmedTheme = theme.trim();
+        try {
+            Theme.ThemeType themeType = Theme.ThemeType.valueOf(trimmedTheme.toUpperCase());
+            return new Theme(themeType);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(Theme.MESSAGE_CONSTRAINTS);
+        }
     }
 }

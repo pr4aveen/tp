@@ -18,4 +18,7 @@ public class CliSyntax {
     // Sort parameters
     public static final Prefix SORT_TYPE = new Prefix("type/");
     public static final Prefix SORT_ORDER = new Prefix("order/");
+
+    // Setting parameters
+    public static final Prefix SET_THEME = new Prefix("th/");
 }

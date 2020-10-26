@@ -17,6 +17,7 @@ import seedu.momentum.logic.commands.HelpCommand;
 import seedu.momentum.logic.commands.HomeCommand;
 import seedu.momentum.logic.commands.ListCommand;
 import seedu.momentum.logic.commands.ProjectViewCommand;
+import seedu.momentum.logic.commands.SetCommand;
 import seedu.momentum.logic.commands.SortCommand;
 import seedu.momentum.logic.commands.StartCommand;
 import seedu.momentum.logic.commands.StopCommand;
@@ -89,6 +90,9 @@ public class ProjectBookParser {
 
         case HomeCommand.COMMAND_WORD:
             return new HomeCommand();
+
+        case SetCommand.COMMAND_WORD:
+            return new SetCommandParser().parse(arguments, model);
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

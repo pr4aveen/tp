@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import seedu.momentum.MainApp;
 import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.commons.core.Theme;
 import seedu.momentum.commons.util.StringUtil;
 import seedu.momentum.logic.Logic;
 
@@ -44,7 +45,6 @@ public class UiManager implements Ui {
             mainWindow = new MainWindow(primaryStage, logic);
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
-
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));
             showFatalErrorDialogAndShutdown("Fatal error during initializing", e);

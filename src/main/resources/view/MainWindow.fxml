@@ -23,7 +23,7 @@
    <scene>
       <Scene>
          <stylesheets>
-            <URL value="@MomentumLight.css" />
+            <URL value="@MomentumDark.css" />
             <URL value="@FontAndLayout.css" />
          </stylesheets>
          <root>
