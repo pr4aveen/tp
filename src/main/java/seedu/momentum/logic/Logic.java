@@ -2,6 +2,8 @@ package seedu.momentum.logic;
 
 import java.nio.file.Path;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.logic.commands.CommandResult;
@@ -24,6 +26,20 @@ public interface Logic {
      * @throws ParseException   If an error occurs during parsing.
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
+
+    /**
+     * Returns true if the reminder is empty, false otherwise.
+     *
+     * @return the boolean.
+     */
+    BooleanProperty isReminderEmpty();
+
+    /**
+     * Returns the string representation of the reminder.
+     *
+     * @return the reminder.
+     */
+    StringProperty getReminder();
 
     /**
      * Returns the ProjectBook.

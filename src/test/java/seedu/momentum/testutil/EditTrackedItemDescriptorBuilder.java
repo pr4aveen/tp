@@ -4,12 +4,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 
@@ -37,6 +38,7 @@ public class EditTrackedItemDescriptorBuilder {
         descriptor.setCompletionStatus(trackedItem.getCompletionStatus());
         descriptor.setDescription(trackedItem.getDescription());
         descriptor.setDeadline(trackedItem.getDeadline());
+        descriptor.setReminder(trackedItem.getReminder());
         descriptor.setTags(trackedItem.getTags());
     }
 
@@ -68,7 +70,7 @@ public class EditTrackedItemDescriptorBuilder {
      * Sets the {@code Deadline} of the {@code EditTrackedItemDescriptor} that we are building.
      */
     public EditTrackedItemDescriptorBuilder withDeadline(String date, String createdDate) {
-        descriptor.setDeadline(new Deadline(date, new Date(createdDate)));
+        descriptor.setDeadline(new Deadline(date, new DateWrapper(createdDate)));
         return this;
     }
 
@@ -76,7 +78,15 @@ public class EditTrackedItemDescriptorBuilder {
      * Sets the {@code Deadline} of the {@code EditTrackedItemDescriptor} that we are building.
      */
     public EditTrackedItemDescriptorBuilder withDeadline(String date, String time, String createDate) {
-        descriptor.setDeadline(new Deadline(date, time, new Date(createDate)));
+        descriptor.setDeadline(new Deadline(date, time, new DateWrapper(createDate)));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Reminder} of the {@code EditTrackedItemDescriptor} that we are building.
+     */
+    public EditTrackedItemDescriptorBuilder withReminder(String dateTime, String createdDate) {
+        descriptor.setReminder(new Reminder(dateTime, new DateWrapper(createdDate)));
         return this;
     }
 

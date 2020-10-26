@@ -13,6 +13,7 @@ import seedu.momentum.model.tag.Tag;
  * A UI component to display the current tags that exist inside the project book.
  */
 public class TagsDisplay extends UiPart<Region> {
+    
     private static final String FXML = "TagsDisplay.fxml";
 
     private Set<Tag> tagsSet;

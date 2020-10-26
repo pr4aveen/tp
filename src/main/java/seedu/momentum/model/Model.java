@@ -1,12 +1,16 @@
 package seedu.momentum.model;
 
+import javax.sound.midi.Track;
 import java.nio.file.Path;
 import java.util.function.Predicate;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
@@ -87,18 +91,37 @@ public interface Model {
     ObservableList<TrackedItem> getRunningTimers();
 
     /**
-     * Adds the given project to the running timers list.
-     * {@code project} must have a running timer.
+     * Returns true if the reminder is empty, false otherwise.
+     * 
+     * @return the boolean.
+     */
+    BooleanProperty isReminderEmpty();
+
+    /**
+     * Returns the string representation of the reminder.
      *
-     * @param trackedItem item to add a timer to.
+     * @return the reminder.
+     */
+    StringProperty getReminder();
+
+    /**
+     * Remove the reminder shown.
+     */
+    void removeReminder();
+    
+    /**
+     * Adds the given project to the running timers list.
+     * {@code project} must have a running timerWrapper.
+     *
+     * @param trackedItem item to add a timerWrapper to.
      */
     void addRunningTimer(TrackedItem trackedItem);
 
     /**
      * Removes the given project from the running timers list.
-     * {@code project} must have a running timer.
+     * {@code project} must have a running timerWrapper.
      *
-     * @param trackedItem item to remove timer from.
+     * @param trackedItem item to remove timerWrapper from.
      */
     void removeRunningTimer(TrackedItem trackedItem);
 

@@ -21,7 +21,6 @@ public class TrackedItemCard extends UiPart<Region> {
     private static final String STYLE_COLOUR_RED = "-fx-red";
     private static final String STYLE_COLOUR_GREEN = "-fx-green";
     private static final String STYLE_COLOUR_YELLOW = "-fx-yellow";
-
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
      * As a consequence, UI elements' variable names cannot be set to such keywords
@@ -39,6 +38,8 @@ public class TrackedItemCard extends UiPart<Region> {
     @FXML
     private Label completionStatus;
     @FXML
+    private Label reminderStatus;
+    @FXML
     private Text id;
     @FXML
     private HBox description;
@@ -46,6 +47,8 @@ public class TrackedItemCard extends UiPart<Region> {
     private HBox createdDate;
     @FXML
     private HBox deadline;
+    @FXML
+    private HBox reminder;
     @FXML
     private FlowPane tags;
 
@@ -56,16 +59,16 @@ public class TrackedItemCard extends UiPart<Region> {
         super(FXML);
         this.trackedItem = trackedItem;
         id.setText(displayedIndex + ". ");
+        
         name.setText(trackedItem.getName().fullName);
+        
+        setDescriptionLabel(trackedItem);
 
         completionStatus.setText(trackedItem.getCompletionStatus().toString());
         setCompletionStatusStyle(completionStatus);
 
-        if (!trackedItem.getDescription().isEmpty()) {
-            Label descLabel = new Label(trackedItem.getDescription().value);
-            descLabel.setWrapText(true);
-            description.getChildren().add(descLabel);
-        }
+        reminderStatus.setText(trackedItem.getReminder().getStatus());
+        setReminderStatusStyle(reminderStatus);
 
         createdDate.getChildren().add(new Label("Created: " + trackedItem.getCreatedDate().getFormatted()));
 
@@ -73,6 +76,21 @@ public class TrackedItemCard extends UiPart<Region> {
         setDeadlineStyle(deadlineLabel);
         deadline.getChildren().add(deadlineLabel);
 
+        Label reminderLabel = new Label("Reminder: " + trackedItem.getReminder().getFormattedReminder());
+        reminder.getChildren().add(reminderLabel);
+        
+        setTagsPane(trackedItem);
+    }
+    
+    private void setDescriptionLabel(TrackedItem trackedItem) {
+        if (!trackedItem.getDescription().isEmpty()) {
+            Label descLabel = new Label(trackedItem.getDescription().value);
+            descLabel.setWrapText(true);
+            description.getChildren().add(descLabel);
+        }
+    }
+    
+    private void setTagsPane(TrackedItem trackedItem) {
         trackedItem.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
@@ -88,6 +106,10 @@ public class TrackedItemCard extends UiPart<Region> {
         }
 
         completionStatus.setStyle(style);
+    }
+
+    private void setReminderStatusStyle(Label reminderStatus) {
+        reminderStatus.setStyle(STYLE_TEXT + STYLE_COLOUR_YELLOW);
     }
 
     private void setDeadlineStyle(Label deadline) {

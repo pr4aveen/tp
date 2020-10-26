@@ -151,11 +151,21 @@
     -fx-min-height: 40;
 }
 
+.reminder-box {
+    -fx-background-color: -fx-cool-gray-2;
+    -fx-min-height: 0;
+}
+
+.reminder-box-title {
+    -fx-background-color: -fx-cool-gray-4;
+    -fx-font-size: 20;
+}
+
 .project-list {
     -fx-padding: 0 8 8 0;
 }
 
-.project-list #id, #name, #completionStatus {
+.project-list #id, #name, #completionStatus, #reminderStatus {
     -fx-font-size: 20;
 }
 
@@ -163,7 +173,7 @@
     -fx-fill: -fx-white;
 }
 
-.project-list #name, #description, #completionStatus {
+.project-list #name, #description, #completionStatus, #reminderStatus {
     -fx-padding: 0 8 0 0;
 }
 

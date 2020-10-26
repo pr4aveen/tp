@@ -5,9 +5,14 @@ import static java.util.Objects.requireNonNull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
+import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.model.reminder.ReminderManager;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.UniqueTrackedItemList;
 import seedu.momentum.model.tag.Tag;
@@ -19,6 +24,8 @@ import seedu.momentum.model.tag.Tag;
 public class ProjectBook implements ReadOnlyProjectBook {
 
     private final UniqueTrackedItemList trackedItems;
+
+    private static final Logger logger = LogsCenter.getLogger(ProjectBook.class);
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -108,7 +115,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
      * Removes {@code key} from this {@code ProjectBook}.
      * {@code key} must exist in the project book.
      */
-    public void renameTrackedItem(TrackedItem key) {
+    public void removeTrackedItem(TrackedItem key) {
         trackedItems.remove(key);
     }
 
@@ -132,6 +139,38 @@ public class ProjectBook implements ReadOnlyProjectBook {
         return tags;
     }
 
+    /**
+     * Reschedule all reminders in the model.
+     */
+    public void rescheduleReminder(ReminderManager reminderManager) {
+        for (TrackedItem item : trackedItems) {
+            reminderManager.rescheduleReminder((Project) item);
+        }
+    }
+    
+    /**
+     * Remove the reminder of a trackedItem.
+     *
+     * @param project project that contains the task with a reminder to be removed.
+     */
+    public void removeReminder(Project project) {
+        Project newProject = project.removeReminder();
+        trackedItems.setTrackedItem(project, newProject);
+        logger.info("Reminder of project removed: " + project.getName());
+    }
+
+    /**
+     * Remove the reminder of a trackedItem.
+     *
+     * @param project project that contains the task with a reminder to be removed.
+     * @param task task with a reminder to be removed.
+     */
+    public void removeReminder(Project project, Task task) {
+        Project newProject = project.removeReminder(task);
+        trackedItems.setTrackedItem(project, newProject);
+        logger.info("Reminder of task of project removed: " + task.getName() + " " + project.getName());
+    }    
+    
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object

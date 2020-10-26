@@ -6,6 +6,7 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
 
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.CollectionUtil;
@@ -27,6 +28,7 @@ import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.UniqueTrackedItemList;
@@ -48,6 +50,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_COMPLETION_STATUS + "] "
             + String.format("[%sDEADLINE_DATE [%sDEADLINE_TIME] ] ", PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME)
+            + "[" + PREFIX_REMINDER + "REMINDER_DATE_AND_TIME] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 ";
 
@@ -126,21 +129,37 @@ public class EditCommand extends Command {
         assert trackedItemToEdit != null;
 
         Name updatedName = editTrackedItemDescriptor.getName().orElse(trackedItemToEdit.getName());
+
         Description updatedDescription =
                 editTrackedItemDescriptor.getDescription().orElse(trackedItemToEdit.getDescription());
+
         CompletionStatus updatedCompletionStatus = trackedItemToEdit.getCompletionStatus();
         if (editTrackedItemDescriptor.getCompletionStatus().isPresent()) {
             updatedCompletionStatus = updatedCompletionStatus.reverse();
         }
-        Date createdDate = trackedItemToEdit.getCreatedDate();
+
+        DateWrapper createdDateWrapper = trackedItemToEdit.getCreatedDate();
+
         Deadline updatedDeadline = editTrackedItemDescriptor.getDeadline().orElse(trackedItemToEdit.getDeadline());
         if (editTrackedItemDescriptor.getDeadline().isPresent()
-                && Deadline.isBeforeCreatedDate(updatedDeadline.getDate().toString(), createdDate)) {
+                && !editTrackedItemDescriptor.getDeadline().get().isEmpty()
+                && Deadline.isBeforeCreatedDate(updatedDeadline.getDate().toString(), createdDateWrapper)) {
             // deadline is before created date
-            // createdDate was 0001-01-01 by default
+            // created date wrapped by LocalDate.EPOCH by default
             throw new CommandException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
         }
+
+        Reminder updatedReminder = editTrackedItemDescriptor.getReminder().orElse(trackedItemToEdit.getReminder());
+        if (editTrackedItemDescriptor.getReminder().isPresent()
+                && !editTrackedItemDescriptor.getReminder().get().isEmpty()
+                && Reminder.isBeforeCreatedDate(updatedReminder.getDateTimeWrapper().toString(), createdDateWrapper)) {
+            // reminder is before created date
+            // created date wrapped by LocalDate.EPOCH by default
+            throw new CommandException(Reminder.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
+        }
+
         Set<Tag> updatedTags = editTrackedItemDescriptor.getTags().orElse(trackedItemToEdit.getTags());
+
         UniqueDurationList durationList = new UniqueDurationList();
         durationList.setDurations(trackedItemToEdit.getDurationList());
 
@@ -149,11 +168,12 @@ public class EditCommand extends Command {
             UniqueTrackedItemList taskList = new UniqueTrackedItemList();
             taskList.setTrackedItems(projectToEdit.getTaskList());
 
-            return new Project(updatedName, updatedDescription, updatedCompletionStatus, createdDate, updatedDeadline,
-                    updatedTags, durationList, trackedItemToEdit.getTimer(), taskList);
+            return new Project(updatedName, updatedDescription, updatedCompletionStatus, createdDateWrapper,
+                    updatedDeadline, updatedReminder, updatedTags, durationList, trackedItemToEdit.getTimer(),
+                    taskList);
         } else {
-            return new Task(updatedName, updatedDescription, updatedCompletionStatus, createdDate, updatedDeadline,
-                    updatedTags, durationList, trackedItemToEdit.getTimer());
+            return new Task(updatedName, updatedDescription, updatedCompletionStatus, createdDateWrapper,
+                    updatedDeadline, updatedReminder, updatedTags, durationList, trackedItemToEdit.getTimer());
         }
     }
 
@@ -184,6 +204,7 @@ public class EditCommand extends Command {
         private Description description;
         private CompletionStatus completionStatus;
         private Deadline deadline;
+        private Reminder reminder;
         private Set<Tag> tags;
 
         public EditTrackedItemDescriptor() {
@@ -198,6 +219,7 @@ public class EditCommand extends Command {
             setDescription(toCopy.description);
             setCompletionStatus(toCopy.completionStatus);
             setDeadline(toCopy.deadline);
+            setReminder(toCopy.reminder);
             setTags(toCopy.tags);
         }
 
@@ -205,7 +227,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, description, completionStatus, deadline, tags);
+            return CollectionUtil.isAnyNonNull(name, description, completionStatus, deadline, reminder, tags);
         }
 
         public void setName(Name name) {
@@ -238,6 +260,14 @@ public class EditCommand extends Command {
 
         public Optional<Deadline> getDeadline() {
             return Optional.ofNullable(deadline);
+        }
+
+        public void setReminder(Reminder reminder) {
+            this.reminder = reminder;
+        }
+
+        public Optional<Reminder> getReminder() {
+            return Optional.ofNullable(reminder);
         }
 
         /**
@@ -276,6 +306,7 @@ public class EditCommand extends Command {
                     && getDescription().equals(e.getDescription())
                     && getCompletionStatus().equals(e.getCompletionStatus())
                     && getDeadline().equals(e.getDeadline())
+                    && getReminder().equals(e.getReminder())
                     && getTags().equals(e.getTags());
         }
     }

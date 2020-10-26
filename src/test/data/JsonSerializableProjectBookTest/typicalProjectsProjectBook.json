@@ -9,6 +9,7 @@
       "date": "2020-11-05",
       "time": "11:11:11"
     },
+    "reminder": null,
     "tagged" : [ "friends" ]
   }, {
     "name" : "Benson Meier",
@@ -19,6 +20,7 @@
       "date": "2020-11-05",
       "time": "12:43:12"
     },
+    "reminder": "2030-12-02T01:21:31",
     "tagged" : [ "owesMoney", "friends" ],
     "durations" : [ {
       "startTime" : "2019-01-01T00:00:00.00000",
@@ -34,18 +36,21 @@
     "description": "Likes poodles",
     "completionStatus": true,
     "createdDate": "2019-08-02",
+    "reminder": null,
     "tagged" : [ ]
   }, {
     "name" : "Daniel Meier",
     "description": "Likes cats",
     "completionStatus": false,
     "createdDate": "2019-05-21",
+    "reminder": null,
     "tagged" : [ "friends" ]
   }, {
     "name" : "Elle Meyer",
     "description": "Likes elephants",
     "completionStatus": false,
     "createdDate": "2019-07-21",
+    "reminder": null,
     "deadline": {
       "date": "2020-07-21",
       "time": null
@@ -56,6 +61,7 @@
     "description": "Likes starbucks",
     "completionStatus": false,
     "createdDate": "2019-03-21",
+    "reminder": null,
     "deadline": {
       "date": "2020-03-21",
       "time": "05:02:09"
@@ -65,6 +71,7 @@
     "name" : "George Best",
     "description": "Likes you",
     "completionStatus": true,
+    "reminder": "2021-12-05T02:45:23",
     "createdDate": "2019-07-28",
     "tagged" : [ ]
   } ]

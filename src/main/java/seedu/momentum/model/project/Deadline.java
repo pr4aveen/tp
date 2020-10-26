@@ -9,8 +9,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import seedu.momentum.commons.core.Clock;
-import seedu.momentum.commons.core.Date;
-import seedu.momentum.commons.core.Time;
+import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.TimeWrapper;
 
 /**
  * Represents a Project's deadline in the project book.
@@ -25,62 +25,62 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * The constant MESSAGE_CONSTRAINTS.
      */
-    public static final String MESSAGE_CONSTRAINTS = Date.MESSAGE_CONSTRAINTS + "\n"
-            + Time.MESSAGE_CONSTRAINTS + "\n"
+    public static final String MESSAGE_CONSTRAINTS = DateWrapper.MESSAGE_CONSTRAINTS + "\n"
+            + TimeWrapper.MESSAGE_CONSTRAINTS + "\n"
             + CREATED_DATE_MESSAGE_CONSTRAINT;
-    private final Optional<Date> date;
-    private final Optional<Time> time;
+    private final Optional<DateWrapper> dateWrapper;
+    private final Optional<TimeWrapper> timeWrapper;
 
     /**
      * Constructs an empty deadline.
      */
     public Deadline() {
-        this.date = Optional.empty();
-        this.time = Optional.empty();
+        this.dateWrapper = Optional.empty();
+        this.timeWrapper = Optional.empty();
     }
 
     /**
      * Constructs a {@code Deadline}.
      *
-     * @param date        A valid date after or on created date.
-     * @param createdDate A created date.
+     * @param dateWrapper        A valid dateWrapper after or on created dateWrapper.
+     * @param createdDateWrapper A created dateWrapper.
      */
-    public Deadline(String date, Date createdDate) {
-        requireNonNull(date);
-        requireNonNull(createdDate);
-        checkArgument(Date.isValid(date), Date.MESSAGE_CONSTRAINTS);
-        checkArgument(!isBeforeCreatedDate(date, createdDate), CREATED_DATE_MESSAGE_CONSTRAINT);
-        this.date = Optional.of(new Date(date));
-        this.time = Optional.empty();
+    public Deadline(String dateWrapper, DateWrapper createdDateWrapper) {
+        requireNonNull(dateWrapper);
+        requireNonNull(createdDateWrapper);
+        checkArgument(DateWrapper.isValid(dateWrapper), DateWrapper.MESSAGE_CONSTRAINTS);
+        checkArgument(!isBeforeCreatedDate(dateWrapper, createdDateWrapper), CREATED_DATE_MESSAGE_CONSTRAINT);
+        this.dateWrapper = Optional.of(new DateWrapper(dateWrapper));
+        this.timeWrapper = Optional.empty();
     }
 
     /**
      * Constructs a {@code Deadline}.
      *
-     * @param date        A valid date after or on created date.
-     * @param time        A valid time.
-     * @param createdDate A created date.
+     * @param dateWrapper        A valid dateWrapper after or on created dateWrapper.
+     * @param timeWrapper        A valid timeWrapper.
+     * @param createdDateWrapper A created dateWrapper.
      */
-    public Deadline(String date, String time, Date createdDate) {
-        requireNonNull(date, time);
-        requireNonNull(createdDate);
-        checkArgument(Date.isValid(date), Date.MESSAGE_CONSTRAINTS);
-        checkArgument(Time.isValid(time), Time.MESSAGE_CONSTRAINTS);
-        checkArgument(!isBeforeCreatedDate(date, createdDate), CREATED_DATE_MESSAGE_CONSTRAINT);
-        this.date = Optional.of(new Date(date));
-        this.time = Optional.of(new Time(time));
+    public Deadline(String dateWrapper, String timeWrapper, DateWrapper createdDateWrapper) {
+        requireNonNull(dateWrapper, timeWrapper);
+        requireNonNull(createdDateWrapper);
+        checkArgument(DateWrapper.isValid(dateWrapper), DateWrapper.MESSAGE_CONSTRAINTS);
+        checkArgument(TimeWrapper.isValid(timeWrapper), TimeWrapper.MESSAGE_CONSTRAINTS);
+        checkArgument(!isBeforeCreatedDate(dateWrapper, createdDateWrapper), CREATED_DATE_MESSAGE_CONSTRAINT);
+        this.dateWrapper = Optional.of(new DateWrapper(dateWrapper));
+        this.timeWrapper = Optional.of(new TimeWrapper(timeWrapper));
     }
 
     /**
-     * Returns true if the date is after or on the created date, false otherwise.
+     * Returns true if the dateWrapper is after or on the created dateWrapper, false otherwise.
      *
-     * @param dateStr     A string to be parsed as a date.
-     * @param createdDate A created date.
+     * @param dateStr     A string to be parsed as a dateWrapper.
+     * @param createdDateWrapper A created dateWrapper.
      * @return the isBeforeCreatedDate boolean
      */
-    public static boolean isBeforeCreatedDate(String dateStr, Date createdDate) {
-        Date date = new Date(dateStr);
-        return date.compareTo(createdDate) < 0;
+    public static boolean isBeforeCreatedDate(String dateStr, DateWrapper createdDateWrapper) {
+        DateWrapper dateWrapper = new DateWrapper(dateStr);
+        return dateWrapper.compareTo(createdDateWrapper) < 0;
     }
 
     /**
@@ -89,36 +89,36 @@ public class Deadline implements Comparable<Deadline> {
      * @return the isEmpty boolean
      */
     public boolean isEmpty() {
-        return this.date.isEmpty();
+        return this.dateWrapper.isEmpty();
     }
 
     /**
-     * Gets date of a deadline.
+     * Gets dateWrapper of a deadline.
      *
-     * @return the date
-     * @throws NoSuchElementException If there is no date.
+     * @return the dateWrapper
+     * @throws NoSuchElementException If there is no dateWrapper.
      */
-    public Date getDate() throws NoSuchElementException {
-        return this.date.get();
+    public DateWrapper getDate() throws NoSuchElementException {
+        return this.dateWrapper.get();
     }
 
     /**
-     * Returns true if the deadline has a time, false otherwise.
+     * Returns true if the deadline has a timeWrapper, false otherwise.
      *
      * @return the hasTime boolean
      */
     public boolean hasTime() {
-        return this.time.isPresent();
+        return this.timeWrapper.isPresent();
     }
 
     /**
-     * Gets time of a deadline.
+     * Gets timeWrapper of a deadline.
      *
-     * @return the time
-     * @throws NoSuchElementException If there is no time.
+     * @return the timeWrapper
+     * @throws NoSuchElementException If there is no timeWrapper.
      */
-    public Time getTime() throws NoSuchElementException {
-        return this.time.get();
+    public TimeWrapper getTime() throws NoSuchElementException {
+        return this.timeWrapper.get();
     }
 
     /**
@@ -128,47 +128,47 @@ public class Deadline implements Comparable<Deadline> {
      */
     public String getFormattedDeadline() {
         return isEmpty() ? "No deadline set"
-                : this.date.map(Date::getFormatted).orElse("")
-                + this.time.map(time -> " " + time.getFormatted()).orElse("");
+                : this.dateWrapper.map(DateWrapper::getFormatted).orElse("")
+                + this.timeWrapper.map(timeWrapper -> " " + timeWrapper.getFormatted()).orElse("");
     }
 
     /**
-     * Gets the number of days to the date of the deadline, from the current time.
+     * Gets the number of days to the dateWrapper of the deadline, from the current timeWrapper.
      *
      * @return Number of days to deadline.
      */
     public long daysToDeadline() {
-        //return Date.getTimeBetween(Clock.now().getDate(), getDate(), ChronoUnit.DAYS);
+        //return DateWrapper.getTimeBetween(Clock.now().getDate(), getDate(), ChronoUnit.DAYS);
         return ChronoUnit.DAYS.between(Clock.now().getDate(), getDate().get());
     }
 
     @Override
     public String toString() {
-        return this.date.map(Date::toString).orElse("")
-                + this.time.map(Time::toString).orElse("");
+        return this.dateWrapper.map(DateWrapper::toString).orElse("")
+                + this.timeWrapper.map(TimeWrapper::toString).orElse("");
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Deadline // instanceof handles nulls
-                && this.date.equals(((Deadline) other).date)
-                && this.time.equals(((Deadline) other).time)); // state check
+                && this.dateWrapper.equals(((Deadline) other).dateWrapper)
+                && this.timeWrapper.equals(((Deadline) other).timeWrapper)); // state check
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.date, this.time);
+        return Objects.hash(this.dateWrapper, this.timeWrapper);
     }
 
     @Override
     public int compareTo(Deadline other) {
-        Date thisDate = this.getDate();
-        Date otherDate = other.getDate();
+        DateWrapper thisDateWrapper = this.getDate();
+        DateWrapper otherDateWrapper = other.getDate();
 
-        if (thisDate.get().isBefore(otherDate.get())) {
+        if (thisDateWrapper.get().isBefore(otherDateWrapper.get())) {
             return -1;
-        } else if (thisDate.get().isAfter(otherDate.get())) {
+        } else if (thisDateWrapper.get().isAfter(otherDateWrapper.get())) {
             return 1;
         } else {
             return sameDateCompare(other);
@@ -176,7 +176,7 @@ public class Deadline implements Comparable<Deadline> {
     }
 
     /**
-     * Compares time of two deadlines with same date.
+     * Compares timeWrapper of two deadlines with same dateWrapper.
      *
      * @param other other deadline.
      * @return integer to indicate order.
@@ -187,9 +187,9 @@ public class Deadline implements Comparable<Deadline> {
         } else if (this.hasTime() && !other.hasTime()) {
             return 1;
         } else if (this.hasTime() && other.hasTime()) {
-            Time thisTime = this.getTime();
-            Time otherTime = other.getTime();
-            return thisTime.compareTo(otherTime);
+            TimeWrapper thisTimeWrapper = this.getTime();
+            TimeWrapper otherTimeWrapper = other.getTime();
+            return thisTimeWrapper.compareTo(otherTimeWrapper);
         } else {
             return 0;
         }

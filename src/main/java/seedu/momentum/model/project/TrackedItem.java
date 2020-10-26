@@ -9,9 +9,10 @@ import java.util.Objects;
 import java.util.Set;
 
 import javafx.collections.ObservableList;
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
-import seedu.momentum.model.timer.Timer;
+import seedu.momentum.model.timer.TimerWrapper;
 import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 
@@ -27,58 +28,64 @@ public abstract class TrackedItem {
     // data fields
     protected final Description description;
     protected final CompletionStatus completionStatus;
-    protected final Date createdDate;
+    protected final DateWrapper createdDateWrapper;
     protected final Deadline deadline;
+    protected final Reminder reminder;
     protected final Set<Tag> tags = new HashSet<>();
-    protected final Timer timer;
+    protected final TimerWrapper timerWrapper;
     protected final UniqueDurationList durations;
 
     /**
      * Constructs a {@code TrackedItem}.
      *
-     * @param name             A valid name.
-     * @param description      A description of the tracked item.
-     * @param completionStatus A completion status of the tracked item.
-     * @param createdDate      A date associated with the creation of the tracked item.
-     * @param deadline         A deadline associated with the tracked item.
-     * @param tags             A set of tags associated to the tracked item.
-     * @param durations        A list of {@code WorkDuration} associated with the tracked item.
-     * @param timer            A timer associated with the tracked item.
+     * @param name               A valid name.
+     * @param description        A description of the tracked item.
+     * @param completionStatus   A completion status of the tracked item.
+     * @param createdDateWrapper A dateWrapper associated with the creation of the tracked item.
+     * @param deadline           A deadline associated with the tracked item.
+     * @param reminder           A reminder associated with the tracked item.
+     * @param tags               A set of tags associated to the tracked item.
+     * @param durations          A list of {@code WorkDuration} associated with the tracked item.
+     * @param timerWrapper       A timerWrapper associated with the tracked item.
      */
-    public TrackedItem(Name name, Description description, CompletionStatus completionStatus, Date createdDate,
-                       Deadline deadline, Set<Tag> tags, UniqueDurationList durations, Timer timer) {
+    public TrackedItem(Name name, Description description, CompletionStatus completionStatus,
+                       DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder,
+                       Set<Tag> tags, UniqueDurationList durations, TimerWrapper timerWrapper) {
         requireAllNonNull(name, tags);
         this.name = name;
         this.description = description;
         this.completionStatus = completionStatus;
-        this.createdDate = createdDate;
+        this.createdDateWrapper = createdDateWrapper;
         this.deadline = deadline;
+        this.reminder = reminder;
         this.tags.addAll(tags);
         this.durations = durations;
-        this.timer = timer;
+        this.timerWrapper = timerWrapper;
     }
 
     /**
      * Constructs a new {@code TrackedItem}
      *
-     * @param name             A valid name.
-     * @param completionStatus A completion status of the tracked item.
-     * @param createdDate      A date associated with the creation of the tracked item
-     * @param deadline         A deadline associated with the tracked item.
-     * @param description      A description of the tracked item.
-     * @param tags             A set of tags associated to the tracked item.
+     * @param name               A valid name.
+     * @param description        A description of the tracked item.
+     * @param completionStatus   A completion status of the tracked item.
+     * @param createdDateWrapper A dateWrapper associated with the creation of the tracked item
+     * @param deadline           A deadline associated with the tracked item.
+     * @param reminder           A reminder associated with the tracked item.
+     * @param tags               A set of tags associated to the tracked item.
      */
-    public TrackedItem(Name name, Description description, CompletionStatus completionStatus, Date createdDate,
-                       Deadline deadline, Set<Tag> tags) {
+    public TrackedItem(Name name, Description description, CompletionStatus completionStatus,
+                       DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder, Set<Tag> tags) {
         requireAllNonNull(name, tags);
         this.name = name;
         this.description = description;
         this.completionStatus = completionStatus;
-        this.createdDate = createdDate;
+        this.createdDateWrapper = createdDateWrapper;
         this.deadline = deadline;
+        this.reminder = reminder;
         this.tags.addAll(tags);
         this.durations = new UniqueDurationList();
-        this.timer = new Timer();
+        this.timerWrapper = new TimerWrapper();
     }
 
     public Name getName() {
@@ -93,12 +100,16 @@ public abstract class TrackedItem {
         return completionStatus;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public DateWrapper getCreatedDate() {
+        return createdDateWrapper;
     }
 
     public Deadline getDeadline() {
         return deadline;
+    }
+
+    public Reminder getReminder() {
+        return reminder;
     }
 
     /**
@@ -132,31 +143,36 @@ public abstract class TrackedItem {
     public ObservableList<WorkDuration> getDurationList() {
         return durations.asUnmodifiableObservableList();
     }
-
+    
     /**
-     * Returns a copy of this tracked item with its timer started.
+     * Remove the reminder of a trackedItem.
+     */
+    public abstract TrackedItem removeReminder();
+    
+    /**
+     * Returns a copy of this tracked item with its timerWrapper started.
      *
-     * @return A copy of this tracked item, but with its timer started
+     * @return A copy of this tracked item, but with its timerWrapper started
      */
     public abstract TrackedItem startTimer();
 
     /**
-     * Returns a copy of this tracked item with its timer stopped, then adds the timed duration into
+     * Returns a copy of this tracked item with its timerWrapper stopped, then adds the timed duration into
      * the list.
      *
-     * @return A copy of this tracked item, but with its timer stopped
+     * @return A copy of this tracked item, but with its timerWrapper stopped
      */
     public abstract TrackedItem stopTimer();
 
-    public Timer getTimer() {
-        return timer;
+    public TimerWrapper getTimer() {
+        return timerWrapper;
     }
 
     /**
-     * Checks if the tracked item's timer is currently running.
+     * Checks if the tracked item's timerWrapper is currently running.
      */
     public boolean isRunning() {
-        return timer.isRunning();
+        return timerWrapper.isRunning();
     }
 
     /**
@@ -173,7 +189,8 @@ public abstract class TrackedItem {
                 && otherTrackedItem.getDescription().equals(getDescription())
                 && otherTrackedItem.getCompletionStatus().equals(getCompletionStatus())
                 && otherTrackedItem.getCreatedDate().equals(getCreatedDate())
-                && otherTrackedItem.getDeadline().equals(getDeadline());
+                && otherTrackedItem.getDeadline().equals(getDeadline())
+                && otherTrackedItem.getReminder().equals(getReminder());
     }
 
     /**
@@ -201,6 +218,7 @@ public abstract class TrackedItem {
                 && otherTrackedItem.getCompletionStatus().equals(getCompletionStatus())
                 && otherTrackedItem.getCreatedDate().equals(getCreatedDate())
                 && otherTrackedItem.getDeadline().equals(getDeadline())
+                && otherTrackedItem.getReminder().equals(getReminder())
                 && otherTrackedItem.getTags().equals(getTags())
                 && otherTrackedItem.getDurationList().equals(getDurationList());
     }
@@ -208,7 +226,8 @@ public abstract class TrackedItem {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, description, completionStatus, createdDate, deadline, tags, durations, timer);
+        return Objects.hash(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags,
+                durations, timerWrapper);
     }
 
     @Override
@@ -223,6 +242,8 @@ public abstract class TrackedItem {
                 .append(getCreatedDate())
                 .append(" Deadline: ")
                 .append(getDeadline())
+                .append("Reminder: ")
+                .append(getReminder())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();

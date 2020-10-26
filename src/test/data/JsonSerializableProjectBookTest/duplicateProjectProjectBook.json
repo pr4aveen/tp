@@ -4,11 +4,13 @@
     "description": "Likes coding",
     "completionStatus": false,
     "createdDate": "2000-11-05",
+    "reminder": "2030-12-02T01:21:31",
     "tagged": [ "friends" ]
   }, {
     "name": "Alice Pauline",
     "description": "Likes coding",
     "completionStatus": false,
-    "createdDate": "2000-11-05"
+    "createdDate": "2000-11-05",
+    "reminder": "2030-12-02T01:21:31"
   } ]
 }

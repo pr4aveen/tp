@@ -8,12 +8,17 @@ import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
@@ -26,6 +31,7 @@ public class ModelManager implements Model {
 
     private final ProjectBook projectBook;
     private final UserPrefs userPrefs;
+    private final ReminderManager reminderManager;
     private final FilteredList<TrackedItem> filteredTrackedItems;
     private final ObservableList<TrackedItem> runningTimers;
     private Predicate<TrackedItem> currentPredicate;
@@ -46,6 +52,8 @@ public class ModelManager implements Model {
         logger.fine("Initializing with project book: " + projectBook + " and user prefs " + userPrefs);
 
         this.projectBook = new ProjectBook(projectBook);
+        this.reminderManager = new ReminderManager(this.projectBook);
+        this.reminderManager.rescheduleReminder();
         this.userPrefs = new UserPrefs(userPrefs);
 
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
@@ -114,6 +122,7 @@ public class ModelManager implements Model {
     @Override
     public void setProjectBook(ReadOnlyProjectBook projectBook) {
         this.projectBook.resetData(projectBook);
+        this.reminderManager.rescheduleReminder();
     }
 
     @Override
@@ -136,12 +145,14 @@ public class ModelManager implements Model {
 
     @Override
     public void deleteTrackedItem(TrackedItem target) {
-        projectBook.renameTrackedItem(target);
+        projectBook.removeTrackedItem(target);
+        this.reminderManager.rescheduleReminder();
     }
 
     @Override
     public void addTrackedItem(TrackedItem trackedItem) {
         projectBook.addTrackedItem(trackedItem);
+        this.reminderManager.rescheduleReminder();
         orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
         updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
@@ -151,6 +162,7 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedTrackedItem);
 
         projectBook.setTrackedItem(target, editedTrackedItem);
+        this.reminderManager.rescheduleReminder();
     }
 
     //=========== Filtered Project List Accessors =============================================================
@@ -232,6 +244,27 @@ public class ModelManager implements Model {
         return viewMode;
     }
 
+    //=========== Reminders =============================================================
+
+    @Override
+    public BooleanProperty isReminderEmpty() {
+        BooleanProperty booleanProperty = new SimpleBooleanProperty();
+        booleanProperty.set(reminderManager.isReminderEmpty());
+        return booleanProperty;
+    }
+
+    @Override
+    public StringProperty getReminder() {
+        StringProperty stringProperty = new SimpleStringProperty();
+        stringProperty.set(reminderManager.getReminder());
+        return stringProperty;
+    }
+    
+    @Override
+    public void removeReminder() {
+        reminderManager.removeReminder();
+    }
+    
     //=========== Timers =============================================================
 
     @Override

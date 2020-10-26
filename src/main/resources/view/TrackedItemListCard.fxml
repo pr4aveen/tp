@@ -33,6 +33,7 @@
                            </HBox.margin>
                         </Text>
                         <Label fx:id="name" text="\$name" wrapText="true" />
+                        <Label fx:id="reminderStatus" text="\$reminderStatus" wrapText="true"/>
                         <Label fx:id="completionStatus" text="\$completionStatus" wrapText="true"/>
                      </children>
                   </HBox>
@@ -56,6 +57,7 @@
             <VBox alignment="CENTER" spacing="4.0" styleClass="projectCardContentBox" GridPane.columnIndex="1">
                <children>
                   <HBox fx:id="createdDate" alignment="CENTER" />
+                  <HBox fx:id="reminder" alignment="CENTER" />
                   <HBox fx:id="deadline" alignment="CENTER">
                      <VBox.margin>
                         <Insets />

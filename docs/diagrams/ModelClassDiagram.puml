@@ -18,10 +18,10 @@ Class ReadOnlyUserPrefs
 Package Project {
 Class Project
 Class Description
-Class Date
+Class DateWrapper
 Class Name
 Class Deadline
-Class Timer
+Class TimerWrapper
 Class UniqueProjectList
 Class UniqueDurationList
 Class WorkDuration
@@ -47,17 +47,17 @@ ProjectBook *--> "1" UniqueProjectList
 UniqueProjectList o--> "*" Project
 Project *--> Name
 Project *--> Deadline
-Project *--> Date
+Project *--> DateWrapper
 Project *--> Description
-Project *--> Timer
+Project *--> TimerWrapper
 Project *--> "*" Tag
 Project *--> UniqueDurationList
 UniqueDurationList o--> "*" WorkDuration
 
 Name -[hidden]right-> Deadline
 Deadline -[hidden]right-> Description
-Description -[hidden]right-> Date
-UniqueDurationList -[hidden]right-> Timer
+Description -[hidden]right-> DateWrapper
+UniqueDurationList -[hidden]right-> TimerWrapper
 
 ModelManager -->"1" Project : filtered list
 ModelManager -->"*" Project : active timer list
