@@ -14,7 +14,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.commons.core.LogsCenter;
-import seedu.momentum.commons.core.Theme;
 import seedu.momentum.logic.Logic;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -184,7 +183,6 @@ public class MainWindow extends UiPart<Stage> {
             primaryStage.setX(guiSettings.getWindowCoordinates().getX());
             primaryStage.setY(guiSettings.getWindowCoordinates().getY());
         }
-        primaryStage.getScene().getStylesheets().add(new Theme(Theme.ThemeType.DARK).getStylesheet());
     }
 
     /**
@@ -209,7 +207,7 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private void handleExit() {
         GuiSettings guiSettings = new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
-                (int) primaryStage.getX(), (int) primaryStage.getY(), new Theme(Theme.ThemeType.DARK));
+                (int) primaryStage.getX(), (int) primaryStage.getY());
         logic.setGuiSettings(guiSettings);
         helpWindow.hide();
         primaryStage.hide();
