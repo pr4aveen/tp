@@ -22,7 +22,7 @@ import seedu.momentum.model.project.TrackedItem;
  */
 public class AddCommand extends Command {
 
-    public static final String COMMAND_WORD = "project";
+    public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a project to the project book. "
             + "Parameters: "
