@@ -77,14 +77,14 @@ public class AddCommand extends Command {
             }
 
             model.addTrackedItem(toAdd);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd, TEXT_PROJECT));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, TEXT_PROJECT, toAdd));
         } else {
             if (projectToAddTask.hasTask(taskToAdd)) {
                 throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
             }
             projectToAddTask.addTask(taskToAdd);
             model.rescheduleReminders();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, taskToAdd, TEXT_TASK));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, TEXT_TASK, taskToAdd));
         }
     }
 
