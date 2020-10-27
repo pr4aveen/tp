@@ -1,4 +1,4 @@
-package seedu.momentum.model.project;
+package seedu.momentum.model.reminder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.core.DateWrapper;
 
@@ -22,19 +23,30 @@ public class ReminderTest {
     private static final String INVALID_DATE_TIME = "2019-97-23 10:86:30";
 
     private static final DateWrapper VALID_CREATED_DATE_WRAPPER = new DateWrapper("2000-01-01");
+    private static final DateTimeWrapper NOW = new DateTimeWrapper("2010-09-23T10:15:30");
+    
+    private static Reminder emptyReminder;
+    private static Reminder reminder;
+    private static Reminder laterDateReminder;
+    private static Reminder laterTimeReminder;
 
-    private static final Reminder emptyReminder = new Reminder();
-    private static final Reminder reminder = new Reminder(VALID_DATE_TIME, VALID_CREATED_DATE_WRAPPER);
-    private static final Reminder laterDateReminder = new Reminder(VALID_LATER_DATE, VALID_CREATED_DATE_WRAPPER);
-    private static final Reminder laterTimeReminder = new Reminder(VALID_LATER_TIME, VALID_CREATED_DATE_WRAPPER);
-
+    private void init() {
+        Clock.initFixed(NOW);
+        emptyReminder = new Reminder();
+        reminder = new Reminder(VALID_DATE_TIME, VALID_CREATED_DATE_WRAPPER);
+        laterDateReminder = new Reminder(VALID_LATER_DATE, VALID_CREATED_DATE_WRAPPER);
+        laterTimeReminder = new Reminder(VALID_LATER_TIME, VALID_CREATED_DATE_WRAPPER);
+    }
+    
     @Test
     public void constructor_null_throwsNullPointerException() {
+        init();
         assertThrows(NullPointerException.class, () -> new Reminder(null, VALID_CREATED_DATE_WRAPPER));
     }
 
     @Test
     public void constructor_invalidReminder_throwsIllegalArgumentException() {
+        init();
         assertThrows(IllegalArgumentException.class, () -> new Reminder("", VALID_CREATED_DATE_WRAPPER));
         assertThrows(IllegalArgumentException.class, () -> new Reminder(INVALID_DATE_TIME, VALID_CREATED_DATE_WRAPPER));
         assertThrows(IllegalArgumentException.class, () ->
@@ -45,39 +57,46 @@ public class ReminderTest {
 
     @Test
     public void isEmpty() {
+        init();
         assertTrue(emptyReminder.isEmpty());
         assertFalse(reminder.isEmpty());
     }
 
     @Test
     public void getDateTimeWrapper() {
+        init();
         assertEquals(new DateTimeWrapper(VALID_DATE_TIME), reminder.getDateTimeWrapper());
     }
 
     @Test
     public void getDateTimeWrapper_emptyReminder_throwsNoSuchElementException() {
+        init();
         assertThrows(NoSuchElementException.class, () -> emptyReminder.getDateTimeWrapper());
     }
 
     @Test
     public void getStatus() {
+        init();
         assertEquals("", emptyReminder.getStatus());
         assertEquals("\ud83d\udd14", reminder.getStatus());
     }
 
     @Test
     public void getFormattedReminder_formatsCorrectly() {
+        init();
         assertEquals("No reminder set", emptyReminder.getFormattedReminder());
         assertEquals(reminder.getDateTimeWrapper().getFormatted(), reminder.getFormattedReminder());
     }
 
     @Test
     public void remove() {
+        init();
         assertEquals(emptyReminder, reminder.remove());
     }
 
     @Test
     public void toDate() {
+        init();
         Instant instant = reminder.getDateTimeWrapper().get().atZone(ZoneId.systemDefault()).toInstant();
         Date expectedDate = Date.from(instant);
         assertEquals(expectedDate, reminder.toDate());
@@ -85,12 +104,15 @@ public class ReminderTest {
 
     @Test
     public void toString_formatsCorrectly() {
+        init();
         assertEquals("", emptyReminder.toString());
         assertEquals(reminder.getDateTimeWrapper().toString(), reminder.toString());
     }
 
     @Test
     public void compareTo_returnsCorrectValue() {
+        init();
+        
         // both reminders are empty -> returns 0
         assertEquals(emptyReminder.compareTo(emptyReminder), 0);
 

@@ -23,7 +23,7 @@ import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.Reminder;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.tag.Tag;
 

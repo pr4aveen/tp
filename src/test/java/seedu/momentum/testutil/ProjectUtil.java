@@ -14,7 +14,7 @@ import seedu.momentum.logic.commands.AddCommand;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.Reminder;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 
 /**
