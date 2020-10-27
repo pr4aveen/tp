@@ -3,6 +3,7 @@ package seedu.momentum.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 
+import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.ShowComponentCommandParser;
 import seedu.momentum.model.Model;
 
@@ -15,11 +16,13 @@ public class ShowComponentCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows or hide the component of the sidebar. "
             + "Parameters: "
-            + PREFIX_REMINDER + "\n"
+            + "[" + PREFIX_REMINDER + " ] " + "\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_REMINDER;
 
     public static final String MESSAGE_SUCCESS = "%s is %s from the sidebar.";
+
+    public static final String MESSAGE_FAILURE = "No component to show or hide.";
 
     public static final String REMOVED = "removed";
 
@@ -38,16 +41,19 @@ public class ShowComponentCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         switch (componentType) {
         case REMINDER:
-            model.removeReminder();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, componentType.toString(), REMOVED));
+            if (model.isReminderEmpty().getValue()) {
+                model.removeReminder();
+                return new CommandResult(String.format(MESSAGE_SUCCESS, componentType.toString(), REMOVED));
+            }
+            break;
         default:
-            // never reach here
-            return new CommandResult("");
+            throw new CommandException(MESSAGE_FAILURE);
         }
+        throw new CommandException(MESSAGE_FAILURE);
     }
 
     @Override

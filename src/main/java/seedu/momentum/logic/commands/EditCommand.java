@@ -150,13 +150,6 @@ public class EditCommand extends Command {
         }
 
         Reminder updatedReminder = editTrackedItemDescriptor.getReminder().orElse(trackedItemToEdit.getReminder());
-        if (editTrackedItemDescriptor.getReminder().isPresent()
-                && !editTrackedItemDescriptor.getReminder().get().isEmpty()
-                && Reminder.isBeforeCreatedDate(updatedReminder.getDateTimeWrapper().toString(), createdDateWrapper)) {
-            // reminder is before created date
-            // created date wrapped by LocalDate.EPOCH by default
-            throw new CommandException(Reminder.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
-        }
 
         Set<Tag> updatedTags = editTrackedItemDescriptor.getTags().orElse(trackedItemToEdit.getTags());
 

@@ -155,8 +155,8 @@ public class ProjectBuilder {
     /**
      * Sets the {@code Reminder} of the {@code Project} that we are building.
      */
-    public ProjectBuilder withReminder(String dateTime, String createdDate) {
-        this.reminder = new Reminder(dateTime, new DateWrapper(createdDate));
+    public ProjectBuilder withReminder(String dateTime) {
+        this.reminder = new Reminder(dateTime);
         return this;
     }
 

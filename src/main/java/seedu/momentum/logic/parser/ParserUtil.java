@@ -115,11 +115,7 @@ public class ParserUtil {
             throw new ParseException(Reminder.REMINDER_MESSAGE_CONSTRAINTS);
         }
 
-        if (Reminder.isBeforeCreatedDate(trimmedDateTime, createdDateWrapper)) {
-            throw new ParseException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT);
-        }
-
-        return new Reminder(trimmedDateTime, createdDateWrapper);
+        return new Reminder(trimmedDateTime);
     }
 
     /**
