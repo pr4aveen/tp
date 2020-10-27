@@ -29,7 +29,7 @@
 }
 
 .menu-bar {
-    -fx-background-color: -fx-cool-white-3;
+    -fx-background-color: -fx-cool-white-5;
 }
 
 .menu-button:hover, .menu-button:focused, .menu-button:showing, .menu-item:hover {
