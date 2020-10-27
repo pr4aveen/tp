@@ -58,7 +58,7 @@ public class EditTrackedItemDescriptorTest {
 
         // different reminder -> returns false
         editedAmy = new EditTrackedItemDescriptorBuilder(DESC_AMY)
-                .withReminder(VALID_DEADLINE_DATE_BOB + "T" + VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
+                .withReminder(VALID_DEADLINE_DATE_BOB + "T" + VALID_DEADLINE_TIME_AMY)
                 .build();
         assertFalse(DESC_AMY.equals((editedAmy)));
 

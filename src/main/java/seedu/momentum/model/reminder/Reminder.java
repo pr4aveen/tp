@@ -12,19 +12,15 @@ import java.util.Optional;
 
 import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.DateTimeWrapper;
-import seedu.momentum.commons.core.DateWrapper;
 
 /**
  * Represents a Project's reminder in the project book.
  * Guarantees: immutable; is valid
  */
 public class Reminder implements Comparable<Reminder> {
+
     /**
-     * The constant CREATED_DATE_MESSAGE_CONSTRAINT.
-     */
-    public static final String CREATED_DATE_MESSAGE_CONSTRAINT = "Date of reminder cannot be earlier than created date";
-    /**
-     * The constant CREATED_DATE_MESSAGE_CONSTRAINT.
+     * The constant REMINDER_MESSAGE_CONSTRAINTS.
      */
     public static final String REMINDER_MESSAGE_CONSTRAINTS =
             "Date and time of reminder cannot be earlier than current time";
@@ -32,7 +28,7 @@ public class Reminder implements Comparable<Reminder> {
      * The constant MESSAGE_CONSTRAINTS.
      */
     public static final String MESSAGE_CONSTRAINTS = DateTimeWrapper.MESSAGE_CONSTRAINTS + "\n"
-            + CREATED_DATE_MESSAGE_CONSTRAINT + REMINDER_MESSAGE_CONSTRAINTS;
+            + REMINDER_MESSAGE_CONSTRAINTS;
 
     private static final String REMINDER_ICON = "\ud83d\udd14";
 
@@ -48,19 +44,17 @@ public class Reminder implements Comparable<Reminder> {
     /**
      * Constructs a {@code Reminder}.
      *
-     * @param dateTime           A valid dateTimeWrapper after or on created dateTimeWrapper.
-     * @param createdDateWrapper A created dateWrapper.
+     * @param dateTime A valid dateTimeWrapper after current date and time.
      */
-    public Reminder(String dateTime, DateWrapper createdDateWrapper) {
+    public Reminder(String dateTime) {
         requireNonNull(dateTime);
         checkArgument(DateTimeWrapper.isValid(dateTime), DateTimeWrapper.MESSAGE_CONSTRAINTS);
         checkArgument(isValid(dateTime), REMINDER_MESSAGE_CONSTRAINTS);
-        checkArgument(!isBeforeCreatedDate(dateTime, createdDateWrapper), CREATED_DATE_MESSAGE_CONSTRAINT);
         this.dateTimeWrapper = Optional.of(new DateTimeWrapper(dateTime));
     }
 
     /**
-     * Returns true if the dateTimeWrapper is after or on the current date and time, false otherwise.
+     * Returns true if the dateTimeWrapper is after current date and time, false otherwise.
      *
      * @param dateTimeStr A string to be parsed as a dateTimeWrapper.
      * @return the isValid boolean
@@ -68,18 +62,6 @@ public class Reminder implements Comparable<Reminder> {
     public static boolean isValid(String dateTimeStr) {
         DateTimeWrapper dateTimeWrapper = new DateTimeWrapper(dateTimeStr);
         return dateTimeWrapper.compareTo(Clock.now()) > 0;
-    }
-
-    /**
-     * Returns true if the dateTimeWrapper is after or on the created dateWrapper, false otherwise.
-     *
-     * @param dateTimeStr        A string to be parsed as a dateTimeWrapper.
-     * @param createdDateWrapper A created dateWrapper.
-     * @return the isBeforeCreatedDate boolean
-     */
-    public static boolean isBeforeCreatedDate(String dateTimeStr, DateWrapper createdDateWrapper) {
-        DateTimeWrapper dateTimeWrapper = new DateTimeWrapper(dateTimeStr);
-        return dateTimeWrapper.getDateWrapper().compareTo(createdDateWrapper) < 0;
     }
 
     /**

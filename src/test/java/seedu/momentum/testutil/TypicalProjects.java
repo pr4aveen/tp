@@ -36,7 +36,7 @@ public class TypicalProjects {
             .withCreatedDate("2000-11-05")
             .withCompletionStatus(CompletionStatus.COMPLETED)
             .withDeadline("2020-11-05", "12:43:12", "2000-11-05")
-            .withReminder("2030-12-02T01:21:31", "2000-11-05")
+            .withReminder("2030-12-02T01:21:31")
             .withTags("owesMoney", "friends")
             .withDurations(TypicalWorkDuration.DURATION_ONE_DAY)
             .withTimer(TypicalTimers.DAY).build();
@@ -65,7 +65,7 @@ public class TypicalProjects {
             .withCompletionStatus(CompletionStatus.COMPLETED)
             .withCreatedDate("2019-07-28")
             .withEmptyDeadline()
-            .withReminder("2021-12-05T02:45:23", "2019-07-28")
+            .withReminder("2021-12-05T02:45:23")
             .build();
 
     // Manually added
@@ -79,7 +79,7 @@ public class TypicalProjects {
             .withDescription(VALID_DESCRIPTION_AMY)
             .withCreatedDate(VALID_CREATED_DATE_AMY)
             .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
-            .withReminder(VALID_REMINDER_AMY, VALID_CREATED_DATE_AMY)
+            .withReminder(VALID_REMINDER_AMY)
             .withTags(VALID_TAG_FRIEND).build();
     public static final Project BOB = new ProjectBuilder().withName(VALID_NAME_BOB)
             .withDescription(VALID_DESCRIPTION_BOB)

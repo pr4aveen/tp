@@ -129,7 +129,7 @@ public class EditCommandParserTest {
                 .withDescription(VALID_DESCRIPTION_AMY)
                 .withCompletionStatus(VALID_COMPLETION_STATUS_AMY)
                 .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
-                .withReminder(VALID_REMINDER_AMY, VALID_CREATED_DATE_AMY)
+                .withReminder(VALID_REMINDER_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
@@ -184,10 +184,9 @@ public class EditCommandParserTest {
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand, model);
 
-        // deadline with date
+        // reminder
         userInput = targetIndex.getOneBased() + REMINDER_DESC_AMY;
-        descriptor = new EditTrackedItemDescriptorBuilder()
-                .withReminder(VALID_REMINDER_AMY, VALID_CREATED_DATE_AMY).build();
+        descriptor = new EditTrackedItemDescriptorBuilder().withReminder(VALID_REMINDER_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand, model);
 

@@ -28,7 +28,7 @@ public class SampleDataUtil {
                     new CompletionStatus(),
                     new DateWrapper("2019-10-04"),
                     new Deadline("2020-10-04", new DateWrapper("2019-10-04")),
-                    new Reminder("2022-06-22T01:01:21", new DateWrapper("2019-10-04")),
+                    new Reminder("2022-06-22T01:01:21"),
                     getTagSet("friends")),
             new Project(new Name("Bernice Yu"),
                     new Description("description"),
