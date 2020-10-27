@@ -3,6 +3,8 @@ package seedu.momentum.model;
 import java.nio.file.Path;
 import java.util.function.Predicate;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.model.project.Project;
@@ -13,7 +15,9 @@ import seedu.momentum.model.project.TrackedItem;
  * The API of the Model component.
  */
 public interface Model {
-    /** {@code Predicate} that always evaluate to true */
+    /**
+     * {@code Predicate} that always evaluate to true.
+     */
     Predicate<TrackedItem> PREDICATE_SHOW_ALL_TRACKED_ITEMS = unused -> true;
 
     /**
@@ -51,11 +55,14 @@ public interface Model {
      */
     void setVersionedProjectBook(ReadOnlyProjectBook versionedProjectBook);
 
-    /** Returns the ProjectBook */
+    /**
+     * Returns the ProjectBook.
+     */
     ReadOnlyProjectBook getProjectBook();
 
     /**
      * Returns true if a tracked item with the same identity as {@code trackedItem} exists in the project book.
+     *
      * @param trackedItem
      */
     boolean hasTrackedItem(TrackedItem trackedItem);
@@ -80,25 +87,53 @@ public interface Model {
      */
     void setTrackedItem(ViewMode viewMode, TrackedItem target, TrackedItem editedTrackedItem);
 
-    /** Returns an unmodifiable view of the filtered project list */
+    /**
+     * Returns an unmodifiable view of the filtered project list.
+     */
     ObservableList<TrackedItem> getFilteredTrackedItemList();
 
-    /** Returns a list of projects whose timers are running */
+    /**
+     * Returns a list of projects whose timers are running.
+     */
     ObservableList<TrackedItem> getRunningTimers();
 
     /**
-     * Adds the given project to the running timers list.
-     * {@code project} must have a running timer.
+     * Reschedule all reminders.
+     */
+    void rescheduleReminders();
+
+    /**
+     * Returns true if the reminder is empty, false otherwise.
      *
-     * @param trackedItem item to add a timer to.
+     * @return the boolean.
+     */
+    BooleanProperty isReminderEmpty();
+
+    /**
+     * Returns the string representation of the reminder.
+     *
+     * @return the reminder.
+     */
+    StringProperty getReminder();
+
+    /**
+     * Remove the reminder shown.
+     */
+    void removeReminder();
+
+    /**
+     * Adds the given project to the running timers list.
+     * {@code project} must have a running timerWrapper.
+     *
+     * @param trackedItem item to add a timerWrapper to.
      */
     void addRunningTimer(TrackedItem trackedItem);
 
     /**
      * Removes the given project from the running timers list.
-     * {@code project} must have a running timer.
+     * {@code project} must have a running timerWrapper.
      *
-     * @param trackedItem item to remove timer from.
+     * @param trackedItem item to remove timerWrapper from.
      */
     void removeRunningTimer(TrackedItem trackedItem);
 
@@ -114,7 +149,7 @@ public interface Model {
      *
      * @throws NullPointerException if {@code sortType} is null.
      */
-    void orderFilteredProjectList(SortType sortType, boolean isAscending);
+    void orderFilteredProjectList(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus);
 
     void viewProjects();
 
@@ -127,7 +162,7 @@ public interface Model {
     /**
      * Returns the project that the user is currently viewing.
      *
-     * @return current project that the user is viewing
+     * @return current project that the user is viewing.
      */
     Project getCurrentProject();
 

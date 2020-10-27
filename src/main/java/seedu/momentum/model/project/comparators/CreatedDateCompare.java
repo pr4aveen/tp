@@ -2,16 +2,16 @@ package seedu.momentum.model.project.comparators;
 
 import java.util.Comparator;
 
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
- * Compares date created of two tracked items.
+ * Compares created date of two tracked items.
  */
 public class CreatedDateCompare implements Comparator<TrackedItem> {
 
     /**
-     * Compares the date created of two tracked items.
+     * Compares the created date of two tracked items.
      *
      * @param t1 first tracked item to compare.
      * @param t2 second tracked item to compare.
@@ -19,14 +19,14 @@ public class CreatedDateCompare implements Comparator<TrackedItem> {
      */
     public int compare(TrackedItem t1, TrackedItem t2) {
 
-        Date p1Date = t1.getCreatedDate();
-        Date p2Date = t2.getCreatedDate();
+        DateWrapper p1DateWrapper = t1.getCreatedDate();
+        DateWrapper p2DateWrapper = t2.getCreatedDate();
 
         NameCompare nameCompare = new NameCompare();
 
-        if (p1Date.get().isBefore(p2Date.get())) {
+        if (p1DateWrapper.get().isBefore(p2DateWrapper.get())) {
             return -1;
-        } else if (p1Date.get().isAfter(p2Date.get())) {
+        } else if (p1DateWrapper.get().isAfter(p2DateWrapper.get())) {
             return 1;
         } else {
             return nameCompare.compare(t1, t2);

@@ -13,6 +13,8 @@ import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -143,7 +145,8 @@ public class AddCommandTest {
         }
 
         @Override
-        public void orderFilteredProjectList(SortType sortType, boolean isAscending) {
+        public void orderFilteredProjectList(SortType sortType, boolean isAscending,
+                                             boolean isSortedByCompletionStatus) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -159,6 +162,26 @@ public class AddCommandTest {
 
         @Override
         public void removeRunningTimer(TrackedItem trackedItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void rescheduleReminders() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public BooleanProperty isReminderEmpty() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public StringProperty getReminder() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeReminder() {
             throw new AssertionError("This method should not be called.");
         }
 

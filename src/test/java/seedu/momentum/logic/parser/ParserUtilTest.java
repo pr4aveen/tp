@@ -14,17 +14,19 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_DATE = "2021-42-12";
     private static final String INVALID_DEADLINE_DATE = "1000-09-12";
+    private static final String INVALID_REMINDER = "3000-12-1202:31:23";
     private static final String INVALID_TIME = "42:12:12";
     private static final String INVALID_TAG = "#friend";
 
@@ -32,12 +34,13 @@ public class ParserUtilTest {
     private static final String VALID_DESCRIPTION = "Loves to eat";
     private static final String VALID_DATE = "2021-12-12";
     private static final String VALID_TIME = "12:12:12";
+    private static final String VALID_REMINDER = "2025-12-23T13:21:25";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
 
     private static final String WHITESPACE = " \t\r\n";
 
-    private static final Date VALID_CREATED_DATE = new Date(VALID_DATE);
+    private static final DateWrapper VALID_CREATED_DATE_WRAPPER = new DateWrapper(VALID_DATE);
 
     @Test
     public void parseIndex_invalidInput_throwsParseException() {
@@ -85,36 +88,64 @@ public class ParserUtilTest {
     @Test
     public void parseDeadline_invalidValue_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseDeadline(
-                Optional.of(INVALID_DATE), Optional.empty(), VALID_CREATED_DATE));
+                Optional.of(INVALID_DATE), Optional.empty(), VALID_CREATED_DATE_WRAPPER));
         assertThrows(ParseException.class, () -> ParserUtil.parseDeadline(
-                Optional.of(INVALID_DATE), Optional.of(INVALID_TIME), VALID_CREATED_DATE));
+                Optional.of(INVALID_DATE), Optional.of(INVALID_TIME), VALID_CREATED_DATE_WRAPPER));
         // deadline is before created date
         assertThrows(ParseException.class, () -> ParserUtil.parseDeadline(
-                Optional.of(INVALID_DEADLINE_DATE), Optional.empty(), VALID_CREATED_DATE));
+                Optional.of(INVALID_DEADLINE_DATE), Optional.empty(), VALID_CREATED_DATE_WRAPPER));
         assertThrows(ParseException.class, () -> ParserUtil.parseDeadline(
-                Optional.of(INVALID_DEADLINE_DATE), Optional.of(VALID_TIME), VALID_CREATED_DATE));
+                Optional.of(INVALID_DEADLINE_DATE), Optional.of(VALID_TIME), VALID_CREATED_DATE_WRAPPER));
     }
 
     @Test
     public void parseDeadline_validValueWithoutWhitespace_returnsDeadline() throws Exception {
-        Deadline expectedDeadline = new Deadline(VALID_DATE, VALID_CREATED_DATE);
+        Deadline expectedDeadline = new Deadline(VALID_DATE, VALID_CREATED_DATE_WRAPPER);
         assertEquals(expectedDeadline,
-                ParserUtil.parseDeadline(Optional.of(VALID_DATE), Optional.empty(), VALID_CREATED_DATE));
+                ParserUtil.parseDeadline(Optional.of(VALID_DATE), Optional.empty(), VALID_CREATED_DATE_WRAPPER));
 
-        expectedDeadline = new Deadline(VALID_DATE, VALID_TIME, VALID_CREATED_DATE);
+        expectedDeadline = new Deadline(VALID_DATE, VALID_TIME, VALID_CREATED_DATE_WRAPPER);
         assertEquals(expectedDeadline,
-                ParserUtil.parseDeadline(Optional.of(VALID_DATE), Optional.of(VALID_TIME), VALID_CREATED_DATE));
+                ParserUtil.parseDeadline(Optional.of(VALID_DATE), Optional.of(VALID_TIME), VALID_CREATED_DATE_WRAPPER));
     }
 
     @Test
     public void parseDeadline_validValueWithWhitespace_returnsTrimmedDeadline() throws Exception {
         String dateWithWhitespace = WHITESPACE + VALID_DATE + WHITESPACE;
         String timeWithWhitespace = WHITESPACE + VALID_TIME + WHITESPACE;
-        Deadline expectedDeadline = new Deadline(VALID_DATE, VALID_TIME, VALID_CREATED_DATE);
+        Deadline expectedDeadline = new Deadline(VALID_DATE, VALID_TIME, VALID_CREATED_DATE_WRAPPER);
         assertEquals(expectedDeadline,
                 ParserUtil.parseDeadline(Optional.of(dateWithWhitespace),
                         Optional.of(timeWithWhitespace),
-                        VALID_CREATED_DATE));
+                        VALID_CREATED_DATE_WRAPPER));
+    }
+
+    @Test
+    public void parseReminder_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseReminder(
+                Optional.of(VALID_DATE), VALID_CREATED_DATE_WRAPPER));
+        assertThrows(ParseException.class, () -> ParserUtil.parseReminder(
+                Optional.of(VALID_TIME), VALID_CREATED_DATE_WRAPPER));
+        assertThrows(ParseException.class, () -> ParserUtil.parseReminder(
+                Optional.of(INVALID_REMINDER), VALID_CREATED_DATE_WRAPPER));
+    }
+
+    @Test
+    public void parseReminder_validValueWithoutWhitespace_returnsReminder() throws Exception {
+        Reminder expectedReminder = new Reminder(VALID_REMINDER);
+        assertEquals(expectedReminder,
+                ParserUtil.parseReminder(Optional.of(VALID_REMINDER), VALID_CREATED_DATE_WRAPPER));
+
+        expectedReminder = new Reminder();
+        assertEquals(expectedReminder, ParserUtil.parseReminder(Optional.empty(), VALID_CREATED_DATE_WRAPPER));
+    }
+
+    @Test
+    public void parseReminder_validValueWithWhitespace_returnsTrimmedReminder() throws Exception {
+        String reminderWithWhiteSpace = WHITESPACE + VALID_REMINDER + WHITESPACE;
+        Reminder expectedReminder = new Reminder(VALID_REMINDER);
+        assertEquals(expectedReminder, ParserUtil.parseReminder(Optional.of(reminderWithWhiteSpace),
+                VALID_CREATED_DATE_WRAPPER));
     }
 
     @Test

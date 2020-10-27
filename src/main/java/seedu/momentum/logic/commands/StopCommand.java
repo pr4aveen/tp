@@ -14,7 +14,7 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
- * Stops a previously started timer tracking a project identified using it's displayed index.
+ * Stops a previously started timerWrapper tracking a project identified using it's displayed index.
  */
 public class StopCommand extends Command {
 
@@ -32,7 +32,7 @@ public class StopCommand extends Command {
     private final Project parentProject;
 
     /**
-     * Creates a StopCommand that stops the timer for a project.
+     * Creates a StopCommand that stops the timerWrapper for a project.
      *
      * @param targetIndex The project to stop.
      */
@@ -42,7 +42,7 @@ public class StopCommand extends Command {
     }
 
     /**
-     * Creates a StartCommand that stops the timer for a task.
+     * Creates a StartCommand that stops the timerWrapper for a task.
      *
      * @param targetIndex The task to stop.
      * @param parentProject The parent Project of the task.
@@ -79,6 +79,7 @@ public class StopCommand extends Command {
         }
 
         model.removeRunningTimer(trackedItemToStop);
+        model.rescheduleReminders();
         model.setIsPreviousCommandTimerToTrue();
         model.commitToHistory();
 

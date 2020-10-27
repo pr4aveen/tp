@@ -73,6 +73,7 @@ public class DeleteCommand extends Command {
             model.setTrackedItem(ViewMode.TASKS, projectBeforeDeleteTask, projectAfterDeleteTask);
             model.viewTasks(projectAfterDeleteTask);
         }
+        model.rescheduleReminders();
         model.setIsPreviousCommandTimerToFalse();
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete));

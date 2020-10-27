@@ -12,6 +12,7 @@ import static seedu.momentum.testutil.TypicalProjects.CARL;
 import static seedu.momentum.testutil.TypicalProjects.DANIEL;
 import static seedu.momentum.testutil.TypicalProjects.ELLE;
 import static seedu.momentum.testutil.TypicalProjects.FIONA;
+import static seedu.momentum.testutil.TypicalProjects.GEORGE;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import java.util.Arrays;
@@ -22,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
+import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
@@ -147,6 +149,18 @@ public class FindCommandTest {
     }
 
     @Test
+    public void anyMatch_singleCompletionStatusKeyword_multipleProjectsFound() {
+        String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 3);
+        CompletionStatusPredicate predicate =
+                prepareCompletionStatusPredicate(FindType.ANY, CompletionStatusPredicate.COMPLETED_KEYWORD);
+        FindCommand command = new FindCommand(predicate);
+        expectedModel.updateFilteredProjectList(predicate);
+        expectedModel.commitToHistory();
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(BENSON, CARL, GEORGE), model.getFilteredTrackedItemList());
+    }
+
+    @Test
     public void anyMatch_multipleTagKeywords_multipleProjectsFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 3);
         TagListContainsKeywordsPredicate predicate = prepareTagListPredicate(FindType.ANY, TEST_TAGS);
@@ -180,7 +194,15 @@ public class FindCommandTest {
      */
     private DescriptionContainsKeywordsPredicate prepareDescriptionPredicate(FindType findType, String userInput) {
         return new DescriptionContainsKeywordsPredicate(findType,
-            Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
+                Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
+    }
+
+    /**
+     * Parses {@code userInput} into a {@code CompletionStatusPredicate}.
+     */
+    private CompletionStatusPredicate prepareCompletionStatusPredicate(FindType findType, String userInput) {
+        return new CompletionStatusPredicate(findType,
+                Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
     }
 
     /**
@@ -188,6 +210,6 @@ public class FindCommandTest {
      */
     private TagListContainsKeywordsPredicate prepareTagListPredicate(FindType findType, String userInput) {
         return new TagListContainsKeywordsPredicate(findType,
-            Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
+                Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
     }
 }

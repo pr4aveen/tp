@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.commons.core.DateTime;
+import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.exceptions.IllegalValueException;
 import seedu.momentum.testutil.TypicalWorkDuration;
 
@@ -35,14 +35,14 @@ public class JsonAdaptedWorkDurationTest {
     public void toModelType_invalidStartTime_throwsIllegalValueException() {
         JsonAdaptedWorkDuration duration =
                 new JsonAdaptedWorkDuration(INVALID_TIME, VALID_TIME);
-        String expectedMessage = DateTime.MESSAGE_CONSTRAINTS;
+        String expectedMessage = DateTimeWrapper.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, duration::toModelType);
     }
 
     @Test
     public void toModelType_nullStartTime_throwsIllegalValueException() {
         JsonAdaptedWorkDuration duration = new JsonAdaptedWorkDuration(null, VALID_TIME);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, DateTime.class.getSimpleName());
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, DateTimeWrapper.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, duration::toModelType);
     }
 
@@ -50,7 +50,7 @@ public class JsonAdaptedWorkDurationTest {
     public void toModelType_invalidStopTime_throwsIllegalValueException() {
         JsonAdaptedWorkDuration duration =
                 new JsonAdaptedWorkDuration(VALID_TIME, INVALID_TIME);
-        String expectedMessage = DateTime.MESSAGE_CONSTRAINTS;
+        String expectedMessage = DateTimeWrapper.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, duration::toModelType);
     }
 
@@ -58,7 +58,7 @@ public class JsonAdaptedWorkDurationTest {
     public void toModelType_nullStopTime_throwsIllegalValueException() {
         JsonAdaptedWorkDuration duration =
                 new JsonAdaptedWorkDuration(VALID_TIME, null);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, DateTime.class.getSimpleName());
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, DateTimeWrapper.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, duration::toModelType);
     }
 

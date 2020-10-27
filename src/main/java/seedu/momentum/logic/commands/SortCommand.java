@@ -1,6 +1,7 @@
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 
@@ -25,14 +26,12 @@ public class SortCommand extends Command {
     public static final String OUTPUT_ASCENDING_ORDER = "ascending";
     public static final String OUTPUT_DESCENDING_ORDER = "descending";
 
-
-
-
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sorts projects by specified type and order.\n"
             + "Default sort is of type: Alphabetical and order: Ascending. \n"
             + "Parameters: "
             + "[" + SORT_TYPE + "SORT_TYPE ] "
             + "[" + SORT_ORDER + "SORT_ORDER ] "
+            + "[" + PREFIX_COMPLETION_STATUS + "] "
             + "Example: " + COMMAND_WORD + " " + SORT_TYPE + "alpha " + SORT_ORDER + "asc";
 
     public static final String MESSAGE_INVALID_SORT_TYPE_OR_ORDER = "Sort type can only be one of the following: \n"
@@ -44,20 +43,23 @@ public class SortCommand extends Command {
     public static final String MESSAGE_SORT_SUCCESS = "List has been sorted in %1$s%2$s order";
 
     private SortType sortType;
-    private boolean isAscending;
-    private boolean isDefault;
+    private final boolean isAscending;
+    private final boolean isDefault;
+    private final boolean isSortedByCompletionStatus;
 
     /**
      * Creates a SortCommand to sort the list of projects.
      *
-     * @param sortType Type of sort applied to projects.
-     * @param isAscending Boolean value to check if order of sort applied to projects is ascending.
-     * @param isDefault Boolean value to check if SortCommand is default.
+     * @param sortType                   Type of sort applied to projects.
+     * @param isAscending                Boolean value to check if order of sort applied to projects is ascending.
+     * @param isDefault                  Boolean value to check if SortCommand is default.
+     * @param isSortedByCompletionStatus Boolean value to check if SortCommand is sorted by completion status.
      */
-    public SortCommand(SortType sortType, boolean isAscending, boolean isDefault) {
+    public SortCommand(SortType sortType, boolean isAscending, boolean isDefault, boolean isSortedByCompletionStatus) {
         this.sortType = sortType;
         this.isAscending = isAscending;
         this.isDefault = isDefault;
+        this.isSortedByCompletionStatus = isSortedByCompletionStatus;
     }
 
     @Override
@@ -65,11 +67,8 @@ public class SortCommand extends Command {
         requireNonNull(model);
 
         String type = "";
-        String order = isDefault
-                ? OUTPUT_DEFAULT_TYPE
-                : isAscending
-                ? OUTPUT_ASCENDING_ORDER
-                : OUTPUT_DESCENDING_ORDER;
+        String order = isDefault ? OUTPUT_DEFAULT_TYPE : isAscending
+                ? OUTPUT_ASCENDING_ORDER : OUTPUT_DESCENDING_ORDER;
 
         switch (sortType) {
         case ALPHA:
@@ -89,7 +88,7 @@ public class SortCommand extends Command {
             sortType = SortType.ALPHA;
         }
 
-        model.orderFilteredProjectList(sortType, isAscending);
+        model.orderFilteredProjectList(sortType, isAscending, isSortedByCompletionStatus);
         model.setIsPreviousCommandTimerToFalse();
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_SORT_SUCCESS, type, order));
@@ -99,9 +98,10 @@ public class SortCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof SortCommand // instanceof handles nulls
-                && sortType.equals(((SortCommand) other).sortType)) // field check
-                && isAscending == (((SortCommand) other).isAscending) // field check
-                && isDefault == (((SortCommand) other).isDefault); //field check
+                && sortType.equals(((SortCommand) other).sortType) // field check
+                && isAscending == ((SortCommand) other).isAscending // field check
+                && isDefault == ((SortCommand) other).isDefault // field check
+                && isSortedByCompletionStatus == ((SortCommand) other).isSortedByCompletionStatus); // field check
     }
 
 }

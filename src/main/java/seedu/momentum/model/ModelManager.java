@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -17,6 +19,7 @@ import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.reminder.ReminderManager;
 
 /**
  * Represents the in-memory model of the project book data.
@@ -25,7 +28,9 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final VersionedProjectBook versionedProjectBook;
+    private final ProjectBook projectBook;
     private final UserPrefs userPrefs;
+    private final ReminderManager reminderManager;
     private final FilteredList<TrackedItem> filteredTrackedItems;
     private final ObservableList<TrackedItem> runningTimers;
     private TrackedItem runningTimer;
@@ -33,7 +38,8 @@ public class ModelManager implements Model {
     private boolean isPreviousCommandTimer;
     private Predicate<TrackedItem> currentPredicate;
     private SortType currentSortType;
-    private boolean currentSortIsAscending;
+    private boolean isCurrentSortAscending;
+    private boolean isCurrentSortIsByCompletionStatus;
     private ViewMode viewMode;
     private Project currentProject;
     private ObservableList<TrackedItem> viewList;
@@ -46,11 +52,16 @@ public class ModelManager implements Model {
         requireAllNonNull(projectBook, userPrefs);
 
         logger.fine("Initializing with project book: " + projectBook + " and user prefs " + userPrefs);
+
+        this.projectBook = new ProjectBook(projectBook);
+        this.reminderManager = new ReminderManager(this.projectBook);
+        rescheduleReminders();
         this.userPrefs = new UserPrefs(userPrefs);
 
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         currentSortType = SortType.ALPHA;
-        currentSortIsAscending = true;
+        isCurrentSortAscending = true;
+        isCurrentSortIsByCompletionStatus = true;
         viewMode = ViewMode.PROJECTS;
         toAdd = false;
         isPreviousCommandTimer = false;
@@ -118,6 +129,7 @@ public class ModelManager implements Model {
     @Override
     public void setVersionedProjectBook(ReadOnlyProjectBook versionedProjectBook) {
         this.versionedProjectBook.resetData(versionedProjectBook);
+        rescheduleReminders();
     }
 
     @Override
@@ -140,13 +152,15 @@ public class ModelManager implements Model {
 
     @Override
     public void deleteTrackedItem(TrackedItem target) {
-        versionedProjectBook.renameTrackedItem(target);
+        versionedProjectBook.removeTrackedItem(target);
+        rescheduleReminders();
     }
 
     @Override
     public void addTrackedItem(TrackedItem trackedItem) {
         versionedProjectBook.addTrackedItem(trackedItem);
-        orderFilteredProjectList(currentSortType, currentSortIsAscending);
+        rescheduleReminders();
+        orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
         updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
@@ -155,6 +169,8 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedTrackedItem);
 
         versionedProjectBook.setTrackedItem(target, editedTrackedItem);
+        rescheduleReminders();
+
         if (viewMode == ViewMode.TASKS) {
             Project project = (Project) target;
             resetUi(false, viewMode, false, project, null, false);
@@ -165,8 +181,9 @@ public class ModelManager implements Model {
 
     /**
      * Returns an unmodifiable view of the list of {@code TrackedItem} backed by the internal list of
-     * {@code versionedProjectBook}
-     * @return
+     * {@code versionedProjectBook}.
+     *
+     * @return the filtered tracked item list.
      */
     @Override
     public ObservableList<TrackedItem> getFilteredTrackedItemList() {
@@ -181,11 +198,12 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void orderFilteredProjectList(SortType orderType, boolean isAscending) {
-        requireAllNonNull(orderType, isAscending);
-        currentSortIsAscending = isAscending;
+    public void orderFilteredProjectList(SortType orderType, boolean isAscending, boolean isSortedByCompletionStatus) {
+        requireAllNonNull(orderType, isAscending, isSortedByCompletionStatus);
+        isCurrentSortAscending = isAscending;
+        isCurrentSortIsByCompletionStatus = isSortedByCompletionStatus;
         currentSortType = orderType;
-        versionedProjectBook.setOrder(orderType, isAscending);
+        versionedProjectBook.setOrder(orderType, isAscending, isSortedByCompletionStatus);
         updateFilteredProjectList(currentPredicate);
     }
 
@@ -239,6 +257,27 @@ public class ModelManager implements Model {
         return viewMode;
     }
 
+    //=========== Reminders =============================================================
+
+    public void rescheduleReminders() {
+        reminderManager.rescheduleReminder();
+    }
+
+    @Override
+    public BooleanProperty isReminderEmpty() {
+        return reminderManager.isReminderEmpty();
+    }
+
+    @Override
+    public StringProperty getReminder() {
+        return reminderManager.getReminder();
+    }
+
+    @Override
+    public void removeReminder() {
+        reminderManager.removeReminder();
+    }
+
     //=========== Timers =============================================================
 
     @Override
@@ -281,6 +320,7 @@ public class ModelManager implements Model {
         ModelManager other = (ModelManager) obj;
         return versionedProjectBook.equals(other.versionedProjectBook)
                 && userPrefs.equals(other.userPrefs)
+                && reminderManager.equals(other.reminderManager)
                 && filteredTrackedItems.equals(other.filteredTrackedItems)
                 && runningTimers.equals(other.runningTimers)
                 //&& runningTimer.equals(other.runningTimer)

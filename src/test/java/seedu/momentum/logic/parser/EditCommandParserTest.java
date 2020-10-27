@@ -1,6 +1,7 @@
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.momentum.logic.commands.CommandTestUtil.COMPLETION_STATUS_DESC_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.DEADLINE_DATE_DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.DEADLINE_DATE_DESC_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.DEADLINE_TIME_DESC_AMY;
@@ -9,10 +10,13 @@ import static seedu.momentum.logic.commands.CommandTestUtil.DESCRIPTION_DESC_BOB
 import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_DEADLINE_DATE_DESC;
 import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_DEADLINE_TIME_DESC;
 import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
+import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_REMINDER_DESC;
 import static seedu.momentum.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.momentum.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static seedu.momentum.logic.commands.CommandTestUtil.REMINDER_DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.momentum.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_COMPLETION_STATUS_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_DATE_AMY;
@@ -21,6 +25,7 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_TIME_
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_REMINDER_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
@@ -33,13 +38,15 @@ import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.commons.core.Date;
-import seedu.momentum.commons.core.Time;
+import seedu.momentum.commons.core.DateTimeWrapper;
+import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.TimeWrapper;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
+import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.EditTrackedItemDescriptorBuilder;
@@ -85,9 +92,11 @@ public class EditCommandParserTest {
     public void parse_invalidValue_failure() {
         assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS, model); // invalid name
         assertParseFailure(parser, "1" + INVALID_DEADLINE_DATE_DESC,
-                Date.MESSAGE_CONSTRAINTS, model); // invalid date in deadline
+                DateWrapper.MESSAGE_CONSTRAINTS, model); // invalid date in deadline
         assertParseFailure(parser, "1" + DEADLINE_DATE_DESC_AMY + INVALID_DEADLINE_TIME_DESC,
-                Time.MESSAGE_CONSTRAINTS, model); // invalid time in deadline
+                TimeWrapper.MESSAGE_CONSTRAINTS, model); // invalid time in deadline
+        assertParseFailure(parser, "1" + DEADLINE_DATE_DESC_AMY + INVALID_REMINDER_DESC,
+                DateTimeWrapper.MESSAGE_CONSTRAINTS, model); // invalid reminder
         assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS, model); // invalid tag
 
         // valid phone followed by invalid phone. The test case for invalid phone followed by valid phone
@@ -97,11 +106,11 @@ public class EditCommandParserTest {
         // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Project} being edited,
         // parsing it together with a valid tag results in error
         assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY,
-            Tag.MESSAGE_CONSTRAINTS, model);
+                Tag.MESSAGE_CONSTRAINTS, model);
         assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_EMPTY + TAG_DESC_HUSBAND,
-            Tag.MESSAGE_CONSTRAINTS, model);
+                Tag.MESSAGE_CONSTRAINTS, model);
         assertParseFailure(parser, "1" + TAG_EMPTY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND,
-            Tag.MESSAGE_CONSTRAINTS, model);
+                Tag.MESSAGE_CONSTRAINTS, model);
 
         // multiple invalid values, but only the first invalid value is captured
         // assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_PHONE_AMY,
@@ -112,12 +121,15 @@ public class EditCommandParserTest {
     public void parse_allFieldsSpecified_success() {
         Index targetIndex = INDEX_SECOND_PROJECT;
         String userInput = targetIndex.getOneBased() + TAG_DESC_HUSBAND + NAME_DESC_AMY + DESCRIPTION_DESC_AMY
-                + DEADLINE_DATE_DESC_AMY + DEADLINE_TIME_DESC_AMY + TAG_DESC_FRIEND;
+                + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_AMY + DEADLINE_TIME_DESC_AMY
+                + REMINDER_DESC_AMY + TAG_DESC_FRIEND;
 
         EditCommand.EditTrackedItemDescriptor descriptor =
-            new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_AMY)
+                new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withDescription(VALID_DESCRIPTION_AMY)
+                .withCompletionStatus(VALID_COMPLETION_STATUS_AMY)
                 .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
+                .withReminder(VALID_REMINDER_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
@@ -152,6 +164,12 @@ public class EditCommandParserTest {
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand, model);
 
+        // completion status
+        userInput = targetIndex.getOneBased() + COMPLETION_STATUS_DESC_BOB;
+        descriptor = new EditTrackedItemDescriptorBuilder().withCompletionStatus(new CompletionStatus()).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand, model);
+
         // deadline with date
         userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB;
         descriptor = new EditTrackedItemDescriptorBuilder()
@@ -163,6 +181,12 @@ public class EditCommandParserTest {
         userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB + DEADLINE_TIME_DESC_AMY;
         descriptor = new EditTrackedItemDescriptorBuilder()
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand, model);
+
+        // reminder
+        userInput = targetIndex.getOneBased() + REMINDER_DESC_AMY;
+        descriptor = new EditTrackedItemDescriptorBuilder().withReminder(VALID_REMINDER_AMY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand, model);
 

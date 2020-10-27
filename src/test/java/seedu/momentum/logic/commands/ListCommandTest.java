@@ -1,9 +1,7 @@
 package seedu.momentum.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.logic.commands.CommandTestUtil.showProjectAtIndex;
-import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 

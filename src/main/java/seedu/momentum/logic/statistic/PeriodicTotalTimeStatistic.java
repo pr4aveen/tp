@@ -9,13 +9,13 @@ import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.Clock;
-import seedu.momentum.commons.core.DateTime;
+import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
- * Tracks the total time spent on each project for a specific period of time.
+ * Tracks the total timeWrapper spent on each project for a specific period of timeWrapper.
  */
 public class PeriodicTotalTimeStatistic extends Statistic {
 
@@ -27,8 +27,8 @@ public class PeriodicTotalTimeStatistic extends Statistic {
     /**
      * Constructs a {@code PeriodicTotalTimeStatistic}
      *
-     * @param period Period of time to track.
-     * @param units Units for the total time calculated.
+     * @param period Period of timeWrapper to track.
+     * @param units Units for the total timeWrapper calculated.
      */
     public PeriodicTotalTimeStatistic(ChronoUnit period, ChronoUnit units) {
         requireAllNonNull(period, units);
@@ -39,8 +39,8 @@ public class PeriodicTotalTimeStatistic extends Statistic {
     /**
      * Constructs a {@code PeriodicTotalTimeStatistic} with specified data.
      *
-     * @param period Period of time to track.
-     * @param units Units for the total time calculated.
+     * @param period Period of timeWrapper to track.
+     * @param units Units for the total timeWrapper calculated.
      * @param timeList Data for this statistic.
      */
     public PeriodicTotalTimeStatistic(ChronoUnit period,
@@ -54,8 +54,8 @@ public class PeriodicTotalTimeStatistic extends Statistic {
 
     @Override
     public void calculate(Model model) {
-        DateTime weekStart = Clock.now().minus(1, period);
-        DateTime weekEnd = Clock.now();
+        DateTimeWrapper weekStart = Clock.now().minus(1, period);
+        DateTimeWrapper weekEnd = Clock.now();
 
         //Only calculate statistics for projects visible to the user
         List<TrackedItem> trackedItems = model.getFilteredTrackedItemList();
@@ -71,13 +71,13 @@ public class PeriodicTotalTimeStatistic extends Statistic {
         }
     }
 
-    private long calculateTimeSpent(TrackedItem trackedItem, DateTime weekStart, DateTime weekEnd) {
+    private long calculateTimeSpent(TrackedItem trackedItem, DateTimeWrapper weekStart, DateTimeWrapper weekEnd) {
         List<WorkDuration> durations = trackedItem.getDurationList();
         long totalDuration = 0;
 
         for (WorkDuration duration : durations) {
-            DateTime startTime = duration.getStartTime();
-            DateTime stopTime = duration.getStopTime();
+            DateTimeWrapper startTime = duration.getStartTime();
+            DateTimeWrapper stopTime = duration.getStopTime();
 
             if (stopTime.isBefore(weekStart) || startTime.isAfter(weekEnd)) {
                 continue;
@@ -85,7 +85,7 @@ public class PeriodicTotalTimeStatistic extends Statistic {
 
             if (startTime.isBefore(weekStart) && stopTime.isBefore(weekEnd)) {
                 // Duration is cut in two by the week
-                totalDuration += DateTime.getTimeBetween(weekStart, stopTime, units);
+                totalDuration += DateTimeWrapper.getTimeBetween(weekStart, stopTime, units);
             } else {
                 // Whole Duration is in the week
                 totalDuration += duration.getTimeBetween(units);

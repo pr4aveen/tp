@@ -80,7 +80,9 @@ public class LogicManagerTest {
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + DESCRIPTION_DESC_AMY;
         Project expectedProject = new ProjectBuilder(AMY).withTags()
                 .withCurrentCreatedDate()
-                .withEmptyDeadline().build();
+                .withEmptyDeadline()
+                .withEmptyReminder()
+                .build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addTrackedItem(expectedProject);
         expectedModel.commitToHistory();

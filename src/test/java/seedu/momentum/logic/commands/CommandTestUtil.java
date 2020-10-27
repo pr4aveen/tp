@@ -2,10 +2,12 @@ package seedu.momentum.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
@@ -20,6 +22,7 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
+import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
@@ -34,11 +37,14 @@ public class CommandTestUtil {
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_DESCRIPTION_AMY = "Loves coffee";
     public static final String VALID_DESCRIPTION_BOB = "Hates coffee";
+    public static final CompletionStatus VALID_COMPLETION_STATUS_AMY = new CompletionStatus();
+    public static final CompletionStatus VALID_COMPLETION_STATUS_BOB = new CompletionStatus().reverse();
     public static final String VALID_CREATED_DATE_AMY = "2019-12-02";
     public static final String VALID_CREATED_DATE_BOB = "2019-10-02";
     public static final String VALID_DEADLINE_DATE_AMY = "2030-12-02";
     public static final String VALID_DEADLINE_DATE_BOB = "2030-10-02";
     public static final String VALID_DEADLINE_TIME_AMY = "11:42:53";
+    public static final String VALID_REMINDER_AMY = "2030-06-22T05:42:53";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
 
@@ -46,24 +52,29 @@ public class CommandTestUtil {
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
     public static final String DESCRIPTION_DESC_AMY = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_AMY;
     public static final String DESCRIPTION_DESC_BOB = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_BOB;
+    public static final String COMPLETION_STATUS_DESC_BOB = " " + PREFIX_COMPLETION_STATUS;
     public static final String DEADLINE_DATE_DESC_AMY = " " + PREFIX_DEADLINE_DATE + VALID_DEADLINE_DATE_AMY;
     public static final String DEADLINE_DATE_DESC_BOB = " " + PREFIX_DEADLINE_DATE + VALID_DEADLINE_DATE_BOB;
     public static final String DEADLINE_TIME_DESC_AMY = " " + PREFIX_DEADLINE_TIME + VALID_DEADLINE_TIME_AMY;
+    public static final String REMINDER_DESC_AMY = " " + PREFIX_REMINDER + VALID_REMINDER_AMY;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_DEADLINE_DATE_DESC = " " + PREFIX_DEADLINE_DATE + "2020-91-64";
     public static final String INVALID_DEADLINE_TIME_DESC = " " + PREFIX_DEADLINE_TIME + "09:91:12";
+    public static final String INVALID_REMINDER_DESC = " " + PREFIX_REMINDER + VALID_DEADLINE_DATE_AMY
+            + VALID_DEADLINE_TIME_AMY; // 'T' is required to separate date and time
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
 
     public static final String INVALID_SORT_TYPE = " " + SORT_TYPE + "nomnom";
     public static final String INVALID_SORT_ORDER = " " + SORT_ORDER + "can you not";
     public static final String VALID_ASCENDING_SORT_ORDER = " " + SORT_ORDER + "asc";
     public static final String VALID_DESCENDING_SORT_ORDER = " " + SORT_ORDER + "dsc";
-    public static final String VALID_ALPHA_SORT_TYPE = " " + SORT_TYPE + "alpha";
-    public static final String VALID_DEADLINE_SORT_TYPE = " " + SORT_TYPE + "deadline";
-    public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + "created";
+    public static final String VALID_ALPHA_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_ALPHA_TYPE;
+    public static final String VALID_DEADLINE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_DEADLINE_TYPE;
+    public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_CREATED_TYPE
+            + " " + PREFIX_COMPLETION_STATUS;
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
@@ -75,10 +86,12 @@ public class CommandTestUtil {
         DESC_AMY = new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withDescription(VALID_DESCRIPTION_AMY)
                 .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
+                .withReminder(VALID_REMINDER_AMY)
                 .withTags(VALID_TAG_FRIEND)
                 .build();
         DESC_BOB = new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withDescription(VALID_DESCRIPTION_BOB)
+                .withCompletionStatus(VALID_COMPLETION_STATUS_BOB)
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
                 .build();
