@@ -161,23 +161,35 @@ public class MainWindow extends UiPart<Stage> {
         reminderDisplayPlaceholder.getChildren().add(reminderDisplay.getRoot());
     }
 
+    private void hideReminder() {
+        logger.info("hide reminder");
+        reminderDisplayPlaceholder.setVisible(false);
+        reminderDisplayPlaceholder.setMaxHeight(0);
+    }
+
+    private void showReminder() {
+        logger.info("show reminder");
+        reminderDisplayPlaceholder.setVisible(true);
+        reminderDisplayPlaceholder.setMinHeight(primaryStage.getHeight() / 9);
+    }
+
     private void initReminderDisplayListeners() {
         logic.isReminderEmpty().addListener((observable, oldValue, newValue) -> {
             reminderDisplayPlaceholder.getChildren().clear();
             if (!newValue) {
-                reminderDisplayPlaceholder.setVisible(true);
+                showReminder();
                 initReminderDisplayAndPlaceholder();
             } else {
-                reminderDisplayPlaceholder.setVisible(false);
+                hideReminder();
             }
         });
         logic.getReminder().addListener((observable, oldValue, newValue) -> {
             reminderDisplayPlaceholder.getChildren().clear();
             if (newValue.length() > 0) {
-                reminderDisplayPlaceholder.setVisible(true);
+                showReminder();
                 initReminderDisplayAndPlaceholder();
             } else {
-                reminderDisplayPlaceholder.setVisible(false);
+                hideReminder();
             }
         });
     }
@@ -187,9 +199,10 @@ public class MainWindow extends UiPart<Stage> {
         initReminderDisplayAndPlaceholder();
 
         if (logic.isReminderEmpty().get()) {
-            reminderDisplayPlaceholder.setVisible(false);
+            hideReminder();
+        } else {
+            showReminder();
         }
-
         initReminderDisplayListeners();
     }
 

@@ -243,7 +243,7 @@ public abstract class TrackedItem {
                 .append(" Deadline: ")
                 .append(getDeadline())
                 .append(" Reminder: ")
-                .append(getReminder())
+                .append(getReminder().getFormattedReminder())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();
