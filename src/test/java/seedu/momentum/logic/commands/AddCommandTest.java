@@ -164,10 +164,17 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        @Override
+        public void rescheduleReminders() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public BooleanProperty isReminderEmpty() {
             throw new AssertionError("This method should not be called.");
         }
 
+        @Override
         public StringProperty getReminder() {
             throw new AssertionError("This method should not be called.");
         }

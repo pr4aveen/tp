@@ -71,6 +71,7 @@ public class DeleteCommand extends Command {
             projectToDeleteTaskFrom.deleteTask(trackedItemToDelete);
         }
 
+        model.rescheduleReminders();
         return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete));
     }
 

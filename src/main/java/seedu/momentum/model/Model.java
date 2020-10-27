@@ -98,6 +98,11 @@ public interface Model {
     ObservableList<TrackedItem> getRunningTimers();
 
     /**
+     * Reschedule all reminders.
+     */
+    void rescheduleReminders();
+
+    /**
      * Returns true if the reminder is empty, false otherwise.
      *
      * @return the boolean.
