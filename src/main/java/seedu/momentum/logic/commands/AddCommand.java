@@ -38,8 +38,10 @@ public class AddCommand extends Command {
             + PREFIX_TAG + "friends "
             + PREFIX_TAG + "owesMoney";
 
-    public static final String MESSAGE_SUCCESS = "New project added: %1$s";
+    public static final String MESSAGE_SUCCESS = "New %1$s added: %2$s";
     public static final String MESSAGE_DUPLICATE_PROJECT = "This project already exists in the project book";
+    public static final String TEXT_PROJECT = "Project";
+    public static final String TEXT_TASK = "Task";
 
     private TrackedItem toAdd;
 
@@ -75,14 +77,14 @@ public class AddCommand extends Command {
             }
 
             model.addTrackedItem(toAdd);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, TEXT_PROJECT, toAdd));
         } else {
             if (projectToAddTask.hasTask(taskToAdd)) {
                 throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
             }
             projectToAddTask.addTask(taskToAdd);
             model.rescheduleReminders();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, taskToAdd));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, TEXT_TASK, taskToAdd));
         }
     }
 

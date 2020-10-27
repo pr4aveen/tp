@@ -35,7 +35,7 @@ public class AddCommandIntegrationTest {
         expectedModel.addTrackedItem(validProject);
 
         assertCommandSuccess(new AddCommand(validProject), model,
-                String.format(AddCommand.MESSAGE_SUCCESS, validProject), expectedModel);
+                String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, validProject), expectedModel);
     }
 
     /**
@@ -52,7 +52,7 @@ public class AddCommandIntegrationTest {
         expectedModel.addTrackedItem(dana);
 
         assertCommandSuccess(addDanaCommand, model,
-                String.format(AddCommand.MESSAGE_SUCCESS, dana), expectedModel);
+                String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, dana), expectedModel);
     }
 
     @Test
