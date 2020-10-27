@@ -14,5 +14,8 @@
       "themeType" : "DARK"
     }
   },
+  "statisticTimeframe" : {
+    "timeframe" : "WEEKS"
+  },
   "projectBookFilePath" : "projectbook.json"
 }

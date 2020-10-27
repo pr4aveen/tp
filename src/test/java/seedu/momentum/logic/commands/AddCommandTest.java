@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
+import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
@@ -109,6 +110,16 @@ public class AddCommandTest {
 
         @Override
         public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public StatisticTimeframe getStatisticTimeframe() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setStatisticTimeframe(StatisticTimeframe statisticTimeframe) {
             throw new AssertionError("This method should not be called.");
         }
 

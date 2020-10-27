@@ -3,8 +3,8 @@ package seedu.momentum.logic;
 import java.nio.file.Path;
 
 import javafx.collections.ObservableList;
-import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.GuiThemeSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
