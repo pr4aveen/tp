@@ -13,6 +13,6 @@ public class DateTimeUtil {
             DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
     public static final DateTimeFormatter FORMAT_DATE_TIME_SHORT =
             DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
-    public static final DateTimeFormatter FORMAT_DATA = DateTimeFormatter.ISO_DATE_TIME;
+    public static final DateTimeFormatter FORMAT_DATA = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
 }

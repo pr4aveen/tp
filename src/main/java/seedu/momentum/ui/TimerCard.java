@@ -6,7 +6,7 @@ import javafx.scene.layout.Region;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
- * An UI component that displays information of a {@code Timer}.
+ * An UI component that displays information of a {@code TimerWrapper}.
  */
 public class TimerCard extends UiPart<Region> {
 

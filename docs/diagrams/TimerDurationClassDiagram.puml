@@ -8,15 +8,15 @@ Class Project MODEL_COLOR {
     name : Name
     description : Description
     deadline : Deadline
-    createdDate : Date
+    createdDateWrapper : DateWrapper
     tags : Set<Tag>
     startTimer() : Project
     stopTimer() : Project
     isRunning() : boolean
 }
 Class Timer MODEL_COLOR {
-    startDateTime : DateTime
-    stopDateTime : DateTime
+    startDateTime : DateTimeWrapper
+    stopDateTime : DateTimeWrapper
     isRUnning : boolean
     start() : void
     stop() : void
@@ -24,8 +24,8 @@ Class Timer MODEL_COLOR {
 }
 Class UniqueDurationList MODEL_COLOR
 Class WorkDuration MODEL_COLOR {
-    startDateTime : DateTime
-    stopDateTime : DateTime
+    startDateTime : DateTimeWrapper
+    stopDateTime : DateTimeWrapper
     getTimeBetween(ChronoUnit unit) : long
 }
 

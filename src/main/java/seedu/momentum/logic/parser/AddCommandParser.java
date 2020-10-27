@@ -6,13 +6,14 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.momentum.commons.core.Clock;
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.logic.commands.AddCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
@@ -23,6 +24,7 @@ import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -40,7 +42,7 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args, Model model) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS,
-                        PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME, PREFIX_TAG);
+                        PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME, PREFIX_REMINDER, PREFIX_TAG);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -62,20 +64,23 @@ public class AddCommandParser implements Parser<AddCommand> {
             completionStatus = completionStatus.reverse();
         }
 
-        Date createdDate = new Date(Clock.now().getDate());
+        DateWrapper createdDateWrapper = new DateWrapper(Clock.now().getDate());
 
         Deadline deadline = ParserUtil.parseDeadline(
                 argMultimap.getValue(PREFIX_DEADLINE_DATE),
                 argMultimap.getValue(PREFIX_DEADLINE_TIME),
-                createdDate);
+                createdDateWrapper);
+
+        Reminder reminder = ParserUtil.parseReminder(argMultimap.getValue(PREFIX_REMINDER), createdDateWrapper);
 
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
         if (model.getViewMode() == ViewMode.PROJECTS) {
-            return new AddCommand(new Project(name, description, completionStatus, createdDate, deadline, tagList));
+            return new AddCommand(new Project(name, description, completionStatus, createdDateWrapper,
+                    deadline, reminder, tagList));
         } else {
-            return new AddCommand(new Task(name, description, completionStatus, createdDate, deadline, tagList),
-                    model.getCurrentProject());
+            return new AddCommand(new Task(name, description, completionStatus, createdDateWrapper,
+                    deadline, reminder, tagList), model.getCurrentProject());
         }
     }
 

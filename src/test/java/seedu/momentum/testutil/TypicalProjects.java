@@ -10,6 +10,7 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_AM
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_REMINDER_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
@@ -35,6 +36,7 @@ public class TypicalProjects {
             .withCreatedDate("2000-11-05")
             .withCompletionStatus(CompletionStatus.COMPLETED)
             .withDeadline("2020-11-05", "12:43:12", "2000-11-05")
+            .withReminder("2030-12-02T01:21:31", "2000-11-05")
             .withTags("owesMoney", "friends")
             .withDurations(TypicalWorkDuration.DURATION_ONE_DAY)
             .withTimer(TypicalTimers.DAY).build();
@@ -63,6 +65,7 @@ public class TypicalProjects {
             .withCompletionStatus(CompletionStatus.COMPLETED)
             .withCreatedDate("2019-07-28")
             .withEmptyDeadline()
+            .withReminder("2021-12-05T02:45:23", "2019-07-28")
             .build();
 
     // Manually added
@@ -76,6 +79,7 @@ public class TypicalProjects {
             .withDescription(VALID_DESCRIPTION_AMY)
             .withCreatedDate(VALID_CREATED_DATE_AMY)
             .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
+            .withReminder(VALID_REMINDER_AMY, VALID_CREATED_DATE_AMY)
             .withTags(VALID_TAG_FRIEND).build();
     public static final Project BOB = new ProjectBuilder().withName(VALID_NAME_BOB)
             .withDescription(VALID_DESCRIPTION_BOB)
@@ -83,8 +87,6 @@ public class TypicalProjects {
             .withCreatedDate(VALID_CREATED_DATE_BOB)
             .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
             .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-
-    public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 
     private TypicalProjects() {
     } // prevents instantiation

@@ -7,6 +7,7 @@ import static seedu.momentum.logic.commands.CommandTestUtil.DESC_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_COMPLETION_STATUS_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_DATE_BOB;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DEADLINE_TIME_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCRIPTION_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
@@ -21,7 +22,7 @@ public class EditTrackedItemDescriptorTest {
     public void equals() {
         // same values -> returns true
         EditCommand.EditTrackedItemDescriptor descriptorWithSameValues =
-            new EditCommand.EditTrackedItemDescriptor(DESC_AMY);
+                new EditCommand.EditTrackedItemDescriptor(DESC_AMY);
         assertTrue(DESC_AMY.equals(descriptorWithSameValues));
 
         // same object -> returns true
@@ -53,6 +54,12 @@ public class EditTrackedItemDescriptorTest {
         // different deadline -> returns false
         editedAmy = new EditTrackedItemDescriptorBuilder(DESC_AMY)
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_AMY).build();
+        assertFalse(DESC_AMY.equals((editedAmy)));
+
+        // different reminder -> returns false
+        editedAmy = new EditTrackedItemDescriptorBuilder(DESC_AMY)
+                .withReminder(VALID_DEADLINE_DATE_BOB + "T" + VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
+                .build();
         assertFalse(DESC_AMY.equals((editedAmy)));
 
         // different tags -> returns false

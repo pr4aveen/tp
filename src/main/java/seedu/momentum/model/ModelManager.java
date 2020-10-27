@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -17,6 +19,7 @@ import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.reminder.ReminderManager;
 
 /**
  * Represents the in-memory model of the project book data.
@@ -26,6 +29,7 @@ public class ModelManager implements Model {
 
     private final ProjectBook projectBook;
     private final UserPrefs userPrefs;
+    private final ReminderManager reminderManager;
     private final FilteredList<TrackedItem> filteredTrackedItems;
     private final ObservableList<TrackedItem> runningTimers;
     private Predicate<TrackedItem> currentPredicate;
@@ -46,6 +50,8 @@ public class ModelManager implements Model {
         logger.fine("Initializing with project book: " + projectBook + " and user prefs " + userPrefs);
 
         this.projectBook = new ProjectBook(projectBook);
+        this.reminderManager = new ReminderManager(this.projectBook);
+        rescheduleReminders();
         this.userPrefs = new UserPrefs(userPrefs);
 
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
@@ -114,6 +120,7 @@ public class ModelManager implements Model {
     @Override
     public void setProjectBook(ReadOnlyProjectBook projectBook) {
         this.projectBook.resetData(projectBook);
+        rescheduleReminders();
     }
 
     @Override
@@ -136,12 +143,14 @@ public class ModelManager implements Model {
 
     @Override
     public void deleteTrackedItem(TrackedItem target) {
-        projectBook.renameTrackedItem(target);
+        projectBook.removeTrackedItem(target);
+        rescheduleReminders();
     }
 
     @Override
     public void addTrackedItem(TrackedItem trackedItem) {
         projectBook.addTrackedItem(trackedItem);
+        rescheduleReminders();
         orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
         updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
@@ -151,14 +160,16 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedTrackedItem);
 
         projectBook.setTrackedItem(target, editedTrackedItem);
+        rescheduleReminders();
     }
 
     //=========== Filtered Project List Accessors =============================================================
 
     /**
      * Returns an unmodifiable view of the list of {@code TrackedItem} backed by the internal list of
-     * {@code versionedProjectBook}
-     * @return
+     * {@code versionedProjectBook}.
+     *
+     * @return the filtered tracked item list.
      */
     @Override
     public ObservableList<TrackedItem> getFilteredTrackedItemList() {
@@ -232,6 +243,27 @@ public class ModelManager implements Model {
         return viewMode;
     }
 
+    //=========== Reminders =============================================================
+
+    protected void rescheduleReminders() {
+        reminderManager.rescheduleReminder();
+    }
+
+    @Override
+    public BooleanProperty isReminderEmpty() {
+        return reminderManager.isReminderEmpty();
+    }
+
+    @Override
+    public StringProperty getReminder() {
+        return reminderManager.getReminder();
+    }
+
+    @Override
+    public void removeReminder() {
+        reminderManager.removeReminder();
+    }
+
     //=========== Timers =============================================================
 
     @Override
@@ -270,6 +302,7 @@ public class ModelManager implements Model {
         ModelManager other = (ModelManager) obj;
         return projectBook.equals(other.projectBook)
                 && userPrefs.equals(other.userPrefs)
+                && reminderManager.equals(other.reminderManager)
                 && filteredTrackedItems.equals(other.filteredTrackedItems)
                 && runningTimers.equals(other.runningTimers);
     }

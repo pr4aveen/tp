@@ -7,6 +7,7 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -29,6 +30,7 @@ public class AddCommand extends Command {
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_COMPLETION_STATUS + "] "
             + String.format("[%sDEADLINE_DATE [%sDEADLINE_TIME] ] ", PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME)
+            + "[" + PREFIX_REMINDER + "REMINDER_DATE_AND_TIME] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
@@ -53,7 +55,7 @@ public class AddCommand extends Command {
     }
 
     /**
-     * Creates an AddCommand to add the specified {@code Task} to the specificed {@code Project}
+     * Creates an AddCommand to add the specified {@code Task} to the specified {@code Project}
      */
     public AddCommand(Task task, Project project) {
         requireAllNonNull(task, project);

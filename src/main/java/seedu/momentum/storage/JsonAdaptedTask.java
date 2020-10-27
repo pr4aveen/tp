@@ -1,26 +1,16 @@
 package seedu.momentum.storage;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.exceptions.IllegalValueException;
-import seedu.momentum.model.project.CompletionStatus;
-import seedu.momentum.model.project.Deadline;
-import seedu.momentum.model.project.Description;
-import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.tag.Tag;
-import seedu.momentum.model.timer.Timer;
-import seedu.momentum.model.timer.UniqueDurationList;
-import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Jackson-friendly version of {@link TrackedItem}.
@@ -34,6 +24,7 @@ class JsonAdaptedTask {
     private final boolean completionStatus;
     private final String createdDate;
     private final JsonAdaptedDeadline deadline;
+    private final String reminder;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
     private final List<JsonAdaptedWorkDuration> durations = new ArrayList<>();
     private final JsonAdaptedTimer timer;
@@ -45,8 +36,9 @@ class JsonAdaptedTask {
     public JsonAdaptedTask(@JsonProperty("name") String name,
                            @JsonProperty("description") String description,
                            @JsonProperty("completionStatus") boolean completionStatus,
-                           @JsonProperty("createdDate") String createdDate,
+                           @JsonProperty("createdDateWrapper") String createdDate,
                            @JsonProperty("deadline") JsonAdaptedDeadline deadline,
+                           @JsonProperty("reminder") String reminder,
                            @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
                            @JsonProperty("durations") List<JsonAdaptedWorkDuration> durations,
                            @JsonProperty("timer") JsonAdaptedTimer timer) {
@@ -55,6 +47,7 @@ class JsonAdaptedTask {
         this.completionStatus = completionStatus;
         this.createdDate = createdDate;
         this.deadline = deadline;
+        this.reminder = reminder;
         if (tagged != null) {
             this.tagged.addAll(tagged);
         }
@@ -73,6 +66,7 @@ class JsonAdaptedTask {
         completionStatus = source.getCompletionStatus().isCompleted();
         createdDate = source.getCreatedDate().toString();
         deadline = new JsonAdaptedDeadline(source.getDeadline());
+        reminder = source.getReminder().toString();
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -88,49 +82,17 @@ class JsonAdaptedTask {
      * @throws IllegalValueException if there were any data constraints violated in the adapted tracked item.
      */
     public Task toModelType() throws IllegalValueException {
-        final List<Tag> trackedItemTags = new ArrayList<>();
-        for (JsonAdaptedTag tag : tagged) {
-            trackedItemTags.add(tag.toModelType());
-        }
+        final DateWrapper modelCreatedDateWrapper = JsonToModel.getModelCreatedDate(createdDate);
 
-        if (name == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
-        }
-        if (!Name.isValidName(name)) {
-            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
-        }
-        final Name modelName = new Name(name);
-
-        final Description modelDescription = new Description(description);
-
-        final CompletionStatus modelCompletionStatus;
-        if (completionStatus) {
-            modelCompletionStatus = new CompletionStatus().reverse();
-        } else {
-            modelCompletionStatus = new CompletionStatus();
-        }
-
-        if (!Date.isValid(createdDate)) {
-            throw new IllegalValueException(Date.MESSAGE_CONSTRAINTS);
-        }
-        final Date modelCreatedDate = new Date(createdDate);
-
-        final Deadline modelDeadline = deadline == null ? new Deadline() : deadline.toModelType(modelCreatedDate);
-
-        final Set<Tag> modelTags = new HashSet<>(trackedItemTags);
-
-        final List<WorkDuration> projectDurations = new ArrayList<>();
-        for (JsonAdaptedWorkDuration duration : durations) {
-            projectDurations.add(duration.toModelType());
-        }
-
-        UniqueDurationList modelDurations = new UniqueDurationList();
-        modelDurations.setDurations(projectDurations);
-
-        final Timer modelTimer = timer == null ? new Timer() : timer.toModelType();
-
-        return new Task(modelName, modelDescription, modelCompletionStatus, modelCreatedDate, modelDeadline,
-                modelTags, modelDurations, modelTimer);
+        return new Task(JsonToModel.getModelName(name, MISSING_FIELD_MESSAGE_FORMAT),
+                JsonToModel.getModelDescription(description),
+                JsonToModel.getModelCompletionStatus(completionStatus),
+                modelCreatedDateWrapper,
+                JsonToModel.getModelDeadline(deadline, modelCreatedDateWrapper),
+                JsonToModel.getModelReminder(reminder, modelCreatedDateWrapper),
+                JsonToModel.getModelTags(tagged),
+                JsonToModel.getModelDurations(durations),
+                JsonToModel.getModelTimerWrapper(timer));
     }
 
 }

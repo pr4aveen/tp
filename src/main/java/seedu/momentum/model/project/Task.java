@@ -2,9 +2,10 @@ package seedu.momentum.model.project;
 
 import java.util.Set;
 
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
-import seedu.momentum.model.timer.Timer;
+import seedu.momentum.model.timer.TimerWrapper;
 import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 
@@ -20,15 +21,18 @@ public class Task extends TrackedItem {
      * @param name A valid name.
      * @param description A description of the task.
      * @param completionStatus A completion status of the task.
-     * @param createdDate A date associated with the creation of the task.
+     * @param createdDateWrapper A date associated with the creation of the task.
      * @param deadline A deadline associated with the task.
+     * @param reminder         A reminder associated with the tracked item.
      * @param tags A set of tags associated to the task.
      * @param durations A list of {@code WorkDuration} associated with the task.
-     * @param timer A timer associated with the task.
+     * @param timerWrapper A timerWrapper associated with the task.
      */
-    public Task(Name name, Description description, CompletionStatus completionStatus, Date createdDate,
-                Deadline deadline, Set<Tag> tags, UniqueDurationList durations, Timer timer) {
-        super(name, description, completionStatus, createdDate, deadline, tags, durations, timer);
+    public Task(Name name, Description description, CompletionStatus completionStatus, DateWrapper createdDateWrapper,
+                Deadline deadline, Reminder reminder, Set<Tag> tags, UniqueDurationList durations,
+                TimerWrapper timerWrapper) {
+        super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
+                timerWrapper);
     }
 
     /**
@@ -36,41 +40,53 @@ public class Task extends TrackedItem {
      *
      * @param name A valid name.
      * @param completionStatus A completion status of the task.
-     * @param createdDate A date associated with the creation of the task.
+     * @param createdDateWrapper A date associated with the creation of the task.
      * @param deadline A deadline associated with the task.
+     * @param reminder         A reminder associated with the tracked item.
      * @param description A description of the task.
      * @param tags A set of tags associated to the task.
      */
-    public Task(Name name, Description description, CompletionStatus completionStatus, Date createdDate,
-                Deadline deadline, Set<Tag> tags) {
-        super(name, description, completionStatus, createdDate, deadline, tags);
+    public Task(Name name, Description description, CompletionStatus completionStatus, DateWrapper createdDateWrapper,
+                Deadline deadline, Reminder reminder, Set<Tag> tags) {
+        super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags);
     }
 
     /**
-     * Returns a copy of this task with its timer started.
+     * Returns a copy of this task with its timerWrapper started.
      *
-     * @return A copy of this task, but with its timer started
+     * @return A copy of this task, but with its timerWrapper started
      */
     @Override
     public Task startTimer() {
-        Timer newTimer = timer.start();
-        return new Task(name, description, completionStatus, createdDate, deadline, tags, durations, newTimer);
+        TimerWrapper newTimerWrapper = timerWrapper.start();
+        return new Task(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
+                newTimerWrapper);
     }
 
     /**
-     * Returns a copy of this task with its timer stopped, then adds the timed duration into
+     * Returns a copy of this task with its timerWrapper stopped, then adds the timed duration into
      * the list.
      *
-     * @return A copy of this task, but with its timer stopped
+     * @return A copy of this task, but with its timerWrapper stopped
      */
     @Override
     public Task stopTimer() {
-        Timer newTimer = timer.stop();
-        WorkDuration duration = new WorkDuration(newTimer.getStartTime(), newTimer.getStopTime());
+        TimerWrapper newTimerWrapper = timerWrapper.stop();
+        WorkDuration duration = new WorkDuration(newTimerWrapper.getStartTime(), newTimerWrapper.getStopTime());
         UniqueDurationList newDurations = new UniqueDurationList();
         newDurations.setDurations(durations);
         newDurations.add(duration);
-        return new Task(name, description, completionStatus, createdDate, deadline, tags, newDurations, newTimer);
+        return new Task(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags,
+                newDurations, newTimerWrapper);
+    }
+
+    /**
+     * Removes the reminder of a project.
+     */
+    public Task removeReminder() {
+        Reminder newReminder = reminder.remove();
+        return new Task(name, description, completionStatus, createdDateWrapper, deadline, newReminder, tags, durations,
+                timerWrapper);
     }
 
     /**
@@ -103,7 +119,6 @@ public class Task extends TrackedItem {
         if (!(other instanceof Task)) {
             return false;
         }
-
         return super.equals(other);
     }
 }

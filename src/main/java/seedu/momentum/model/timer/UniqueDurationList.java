@@ -27,7 +27,7 @@ public class UniqueDurationList implements Iterable<WorkDuration> {
             FXCollections.unmodifiableObservableList(internalList);
 
     /**
-     * Returns true if the list contains an equivalent timer as the given argument.
+     * Returns true if the list contains an equivalent timerWrapper as the given argument.
      */
     public boolean contains(WorkDuration toCheck) {
         requireNonNull(toCheck);
@@ -35,8 +35,8 @@ public class UniqueDurationList implements Iterable<WorkDuration> {
     }
 
     /**
-     * Adds a timer to the list.
-     * The timer must not already exist in the list.
+     * Adds a timerWrapper to the list.
+     * The timerWrapper must not already exist in the list.
      */
     public void add(WorkDuration toAdd) {
         requireNonNull(toAdd);
@@ -49,7 +49,8 @@ public class UniqueDurationList implements Iterable<WorkDuration> {
     /**
      * Replaces the duration {@code target} in the list with {@code editedDuration}.
      * {@code target} must exist in the list.
-     * The timer identity of {@code editedDuration} must not be the same as another existing duration in the list.
+     * The timerWrapper identity of {@code editedDuration} must not be the same as another
+     * existing duration in the list.
      */
     public void setDuration(WorkDuration target, WorkDuration editedDuration) {
         requireAllNonNull(target, editedDuration);
@@ -67,8 +68,8 @@ public class UniqueDurationList implements Iterable<WorkDuration> {
     }
 
     /**
-     * Removes the equivalent timer from the list.
-     * The timer must exist in the list.
+     * Removes the equivalent timerWrapper from the list.
+     * The timerWrapper must exist in the list.
      */
     public void remove(WorkDuration toRemove) {
         requireNonNull(toRemove);

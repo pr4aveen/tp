@@ -8,16 +8,16 @@ import java.time.temporal.ChronoUnit;
  */
 public class Clock {
     private static ClockState clockState = ClockState.NORMAL;
-    private static DateTime currentDateTime;
+    private static DateTimeWrapper currentDateTime;
 
     /**
      * Gets the current time according to the state of the clock.
      *
      * @return System time if normal, A fixed time if fixed, and The set time if manual.
      */
-    public static DateTime now() {
+    public static DateTimeWrapper now() {
         if (clockState == ClockState.NORMAL) {
-            return new DateTime(LocalDateTime.now());
+            return new DateTimeWrapper(LocalDateTime.now());
         }
 
         return currentDateTime;
@@ -28,7 +28,7 @@ public class Clock {
      *
      * @param fixedDateTime The time to start the clock at.
      */
-    public static void initFixed(DateTime fixedDateTime) {
+    public static void initFixed(DateTimeWrapper fixedDateTime) {
         currentDateTime = fixedDateTime;
         clockState = ClockState.FIXED;
     }
@@ -38,7 +38,7 @@ public class Clock {
      *
      * @param startDateTime The starting time of the clock.
      */
-    public static void initManual(DateTime startDateTime) {
+    public static void initManual(DateTimeWrapper startDateTime) {
         currentDateTime = startDateTime;
         clockState = ClockState.MANUAL;
     }
@@ -68,7 +68,7 @@ public class Clock {
      * Resets the Clock to a normal state.
      */
     public static void reset() {
-        currentDateTime = new DateTime(LocalDateTime.now());
+        currentDateTime = new DateTimeWrapper(LocalDateTime.now());
         clockState = ClockState.NORMAL;
     }
 

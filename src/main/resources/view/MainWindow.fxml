@@ -64,16 +64,17 @@
                                     <Label styleClass="app-logo" text="Momentum" />
                                  </children>
                               </StackPane>
-                              <SplitPane dividerPositions="0.15, 0.3" orientation="VERTICAL"
+                              <SplitPane fx:id="sideBarSplitPane" dividerPositions="0.15, 0.3" orientation="VERTICAL"
                                      GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                 <items>
+                                    <StackPane fx:id="reminderDisplayPlaceholder" styleClass="reminder-box" />
                                     <StackPane fx:id="infoDisplayPlaceholder" styleClass="content-box" />
-                                    <StackPane fx:id="timerListPanelPlaceholder" styleClass="c">
+                                    <StackPane fx:id="timerListPanelPlaceholder" styleClass="content-box">
                                         <children>
                                             <VBox fx:id="timerList" styleClass="content-box" />
                                         </children>
                                     </StackPane>
-                                    <StackPane fx:id="statListPanelPlaceholder" styleClass="c">
+                                    <StackPane fx:id="statListPanelPlaceholder" styleClass="content-box">
                                        <children>
                                           <VBox fx:id="statList" styleClass="content-box" />
                                        </children>

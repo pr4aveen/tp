@@ -26,7 +26,7 @@ public class TimerListPanel extends UiPart<Region> {
     }
 
     /**
-     * Custom {@code ListCell} that displays the graphics of a {@code Timer} using a {@code TimerCard}.
+     * Custom {@code ListCell} that displays the graphics of a {@code TimerWrapper} using a {@code TimerCard}.
      */
     class TimerListViewCell extends ListCell<TrackedItem> {
         @Override

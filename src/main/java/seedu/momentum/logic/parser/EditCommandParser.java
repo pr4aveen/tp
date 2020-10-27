@@ -7,6 +7,7 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Collection;
@@ -14,7 +15,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
@@ -36,7 +37,7 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args, Model model) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION,
-                PREFIX_COMPLETION_STATUS, PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME, PREFIX_TAG);
+                PREFIX_COMPLETION_STATUS, PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME, PREFIX_REMINDER, PREFIX_TAG);
 
         Index index;
 
@@ -67,7 +68,15 @@ public class EditCommandParser implements Parser<EditCommand> {
             editTrackedItemDescriptor.setDeadline(ParserUtil.parseDeadline(
                     argMultimap.getValue(PREFIX_DEADLINE_DATE),
                     argMultimap.getValue(PREFIX_DEADLINE_TIME),
-                    Date.MIN));
+                    DateWrapper.MIN));
+        }
+
+        // use a default date to parse the reminder first
+        // check whether if the date of the reminder is after or on created date in edit command
+        if (argMultimap.getValue(PREFIX_REMINDER).isPresent()) {
+            editTrackedItemDescriptor.setReminder(ParserUtil.parseReminder(
+                    argMultimap.getValue(PREFIX_REMINDER),
+                    DateWrapper.MIN));
         }
 
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editTrackedItemDescriptor::setTags);

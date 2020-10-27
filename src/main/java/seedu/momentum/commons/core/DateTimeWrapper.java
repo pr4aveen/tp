@@ -15,48 +15,48 @@ import seedu.momentum.commons.util.DateTimeUtil;
  * Represents a WorkDuration's dateTime in the project book.
  * Guarantees: immutable; is valid as declared in {@link #isValid(String)}
  */
-public class DateTime implements Instance<LocalDateTime>, Comparable<DateTime> {
+public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparable<DateTimeWrapper> {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Dates and Times should be in ISO8601 format. e.g. 2020-09-23T16:55:12.83012";
+            "Dates and Times should be in ISO8601 format. e.g. 2020-09-23T16:55:12";
 
     private final LocalDateTime dateTime;
 
     /**
-     * Constructs a {@code DateTime}.
+     * Constructs a {@code DateTimeWrapper}.
      *
-     * @param dateTime A valid DateTime.
+     * @param dateTime A valid DateTimeWrapper.
      */
-    public DateTime(String dateTime) {
+    public DateTimeWrapper(String dateTime) {
         requireNonNull(dateTime);
         checkArgument(isValid(dateTime), MESSAGE_CONSTRAINTS);
         this.dateTime = LocalDateTime.parse(dateTime, DateTimeUtil.FORMAT_DATA);
     }
 
-    public DateTime(LocalDateTime dateTime) {
+    public DateTimeWrapper(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
     /**
-     * Returns a new DateTime that is after this DateTime be a specified amount
+     * Returns a new DateTimeWrapper that is after this DateTimeWrapper be a specified amount
      *
      * @param amount Amount to increase by.
      * @param unit   Unit to increase with.
      * @return The new dateTime
      */
-    public DateTime plus(long amount, ChronoUnit unit) {
-        return new DateTime(dateTime.plus(amount, unit));
+    public DateTimeWrapper plus(long amount, ChronoUnit unit) {
+        return new DateTimeWrapper(dateTime.plus(amount, unit));
     }
 
     /**
-     * Returns a new DateTime that is before this DateTime by a specified amount.
+     * Returns a new DateTimeWrapper that is before this DateTimeWrapper by a specified amount.
      *
      * @param amount Amount to decrease by.
      * @param unit   Unit to decrease with.
      * @return The new dateTime.
      */
-    public DateTime minus(long amount, ChronoUnit unit) {
-        return new DateTime(dateTime.minus(amount, unit));
+    public DateTimeWrapper minus(long amount, ChronoUnit unit) {
+        return new DateTimeWrapper(dateTime.minus(amount, unit));
     }
 
     /**
@@ -72,34 +72,34 @@ public class DateTime implements Instance<LocalDateTime>, Comparable<DateTime> {
     }
 
     /**
-     * Checks if an instance in time is before this instance.
+     * Checks if an instance in timeWrapper is before this instance.
      *
-     * @param otherTime The time to check.
+     * @param otherTime The timeWrapper to check.
      * @return
      */
-    public boolean isBefore(DateTime otherTime) {
+    public boolean isBefore(DateTimeWrapper otherTime) {
         return dateTime.isBefore(otherTime.get());
     }
 
     /**
-     * Checks if an instance in time is after this instance.
+     * Checks if an instance in timeWrapper is after this instance.
      *
-     * @param otherTime The time to check.
+     * @param otherTime The timeWrapper to check.
      * @return
      */
-    public boolean isAfter(DateTime otherTime) {
+    public boolean isAfter(DateTimeWrapper otherTime) {
         return dateTime.isAfter(otherTime.get());
     }
 
     /**
-     * Calculates the amount of time between two instances of time, in the provided units.
+     * Calculates the amount of timeWrapper between two instances of timeWrapper, in the provided units.
      *
-     * @param time1 The earlier instance of time.
-     * @param time2 The later instance of time.
-     * @param units The units to the time.
+     * @param time1 The earlier instance of timeWrapper.
+     * @param time2 The later instance of timeWrapper.
+     * @param units The units to the timeWrapper.
      * @return
      */
-    public static long getTimeBetween(DateTime time1, DateTime time2, ChronoUnit units) {
+    public static long getTimeBetween(DateTimeWrapper time1, DateTimeWrapper time2, ChronoUnit units) {
         return units.between(time1.get(), time2.get());
     }
 
@@ -109,6 +109,14 @@ public class DateTime implements Instance<LocalDateTime>, Comparable<DateTime> {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
+    }
+
+    public DateWrapper getDateWrapper() {
+        return new DateWrapper(dateTime.toLocalDate());
+    }
+
+    public TimeWrapper getTimeWrapper() {
+        return new TimeWrapper(dateTime.toLocalTime());
     }
 
     @Override
@@ -129,8 +137,8 @@ public class DateTime implements Instance<LocalDateTime>, Comparable<DateTime> {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof DateTime // instanceof handles nulls
-                && dateTime.equals(((DateTime) other).get())); // state check
+                || (other instanceof DateTimeWrapper // instanceof handles nulls
+                && dateTime.equals(((DateTimeWrapper) other).get())); // state check
     }
 
     @Override
@@ -139,7 +147,7 @@ public class DateTime implements Instance<LocalDateTime>, Comparable<DateTime> {
     }
 
     @Override
-    public int compareTo(DateTime other) {
+    public int compareTo(DateTimeWrapper other) {
         LocalDateTime thisLocalDateTime = this.get();
         LocalDateTime otherLocalDateTime = other.get();
         if (thisLocalDateTime.isBefore(otherLocalDateTime)) {

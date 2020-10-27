@@ -3,7 +3,7 @@ package seedu.momentum.commons.core;
 /**
  * Represents an instance in time in the project book.
  */
-public interface Instance<T> {
+public interface InstanceWrapper<T> {
     /**
      * Returns an instance in time with type T.
      *

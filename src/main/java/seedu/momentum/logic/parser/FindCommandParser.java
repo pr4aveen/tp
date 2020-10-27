@@ -97,9 +97,8 @@ public class FindCommandParser implements Parser<FindCommand> {
         } else if (prefix.equals(PREFIX_DESCRIPTION)) {
             predicateList.add(new DescriptionContainsKeywordsPredicate(findType, keywords));
         } else if (prefix.equals(PREFIX_COMPLETION_STATUS)) {
-            if (keywords.size() != 1) {
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            if (!CompletionStatusPredicate.isValid(keywords)) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
             predicateList.add(new CompletionStatusPredicate(findType, keywords));
         } else if (prefix.equals(PREFIX_TAG)) {
