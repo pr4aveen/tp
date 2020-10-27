@@ -3,7 +3,6 @@ package seedu.momentum.model.project;
 import java.util.Set;
 
 import seedu.momentum.commons.core.DateWrapper;
-import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.TimerWrapper;
 import seedu.momentum.model.timer.UniqueDurationList;

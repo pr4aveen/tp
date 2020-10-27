@@ -1,4 +1,4 @@
-package seedu.momentum.model.reminder;
+package seedu.momentum.model.project;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.AppUtil.checkArgument;

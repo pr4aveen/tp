@@ -1,4 +1,4 @@
-package seedu.momentum.model.reminder;
+package seedu.momentum.model.project;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
