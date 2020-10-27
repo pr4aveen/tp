@@ -12,6 +12,9 @@ public class Theme {
 
     private ThemeType themeType;
 
+    public Theme() {
+    }
+
     public Theme(ThemeType themeType) {
         this.themeType = themeType;
     }

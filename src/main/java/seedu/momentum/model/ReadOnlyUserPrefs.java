@@ -2,6 +2,7 @@ package seedu.momentum.model;
 
 import java.nio.file.Path;
 
+import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 
 /**
@@ -10,6 +11,8 @@ import seedu.momentum.commons.core.GuiWindowSettings;
 public interface ReadOnlyUserPrefs {
 
     GuiWindowSettings getGuiWindowSettings();
+
+    GuiThemeSettings getGuiThemeSettings();
 
     Path getProjectBookFilePath();
 

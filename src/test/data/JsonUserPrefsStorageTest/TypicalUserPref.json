@@ -7,5 +7,10 @@
       "y" : 100
     }
   },
+  "guiThemeSettings" : {
+    "theme" : {
+      "themeType" : "DARK"
+    }
+  },
   "projectBookFilePath" : "projectbook.json"
 }

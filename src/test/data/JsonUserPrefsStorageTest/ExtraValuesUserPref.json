@@ -9,5 +9,10 @@
       "z" : 99
     }
   },
+  "guiThemeSettings" : {
+    "theme" : {
+      "themeType" : "DARK"
+    }
+  },
   "projectBookFilePath" : "projectbook.json"
 }

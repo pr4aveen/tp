@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.model.project.Project;
@@ -94,6 +95,17 @@ public class ModelManager implements Model {
     public void setGuiWindowSettings(GuiWindowSettings guiWindowSettings) {
         requireNonNull(guiWindowSettings);
         userPrefs.setGuiWindowSettings(guiWindowSettings);
+    }
+
+    @Override
+    public GuiThemeSettings getGuiThemeSettings() {
+        return userPrefs.getGuiThemeSettings();
+    }
+
+    @Override
+    public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
+        requireAllNonNull(guiThemeSettings);
+        userPrefs.setGuiThemeSettings(guiThemeSettings);
     }
 
     @Override

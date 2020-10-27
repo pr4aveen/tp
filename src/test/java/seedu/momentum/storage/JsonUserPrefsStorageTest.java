@@ -12,7 +12,9 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
+import seedu.momentum.commons.core.Theme;
 import seedu.momentum.commons.exceptions.DataConversionException;
 import seedu.momentum.model.UserPrefs;
 
@@ -104,6 +106,7 @@ public class JsonUserPrefsStorageTest {
 
         UserPrefs original = new UserPrefs();
         original.setGuiWindowSettings(new GuiWindowSettings(1200, 200, 0, 2));
+        original.setGuiThemeSettings(new GuiThemeSettings(new Theme(Theme.ThemeType.DARK)));
 
         Path pefsFilePath = testFolder.resolve("TempPrefs.json");
         JsonUserPrefsStorage jsonUserPrefsStorage = new JsonUserPrefsStorage(pefsFilePath);
@@ -115,6 +118,7 @@ public class JsonUserPrefsStorageTest {
 
         //Try saving when the file exists
         original.setGuiWindowSettings(new GuiWindowSettings(5, 5, 5, 5));
+        original.setGuiThemeSettings(new GuiThemeSettings(new Theme(Theme.ThemeType.LIGHT)));
         jsonUserPrefsStorage.saveUserPrefs(original);
         readBack = jsonUserPrefsStorage.readUserPrefs().get();
         assertEquals(original, readBack);

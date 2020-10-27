@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
@@ -35,6 +36,16 @@ public interface Model {
      * Sets the user prefs' GUI window settings.
      */
     void setGuiWindowSettings(GuiWindowSettings guiWindowSettings);
+
+    /**
+     * Returns the user prefs' GUI theme settings.
+     */
+    GuiThemeSettings getGuiThemeSettings();
+
+    /**
+     * Sets the user prefs' GUI theme settings.
+     */
+    void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
 
     /**
      * Returns the user prefs' project book file path.
