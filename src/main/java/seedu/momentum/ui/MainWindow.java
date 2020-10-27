@@ -165,7 +165,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private void initStatList() {
-        ObservableList<StatisticEntry> stats = logic.getStatistic().getWeeklyTimePerProjectStatistic();
+        ObservableList<StatisticEntry> stats = logic.getStatistic().getTimePerProjectStatistic();
         statListPanel = new StatListPanel(stats);
         statListPanelPlaceholder.getChildren().add(statListPanel.getRoot());
     }

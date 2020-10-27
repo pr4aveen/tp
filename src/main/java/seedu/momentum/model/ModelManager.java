@@ -15,6 +15,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
@@ -104,8 +105,19 @@ public class ModelManager implements Model {
 
     @Override
     public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
-        requireAllNonNull(guiThemeSettings);
+        requireNonNull(guiThemeSettings);
         userPrefs.setGuiThemeSettings(guiThemeSettings);
+    }
+
+    @Override
+    public StatisticTimeframe getStatisticTimeframe() {
+        return userPrefs.getStatisticTimeframe();
+    }
+
+    @Override
+    public void setStatisticTimeframe(StatisticTimeframe statisticTimeframe) {
+        requireNonNull(statisticTimeframe);
+        userPrefs.setStatisticTimeframe(statisticTimeframe);
     }
 
     @Override

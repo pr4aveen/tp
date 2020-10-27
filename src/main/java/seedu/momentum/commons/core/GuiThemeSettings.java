@@ -21,7 +21,7 @@ public class GuiThemeSettings implements Serializable {
     }
 
     /**
-     * Constructs a {@code GuiThemeSettings} with the specified height, width and position.
+     * Constructs a {@code GuiThemeSettings} with the specified theme.
      */
     public GuiThemeSettings(Theme theme) {
         this.theme = theme;

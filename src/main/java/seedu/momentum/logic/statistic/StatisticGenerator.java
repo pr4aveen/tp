@@ -17,5 +17,5 @@ public interface StatisticGenerator {
      *
      * @return A list of StatisticEntry, each entry containing the project name and time spent.
      */
-    ObservableList<StatisticEntry> getWeeklyTimePerProjectStatistic();
+    ObservableList<StatisticEntry> getTimePerProjectStatistic();
 }

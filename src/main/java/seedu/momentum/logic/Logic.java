@@ -3,8 +3,9 @@ package seedu.momentum.logic;
 import java.nio.file.Path;
 
 import javafx.collections.ObservableList;
-import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
+import seedu.momentum.commons.core.GuiThemeSettings;
+import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
@@ -64,9 +65,19 @@ public interface Logic {
     GuiThemeSettings getGuiThemeSettings();
 
     /**
-     * Sets the user prefs' GUI theme settings.
+     * Set the user prefs' GUI theme settings.
      */
     void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
+
+    /**
+     * Return the user prefs' statistic timeframe.
+     */
+    StatisticTimeframe getStatisticTimeframe();
+
+    /**
+     * Set the user prefs' statistic timeframe.
+     */
+    void setStatisticTimeframe(StatisticTimeframe statisticTimeframe);
 
     StatisticGenerator getStatistic();
 }

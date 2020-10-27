@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
+import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
@@ -46,6 +47,16 @@ public interface Model {
      * Sets the user prefs' GUI theme settings.
      */
     void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
+
+    /**
+     * Return the user prefs' statistic timeframe.
+     */
+    StatisticTimeframe getStatisticTimeframe();
+
+    /**
+     * Set the user prefs' statistic timeframe.
+     */
+    void setStatisticTimeframe(StatisticTimeframe statisticTimeframe);
 
     /**
      * Returns the user prefs' project book file path.

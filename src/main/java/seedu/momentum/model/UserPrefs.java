@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
+import seedu.momentum.commons.core.StatisticTimeframe;
 
 /**
  * Represents User's preferences.
@@ -16,6 +17,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
     private GuiWindowSettings guiWindowSettings = new GuiWindowSettings();
     private GuiThemeSettings guiThemeSettings = new GuiThemeSettings();
+    private StatisticTimeframe statisticTimeframe = new StatisticTimeframe();
     private Path projectBookFilePath = Paths.get("data" , "projectbook.json");
 
     /**
@@ -38,6 +40,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         requireNonNull(newUserPrefs);
         setGuiWindowSettings(newUserPrefs.getGuiWindowSettings());
         setGuiThemeSettings(newUserPrefs.getGuiThemeSettings());
+        setStatisticTimeframe(newUserPrefs.getStatisticTimeframe());
         setProjectBookFilePath(newUserPrefs.getProjectBookFilePath());
     }
 
@@ -49,6 +52,11 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         return guiThemeSettings;
     }
 
+    @Override
+    public StatisticTimeframe getStatisticTimeframe() {
+        return statisticTimeframe;
+    }
+
     public void setGuiWindowSettings(GuiWindowSettings guiWindowSettings) {
         requireNonNull(guiWindowSettings);
         this.guiWindowSettings = guiWindowSettings;
@@ -57,6 +65,11 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
         requireNonNull(guiThemeSettings);
         this.guiThemeSettings = guiThemeSettings;
+    }
+
+    public void setStatisticTimeframe(StatisticTimeframe statisticTimeframe) {
+        requireNonNull(statisticTimeframe);
+        this.statisticTimeframe = statisticTimeframe;
     }
 
     public Path getProjectBookFilePath() {
@@ -81,19 +94,22 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
         return guiWindowSettings.equals(o.guiWindowSettings)
                 && guiThemeSettings.equals(o.guiThemeSettings)
+                && statisticTimeframe.equals(o.statisticTimeframe)
                 && projectBookFilePath.equals(o.projectBookFilePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(guiWindowSettings, guiThemeSettings, projectBookFilePath);
+        return Objects.hash(guiWindowSettings, guiThemeSettings,
+            statisticTimeframe, projectBookFilePath);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Gui Window Settings : " + guiWindowSettings);
-        sb.append("Gui Theme Settings : " + guiThemeSettings);
+        sb.append("Gui window settings : " + guiWindowSettings);
+        sb.append("Gui theme settings : " + guiThemeSettings);
+        sb.append("Statistic timeframe settings : " + statisticTimeframe);
         sb.append("\nLocal data file location : " + projectBookFilePath);
         return sb.toString();
     }
