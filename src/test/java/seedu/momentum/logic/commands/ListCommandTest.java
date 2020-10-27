@@ -1,7 +1,9 @@
 package seedu.momentum.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.logic.commands.CommandTestUtil.showProjectAtIndex;
+import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
@@ -28,12 +30,14 @@ public class ListCommandTest {
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
+        expectedModel.commitToHistory();
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
+        expectedModel.commitToHistory();
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
     }
 }

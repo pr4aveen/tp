@@ -17,6 +17,7 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
+import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.TypicalTimes;
 
@@ -36,13 +37,14 @@ public class StartCommandTest {
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
-        expectedModel.setTrackedItem(trackedItemToStart, startedTrackedItem);
+        expectedModel.setTrackedItem(ViewMode.PROJECTS, trackedItemToStart, startedTrackedItem);
         expectedModel.addRunningTimer(startedTrackedItem);
+        expectedModel.setIsPreviousCommandTimerToTrue();
+        expectedModel.commitToHistory();
 
         String expectedMessage =
                 String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST_PROJECT.getOneBased())
                 + startedTrackedItem.getTimer().getStartTime().getFormatted();
-
 
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);
         Clock.reset();
@@ -61,7 +63,7 @@ public class StartCommandTest {
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
         TrackedItem trackedItemToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
-        model.setTrackedItem(trackedItemToStart, trackedItemToStart.startTimer());
+        model.setTrackedItem(ViewMode.PROJECTS, trackedItemToStart, trackedItemToStart.startTimer());
 
         assertCommandFailure(startCommand, model, StartCommand.MESSAGE_EXISTING_TIMER_ERROR);
     }
@@ -75,8 +77,10 @@ public class StartCommandTest {
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
-        expectedModel.setTrackedItem(trackedItemToStart, startedTrackedItem);
+        expectedModel.setTrackedItem(ViewMode.PROJECTS, trackedItemToStart, startedTrackedItem);
         expectedModel.addRunningTimer(startedTrackedItem);
+        expectedModel.setIsPreviousCommandTimerToTrue();
+        expectedModel.commitToHistory();
 
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
         String expectedMessage =
@@ -84,6 +88,7 @@ public class StartCommandTest {
                         + startedTrackedItem.getTimer().getStartTime().getFormatted();
 
         showProjectAtIndex(expectedModel, INDEX_FIRST_PROJECT);
+
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);
         Clock.reset();
     }

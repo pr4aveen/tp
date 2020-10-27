@@ -49,7 +49,7 @@ public interface Model {
     /**
      * Replaces project book data with the data in {@code projectBook}.
      */
-    void setProjectBook(ReadOnlyProjectBook projectBook);
+    void setVersionedProjectBook(ReadOnlyProjectBook versionedProjectBook);
 
     /** Returns the ProjectBook */
     ReadOnlyProjectBook getProjectBook();
@@ -78,7 +78,7 @@ public interface Model {
      * The tracked item identity of {@code editedTrackedItem} must not be the same as another existing tracked item in
      * the project book.
      */
-    void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem);
+    void setTrackedItem(ViewMode viewMode, TrackedItem target, TrackedItem editedTrackedItem);
 
     /** Returns an unmodifiable view of the filtered project list */
     ObservableList<TrackedItem> getFilteredTrackedItemList();
@@ -132,4 +132,48 @@ public interface Model {
     Project getCurrentProject();
 
     ViewMode getViewMode();
+
+
+    //=========== Undo & Redo ================================================================================
+
+    /**
+     * Returns true if model is able to undo command, false otherwise.
+     */
+    boolean canUndoCommand();
+
+    /**
+     * Returns true if model is able to redo undone command, false otherwise.
+     */
+    boolean canRedoCommand();
+
+    /**
+     * Commits current {@code ProjectBook} state to history.
+     */
+    void commitToHistory();
+
+    /**
+     * Undoes command to reset state to previous state in history.
+     */
+    void undoCommand();
+
+    /**
+     * Undoes command to reset view mode to previous view mode.
+     */
+    void resetUi(boolean isUndo, ViewMode viewMode, boolean isPreviousCommandTimer,
+                   Project project, TrackedItem runningTimer, boolean toAdd);
+
+    /**
+     * Resets boolean value to true.
+     */
+    void setIsPreviousCommandTimerToTrue();
+
+    /**
+     * Resets boolean value to false.
+     */
+    void setIsPreviousCommandTimerToFalse();
+
+    /**
+     * Redoes previously undone command to reset state to before undo command.
+     */
+    void redoCommand();
 }

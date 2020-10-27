@@ -17,7 +17,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import seedu.momentum.model.ProjectBook;
+import seedu.momentum.model.VersionedProjectBook;
+import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 /**
  * A utility class containing a list of {@code Project} objects to be used in tests.
@@ -94,6 +97,19 @@ public class TypicalProjects {
         }
         return projectBook;
     }
+
+//    /**
+//     * Returns a {@code VersionedProjectBook} with all the typical projects.
+//     */
+//    public static VersionedProjectBook getTypicalVersionedProjectBook() {
+//        ViewMode viewMode = ViewMode.PROJECTS;
+//        boolean isPreviousCommandTimer = false;
+//        Project currentProject = null;
+//        TrackedItem runningTimer = null;
+//        boolean toAdd = false;
+//        return new VersionedProjectBook(getTypicalProjectBook(), viewMode, isPreviousCommandTimer, currentProject,
+//                runningTimer, toAdd);
+//    }
 
     public static List<Project> getTypicalProjects() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));

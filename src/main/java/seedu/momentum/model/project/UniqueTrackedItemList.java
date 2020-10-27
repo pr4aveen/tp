@@ -57,6 +57,22 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
     }
 
     /**
+     * Adds a task to the list.
+     * The task must not already exist in the list.
+     */
+    public UniqueTrackedItemList addTask(TrackedItem toAdd) {
+        requireNonNull(toAdd);
+        if (contains(toAdd)) {
+            throw new DuplicateTrackableItemException();
+        }
+        UniqueTrackedItemList newList;
+        newList = this.copy();
+        newList.internalList.add(toAdd);
+
+        return newList;
+    }
+
+    /**
      * Replaces the tracked item {@code target} in the list with {@code editedTrackedItem}.
      * {@code target} must exist in the list.
      * The tracked item identity of {@code editedTrackedItem} must not be the same as another existing tracked item
@@ -78,6 +94,31 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
     }
 
     /**
+     * Replaces the task {@code target} in the list with {@code editedTrackedItem}.
+     * {@code target} must exist in the list.
+     * The task identity of {@code editedTrackedItem} must not be the same as another existing task
+     * in the list.
+     */
+    public UniqueTrackedItemList setTasks(TrackedItem target, TrackedItem editedTrackedItem) {
+        requireAllNonNull(target, editedTrackedItem);
+
+        int index = internalList.indexOf(target);
+        if (index == -1) {
+            throw new TrackableItemNotFoundException();
+        }
+
+        if (!target.isSameTrackedItem(editedTrackedItem) && contains(editedTrackedItem)) {
+            throw new DuplicateTrackableItemException();
+        }
+
+        UniqueTrackedItemList newList;
+        newList = this.copy();
+        newList.internalList.set(index, editedTrackedItem);
+
+        return newList;
+    }
+
+    /**
      * Removes the equivalent tracked item from the list.
      * The tracked item must exist in the list.
      */
@@ -86,6 +127,23 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
         if (!internalList.remove(toRemove)) {
             throw new TrackableItemNotFoundException();
         }
+    }
+
+    /**
+     * Removes the equivalent task from the list.
+     * The task must exist in the list.
+     */
+    public UniqueTrackedItemList removeTask(TrackedItem toRemove) {
+        requireNonNull(toRemove);
+
+        UniqueTrackedItemList newList;
+        newList = this.copy();
+
+        if (!newList.internalList.remove(toRemove)) {
+            throw new TrackableItemNotFoundException();
+        }
+
+        return newList;
     }
 
     public void setTrackedItems(UniqueTrackedItemList replacement) {
@@ -104,6 +162,19 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
         }
 
         internalList.setAll(trackedItems);
+    }
+
+    /**
+     * Creates a duplicate {@code UniqueTrackedItemList}
+     *
+     * @return duplicate {@code UniqueTrackedItemList} list.
+     */
+    private UniqueTrackedItemList copy() {
+        UniqueTrackedItemList newList = new UniqueTrackedItemList();
+        for (TrackedItem t : internalList) {
+            newList.add(t);
+        }
+        return newList;
     }
 
     /**

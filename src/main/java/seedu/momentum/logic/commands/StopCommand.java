@@ -72,13 +72,15 @@ public class StopCommand extends Command {
         TrackedItem newTrackedItem = trackedItemToStop.stopTimer();
 
         if (model.getViewMode() == ViewMode.PROJECTS) {
-            model.setTrackedItem(trackedItemToStop, newTrackedItem);
+            model.setTrackedItem(ViewMode.PROJECTS, trackedItemToStop, newTrackedItem);
         } else {
             assert parentProject != null;
             parentProject.setTask(trackedItemToStop, newTrackedItem);
         }
 
         model.removeRunningTimer(trackedItemToStop);
+        model.setIsPreviousCommandTimerToTrue();
+        model.commitToHistory();
 
         return new CommandResult(String.format(MESSAGE_STOP_TIMER_SUCCESS, targetIndex.getOneBased(),
                 newTrackedItem.getTimer().getTimeBetween(ChronoUnit.MINUTES)));

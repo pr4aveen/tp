@@ -20,6 +20,7 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.ReadOnlyUserPrefs;
+import seedu.momentum.model.VersionedProjectBook;
 import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
@@ -35,7 +36,7 @@ public class AddCommandTest {
 
     @Test
     public void execute_projectAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingProjectAdded modelStub = new ModelStubAcceptingProjectAdded();
+        ModelStubSetModelManager modelStub = new ModelStubSetModelManager();
         Project validProject = new ProjectBuilder().build();
 
         CommandResult commandResult = new AddCommand(validProject).execute(modelStub);
@@ -117,7 +118,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setProjectBook(ReadOnlyProjectBook newData) {
+        public void setVersionedProjectBook(ReadOnlyProjectBook newData) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -172,7 +173,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
+        public void setTrackedItem(ViewMode viewMode, TrackedItem target, TrackedItem editedTrackedItem) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -200,6 +201,48 @@ public class AddCommandTest {
         public void resetView() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public boolean canUndoCommand() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean canRedoCommand() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void commitToHistory() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void undoCommand() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void resetUi(boolean isUndo, ViewMode viewMode, boolean isPreviousCommandTimer,
+                       Project project, TrackedItem runningTimer, boolean toAdd) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setIsPreviousCommandTimerToTrue() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setIsPreviousCommandTimerToFalse() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void redoCommand() {
+            throw new AssertionError("This method should not be called.");
+        }
+
     }
 
     /**
@@ -224,7 +267,7 @@ public class AddCommandTest {
      * A Model stub that always accept the project being added.
      */
     private class ModelStubAcceptingProjectAdded extends ModelStub {
-        final ArrayList<TrackedItem> projectsAdded = new ArrayList<>();
+        public final ArrayList<TrackedItem> projectsAdded = new ArrayList<>();
 
         @Override
         public boolean hasTrackedItem(TrackedItem trackedItem) {
@@ -244,4 +287,32 @@ public class AddCommandTest {
         }
     }
 
+    /**
+     * A Model stub that resets {@code ModelManager}.
+     */
+    private class ModelStubSetModelManager extends ModelStubAcceptingProjectAdded {
+        private boolean isPreviousCommandTimer;
+        private ViewMode viewMode = ViewMode.PROJECTS;
+        private Project currentProject = null;
+        private TrackedItem runningTimer = null;
+        private boolean toAdd = false;
+        private final VersionedProjectBook versionedProjectBook =
+                new VersionedProjectBook(new ProjectBook(), viewMode,
+                        isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+
+        @Override
+        public void setIsPreviousCommandTimerToTrue() {
+            isPreviousCommandTimer = true;
+        }
+
+        @Override
+        public void setIsPreviousCommandTimerToFalse() {
+            isPreviousCommandTimer = false;
+        }
+
+        @Override
+        public void commitToHistory() {
+            versionedProjectBook.commit(viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+        }
+    }
 }

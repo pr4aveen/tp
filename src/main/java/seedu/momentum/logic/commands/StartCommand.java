@@ -69,13 +69,15 @@ public class StartCommand extends Command {
 
         TrackedItem newTrackedItem = trackedItemToStart.startTimer();
         if (model.getViewMode() == ViewMode.PROJECTS) {
-            model.setTrackedItem(trackedItemToStart, newTrackedItem);
+            model.setTrackedItem(ViewMode.PROJECTS, trackedItemToStart, newTrackedItem);
         } else {
             assert parentProject != null;
             parentProject.setTask(trackedItemToStart, newTrackedItem);
         }
 
         model.addRunningTimer(newTrackedItem);
+        model.setIsPreviousCommandTimerToTrue();
+        model.commitToHistory();
 
         return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())
                 + newTrackedItem.getTimer().getStartTime().getFormatted());

@@ -18,7 +18,7 @@ import seedu.momentum.model.tag.Tag;
  */
 public class ProjectBook implements ReadOnlyProjectBook {
 
-    private final UniqueTrackedItemList trackedItems;
+    protected final UniqueTrackedItemList trackedItems;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication

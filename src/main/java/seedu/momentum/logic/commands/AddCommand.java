@@ -71,12 +71,19 @@ public class AddCommand extends Command {
             }
 
             model.addTrackedItem(toAdd);
+            model.setIsPreviousCommandTimerToFalse();
+            model.commitToHistory();
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } else {
             if (projectToAddTask.hasTask(taskToAdd)) {
                 throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
             }
-            projectToAddTask.addTask(taskToAdd);
+            Project projectBeforeAdd = projectToAddTask;
+            Project projectAfterAdd = projectToAddTask.addTask(taskToAdd);
+            model.setTrackedItem(ViewMode.TASKS, projectBeforeAdd, projectAfterAdd);
+            model.viewTasks(projectAfterAdd);
+            model.setIsPreviousCommandTimerToFalse();
+            model.commitToHistory();
             return new CommandResult(String.format(MESSAGE_SUCCESS, taskToAdd));
         }
     }
