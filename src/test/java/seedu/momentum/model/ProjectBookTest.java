@@ -3,7 +3,6 @@ package seedu.momentum.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_REMINDER_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.momentum.testutil.Assert.assertThrows;
@@ -105,8 +104,7 @@ public class ProjectBookTest {
 
     @Test
     public void removeReminder() {
-        Project editedAlice =
-                new ProjectBuilder(ALICE).withReminder(VALID_REMINDER_AMY, VALID_CREATED_DATE_AMY).build();
+        Project editedAlice = new ProjectBuilder(ALICE).withReminder(VALID_REMINDER_AMY).build();
         editedAlice = editedAlice.removeReminder();
         projectBook.addTrackedItem(editedAlice);
         ProjectBook expectedProjectBook = new ProjectBook();

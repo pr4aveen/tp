@@ -113,7 +113,7 @@ public class JsonToModel {
         }
 
         if (Reminder.isValid(reminder)) {
-            return new Reminder(reminder, modelCreatedDateWrapper);
+            return new Reminder(reminder);
         }
         return new Reminder();
     }

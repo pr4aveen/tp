@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.DateTimeWrapper;
-import seedu.momentum.commons.core.DateWrapper;
 
 public class ReminderTest {
     private static final String VALID_DATE_TIME = "2019-09-23T10:15:30";
@@ -22,7 +21,6 @@ public class ReminderTest {
     private static final String VALID_LATER_TIME = "2019-09-23T16:15:35";
     private static final String INVALID_DATE_TIME = "2019-97-23 10:86:30";
 
-    private static final DateWrapper VALID_CREATED_DATE_WRAPPER = new DateWrapper("2000-01-01");
     private static final DateTimeWrapper NOW = new DateTimeWrapper("2010-09-23T10:15:30");
 
     private static Reminder emptyReminder;
@@ -33,26 +31,23 @@ public class ReminderTest {
     private void init() {
         Clock.initFixed(NOW);
         emptyReminder = new Reminder();
-        reminder = new Reminder(VALID_DATE_TIME, VALID_CREATED_DATE_WRAPPER);
-        laterDateReminder = new Reminder(VALID_LATER_DATE, VALID_CREATED_DATE_WRAPPER);
-        laterTimeReminder = new Reminder(VALID_LATER_TIME, VALID_CREATED_DATE_WRAPPER);
+        reminder = new Reminder(VALID_DATE_TIME);
+        laterDateReminder = new Reminder(VALID_LATER_DATE);
+        laterTimeReminder = new Reminder(VALID_LATER_TIME);
     }
 
     @Test
     public void constructor_null_throwsNullPointerException() {
         init();
-        assertThrows(NullPointerException.class, () -> new Reminder(null, VALID_CREATED_DATE_WRAPPER));
+        assertThrows(NullPointerException.class, () -> new Reminder(null));
     }
 
     @Test
     public void constructor_invalidReminder_throwsIllegalArgumentException() {
         init();
-        assertThrows(IllegalArgumentException.class, () -> new Reminder("", VALID_CREATED_DATE_WRAPPER));
-        assertThrows(IllegalArgumentException.class, () -> new Reminder(INVALID_DATE_TIME, VALID_CREATED_DATE_WRAPPER));
-        assertThrows(IllegalArgumentException.class, () ->
-                new Reminder(VALID_DATE_TIME, new DateWrapper(VALID_LATER_DATE)));
-        assertThrows(IllegalArgumentException.class, () ->
-                new Reminder("2000-10-10T12:12:12", VALID_CREATED_DATE_WRAPPER));
+        assertThrows(IllegalArgumentException.class, () -> new Reminder(""));
+        assertThrows(IllegalArgumentException.class, () -> new Reminder(INVALID_DATE_TIME));
+        assertThrows(IllegalArgumentException.class, () -> new Reminder("2000-10-10T12:12:12"));
     }
 
     @Test
@@ -129,7 +124,7 @@ public class ReminderTest {
         assertEquals(laterDateReminder.compareTo(reminder), 1);
 
         // first and second reminder have same date and time -> returns 0
-        assertEquals(new Reminder(VALID_DATE_TIME, VALID_CREATED_DATE_WRAPPER).compareTo(reminder), 0);
+        assertEquals(new Reminder(VALID_DATE_TIME).compareTo(reminder), 0);
 
         // second reminder has same date, later time -> returns -1
         assertEquals(reminder.compareTo(laterTimeReminder), -1);

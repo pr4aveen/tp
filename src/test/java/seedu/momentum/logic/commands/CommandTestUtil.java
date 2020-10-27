@@ -86,7 +86,7 @@ public class CommandTestUtil {
         DESC_AMY = new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withDescription(VALID_DESCRIPTION_AMY)
                 .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
-                .withReminder(VALID_REMINDER_AMY, VALID_CREATED_DATE_AMY)
+                .withReminder(VALID_REMINDER_AMY)
                 .withTags(VALID_TAG_FRIEND)
                 .build();
         DESC_BOB = new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_BOB)

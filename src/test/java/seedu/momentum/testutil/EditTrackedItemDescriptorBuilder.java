@@ -85,8 +85,8 @@ public class EditTrackedItemDescriptorBuilder {
     /**
      * Sets the {@code Reminder} of the {@code EditTrackedItemDescriptor} that we are building.
      */
-    public EditTrackedItemDescriptorBuilder withReminder(String dateTime, String createdDate) {
-        descriptor.setReminder(new Reminder(dateTime, new DateWrapper(createdDate)));
+    public EditTrackedItemDescriptorBuilder withReminder(String dateTime) {
+        descriptor.setReminder(new Reminder(dateTime));
         return this;
     }
 
