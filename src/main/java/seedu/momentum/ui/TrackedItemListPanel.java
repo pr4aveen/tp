@@ -2,7 +2,8 @@ package seedu.momentum.ui;
 
 import java.util.logging.Logger;
 
-import javafx.collections.ObservableList;
+import javafx.beans.property.ObjectProperty;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -16,6 +17,7 @@ import seedu.momentum.model.project.TrackedItem;
 public class TrackedItemListPanel extends UiPart<Region> {
     private static final String FXML = "TrackedItemListPanel.fxml";
     private final Logger logger = LogsCenter.getLogger(TrackedItemListPanel.class);
+    private final ObjectProperty<FilteredList<TrackedItem>> sourceList;
 
     @FXML
     private ListView<TrackedItem> trackedItemListView;
@@ -23,10 +25,16 @@ public class TrackedItemListPanel extends UiPart<Region> {
     /**
      * Creates a {@code ProjectListPanel} with the given {@code ObservableList}.
      */
-    public TrackedItemListPanel(ObservableList<TrackedItem> trackedItemList) {
+    public TrackedItemListPanel(ObjectProperty<FilteredList<TrackedItem>> trackedItemList) {
         super(FXML);
-        trackedItemListView.setItems(trackedItemList);
+        this.sourceList = trackedItemList;
+        trackedItemListView.setItems(sourceList.get());
+        sourceList.addListener(observable -> updateList());
         trackedItemListView.setCellFactory(listView -> new TrackedItemViewCell());
+    }
+
+    private void updateList() {
+        trackedItemListView.setItems(sourceList.get());
     }
 
     /**
