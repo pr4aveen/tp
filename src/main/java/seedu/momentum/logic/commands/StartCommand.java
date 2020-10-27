@@ -76,6 +76,7 @@ public class StartCommand extends Command {
         }
 
         model.addRunningTimer(newTrackedItem);
+        model.rescheduleReminders();
 
         return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())
                 + newTrackedItem.getTimer().getStartTime().getFormatted());

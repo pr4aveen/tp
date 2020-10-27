@@ -79,6 +79,7 @@ public class StopCommand extends Command {
         }
 
         model.removeRunningTimer(trackedItemToStop);
+        model.rescheduleReminders();
 
         return new CommandResult(String.format(MESSAGE_STOP_TIMER_SUCCESS, targetIndex.getOneBased(),
                 newTrackedItem.getTimer().getTimeBetween(ChronoUnit.MINUTES)));
