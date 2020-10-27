@@ -12,7 +12,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.logic.Logic;
 import seedu.momentum.logic.commands.CommandResult;
@@ -78,7 +78,7 @@ public class MainWindow extends UiPart<Stage> {
         this.logic = logic;
 
         // Configure the UI
-        setWindowDefaultSizeAndTheme(logic.getGuiSettings());
+        setWindowDefaultSizeAndTheme(logic.getGuiWindowSettings());
 
         setAccelerators();
 
@@ -174,14 +174,14 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Sets the default size based on {@code guiSettings}.
+     * Sets the default size based on {@code guiWindowSettings}.
      */
-    private void setWindowDefaultSizeAndTheme(GuiSettings guiSettings) {
-        primaryStage.setHeight(guiSettings.getWindowHeight());
-        primaryStage.setWidth(guiSettings.getWindowWidth());
-        if (guiSettings.getWindowCoordinates() != null) {
-            primaryStage.setX(guiSettings.getWindowCoordinates().getX());
-            primaryStage.setY(guiSettings.getWindowCoordinates().getY());
+    private void setWindowDefaultSizeAndTheme(GuiWindowSettings guiWindowSettings) {
+        primaryStage.setHeight(guiWindowSettings.getWindowHeight());
+        primaryStage.setWidth(guiWindowSettings.getWindowWidth());
+        if (guiWindowSettings.getWindowCoordinates() != null) {
+            primaryStage.setX(guiWindowSettings.getWindowCoordinates().getX());
+            primaryStage.setY(guiWindowSettings.getWindowCoordinates().getY());
         }
     }
 
@@ -206,9 +206,9 @@ public class MainWindow extends UiPart<Stage> {
      */
     @FXML
     private void handleExit() {
-        GuiSettings guiSettings = new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
+        GuiWindowSettings guiWindowSettings = new GuiWindowSettings(primaryStage.getWidth(), primaryStage.getHeight(),
                 (int) primaryStage.getX(), (int) primaryStage.getY());
-        logic.setGuiSettings(guiSettings);
+        logic.setGuiWindowSettings(guiWindowSettings);
         helpWindow.hide();
         primaryStage.hide();
     }

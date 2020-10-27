@@ -12,7 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
@@ -86,14 +86,14 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public GuiSettings getGuiSettings() {
-        return userPrefs.getGuiSettings();
+    public GuiWindowSettings getGuiWindowSettings() {
+        return userPrefs.getGuiWindowSettings();
     }
 
     @Override
-    public void setGuiSettings(GuiSettings guiSettings) {
-        requireNonNull(guiSettings);
-        userPrefs.setGuiSettings(guiSettings);
+    public void setGuiWindowSettings(GuiWindowSettings guiWindowSettings) {
+        requireNonNull(guiWindowSettings);
+        userPrefs.setGuiWindowSettings(guiWindowSettings);
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
@@ -92,12 +92,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public GuiSettings getGuiSettings() {
+        public GuiWindowSettings getGuiWindowSettings() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setGuiSettings(GuiSettings guiSettings) {
+        public void setGuiWindowSettings(GuiWindowSettings guiWindowSettings) {
             throw new AssertionError("This method should not be called.");
         }
 

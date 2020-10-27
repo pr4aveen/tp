@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
@@ -27,14 +27,14 @@ public interface Model {
     ReadOnlyUserPrefs getUserPrefs();
 
     /**
-     * Returns the user prefs' GUI settings.
+     * Returns the user prefs' GUI window settings.
      */
-    GuiSettings getGuiSettings();
+    GuiWindowSettings getGuiWindowSettings();
 
     /**
-     * Sets the user prefs' GUI settings.
+     * Sets the user prefs' GUI window settings.
      */
-    void setGuiSettings(GuiSettings guiSettings);
+    void setGuiWindowSettings(GuiWindowSettings guiWindowSettings);
 
     /**
      * Returns the user prefs' project book file path.

@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.ProjectBookBuilder;
@@ -26,7 +26,7 @@ public class ModelManagerTest {
     @Test
     public void constructor() {
         assertEquals(new UserPrefs(), modelManager.getUserPrefs());
-        assertEquals(new GuiSettings(), modelManager.getGuiSettings());
+        assertEquals(new GuiWindowSettings(), modelManager.getGuiWindowSettings());
         assertEquals(new ProjectBook(), new ProjectBook(modelManager.getProjectBook()));
     }
 
@@ -39,7 +39,7 @@ public class ModelManagerTest {
     public void setUserPrefs_validUserPrefs_copiesUserPrefs() {
         UserPrefs userPrefs = new UserPrefs();
         userPrefs.setProjectBookFilePath(Paths.get("momentum/book/file/path"));
-        userPrefs.setGuiSettings(new GuiSettings(1, 2, 3, 4));
+        userPrefs.setGuiWindowSettings(new GuiWindowSettings(1, 2, 3, 4));
         modelManager.setUserPrefs(userPrefs);
         assertEquals(userPrefs, modelManager.getUserPrefs());
 
@@ -50,15 +50,15 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void setGuiSettings_nullGuiSettings_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> modelManager.setGuiSettings(null));
+    public void setGuiWindowSettings_nullGuiWindowSettings_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.setGuiWindowSettings(null));
     }
 
     @Test
-    public void setGuiSettings_validGuiSettings_setsGuiSettings() {
-        GuiSettings guiSettings = new GuiSettings(1, 2, 3, 4);
-        modelManager.setGuiSettings(guiSettings);
-        assertEquals(guiSettings, modelManager.getGuiSettings());
+    public void setGuiWindowSettings_validGuiWindowSettings_setsGuiWindowSettings() {
+        GuiWindowSettings guiWindowSettings = new GuiWindowSettings(1, 2, 3, 4);
+        modelManager.setGuiWindowSettings(guiWindowSettings);
+        assertEquals(guiWindowSettings, modelManager.getGuiWindowSettings());
     }
 
     @Test

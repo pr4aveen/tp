@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import seedu.momentum.MainApp;
 import seedu.momentum.commons.core.LogsCenter;
-import seedu.momentum.commons.core.Theme;
 import seedu.momentum.commons.util.StringUtil;
 import seedu.momentum.logic.Logic;
 

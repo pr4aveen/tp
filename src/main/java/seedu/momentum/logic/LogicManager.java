@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.logic.commands.Command;
 import seedu.momentum.logic.commands.CommandResult;
@@ -87,12 +87,12 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public GuiSettings getGuiSettings() {
-        return model.getGuiSettings();
+    public GuiWindowSettings getGuiWindowSettings() {
+        return model.getGuiWindowSettings();
     }
 
     @Override
-    public void setGuiSettings(GuiSettings guiSettings) {
-        model.setGuiSettings(guiSettings);
+    public void setGuiWindowSettings(GuiWindowSettings guiWindowSettings) {
+        model.setGuiWindowSettings(guiWindowSettings);
     }
 }

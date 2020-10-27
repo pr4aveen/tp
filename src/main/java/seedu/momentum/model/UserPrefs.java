@@ -6,14 +6,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
 
 /**
  * Represents User's preferences.
  */
 public class UserPrefs implements ReadOnlyUserPrefs {
 
-    private GuiSettings guiSettings = new GuiSettings();
+    private GuiWindowSettings guiWindowSettings = new GuiWindowSettings();
     private Path projectBookFilePath = Paths.get("data" , "projectbook.json");
 
     /**
@@ -34,17 +34,17 @@ public class UserPrefs implements ReadOnlyUserPrefs {
      */
     public void resetData(ReadOnlyUserPrefs newUserPrefs) {
         requireNonNull(newUserPrefs);
-        setGuiSettings(newUserPrefs.getGuiSettings());
+        setGuiWindowSettings(newUserPrefs.getGuiWindowSettings());
         setProjectBookFilePath(newUserPrefs.getProjectBookFilePath());
     }
 
-    public GuiSettings getGuiSettings() {
-        return guiSettings;
+    public GuiWindowSettings getGuiWindowSettings() {
+        return guiWindowSettings;
     }
 
-    public void setGuiSettings(GuiSettings guiSettings) {
-        requireNonNull(guiSettings);
-        this.guiSettings = guiSettings;
+    public void setGuiWindowSettings(GuiWindowSettings guiWindowSettings) {
+        requireNonNull(guiWindowSettings);
+        this.guiWindowSettings = guiWindowSettings;
     }
 
     public Path getProjectBookFilePath() {
@@ -67,19 +67,19 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
         UserPrefs o = (UserPrefs) other;
 
-        return guiSettings.equals(o.guiSettings)
+        return guiWindowSettings.equals(o.guiWindowSettings)
                 && projectBookFilePath.equals(o.projectBookFilePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(guiSettings, projectBookFilePath);
+        return Objects.hash(guiWindowSettings, projectBookFilePath);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Gui Settings : " + guiSettings);
+        sb.append("Gui Window Settings : " + guiWindowSettings);
         sb.append("\nLocal data file location : " + projectBookFilePath);
         return sb.toString();
     }
