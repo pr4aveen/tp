@@ -12,6 +12,9 @@ public class Theme {
 
     private ThemeType themeType;
 
+    /**
+     * Empty constructor required by Jackson.
+     */
     public Theme() {
     }
 
@@ -32,6 +35,7 @@ public class Theme {
 
         return Paths.get("view", stylesheetName).toString();
     }
+
 
     @Override
     public String toString() {
