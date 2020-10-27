@@ -8,7 +8,6 @@ import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
@@ -39,10 +38,6 @@ public class ProjectViewCommand extends Command {
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
-        }
-
-        if (model.getViewMode() != ViewMode.PROJECTS) {
-            throw new CommandException(Messages.MESSAGE_NOT_PROJECT);
         }
 
         Project projectToView = (Project) lastShownList.get(targetIndex.getZeroBased());
