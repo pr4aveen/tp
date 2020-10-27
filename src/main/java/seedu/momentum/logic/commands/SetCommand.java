@@ -2,11 +2,13 @@ package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.logic.parser.CliSyntax.SET_THEME;
+import static seedu.momentum.logic.parser.CliSyntax.SET_STATISTIC_TIMEFRAME;
 
-import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import seedu.momentum.commons.core.GuiThemeSettings;
+import seedu.momentum.commons.core.StatisticTimeframe;
+import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.commons.core.Theme;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -22,7 +24,8 @@ public class SetCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adjust various settings in the application.\n"
         + "Parameters: "
-        + "[" + SET_THEME + "THEME]";
+        + "[" + SET_THEME + "THEME]"
+        + "[" + SET_STATISTIC_TIMEFRAME + "TIMEFRAME]";
 
     public static final String MESSAGE_EDIT_PROJECT_SUCCESS =
         "Settings updated. A restart is needed for the new settings to take effect.";
@@ -48,12 +51,18 @@ public class SetCommand extends Command {
             model.setGuiThemeSettings(new GuiThemeSettings(settingsToChange.getTheme().get()));
         }
 
+        if (settingsToChange.getStatTimeframe().isPresent()) {
+            model.setStatisticTimeframeSettings(new StatisticTimeframeSettings(
+                settingsToChange.getStatTimeframe().get()));
+        }
+
         return new CommandResult(MESSAGE_EDIT_PROJECT_SUCCESS);
     }
 
     public static class SettingsToChange {
+
         private Theme theme;
-        private ChronoUnit statTimeframe;
+        private StatisticTimeframe statTimeframe;
 
         public SettingsToChange() {
         }
@@ -63,6 +72,7 @@ public class SetCommand extends Command {
          */
         public SettingsToChange(SettingsToChange toCopy) {
             setTheme(toCopy.theme);
+            setStatTimeframe(toCopy.statTimeframe);
         }
 
         /**
@@ -80,11 +90,11 @@ public class SetCommand extends Command {
             return Optional.ofNullable(theme);
         }
 
-        public void setStatTimeframe(ChronoUnit statTimeframe) {
+        public void setStatTimeframe(StatisticTimeframe statTimeframe) {
             this.statTimeframe = statTimeframe;
         }
 
-        public Optional<ChronoUnit> getStatTimeframe() {
+        public Optional<StatisticTimeframe> getStatTimeframe() {
             return Optional.ofNullable(statTimeframe);
         }
     }

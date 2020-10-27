@@ -21,4 +21,5 @@ public class CliSyntax {
 
     // Setting parameters
     public static final Prefix SET_THEME = new Prefix("th/");
+    public static final Prefix SET_STATISTIC_TIMEFRAME = new Prefix("st/");
 }

@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.commons.core.Theme;
 import seedu.momentum.commons.core.Time;
 import seedu.momentum.commons.core.index.Index;
@@ -135,6 +136,23 @@ public class ParserUtil {
             return new Theme(themeType);
         } catch (IllegalArgumentException e) {
             throw new ParseException(Theme.MESSAGE_CONSTRAINTS);
+        }
+    }
+
+    /**
+     * Parses a {@code String statisticTimeframe} into a {@code StatisticTimeframe}.
+     *
+     * @throws ParseException if the give {@code statisticTimeframe} is invalid.
+     */
+    public static StatisticTimeframe parseStatisticTimeframe(String statisticTimeframe) throws ParseException {
+        requireNonNull(statisticTimeframe);
+        String trimmedTimeframe = statisticTimeframe.trim();
+        try {
+            StatisticTimeframe.Timeframe timeframe =
+                StatisticTimeframe.Timeframe.valueOf(trimmedTimeframe.toUpperCase());
+            return new StatisticTimeframe(timeframe);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(StatisticTimeframe.MESSAGE_CONSTRAINTS);
         }
     }
 }
