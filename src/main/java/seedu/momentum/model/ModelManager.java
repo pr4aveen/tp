@@ -28,7 +28,6 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final VersionedProjectBook versionedProjectBook;
-    private final ProjectBook projectBook;
     private final UserPrefs userPrefs;
     private final ReminderManager reminderManager;
     private final FilteredList<TrackedItem> filteredTrackedItems;
@@ -53,9 +52,6 @@ public class ModelManager implements Model {
 
         logger.fine("Initializing with project book: " + projectBook + " and user prefs " + userPrefs);
 
-        this.projectBook = new ProjectBook(projectBook);
-        this.reminderManager = new ReminderManager(this.projectBook);
-        rescheduleReminders();
         this.userPrefs = new UserPrefs(userPrefs);
 
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
@@ -68,6 +64,8 @@ public class ModelManager implements Model {
 
         this.versionedProjectBook = new VersionedProjectBook(
                 projectBook, viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+        this.reminderManager = new ReminderManager(this.versionedProjectBook);
+        rescheduleReminders();
         this.viewList = FXCollections.observableArrayList();
         filteredTrackedItems = new FilteredList<>(viewList);
         viewProjects();
