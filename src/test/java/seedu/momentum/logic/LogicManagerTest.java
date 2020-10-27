@@ -63,7 +63,7 @@ public class LogicManagerTest {
     @Test
     public void execute_validCommand_success() throws Exception {
         String listCommand = ListCommand.COMMAND_WORD;
-        assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
+        assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS_PROJECTS, model);
     }
 
     @Test
@@ -91,7 +91,8 @@ public class LogicManagerTest {
 
     @Test
     public void getFilteredProjectList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredTrackedItemList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () ->
+                logic.getObservableFilteredTrackedItemList().get().remove(0));
     }
 
     /**
