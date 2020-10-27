@@ -7,6 +7,7 @@ import static seedu.momentum.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.momentum.logic.commands.SortCommand.INPUT_ALPHA_TYPE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 import static seedu.momentum.testutil.Assert.assertThrows;
@@ -26,6 +27,7 @@ import seedu.momentum.logic.commands.ExitCommand;
 import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.commands.HelpCommand;
 import seedu.momentum.logic.commands.ListCommand;
+import seedu.momentum.logic.commands.ShowComponentCommand;
 import seedu.momentum.logic.commands.SortCommand;
 import seedu.momentum.logic.commands.StartCommand;
 import seedu.momentum.logic.commands.StopCommand;
@@ -123,6 +125,13 @@ public class ProjectBookParserTest {
         StopCommand command = (StopCommand) parser.parseCommand(
                 StopCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased(), model);
         assertEquals(new StopCommand(INDEX_FIRST_PROJECT), command);
+    }
+
+    @Test
+    public void parseCommand_showComponent() throws Exception {
+        ShowComponentCommand command = (ShowComponentCommand) parser.parseCommand(
+                ShowComponentCommand.COMMAND_WORD + " " + PREFIX_REMINDER, model);
+        assertEquals(new ShowComponentCommand(ShowComponentCommandParser.ComponentType.REMINDER), command);
     }
 
     @Test

@@ -2,6 +2,7 @@ package seedu.momentum.model.project;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.AppUtil.checkArgument;
+import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.temporal.ChronoUnit;
 import java.util.NoSuchElementException;
@@ -46,8 +47,7 @@ public class Deadline implements Comparable<Deadline> {
      * @param createdDateWrapper A created dateWrapper.
      */
     public Deadline(String dateWrapper, DateWrapper createdDateWrapper) {
-        requireNonNull(dateWrapper);
-        requireNonNull(createdDateWrapper);
+        requireAllNonNull(dateWrapper, createdDateWrapper);
         checkArgument(DateWrapper.isValid(dateWrapper), DateWrapper.MESSAGE_CONSTRAINTS);
         checkArgument(!isBeforeCreatedDate(dateWrapper, createdDateWrapper), CREATED_DATE_MESSAGE_CONSTRAINT);
         this.dateWrapper = Optional.of(new DateWrapper(dateWrapper));

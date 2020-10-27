@@ -236,13 +236,13 @@ public abstract class TrackedItem {
         builder.append(getName())
                 .append(" Description: ")
                 .append(getDescription())
-                .append("Completion Status:")
+                .append(" Completion Status: ")
                 .append(getCompletionStatus())
                 .append(" Created Date: ")
                 .append(getCreatedDate())
                 .append(" Deadline: ")
                 .append(getDeadline())
-                .append("Reminder: ")
+                .append(" Reminder: ")
                 .append(getReminder())
                 .append(" Tags: ");
         getTags().forEach(builder::append);

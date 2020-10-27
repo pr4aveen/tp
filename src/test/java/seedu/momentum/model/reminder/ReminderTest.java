@@ -1,17 +1,19 @@
-package seedu.momentum.model.project;
+package seedu.momentum.model.reminder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.testutil.Assert.assertThrows;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.core.DateWrapper;
-import seedu.momentum.model.reminder.Reminder;
 
 public class ReminderTest {
     private static final String VALID_DATE_TIME = "2019-09-23T10:15:30";
@@ -37,6 +39,8 @@ public class ReminderTest {
         assertThrows(IllegalArgumentException.class, () -> new Reminder(INVALID_DATE_TIME, VALID_CREATED_DATE_WRAPPER));
         assertThrows(IllegalArgumentException.class, () ->
                 new Reminder(VALID_DATE_TIME, new DateWrapper(VALID_LATER_DATE)));
+        assertThrows(IllegalArgumentException.class, () ->
+                new Reminder("2000-10-10T12:12:12", VALID_CREATED_DATE_WRAPPER));
     }
 
     @Test
@@ -51,7 +55,7 @@ public class ReminderTest {
     }
 
     @Test
-    public void getDateTimeWrapper_emptyReminder() {
+    public void getDateTimeWrapper_emptyReminder_throwsNoSuchElementException() {
         assertThrows(NoSuchElementException.class, () -> emptyReminder.getDateTimeWrapper());
     }
 
@@ -65,6 +69,18 @@ public class ReminderTest {
     public void getFormattedReminder_formatsCorrectly() {
         assertEquals("No reminder set", emptyReminder.getFormattedReminder());
         assertEquals(reminder.getDateTimeWrapper().getFormatted(), reminder.getFormattedReminder());
+    }
+
+    @Test
+    public void remove() {
+        assertEquals(emptyReminder, reminder.remove());
+    }
+
+    @Test
+    public void toDate() {
+        Instant instant = reminder.getDateTimeWrapper().get().atZone(ZoneId.systemDefault()).toInstant();
+        Date expectedDate = Date.from(instant);
+        assertEquals(expectedDate, reminder.toDate());
     }
 
     @Test

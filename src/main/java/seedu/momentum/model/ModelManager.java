@@ -51,7 +51,7 @@ public class ModelManager implements Model {
 
         this.projectBook = new ProjectBook(projectBook);
         this.reminderManager = new ReminderManager(this.projectBook);
-        this.reminderManager.rescheduleReminder();
+        rescheduleReminders();
         this.userPrefs = new UserPrefs(userPrefs);
 
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
@@ -120,7 +120,7 @@ public class ModelManager implements Model {
     @Override
     public void setProjectBook(ReadOnlyProjectBook projectBook) {
         this.projectBook.resetData(projectBook);
-        this.reminderManager.rescheduleReminder();
+        rescheduleReminders();
     }
 
     @Override
@@ -144,13 +144,13 @@ public class ModelManager implements Model {
     @Override
     public void deleteTrackedItem(TrackedItem target) {
         projectBook.removeTrackedItem(target);
-        this.reminderManager.rescheduleReminder();
+        rescheduleReminders();
     }
 
     @Override
     public void addTrackedItem(TrackedItem trackedItem) {
         projectBook.addTrackedItem(trackedItem);
-        this.reminderManager.rescheduleReminder();
+        rescheduleReminders();
         orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
         updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
@@ -160,16 +160,16 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedTrackedItem);
 
         projectBook.setTrackedItem(target, editedTrackedItem);
-        this.reminderManager.rescheduleReminder();
+        rescheduleReminders();
     }
 
     //=========== Filtered Project List Accessors =============================================================
 
     /**
      * Returns an unmodifiable view of the list of {@code TrackedItem} backed by the internal list of
-     * {@code versionedProjectBook}
+     * {@code versionedProjectBook}.
      *
-     * @return
+     * @return the filtered tracked item list.
      */
     @Override
     public ObservableList<TrackedItem> getFilteredTrackedItemList() {
@@ -245,6 +245,10 @@ public class ModelManager implements Model {
 
     //=========== Reminders =============================================================
 
+    protected void rescheduleReminders() {
+        reminderManager.rescheduleReminder();
+    }
+
     @Override
     public BooleanProperty isReminderEmpty() {
         return reminderManager.isReminderEmpty();
@@ -298,6 +302,7 @@ public class ModelManager implements Model {
         ModelManager other = (ModelManager) obj;
         return projectBook.equals(other.projectBook)
                 && userPrefs.equals(other.userPrefs)
+                && reminderManager.equals(other.reminderManager)
                 && filteredTrackedItems.equals(other.filteredTrackedItems)
                 && runningTimers.equals(other.runningTimers);
     }

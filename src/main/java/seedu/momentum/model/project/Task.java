@@ -81,7 +81,7 @@ public class Task extends TrackedItem {
     }
 
     /**
-     * Remove the reminder of a project.
+     * Removes the reminder of a project.
      */
     public Task removeReminder() {
         Reminder newReminder = reminder.remove();

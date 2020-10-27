@@ -6,7 +6,11 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import seedu.momentum.logic.parser.ShowComponentCommandParser;
 import seedu.momentum.model.Model;
 
+/**
+ * Shows or hides a component.
+ */
 public class ShowComponentCommand extends Command {
+
     public static final String COMMAND_WORD = "show";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows or hide the component of the sidebar. "
@@ -17,12 +21,19 @@ public class ShowComponentCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "%s is %s from the sidebar.";
 
-    private static final String REMOVED = "removed";
-    private static final String SHOWN = "shown";
+    public static final String REMOVED = "removed";
+
+    public static final String SHOWN = "shown";
 
     private final ShowComponentCommandParser.ComponentType componentType;
 
+    /**
+     * Instantiates a new Show component command which shows or hide a command.
+     *
+     * @param componentType the component type.
+     */
     public ShowComponentCommand(ShowComponentCommandParser.ComponentType componentType) {
+        requireNonNull(componentType);
         this.componentType = componentType;
     }
 
@@ -37,5 +48,12 @@ public class ShowComponentCommand extends Command {
             // never reach here
             return new CommandResult("");
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ShowComponentCommand // instanceof handles nulls
+                && componentType.equals(((ShowComponentCommand) other).componentType)); // state check
     }
 }

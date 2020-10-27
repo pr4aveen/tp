@@ -3,6 +3,8 @@ package seedu.momentum.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_CREATED_DATE_AMY;
+import static seedu.momentum.logic.commands.CommandTestUtil.VALID_REMINDER_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
@@ -99,6 +101,17 @@ public class ProjectBookTest {
     @Test
     public void getProjectList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> projectBook.getTrackedItemList().remove(0));
+    }
+
+    @Test
+    public void removeReminder() {
+        Project editedAlice =
+                new ProjectBuilder(ALICE).withReminder(VALID_REMINDER_AMY, VALID_CREATED_DATE_AMY).build();
+        editedAlice = editedAlice.removeReminder();
+        projectBook.addTrackedItem(editedAlice);
+        ProjectBook expectedProjectBook = new ProjectBook();
+        expectedProjectBook.addTrackedItem(new ProjectBuilder(ALICE).withEmptyReminder().build());
+        assertTrue(expectedProjectBook.equals(projectBook));
     }
 
     /**

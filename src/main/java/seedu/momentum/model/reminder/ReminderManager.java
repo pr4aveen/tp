@@ -19,11 +19,16 @@ import seedu.momentum.model.project.Task;
  * Manages the scheduling of reminders in the project book.
  */
 public class ReminderManager {
+    public static final String TASK_REMINDER = "Project: %s\nTask: %s";
+    public static final String PROJECT_REMINDER = "Project: %s";
+
     private static final Logger logger = LogsCenter.getLogger(ReminderManager.class);
 
-    private final ProjectBook projectBook;
-    private StringProperty currReminder;
-    private Timer timer;
+    private static final String EMPTY_STRING = "";
+
+    protected final ProjectBook projectBook;
+    protected Timer timer;
+    private final StringProperty currReminder;
 
     /**
      * Instantiates a new Reminder manager.
@@ -33,6 +38,7 @@ public class ReminderManager {
     public ReminderManager(ProjectBook projectBook) {
         this.projectBook = projectBook;
         this.currReminder = new SimpleStringProperty();
+        this.currReminder.set(EMPTY_STRING);
         this.timer = new Timer();
         logger.info("Initialised reminder manager");
     }
@@ -106,7 +112,7 @@ public class ReminderManager {
      * @param task    the task
      */
     public void updateCurrReminder(Project project, Task task) {
-        this.currReminder.set("Project: " + project.getName() + "\nTask: " + task.getName());
+        this.currReminder.set(String.format(TASK_REMINDER, project.getName(), task.getName()));
         logger.info("Current reminder updated to:" + currReminder);
     }
 
@@ -116,7 +122,7 @@ public class ReminderManager {
      * @param project the project
      */
     public void updateCurrReminder(Project project) {
-        this.currReminder.set("Project: " + project.getName());
+        this.currReminder.set(String.format(PROJECT_REMINDER, project.getName()));
         logger.info("Current reminder updated to:" + currReminder);
     }
 
@@ -135,7 +141,7 @@ public class ReminderManager {
      * Removes the current reminder.
      */
     public void removeReminder() {
-        this.currReminder.set("");
+        this.currReminder.set(EMPTY_STRING);
         logger.info("reminder removed");
     }
 
@@ -148,16 +154,33 @@ public class ReminderManager {
         return this.currReminder;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(obj instanceof ReminderManager)) {
+            return false;
+        }
+
+        ReminderManager other = (ReminderManager) obj;
+        return projectBook.equals(other.projectBook)
+                && currReminder.get().equals(other.currReminder.get());
+    }
+
     private class ReminderTimerTask extends TimerTask {
         private final Project project;
         private final Optional<Task> task;
 
-        public ReminderTimerTask(Project project) {
+        private ReminderTimerTask(Project project) {
             this.project = project;
             this.task = Optional.empty();
         }
 
-        public ReminderTimerTask(Task task, Project project) {
+        private ReminderTimerTask(Task task, Project project) {
             this.project = project;
             this.task = Optional.of(task);
         }

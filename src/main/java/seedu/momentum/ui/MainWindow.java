@@ -156,21 +156,17 @@ public class MainWindow extends UiPart<Stage> {
         projectListPanelPlaceholder.getChildren().add(trackedItemListPanel.getRoot());
     }
 
-    private void initReminderDisplay() {
+    private void initReminderDisplayAndPlaceholder() {
         reminderDisplay = new ReminderDisplay(logic.isReminderEmpty().get(), logic.getReminder().get());
         reminderDisplayPlaceholder.getChildren().add(reminderDisplay.getRoot());
-        reminderDisplayPlaceholder.managedProperty().bind(reminderDisplayPlaceholder.visibleProperty());
+    }
 
-        if (logic.isReminderEmpty().get()) {
-            reminderDisplayPlaceholder.setVisible(false);
-        }
-
+    private void initReminderDisplayListeners() {
         logic.isReminderEmpty().addListener((observable, oldValue, newValue) -> {
             reminderDisplayPlaceholder.getChildren().clear();
             if (!newValue) {
                 reminderDisplayPlaceholder.setVisible(true);
-                reminderDisplay = new ReminderDisplay(logic.isReminderEmpty().get(), logic.getReminder().get());
-                reminderDisplayPlaceholder.getChildren().add(reminderDisplay.getRoot());
+                initReminderDisplayAndPlaceholder();
             } else {
                 reminderDisplayPlaceholder.setVisible(false);
             }
@@ -179,12 +175,22 @@ public class MainWindow extends UiPart<Stage> {
             reminderDisplayPlaceholder.getChildren().clear();
             if (newValue.length() > 0) {
                 reminderDisplayPlaceholder.setVisible(true);
-                reminderDisplay = new ReminderDisplay(logic.isReminderEmpty().get(), logic.getReminder().get());
-                reminderDisplayPlaceholder.getChildren().add(reminderDisplay.getRoot());
+                initReminderDisplayAndPlaceholder();
             } else {
                 reminderDisplayPlaceholder.setVisible(false);
             }
         });
+    }
+
+    private void initReminderDisplay() {
+        reminderDisplayPlaceholder.managedProperty().bind(reminderDisplayPlaceholder.visibleProperty());
+        initReminderDisplayAndPlaceholder();
+
+        if (logic.isReminderEmpty().get()) {
+            reminderDisplayPlaceholder.setVisible(false);
+        }
+
+        initReminderDisplayListeners();
     }
 
     private void initTagDisplay() {

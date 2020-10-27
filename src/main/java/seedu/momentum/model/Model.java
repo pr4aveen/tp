@@ -16,7 +16,7 @@ import seedu.momentum.model.project.TrackedItem;
  */
 public interface Model {
     /**
-     * {@code Predicate} that always evaluate to true
+     * {@code Predicate} that always evaluate to true.
      */
     Predicate<TrackedItem> PREDICATE_SHOW_ALL_TRACKED_ITEMS = unused -> true;
 
@@ -56,7 +56,7 @@ public interface Model {
     void setProjectBook(ReadOnlyProjectBook projectBook);
 
     /**
-     * Returns the ProjectBook
+     * Returns the ProjectBook.
      */
     ReadOnlyProjectBook getProjectBook();
 
@@ -88,12 +88,12 @@ public interface Model {
     void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem);
 
     /**
-     * Returns an unmodifiable view of the filtered project list
+     * Returns an unmodifiable view of the filtered project list.
      */
     ObservableList<TrackedItem> getFilteredTrackedItemList();
 
     /**
-     * Returns a list of projects whose timers are running
+     * Returns a list of projects whose timers are running.
      */
     ObservableList<TrackedItem> getRunningTimers();
 
@@ -157,7 +157,7 @@ public interface Model {
     /**
      * Returns the project that the user is currently viewing.
      *
-     * @return current project that the user is viewing
+     * @return current project that the user is viewing.
      */
     Project getCurrentProject();
 
