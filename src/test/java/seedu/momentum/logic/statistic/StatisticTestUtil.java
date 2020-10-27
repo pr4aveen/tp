@@ -47,7 +47,8 @@ public class StatisticTestUtil {
 
     // Statistics
     public static final PeriodicTotalTimeStatistic TEST_WEEKLY_TIME_PER_PROJECT =
-            new PeriodicTotalTimeStatistic(new StatisticTimeframe(ChronoUnit.WEEKS), ChronoUnit.MINUTES,
+            new PeriodicTotalTimeStatistic(new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY),
+                ChronoUnit.MINUTES,
                     FXCollections.observableArrayList(
                             new StatisticEntry("Alpha", 60),
                             new StatisticEntry("Beta", 0),

@@ -2,7 +2,6 @@ package seedu.momentum.commons.core;
 
 import java.io.Serializable;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -11,36 +10,42 @@ import java.util.Objects;
  */
 public class StatisticTimeframe implements Serializable {
 
-    private static final ChronoUnit DEFAULT_TIMEFRAME = ChronoUnit.WEEKS;
-    private static final ChronoUnit[] ACCEPTED_TIMEFRAMES =
-        new ChronoUnit[] {ChronoUnit.DAYS, ChronoUnit.WEEKS, ChronoUnit.MONTHS};
+    public static final String MESSAGE_CONSTRAINTS =
+        "Timeframe should be either daily, weekly, or monthly";
 
-    private final ChronoUnit timeframe;
+    private Timeframe timeframe;
 
     /**
-     * Constructs a {@code StatisticTimeframe} with the default timeframe.
+     * Empty constructor required by Jackson.
      */
     public StatisticTimeframe() {
-        timeframe = DEFAULT_TIMEFRAME;
     }
 
     /**
      * Constructs a {@code StatisticTimeframe} with the specified timeframe.
      */
-    public StatisticTimeframe(ChronoUnit timeframe) {
-        assert isValidTimeframe(timeframe);
+    public StatisticTimeframe(Timeframe timeframe) {
         this.timeframe = timeframe;
     }
 
     /**
-     * Checks whether the given {@code unit} is an accepted timeframe.
+     * Converts the timeframe to a {@code ChronoUnit}.
      */
-    public boolean isValidTimeframe(ChronoUnit unit) {
-        return Arrays.asList(ACCEPTED_TIMEFRAMES).contains(unit);
+    public ChronoUnit toChronoUnit() {
+        return timeframe == Timeframe.DAILY
+            ? ChronoUnit.DAYS
+            : timeframe == Timeframe.WEEKLY
+            ? ChronoUnit.WEEKS
+            : ChronoUnit.MONTHS;
     }
 
-    public ChronoUnit getTimeframe() {
-        return timeframe;
+    @Override
+    public String toString() {
+        return timeframe == Timeframe.DAILY
+            ? "Daily"
+            : timeframe == Timeframe.WEEKLY
+            ? "Weekly"
+            : "Monthly";
     }
 
     @Override
@@ -62,10 +67,7 @@ public class StatisticTimeframe implements Serializable {
         return Objects.hash(timeframe);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Timeframe : " + timeframe + "\n");
-        return sb.toString();
+    public enum Timeframe {
+        DAILY, WEEKLY, MONTHLY
     }
 }

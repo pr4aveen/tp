@@ -8,7 +8,7 @@ import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
-import seedu.momentum.commons.core.StatisticTimeframe;
+import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.logic.commands.Command;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -109,12 +109,12 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public StatisticTimeframe getStatisticTimeframe() {
-        return model.getStatisticTimeframe();
+    public StatisticTimeframeSettings getStatisticTimeframeSettings() {
+        return model.getStatisticTimeframeSettings();
     }
 
     @Override
-    public void setStatisticTimeframe(StatisticTimeframe statisticTimeframe) {
-        model.setStatisticTimeframe(statisticTimeframe);
+    public void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframe) {
+        model.setStatisticTimeframeSettings(statisticTimeframe);
     }
 }

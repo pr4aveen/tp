@@ -3,6 +3,7 @@ package seedu.momentum.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.logic.parser.CliSyntax.SET_THEME;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import seedu.momentum.commons.core.GuiThemeSettings;
@@ -52,6 +53,7 @@ public class SetCommand extends Command {
 
     public static class SettingsToChange {
         private Theme theme;
+        private ChronoUnit statTimeframe;
 
         public SettingsToChange() {
         }
@@ -67,7 +69,7 @@ public class SetCommand extends Command {
          * Returns true if at least one setting is changed.
          */
         public boolean isAnySettingChanged() {
-            return CollectionUtil.isAnyNonNull(theme);
+            return CollectionUtil.isAnyNonNull(theme, statTimeframe);
         }
 
         public void setTheme(Theme theme) {
@@ -76,6 +78,14 @@ public class SetCommand extends Command {
 
         public Optional<Theme> getTheme() {
             return Optional.ofNullable(theme);
+        }
+
+        public void setStatTimeframe(ChronoUnit statTimeframe) {
+            this.statTimeframe = statTimeframe;
+        }
+
+        public Optional<ChronoUnit> getStatTimeframe() {
+            return Optional.ofNullable(statTimeframe);
         }
     }
 }

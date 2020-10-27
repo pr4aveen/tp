@@ -14,7 +14,6 @@ import seedu.momentum.logic.statistic.StatisticEntry;
  */
 public class StatListPanel extends UiPart<Region> {
     private static final String FXML = "StatListPanel.fxml";
-    private StatisticTimeframe timeframe;
 
     @FXML
     private ListView<StatisticEntry> statListView;
@@ -27,31 +26,9 @@ public class StatListPanel extends UiPart<Region> {
      */
     public StatListPanel(ObservableList<StatisticEntry> statisticList, StatisticTimeframe timeframe) {
         super(FXML);
-        this.timeframe = timeframe;
-        setTitle();
+        title.setText(timeframe + " Time Spent");
         statListView.setItems(statisticList);
         statListView.setCellFactory(listView -> new StatListViewCell());
-    }
-
-    private void setTitle() {
-        String title = " Time Spent";
-
-        switch (timeframe.getTimeframe()) {
-        case DAYS:
-            title = "Daily" + title;
-            break;
-        case WEEKS:
-            title = "Weekly" + title;
-            break;
-        case MONTHS:
-            title = "Monthly" + title;
-            break;
-        default:
-            // Should not reach default block.
-            break;
-        }
-
-        this.title.setText(title);
     }
 
     /**

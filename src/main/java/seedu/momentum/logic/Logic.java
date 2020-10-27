@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
-import seedu.momentum.commons.core.StatisticTimeframe;
+import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
@@ -70,14 +70,14 @@ public interface Logic {
     void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
 
     /**
-     * Return the user prefs' statistic timeframe.
+     * Return the user prefs' statistic timeframe settings.
      */
-    StatisticTimeframe getStatisticTimeframe();
+    StatisticTimeframeSettings getStatisticTimeframeSettings();
 
     /**
-     * Set the user prefs' statistic timeframe.
+     * Set the user prefs' statistic timeframe settings.
      */
-    void setStatisticTimeframe(StatisticTimeframe statisticTimeframe);
+    void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings);
 
     StatisticGenerator getStatistic();
 }

@@ -31,7 +31,7 @@ public class StatisticManager implements StatisticGenerator {
     public StatisticManager(Model model) {
         this.model = model;
         totalTimePerProjectStatistic = new PeriodicTotalTimeStatistic(
-            model.getStatisticTimeframe(), ChronoUnit.MINUTES);
+            model.getStatisticTimeframeSettings().getStatTimeframe(), ChronoUnit.MINUTES);
         statistics = new Statistic[] { totalTimePerProjectStatistic };
         updateStatistics();
     }

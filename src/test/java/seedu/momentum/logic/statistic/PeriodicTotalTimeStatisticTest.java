@@ -24,14 +24,15 @@ class PeriodicTotalTimeStatisticTest {
     @Test
     public void constructor_nullUnits_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () ->
-                new PeriodicTotalTimeStatistic(new StatisticTimeframe(ChronoUnit.WEEKS), null));
+                new PeriodicTotalTimeStatistic(new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY), null));
     }
 
     @Test
     public void calculate_typicalProjects_correctData() {
         Clock.initFixed(TypicalTimes.DAY_ADD_DAY);
         PeriodicTotalTimeStatistic stat =
-                new PeriodicTotalTimeStatistic(new StatisticTimeframe(ChronoUnit.WEEKS), ChronoUnit.MINUTES);
+                new PeriodicTotalTimeStatistic(new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY),
+                    ChronoUnit.MINUTES);
         stat.calculate(TEST_MODEL);
 
         assertEquals(TEST_WEEKLY_TIME_PER_PROJECT, stat);
@@ -41,10 +42,12 @@ class PeriodicTotalTimeStatisticTest {
     public void calculate_notInPeriod_correctData() {
         Clock.initFixed(TypicalTimes.DAY_ADD_YEAR);
         PeriodicTotalTimeStatistic stat =
-                new PeriodicTotalTimeStatistic(new StatisticTimeframe(ChronoUnit.WEEKS), ChronoUnit.MINUTES);
+                new PeriodicTotalTimeStatistic(new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY),
+                    ChronoUnit.MINUTES);
         stat.calculate(TEST_MODEL);
         PeriodicTotalTimeStatistic expectedStat =
-                new PeriodicTotalTimeStatistic(new StatisticTimeframe(ChronoUnit.WEEKS), ChronoUnit.MINUTES,
+                new PeriodicTotalTimeStatistic(new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY),
+                    ChronoUnit.MINUTES,
                         FXCollections.observableArrayList(
                                 new StatisticEntry("Alpha", 0),
                                 new StatisticEntry("Beta", 0),
