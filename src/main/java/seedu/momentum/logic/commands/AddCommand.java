@@ -81,6 +81,7 @@ public class AddCommand extends Command {
                 throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
             }
             projectToAddTask.addTask(taskToAdd);
+            model.rescheduleReminders();
             return new CommandResult(String.format(MESSAGE_SUCCESS, taskToAdd));
         }
     }

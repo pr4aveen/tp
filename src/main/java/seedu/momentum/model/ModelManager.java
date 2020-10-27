@@ -245,7 +245,7 @@ public class ModelManager implements Model {
 
     //=========== Reminders =============================================================
 
-    protected void rescheduleReminders() {
+    public void rescheduleReminders() {
         reminderManager.rescheduleReminder();
     }
 
