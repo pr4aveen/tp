@@ -11,7 +11,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import seedu.momentum.commons.core.LogsCenter;
-import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.VersionedProjectBook;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
