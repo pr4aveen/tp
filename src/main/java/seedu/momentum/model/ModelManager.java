@@ -9,7 +9,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -30,7 +33,7 @@ public class ModelManager implements Model {
     private final VersionedProjectBook versionedProjectBook;
     private final UserPrefs userPrefs;
     private final ReminderManager reminderManager;
-    private final FilteredList<TrackedItem> filteredTrackedItems;
+    private ObjectProperty<FilteredList<TrackedItem>> filteredTrackedItems;
     private final ObservableList<TrackedItem> runningTimers;
     private TrackedItem runningTimer;
     private boolean toAdd;
@@ -67,7 +70,8 @@ public class ModelManager implements Model {
         this.reminderManager = new ReminderManager(this.versionedProjectBook);
         rescheduleReminders();
         this.viewList = FXCollections.observableArrayList();
-        filteredTrackedItems = new FilteredList<>(viewList);
+        filteredTrackedItems = new SimpleObjectProperty<>(new FilteredList<>(viewList, currentPredicate));
+        //filteredTrackedItems = new FilteredList<>(viewList);
         viewProjects();
 
         runningTimers = FXCollections.observableArrayList();
@@ -80,7 +84,7 @@ public class ModelManager implements Model {
     }
 
     private void initializeRunningTimers() {
-        for (TrackedItem trackedItem : filteredTrackedItems) {
+        for (TrackedItem trackedItem : filteredTrackedItems.get()) {
             if (trackedItem.isRunning()) {
                 runningTimers.add(trackedItem);
             }
@@ -185,6 +189,11 @@ public class ModelManager implements Model {
      */
     @Override
     public ObservableList<TrackedItem> getFilteredTrackedItemList() {
+        return filteredTrackedItems.get();
+    }
+
+    @Override
+    public ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList() {
         return filteredTrackedItems;
     }
 
@@ -192,7 +201,7 @@ public class ModelManager implements Model {
     public void updateFilteredProjectList(Predicate<TrackedItem> predicate) {
         requireNonNull(predicate);
         currentPredicate = predicate;
-        filteredTrackedItems.setPredicate(predicate);
+        filteredTrackedItems.get().setPredicate(predicate);
     }
 
     @Override
@@ -209,11 +218,8 @@ public class ModelManager implements Model {
     public void viewProjects() {
         viewMode = ViewMode.PROJECTS;
         logger.log(Level.INFO, "View mode changed to project view");
-        this.viewList.setAll(versionedProjectBook.getTrackedItemList());
-        this.versionedProjectBook.getTrackedItemList().addListener(
-                (ListChangeListener<TrackedItem>) c -> viewList.setAll(versionedProjectBook.getTrackedItemList())
-        );
-
+        viewList = versionedProjectBook.getTrackedItemList();
+        filteredTrackedItems.set(new FilteredList<>(viewList, currentPredicate));
         updateFilteredProjectList(currentPredicate);
     }
 
@@ -223,10 +229,9 @@ public class ModelManager implements Model {
         currentProject = project;
         viewMode = ViewMode.TASKS;
         logger.log(Level.INFO, "View mode changed to task view");
-        this.viewList.setAll(project.getTaskList());
-        project.getTaskList().addListener(
-                (ListChangeListener<TrackedItem>) c -> viewList.setAll(project.getTaskList())
-        );
+        viewList = project.getTaskList();
+        filteredTrackedItems.set(new FilteredList<>(viewList, currentPredicate));
+        updateFilteredProjectList(currentPredicate);
     }
 
     @Override
@@ -237,7 +242,7 @@ public class ModelManager implements Model {
             Project project = (Project) projectItem;
             allItems.addAll(project.getTaskList());
         }
-        this.viewList.setAll(allItems);
+        this.viewList = allItems;
     }
 
     @Override
