@@ -66,7 +66,7 @@ class JsonAdaptedTask {
         completionStatus = source.getCompletionStatus().isCompleted();
         createdDate = source.getCreatedDate().toString();
         deadline = new JsonAdaptedDeadline(source.getDeadline());
-        reminder = source.getReminder().toString();
+        reminder = source.getReminder().isEmpty() ? null : source.getReminder().toString();
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
