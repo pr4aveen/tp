@@ -24,7 +24,7 @@ public class ReminderTest {
 
     private static final DateWrapper VALID_CREATED_DATE_WRAPPER = new DateWrapper("2000-01-01");
     private static final DateTimeWrapper NOW = new DateTimeWrapper("2010-09-23T10:15:30");
-    
+
     private static Reminder emptyReminder;
     private static Reminder reminder;
     private static Reminder laterDateReminder;
@@ -37,7 +37,7 @@ public class ReminderTest {
         laterDateReminder = new Reminder(VALID_LATER_DATE, VALID_CREATED_DATE_WRAPPER);
         laterTimeReminder = new Reminder(VALID_LATER_TIME, VALID_CREATED_DATE_WRAPPER);
     }
-    
+
     @Test
     public void constructor_null_throwsNullPointerException() {
         init();
@@ -112,7 +112,7 @@ public class ReminderTest {
     @Test
     public void compareTo_returnsCorrectValue() {
         init();
-        
+
         // both reminders are empty -> returns 0
         assertEquals(emptyReminder.compareTo(emptyReminder), 0);
 
