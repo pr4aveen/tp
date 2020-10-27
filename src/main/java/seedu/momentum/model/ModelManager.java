@@ -12,9 +12,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
@@ -324,7 +322,7 @@ public class ModelManager implements Model {
         return versionedProjectBook.equals(other.versionedProjectBook)
                 && userPrefs.equals(other.userPrefs)
                 && reminderManager.equals(other.reminderManager)
-                && filteredTrackedItems.equals(other.filteredTrackedItems)
+                && filteredTrackedItems.get().equals(other.filteredTrackedItems.get())
                 && runningTimers.equals(other.runningTimers)
                 //&& runningTimer.equals(other.runningTimer)
                 && viewMode.equals(other.viewMode)

@@ -3,7 +3,6 @@ package seedu.momentum.ui;
 import java.util.logging.Logger;
 
 import javafx.beans.property.ObjectProperty;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;

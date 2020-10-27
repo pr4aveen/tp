@@ -79,7 +79,7 @@ public class AddCommand extends Command {
             model.addTrackedItem(toAdd);
             model.setIsPreviousCommandTimerToFalse();
             model.commitToHistory();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd, TEXT_PROJECT));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, TEXT_PROJECT, toAdd));
         } else {
             if (projectToAddTask.hasTask(taskToAdd)) {
                 throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
@@ -91,7 +91,7 @@ public class AddCommand extends Command {
             model.viewTasks(projectAfterAdd);
             model.setIsPreviousCommandTimerToFalse();
             model.commitToHistory();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, taskToAdd, TEXT_TASK));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, TEXT_TASK, taskToAdd));
         }
     }
 
