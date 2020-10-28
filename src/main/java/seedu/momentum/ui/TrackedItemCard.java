@@ -64,10 +64,10 @@ public class TrackedItemCard extends UiPart<Region> {
 
         setDescriptionLabel(trackedItem);
 
-        completionStatus.setText(trackedItem.getCompletionStatus().toString());
+        completionStatus.setText(" " + trackedItem.getCompletionStatus().toString());
         setCompletionStatusStyle(completionStatus);
 
-        reminderStatus.setText(trackedItem.getReminder().getStatus());
+        reminderStatus.setText(" " + trackedItem.getReminder().getStatus());
         setReminderStatusStyle(reminderStatus);
 
         createdDate.getChildren().add(new Label("Created: " + trackedItem.getCreatedDate().getFormatted()));

@@ -1,7 +1,5 @@
 package seedu.momentum.commons.core;
 
-import java.nio.file.Paths;
-
 import seedu.momentum.MainApp;
 
 /**
