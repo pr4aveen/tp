@@ -11,6 +11,7 @@ It is designed for people that prefer typing, so that frequent tasks can be done
 
 *terminology used*
 
+* Table of Content
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
