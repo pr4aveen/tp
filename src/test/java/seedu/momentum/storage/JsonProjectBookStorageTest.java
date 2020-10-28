@@ -74,7 +74,7 @@ public class JsonProjectBookStorageTest {
 
         // Modify data, overwrite exiting file, and read back
         original.addTrackedItem(HOON);
-        original.renameTrackedItem(ALICE);
+        original.removeTrackedItem(ALICE);
         jsonProjectBookStorage.saveProjectBook(original, filePath);
         readBack = jsonProjectBookStorage.readProjectBook(filePath).get();
         assertEquals(original, new ProjectBook(readBack));

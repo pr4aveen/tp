@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.logic.commands.Command;
@@ -67,13 +71,23 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public BooleanProperty isReminderEmpty() {
+        return model.isReminderEmpty();
+    }
+
+    @Override
+    public StringProperty getReminder() {
+        return model.getReminder();
+    }
+
+    @Override
     public ReadOnlyProjectBook getProjectBook() {
         return model.getProjectBook();
     }
 
     @Override
-    public ObservableList<TrackedItem> getFilteredTrackedItemList() {
-        return model.getFilteredTrackedItemList();
+    public ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList() {
+        return model.getObservableFilteredTrackedItemList();
     }
 
     @Override

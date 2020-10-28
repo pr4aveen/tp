@@ -12,7 +12,7 @@ import seedu.momentum.commons.util.TimeUtil;
  * Represents a time in the project book.
  * Guarantees: immutable; is valid as declared in {@link #isValid(String)}
  */
-public class Time implements Instance<LocalTime>, Comparable<Time> {
+public class TimeWrapper implements InstanceWrapper<LocalTime>, Comparable<TimeWrapper> {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Times should be in ISO8601 format. e.g. 10:15:30";
@@ -20,17 +20,17 @@ public class Time implements Instance<LocalTime>, Comparable<Time> {
     private final LocalTime time;
 
     /**
-     * Constructs a {@code Time}.
+     * Constructs a {@code TimeWrapper}.
      *
-     * @param time A valid Time.
+     * @param time A valid TimeWrapper.
      */
-    public Time(String time) {
+    public TimeWrapper(String time) {
         requireNonNull(time);
         checkArgument(isValid(time), MESSAGE_CONSTRAINTS);
         this.time = LocalTime.parse(time, TimeUtil.FORMAT_DATA);
     }
 
-    public Time(LocalTime time) {
+    public TimeWrapper(LocalTime time) {
         this.time = time;
     }
 
@@ -64,8 +64,8 @@ public class Time implements Instance<LocalTime>, Comparable<Time> {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof Time // instanceof handles nulls
-                && this.time.equals(((Time) other).get())); // state check
+                || (other instanceof TimeWrapper // instanceof handles nulls
+                && this.time.equals(((TimeWrapper) other).get())); // state check
     }
 
     @Override
@@ -74,7 +74,7 @@ public class Time implements Instance<LocalTime>, Comparable<Time> {
     }
 
     @Override
-    public int compareTo(Time other) {
+    public int compareTo(TimeWrapper other) {
         if (this.get().isBefore(other.get())) {
             return -1;
         } else if (this.get().isAfter(other.get())) {

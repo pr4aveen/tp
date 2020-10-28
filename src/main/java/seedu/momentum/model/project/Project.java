@@ -6,9 +6,11 @@ import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Set;
 
 import javafx.collections.ObservableList;
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.model.reminder.Reminder;
+import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.model.tag.Tag;
-import seedu.momentum.model.timer.Timer;
+import seedu.momentum.model.timer.TimerWrapper;
 import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 
@@ -18,92 +20,108 @@ import seedu.momentum.model.timer.WorkDuration;
  */
 public class Project extends TrackedItem {
 
-    private final UniqueTrackedItemList taskList;
+    private UniqueTrackedItemList taskList;
 
     /**
      * Constructs a {@code Project}.
      *
-     * @param name A valid name.
-     * @param description A description of the project.
-     * @param createdDate A date associated with the creation of the project.
-     * @param deadline A deadline associated with the project.
-     * @param tags A set of tags associated to the project.
-     * @param durations A list of {@code WorkDuration} associated with the project.
-     * @param timer A timer associated with the project.
-     * @param taskList UniqueTrackedListList associated with the project.
+     * @param name               A valid name.
+     * @param description        A description of the project.
+     * @param completionStatus   A completion status of the project.
+     * @param createdDateWrapper A dateWrapper associated with the creation of the project.
+     * @param deadline           A deadline associated with the project.
+     * @param reminder           A reminder associated with the tracked item.
+     * @param tags               A set of tags associated to the project.
+     * @param durations          A list of {@code WorkDuration} associated with the project.
+     * @param timerWrapper       A timerWrapper associated with the project.
+     * @param taskList           UniqueTrackedListList associated with the project.
      */
-    public Project(Name name, Description description, Date createdDate, Deadline deadline,
-                   Set<Tag> tags, UniqueDurationList durations, Timer timer, UniqueTrackedItemList taskList) {
-        super(name, description, createdDate, deadline, tags, durations, timer);
+    public Project(Name name, Description description, CompletionStatus completionStatus,
+                   DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder, Set<Tag> tags,
+                   UniqueDurationList durations, TimerWrapper timerWrapper, UniqueTrackedItemList taskList) {
+        super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
+                timerWrapper);
         this.taskList = taskList;
     }
 
     /**
      * Constructs a {@code Project}.
      *
-     * @param name A valid name.
-     * @param description A description of the project.
-     * @param createdDate A date associated with the creation of the project.
-     * @param deadline A deadline associated with the project.
-     * @param tags A set of tags associated to the project.
-     * @param durations A list of {@code WorkDuration} associated with the project.
-     * @param timer A timer associated with the project.
+     * @param name               A valid name.
+     * @param description        A description of the project.
+     * @param completionStatus   A completion status of the project.
+     * @param createdDateWrapper A dateWrapper associated with the creation of the project.
+     * @param deadline           A deadline associated with the project.
+     * @param reminder           A reminder associated with the tracked item.
+     * @param tags               A set of tags associated to the project.
+     * @param durations          A list of {@code WorkDuration} associated with the project.
+     * @param timerWrapper       A timerWrapper associated with the project.
      */
-    public Project(Name name, Description description, Date createdDate, Deadline deadline,
-                   Set<Tag> tags, UniqueDurationList durations, Timer timer) {
-        super(name, description, createdDate, deadline, tags, durations, timer);
+    public Project(Name name, Description description, CompletionStatus completionStatus,
+                   DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder, Set<Tag> tags,
+                   UniqueDurationList durations, TimerWrapper timerWrapper) {
+        super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
+                timerWrapper);
         taskList = new UniqueTrackedItemList();
     }
 
     /**
      * Constructs a new {@code Project}
      *
-     * @param name A valid name.
-     * @param createdDate A date associated with the creation of the project
-     * @param deadline A deadline associated with the project.
-     * @param description A description of the project.
-     * @param tags A set of tags associated to the project.
+     * @param name               A valid name.
+     * @param completionStatus   A completion status of the project.
+     * @param createdDateWrapper A dateWrapper associated with the creation of the project
+     * @param deadline           A deadline associated with the project.
+     * @param reminder           A reminder associated with the tracked item.
+     * @param description        A description of the project.
+     * @param tags               A set of tags associated to the project.
      */
-    public Project(Name name, Description description, Date createdDate, Deadline deadline, Set<Tag> tags) {
-        super(name, description, createdDate, deadline, tags);
+    public Project(Name name, Description description, CompletionStatus completionStatus,
+                   DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder, Set<Tag> tags) {
+        super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags);
         taskList = new UniqueTrackedItemList();
     }
 
     /**
-     * Returns a copy of this project with its timer started.
+     * Returns a copy of this project with its timerWrapper started.
      *
-     * @return A copy of this project, but with its timer started
+     * @return A copy of this project, but with its timerWrapper started
      */
     @Override
     public Project startTimer() {
-        Timer newTimer = timer.start();
-        return new Project(name, description, createdDate, deadline, tags, durations, newTimer, taskList);
+        TimerWrapper newTimerWrapper = timerWrapper.start();
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
+                newTimerWrapper, taskList);
     }
 
     /**
-     * Returns a copy of this project with its timer stopped, then adds the timed duration into
+     * Returns a copy of this project with its timerWrapper stopped, then adds the timed duration into
      * the list.
      *
-     * @return A copy of this project, but with its timer stopped
+     * @return A copy of this project, but with its timerWrapper stopped
      */
     @Override
     public Project stopTimer() {
-        Timer newTimer = timer.stop();
-        WorkDuration duration = new WorkDuration(newTimer.getStartTime(), newTimer.getStopTime());
+        TimerWrapper newTimerWrapper = timerWrapper.stop();
+        WorkDuration duration = new WorkDuration(newTimerWrapper.getStartTime(), newTimerWrapper.getStopTime());
         UniqueDurationList newDurations = new UniqueDurationList();
         newDurations.setDurations(durations);
         newDurations.add(duration);
-        return new Project(name, description, createdDate, deadline, tags, newDurations, newTimer, taskList);
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags,
+                newDurations, newTimerWrapper, taskList);
     }
 
     /**
      * Adds a task in the {@code Project}'s {@code UniqueTrackedItemList}.
      *
      * @param task task to be added.
+     * @return A copy of this project, but with task added.
      */
-    public void addTask(TrackedItem task) {
+    public Project addTask(TrackedItem task) {
         requireNonNull(task);
-        this.taskList.add(task);
+        UniqueTrackedItemList newList = this.taskList.addTask(task);
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
+                tags, durations, timerWrapper, newList);
     }
 
     /**
@@ -120,21 +138,33 @@ public class Project extends TrackedItem {
      * Deletes a task in the {@code Project}'s {@code UniqueTrackedItemList}.
      *
      * @param task task to be deleted.
+     * @return A copy of this project, but with task removed.
      */
-    public void deleteTask(TrackedItem task) {
+    public Project deleteTask(TrackedItem task) {
         requireNonNull(task);
-        taskList.remove(task);
+        UniqueTrackedItemList newList = taskList.removeTask(task);
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
+                tags, durations, timerWrapper, newList);
     }
 
     /**
-     * Edits a task is in the {@code Project}'s {@code UniqueTrackedItemList}.
+     * Edits a task is in the {@code Project}'s {@code UniqueTrackedItemList} and returns new Project.
      *
-     * @param target task to be replaced.
+     * @param target     task to be replaced.
      * @param editedTask task to replace the original task with.
      */
-    public void setTask(TrackedItem target, TrackedItem editedTask) {
+    public Project setTask(TrackedItem target, TrackedItem editedTask) {
         requireAllNonNull(target, editedTask);
-        taskList.setTrackedItem(target, editedTask);
+        UniqueTrackedItemList newTaskList = taskList.setTasks(target, editedTask);
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
+                tags, durations, timerWrapper, newTaskList);
+    }
+
+    /**
+     * Removes all tasks belonging to this project.
+     */
+    public void clearTasks() {
+        taskList = new UniqueTrackedItemList();
     }
 
     public ObservableList<TrackedItem> getTaskList() {
@@ -155,6 +185,34 @@ public class Project extends TrackedItem {
     }
 
     /**
+     * Reschedule all reminders in the task list.
+     */
+    public void rescheduleReminder(ReminderManager reminderManager) {
+        for (TrackedItem task : taskList) {
+            reminderManager.rescheduleReminder(this, (Task) task);
+        }
+    }
+
+    /**
+     * Remove the reminder of a project.
+     */
+    public Project removeReminder() {
+        Reminder newReminder = this.reminder.remove();
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, newReminder, tags,
+                durations, timerWrapper, taskList);
+    }
+
+    /**
+     * Remove the reminder of a trackedItem.
+     */
+    public Project removeReminder(Task task) {
+        Task newTask = task.removeReminder();
+        taskList.setTrackedItem(task, newTask);
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
+                timerWrapper, taskList);
+    }
+
+    /**
      * Returns true if the instance is a Task. Returns false otherwise.
      */
     @Override
@@ -172,6 +230,7 @@ public class Project extends TrackedItem {
             return false;
         }
 
-        return super.equals(other);
+        return super.equals(other)
+                && this.getTaskList().equals(((Project) other).getTaskList());
     }
 }

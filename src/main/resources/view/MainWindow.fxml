@@ -16,14 +16,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<fx:root minHeight="600.0" minWidth="1010.0" onCloseRequest="#handleExit" title="Momentum" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root minHeight="600.0" minWidth="1010.0" onCloseRequest="#handleExit" title="Momentum"
+     type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
    <icons>
       <Image url="@/images/address_book_32.png" />
    </icons>
    <scene>
       <Scene>
          <stylesheets>
-            <URL value="@MomentumLight.css" />
             <URL value="@FontAndLayout.css" />
          </stylesheets>
          <root>
@@ -66,15 +66,17 @@
                                     <Label styleClass="app-logo" text="Momentum" />
                                  </children>
                               </StackPane>
-                              <SplitPane dividerPositions="0.15, 0.3" orientation="VERTICAL" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                              <SplitPane fx:id="sideBarSplitPane" dividerPositions="0.15, 0.3" orientation="VERTICAL"
+                                     GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                 <items>
+                                    <StackPane fx:id="reminderDisplayPlaceholder" styleClass="reminder-box" />
                                     <StackPane fx:id="infoDisplayPlaceholder" styleClass="content-box" />
-                                    <StackPane fx:id="timerListPanelPlaceholder" styleClass="c">
+                                    <StackPane fx:id="timerListPanelPlaceholder" styleClass="content-box">
                                         <children>
                                             <VBox fx:id="timerList" styleClass="content-box" />
                                         </children>
                                     </StackPane>
-                                    <StackPane fx:id="statListPanelPlaceholder" styleClass="c">
+                                    <StackPane fx:id="statListPanelPlaceholder" styleClass="content-box">
                                        <children>
                                           <VBox fx:id="statList" styleClass="content-box" />
                                        </children>

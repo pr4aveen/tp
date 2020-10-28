@@ -13,7 +13,7 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
- * Starts a timer tracking a project identified using it's displayed index.
+ * Starts a timerWrapper tracking a project identified using it's displayed index.
  */
 public class StartCommand extends Command {
 
@@ -31,7 +31,7 @@ public class StartCommand extends Command {
     private final Project parentProject;
 
     /**
-     * Creates a StartCommand that starts the timer for a project.
+     * Creates a StartCommand that starts the timerWrapper for a project.
      *
      * @param targetIndex The project to start.
      */
@@ -41,7 +41,7 @@ public class StartCommand extends Command {
     }
 
     /**
-     * Creates a StartCommand that starts the timer for a task.
+     * Creates a StartCommand that starts the timerWrapper for a task.
      *
      * @param targetIndex The task to start.
      * @param parentProject The parent project of the task.
@@ -69,13 +69,16 @@ public class StartCommand extends Command {
 
         TrackedItem newTrackedItem = trackedItemToStart.startTimer();
         if (model.getViewMode() == ViewMode.PROJECTS) {
-            model.setTrackedItem(trackedItemToStart, newTrackedItem);
+            model.setTrackedItem(ViewMode.PROJECTS, trackedItemToStart, newTrackedItem);
         } else {
             assert parentProject != null;
             parentProject.setTask(trackedItemToStart, newTrackedItem);
         }
 
         model.addRunningTimer(newTrackedItem);
+        model.rescheduleReminders();
+        model.setIsPreviousCommandTimerToTrue();
+        model.commitToHistory();
 
         return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())
                 + newTrackedItem.getTimer().getStartTime().getFormatted());

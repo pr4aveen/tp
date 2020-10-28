@@ -3,7 +3,11 @@ package seedu.momentum.model;
 import java.nio.file.Path;
 import java.util.function.Predicate;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
@@ -13,7 +17,9 @@ import seedu.momentum.model.project.TrackedItem;
  * The API of the Model component.
  */
 public interface Model {
-    /** {@code Predicate} that always evaluate to true */
+    /**
+     * {@code Predicate} that always evaluate to true.
+     */
     Predicate<TrackedItem> PREDICATE_SHOW_ALL_TRACKED_ITEMS = unused -> true;
 
     /**
@@ -49,13 +55,16 @@ public interface Model {
     /**
      * Replaces project book data with the data in {@code projectBook}.
      */
-    void setProjectBook(ReadOnlyProjectBook projectBook);
+    void setVersionedProjectBook(ReadOnlyProjectBook versionedProjectBook);
 
-    /** Returns the ProjectBook */
+    /**
+     * Returns the ProjectBook.
+     */
     ReadOnlyProjectBook getProjectBook();
 
     /**
      * Returns true if a tracked item with the same identity as {@code trackedItem} exists in the project book.
+     *
      * @param trackedItem
      */
     boolean hasTrackedItem(TrackedItem trackedItem);
@@ -78,27 +87,57 @@ public interface Model {
      * The tracked item identity of {@code editedTrackedItem} must not be the same as another existing tracked item in
      * the project book.
      */
-    void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem);
+    void setTrackedItem(ViewMode viewMode, TrackedItem target, TrackedItem editedTrackedItem);
 
-    /** Returns an unmodifiable view of the filtered project list */
+    /**
+     * Returns an unmodifiable view of the filtered project list.
+     */
     ObservableList<TrackedItem> getFilteredTrackedItemList();
 
-    /** Returns a list of projects whose timers are running */
+    ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList();
+
+    /**
+     * Returns a list of projects whose timers are running.
+     */
     ObservableList<TrackedItem> getRunningTimers();
 
     /**
-     * Adds the given project to the running timers list.
-     * {@code project} must have a running timer.
+     * Reschedule all reminders.
+     */
+    void rescheduleReminders();
+
+    /**
+     * Returns true if the reminder is empty, false otherwise.
      *
-     * @param trackedItem item to add a timer to.
+     * @return the boolean.
+     */
+    BooleanProperty isReminderEmpty();
+
+    /**
+     * Returns the string representation of the reminder.
+     *
+     * @return the reminder.
+     */
+    StringProperty getReminder();
+
+    /**
+     * Remove the reminder shown.
+     */
+    void removeReminder();
+
+    /**
+     * Adds the given project to the running timers list.
+     * {@code project} must have a running timerWrapper.
+     *
+     * @param trackedItem item to add a timerWrapper to.
      */
     void addRunningTimer(TrackedItem trackedItem);
 
     /**
      * Removes the given project from the running timers list.
-     * {@code project} must have a running timer.
+     * {@code project} must have a running timerWrapper.
      *
-     * @param trackedItem item to remove timer from.
+     * @param trackedItem item to remove timerWrapper from.
      */
     void removeRunningTimer(TrackedItem trackedItem);
 
@@ -114,7 +153,7 @@ public interface Model {
      *
      * @throws NullPointerException if {@code sortType} is null.
      */
-    void orderFilteredProjectList(SortType sortType, boolean isAscending);
+    void orderFilteredProjectList(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus);
 
     void viewProjects();
 
@@ -127,9 +166,53 @@ public interface Model {
     /**
      * Returns the project that the user is currently viewing.
      *
-     * @return current project that the user is viewing
+     * @return current project that the user is viewing.
      */
     Project getCurrentProject();
 
     ViewMode getViewMode();
+
+
+    //=========== Undo & Redo ================================================================================
+
+    /**
+     * Returns true if model is able to undo command, false otherwise.
+     */
+    boolean canUndoCommand();
+
+    /**
+     * Returns true if model is able to redo undone command, false otherwise.
+     */
+    boolean canRedoCommand();
+
+    /**
+     * Commits current {@code ProjectBook} state to history.
+     */
+    void commitToHistory();
+
+    /**
+     * Undoes command to reset state to previous state in history.
+     */
+    void undoCommand();
+
+    /**
+     * Undoes command to reset view mode to previous view mode.
+     */
+    void resetUi(boolean isUndo, ViewMode viewMode, boolean isPreviousCommandTimer,
+                   Project project, TrackedItem runningTimer, boolean toAdd);
+
+    /**
+     * Resets boolean value to true.
+     */
+    void setIsPreviousCommandTimerToTrue();
+
+    /**
+     * Resets boolean value to false.
+     */
+    void setIsPreviousCommandTimerToFalse();
+
+    /**
+     * Redoes previously undone command to reset state to before undo command.
+     */
+    void redoCommand();
 }

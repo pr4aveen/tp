@@ -3,47 +3,47 @@ package seedu.momentum.model.timer;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-import seedu.momentum.commons.core.DateTime;
+import seedu.momentum.commons.core.DateTimeWrapper;
 
 /**
- * Represents a duration of dateTime spent working on a project.
+ * Represents a duration of dateTimeWrapper spent working on a project.
  * Guarantees: immutable.
  */
 public class WorkDuration {
-    private final DateTime startDateTime;
-    private final DateTime stopDateTime;
+    private final DateTimeWrapper startDateTime;
+    private final DateTimeWrapper stopDateTime;
 
     /**
      * Constructs a {@code WorkDuration}.
      *
-     * @param startDateTime A valid start dateTime.
-     * @param stopDateTime A valid stop dateTime.
+     * @param startDateTime A valid start dateTimeWrapper.
+     * @param stopDateTime A valid stop dateTimeWrapper.
      */
-    public WorkDuration(DateTime startDateTime, DateTime stopDateTime) {
+    public WorkDuration(DateTimeWrapper startDateTime, DateTimeWrapper stopDateTime) {
         this.startDateTime = startDateTime;
         this.stopDateTime = stopDateTime;
     }
 
-    public DateTime getStartTime() {
+    public DateTimeWrapper getStartTime() {
         return startDateTime;
     }
 
-    public DateTime getStopTime() {
+    public DateTimeWrapper getStopTime() {
         return stopDateTime;
     }
 
     /**
-     * Returns the length of dateTime tracked in this duration, in (@code unit) units.
+     * Returns the length of dateTimeWrapper tracked in this duration, in (@code unit) units.
      *
-     * @param unit The units for the length of dateTime.
-     * @return The length of dateTime in the provided units.
+     * @param unit The units for the length of dateTimeWrapper.
+     * @return The length of dateTimeWrapper in the provided units.
      */
     public long getTimeBetween(ChronoUnit unit) {
         return unit.between(startDateTime.get(), stopDateTime.get());
     }
 
     /**
-     * Returns true if both durations have the same start and stop dateTime.
+     * Returns true if both durations have the same start and stop dateTimeWrapper.
      */
     public boolean isSameDuration(WorkDuration otherDuration) {
         if (otherDuration == this) {

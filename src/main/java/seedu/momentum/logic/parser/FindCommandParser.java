@@ -2,6 +2,7 @@ package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.momentum.logic.parser.CliSyntax.FIND_TYPE;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
@@ -17,6 +18,7 @@ import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
@@ -37,9 +39,10 @@ public class FindCommandParser implements Parser<FindCommand> {
      */
     public FindCommand parse(String args, Model model) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_TAG, FIND_TYPE);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS,
+                        PREFIX_TAG, FIND_TYPE);
 
-        Prefix[] prefixesToParse = new Prefix[] {PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_TAG};
+        Prefix[] prefixesToParse = new Prefix[] {PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS, PREFIX_TAG};
 
         if (!argMultimap.getPreamble().isEmpty() || !anyPrefixPresent(argMultimap, prefixesToParse)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
@@ -93,6 +96,11 @@ public class FindCommandParser implements Parser<FindCommand> {
             predicateList.add(new NameContainsKeywordsPredicate(findType, keywords));
         } else if (prefix.equals(PREFIX_DESCRIPTION)) {
             predicateList.add(new DescriptionContainsKeywordsPredicate(findType, keywords));
+        } else if (prefix.equals(PREFIX_COMPLETION_STATUS)) {
+            if (!CompletionStatusPredicate.isValid(keywords)) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+            predicateList.add(new CompletionStatusPredicate(findType, keywords));
         } else if (prefix.equals(PREFIX_TAG)) {
             predicateList.add(new TagListContainsKeywordsPredicate(findType, keywords));
         }

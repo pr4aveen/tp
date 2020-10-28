@@ -1,26 +1,15 @@
 package seedu.momentum.storage;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.exceptions.IllegalValueException;
-import seedu.momentum.model.project.Deadline;
-import seedu.momentum.model.project.Description;
-import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.UniqueTrackedItemList;
-import seedu.momentum.model.tag.Tag;
-import seedu.momentum.model.timer.Timer;
-import seedu.momentum.model.timer.UniqueDurationList;
-import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Jackson-friendly version of {@link Project}.
@@ -31,8 +20,10 @@ class JsonAdaptedProject {
 
     private final String name;
     private final String description;
+    private final boolean completionStatus;
     private final String createdDate;
     private final JsonAdaptedDeadline deadline;
+    private final String reminder;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
     private final List<JsonAdaptedWorkDuration> durations = new ArrayList<>();
     private final JsonAdaptedTimer timer;
@@ -44,16 +35,20 @@ class JsonAdaptedProject {
     @JsonCreator
     public JsonAdaptedProject(@JsonProperty("name") String name,
                               @JsonProperty("description") String description,
-                              @JsonProperty("createdDate") String createdDate,
+                              @JsonProperty("completionStatus") boolean completionStatus,
+                              @JsonProperty("createdDateWrapper") String createdDate,
                               @JsonProperty("deadline") JsonAdaptedDeadline deadline,
+                              @JsonProperty("reminder") String reminder,
                               @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
                               @JsonProperty("durations") List<JsonAdaptedWorkDuration> durations,
                               @JsonProperty("timer") JsonAdaptedTimer timer,
                               @JsonProperty("taskList") List<JsonAdaptedTask> taskList) {
         this.name = name;
         this.description = description;
+        this.completionStatus = completionStatus;
         this.createdDate = createdDate;
         this.deadline = deadline;
+        this.reminder = reminder;
         if (tagged != null) {
             this.tagged.addAll(tagged);
         }
@@ -68,15 +63,19 @@ class JsonAdaptedProject {
 
     public JsonAdaptedProject(String name,
                               String description,
+                              boolean completionStatus,
                               String createdDate,
                               JsonAdaptedDeadline deadline,
+                              String reminder,
                               List<JsonAdaptedTag> tagged,
                               List<JsonAdaptedWorkDuration> durations,
                               JsonAdaptedTimer timer) {
         this.name = name;
         this.description = description;
+        this.completionStatus = completionStatus;
         this.createdDate = createdDate;
         this.deadline = deadline;
+        this.reminder = reminder;
         if (tagged != null) {
             this.tagged.addAll(tagged);
         }
@@ -92,8 +91,10 @@ class JsonAdaptedProject {
     public JsonAdaptedProject(Project source) {
         name = source.getName().fullName;
         description = source.getDescription().value;
+        completionStatus = source.getCompletionStatus().isCompleted();
         createdDate = source.getCreatedDate().toString();
         deadline = new JsonAdaptedDeadline(source.getDeadline());
+        reminder = source.getReminder().isEmpty() ? null : source.getReminder().toString();
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -112,49 +113,18 @@ class JsonAdaptedProject {
      * @throws IllegalValueException if there were any data constraints violated in the adapted tracked item.
      */
     public Project toModelType() throws IllegalValueException {
-        final List<Tag> trackedItemTags = new ArrayList<>();
-        for (JsonAdaptedTag tag : tagged) {
-            trackedItemTags.add(tag.toModelType());
-        }
+        final DateWrapper modelCreatedDateWrapper = JsonToModel.getModelCreatedDate(createdDate);
 
-        if (name == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
-        }
-        if (!Name.isValidName(name)) {
-            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
-        }
-        final Name modelName = new Name(name);
-
-        final Description modelDescription = new Description(description);
-
-        if (!Date.isValid(createdDate)) {
-            throw new IllegalValueException(Date.MESSAGE_CONSTRAINTS);
-        }
-        final Date modelCreatedDate = new Date(createdDate);
-
-        final Deadline modelDeadline = deadline == null ? new Deadline() : deadline.toModelType(modelCreatedDate);
-
-        final Set<Tag> modelTags = new HashSet<>(trackedItemTags);
-
-        final List<WorkDuration> projectDurations = new ArrayList<>();
-        for (JsonAdaptedWorkDuration duration : durations) {
-            projectDurations.add(duration.toModelType());
-        }
-
-        UniqueDurationList modelDurations = new UniqueDurationList();
-        modelDurations.setDurations(projectDurations);
-
-        final Timer modelTimer = timer == null ? new Timer() : timer.toModelType();
-
-        final List<TrackedItem> projectTasks = new ArrayList<>();
-        for (JsonAdaptedTask task : taskList) {
-            projectTasks.add(task.toModelType());
-        }
-        UniqueTrackedItemList modelTasks = new UniqueTrackedItemList();
-        modelTasks.setTrackedItems(projectTasks);
-
-        return new Project(modelName, modelDescription, modelCreatedDate, modelDeadline, modelTags, modelDurations,
-                modelTimer, modelTasks);
+        return new Project(JsonToModel.getModelName(name, MISSING_FIELD_MESSAGE_FORMAT),
+                JsonToModel.getModelDescription(description),
+                JsonToModel.getModelCompletionStatus(completionStatus),
+                modelCreatedDateWrapper,
+                JsonToModel.getModelDeadline(deadline, modelCreatedDateWrapper),
+                JsonToModel.getModelReminder(reminder, modelCreatedDateWrapper),
+                JsonToModel.getModelTags(tagged),
+                JsonToModel.getModelDurations(durations),
+                JsonToModel.getModelTimerWrapper(timer),
+                JsonToModel.getModelTasks(taskList));
     }
 
 }

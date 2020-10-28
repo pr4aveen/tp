@@ -38,6 +38,7 @@ public class MainWindow extends UiPart<Stage> {
     private CommandBox commandBox;
     private ResultDisplay resultDisplay;
     private TrackedItemListPanel trackedItemListPanel;
+    private ReminderDisplay reminderDisplay;
     private TagsDisplay tagsDisplay;
     private TimerListPanel timerListPanel;
     private StatListPanel statListPanel;
@@ -57,6 +58,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane resultDisplayPlaceholder;
+
+    @FXML
+    private StackPane reminderDisplayPlaceholder;
 
     @FXML
     private StackPane statListPanelPlaceholder;
@@ -95,6 +99,7 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Sets the accelerator of a MenuItem.
+     *
      * @param keyCombination the KeyCombination value of the accelerator
      */
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
@@ -130,6 +135,7 @@ public class MainWindow extends UiPart<Stage> {
         initCommandBox();
         initResultDisplay();
         initProjectList();
+        initReminderDisplay();
         initTagDisplay();
         initTimerList();
         initStatList();
@@ -146,8 +152,58 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private void initProjectList() {
-        trackedItemListPanel = new TrackedItemListPanel(logic.getFilteredTrackedItemList());
+        trackedItemListPanel = new TrackedItemListPanel(logic.getObservableFilteredTrackedItemList());
         projectListPanelPlaceholder.getChildren().add(trackedItemListPanel.getRoot());
+    }
+
+    private void initReminderDisplayAndPlaceholder() {
+        reminderDisplay = new ReminderDisplay(logic.isReminderEmpty().get(), logic.getReminder().get());
+        reminderDisplayPlaceholder.getChildren().add(reminderDisplay.getRoot());
+    }
+
+    private void hideReminder() {
+        logger.info("hide reminder");
+        reminderDisplayPlaceholder.setVisible(false);
+        reminderDisplayPlaceholder.setMaxHeight(0);
+    }
+
+    private void showReminder() {
+        logger.info("show reminder");
+        reminderDisplayPlaceholder.setVisible(true);
+        reminderDisplayPlaceholder.setMinHeight(primaryStage.getHeight() / 6);
+    }
+
+    private void initReminderDisplayListeners() {
+        logic.isReminderEmpty().addListener((observable, oldValue, newValue) -> {
+            reminderDisplayPlaceholder.getChildren().clear();
+            if (!newValue) {
+                showReminder();
+                initReminderDisplayAndPlaceholder();
+            } else {
+                hideReminder();
+            }
+        });
+        logic.getReminder().addListener((observable, oldValue, newValue) -> {
+            reminderDisplayPlaceholder.getChildren().clear();
+            if (newValue.length() > 0) {
+                showReminder();
+                initReminderDisplayAndPlaceholder();
+            } else {
+                hideReminder();
+            }
+        });
+    }
+
+    private void initReminderDisplay() {
+        reminderDisplayPlaceholder.managedProperty().bind(reminderDisplayPlaceholder.visibleProperty());
+        initReminderDisplayAndPlaceholder();
+
+        if (logic.isReminderEmpty().get()) {
+            hideReminder();
+        } else {
+            showReminder();
+        }
+        initReminderDisplayListeners();
     }
 
     private void initTagDisplay() {
@@ -155,7 +211,7 @@ public class MainWindow extends UiPart<Stage> {
         infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
 
         // Add a listener to the project list that will update tags when there are changes made to the project list.
-        logic.getFilteredTrackedItemList().addListener(new ListChangeListener<TrackedItem>() {
+        logic.getObservableFilteredTrackedItemList().get().addListener(new ListChangeListener<TrackedItem>() {
             @Override
             public void onChanged(Change<? extends TrackedItem> c) {
                 TagsDisplay newTagsDisplay = new TagsDisplay(logic.getProjectBook().getTrackedItemTags());
