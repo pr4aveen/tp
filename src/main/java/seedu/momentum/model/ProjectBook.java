@@ -24,8 +24,7 @@ import seedu.momentum.model.tag.Tag;
 public class ProjectBook implements ReadOnlyProjectBook {
 
     private static final Logger logger = LogsCenter.getLogger(ProjectBook.class);
-
-    private final UniqueTrackedItemList trackedItems;
+    protected final UniqueTrackedItemList trackedItems;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication

@@ -115,10 +115,13 @@ public class Project extends TrackedItem {
      * Adds a task in the {@code Project}'s {@code UniqueTrackedItemList}.
      *
      * @param task task to be added.
+     * @return A copy of this project, but with task added.
      */
-    public void addTask(TrackedItem task) {
+    public Project addTask(TrackedItem task) {
         requireNonNull(task);
-        this.taskList.add(task);
+        UniqueTrackedItemList newList = this.taskList.addTask(task);
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
+                tags, durations, timerWrapper, newList);
     }
 
     /**
@@ -135,21 +138,26 @@ public class Project extends TrackedItem {
      * Deletes a task in the {@code Project}'s {@code UniqueTrackedItemList}.
      *
      * @param task task to be deleted.
+     * @return A copy of this project, but with task removed.
      */
-    public void deleteTask(TrackedItem task) {
+    public Project deleteTask(TrackedItem task) {
         requireNonNull(task);
-        taskList.remove(task);
+        UniqueTrackedItemList newList = taskList.removeTask(task);
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
+                tags, durations, timerWrapper, newList);
     }
 
     /**
-     * Edits a task is in the {@code Project}'s {@code UniqueTrackedItemList}.
+     * Edits a task is in the {@code Project}'s {@code UniqueTrackedItemList} and returns new Project.
      *
      * @param target     task to be replaced.
      * @param editedTask task to replace the original task with.
      */
-    public void setTask(TrackedItem target, TrackedItem editedTask) {
+    public Project setTask(TrackedItem target, TrackedItem editedTask) {
         requireAllNonNull(target, editedTask);
-        taskList.setTrackedItem(target, editedTask);
+        UniqueTrackedItemList newTaskList = taskList.setTasks(target, editedTask);
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
+                tags, durations, timerWrapper, newTaskList);
     }
 
     public ObservableList<TrackedItem> getTaskList() {
@@ -215,7 +223,7 @@ public class Project extends TrackedItem {
             return false;
         }
 
-        return this.taskList.equals(((Project) other).taskList)
-                && super.equals(other);
+        return super.equals(other)
+                && this.getTaskList().equals(((Project) other).getTaskList());
     }
 }
