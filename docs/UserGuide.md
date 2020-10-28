@@ -98,3 +98,103 @@ Term | Meaning | Example
 `SS`   | Day     | 09
 
 **Valid**: 2020-08-02 
+
+**Invalid**: 2-8-20: Wrong number of digits.
+**Invalid**: 02-08-20: Wrong order of year, month and date.
+**Invalid**: 2nd August 2020: You cannot use text to enter dates.
+
+### Time Terms
+Times should be entered in 24 hour format, in the order `HH:MM:SS`
+
+Term | Meaning | Example
+-----|-------- | -------
+HH   | Hour    | 16
+MM   | Minute  | 52
+SS   | Second  | 03
+ 
+**Valid**: 15-08-02 
+
+**Invalid**: 2-8-20: Wrong number of digits.
+**Invalid**: 02-08-20: Wrong order of year, month and date.
+**Invalid**: 2nd August 2020: You cannot use text to enter dates.
+
+## 2. Features<a name="2-Features"></a>
+
+<!-- ### Viewing help : `help`
+
+Shows a message explaning how to access the help page.
+
+![help message](images/helpMessage.png)
+
+Format: `help` -->
+
+## 3. Projects and Tasks<a name="3-Projects-and-Tasks"></a>
+You can add projects into Momentum to be tracked. Each project has the following information:
+* Name
+* Description
+* Completion Status
+* Deadline Date
+* Deadline Time
+* Reminder
+* Tag
+
+Apart from the name, all other information is optional.
+
+Each project can also contain several tasks, each with the same information as a project.
+
+When you first open Momentum, you will see all the projects being tracked in Momentum. You can then view the tasks for each project seperately.
+
+:::info
+
+**:information_source: Most commands in Momentum will do different things depending on whether you are viewing projects or tasks.**<br>
+Please refer to each command for these differences.
+
+:::
+
+### 3.1 View Projects: `home`<a name="#31-View-Projects-home"></a>
+
+View all the projects being tracked by Momentum.
+This is the default view when Momentum is first opened.
+
+Format: `home`
+
+### 3.2 Viewing a Project's Tasks: `view`<a name="#32-Viewing-a-Project's-Tasks-view"></a>
+View the tasks for a project.
+
+Format: `view ID`
+
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
+
+Example: `view 1`
+
+### 3.3 Creating a Project/Task: `add`
+
+When looking at projects, this command will create a new project. When looking at the tasks in a project, thsi command will create a new task for the project.
+
+Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [r/REMINDER_DATE_TIME] [t/TAG]`
+
+* The project is incomplete by default, adding `/c` will set the completion status to complete. 
+* The format for date of the deadline is YYYY-MM-DD, refer to [Date Terms](#Date-Terms) for more information on YYYY, MM and DD.
+* The format for time of the deadline is HH:MM:SS in 24 hour format, refer to [Time Terms](#Time-Terms) for more information on HH, MM and SS.
+* The date of the deadline cannot be earlier than the creation date of the project.
+* Both date and time is compulsory for a reminder.
+* The format for date and time of the reminder is YYYY-MM-DDTHH:MM:SS, refer to [Date and Time Terms](#Date-and-Time-Terms) for more information on YYYY, MM, DD, HH, MM, and SS. 
+* The date and time of the reminder needs to be later than the current time.
+
+:::info
+:bulb: **Tip:**
+* Projects and tasks can have any number of tags (including 0).
+* A deadline of a project can include time.
+* A project can have an empty description.
+* `T` separates the date and time in a reminder.
+* A reminder will be shown in the Reminder component of the sidebar at the date and time specified.
+* The reminder will be removed after it is shown in the sidebar.
+:::
+
+
+Example: `add n/Momentum d/CS2103T Team Project dd/2020-12-07 dt/11:01:12 r/2020-12-07:11:01:12 t/impt`
+
+Result: Creates a project named “Momentum” with a description “CS2103T Team Project”, a tag "impt", deadline date "2020-10-07" with deadline time "11:01:12" and reminder "2020-10-07T11:01:12".
+
+### 3.4 Editing a Project/Task: `edit`
