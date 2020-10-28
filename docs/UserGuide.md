@@ -298,4 +298,102 @@ Format: `sort type/SORT_TYPE`
 * Since order is not specified, default order is ascending
 
 Example: `sort type/alpha`
-=======
+Result: [Project 1, Project 2, Project 3]
+
+Example: `sort type/deadline`
+Result: [Project 2, Project 1, Project 3]
+
+Example: `sort type/created`
+Result: [Project 1, Project 3, Project 2]
+
+#### Sorting With Only Order Specified 
+
+Format: `sort order/SORT_ORDER`
+
+* Sorts projects in current project order.
+* If there is no existing project order (when the application restarts), order will be alphabetical by default.
+
+Example: `sort order/dsc` (After application restarts for the first time)
+Result: [Project 3, Project 2, Project 1]
+
+Example `sort order/asc` (Current sort type is Deadline)
+Result: [Project 2, Project 1, Project 3]
+
+#### Sorting With Both Type and Order Specified
+
+* Sorts projects in specified type and order.
+* Projects that cannot be ordered in a certain type will be ordered alphabetically.
+
+Example: `sort type/alpha order/dsc`
+Result: [Project 3, Project 2, Project 1]
+
+Example: `sort type/deadline order/asc`
+Result: [Project 2, Project 1, Project 3]
+
+Example: `sort type/created order/dsc`
+Result: [Project 2, Project 3, Project 1]
+
+#### Filtering Projects: `find`
+
+Searches for projects or tasks in the project book based on certain parameters.
+
+Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...] [c/COMPLETION_STATUS]`
+
+* There are two values for the `match` command.
+* `match/all` requires **all** parameters to match their respective entries in the project for it to be shown.
+* `match/any` shows the project as long as any parameter matches the user's input.
+
+:::info
+:bulb: **Tip:**
+You can only search for projects in the project view and tasks in the tasks view
+:::
+
+:::info
+:bulb: **Tip:**
+`match/any` will be used if the `match` type is not specified.
+:::
+
+Example:
+
+If there are 3 projects in the project book:
+
+1. Name: `Create Logo` , Description: `Make logo for startup XYZ`, Tags: `Design`
+2. Name: `Write Song`, Description: `80s rock music, three minutes`, Tags: `Music`
+3. Name: `Write Article`, Description: `Write and article about why Momentum is the best app out there`, Tags: `Press` and `Writing`
+
+* `find match/any n/song article d/startup t/design` will return all three projects. This is because project 1 contains the keyword `startup` in its description and the tag `design`, project 2 contains the keyword `song` in its name and project 3 contains the keyword `article` in its name. 
+* `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** the `startup` in its description and the tag `design`.
+* `find match/any n/write d/rock` will return projects 2 and 3. This is because project 2 contains `write` in its name and `rock` in its description. Project 3 also contains the word `write` in its name.
+* `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name and `rock` in its description. 
+
+##### Searching by name: 
+* The `n/` command checks whether a project has a certain name. There can be multiple names added to this command. For example, `n/car window` will check for the projects that contain `car` or `window` in their names.
+* Searching by name only requires a partial match. This means that a project with the name `carpet` and `car` can potentially be the result of searching for the term `car`.
+
+##### Searching by description: 
+* The `d/` command checks whether a project has a certain description. There can be multiple descriptions added to this command. For example, `d/sunday october` will check for the projects that contain `sunday` or `october` in their description.
+* Searching by description only requires a partial match, similar to searching by name.
+
+##### Searching by tag: 
+* The `t/` command checks whether a project has a certain tag. There can be multiple tags added to this command. For example, `t/freelance errands` will check for the projects that contain the tags `freelance` or `errands`.
+* Searching by tags will require a full word match unlike searching by name or description. This means that searching for the tag `free` will not find a project with the tag `freelance`.
+
+:::info
+:bulb: **Tip:**
+Searches for tags require a full match whilst searches partial matches are sufficient for searches by name and description.
+:::
+
+#### Searching by Completion Status
+
+* There are keywords, completed and incomplete for`c/KEYWORD`. Other keywords are not accepted.
+* The `c/` command checks whether a project is completed. For example, `t/completed` will check for the projects that are completed.
+* When `c/` is not specified, both complete and incomplete projects will be shown.
+
+:::info
+:bulb: **Tip:**
+If a certain search type is used more than once, the latest entry will be used.
+`find n/a n/b n/c` will only search for projets/task that contain`c` in their name.
+:::
+
+## Time Tracking
+You can track the time you spend working on a project by starting a timer when you start working, and then stopping the timer once you finish.
