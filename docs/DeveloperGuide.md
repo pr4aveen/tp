@@ -379,8 +379,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | -------- | ------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------- |
 | `* * *`  | new user                                    | see usage instructions               | refer to instructions when I forget how to use the App                  |
 | `* * *`  | user                                        | add a new project                    |                                                                         |
-| `* * *`  | user                                        | view the project creation dateWrapper                    |                                                                         |
+| `* * *`  | user                                        | view the project creation date                    |  
+| `* * *`  | user                                        | view the project completion status                    |  |
 | `* * *`  | user                                        | add and edit a deadline for a project                    |                                                                         |
+| `* * *`  | user                                        | add and edit a reminder for a project                    |                                                                         |
 | `* * *`  | user                                        | delete a project                     | remove entries that I no longer need                                    |
 | `* * *`  | user                                        | find a project by name               | locate details of projects without having to go through the entire list |
 | `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
