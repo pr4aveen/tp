@@ -109,15 +109,23 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
         }
 
-        if (model.getViewMode() == ViewMode.PROJECTS) {
-            model.setTrackedItem(trackedItemToEdit, editedTrackedItem);
-        } else {
-            parentProject.setTask(trackedItemToEdit, editedTrackedItem);
+        try {
+            if (model.getViewMode() == ViewMode.PROJECTS) {
+                model.setTrackedItem(ViewMode.PROJECTS, trackedItemToEdit, editedTrackedItem);
+            } else {
+                Project projectBeforeEditTask = parentProject;
+                Project projectAfterEditTask = parentProject.setTask(trackedItemToEdit, editedTrackedItem);
+                model.setTrackedItem(ViewMode.TASKS, projectBeforeEditTask, projectAfterEditTask);
+                model.viewTasks(projectAfterEditTask);
+            }
+        } catch (Exception e) {
+            throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
         }
 
         model.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
         model.rescheduleReminders();
-
+        model.setIsPreviousCommandTimerToFalse();
+        model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));
     }
 

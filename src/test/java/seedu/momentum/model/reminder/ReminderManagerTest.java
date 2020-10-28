@@ -14,10 +14,14 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import seedu.momentum.model.ProjectBook;
+import seedu.momentum.model.VersionedProjectBook;
+import seedu.momentum.model.ViewMode;
 
 public class ReminderManagerTest {
     private final ProjectBook projectBookUnmodified = getTypicalProjectBook();
-    private final ReminderManager reminderManagerUnmodified = new ReminderManager(projectBookUnmodified);
+    private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(
+            projectBookUnmodified, ViewMode.PROJECTS, false, null, null, false);
+    private final ReminderManager reminderManagerUnmodified = new ReminderManager(versionedProjectBook);
     private ProjectBook projectBook;
     private ReminderManager reminderManager;
 
@@ -28,7 +32,9 @@ public class ReminderManagerTest {
 
     private void resetProjectBookAndReminderManager() {
         projectBook = getTypicalProjectBook();
-        reminderManager = new ReminderManager(projectBook);
+        VersionedProjectBook versionedProjectBook = new VersionedProjectBook(projectBook, ViewMode.PROJECTS, false,
+                null, null, false);
+        reminderManager = new ReminderManager(versionedProjectBook);
     }
 
     @Test
@@ -86,7 +92,8 @@ public class ReminderManagerTest {
         assertFalse(reminderManager.equals(5));
 
         // different project book -> return false
-        assertFalse(reminderManager.equals(new ReminderManager(new ProjectBook())));
+        assertFalse(reminderManager.equals(new ReminderManager(
+                new VersionedProjectBook(new ProjectBook(), ViewMode.PROJECTS, false, null, null, false))));
 
         // different currReminder
         reminderManager.updateCurrReminder(ALICE);

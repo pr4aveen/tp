@@ -63,7 +63,7 @@ public class LogicManagerTest {
     @Test
     public void execute_validCommand_success() throws Exception {
         String listCommand = ListCommand.COMMAND_WORD;
-        assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
+        assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS_PROJECTS, model);
     }
 
     @Test
@@ -85,6 +85,7 @@ public class LogicManagerTest {
                 .build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addTrackedItem(expectedProject);
+        expectedModel.commitToHistory();
         String expectedMessage = LogicManager.FILE_OPS_ERROR_MESSAGE + DUMMY_IO_EXCEPTION;
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }

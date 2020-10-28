@@ -20,11 +20,15 @@ public class ClearCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         if (model.getViewMode() == ViewMode.PROJECTS) {
-            model.setProjectBook(new ProjectBook());
+            model.setVersionedProjectBook(new ProjectBook());
+            model.setIsPreviousCommandTimerToFalse();
+            model.commitToHistory();
             return new CommandResult(MESSAGE_SUCCESS_ALL);
         } else {
             model.getCurrentProject().clearTasks();
             model.viewTasks(model.getCurrentProject());
+            model.setIsPreviousCommandTimerToFalse();
+            model.commitToHistory();
             return new CommandResult(MESSAGE_SUCCESS_TASK);
         }
     }
