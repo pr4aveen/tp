@@ -73,20 +73,12 @@ public class ModelManager implements Model {
         viewProjects();
 
         runningTimers = FXCollections.observableArrayList();
-        initializeRunningTimers();
+        updateRunningTimers();
 
     }
 
     public ModelManager() {
         this(new ProjectBook(), new UserPrefs());
-    }
-
-    private void initializeRunningTimers() {
-        for (TrackedItem trackedItem : filteredTrackedItems.get()) {
-            if (trackedItem.isRunning()) {
-                runningTimers.add(trackedItem);
-            }
-        }
     }
 
     //=========== UserPrefs ==================================================================================
@@ -286,23 +278,16 @@ public class ModelManager implements Model {
         return runningTimers;
     }
 
-    @Override
-    public void addRunningTimer(TrackedItem trackedItem) {
-        assert (trackedItem.isRunning());
-
-        runningTimers.add(trackedItem);
-        runningTimer = trackedItem;
-        toAdd = false;
-    }
-
-    @Override
-    public void removeRunningTimer(TrackedItem trackedItem) {
-        assert (trackedItem.isRunning());
-        assert (runningTimers.contains(trackedItem));
-
-        runningTimers.remove(trackedItem);
-        runningTimer = trackedItem;
-        toAdd = true;
+    /**
+     * Update the running timers list.
+     */
+    public void updateRunningTimers() {
+        runningTimers.clear();
+        for (TrackedItem trackedItem : filteredTrackedItems.get()) {
+            if (trackedItem.isRunning()) {
+                runningTimers.add(trackedItem);
+            }
+        }
     }
 
     @Override

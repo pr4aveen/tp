@@ -216,7 +216,6 @@ public abstract class TrackedItem {
         return otherTrackedItem.getName().equals(getName())
                 && otherTrackedItem.getDescription().equals(getDescription())
                 && otherTrackedItem.getCompletionStatus().equals(getCompletionStatus())
-                && otherTrackedItem.getCreatedDate().equals(getCreatedDate())
                 && otherTrackedItem.getDeadline().equals(getDeadline())
                 && otherTrackedItem.getReminder().equals(getReminder())
                 && otherTrackedItem.getTags().equals(getTags())
