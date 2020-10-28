@@ -1,0 +1,116 @@
+/* JavaFX CSS native classes */
+
+.background {
+    -fx-font-family: "American Typewriter";
+    -fx-font-size: 16;
+}
+
+.context-menu {
+    -fx-padding: 0;
+}
+
+.text-field {
+    -fx-background-insets: -4 0;
+    -fx-background-radius: 0;
+}
+
+.text-area {
+    -fx-wrap-text: true;
+    -fx-background-radius: 0;
+}
+
+.text-area .content {
+    -fx-background-radius: 0;
+    -fx-cursor: pointer;
+}
+
+.split-pane {
+    -fx-padding: 0 8 8;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-padding: 0 4;
+}
+
+.list-view {
+    -fx-padding: 0;
+}
+
+.separator {
+    -fx-padding: -1000;
+}
+
+.separator .line{
+    -fx-border-width: 0.5;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+}
+
+.scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {
+    -fx-padding: 1 8;
+}
+
+.scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
+    -fx-padding: 8 1;
+}
+
+.corner {
+    -fx-background-insets: 0 -3 -3 0;
+}
+
+/* Custom classes */
+
+.app-logo {
+    -fx-font-size: 40;
+}
+
+.command-box {
+    -fx-padding: 0 8 0 0;
+}
+
+.result-box {
+    -fx-padding: 0 8 8 0;
+}
+
+.content-box-title {
+    -fx-font-size: 20;
+    -fx-min-height: 40;
+}
+
+.project-list {
+    -fx-padding: 0 8 8 0;
+}
+
+.project-list #id, #name {
+    -fx-font-size: 20;
+}
+
+.project-list #name, #description {
+    -fx-padding: 0 8 0 0;
+}
+
+.projectCardContentBox {
+    -fx-padding: 12 8;
+}
+
+#tags {
+    -fx-hgap: 7;
+    -fx-vgap: 3;
+}
+
+#tags .label {
+    -fx-padding: 3 5;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-font-size: 14;
+}
+
+.statLabel {
+    -fx-padding: 0 8 0 0;
+}

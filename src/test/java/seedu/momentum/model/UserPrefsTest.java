@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 public class UserPrefsTest {
 
     @Test
-    public void setGuiSettings_nullGuiSettings_throwsNullPointerException() {
+    public void setGuiWindowSettings_nullGuiWindowSettings_throwsNullPointerException() {
         UserPrefs userPref = new UserPrefs();
-        assertThrows(NullPointerException.class, () -> userPref.setGuiSettings(null));
+        assertThrows(NullPointerException.class, () -> userPref.setGuiWindowSettings(null));
     }
 
     @Test

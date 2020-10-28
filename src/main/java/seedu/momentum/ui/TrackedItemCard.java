@@ -116,7 +116,7 @@ public class TrackedItemCard extends UiPart<Region> {
         String style = STYLE_TEXT;
 
         if (trackedItem.getDeadline().isEmpty()) {
-            style += "-fx-cool-gray-0";
+            style += "-fx-text-muted";
         } else {
             long daysToDeadline = trackedItem.getDeadline().daysToDeadline();
             if (daysToDeadline > 7) {

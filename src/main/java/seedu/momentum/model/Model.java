@@ -8,7 +8,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiThemeSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
+import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
@@ -33,14 +35,34 @@ public interface Model {
     ReadOnlyUserPrefs getUserPrefs();
 
     /**
-     * Returns the user prefs' GUI settings.
+     * Returns the user prefs' GUI window settings.
      */
-    GuiSettings getGuiSettings();
+    GuiWindowSettings getGuiWindowSettings();
 
     /**
-     * Sets the user prefs' GUI settings.
+     * Sets the user prefs' GUI window settings.
      */
-    void setGuiSettings(GuiSettings guiSettings);
+    void setGuiWindowSettings(GuiWindowSettings guiWindowSettings);
+
+    /**
+     * Returns the user prefs' GUI theme settings.
+     */
+    GuiThemeSettings getGuiThemeSettings();
+
+    /**
+     * Sets the user prefs' GUI theme settings.
+     */
+    void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
+
+    /**
+     * Return the user prefs' statistic timeframe settings.
+     */
+    StatisticTimeframeSettings getStatisticTimeframeSettings();
+
+    /**
+     * Set the user prefs' statistic timeframe settings.
+     */
+    void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings);
 
     /**
      * Returns the user prefs' project book file path.

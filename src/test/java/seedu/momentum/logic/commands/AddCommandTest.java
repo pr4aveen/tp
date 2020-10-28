@@ -18,7 +18,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiThemeSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
+import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
@@ -98,12 +100,32 @@ public class AddCommandTest {
         }
 
         @Override
-        public GuiSettings getGuiSettings() {
+        public GuiWindowSettings getGuiWindowSettings() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setGuiSettings(GuiSettings guiSettings) {
+        public void setGuiWindowSettings(GuiWindowSettings guiWindowSettings) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public GuiThemeSettings getGuiThemeSettings() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public StatisticTimeframeSettings getStatisticTimeframeSettings() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings) {
             throw new AssertionError("This method should not be called.");
         }
 

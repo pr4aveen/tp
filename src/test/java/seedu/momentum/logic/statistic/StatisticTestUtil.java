@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javafx.collections.FXCollections;
+import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.ProjectBook;
@@ -46,7 +47,8 @@ public class StatisticTestUtil {
 
     // Statistics
     public static final PeriodicTotalTimeStatistic TEST_WEEKLY_TIME_PER_PROJECT =
-            new PeriodicTotalTimeStatistic(ChronoUnit.WEEKS, ChronoUnit.MINUTES,
+            new PeriodicTotalTimeStatistic(new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY),
+                ChronoUnit.MINUTES,
                     FXCollections.observableArrayList(
                             new StatisticEntry("Alpha", 60),
                             new StatisticEntry("Beta", 0),

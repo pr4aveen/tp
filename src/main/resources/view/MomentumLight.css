@@ -1,0 +1,124 @@
+* {
+    /* Color palette */
+    -fx-cool-white-5: #dae0e4;
+    -fx-cool-white-4: #e8ecef;
+    -fx-cool-white-3: #eff2f4;
+    -fx-cool-white-2: #f6f7f7;
+    -fx-cool-white-1: #fbfbfb;
+    -fx-cool-white-0: #ffffff;
+    -fx-gray: #c0c2c4;
+    -fx-black: #000000;
+    -fx-red: #E24440;
+    -fx-yellow: #F1B028;
+    -fx-green: #3CAF71;
+    -fx-blue: #49A2E8;
+    -fx-purple: #6040B0;
+    -fx-text-primary: -fx-black;
+    -fx-text-muted: -fx-gray;
+    -fx-text-light: -fx-cool-white-0;
+}
+
+/* JavaFX CSS native classes */
+
+.background {
+    -fx-background-color: -fx-cool-white-1;
+}
+
+.label {
+    -fx-text-fill: -fx-text-primary;
+}
+
+.menu-bar {
+    -fx-background-color: -fx-cool-white-5;
+}
+
+.menu-button:hover, .menu-button:focused, .menu-button:showing, .menu-item:hover {
+    -fx-background-color: -fx-blue;
+}
+
+.menu-item {
+    -fx-background-color: -fx-cool-white-3;
+}
+
+.text-field {
+    -fx-background-color: -fx-cool-white-3;
+    -fx-text-fill: -fx-text-primary;
+    -fx-prompt-text-fill: -fx-gray;
+}
+
+.text-area {
+    -fx-background-color: -fx-cool-white-3;
+    -fx-text-fill: -fx-text-primary;
+}
+
+.text-area .content {
+    -fx-background-color: -fx-cool-white-3;
+}
+
+.split-pane {
+    -fx-background-color: -fx-cool-white-1;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: -fx-cool-white-1;
+}
+
+.list-view {
+    -fx-background-color: -fx-cool-white-3;
+}
+
+.list-cell:filled:even {
+    -fx-background-color: -fx-cool-white-4;
+}
+
+.list-cell:filled:odd {
+    -fx-background-color: -fx-cool-white-2;
+}
+
+.list-cell:empty {
+    -fx-background-color: -fx-cool-white-3;
+}
+
+.separator .line{
+    -fx-border-color: -fx-gray;
+}
+
+.scroll-bar {
+    -fx-background-color: -fx-cool-white-3;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: -fx-cool-white-5;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+}
+
+.corner {
+    -fx-background-color: -fx-cool-white-1;
+}
+
+/* Custom classes */
+
+.app-logo {
+    -fx-text-fill: -fx-blue;
+}
+
+.content-box {
+    -fx-background-color: -fx-cool-white-3;
+}
+
+.content-box-title {
+    -fx-background-color: -fx-cool-white-5;
+}
+
+.project-list #id {
+    -fx-fill: -fx-text-primary;
+}
+
+#tags .label {
+    -fx-background-color: -fx-purple;
+    -fx-text-fill: -fx-text-light;
+}
+

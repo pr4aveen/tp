@@ -12,8 +12,10 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiThemeSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.commons.core.Theme;
 import seedu.momentum.logic.Logic;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -30,6 +32,8 @@ public class MainWindow extends UiPart<Stage> {
     private static final String FXML = "MainWindow.fxml";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
+
+    private Theme theme;
 
     private Stage primaryStage;
     private Logic logic;
@@ -82,7 +86,8 @@ public class MainWindow extends UiPart<Stage> {
         this.logic = logic;
 
         // Configure the UI
-        setWindowDefaultSize(logic.getGuiSettings());
+        setWindowDefaultSize(logic.getGuiWindowSettings());
+        setDefaultTheme(logic.getGuiThemeSettings());
 
         setAccelerators();
 
@@ -211,19 +216,16 @@ public class MainWindow extends UiPart<Stage> {
         infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
 
         // Add a listener to the project list that will update tags when there are changes made to the project list.
-        logic.getObservableFilteredTrackedItemList().get().addListener(new ListChangeListener<TrackedItem>() {
-            @Override
-            public void onChanged(Change<? extends TrackedItem> c) {
-                TagsDisplay newTagsDisplay = new TagsDisplay(logic.getProjectBook().getTrackedItemTags());
-                infoDisplayPlaceholder.getChildren().clear();
-                infoDisplayPlaceholder.getChildren().add(newTagsDisplay.getRoot());
-            }
+        logic.getObservableFilteredTrackedItemList().get().addListener((ListChangeListener<TrackedItem>) c -> {
+            TagsDisplay newTagsDisplay = new TagsDisplay(logic.getProjectBook().getTrackedItemTags());
+            infoDisplayPlaceholder.getChildren().clear();
+            infoDisplayPlaceholder.getChildren().add(newTagsDisplay.getRoot());
         });
     }
 
     private void initStatList() {
-        ObservableList<StatisticEntry> stats = logic.getStatistic().getWeeklyTimePerProjectStatistic();
-        statListPanel = new StatListPanel(stats);
+        ObservableList<StatisticEntry> stats = logic.getStatistic().getTimePerProjectStatistic();
+        statListPanel = new StatListPanel(stats, logic.getStatisticTimeframeSettings().getStatTimeframe());
         statListPanelPlaceholder.getChildren().add(statListPanel.getRoot());
     }
 
@@ -233,15 +235,42 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Sets the default size based on {@code guiSettings}.
+     * Sets the default size based on {@code guiWindowSettings}.
      */
-    private void setWindowDefaultSize(GuiSettings guiSettings) {
-        primaryStage.setHeight(guiSettings.getWindowHeight());
-        primaryStage.setWidth(guiSettings.getWindowWidth());
-        if (guiSettings.getWindowCoordinates() != null) {
-            primaryStage.setX(guiSettings.getWindowCoordinates().getX());
-            primaryStage.setY(guiSettings.getWindowCoordinates().getY());
+    private void setWindowDefaultSize(GuiWindowSettings guiWindowSettings) {
+        primaryStage.setHeight(guiWindowSettings.getWindowHeight());
+        primaryStage.setWidth(guiWindowSettings.getWindowWidth());
+        if (guiWindowSettings.getWindowCoordinates() != null) {
+            primaryStage.setX(guiWindowSettings.getWindowCoordinates().getX());
+            primaryStage.setY(guiWindowSettings.getWindowCoordinates().getY());
         }
+    }
+
+    /**
+     * Sets the default theme based on {@code guiThemeSetting}.
+     */
+    private void setDefaultTheme(GuiThemeSettings guiThemeSettings) {
+        this.theme = guiThemeSettings.getTheme();
+        primaryStage.getScene().getStylesheets().add(guiThemeSettings.getTheme().getStylesheet());
+    }
+
+    /**
+     * Updates the application theme with a {@code newTheme}.
+     */
+    public void updateTheme(Theme newTheme) {
+        primaryStage.getScene().getStylesheets().remove(this.theme.getStylesheet());
+        primaryStage.getScene().getStylesheets().add(newTheme.getStylesheet());
+        this.theme = newTheme;
+    }
+
+    /**
+     * Updates the statistic list.
+     */
+    public void updateStatList() {
+        StatListPanel newStatList = new StatListPanel(logic.getStatistic().getTimePerProjectStatistic(),
+            logic.getStatisticTimeframeSettings().getStatTimeframe());
+        statListPanelPlaceholder.getChildren().clear();
+        statListPanelPlaceholder.getChildren().add(newStatList.getRoot());
     }
 
     /**
@@ -265,9 +294,9 @@ public class MainWindow extends UiPart<Stage> {
      */
     @FXML
     private void handleExit() {
-        GuiSettings guiSettings = new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
+        GuiWindowSettings guiWindowSettings = new GuiWindowSettings(primaryStage.getWidth(), primaryStage.getHeight(),
                 (int) primaryStage.getX(), (int) primaryStage.getY());
-        logic.setGuiSettings(guiSettings);
+        logic.setGuiWindowSettings(guiWindowSettings);
         helpWindow.hide();
         primaryStage.hide();
     }

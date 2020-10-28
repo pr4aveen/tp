@@ -32,6 +32,6 @@ class StatisticManagerTest {
         statisticGenerator.updateStatistics();
 
         assertEquals(TEST_WEEKLY_TIME_PER_PROJECT.getDisplayList(),
-                statisticGenerator.getWeeklyTimePerProjectStatistic());
+                statisticGenerator.getTimePerProjectStatistic());
     }
 }
