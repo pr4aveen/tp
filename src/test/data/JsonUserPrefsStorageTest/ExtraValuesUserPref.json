@@ -1,5 +1,5 @@
 {
-  "guiSettings" : {
+  "guiWindowSettings" : {
     "windowWidth" : 1000.0,
     "windowHeight" : 500.0,
     "extra" : "some value ",
@@ -8,6 +8,14 @@
       "y" : 100,
       "z" : 99
     }
+  },
+  "guiThemeSettings" : {
+    "theme" : {
+      "themeType" : "DARK"
+    }
+  },
+  "statisticTimeframe" : {
+    "timeframe" : "WEEKLY"
   },
   "projectBookFilePath" : "projectbook.json"
 }

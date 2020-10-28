@@ -9,7 +9,7 @@
    <children>
       <HBox alignment="CENTER" styleClass="content-box-title">
          <children>
-            <Label text="Time Spent (Weekly)" />
+            <Label fx:id="title" text="\$statListPanelTitle" />
          </children>
       </HBox>
       <ListView fx:id="statListView" />

@@ -7,7 +7,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiThemeSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
+import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
@@ -66,14 +68,34 @@ public interface Logic {
     Path getProjectBookFilePath();
 
     /**
-     * Returns the user prefs' GUI settings.
+     * Returns the user prefs' GUI window settings.
      */
-    GuiSettings getGuiSettings();
+    GuiWindowSettings getGuiWindowSettings();
 
     /**
-     * Set the user prefs' GUI settings.
+     * Set the user prefs' GUI window settings.
      */
-    void setGuiSettings(GuiSettings guiSettings);
+    void setGuiWindowSettings(GuiWindowSettings guiWindowSettings);
+
+    /**
+     * Returns the user prefs' GUI theme settings.
+     */
+    GuiThemeSettings getGuiThemeSettings();
+
+    /**
+     * Set the user prefs' GUI theme settings.
+     */
+    void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
+
+    /**
+     * Return the user prefs' statistic timeframe settings.
+     */
+    StatisticTimeframeSettings getStatisticTimeframeSettings();
+
+    /**
+     * Set the user prefs' statistic timeframe settings.
+     */
+    void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings);
 
     StatisticGenerator getStatistic();
 }

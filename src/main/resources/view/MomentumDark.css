@@ -1,0 +1,121 @@
+* {
+    /* Color palette */
+    -fx-cool-gray-5: #212932;
+    -fx-cool-gray-4: #343F4A;
+    -fx-cool-gray-3: #414c58;
+    -fx-cool-gray-2: #55606c;
+    -fx-cool-gray-1: #5d6a79;
+    -fx-cool-gray-0: #9CA5B0;
+    -fx-white: #E3E6EB;
+    -fx-red: #E24440;
+    -fx-yellow: #F1B028;
+    -fx-green: #3CAF71;
+    -fx-blue: #49A2E8;
+    -fx-purple: #6040B0;
+    -fx-text-primary: -fx-white;
+    -fx-text-muted: -fx-cool-gray-0;
+}
+
+/* JavaFX CSS native classes */
+
+.background {
+    -fx-background-color: -fx-cool-gray-5;
+}
+
+.label {
+    -fx-text-fill: -fx-white;
+}
+
+.menu-bar {
+    -fx-background-color: -fx-cool-gray-4;
+}
+
+.menu-button:hover, .menu-button:focused, .menu-button:showing, .menu-item:hover {
+    -fx-background-color: -fx-blue;
+}
+
+.menu-item {
+    -fx-background-color: -fx-cool-gray-3;
+}
+
+.text-field {
+    -fx-background-color: -fx-cool-gray-2;
+    -fx-text-fill: -fx-white;
+    -fx-prompt-text-fill: -fx-cool-gray-0;
+}
+
+.text-area {
+    -fx-background-color: -fx-cool-gray-2;
+    -fx-text-fill: -fx-white;
+}
+
+.text-area .content {
+    -fx-background-color: -fx-cool-gray-2;
+}
+
+.split-pane {
+    -fx-background-color: -fx-cool-gray-5;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: -fx-cool-gray-5;
+}
+
+.list-view {
+    -fx-background-color: -fx-cool-gray-2;
+}
+
+.list-cell:filled:even {
+    -fx-background-color: -fx-cool-gray-1;
+}
+
+.list-cell:filled:odd {
+    -fx-background-color: -fx-cool-gray-3;
+}
+
+.list-cell:empty {
+    -fx-background-color: -fx-cool-gray-2;
+}
+
+.separator .line{
+    -fx-border-color: -fx-cool-gray-0;
+}
+
+.scroll-bar {
+    -fx-background-color: -fx-cool-gray-2;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: -fx-cool-gray-4;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+}
+
+.corner {
+    -fx-background-color: -fx-cool-gray-5;
+}
+
+/* Custom classes */
+
+.app-logo {
+    -fx-text-fill: -fx-blue;
+}
+
+.content-box {
+    -fx-background-color: -fx-cool-gray-2;
+}
+
+.content-box-title {
+    -fx-background-color: -fx-cool-gray-4;
+}
+
+.project-list #id {
+    -fx-fill: -fx-white;
+}
+
+#tags .label {
+    -fx-background-color: -fx-purple;
+}
+

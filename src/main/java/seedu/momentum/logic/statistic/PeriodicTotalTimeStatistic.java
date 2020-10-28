@@ -10,16 +10,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.DateTimeWrapper;
+import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
- * Tracks the total timeWrapper spent on each project for a specific period of timeWrapper.
+ * Tracks the total timeWrapper spent on each project for a specific timeframe.
  */
 public class PeriodicTotalTimeStatistic extends Statistic {
 
-    private ChronoUnit period;
+    private StatisticTimeframe timeframe;
     private ChronoUnit units;
 
     private ObservableList<StatisticEntry> timeList = FXCollections.observableArrayList();
@@ -27,35 +28,35 @@ public class PeriodicTotalTimeStatistic extends Statistic {
     /**
      * Constructs a {@code PeriodicTotalTimeStatistic}
      *
-     * @param period Period of timeWrapper to track.
+     * @param timeframe Timeframe to track.
      * @param units Units for the total timeWrapper calculated.
      */
-    public PeriodicTotalTimeStatistic(ChronoUnit period, ChronoUnit units) {
-        requireAllNonNull(period, units);
-        this.period = period;
+    public PeriodicTotalTimeStatistic(StatisticTimeframe timeframe, ChronoUnit units) {
+        requireAllNonNull(timeframe, units);
+        this.timeframe = timeframe;
         this.units = units;
     }
 
     /**
      * Constructs a {@code PeriodicTotalTimeStatistic} with specified data.
      *
-     * @param period Period of timeWrapper to track.
+     * @param timeframe Timeframe to track.
      * @param units Units for the total timeWrapper calculated.
      * @param timeList Data for this statistic.
      */
-    public PeriodicTotalTimeStatistic(ChronoUnit period,
+    public PeriodicTotalTimeStatistic(StatisticTimeframe timeframe,
                                       ChronoUnit units,
                                       ObservableList<StatisticEntry> timeList) {
-        requireAllNonNull(period, units, timeList);
-        this.period = period;
+        requireAllNonNull(timeframe, units, timeList);
+        this.timeframe = timeframe;
         this.units = units;
         this.timeList = timeList;
     }
 
     @Override
     public void calculate(Model model) {
-        DateTimeWrapper weekStart = Clock.now().minus(1, period);
-        DateTimeWrapper weekEnd = Clock.now();
+        DateTimeWrapper start = Clock.now().minus(1, timeframe.toChronoUnit());
+        DateTimeWrapper end = Clock.now();
 
         //Only calculate statistics for projects visible to the user
         List<TrackedItem> trackedItems = model.getFilteredTrackedItemList();
@@ -63,7 +64,7 @@ public class PeriodicTotalTimeStatistic extends Statistic {
         timeList.clear();
 
         for (TrackedItem trackedItem : trackedItems) {
-            long totalDuration = calculateTimeSpent(trackedItem, weekStart, weekEnd);
+            long totalDuration = calculateTimeSpent(trackedItem, start, end);
 
             StatisticEntry entry = new StatisticEntry(trackedItem.getName().fullName, totalDuration);
 
@@ -71,7 +72,7 @@ public class PeriodicTotalTimeStatistic extends Statistic {
         }
     }
 
-    private long calculateTimeSpent(TrackedItem trackedItem, DateTimeWrapper weekStart, DateTimeWrapper weekEnd) {
+    private long calculateTimeSpent(TrackedItem trackedItem, DateTimeWrapper start, DateTimeWrapper end) {
         List<WorkDuration> durations = trackedItem.getDurationList();
         long totalDuration = 0;
 
@@ -79,20 +80,25 @@ public class PeriodicTotalTimeStatistic extends Statistic {
             DateTimeWrapper startTime = duration.getStartTime();
             DateTimeWrapper stopTime = duration.getStopTime();
 
-            if (stopTime.isBefore(weekStart) || startTime.isAfter(weekEnd)) {
+            if (stopTime.isBefore(start) || startTime.isAfter(end)) {
                 continue;
             }
 
-            if (startTime.isBefore(weekStart) && stopTime.isBefore(weekEnd)) {
-                // Duration is cut in two by the week
-                totalDuration += DateTimeWrapper.getTimeBetween(weekStart, stopTime, units);
+            if (startTime.isBefore(start) && stopTime.isBefore(end)) {
+                // Duration is cut in two by the timeframe
+                totalDuration += DateTimeWrapper.getTimeBetween(start, stopTime, units);
             } else {
-                // Whole Duration is in the week
+                // Whole Duration is in the timeframe
                 totalDuration += duration.getTimeBetween(units);
             }
         }
 
         return totalDuration;
+    }
+
+    @Override
+    public void setTimeframe(StatisticTimeframe timeframe) {
+        this.timeframe = timeframe;
     }
 
     @Override
@@ -109,13 +115,13 @@ public class PeriodicTotalTimeStatistic extends Statistic {
             return false;
         }
         PeriodicTotalTimeStatistic that = (PeriodicTotalTimeStatistic) o;
-        return period == that.period
+        return timeframe.equals(that.timeframe)
                 && units == that.units
                 && Objects.equals(timeList, that.timeList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(period, timeList);
+        return Objects.hash(timeframe, timeList);
     }
 }

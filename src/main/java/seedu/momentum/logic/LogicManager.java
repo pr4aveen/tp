@@ -9,8 +9,10 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiThemeSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.logic.commands.Command;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -102,12 +104,32 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public GuiSettings getGuiSettings() {
-        return model.getGuiSettings();
+    public GuiWindowSettings getGuiWindowSettings() {
+        return model.getGuiWindowSettings();
     }
 
     @Override
-    public void setGuiSettings(GuiSettings guiSettings) {
-        model.setGuiSettings(guiSettings);
+    public void setGuiWindowSettings(GuiWindowSettings guiWindowSettings) {
+        model.setGuiWindowSettings(guiWindowSettings);
+    }
+
+    @Override
+    public GuiThemeSettings getGuiThemeSettings() {
+        return model.getGuiThemeSettings();
+    }
+
+    @Override
+    public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
+        model.setGuiThemeSettings(guiThemeSettings);
+    }
+
+    @Override
+    public StatisticTimeframeSettings getStatisticTimeframeSettings() {
+        return model.getStatisticTimeframeSettings();
+    }
+
+    @Override
+    public void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframe) {
+        model.setStatisticTimeframeSettings(statisticTimeframe);
     }
 }

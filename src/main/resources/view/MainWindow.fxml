@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Scene?>
 <?import javafx.scene.control.Label?>
@@ -21,7 +22,10 @@
       <Image url="@/images/address_book_32.png" />
    </icons>
    <scene>
-      <Scene stylesheets="@Momentum.css">
+      <Scene>
+         <stylesheets>
+            <URL value="@FontAndLayout.css" />
+         </stylesheets>
          <root>
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" styleClass="background">
                <children>
@@ -34,8 +38,7 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Help">
                            <items>
-                              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false"
-                                    onAction="#handleHelp" text="Help" />
+                              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
                            </items>
                         </Menu>
                      </menus>
@@ -54,8 +57,7 @@
                             <ColumnConstraints hgrow="ALWAYS" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
-                                    prefHeight="56.0" valignment="CENTER" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="56.0" valignment="CENTER" vgrow="SOMETIMES" />
                             <RowConstraints vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
@@ -91,19 +93,16 @@
                             <ColumnConstraints hgrow="ALWAYS" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="56.0"
-                                vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="56.0" vgrow="SOMETIMES" />
                             <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
                             <RowConstraints vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <StackPane fx:id="commandBoxPlaceholder" styleClass="command-box" />
-                              <StackPane fx:id="resultDisplayPlaceholder"
-                                 styleClass="result-box" GridPane.rowIndex="1" />
+                              <StackPane fx:id="resultDisplayPlaceholder" styleClass="result-box" GridPane.rowIndex="1" />
                               <VBox styleClass="project-list" GridPane.rowIndex="2">
                                  <children>
-                                    <StackPane fx:id="projectListPanelPlaceholder" styleClass="pane-with-border"
-                                        VBox.vgrow="ALWAYS" />
+                                    <StackPane fx:id="projectListPanelPlaceholder" styleClass="pane-with-border" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                            </children>

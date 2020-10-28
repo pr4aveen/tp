@@ -9,6 +9,8 @@ import java.util.Set;
 
 import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.StatisticTimeframe;
+import seedu.momentum.commons.core.Theme;
 import seedu.momentum.commons.core.TimeWrapper;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.StringUtil;
@@ -143,5 +145,38 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String theme} into a {@code Theme}.
+     *
+     * @throws ParseException if the given {@code theme} is invalid.
+     */
+    public static Theme parseTheme(String theme) throws ParseException {
+        requireNonNull(theme);
+        String trimmedTheme = theme.trim();
+        try {
+            Theme.ThemeType themeType = Theme.ThemeType.valueOf(trimmedTheme.toUpperCase());
+            return new Theme(themeType);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(Theme.MESSAGE_CONSTRAINTS);
+        }
+    }
+
+    /**
+     * Parses a {@code String statisticTimeframe} into a {@code StatisticTimeframe}.
+     *
+     * @throws ParseException if the give {@code statisticTimeframe} is invalid.
+     */
+    public static StatisticTimeframe parseStatisticTimeframe(String statisticTimeframe) throws ParseException {
+        requireNonNull(statisticTimeframe);
+        String trimmedTimeframe = statisticTimeframe.trim();
+        try {
+            StatisticTimeframe.Timeframe timeframe =
+                StatisticTimeframe.Timeframe.valueOf(trimmedTimeframe.toUpperCase());
+            return new StatisticTimeframe(timeframe);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(StatisticTimeframe.MESSAGE_CONSTRAINTS);
+        }
     }
 }

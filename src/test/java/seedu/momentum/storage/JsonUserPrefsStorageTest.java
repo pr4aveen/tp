@@ -12,7 +12,11 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import seedu.momentum.commons.core.GuiSettings;
+import seedu.momentum.commons.core.GuiThemeSettings;
+import seedu.momentum.commons.core.GuiWindowSettings;
+import seedu.momentum.commons.core.StatisticTimeframe;
+import seedu.momentum.commons.core.StatisticTimeframeSettings;
+import seedu.momentum.commons.core.Theme;
 import seedu.momentum.commons.exceptions.DataConversionException;
 import seedu.momentum.model.UserPrefs;
 
@@ -72,7 +76,7 @@ public class JsonUserPrefsStorageTest {
 
     private UserPrefs getTypicalUserPrefs() {
         UserPrefs userPrefs = new UserPrefs();
-        userPrefs.setGuiSettings(new GuiSettings(1000, 500, 300, 100));
+        userPrefs.setGuiWindowSettings(new GuiWindowSettings(1000, 500, 300, 100));
         userPrefs.setProjectBookFilePath(Paths.get("projectbook.json"));
         return userPrefs;
     }
@@ -103,7 +107,10 @@ public class JsonUserPrefsStorageTest {
     public void saveUserPrefs_allInOrder_success() throws DataConversionException, IOException {
 
         UserPrefs original = new UserPrefs();
-        original.setGuiSettings(new GuiSettings(1200, 200, 0, 2));
+        original.setGuiWindowSettings(new GuiWindowSettings(1200, 200, 0, 2));
+        original.setGuiThemeSettings(new GuiThemeSettings(new Theme(Theme.ThemeType.DARK)));
+        original.setStatisticTimeframeSettings(new StatisticTimeframeSettings(
+            new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY)));
 
         Path pefsFilePath = testFolder.resolve("TempPrefs.json");
         JsonUserPrefsStorage jsonUserPrefsStorage = new JsonUserPrefsStorage(pefsFilePath);
@@ -114,7 +121,10 @@ public class JsonUserPrefsStorageTest {
         assertEquals(original, readBack);
 
         //Try saving when the file exists
-        original.setGuiSettings(new GuiSettings(5, 5, 5, 5));
+        original.setGuiWindowSettings(new GuiWindowSettings(5, 5, 5, 5));
+        original.setGuiThemeSettings(new GuiThemeSettings(new Theme(Theme.ThemeType.LIGHT)));
+        original.setStatisticTimeframeSettings(new StatisticTimeframeSettings(
+            new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY)));
         jsonUserPrefsStorage.saveUserPrefs(original);
         readBack = jsonUserPrefsStorage.readUserPrefs().get();
         assertEquals(original, readBack);

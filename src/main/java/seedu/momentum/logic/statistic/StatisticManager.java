@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import javafx.collections.ObservableList;
+import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.model.Model;
 
 /**
@@ -17,13 +18,9 @@ public class StatisticManager implements StatisticGenerator {
     private Model model;
 
     // Statistics being tracked by the app
-    private Statistic weeklyTotalTimePerProjectStatistic = new PeriodicTotalTimeStatistic(ChronoUnit.WEEKS,
-            ChronoUnit.MINUTES);
-
+    private Statistic totalTimePerProjectStatistic;
     // Maintain an array of the above statistics for easy iteration
-    private Statistic[] statistics = {
-        weeklyTotalTimePerProjectStatistic
-    };
+    private Statistic[] statistics;
 
     /**
      * Constructs a {@code StatisticManager} that tracks statistics form the specified model.
@@ -32,7 +29,9 @@ public class StatisticManager implements StatisticGenerator {
      */
     public StatisticManager(Model model) {
         this.model = model;
-
+        totalTimePerProjectStatistic = new PeriodicTotalTimeStatistic(
+            model.getStatisticTimeframeSettings().getStatTimeframe(), ChronoUnit.MINUTES);
+        statistics = new Statistic[] { totalTimePerProjectStatistic };
         updateStatistics();
     }
 
@@ -55,8 +54,13 @@ public class StatisticManager implements StatisticGenerator {
     }
 
     @Override
-    public ObservableList<StatisticEntry> getWeeklyTimePerProjectStatistic() {
-        return weeklyTotalTimePerProjectStatistic.getDisplayList();
+    public void updateStatisticTimeframe(StatisticTimeframe timeframe) {
+        totalTimePerProjectStatistic.setTimeframe(timeframe);
+    }
+
+    @Override
+    public ObservableList<StatisticEntry> getTimePerProjectStatistic() {
+        return totalTimePerProjectStatistic.getDisplayList();
     }
 
     @Override
@@ -75,7 +79,7 @@ public class StatisticManager implements StatisticGenerator {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(model, weeklyTotalTimePerProjectStatistic);
+        int result = Objects.hash(model, totalTimePerProjectStatistic);
         result = 31 * result + Arrays.hashCode(statistics);
         return result;
     }
