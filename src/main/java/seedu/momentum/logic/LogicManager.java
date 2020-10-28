@@ -60,6 +60,7 @@ public class LogicManager implements Logic {
         }
 
         statistic.updateStatistics();
+        model.updateRunningTimers();
 
         return commandResult;
     }

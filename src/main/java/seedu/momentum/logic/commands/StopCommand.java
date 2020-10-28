@@ -78,7 +78,6 @@ public class StopCommand extends Command {
             parentProject.setTask(trackedItemToStop, newTrackedItem);
         }
 
-        model.removeRunningTimer(trackedItemToStop);
         model.rescheduleReminders();
         model.setIsPreviousCommandTimerToTrue();
         model.commitToHistory();

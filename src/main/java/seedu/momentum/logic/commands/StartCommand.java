@@ -75,7 +75,6 @@ public class StartCommand extends Command {
             parentProject.setTask(trackedItemToStart, newTrackedItem);
         }
 
-        model.addRunningTimer(newTrackedItem);
         model.rescheduleReminders();
         model.setIsPreviousCommandTimerToTrue();
         model.commitToHistory();
