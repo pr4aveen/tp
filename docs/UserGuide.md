@@ -11,7 +11,7 @@ It is designed for people that prefer typing, so that frequent tasks can be done
 
 *terminology used*
 
-[TOC]
+{:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -397,3 +397,171 @@ If a certain search type is used more than once, the latest entry will be used.
 
 ## Time Tracking
 You can track the time you spend working on a project by starting a timer when you start working, and then stopping the timer once you finish.
+
+Momentum remembers each timer that you start/stop and uses this information to calculate statistics.
+
+### Starting a Timer for a Project: `start`
+
+Format: `/start PROJECT_ID`
+
+* Starts a timer for the project at the specified `PROJECT_ID`.
+* Only 1 timer can be running for a project at any time.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
+
+:::info
+:bulb: **Tip:**
+You can run timers for more than one project concurrently, if you are multi-tasking.
+:::
+
+Example: `/start 2`
+
+Result: Starts a timer for the second project in the list.
+
+### Stopping a Timer for a Project: `stop`
+
+Format: `/stop PROJECT_ID`
+
+* Stops a running timer for the project at the specified `PROJECT_ID`.
+* A timer can only be stopped if there is one already running.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
+
+Example: `/stop 2`
+
+Result: Stops the timer for the second project in the list.
+
+## Undo/Redo
+Undo command undoes previous commmand and redo command redoes previously undone command.
+
+### Undoing the Previous Command: `undo`
+The undo command resets the application to the state before previous command was executed.
+
+Format: `/undo`
+
+Example: `start 1`, `undo`
+
+Result: Timer for project/task at index 1 is started, then stopped and removed after undo is executed.
+
+
+### Redoing the Previous Command: `redo`
+The redo command redoes previously undone command and resets the application to the state before the previous undo command.
+
+Format: `/redo`
+
+Example: `sort type/deadline`, `undo`, `redo`
+
+Result: Projects are sorted by deadline, then the application is reset to the sorting order before sort command was executed, then reset back to sort by deadline after redo command.
+
+:::info
+:bulb: **Tip:**
+* Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.
+* Redo command only works if there the previous command is `undo`.
+:::
+
+## Statistics
+Statistics are automatically generated and updated whenever projects are 
+added/deleted/changed, and when timers are started/stopped. They can be seen in the bottom left of the window. You do not need to use any additional commands to update or view statistics.
+
+Here are the statistics being tracked by Momentum:
+### Time Spent Per Project
+This statistic tells you the total amount of time you have spent within a timeframe. By default, the timeframe will be set to weekly. You can change the timeframe through the [settings](#settings).
+
+## Settings
+You can adjust various settings in Momentum, which for now includes:
+* GUI Theme
+* Statistic Timeframe
+
+Format: `set [th/THEME] [st/TIMEFRAME]`
+* At least one of the optional fields must be provided.
+* There are two GUI themes available, light and dark. The commands to apply them are:
+    * `th/light`
+    * `th/dark`
+* There are three available timeframes for statistics, daily, weekly and monthly. The commands to apply them are:
+    * `st/daily`
+    * `st/weekly`
+    * `st/monthly`
+
+Example: `set th/dark st/daily`
+Result: Sets a dark theme to the GUI and changes the statistics pane to show the time spent on projects within the day.
+
+
+## Clear All Projects/Tasks : `clear`
+Removes all projects and tasks in Momentum.
+
+:::danger
+:warning: **Warning**
+This will remove **everything** in Momentum, including all saved data.
+:::
+
+Format: `clear`
+
+## Show and Hide SideBar Components : `show`
+You can hide or show compoenents in the sidebar.
+
+The sidebar has four components:
+
+* Reminder
+* Tags
+* Timers
+* Time Spent
+
+Currently, only the Reminder component is supported.
+
+Format: `show [r/]`
+* At least one of the optional fields must be provided.
+* `r/` would dismiss the reminder by hiding the reminder component.
+
+Example: `show r/`
+Result: Hides the Reminder component of the sidebar.
+
+:::danger
+:warning: **Warning**
+A reminder that has been dismissed cannot be shown again.
+:::
+
+## Exiting the Program : `exit`
+All project, task and timer data are saved automatically after every command. There is no need to save manually.
+
+You can find the saved data in the following file in the same location where Momentum is located: `data/projectbook.json`
+
+Format: `exit`
+
+Result: Exits the program.
+
+--------------------------------------------------------------------------------------------------------------------
+
+## FAQ
+
+**Q**: How do I transfer my data to another Computer? <br>
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Momentum home folder.
+
+--------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Glossary
+
+Term | Meaning
+-----|--------
+GUI  | Stands for Graphical User Inferface. It is the interface of the application which you would interact with. 
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Command Summary
+
+Action | Format | Example
+--------|-------|-----------
+**View tasks in a project**| `view ID` |`view 3`
+**View all projects**| `home` | `home `
+**Create new project/task** | `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]​`|  `project n/Momentum d/CS2103T Team Project dd/2020-12-07 t/impt`
+**Edit existing project/task** | `edit ID n/NAME [d/DESCRIPTION] [c/]  [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`| `edit 3 n/NewMomentum d/NewDescription dl/2020-12-07 r/2020-12-07T01:21:21 t/normal`
+**Delete a project/task** | `delete ID` | `delete 3`
+**Find a project/task** | `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...]  [c/]`  | `find match/any n/Momentum d/new t/normal`
+**Show All projects/tasks** | `list` | `list`
+**Start Timer** | `start ID` | `start 2`
+**Stop Timer** | `stop ID` | `stop 2`
+**Undo/redo** | `undo` | `redo`
+**Show and Hide Sidebar Components** | `show [r/]` | `show r/`
+**Settings** | `set [th/THEME] [st/TIMEFRAME]` | `set th/dark st/daily`
+**Exit** | `exit` | `exit`
