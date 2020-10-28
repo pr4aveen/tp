@@ -170,7 +170,7 @@ public class MainWindow extends UiPart<Stage> {
     private void showReminder() {
         logger.info("show reminder");
         reminderDisplayPlaceholder.setVisible(true);
-        reminderDisplayPlaceholder.setMinHeight(primaryStage.getHeight() / 9);
+        reminderDisplayPlaceholder.setMinHeight(primaryStage.getHeight() / 6);
     }
 
     private void initReminderDisplayListeners() {
