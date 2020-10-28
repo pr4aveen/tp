@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 public class Theme {
 
     public static final String MESSAGE_CONSTRAINTS =
-        "Theme should either be light or dark.";
+        "Theme should either be 'light' or 'dark'.";
 
     private ThemeType themeType;
 

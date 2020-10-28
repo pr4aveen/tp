@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A Serializable class that contains the {@code Statistic} timeframe settings.
+ * A Serializable class that contains the {@code StatisticTimeframe} settings.
  * Guarantees: immutable.
  */
 public class StatisticTimeframeSettings implements Serializable {

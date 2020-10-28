@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import javafx.collections.ObservableList;
+import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.model.Model;
 
 /**
@@ -19,9 +20,7 @@ public class StatisticManager implements StatisticGenerator {
     // Statistics being tracked by the app
     private Statistic totalTimePerProjectStatistic;
     // Maintain an array of the above statistics for easy iteration
-    private Statistic[] statistics = {
-        totalTimePerProjectStatistic
-    };
+    private Statistic[] statistics;
 
     /**
      * Constructs a {@code StatisticManager} that tracks statistics form the specified model.
@@ -52,6 +51,11 @@ public class StatisticManager implements StatisticGenerator {
         for (Statistic statistic : statistics) {
             statistic.calculate(model);
         }
+    }
+
+    @Override
+    public void updateStatisticTimeframe(StatisticTimeframe timeframe) {
+        totalTimePerProjectStatistic.setTimeframe(timeframe);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package seedu.momentum.logic.statistic;
 
 import javafx.collections.ObservableList;
+import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.model.Model;
 
 /**
@@ -14,5 +15,10 @@ public abstract class Statistic {
      * @param model The data required to calculate the statistic.
      */
     public abstract void calculate(Model model);
+
+    /**
+     * Sets the timeframe of the statistic tracked.
+     */
+    public abstract void setTimeframe(StatisticTimeframe statisticTimeframe);
     public abstract ObservableList<StatisticEntry> getDisplayList();
 }

@@ -1,8 +1,8 @@
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.momentum.logic.parser.CliSyntax.SET_THEME;
 import static seedu.momentum.logic.parser.CliSyntax.SET_STATISTIC_TIMEFRAME;
+import static seedu.momentum.logic.parser.CliSyntax.SET_THEME;
 
 import java.util.Optional;
 
@@ -11,8 +11,7 @@ import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.commons.core.Theme;
 import seedu.momentum.commons.util.CollectionUtil;
-import seedu.momentum.logic.commands.exceptions.CommandException;
-import seedu.momentum.logic.parser.exceptions.ParseException;
+import seedu.momentum.logic.SettingsUpdateManager;
 import seedu.momentum.model.Model;
 
 /**
@@ -27,8 +26,7 @@ public class SetCommand extends Command {
         + "[" + SET_THEME + "THEME]"
         + "[" + SET_STATISTIC_TIMEFRAME + "TIMEFRAME]";
 
-    public static final String MESSAGE_EDIT_PROJECT_SUCCESS =
-        "Settings updated. A restart is needed for the new settings to take effect.";
+    public static final String MESSAGE_UPDATE_SETTINGS_SUCCESS = "Settings updated.";
     public static final String MESSAGE_NOT_CHANGED = "At least one setting must be changed.";
 
     private final SettingsToChange settingsToChange;
@@ -44,19 +42,23 @@ public class SetCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException, ParseException {
+    public CommandResult execute(Model model) {
         requireNonNull(model);
 
         if (settingsToChange.getTheme().isPresent()) {
-            model.setGuiThemeSettings(new GuiThemeSettings(settingsToChange.getTheme().get()));
+            Theme newTheme = settingsToChange.getTheme().get();
+            model.setGuiThemeSettings(new GuiThemeSettings(newTheme));
+            SettingsUpdateManager.updateTheme(newTheme);
         }
 
         if (settingsToChange.getStatTimeframe().isPresent()) {
+            StatisticTimeframe newTimeframe = settingsToChange.getStatTimeframe().get();
             model.setStatisticTimeframeSettings(new StatisticTimeframeSettings(
                 settingsToChange.getStatTimeframe().get()));
+            SettingsUpdateManager.updateStatisticTimeframe(newTimeframe);
         }
 
-        return new CommandResult(MESSAGE_EDIT_PROJECT_SUCCESS);
+        return new CommandResult(MESSAGE_UPDATE_SETTINGS_SUCCESS);
     }
 
     public static class SettingsToChange {

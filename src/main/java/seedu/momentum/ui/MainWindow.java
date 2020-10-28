@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.commons.core.Theme;
 import seedu.momentum.logic.Logic;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -31,6 +32,8 @@ public class MainWindow extends UiPart<Stage> {
     private static final String FXML = "MainWindow.fxml";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
+
+    private Theme theme;
 
     private Stage primaryStage;
     private Logic logic;
@@ -191,7 +194,27 @@ public class MainWindow extends UiPart<Stage> {
      * Sets the default theme based on {@code guiThemeSetting}.
      */
     private void setDefaultTheme(GuiThemeSettings guiThemeSettings) {
+        this.theme = guiThemeSettings.getTheme();
         primaryStage.getScene().getStylesheets().add(guiThemeSettings.getTheme().getStylesheet());
+    }
+
+    /**
+     * Updates the application theme with a {@code newTheme}.
+     */
+    public void updateTheme(Theme newTheme) {
+        primaryStage.getScene().getStylesheets().remove(this.theme.getStylesheet());
+        primaryStage.getScene().getStylesheets().add(newTheme.getStylesheet());
+        this.theme = newTheme;
+    }
+
+    /**
+     * Updates the statistic list.
+     */
+    public void updateStatList() {
+        StatListPanel newStatList = new StatListPanel(logic.getStatistic().getTimePerProjectStatistic(),
+            logic.getStatisticTimeframeSettings().getStatTimeframe());
+        statListPanelPlaceholder.getChildren().clear();
+        statListPanelPlaceholder.getChildren().add(newStatList.getRoot());
     }
 
     /**

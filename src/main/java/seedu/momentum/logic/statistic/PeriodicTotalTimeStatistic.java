@@ -97,6 +97,11 @@ public class PeriodicTotalTimeStatistic extends Statistic {
     }
 
     @Override
+    public void setTimeframe(StatisticTimeframe timeframe) {
+        this.timeframe = timeframe;
+    }
+
+    @Override
     public ObservableList<StatisticEntry> getDisplayList() {
         return timeList;
     }

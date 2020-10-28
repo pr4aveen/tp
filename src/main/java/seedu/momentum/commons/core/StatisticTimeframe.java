@@ -5,13 +5,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 /**
- * A Serializable class that contains the {@code Statistic} timeframe settings.
- * Guarantees: immutable.
+ * Timeframe of statistics tracked.
  */
 public class StatisticTimeframe implements Serializable {
 
     public static final String MESSAGE_CONSTRAINTS =
-        "Timeframe should be either daily, weekly, or monthly";
+        "Timeframe should be either 'daily', 'weekly', or 'monthly'.";
 
     private Timeframe timeframe;
 

@@ -15,6 +15,7 @@ import seedu.momentum.commons.util.ConfigUtil;
 import seedu.momentum.commons.util.StringUtil;
 import seedu.momentum.logic.Logic;
 import seedu.momentum.logic.LogicManager;
+import seedu.momentum.logic.SettingsUpdateManager;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.ProjectBook;
@@ -66,6 +67,8 @@ public class MainApp extends Application {
         logic = new LogicManager(model, storage);
 
         ui = new UiManager(logic);
+
+        SettingsUpdateManager.initSettingsUpdateManager(ui, logic.getStatistic());
     }
 
     /**
