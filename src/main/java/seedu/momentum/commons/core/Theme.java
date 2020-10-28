@@ -1,6 +1,6 @@
 package seedu.momentum.commons.core;
 
-import java.nio.file.Paths;
+import seedu.momentum.MainApp;
 
 /**
  * UI theme of the application.
@@ -33,7 +33,7 @@ public class Theme {
             ? "MomentumLight.css"
             : "MomentumDark.css";
 
-        return Paths.get("view", stylesheetName).toString();
+        return MainApp.class.getResource("/view/" + stylesheetName).toString();
     }
 
 
