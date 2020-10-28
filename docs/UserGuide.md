@@ -74,9 +74,9 @@ Create a project to be tracked by the application.
 
 Format: `project n/NAME [d/DESCRIPTION] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [t/TAG]`
 
-* The format for date of the deadline is YYYY-MM-DD, where YYYY denotes year, MM denotes month, and DD denotes day.
+* The format for dateWrapper of the deadline is YYYY-MM-DD, where YYYY denotes year, MM denotes month, and DD denotes day.
 * The format for time of the deadline is HH-MM-SS in 24 hour format, where HH denotes hour, MM denotes minute, and SS denotes second.
-* The date of the deadline cannot be earlier than the creation date of the project.
+* The dateWrapper of the deadline cannot be earlier than the creation dateWrapper of the project.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A project can have any number of tags (including 0)
@@ -103,9 +103,9 @@ Format: `edit PROJECT_ID [n/NAME] [d/DESCRIPTION] [dd/DEADLINE_DATE [dt/DEADLINE
 * Edits the project at the specified `PROJECT_ID`.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
-* The format for date of the deadline is YYYY-MM-DD, where YYYY denotes year, MM denotes month, and DD denotes day.
+* The format for dateWrapper of the deadline is YYYY-MM-DD, where YYYY denotes year, MM denotes month, and DD denotes day.
 * The format for time of the deadline is HH-MM-SS in 24 hour format, where HH denotes hour, MM denotes minute, and SS denotes second.
-* The date of the deadline cannot be earlier than the creation date of the project.
+* The dateWrapper of the deadline cannot be earlier than the creation dateWrapper of the project.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * Removing a description or deadline by typing `d/` or `dd/` without specifying anything after it.
@@ -147,7 +147,7 @@ Format: `sort [type/SORT_TYPE] [order/SORT_ORDER]`
 * There are 3 types of sort.
     * `type/alpha` will sort the list of projects in alphabetical order.
     * `type/deadline` will sort the list of projects according to their deadlines.
-    * `type/created` will sort the list of projects according to their date of creation.
+    * `type/created` will sort the list of projects according to their dateWrapper of creation.
     
 * There are 2 sort orders.
     * `sort/asc` will sort the list of projects in ascending order.
@@ -167,7 +167,7 @@ Current sort type will be used if the `type` is not specified but `order` is spe
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 For `sort type/deadline`, projects without deadlines will be ordered alphabetically after the ordered list of projects with deadlines.
-For both `sort type/deadline` and `sort type/created`, projects with same deadline or same created date will be sorted alphabetically.
+For both `sort type/deadline` and `sort type/created`, projects with same deadline or same created dateWrapper will be sorted alphabetically.
 </div>
 
 Example:
@@ -297,40 +297,40 @@ Searches for tags require a full match whilst searches partial matches are suffi
 </div>
 
 #### Record the Time Spent On a Project: `start` / `stop`
-You can record the time you spend working on a project by starting a timer when you start working, and then stopping
- the timer once you finish.
+You can record the time you spend working on a project by starting a timerWrapper when you start working, and then stopping
+ the timerWrapper once you finish.
 
 ##### Starting a Timer for a Project: `start`
 
 Format: `/start PROJECT_ID`
 
-* Starts a timer for the project at the specified `PROJECT_ID`.
-* Only 1 timer can be running for a project at any time.
+* Starts a timerWrapper for the project at the specified `PROJECT_ID`.
+* Only 1 timerWrapper can be running for a project at any time.
 * Timers for different projects can run concurrently.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
 Example: `/start 2`
 
-Result: Starts a timer for the second project in the list.
+Result: Starts a timerWrapper for the second project in the list.
 
 ##### Stopping a Timer for a Project: `stop`
 
 Format: `/stop PROJECT_ID`
 
-* Stops a running timer for the project at the specified `PROJECT_ID`.
-* A timer can only be stopped if there is one already running.
+* Stops a running timerWrapper for the project at the specified `PROJECT_ID`.
+* A timerWrapper can only be stopped if there is one already running.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
 Example: `/stop 2`
 
-Result: Stops the timer for the second project in the list.
+Result: Stops the timerWrapper for the second project in the list.
 
 ##### Things to note:
-1. If you are working on more than 1 project at the same time, you can start a seperate timer for each project.
-2. However, you cannot start more than 1 timer for the same project.
-3. Momentum tracks and remembers the time recorded by the timer. This data is used to generate statistics for your
+1. If you are working on more than 1 project at the same time, you can start a seperate timerWrapper for each project.
+2. However, you cannot start more than 1 timerWrapper for the same project.
+3. Momentum tracks and remembers the time recorded by the timerWrapper. This data is used to generate statistics for your
  time usage.
 
 #### Statistics

@@ -4,14 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.momentum.commons.core.Clock;
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
-import seedu.momentum.model.timer.Timer;
+import seedu.momentum.model.timer.TimerWrapper;
 import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 import seedu.momentum.model.util.SampleDataUtil;
@@ -29,11 +31,13 @@ public class ProjectBuilder {
 
     private Name name;
     private Description description;
-    private Date createdDate;
+    private CompletionStatus completionStatus;
+    private DateWrapper createdDateWrapper;
     private Deadline deadline;
+    private Reminder reminder;
     private Set<Tag> tags;
     private UniqueDurationList durations;
-    private Timer timer;
+    private TimerWrapper timerWrapper;
 
     /**
      * Creates a {@code ProjectBuilder} with the default details.
@@ -41,27 +45,31 @@ public class ProjectBuilder {
     public ProjectBuilder() {
         name = new Name(DEFAULT_NAME);
         description = new Description(DEFAULT_DESCRIPTION);
-        createdDate = new Date(DEFAULT_CREATED_DATE);
-        deadline = new Deadline(DEFAULT_DEADLINE_DATE, DEFAULT_DEADLINE_TIME, createdDate);
+        completionStatus = new CompletionStatus();
+        createdDateWrapper = new DateWrapper(DEFAULT_CREATED_DATE);
+        deadline = new Deadline(DEFAULT_DEADLINE_DATE, DEFAULT_DEADLINE_TIME, createdDateWrapper);
+        reminder = new Reminder();
         tags = new HashSet<>();
         durations = new UniqueDurationList();
-        timer = new Timer();
+        timerWrapper = new TimerWrapper();
     }
 
     /**
      * Initializes the ProjectBuilder with the data of {@code projectToCopy}.
      */
-    public ProjectBuilder(TrackedItem projectToCopy) {
-        name = projectToCopy.getName();
-        description = projectToCopy.getDescription();
-        createdDate = projectToCopy.getCreatedDate();
-        deadline = projectToCopy.getDeadline();
-        tags = new HashSet<>(projectToCopy.getTags());
+    public ProjectBuilder(TrackedItem trackedItemToCopy) {
+        name = trackedItemToCopy.getName();
+        description = trackedItemToCopy.getDescription();
+        completionStatus = trackedItemToCopy.getCompletionStatus();
+        createdDateWrapper = trackedItemToCopy.getCreatedDate();
+        deadline = trackedItemToCopy.getDeadline();
+        reminder = trackedItemToCopy.getReminder();
+        tags = new HashSet<>(trackedItemToCopy.getTags());
         durations = new UniqueDurationList();
-        for (WorkDuration duration : projectToCopy.getDurationList()) {
+        for (WorkDuration duration : trackedItemToCopy.getDurationList()) {
             durations.add(duration);
         }
-        timer = projectToCopy.getTimer();
+        timerWrapper = trackedItemToCopy.getTimer();
     }
 
     /**
@@ -81,6 +89,14 @@ public class ProjectBuilder {
     }
 
     /**
+     * Sets the {@code CompletionStatus} of the {@code Project} that we are building.
+     */
+    public ProjectBuilder withCompletionStatus(CompletionStatus completionStatus) {
+        this.completionStatus = completionStatus;
+        return this;
+    }
+
+    /**
      * Sets the {@code Description} of the {@code Project} that we are building to an empty string.
      */
     public ProjectBuilder withEmptyDescription() {
@@ -89,10 +105,10 @@ public class ProjectBuilder {
     }
 
     /**
-     * Sets the {@code CreatedDate} of the {@code Project} that we are building with current date.
+     * Sets the {@code createdDateWrapper} of the {@code Project} that we are building with current date.
      */
     public ProjectBuilder withCurrentCreatedDate() {
-        this.createdDate = new Date(Clock.now().getDate());
+        this.createdDateWrapper = new DateWrapper(Clock.now().getDate());
         return this;
     }
 
@@ -100,7 +116,7 @@ public class ProjectBuilder {
      * Sets the {@code CreatedDate} of the {@code Project} that we are building.
      */
     public ProjectBuilder withCreatedDate(String createdDate) {
-        this.createdDate = new Date(createdDate);
+        this.createdDateWrapper = new DateWrapper(createdDate);
         return this;
     }
 
@@ -116,7 +132,7 @@ public class ProjectBuilder {
      * Sets the {@code Deadline} of the {@code Project} that we are building.
      */
     public ProjectBuilder withDeadline(String date, String createdDate) {
-        this.deadline = new Deadline(date, new Date(createdDate));
+        this.deadline = new Deadline(date, new DateWrapper(createdDate));
         return this;
     }
 
@@ -124,14 +140,30 @@ public class ProjectBuilder {
      * Sets the {@code Deadline} of the {@code Project} that we are building.
      */
     public ProjectBuilder withDeadline(String date, String time, String createdDate) {
-        this.deadline = new Deadline(date, time, new Date(createdDate));
+        this.deadline = new Deadline(date, time, new DateWrapper(createdDate));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Reminder} of the {@code Project} that we are building with an empty reminder.
+     */
+    public ProjectBuilder withEmptyReminder() {
+        this.reminder = new Reminder();
+        return this;
+    }
+
+    /**
+     * Sets the {@code Reminder} of the {@code Project} that we are building.
+     */
+    public ProjectBuilder withReminder(String dateTime) {
+        this.reminder = new Reminder(dateTime);
         return this;
     }
 
     /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Project} that we are building.
      */
-    public ProjectBuilder withTags(String ... tags) {
+    public ProjectBuilder withTags(String... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
@@ -146,15 +178,19 @@ public class ProjectBuilder {
     }
 
     /**
-     * Parses the {@code timer} into a {@code Timer} and set it to the {@code Project} that we
+     * Parses the {@code timerWrapper} into a {@code TimerWrapper} and set it to the {@code Project} that we
      * are building.
      */
-    public ProjectBuilder withTimer(Timer timer) {
-        this.timer = timer;
+    public ProjectBuilder withTimer(TimerWrapper timerWrapper) {
+        this.timerWrapper = timerWrapper;
         return this;
     }
 
+    /**
+     * Builds a {@code Project}.
+     */
     public Project build() {
-        return new Project(name, description, createdDate, deadline, tags, durations, timer);
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
+                timerWrapper);
     }
 }

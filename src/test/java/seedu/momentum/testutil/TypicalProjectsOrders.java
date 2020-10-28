@@ -12,14 +12,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.UniqueTrackedItemList;
 
 public class TypicalProjectsOrders {
 
     public static List<TrackedItem> getOrderedProjectBookByAlphabeticalAscending() {
-        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 ALICE,
                 BENSON,
                 CARL,
@@ -27,11 +26,10 @@ public class TypicalProjectsOrders {
                 ELLE,
                 FIONA,
                 GEORGE));
-        return trackedItems;
     }
 
     public static List<TrackedItem> getOrderedProjectBookByAlphabeticalDescending() {
-        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 GEORGE,
                 FIONA,
                 ELLE,
@@ -39,11 +37,10 @@ public class TypicalProjectsOrders {
                 CARL,
                 BENSON,
                 ALICE));
-        return trackedItems;
     }
 
     public static List<TrackedItem> getOrderedProjectBookByDeadlineAscending() {
-        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 FIONA,
                 ELLE,
                 ALICE,
@@ -51,11 +48,10 @@ public class TypicalProjectsOrders {
                 CARL,
                 DANIEL,
                 GEORGE));
-        return trackedItems;
     }
 
     public static List<TrackedItem> getOrderedProjectBookByDeadlineDescending() {
-        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 BENSON,
                 ALICE,
                 ELLE,
@@ -63,12 +59,10 @@ public class TypicalProjectsOrders {
                 CARL,
                 DANIEL,
                 GEORGE));
-        return trackedItems;
     }
 
     public static List<TrackedItem> getOrderedProjectBookByCreatedDateAscending() {
-        ProjectBook projectBook = new ProjectBook();
-        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 ALICE,
                 BENSON,
                 FIONA,
@@ -76,11 +70,10 @@ public class TypicalProjectsOrders {
                 ELLE,
                 GEORGE,
                 CARL));
-        return trackedItems;
     }
 
     public static List<TrackedItem> getOrderedProjectBookByCreatedDateDescending() {
-        List<TrackedItem> trackedItems = new ArrayList<>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 CARL,
                 GEORGE,
                 ELLE,
@@ -88,7 +81,28 @@ public class TypicalProjectsOrders {
                 FIONA,
                 BENSON,
                 ALICE));
-        return trackedItems;
+    }
+
+    public static List<TrackedItem> getOrderedProjectBookByReminderAscending() {
+        return new ArrayList<>(Arrays.asList(
+                GEORGE,
+                BENSON,
+                ALICE,
+                CARL,
+                DANIEL,
+                ELLE,
+                FIONA));
+    }
+
+    public static List<TrackedItem> getOrderedProjectBookByReminderDescending() {
+        return new ArrayList<>(Arrays.asList(
+                FIONA,
+                ELLE,
+                DANIEL,
+                CARL,
+                ALICE,
+                BENSON,
+                GEORGE));
     }
 
     public static UniqueTrackedItemList getUniqueProjectList(List<TrackedItem> trackedItems) {

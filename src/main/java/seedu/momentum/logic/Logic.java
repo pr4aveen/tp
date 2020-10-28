@@ -2,7 +2,11 @@ package seedu.momentum.logic;
 
 import java.nio.file.Path;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
@@ -28,6 +32,20 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
+     * Returns true if the reminder is empty, false otherwise.
+     *
+     * @return the boolean.
+     */
+    BooleanProperty isReminderEmpty();
+
+    /**
+     * Returns the string representation of the reminder.
+     *
+     * @return the reminder.
+     */
+    StringProperty getReminder();
+
+    /**
      * Returns the ProjectBook.
      *
      * @see seedu.momentum.model.Model#getProjectBook()
@@ -37,7 +55,7 @@ public interface Logic {
     /**
      * Returns an unmodifiable view of the filtered list of tracked items.
      */
-    ObservableList<TrackedItem> getFilteredTrackedItemList();
+    ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList();
 
     /**
      * Returns a list of projects whose timers are running.

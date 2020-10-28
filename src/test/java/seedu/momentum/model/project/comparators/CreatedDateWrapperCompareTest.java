@@ -12,7 +12,7 @@ import seedu.momentum.testutil.ProjectBuilder;
 /**
  * Tests if the {@code Project}'s date created can be compared to another {@code Project}'s date created correctly.
  */
-public class CreatedDateCompareTest {
+public class CreatedDateWrapperCompareTest {
 
     public static final Project ANCIENT_DATE_PROJECT = new ProjectBuilder().withName("Egyptian Pyramid")
             .withCreatedDate("0001-01-01")

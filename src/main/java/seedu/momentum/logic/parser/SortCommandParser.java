@@ -7,6 +7,7 @@ import static seedu.momentum.logic.commands.SortCommand.INPUT_ASCENDING_ORDER;
 import static seedu.momentum.logic.commands.SortCommand.INPUT_CREATED_TYPE;
 import static seedu.momentum.logic.commands.SortCommand.INPUT_DEADLINE_TYPE;
 import static seedu.momentum.logic.commands.SortCommand.INPUT_DESCENDING_ORDER;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 
@@ -26,7 +27,7 @@ public class SortCommandParser implements Parser<SortCommand> {
     public SortCommand parse(String args, Model model) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, SORT_TYPE, SORT_ORDER);
+                ArgumentTokenizer.tokenize(args, SORT_TYPE, SORT_ORDER, PREFIX_COMPLETION_STATUS);
 
         if (!argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
@@ -42,7 +43,12 @@ public class SortCommandParser implements Parser<SortCommand> {
             sortType = SortType.NULL;
         }
 
-        return new SortCommand(sortType, isAscending, isDefault);
+        boolean isSortedByCompletionStatus = true;
+        if (argMultimap.getValue(PREFIX_COMPLETION_STATUS).isPresent()) {
+            isSortedByCompletionStatus = false;
+        }
+
+        return new SortCommand(sortType, isAscending, isDefault, isSortedByCompletionStatus);
     }
 
     private String parseSortOrder(ArgumentMultimap argMultimap) throws ParseException {

@@ -17,10 +17,13 @@ import seedu.momentum.logic.commands.HelpCommand;
 import seedu.momentum.logic.commands.HomeCommand;
 import seedu.momentum.logic.commands.ListCommand;
 import seedu.momentum.logic.commands.ProjectViewCommand;
+import seedu.momentum.logic.commands.RedoCommand;
 import seedu.momentum.logic.commands.SetCommand;
+import seedu.momentum.logic.commands.ShowComponentCommand;
 import seedu.momentum.logic.commands.SortCommand;
 import seedu.momentum.logic.commands.StartCommand;
 import seedu.momentum.logic.commands.StopCommand;
+import seedu.momentum.logic.commands.UndoCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 
@@ -37,10 +40,10 @@ public class ProjectBookParser {
     /**
      * Parses user input into command for execution.
      *
-     * @param userInput full user input string
-     * @param model the current model manager
-     * @return the command based on the user input
-     * @throws ParseException if the user input does not conform the expected format
+     * @param userInput full user input string.
+     * @param model     the current model manager.
+     * @return the command based on the user input.
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public Command parseCommand(String userInput, Model model) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
@@ -93,6 +96,15 @@ public class ProjectBookParser {
 
         case SetCommand.COMMAND_WORD:
             return new SetCommandParser().parse(arguments, model);
+
+        case ShowComponentCommand.COMMAND_WORD:
+            return new ShowComponentCommandParser().parse(arguments, model);
+
+        case UndoCommand.COMMAND_WORD:
+            return new UndoCommand();
+
+        case RedoCommand.COMMAND_WORD:
+            return new RedoCommand();
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

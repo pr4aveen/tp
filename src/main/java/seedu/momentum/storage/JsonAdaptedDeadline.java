@@ -3,8 +3,8 @@ package seedu.momentum.storage;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import seedu.momentum.commons.core.Date;
-import seedu.momentum.commons.core.Time;
+import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.TimeWrapper;
 import seedu.momentum.commons.exceptions.IllegalValueException;
 import seedu.momentum.model.project.Deadline;
 
@@ -45,25 +45,25 @@ class JsonAdaptedDeadline {
     /**
      * Converts this Jackson-friendly adapted duration object into the model's {@code Deadline} object.
      *
-     * @param createdDate the created date of the project.
+     * @param createdDateWrapper the created date of the project.
      * @throws IllegalValueException if there were any data constraints violated in the adapted duration.
      */
-    public Deadline toModelType(Date createdDate) throws IllegalValueException {
+    public Deadline toModelType(DateWrapper createdDateWrapper) throws IllegalValueException {
         if (this.date == null) {
             return new Deadline();
         }
-        if (!Date.isValid(date)) {
-            throw new IllegalValueException(Date.MESSAGE_CONSTRAINTS);
+        if (!DateWrapper.isValid(date)) {
+            throw new IllegalValueException(DateWrapper.MESSAGE_CONSTRAINTS);
         }
 
         if (this.time == null) {
-            return new Deadline(date, createdDate);
+            return new Deadline(date, createdDateWrapper);
         }
-        if (!Time.isValid(time)) {
-            throw new IllegalValueException(Time.MESSAGE_CONSTRAINTS);
+        if (!TimeWrapper.isValid(time)) {
+            throw new IllegalValueException(TimeWrapper.MESSAGE_CONSTRAINTS);
         }
 
-        return new Deadline(date, time, createdDate);
+        return new Deadline(date, time, createdDateWrapper);
     }
 
 }

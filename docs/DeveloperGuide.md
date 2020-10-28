@@ -140,37 +140,37 @@ This section describes some noteworthy details on how certain features are imple
  object is created with the new details, and the model is updated with the new object.
  
 Notable examples include:
-* Starting/Stopping a Timer: A new object is created with the updated timer state and durations, 
-* Editing a Project: A new object is created with the new project's details, with the same timer and durations recorded.
+* Starting/Stopping a Timer: A new object is created with the updated timerWrapper state and durations, 
+* Editing a Project: A new object is created with the new project's details, with the same timerWrapper and durations recorded.
 
-Below is an example of what happens when a project's timer is stopped:
+Below is an example of what happens when a project's timerWrapper is stopped:
 
 ![StopTimerSequenceDiagram](images/StopTimerSequenceDiagram.png)
 
-In this case, since the project's timer is being changed, new `Timer`, `WorkDuration`, `UniqueDurationList` objects are
+In this case, since the project's timerWrapper is being changed, new `TimerWrapper`, `WorkDuration`, `UniqueDurationList` objects are
  created, which are then used to create a new `Project`, which is subsequently used to replace the old `Project` in
   the model.
 
 We chose to implement projects this way as immutability makes these classes more easily testable.
 
 ### Timers and Durations
-The time tracking features in Momentum are implemented using `Timer` and `WorkDuration` objects. The below diagram
+The time tracking features in Momentum are implemented using `TimerWrapper` and `WorkDuration` objects. The below diagram
  illustrates the relevant classes that work together to produce statistics
  
  ![StopTimerSequenceDiagram](images/TimerDurationClassDiagram.png)
 
 
-Each project has a `Timer` that can be started and stopped by the user (using the `start`/`stop` commands). The timer
+Each project has a `TimerWrapper` that can be started and stopped by the user (using the `start`/`stop` commands). The timerWrapper
  does not run actively (counting each second/millisecond), instead it records the time when it was started, and the time
   when it was stopped. 
  
 This implementation was chosen because it allows Momentum's timers to continue running even when the application is
-closed, bye saving the timer's start/stop times together with project data. We chose to give each `Project` its own
- timer as that allows Momentum to support running multiple timers concurrently, one for each project, for users that
+closed, bye saving the timerWrapper's start/stop times together with project data. We chose to give each `Project` its own
+ timerWrapper as that allows Momentum to support running multiple timers concurrently, one for each project, for users that
   want to multi-task.
 
 A `WorkDuration` represents a period of time that the user spent working on a project. Each `Project` contains a list
- of `WorkDuration` that represents each time the each the user starts and stops the timer for the project.
+ of `WorkDuration` that represents each time the each the user starts and stops the timerWrapper for the project.
  
 We chose to do this implementation to allow for flexibility in calculating statistics
 
@@ -343,12 +343,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | -------- | ------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------- |
 | `* * *`  | new user                                    | see usage instructions               | refer to instructions when I forget how to use the App                  |
 | `* * *`  | user                                        | add a new project                    |                                                                         |
-| `* * *`  | user                                        | view the project creation date                    |                                                                         |
+| `* * *`  | user                                        | view the project creation dateWrapper                    |                                                                         |
 | `* * *`  | user                                        | add and edit a deadline for a project                    |                                                                         |
 | `* * *`  | user                                        | delete a project                     | remove entries that I no longer need                                    |
 | `* * *`  | user                                        | find a project by name               | locate details of projects without having to go through the entire list |
 | `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
-| `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
+| `* *`    | new user                                    | start and stop a timerWrapper for a project | track the time I spent on the project                                   |
 | `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
 _{More to be added}_
 
@@ -360,22 +360,22 @@ _{More to be added}_
 
 **MSS**
 
-1.  User requests to start a timer for a specific project in the list.
-2.  Momemtum starts the timer for the project.
-3.  User requests to end a timer for a specific project in the list.
-4.  Momemtum ends the timer for the project.
+1.  User requests to start a timerWrapper for a specific project in the list.
+2.  Momemtum starts the timerWrapper for the project.
+3.  User requests to end a timerWrapper for a specific project in the list.
+4.  Momemtum ends the timerWrapper for the project.
 (For all use cases below, the **System** is the `ProjectBook` and the **Actor** is the `user`, unless specified
  otherwise).
 
 **Extensions**
 
-* 2a. There is an existing timer for the given project id.
+* 2a. There is an existing timerWrapper for the given project id.
   
   * a1. Momentum shows an error message.
 
     Use case ends.
 
-* 3a. There is no ongoing timer for the given project id.
+* 3a. There is no ongoing timerWrapper for the given project id.
   
   * a1. Momentum shows an error message.
 

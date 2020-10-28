@@ -7,16 +7,18 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import seedu.momentum.commons.core.Date;
+import seedu.momentum.commons.core.DateTimeWrapper;
+import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.commons.core.Theme;
-import seedu.momentum.commons.core.Time;
+import seedu.momentum.commons.core.TimeWrapper;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.StringUtil;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
+import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -69,31 +71,53 @@ public class ParserUtil {
      * Parses {@code Optional<String> date} and {@code Optional<String> time}into a {@code Deadline}.
      * Leading and trailing whitespaces will be trimmed.
      */
-    public static Deadline parseDeadline(Optional<String> date, Optional<String> time, Date createdDate)
+    public static Deadline parseDeadline(Optional<String> date, Optional<String> time, DateWrapper createdDateWrapper)
             throws ParseException {
         if (date.isEmpty() || date.get().isBlank()) {
             return new Deadline();
         }
 
         String trimmedDate = date.get().trim();
-        if (!Date.isValid(trimmedDate)) {
-            throw new ParseException(Date.MESSAGE_CONSTRAINTS);
+        if (!DateWrapper.isValid(trimmedDate)) {
+            throw new ParseException(DateWrapper.MESSAGE_CONSTRAINTS);
         }
 
-        if (Deadline.isBeforeCreatedDate(trimmedDate, createdDate)) {
+        if (Deadline.isBeforeCreatedDate(trimmedDate, createdDateWrapper)) {
             throw new ParseException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT);
         }
 
         if (time.isEmpty() || time.get().isBlank()) {
-            return new Deadline(trimmedDate, createdDate);
+            return new Deadline(trimmedDate, createdDateWrapper);
         }
 
         String trimmedTime = time.get().trim();
-        if (!Time.isValid(trimmedTime)) {
-            throw new ParseException(Time.MESSAGE_CONSTRAINTS);
+        if (!TimeWrapper.isValid(trimmedTime)) {
+            throw new ParseException(TimeWrapper.MESSAGE_CONSTRAINTS);
         }
 
-        return new Deadline(trimmedDate, trimmedTime, createdDate);
+        return new Deadline(trimmedDate, trimmedTime, createdDateWrapper);
+    }
+
+    /**
+     * Parses {@code Optional<String> dateTime} into a {@code Reminder}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static Reminder parseReminder(Optional<String> dateTime, DateWrapper createdDateWrapper)
+            throws ParseException {
+        if (dateTime.isEmpty() || dateTime.get().isBlank()) {
+            return new Reminder();
+        }
+
+        String trimmedDateTime = dateTime.get().trim();
+        if (!DateTimeWrapper.isValid(trimmedDateTime)) {
+            throw new ParseException(DateTimeWrapper.MESSAGE_CONSTRAINTS);
+        }
+
+        if (!Reminder.isValid(trimmedDateTime)) {
+            throw new ParseException(Reminder.REMINDER_MESSAGE_CONSTRAINTS);
+        }
+
+        return new Reminder(trimmedDateTime);
     }
 
     /**

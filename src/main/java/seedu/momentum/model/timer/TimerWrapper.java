@@ -4,70 +4,70 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import seedu.momentum.commons.core.Clock;
-import seedu.momentum.commons.core.DateTime;
+import seedu.momentum.commons.core.DateTimeWrapper;
 
 /**
- * Represents a timer in momentum.
+ * Represents a timerWrapper in momentum.
  * Guarantees: immutable.
  */
-public class Timer {
-    private DateTime startDateTime;
-    private DateTime stopDateTime;
+public class TimerWrapper {
+    private DateTimeWrapper startDateTime;
+    private DateTimeWrapper stopDateTime;
     private boolean isRunning;
 
     /**
-     * Constructs a timer with default settings.
+     * Constructs a timerWrapper with default settings.
      */
-    public Timer() {
+    public TimerWrapper() {
         this.startDateTime = Clock.now();
         this.stopDateTime = Clock.now();
         this.isRunning = false;
     }
 
     /**
-     * Constructs a timer with the provided data.
+     * Constructs a timerWrapper with the provided data.
      *
-     * @param startDateTime The dateTime when the timer was started.
-     * @param stopDateTime The dateTime when the timer was stopped.
-     * @param isRunning Whether the timer is running.
+     * @param startDateTime The dateTimeWrapper when the timerWrapper was started.
+     * @param stopDateTime The dateTimeWrapper when the timerWrapper was stopped.
+     * @param isRunning Whether the timerWrapper is running.
      */
-    public Timer(DateTime startDateTime, DateTime stopDateTime, boolean isRunning) {
+    public TimerWrapper(DateTimeWrapper startDateTime, DateTimeWrapper stopDateTime, boolean isRunning) {
         this.startDateTime = startDateTime;
         this.stopDateTime = stopDateTime;
         this.isRunning = isRunning;
     }
 
     /**
-     * Start the timer.
+     * Start the timerWrapper.
      */
-    public Timer start() {
+    public TimerWrapper start() {
         assert (!isRunning);
-        return new Timer(Clock.now(), Clock.now(), true);
+        return new TimerWrapper(Clock.now(), Clock.now(), true);
     }
 
     /**
-     * Stop the timer.
+     * Stop the timerWrapper.
      */
-    public Timer stop() {
+    public TimerWrapper stop() {
         assert (isRunning);
-        return new Timer(startDateTime, Clock.now(), false);
+        return new TimerWrapper(startDateTime, Clock.now(), false);
     }
 
-    public DateTime getStartTime() {
+    public DateTimeWrapper getStartTime() {
         assert (startDateTime != null);
         return startDateTime;
     }
 
-    public DateTime getStopTime() {
+    public DateTimeWrapper getStopTime() {
         assert (stopDateTime != null);
         return stopDateTime;
     }
 
     /**
-     * Returns the length of dateTime tracked in this timer, in (@code unit) units.
+     * Returns the length of dateTimeWrapper tracked in this timerWrapper, in (@code unit) units.
      *
-     * @param unit The units for the length of dateTime.
-     * @return The length of dateTime in the provided units.
+     * @param unit The units for the length of dateTimeWrapper.
+     * @return The length of dateTimeWrapper in the provided units.
      */
     public long getTimeBetween(ChronoUnit unit) {
         assert (!isRunning);
@@ -86,7 +86,7 @@ public class Timer {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Timer other = (Timer) o;
+        TimerWrapper other = (TimerWrapper) o;
 
         return startDateTime.equals(other.startDateTime)
                 && Objects.equals(startDateTime, other.startDateTime)

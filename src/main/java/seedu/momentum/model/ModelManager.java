@@ -8,8 +8,11 @@ import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiThemeSettings;
@@ -19,6 +22,7 @@ import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.reminder.ReminderManager;
 
 /**
  * Represents the in-memory model of the project book data.
@@ -26,13 +30,18 @@ import seedu.momentum.model.project.TrackedItem;
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final ProjectBook projectBook;
+    private final VersionedProjectBook versionedProjectBook;
     private final UserPrefs userPrefs;
-    private final FilteredList<TrackedItem> filteredTrackedItems;
+    private final ReminderManager reminderManager;
+    private ObjectProperty<FilteredList<TrackedItem>> filteredTrackedItems;
     private final ObservableList<TrackedItem> runningTimers;
+    private TrackedItem runningTimer;
+    private boolean toAdd;
+    private boolean isPreviousCommandTimer;
     private Predicate<TrackedItem> currentPredicate;
     private SortType currentSortType;
-    private boolean currentSortIsAscending;
+    private boolean isCurrentSortAscending;
+    private boolean isCurrentSortIsByCompletionStatus;
     private ViewMode viewMode;
     private Project currentProject;
     private ObservableList<TrackedItem> viewList;
@@ -46,20 +55,28 @@ public class ModelManager implements Model {
 
         logger.fine("Initializing with project book: " + projectBook + " and user prefs " + userPrefs);
 
-        this.projectBook = new ProjectBook(projectBook);
         this.userPrefs = new UserPrefs(userPrefs);
 
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         currentSortType = SortType.ALPHA;
-        currentSortIsAscending = true;
+        isCurrentSortAscending = true;
+        isCurrentSortIsByCompletionStatus = true;
         viewMode = ViewMode.PROJECTS;
+        toAdd = false;
+        isPreviousCommandTimer = false;
 
+        this.versionedProjectBook = new VersionedProjectBook(
+                projectBook, viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+        this.reminderManager = new ReminderManager(this.versionedProjectBook);
+        rescheduleReminders();
         this.viewList = FXCollections.observableArrayList();
-        filteredTrackedItems = new FilteredList<>(viewList);
+        filteredTrackedItems = new SimpleObjectProperty<>(new FilteredList<>(viewList, currentPredicate));
+        //filteredTrackedItems = new FilteredList<>(viewList);
         viewProjects();
 
         runningTimers = FXCollections.observableArrayList();
         initializeRunningTimers();
+
     }
 
     public ModelManager() {
@@ -67,7 +84,7 @@ public class ModelManager implements Model {
     }
 
     private void initializeRunningTimers() {
-        for (TrackedItem trackedItem : filteredTrackedItems) {
+        for (TrackedItem trackedItem : filteredTrackedItems.get()) {
             if (trackedItem.isRunning()) {
                 runningTimers.add(trackedItem);
             }
@@ -134,13 +151,14 @@ public class ModelManager implements Model {
     //=========== ProjectBook ================================================================================
 
     @Override
-    public void setProjectBook(ReadOnlyProjectBook projectBook) {
-        this.projectBook.resetData(projectBook);
+    public void setVersionedProjectBook(ReadOnlyProjectBook versionedProjectBook) {
+        this.versionedProjectBook.resetData(versionedProjectBook);
+        rescheduleReminders();
     }
 
     @Override
-    public ReadOnlyProjectBook getProjectBook() {
-        return projectBook;
+    public VersionedProjectBook getProjectBook() {
+        return versionedProjectBook;
     }
 
     @Override
@@ -153,37 +171,51 @@ public class ModelManager implements Model {
     @Override
     public boolean hasTrackedItem(TrackedItem trackedItem) {
         requireNonNull(trackedItem);
-        return projectBook.hasTrackedItem(trackedItem);
+        return versionedProjectBook.hasTrackedItem(trackedItem);
     }
 
     @Override
     public void deleteTrackedItem(TrackedItem target) {
-        projectBook.renameTrackedItem(target);
+        versionedProjectBook.removeTrackedItem(target);
+        rescheduleReminders();
     }
 
     @Override
     public void addTrackedItem(TrackedItem trackedItem) {
-        projectBook.addTrackedItem(trackedItem);
-        orderFilteredProjectList(currentSortType, currentSortIsAscending);
+        versionedProjectBook.addTrackedItem(trackedItem);
+        rescheduleReminders();
+        orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
         updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
     @Override
-    public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
+    public void setTrackedItem(ViewMode viewMode, TrackedItem target, TrackedItem editedTrackedItem) {
         requireAllNonNull(target, editedTrackedItem);
 
-        projectBook.setTrackedItem(target, editedTrackedItem);
+        versionedProjectBook.setTrackedItem(target, editedTrackedItem);
+        rescheduleReminders();
+
+        if (viewMode == ViewMode.TASKS) {
+            Project project = (Project) target;
+            resetUi(false, viewMode, false, project, null, false);
+        }
     }
 
     //=========== Filtered Project List Accessors =============================================================
 
     /**
      * Returns an unmodifiable view of the list of {@code TrackedItem} backed by the internal list of
-     * {@code versionedProjectBook}
-     * @return
+     * {@code versionedProjectBook}.
+     *
+     * @return the filtered tracked item list.
      */
     @Override
     public ObservableList<TrackedItem> getFilteredTrackedItemList() {
+        return filteredTrackedItems.get();
+    }
+
+    @Override
+    public ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList() {
         return filteredTrackedItems;
     }
 
@@ -191,15 +223,16 @@ public class ModelManager implements Model {
     public void updateFilteredProjectList(Predicate<TrackedItem> predicate) {
         requireNonNull(predicate);
         currentPredicate = predicate;
-        filteredTrackedItems.setPredicate(predicate);
+        filteredTrackedItems.get().setPredicate(predicate);
     }
 
     @Override
-    public void orderFilteredProjectList(SortType orderType, boolean isAscending) {
-        requireAllNonNull(orderType, isAscending);
-        currentSortIsAscending = isAscending;
+    public void orderFilteredProjectList(SortType orderType, boolean isAscending, boolean isSortedByCompletionStatus) {
+        requireAllNonNull(orderType, isAscending, isSortedByCompletionStatus);
+        isCurrentSortAscending = isAscending;
+        isCurrentSortIsByCompletionStatus = isSortedByCompletionStatus;
         currentSortType = orderType;
-        projectBook.setOrder(orderType, isAscending);
+        versionedProjectBook.setOrder(orderType, isAscending, isSortedByCompletionStatus);
         updateFilteredProjectList(currentPredicate);
     }
 
@@ -207,11 +240,8 @@ public class ModelManager implements Model {
     public void viewProjects() {
         viewMode = ViewMode.PROJECTS;
         logger.log(Level.INFO, "View mode changed to project view");
-        this.viewList.setAll(projectBook.getTrackedItemList());
-        this.projectBook.getTrackedItemList().addListener(
-                (ListChangeListener<TrackedItem>) c -> viewList.setAll(projectBook.getTrackedItemList())
-        );
-
+        viewList = versionedProjectBook.getTrackedItemList();
+        filteredTrackedItems.set(new FilteredList<>(viewList, currentPredicate));
         updateFilteredProjectList(currentPredicate);
     }
 
@@ -221,21 +251,20 @@ public class ModelManager implements Model {
         currentProject = project;
         viewMode = ViewMode.TASKS;
         logger.log(Level.INFO, "View mode changed to task view");
-        this.viewList.setAll(project.getTaskList());
-        project.getTaskList().addListener(
-                (ListChangeListener<TrackedItem>) c -> viewList.setAll(project.getTaskList())
-        );
+        viewList = project.getTaskList();
+        filteredTrackedItems.set(new FilteredList<>(viewList, currentPredicate));
+        updateFilteredProjectList(currentPredicate);
     }
 
     @Override
     public void viewAll() {
         ObservableList<TrackedItem> allItems = FXCollections.observableArrayList();
-        for (TrackedItem projectItem : projectBook.getTrackedItemList()) {
+        for (TrackedItem projectItem : versionedProjectBook.getTrackedItemList()) {
             allItems.add(projectItem);
             Project project = (Project) projectItem;
             allItems.addAll(project.getTaskList());
         }
-        this.viewList.setAll(allItems);
+        this.viewList = allItems;
     }
 
     @Override
@@ -253,6 +282,27 @@ public class ModelManager implements Model {
         return viewMode;
     }
 
+    //=========== Reminders =============================================================
+
+    public void rescheduleReminders() {
+        reminderManager.rescheduleReminder();
+    }
+
+    @Override
+    public BooleanProperty isReminderEmpty() {
+        return reminderManager.isReminderEmpty();
+    }
+
+    @Override
+    public StringProperty getReminder() {
+        return reminderManager.getReminder();
+    }
+
+    @Override
+    public void removeReminder() {
+        reminderManager.removeReminder();
+    }
+
     //=========== Timers =============================================================
 
     @Override
@@ -265,6 +315,8 @@ public class ModelManager implements Model {
         assert (trackedItem.isRunning());
 
         runningTimers.add(trackedItem);
+        runningTimer = trackedItem;
+        toAdd = false;
     }
 
     @Override
@@ -273,6 +325,8 @@ public class ModelManager implements Model {
         assert (runningTimers.contains(trackedItem));
 
         runningTimers.remove(trackedItem);
+        runningTimer = trackedItem;
+        toAdd = true;
     }
 
     @Override
@@ -289,10 +343,117 @@ public class ModelManager implements Model {
 
         // state check
         ModelManager other = (ModelManager) obj;
-        return projectBook.equals(other.projectBook)
+        return versionedProjectBook.equals(other.versionedProjectBook)
                 && userPrefs.equals(other.userPrefs)
-                && filteredTrackedItems.equals(other.filteredTrackedItems)
-                && runningTimers.equals(other.runningTimers);
+                && reminderManager.equals(other.reminderManager)
+                && filteredTrackedItems.get().equals(other.filteredTrackedItems.get())
+                && runningTimers.equals(other.runningTimers)
+                //&& runningTimer.equals(other.runningTimer)
+                && viewMode.equals(other.viewMode)
+                //&& currentProject.equals(other.currentProject)
+                && toAdd == other.toAdd
+                && isPreviousCommandTimer == other.isPreviousCommandTimer;
     }
 
+    //=========== Undo/Redo ================================================================================
+
+    @Override
+    public boolean canUndoCommand() {
+        return versionedProjectBook.canUndoCommand();
+    }
+
+    @Override
+    public boolean canRedoCommand() {
+        return versionedProjectBook.canRedoCommand();
+    }
+
+    @Override
+    public void commitToHistory() {
+        versionedProjectBook.commit(viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+    }
+
+    @Override
+    public void undoCommand() {
+
+        // extract timer related details of ProjectBook version before undo
+        isPreviousCommandTimer = versionedProjectBook.getIsPreviousCommandTimer();
+        currentProject = versionedProjectBook.getCurrentProject();
+        TrackedItem runningTimer = versionedProjectBook.getCurrentRunningTimer();
+        boolean toAdd = versionedProjectBook.getToAdd();
+
+        versionedProjectBook.undo();
+        Project newProject = versionedProjectBook.getCurrentProject();
+
+        // extract view mode details from ProjectBook version after undo
+        viewMode = versionedProjectBook.getCurrentViewMode();
+
+        resetUi(true, viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+        if (viewMode == ViewMode.TASKS) {
+            viewTasks(newProject);
+        }
+    }
+
+    @Override
+    public void resetUi(boolean isUndo, ViewMode viewMode,
+                          boolean isPreviousCommandTimer, Project project, TrackedItem runningTimer, boolean toAdd) {
+        requireNonNull(viewMode);
+
+        switch (viewMode) {
+        case PROJECTS:
+            viewProjects();
+            logger.log(Level.INFO, "View mode changed to project view");
+            break;
+        case TASKS:
+            assert project != null;
+            viewTasks(project);
+            logger.log(Level.INFO, "View mode changed to task view");
+            break;
+        default:
+            break;
+        }
+
+        if (isPreviousCommandTimer && toAdd) {
+            if (isUndo) {
+                // for undo command, add back runningTimer
+                runningTimers.add(runningTimer);
+            } else {
+                // for redo command, remove runningTimer
+                runningTimers.remove(runningTimer);
+            }
+        } else if (isPreviousCommandTimer) {
+            if (isUndo) {
+                runningTimers.remove(runningTimer);
+            } else {
+                runningTimers.add(runningTimer);
+            }
+        }
+    }
+
+    @Override
+    public void setIsPreviousCommandTimerToTrue() {
+        isPreviousCommandTimer = true;
+    }
+
+    @Override
+    public void setIsPreviousCommandTimerToFalse() {
+        isPreviousCommandTimer = false;
+    }
+
+    @Override
+    public void redoCommand() {
+
+        versionedProjectBook.redo();
+
+        // extract both timer related and ViewMode details from ProjectBook version after redo
+        viewMode = versionedProjectBook.getCurrentViewMode();
+        isPreviousCommandTimer = versionedProjectBook.getIsPreviousCommandTimer();
+        currentProject = versionedProjectBook.getCurrentProject();
+        TrackedItem runningTimer = versionedProjectBook.getCurrentRunningTimer();
+        boolean toAdd = versionedProjectBook.getToAdd();
+
+        resetUi(false, viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+        if (viewMode == ViewMode.TASKS) {
+            viewTasks(currentProject);
+        }
+    }
 }
