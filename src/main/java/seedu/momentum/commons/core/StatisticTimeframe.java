@@ -31,20 +31,12 @@ public class StatisticTimeframe implements Serializable {
      * Converts the timeframe to a {@code ChronoUnit}.
      */
     public ChronoUnit toChronoUnit() {
-        return timeframe == Timeframe.DAILY
-            ? ChronoUnit.DAYS
-            : timeframe == Timeframe.WEEKLY
-            ? ChronoUnit.WEEKS
-            : ChronoUnit.MONTHS;
+        return timeframe.toChronoUnit();
     }
 
     @Override
     public String toString() {
-        return timeframe == Timeframe.DAILY
-            ? "Daily"
-            : timeframe == Timeframe.WEEKLY
-            ? "Weekly"
-            : "Monthly";
+        return timeframe.toString();
     }
 
     @Override
@@ -67,6 +59,23 @@ public class StatisticTimeframe implements Serializable {
     }
 
     public enum Timeframe {
-        DAILY, WEEKLY, MONTHLY
+        DAILY, WEEKLY, MONTHLY;
+
+        /**
+         * Converts the timeframe to a {@code ChronoUnit}.
+         */
+        public ChronoUnit toChronoUnit() {
+            return this == DAILY
+                ? ChronoUnit.DAYS
+                : this == WEEKLY
+                ? ChronoUnit.WEEKS
+                : ChronoUnit.MONTHS;
+        }
+
+        @Override
+        public String toString() {
+            return super.toString().charAt(0)
+                + super.toString().substring(1).toLowerCase();
+        }
     }
 }

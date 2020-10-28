@@ -16,7 +16,7 @@ public class SetCommandParser implements Parser<SetCommand> {
      * and returns an SetCommand object for execution.
      *
      * @param model the current model.
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input does not conform the expected format.
      */
     @Override
     public SetCommand parse(String args, Model model) throws ParseException {
