@@ -39,19 +39,16 @@ public class StopCommandTest {
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStop.startTimer();
         expectedModel.setTrackedItem(ViewMode.PROJECTS, trackedItemToStop, startedTrackedItem);
-        expectedModel.addRunningTimer(startedTrackedItem);
 
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 60);
         model.setTrackedItem(ViewMode.PROJECTS, trackedItemToStop, startedTrackedItem);
-        model.addRunningTimer(startedTrackedItem);
 
         Clock.advance(1, ChronoUnit.HOURS);
 
         TrackedItem stoppedTrackedItem = startedTrackedItem.stopTimer();
         expectedModel.setTrackedItem(ViewMode.PROJECTS, startedTrackedItem, stoppedTrackedItem);
-        expectedModel.removeRunningTimer(startedTrackedItem);
         expectedModel.setIsPreviousCommandTimerToTrue();
         expectedModel.commitToHistory();
 
@@ -88,16 +85,13 @@ public class StopCommandTest {
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStop.startTimer();
         expectedModel.setTrackedItem(ViewMode.PROJECTS, trackedItemToStop, startedTrackedItem);
-        expectedModel.addRunningTimer(startedTrackedItem);
 
         model.setTrackedItem(ViewMode.PROJECTS, trackedItemToStop, startedTrackedItem);
-        model.addRunningTimer(startedTrackedItem);
 
         Clock.advance(1, ChronoUnit.HOURS);
 
         TrackedItem stoppedTrackedItem = startedTrackedItem.stopTimer();
         expectedModel.setTrackedItem(ViewMode.PROJECTS, startedTrackedItem, stoppedTrackedItem);
-        expectedModel.removeRunningTimer(startedTrackedItem);
         expectedModel.setIsPreviousCommandTimerToTrue();
         expectedModel.commitToHistory();
 

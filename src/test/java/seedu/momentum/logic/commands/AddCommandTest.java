@@ -186,12 +186,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addRunningTimer(TrackedItem trackedItem) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void removeRunningTimer(TrackedItem trackedItem) {
+        public void updateRunningTimers() {
             throw new AssertionError("This method should not be called.");
         }
 

@@ -147,21 +147,7 @@ public interface Model {
      */
     void removeReminder();
 
-    /**
-     * Adds the given project to the running timers list.
-     * {@code project} must have a running timerWrapper.
-     *
-     * @param trackedItem item to add a timerWrapper to.
-     */
-    void addRunningTimer(TrackedItem trackedItem);
-
-    /**
-     * Removes the given project from the running timers list.
-     * {@code project} must have a running timerWrapper.
-     *
-     * @param trackedItem item to remove timerWrapper from.
-     */
-    void removeRunningTimer(TrackedItem trackedItem);
+    void updateRunningTimers();
 
     /**
      * Updates the filter of the filtered project list to filter by the given {@code predicate}.
