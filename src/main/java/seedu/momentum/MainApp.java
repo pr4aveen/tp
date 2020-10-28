@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import seedu.momentum.commons.core.Config;
 import seedu.momentum.commons.core.LogsCenter;
@@ -179,6 +180,9 @@ public class MainApp extends Application {
         logger.info("============================ [ Stopping Project Book ] =============================");
         try {
             storage.saveUserPrefs(model.getUserPrefs());
+            logger.info("Saved preferences. Quitting application now.");
+            Platform.exit();
+            System.exit(0);
         } catch (IOException e) {
             logger.severe("Failed to save preferences " + StringUtil.getDetails(e));
         }
