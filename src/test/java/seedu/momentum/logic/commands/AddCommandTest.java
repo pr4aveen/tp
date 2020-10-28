@@ -14,8 +14,10 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
@@ -43,7 +45,8 @@ public class AddCommandTest {
 
         CommandResult commandResult = new AddCommand(validProject).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validProject), commandResult.getFeedbackToUser());
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, validProject),
+                commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validProject), modelStub.projectsAdded);
     }
 
@@ -141,6 +144,11 @@ public class AddCommandTest {
 
         @Override
         public ObservableList<TrackedItem> getFilteredTrackedItemList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList() {
             throw new AssertionError("This method should not be called.");
         }
 

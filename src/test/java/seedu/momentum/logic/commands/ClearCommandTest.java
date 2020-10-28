@@ -18,7 +18,7 @@ public class ClearCommandTest {
         Model expectedModel = new ModelManager();
         expectedModel.commitToHistory();
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS_ALL, expectedModel);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class ClearCommandTest {
         expectedModel.setVersionedProjectBook(new ProjectBook());
         expectedModel.commitToHistory();
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS_ALL, expectedModel);
     }
 
 }

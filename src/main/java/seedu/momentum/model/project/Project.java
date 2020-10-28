@@ -20,7 +20,7 @@ import seedu.momentum.model.timer.WorkDuration;
  */
 public class Project extends TrackedItem {
 
-    private final UniqueTrackedItemList taskList;
+    private UniqueTrackedItemList taskList;
 
     /**
      * Constructs a {@code Project}.
@@ -158,6 +158,13 @@ public class Project extends TrackedItem {
         UniqueTrackedItemList newTaskList = taskList.setTasks(target, editedTask);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
                 tags, durations, timerWrapper, newTaskList);
+    }
+
+    /**
+     * Removes all tasks belonging to this project.
+     */
+    public void clearTasks() {
+        taskList = new UniqueTrackedItemList();
     }
 
     public ObservableList<TrackedItem> getTaskList() {
