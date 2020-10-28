@@ -275,6 +275,9 @@ public class ModelManager implements Model {
         return runningTimers;
     }
 
+    /**
+     * Update the running timers list.
+     */
     public void updateRunningTimers() {
         runningTimers.clear();
         for (TrackedItem trackedItem : filteredTrackedItems) {

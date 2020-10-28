@@ -38,7 +38,6 @@ public class StartCommandTest {
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
         expectedModel.setTrackedItem(ViewMode.PROJECTS, trackedItemToStart, startedTrackedItem);
-        expectedModel.addRunningTimer(startedTrackedItem);
         expectedModel.setIsPreviousCommandTimerToTrue();
         expectedModel.commitToHistory();
 
@@ -78,7 +77,6 @@ public class StartCommandTest {
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
         expectedModel.setTrackedItem(ViewMode.PROJECTS, trackedItemToStart, startedTrackedItem);
-        expectedModel.addRunningTimer(startedTrackedItem);
         expectedModel.setIsPreviousCommandTimerToTrue();
         expectedModel.commitToHistory();
 
