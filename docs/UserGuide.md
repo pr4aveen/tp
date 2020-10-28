@@ -98,3 +98,203 @@ Term | Meaning | Example
 `SS`   | Day     | 09
 
 **Valid**: 2020-08-02 
+
+**Invalid**: 2-8-20: Wrong number of digits.
+**Invalid**: 02-08-20: Wrong order of year, month and date.
+**Invalid**: 2nd August 2020: You cannot use text to enter dates.
+
+### Time Terms
+Times should be entered in 24 hour format, in the order `HH:MM:SS`
+
+Term | Meaning | Example
+-----|-------- | -------
+HH   | Hour    | 16
+MM   | Minute  | 52
+SS   | Second  | 03
+ 
+**Valid**: 15-08-02 
+
+**Invalid**: 2-8-20: Wrong number of digits.
+**Invalid**: 02-08-20: Wrong order of year, month and date.
+**Invalid**: 2nd August 2020: You cannot use text to enter dates.
+
+## 2. Features<a name="2-Features"></a>
+
+<!-- ### Viewing help : `help`
+
+Shows a message explaning how to access the help page.
+
+![help message](images/helpMessage.png)
+
+Format: `help` -->
+
+## 3. Projects and Tasks<a name="3-Projects-and-Tasks"></a>
+You can add projects into Momentum to be tracked. Each project has the following information:
+* Name
+* Description
+* Completion Status
+* Deadline Date
+* Deadline Time
+* Reminder
+* Tag
+
+Apart from the name, all other information is optional.
+
+Each project can also contain several tasks, each with the same information as a project.
+
+When you first open Momentum, you will see all the projects being tracked in Momentum. You can then view the tasks for each project seperately.
+
+:::info
+
+**:information_source: Most commands in Momentum will do different things depending on whether you are viewing projects or tasks.**<br>
+Please refer to each command for these differences.
+
+:::
+
+### 3.1 View Projects: `home`<a name="#31-View-Projects-home"></a>
+
+View all the projects being tracked by Momentum.
+This is the default view when Momentum is first opened.
+
+Format: `home`
+
+### 3.2 Viewing a Project's Tasks: `view`<a name="#32-Viewing-a-Project's-Tasks-view"></a>
+View the tasks for a project.
+
+Format: `view ID`
+
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
+
+Example: `view 1`
+
+### 3.3 Creating a Project/Task: `add`
+
+When looking at projects, this command will create a new project. When looking at the tasks in a project, thsi command will create a new task for the project.
+
+Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [r/REMINDER_DATE_TIME] [t/TAG]`
+
+* The project is incomplete by default, adding `/c` will set the completion status to complete. 
+* The format for date of the deadline is YYYY-MM-DD, refer to [Date Terms](#Date-Terms) for more information on YYYY, MM and DD.
+* The format for time of the deadline is HH:MM:SS in 24 hour format, refer to [Time Terms](#Time-Terms) for more information on HH, MM and SS.
+* The date of the deadline cannot be earlier than the creation date of the project.
+* Both date and time is compulsory for a reminder.
+* The format for date and time of the reminder is YYYY-MM-DDTHH:MM:SS, refer to [Date and Time Terms](#Date-and-Time-Terms) for more information on YYYY, MM, DD, HH, MM, and SS. 
+* The date and time of the reminder needs to be later than the current time.
+
+:::info
+:bulb: **Tip:**
+* Projects and tasks can have any number of tags (including 0).
+* A deadline of a project can include time.
+* A project can have an empty description.
+* `T` separates the date and time in a reminder.
+* A reminder will be shown in the Reminder component of the sidebar at the date and time specified.
+* The reminder will be removed after it is shown in the sidebar.
+:::
+
+
+Example: `add n/Momentum d/CS2103T Team Project dd/2020-12-07 dt/11:01:12 r/2020-12-07:11:01:12 t/impt`
+
+Result: Creates a project named “Momentum” with a description “CS2103T Team Project”, a tag "impt", deadline date "2020-10-07" with deadline time "11:01:12" and reminder "2020-10-07T11:01:12".
+
+### 3.4 Editing a Project/Task: `edit`
+
+Edits a project or task that was been previously created.
+
+Format: `edit ID [n/NAME] [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [t/TAG]`
+
+* The id refers to the id number shown in the displayed list.
+* The id **must be a positive integer** 1, 2, 3, …​
+* Adding `/c` will reverse the completion status, if the project was incomplete the completion status will change to complete. 
+* The format for date of the deadline is YYYY-MM-DD, refer to [Date Terms](#Date-Terms) for more information on YYYY, MM and DD.
+* The format for time of the deadline is HH:MM:SS in 24 hour format, refer to [Time Terms](#Time-Terms) for more information on HH, MM and SS.
+* The date of the deadline cannot be earlier than the creation date of the project.
+* Both date and time is compulsory for a reminder.
+* The format for date and time of the reminder is YYYY-MM-DDTHH:MM:SS, refer to [Date and Time Terms](#Date-and-Time-Terms) for more information on YYYY, MM, DD, HH, MM, and SS. 
+* The date and time of the reminder needs to be later than the current time.
+* At least one of the optional fields must be provided.
+* Existing values will be updated to the input values.
+* Removing a description or deadline by typing `d/` or `dd/` without specifying anything after it.
+* When editing tags, the existing tags of the project will be removed i.e adding of tags is not cumulative.
+* You can remove all the project’s tags by typing `t/` without specifying any tags after it.
+
+Example: `project 3 n/NewMomentum d/NewDescription dd/2020-12-07 t/normal`
+
+Result: Updates the project with id 3. The name will be changed to “NewMomentum”, the description will be changed to “NewDescription”, all the tags will be removed and a tag named normal is added, and the deadline will be changed to "2020-12-07".
+
+### 3.5 Deleting a Project/Task: `delete`
+
+Deletes a project or task in the list.
+
+Format: `delete ID`
+
+* Deletes the project at the specified `PROJECT_ID`.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
+
+Example: `delete 2`
+
+Result: Deletes the second project in the list.
+
+### 3.6 Project/Task Organisation
+
+#### 3.6.1 View All Projects : `list`
+
+When viewing projects, this command shows a list of all projects in Momentum.
+
+When viewing a project's tasks, this command shows a list of all the tasks for the project.
+
+Format: `list`
+
+#### 3.6.2 Sort Projects : `sort`
+
+Sorts the list of displayed projects or tasks in the application.
+
+Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
+
+* There are 3 types of sort.
+    * `type/alpha` will sort the list of projects in alphabetical order.
+    * `type/deadline` will sort the list of projects according to their deadlines.
+    * `type/created` will sort the list of projects according to their date of creation.
+    
+* There are 2 sort orders.
+    * `order/asc` will sort the list of projects in ascending order.
+    * `order/dsc` will sort the list of projects in descending order.
+
+* The projects can be sorted by incomplete then completed.
+    * This is the default sort.
+    * Add `c/` to disable this and sort without taking into account of completion status.
+   
+:::info
+:bulb: **Tip:**
+* `type/alpha` and `order/asc` will be used as default if both sort type and order are not specified (i.e. command is `sort`)
+* Current sort type will be used if the `type` is not specified but `order` is specified.
+* `order/asc` will be used as default if the `order` is not specified but `type` is specified.
+* For `sort type/deadline`, projects without deadlines will be ordered alphabetically after the ordered list of projects with deadlines.
+* For both `sort type/deadline` and `sort type/created`, projects with same deadline or same created date will be sorted alphabetically.
+:::
+
+Example:
+
+The following are 3 projects in the project book.
+
+Project 1. Name: `Ant Hole`, Deadline: `2020-02-02`, Created Date: `2000-02-02`
+Project 2. Name: `Brunch`, Deadline: `2010-01-01`, Created Date: `2002-09-09`
+Project 3. Name: `Create Logo` , Deadline: `2040-04-04`, Created Date: `2001-01-01`
+
+**3.6.2.3 Sorting by Default order**
+
+Format: `sort`
+
+* Sorts projects in alphabetical, ascending order
+
+Result: [Project 1, Project 2, Project 3]
+
+##### Sorting With Only Type Specified 
+
+Format: `sort type/SORT_TYPE`
+
+* Sorts projects in a specified order
+* Since order is not specified, default order is ascending
+
+Example: `sort type/alpha`
