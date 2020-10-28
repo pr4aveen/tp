@@ -3,8 +3,10 @@ package seedu.momentum.logic;
 import java.nio.file.Path;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -51,7 +53,7 @@ public interface Logic {
     /**
      * Returns an unmodifiable view of the filtered list of tracked items.
      */
-    ObservableList<TrackedItem> getFilteredTrackedItemList();
+    ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList();
 
     /**
      * Returns a list of projects whose timers are running.
