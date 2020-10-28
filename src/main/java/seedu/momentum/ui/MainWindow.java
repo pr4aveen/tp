@@ -152,7 +152,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private void initProjectList() {
-        trackedItemListPanel = new TrackedItemListPanel(logic.getFilteredTrackedItemList());
+        trackedItemListPanel = new TrackedItemListPanel(logic.getObservableFilteredTrackedItemList());
         projectListPanelPlaceholder.getChildren().add(trackedItemListPanel.getRoot());
     }
 
@@ -170,7 +170,7 @@ public class MainWindow extends UiPart<Stage> {
     private void showReminder() {
         logger.info("show reminder");
         reminderDisplayPlaceholder.setVisible(true);
-        reminderDisplayPlaceholder.setMinHeight(primaryStage.getHeight() / 9);
+        reminderDisplayPlaceholder.setMinHeight(primaryStage.getHeight() / 6);
     }
 
     private void initReminderDisplayListeners() {
@@ -211,7 +211,7 @@ public class MainWindow extends UiPart<Stage> {
         infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
 
         // Add a listener to the project list that will update tags when there are changes made to the project list.
-        logic.getFilteredTrackedItemList().addListener(new ListChangeListener<TrackedItem>() {
+        logic.getObservableFilteredTrackedItemList().get().addListener(new ListChangeListener<TrackedItem>() {
             @Override
             public void onChanged(Change<? extends TrackedItem> c) {
                 TagsDisplay newTagsDisplay = new TagsDisplay(logic.getProjectBook().getTrackedItemTags());
