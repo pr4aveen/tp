@@ -89,6 +89,8 @@ public class SortCommand extends Command {
         }
 
         model.orderFilteredProjectList(sortType, isAscending, isSortedByCompletionStatus);
+        model.setIsPreviousCommandTimerToFalse();
+        model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_SORT_SUCCESS, type, order));
     }
 

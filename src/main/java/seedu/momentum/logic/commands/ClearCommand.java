@@ -17,7 +17,9 @@ public class ClearCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.setProjectBook(new ProjectBook());
+        model.setVersionedProjectBook(new ProjectBook());
+        model.setIsPreviousCommandTimerToFalse();
+        model.commitToHistory();
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

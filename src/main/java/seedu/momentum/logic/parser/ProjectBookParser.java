@@ -17,10 +17,12 @@ import seedu.momentum.logic.commands.HelpCommand;
 import seedu.momentum.logic.commands.HomeCommand;
 import seedu.momentum.logic.commands.ListCommand;
 import seedu.momentum.logic.commands.ProjectViewCommand;
+import seedu.momentum.logic.commands.RedoCommand;
 import seedu.momentum.logic.commands.ShowComponentCommand;
 import seedu.momentum.logic.commands.SortCommand;
 import seedu.momentum.logic.commands.StartCommand;
 import seedu.momentum.logic.commands.StopCommand;
+import seedu.momentum.logic.commands.UndoCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 
@@ -93,6 +95,12 @@ public class ProjectBookParser {
 
         case ShowComponentCommand.COMMAND_WORD:
             return new ShowComponentCommandParser().parse(arguments, model);
+
+        case UndoCommand.COMMAND_WORD:
+            return new UndoCommand();
+
+        case RedoCommand.COMMAND_WORD:
+            return new RedoCommand();
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
