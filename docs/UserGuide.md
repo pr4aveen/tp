@@ -198,3 +198,104 @@ Example: `add n/Momentum d/CS2103T Team Project dd/2020-12-07 dt/11:01:12 r/2020
 Result: Creates a project named “Momentum” with a description “CS2103T Team Project”, a tag "impt", deadline date "2020-10-07" with deadline time "11:01:12" and reminder "2020-10-07T11:01:12".
 
 ### 3.4 Editing a Project/Task: `edit`
+
+Edits a project or task that was been previously created.
+
+Format: `edit ID [n/NAME] [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [t/TAG]`
+
+* The id refers to the id number shown in the displayed list.
+* The id **must be a positive integer** 1, 2, 3, …​
+* Adding `/c` will reverse the completion status, if the project was incomplete the completion status will change to complete. 
+* The format for date of the deadline is YYYY-MM-DD, refer to [Date Terms](#Date-Terms) for more information on YYYY, MM and DD.
+* The format for time of the deadline is HH:MM:SS in 24 hour format, refer to [Time Terms](#Time-Terms) for more information on HH, MM and SS.
+* The date of the deadline cannot be earlier than the creation date of the project.
+* Both date and time is compulsory for a reminder.
+* The format for date and time of the reminder is YYYY-MM-DDTHH:MM:SS, refer to [Date and Time Terms](#Date-and-Time-Terms) for more information on YYYY, MM, DD, HH, MM, and SS. 
+* The date and time of the reminder needs to be later than the current time.
+* At least one of the optional fields must be provided.
+* Existing values will be updated to the input values.
+* Removing a description or deadline by typing `d/` or `dd/` without specifying anything after it.
+* When editing tags, the existing tags of the project will be removed i.e adding of tags is not cumulative.
+* You can remove all the project’s tags by typing `t/` without specifying any tags after it.
+
+Example: `project 3 n/NewMomentum d/NewDescription dd/2020-12-07 t/normal`
+
+Result: Updates the project with id 3. The name will be changed to “NewMomentum”, the description will be changed to “NewDescription”, all the tags will be removed and a tag named normal is added, and the deadline will be changed to "2020-12-07".
+
+### 3.5 Deleting a Project/Task: `delete`
+
+Deletes a project or task in the list.
+
+Format: `delete ID`
+
+* Deletes the project at the specified `PROJECT_ID`.
+* The id refers to the id number shown in the displayed project list.
+* The id **must be a positive integer** 1, 2, 3, …​
+
+Example: `delete 2`
+
+Result: Deletes the second project in the list.
+
+### 3.6 Project/Task Organisation
+
+#### 3.6.1 View All Projects : `list`
+
+When viewing projects, this command shows a list of all projects in Momentum.
+
+When viewing a project's tasks, this command shows a list of all the tasks for the project.
+
+Format: `list`
+
+#### 3.6.2 Sort Projects : `sort`
+
+Sorts the list of displayed projects or tasks in the application.
+
+Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
+
+* There are 3 types of sort.
+    * `type/alpha` will sort the list of projects in alphabetical order.
+    * `type/deadline` will sort the list of projects according to their deadlines.
+    * `type/created` will sort the list of projects according to their date of creation.
+    
+* There are 2 sort orders.
+    * `order/asc` will sort the list of projects in ascending order.
+    * `order/dsc` will sort the list of projects in descending order.
+
+* The projects can be sorted by incomplete then completed.
+    * This is the default sort.
+    * Add `c/` to disable this and sort without taking into account of completion status.
+   
+:::info
+:bulb: **Tip:**
+* `type/alpha` and `order/asc` will be used as default if both sort type and order are not specified (i.e. command is `sort`)
+* Current sort type will be used if the `type` is not specified but `order` is specified.
+* `order/asc` will be used as default if the `order` is not specified but `type` is specified.
+* For `sort type/deadline`, projects without deadlines will be ordered alphabetically after the ordered list of projects with deadlines.
+* For both `sort type/deadline` and `sort type/created`, projects with same deadline or same created date will be sorted alphabetically.
+:::
+
+Example:
+
+The following are 3 projects in the project book.
+
+Project 1. Name: `Ant Hole`, Deadline: `2020-02-02`, Created Date: `2000-02-02`
+Project 2. Name: `Brunch`, Deadline: `2010-01-01`, Created Date: `2002-09-09`
+Project 3. Name: `Create Logo` , Deadline: `2040-04-04`, Created Date: `2001-01-01`
+
+**3.6.2.3 Sorting by Default order**
+
+Format: `sort`
+
+* Sorts projects in alphabetical, ascending order
+
+Result: [Project 1, Project 2, Project 3]
+
+##### Sorting With Only Type Specified 
+
+Format: `sort type/SORT_TYPE`
+
+* Sorts projects in a specified order
+* Since order is not specified, default order is ascending
+
+Example: `sort type/alpha`
+=======
