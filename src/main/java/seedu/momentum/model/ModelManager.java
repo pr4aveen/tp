@@ -9,10 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
@@ -31,7 +30,7 @@ public class ModelManager implements Model {
     private final ProjectBook projectBook;
     private final UserPrefs userPrefs;
     private final ReminderManager reminderManager;
-    private ObjectProperty<FilteredList<TrackedItem>> filteredTrackedItems;
+    private final FilteredList<TrackedItem> filteredTrackedItems;
     private final ObservableList<TrackedItem> runningTimers;
     private Predicate<TrackedItem> currentPredicate;
     private SortType currentSortType;
@@ -62,8 +61,7 @@ public class ModelManager implements Model {
         viewMode = ViewMode.PROJECTS;
 
         this.viewList = FXCollections.observableArrayList();
-        filteredTrackedItems = new SimpleObjectProperty<>(new FilteredList<>(viewList, currentPredicate));
-        //filteredTrackedItems = new FilteredList<>(viewList);
+        filteredTrackedItems = new FilteredList<>(viewList);
         viewProjects();
 
         runningTimers = FXCollections.observableArrayList();
@@ -75,7 +73,7 @@ public class ModelManager implements Model {
     }
 
     private void initializeRunningTimers() {
-        for (TrackedItem trackedItem : filteredTrackedItems.get()) {
+        for (TrackedItem trackedItem : filteredTrackedItems) {
             if (trackedItem.isRunning()) {
                 runningTimers.add(trackedItem);
             }
@@ -175,11 +173,6 @@ public class ModelManager implements Model {
      */
     @Override
     public ObservableList<TrackedItem> getFilteredTrackedItemList() {
-        return filteredTrackedItems.get();
-    }
-
-    @Override
-    public ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList() {
         return filteredTrackedItems;
     }
 
@@ -187,7 +180,7 @@ public class ModelManager implements Model {
     public void updateFilteredProjectList(Predicate<TrackedItem> predicate) {
         requireNonNull(predicate);
         currentPredicate = predicate;
-        filteredTrackedItems.get().setPredicate(predicate);
+        filteredTrackedItems.setPredicate(predicate);
     }
 
     @Override
@@ -204,8 +197,11 @@ public class ModelManager implements Model {
     public void viewProjects() {
         viewMode = ViewMode.PROJECTS;
         logger.log(Level.INFO, "View mode changed to project view");
-        viewList = projectBook.getTrackedItemList();
-        filteredTrackedItems.set(new FilteredList<>(viewList, currentPredicate));
+        this.viewList.setAll(projectBook.getTrackedItemList());
+        this.projectBook.getTrackedItemList().addListener(
+                (ListChangeListener<TrackedItem>) c -> viewList.setAll(projectBook.getTrackedItemList())
+        );
+
         updateFilteredProjectList(currentPredicate);
     }
 
@@ -215,9 +211,10 @@ public class ModelManager implements Model {
         currentProject = project;
         viewMode = ViewMode.TASKS;
         logger.log(Level.INFO, "View mode changed to task view");
-        viewList = project.getTaskList();
-        filteredTrackedItems.set(new FilteredList<>(viewList, currentPredicate));
-        updateFilteredProjectList(currentPredicate);
+        this.viewList.setAll(project.getTaskList());
+        project.getTaskList().addListener(
+                (ListChangeListener<TrackedItem>) c -> viewList.setAll(project.getTaskList())
+        );
     }
 
     @Override
@@ -228,7 +225,7 @@ public class ModelManager implements Model {
             Project project = (Project) projectItem;
             allItems.addAll(project.getTaskList());
         }
-        this.viewList = allItems;
+        this.viewList.setAll(allItems);
     }
 
     @Override
@@ -306,7 +303,7 @@ public class ModelManager implements Model {
         return projectBook.equals(other.projectBook)
                 && userPrefs.equals(other.userPrefs)
                 && reminderManager.equals(other.reminderManager)
-                && filteredTrackedItems.get().equals(other.filteredTrackedItems.get())
+                && filteredTrackedItems.equals(other.filteredTrackedItems)
                 && runningTimers.equals(other.runningTimers);
     }
 

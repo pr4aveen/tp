@@ -4,10 +4,8 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
@@ -93,8 +91,6 @@ public interface Model {
      * Returns an unmodifiable view of the filtered project list.
      */
     ObservableList<TrackedItem> getFilteredTrackedItemList();
-
-    ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList();
 
     /**
      * Returns a list of projects whose timers are running.
