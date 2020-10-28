@@ -42,7 +42,7 @@ public class CompletionStatusPredicate implements Predicate<TrackedItem> {
     public static boolean isValid(List<String> keywords) {
         return keywords.size() == 1 // check that there is only 1 keyword
                 && (keywords.get(0).equals(COMPLETED_KEYWORD) // check that the keyword is valid
-                || keywords.get(0).equals(INCOMPLETE_KEYWORD)); // check that the kwyword is valid
+                || keywords.get(0).equals(INCOMPLETE_KEYWORD)); // check that the keyword is valid
     }
 
     @Override
