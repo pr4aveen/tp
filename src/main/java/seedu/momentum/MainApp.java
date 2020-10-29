@@ -1,7 +1,9 @@
 package seedu.momentum;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -85,11 +87,26 @@ public class MainApp extends Application {
             if (!projectBookOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample ProjectBook");
             }
-            initialData = projectBookOptional.orElseGet(SampleDataUtil::getSampleProjectBook);
+
+            Optional<ReadOnlyProjectBook> defaultProjectBookOptional;
+            ProjectBookStorage defaultProjectBook = new JsonProjectBookStorage(Paths.get(MainApp.class.getResource(
+                    "/data/defaultData.json").toURI()));
+            defaultProjectBookOptional = defaultProjectBook.readProjectBook();
+            if (!projectBookOptional.isPresent()) {
+                logger.info("Default data file not found. Will start with bare bones sample data");
+            }
+
+            initialData = projectBookOptional
+                    .or(() -> defaultProjectBookOptional)
+                    .orElseGet(SampleDataUtil::getSampleProjectBook);
+
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty ProjectBook");
             initialData = new ProjectBook();
         } catch (IOException e) {
+            logger.warning("Problem while reading from the file. Will be starting with an empty ProjectBook");
+            initialData = new ProjectBook();
+        } catch (URISyntaxException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty ProjectBook");
             initialData = new ProjectBook();
         }

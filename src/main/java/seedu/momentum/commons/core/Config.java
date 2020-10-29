@@ -5,6 +5,8 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.logging.Level;
 
+import seedu.momentum.MainApp;
+
 /**
  * Config values used by the app
  */

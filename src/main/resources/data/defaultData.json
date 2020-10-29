@@ -1,0 +1,111 @@
+{
+  "projects" : [ {
+    "name" : "Flver art commision",
+    "description" : "",
+    "completionStatus" : false,
+    "deadline" : {
+      "date" : "2020-10-04",
+      "time" : null
+    },
+    "reminder" : "2022-06-22T01:01:21",
+    "tagged" : [ "flverr", "artcomm" ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-10-29T14:29:26.830273",
+      "stopTime" : "2020-10-29T14:29:26.830305",
+      "isRunning" : false
+    },
+    "taskList" : [ ],
+    "createdDate" : "2019-10-04"
+  }, {
+    "name" : "XYZ startup web UI design",
+    "description" : "",
+    "completionStatus" : true,
+    "deadline" : {
+      "date" : "2020-10-10",
+      "time" : "01:01:21"
+    },
+    "reminder" : null,
+    "tagged" : [ "important", "webdesign" ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-10-29T14:29:26.831604",
+      "stopTime" : "2020-10-29T14:29:26.831638",
+      "isRunning" : false
+    },
+    "taskList" : [ ],
+    "createdDate" : "2019-10-10"
+  }, {
+    "name" : "Blog design",
+    "description" : "For friend",
+    "completionStatus" : false,
+    "deadline" : {
+      "date" : null,
+      "time" : null
+    },
+    "reminder" : null,
+    "tagged" : [ "webdesign" ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-10-29T14:29:26.832304",
+      "stopTime" : "2020-10-29T14:29:26.832336",
+      "isRunning" : false
+    },
+    "taskList" : [ ],
+    "createdDate" : "2019-06-22"
+  }, {
+    "name" : "Logo",
+    "description" : "Aunt Mary bakery",
+    "completionStatus" : true,
+    "deadline" : {
+      "date" : "2020-11-04",
+      "time" : "08:10:21"
+    },
+    "reminder" : null,
+    "tagged" : [ "logodesign", "otot" ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-10-29T14:29:26.833514",
+      "stopTime" : "2020-10-29T14:29:26.833539",
+      "isRunning" : false
+    },
+    "taskList" : [ ],
+    "createdDate" : "2019-11-04"
+  }, {
+    "name" : "Read up on new Illustrator Features",
+    "description" : "",
+    "completionStatus" : true,
+    "deadline" : {
+      "date" : "2024-10-24",
+      "time" : null
+    },
+    "reminder" : null,
+    "tagged" : [ "selfimprovement", "important" ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-10-29T14:29:26.83442",
+      "stopTime" : "2020-10-29T14:29:26.834459",
+      "isRunning" : false
+    },
+    "taskList" : [ ],
+    "createdDate" : "2019-10-24"
+  }, {
+    "name" : "Think of a new Project",
+    "description" : "",
+    "completionStatus" : false,
+    "deadline" : {
+      "date" : null,
+      "time" : null
+    },
+    "reminder" : null,
+    "tagged" : [ "brainstorming" ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-10-29T14:29:26.834996",
+      "stopTime" : "2020-10-29T14:29:26.835018",
+      "isRunning" : false
+    },
+    "taskList" : [ ],
+    "createdDate" : "2019-01-04"
+  } ]
+}
