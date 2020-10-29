@@ -1,9 +1,12 @@
 package seedu.momentum;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -88,10 +91,7 @@ public class MainApp extends Application {
                 logger.info("Data file not found. Will be starting with a sample ProjectBook");
             }
 
-            Optional<ReadOnlyProjectBook> defaultProjectBookOptional;
-            ProjectBookStorage defaultProjectBook = new JsonProjectBookStorage(Paths.get(MainApp.class.getResource(
-                    "/data/defaultData.json").toURI()));
-            defaultProjectBookOptional = defaultProjectBook.readProjectBook();
+            Optional<ReadOnlyProjectBook> defaultProjectBookOptional = getDefaultData();
             if (!projectBookOptional.isPresent()) {
                 logger.info("Default data file not found. Will start with bare bones sample data");
             }
@@ -106,12 +106,37 @@ public class MainApp extends Application {
         } catch (IOException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty ProjectBook");
             initialData = new ProjectBook();
-        } catch (URISyntaxException e) {
-            logger.warning("Problem while reading from the file. Will be starting with an empty ProjectBook");
-            initialData = new ProjectBook();
         }
 
         return new ModelManager(initialData, userPrefs);
+    }
+
+    private Optional<ReadOnlyProjectBook> getDefaultData() throws IOException, DataConversionException {
+        File file = null;
+        String resource = "/data/defaultData.json";
+        URL res = getClass().getResource(resource);
+        if (res.getProtocol().equals("jar")) {
+            InputStream input = getClass().getResourceAsStream(resource);
+            file = File.createTempFile("tempfile", ".tmp");
+            OutputStream out = new FileOutputStream(file);
+            int read;
+            byte[] bytes = new byte[1024];
+
+            while ((read = input.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            out.close();
+            file.deleteOnExit();
+        } else {
+            file = new File(res.getFile());
+        }
+
+        if (!file.exists()) {
+            throw new IOException();
+        }
+
+        ProjectBookStorage defaultStorage = new JsonProjectBookStorage(file.toPath());
+        return defaultStorage.readProjectBook();
     }
 
     private void initLogging(Config config) {
