@@ -334,7 +334,7 @@ public class ModelManager implements Model {
                 && filteredTrackedItems.get().equals(other.filteredTrackedItems.get())
                 && runningTimers.equals(other.runningTimers)
                 && viewMode.equals(other.viewMode);
-                //&& currentProject.equals(other.currentProject)
+        //&& currentProject.equals(other.currentProject)
     }
 
     //=========== Undo/Redo ================================================================================

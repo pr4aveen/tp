@@ -24,7 +24,6 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.UserPrefs;
-import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;

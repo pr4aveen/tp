@@ -1,7 +1,6 @@
 package seedu.momentum.model;
 
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.TrackedItem;
 
 public class ProjectBookWithUi extends ProjectBook {
 

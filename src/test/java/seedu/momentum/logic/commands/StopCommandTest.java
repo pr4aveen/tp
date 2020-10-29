@@ -19,7 +19,6 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
-import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.TypicalTimes;
 
