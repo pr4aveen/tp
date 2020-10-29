@@ -138,9 +138,9 @@ This section describes some noteworthy details on how certain features are imple
 ### Immutability
 `Projects`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new
  object is created with the new details, and the model is updated with the new object.
- 
+
 Notable examples include:
-* Starting/Stopping a Timer: A new object is created with the updated timerWrapper state and durations, 
+* Starting/Stopping a Timer: A new object is created with the updated timerWrapper state and durations,
 * Editing a Project: A new object is created with the new project's details, with the same timerWrapper and durations recorded.
 
 Below is an example of what happens when a project's timerWrapper is stopped:
@@ -156,7 +156,7 @@ We chose to implement projects this way as immutability makes these classes more
 ### Timers and Durations
 The time tracking features in Momentum are implemented using `TimerWrapper` and `WorkDuration` objects. The below diagram
  illustrates the relevant classes that work together to produce statistics
- 
+
  ![StopTimerSequenceDiagram](images/TimerDurationClassDiagram.png)
 
 

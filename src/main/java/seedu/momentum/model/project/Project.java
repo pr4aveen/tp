@@ -155,9 +155,9 @@ public class Project extends TrackedItem {
      */
     public Project setTask(TrackedItem target, TrackedItem editedTask) {
         requireAllNonNull(target, editedTask);
-        UniqueTrackedItemList newTaskList = taskList.setTasks(target, editedTask);
+        taskList.setTrackedItem(target, editedTask);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
-                tags, durations, timerWrapper, newTaskList);
+                tags, durations, timerWrapper, taskList);
     }
 
     /**
