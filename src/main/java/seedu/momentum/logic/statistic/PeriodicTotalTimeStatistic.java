@@ -12,6 +12,7 @@ import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.timer.WorkDuration;
 
@@ -90,6 +91,13 @@ public class PeriodicTotalTimeStatistic extends Statistic {
             } else {
                 // Whole Duration is in the timeframe
                 totalDuration += duration.getTimeBetween(units);
+            }
+        }
+
+        if (!trackedItem.isTask()) {
+            Project project = (Project) trackedItem;
+            for (TrackedItem taskItem : project.getTaskList()) {
+                totalDuration += calculateTimeSpent(taskItem, start, end);
             }
         }
 

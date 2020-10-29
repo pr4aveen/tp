@@ -37,14 +37,14 @@
                         <Label fx:id="completionStatus" text="\$completionStatus" wrapText="true"/>
                      </children>
                   </HBox>
-                  <FlowPane fx:id="tags">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin></FlowPane>
                   <HBox fx:id="description">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin></HBox>
+                  <FlowPane fx:id="tags">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></FlowPane>
                </children>
                <GridPane.margin>
                   <Insets />
