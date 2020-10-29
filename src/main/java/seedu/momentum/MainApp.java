@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -128,7 +130,7 @@ public class MainApp extends Application {
             out.close();
             file.deleteOnExit();
         } else {
-            file = new File(res.getFile());
+            file = new File(URLDecoder.decode(res.getFile(), Charset.defaultCharset()));
         }
 
         if (!file.exists()) {

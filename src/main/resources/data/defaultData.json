@@ -1,6 +1,6 @@
 {
   "projects" : [ {
-    "name" : "Flver art commision",
+    "name" : "Fiverr art commision",
     "description" : "",
     "completionStatus" : false,
     "deadline" : {
@@ -8,7 +8,7 @@
       "time" : null
     },
     "reminder" : "2022-06-22T01:01:21",
-    "tagged" : [ "flverr", "artcomm" ],
+    "tagged" : [ "fiverr", "artcomm" ],
     "durations" : [ {
       "startTime" : "2020-10-29T14:39:26.379257",
       "stopTime" : "2020-10-29T15:21:22.730034"
@@ -32,11 +32,8 @@
         "startTime" : "2020-10-29T14:53:30.661056",
         "stopTime" : "2020-10-29T14:56:46.863834"
       }, {
-        "startTime" : "2020-10-29T15:13:25.724156",
-        "stopTime" : "2020-10-29T15:13:27.749391"
-      }, {
-        "startTime" : "2020-10-29T15:31:27.068668",
-        "stopTime" : "2020-10-29T16:00:05.235143"
+        "startTime" : "2020-10-20T15:31:27.068668",
+        "stopTime" : "2020-10-20T16:00:05.235143"
       } ],
       "timer" : {
         "startTime" : "2020-10-29T15:31:27.068668",
@@ -133,17 +130,8 @@
       "reminder" : null,
       "tagged" : [ "important" ],
       "durations" : [ {
-        "startTime" : "2020-10-29T15:22:02.704823",
-        "stopTime" : "2020-10-29T15:29:28.023943"
-      }, {
-        "startTime" : "2020-10-29T15:31:17.395074",
-        "stopTime" : "2020-10-29T15:31:59.397575"
-      }, {
-        "startTime" : "2020-10-29T15:32:53.114804",
-        "stopTime" : "2020-10-29T15:32:54.429888"
-      }, {
-        "startTime" : "2020-10-29T15:32:55.917929",
-        "stopTime" : "2020-10-29T15:34:01.610962"
+        "startTime" : "2020-10-20T15:32:55.917929",
+        "stopTime" : "2020-10-20T15:54:01.610962"
       } ],
       "timer" : {
         "startTime" : "2020-10-29T15:32:55.917929",
@@ -239,12 +227,12 @@
     "reminder" : null,
     "tagged" : [ "logodesign", "otot" ],
     "durations" : [ {
-      "startTime" : "2020-10-29T14:39:30.353437",
-      "stopTime" : "2020-10-29T15:34:19.555833"
+      "startTime" : "2020-10-20T14:39:30.353437",
+      "stopTime" : "2020-10-20T15:34:19.555833"
     } ],
     "timer" : {
-      "startTime" : "2020-10-29T14:39:30.353437",
-      "stopTime" : "2020-10-29T15:34:19.555833",
+      "startTime" : "2020-10-20T14:39:30.353437",
+      "stopTime" : "2020-10-20T15:34:19.555833",
       "isRunning" : false
     },
     "taskList" : [ {
@@ -259,8 +247,8 @@
       "tagged" : [ "meeting" ],
       "durations" : [ ],
       "timer" : {
-        "startTime" : "2020-10-29T14:38:50.59557",
-        "stopTime" : "2020-10-29T14:38:50.595573",
+        "startTime" : "2020-10-20T14:38:50.59557",
+        "stopTime" : "2020-10-20T14:38:50.595573",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -275,12 +263,12 @@
       "reminder" : null,
       "tagged" : [ "important", "money" ],
       "durations" : [ {
-        "startTime" : "2020-10-29T15:22:19.382267",
-        "stopTime" : "2020-10-29T16:00:55.517151"
+        "startTime" : "2020-10-20T15:22:19.382267",
+        "stopTime" : "2020-10-20T16:00:55.517151"
       } ],
       "timer" : {
-        "startTime" : "2020-10-29T15:22:19.382267",
-        "stopTime" : "2020-10-29T16:00:55.517151",
+        "startTime" : "2020-10-20T15:22:19.382267",
+        "stopTime" : "2020-10-20T16:00:55.517151",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
