@@ -47,8 +47,8 @@ public class EditCommandTest {
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PROJECT_SUCCESS, editedProject);
 
         Model expectedModel = new ModelManager(new ProjectBook(model.getProjectBook()), new UserPrefs());
-        expectedModel.setTrackedItem(ViewMode.PROJECTS, model.getFilteredTrackedItemList().get(0), editedProject);
-        expectedModel.commitToHistory(false);
+        expectedModel.setTrackedItem(model.getFilteredTrackedItemList().get(0), editedProject);
+        expectedModel.commitToHistory();
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
@@ -72,8 +72,8 @@ public class EditCommandTest {
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PROJECT_SUCCESS, editedProject);
 
         Model expectedModel = new ModelManager(new ProjectBook(model.getProjectBook()), new UserPrefs());
-        expectedModel.setTrackedItem(ViewMode.PROJECTS, lastTrackedItem, editedProject);
-        expectedModel.commitToHistory(false);
+        expectedModel.setTrackedItem(lastTrackedItem, editedProject);
+        expectedModel.commitToHistory();
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
@@ -86,7 +86,8 @@ public class EditCommandTest {
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem);
 
         Model expectedModel = new ModelManager(new ProjectBook(model.getProjectBook()), new UserPrefs());
-        expectedModel.commitToHistory(false);
+        expectedModel.setTrackedItem(editedTrackedItem, editedTrackedItem);
+        expectedModel.commitToHistory();
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
@@ -104,8 +105,8 @@ public class EditCommandTest {
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem);
 
         Model expectedModel = new ModelManager(new ProjectBook(model.getProjectBook()), new UserPrefs());
-        expectedModel.setTrackedItem(ViewMode.PROJECTS, model.getFilteredTrackedItemList().get(0), editedTrackedItem);
-        expectedModel.commitToHistory(false);
+        expectedModel.setTrackedItem(model.getFilteredTrackedItemList().get(0), editedTrackedItem);
+        expectedModel.commitToHistory();
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }

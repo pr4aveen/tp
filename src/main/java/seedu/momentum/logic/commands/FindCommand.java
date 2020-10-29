@@ -43,7 +43,7 @@ public class FindCommand extends Command {
         requireNonNull(model);
         model.viewAll();
         model.updateFilteredProjectList(predicate);
-        model.commitToHistory(false);
+        model.commitToHistory();
         return new CommandResult(
                 String.format(Messages.MESSAGE_PROJECTS_LISTED_OVERVIEW, model.getFilteredTrackedItemList().size()));
     }

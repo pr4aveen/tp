@@ -188,9 +188,11 @@ public class Project extends TrackedItem {
      */
     public Project setTask(TrackedItem target, TrackedItem editedTask) {
         requireAllNonNull(target, editedTask);
-        taskList.setTrackedItem(target, editedTask);
+        UniqueTrackedItemList newList = taskList.copy();
+        newList.setTrackedItem(target, editedTask);
+        newList.setOrder(sortType, isAscending, isSortedByCompletionStatus);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
-                tags, durations, timerWrapper, taskList);
+                tags, durations, timerWrapper, newList);
     }
 
     /**

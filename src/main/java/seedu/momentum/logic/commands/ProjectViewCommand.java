@@ -47,7 +47,7 @@ public class ProjectViewCommand extends Command {
 
         Project projectToView = (Project) lastShownList.get(targetIndex.getZeroBased());
         model.viewTasks(projectToView);
-        model.commitToHistory(false);
+        model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, projectToView.getName().fullName));
     }
 

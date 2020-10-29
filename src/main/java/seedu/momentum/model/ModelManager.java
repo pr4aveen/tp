@@ -35,9 +35,6 @@ public class ModelManager implements Model {
     private final ReminderManager reminderManager;
     private ObjectProperty<FilteredList<TrackedItem>> filteredTrackedItems;
     private final ObservableList<TrackedItem> runningTimers;
-    private TrackedItem runningTimer;
-    private boolean toAdd;
-    private boolean isPreviousCommandTimer;
     private Predicate<TrackedItem> currentPredicate;
     private SortType currentSortType;
     private boolean isCurrentSortAscending;
@@ -62,11 +59,8 @@ public class ModelManager implements Model {
         isCurrentSortAscending = true;
         isCurrentSortIsByCompletionStatus = true;
         viewMode = ViewMode.PROJECTS;
-        toAdd = false;
-        isPreviousCommandTimer = false;
 
-        this.versionedProjectBook = new VersionedProjectBook(
-                projectBook, viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+        this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject);
         this.reminderManager = new ReminderManager(this.versionedProjectBook);
         rescheduleReminders();
         this.viewList = this.versionedProjectBook.getTrackedItemList();
@@ -181,17 +175,13 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void setTrackedItem(ViewMode viewMode, TrackedItem target, TrackedItem editedTrackedItem) {
+    public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
         requireAllNonNull(target, editedTrackedItem);
 
         versionedProjectBook.setTrackedItem(target, editedTrackedItem);
         rescheduleReminders();
         orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
 
-        if (viewMode == ViewMode.TASKS) {
-            Project project = (Project) target;
-            resetUi(false, viewMode, false, project, null, false);
-        }
     }
 
     //=========== Filtered Project List Accessors =============================================================
@@ -343,11 +333,8 @@ public class ModelManager implements Model {
                 && reminderManager.equals(other.reminderManager)
                 && filteredTrackedItems.get().equals(other.filteredTrackedItems.get())
                 && runningTimers.equals(other.runningTimers)
-                //&& runningTimer.equals(other.runningTimer)
-                && viewMode.equals(other.viewMode)
+                && viewMode.equals(other.viewMode);
                 //&& currentProject.equals(other.currentProject)
-                && toAdd == other.toAdd
-                && isPreviousCommandTimer == other.isPreviousCommandTimer;
     }
 
     //=========== Undo/Redo ================================================================================
@@ -363,19 +350,15 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void commitToHistory(boolean isPreviousCommandTimer) {
-        versionedProjectBook.commit(viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
-        this.isPreviousCommandTimer = isPreviousCommandTimer;
+    public void commitToHistory() {
+        versionedProjectBook.commit(viewMode, currentProject);
     }
 
     @Override
     public void undoCommand() {
 
         // extract timer related details of ProjectBook version before undo
-        isPreviousCommandTimer = versionedProjectBook.getIsPreviousCommandTimer();
         currentProject = versionedProjectBook.getCurrentProject();
-        TrackedItem runningTimer = versionedProjectBook.getCurrentRunningTimer();
-        boolean toAdd = versionedProjectBook.getToAdd();
 
         versionedProjectBook.undo();
         Project newProject = versionedProjectBook.getCurrentProject();
@@ -383,15 +366,14 @@ public class ModelManager implements Model {
         // extract view mode details from ProjectBook version after undo
         viewMode = versionedProjectBook.getCurrentViewMode();
 
-        resetUi(true, viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+        resetUi(viewMode, currentProject);
         if (viewMode == ViewMode.TASKS) {
             viewTasks(newProject);
         }
     }
 
     @Override
-    public void resetUi(boolean isUndo, ViewMode viewMode,
-                          boolean isPreviousCommandTimer, Project project, TrackedItem runningTimer, boolean toAdd) {
+    public void resetUi(ViewMode viewMode, Project project) {
         requireNonNull(viewMode);
 
         switch (viewMode) {
@@ -417,12 +399,9 @@ public class ModelManager implements Model {
 
         // extract both timer related and ViewMode details from ProjectBook version after redo
         viewMode = versionedProjectBook.getCurrentViewMode();
-        isPreviousCommandTimer = versionedProjectBook.getIsPreviousCommandTimer();
         currentProject = versionedProjectBook.getCurrentProject();
-        TrackedItem runningTimer = versionedProjectBook.getCurrentRunningTimer();
-        boolean toAdd = versionedProjectBook.getToAdd();
 
-        resetUi(false, viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+        resetUi(viewMode, currentProject);
         if (viewMode == ViewMode.TASKS) {
             viewTasks(currentProject);
         }

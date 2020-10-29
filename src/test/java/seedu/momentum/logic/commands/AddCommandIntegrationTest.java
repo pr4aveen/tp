@@ -33,7 +33,7 @@ public class AddCommandIntegrationTest {
 
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         expectedModel.addTrackedItem(validProject);
-        expectedModel.commitToHistory(false);
+        expectedModel.commitToHistory();
 
         assertCommandSuccess(new AddCommand(validProject), model,
                 String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, validProject), expectedModel);
@@ -51,7 +51,7 @@ public class AddCommandIntegrationTest {
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         expectedModel.orderFilteredProjectList(SortType.ALPHA, true, true);
         expectedModel.addTrackedItem(dana);
-        expectedModel.commitToHistory(false);
+        expectedModel.commitToHistory();
 
         assertCommandSuccess(addDanaCommand, model,
                 String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, dana), expectedModel);

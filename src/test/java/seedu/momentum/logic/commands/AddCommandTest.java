@@ -221,7 +221,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setTrackedItem(ViewMode viewMode, TrackedItem target, TrackedItem editedTrackedItem) {
+        public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -261,7 +261,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void commitToHistory(boolean isPreviousCommandTimer) {
+        public void commitToHistory() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -271,8 +271,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void resetUi(boolean isUndo, ViewMode viewMode, boolean isPreviousCommandTimer,
-                       Project project, TrackedItem runningTimer, boolean toAdd) {
+        public void resetUi(ViewMode viewMode, Project project) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -329,19 +328,14 @@ public class AddCommandTest {
      * A Model stub that resets {@code ModelManager}.
      */
     private class ModelStubSetModelManager extends ModelStubAcceptingProjectAdded {
-        private boolean isPreviousCommandTimer;
         private ViewMode viewMode = ViewMode.PROJECTS;
         private Project currentProject = null;
-        private TrackedItem runningTimer = null;
-        private boolean toAdd = false;
         private final VersionedProjectBook versionedProjectBook =
-                new VersionedProjectBook(new ProjectBook(), viewMode,
-                        isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+                new VersionedProjectBook(new ProjectBook(), viewMode, currentProject);
 
         @Override
-        public void commitToHistory(boolean isPreviousCommandTimer) {
-            versionedProjectBook.commit(viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
-            this.isPreviousCommandTimer = isPreviousCommandTimer;
+        public void commitToHistory() {
+            versionedProjectBook.commit(viewMode, currentProject);
         }
     }
 }

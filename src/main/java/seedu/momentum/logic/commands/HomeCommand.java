@@ -15,7 +15,7 @@ public class HomeCommand extends Command {
     public CommandResult execute(Model model) {
         model.viewProjects();
         System.out.println("Executing Home Command");
-        model.commitToHistory(false);
+        model.commitToHistory();
         return new CommandResult(MESSAGE_EXIT_ACKNOWLEDGEMENT, false, false);
     }
 
