@@ -16,7 +16,7 @@ public class ClearCommandTest {
     public void execute_emptyProjectBook_success() {
         Model model = new ModelManager();
         Model expectedModel = new ModelManager();
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(false);
 
         assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS_ALL, expectedModel);
     }
@@ -26,7 +26,7 @@ public class ClearCommandTest {
         Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
         Model expectedModel = new ModelManager(getTypicalProjectBook(), new UserPrefs());
         expectedModel.setVersionedProjectBook(new ProjectBook());
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(false);
 
         assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS_ALL, expectedModel);
     }

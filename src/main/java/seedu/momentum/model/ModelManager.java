@@ -186,6 +186,7 @@ public class ModelManager implements Model {
 
         versionedProjectBook.setTrackedItem(target, editedTrackedItem);
         rescheduleReminders();
+        orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
 
         if (viewMode == ViewMode.TASKS) {
             Project project = (Project) target;
@@ -219,12 +220,12 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void orderFilteredProjectList(SortType orderType, boolean isAscending, boolean isSortedByCompletionStatus) {
-        requireAllNonNull(orderType, isAscending, isSortedByCompletionStatus);
+    public void orderFilteredProjectList(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
+        requireAllNonNull(sortType, isAscending, isSortedByCompletionStatus);
         isCurrentSortAscending = isAscending;
         isCurrentSortIsByCompletionStatus = isSortedByCompletionStatus;
-        currentSortType = orderType;
-        versionedProjectBook.setOrder(orderType, isAscending, isSortedByCompletionStatus);
+        currentSortType = sortType;
+        versionedProjectBook.setOrder(sortType, isAscending, isSortedByCompletionStatus);
         updateFilteredProjectList(currentPredicate);
     }
 
@@ -353,8 +354,9 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void commitToHistory() {
+    public void commitToHistory(boolean isPreviousCommandTimer) {
         versionedProjectBook.commit(viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+        this.isPreviousCommandTimer = isPreviousCommandTimer;
     }
 
     @Override
@@ -397,31 +399,6 @@ public class ModelManager implements Model {
             break;
         }
 
-        if (isPreviousCommandTimer && toAdd) {
-            if (isUndo) {
-                // for undo command, add back runningTimer
-                runningTimers.add(runningTimer);
-            } else {
-                // for redo command, remove runningTimer
-                runningTimers.remove(runningTimer);
-            }
-        } else if (isPreviousCommandTimer) {
-            if (isUndo) {
-                runningTimers.remove(runningTimer);
-            } else {
-                runningTimers.add(runningTimer);
-            }
-        }
-    }
-
-    @Override
-    public void setIsPreviousCommandTimerToTrue() {
-        isPreviousCommandTimer = true;
-    }
-
-    @Override
-    public void setIsPreviousCommandTimerToFalse() {
-        isPreviousCommandTimer = false;
     }
 
     @Override

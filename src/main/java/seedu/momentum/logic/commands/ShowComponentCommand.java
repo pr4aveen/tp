@@ -47,7 +47,7 @@ public class ShowComponentCommand extends Command {
         case REMINDER:
             if (!model.isReminderEmpty().getValue()) {
                 model.removeReminder();
-                model.commitToHistory();
+                model.commitToHistory(false);
                 return new CommandResult(String.format(MESSAGE_SUCCESS, componentType.toString(), REMOVED));
             }
             break;

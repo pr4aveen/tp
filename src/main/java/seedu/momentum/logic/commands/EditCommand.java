@@ -124,8 +124,7 @@ public class EditCommand extends Command {
 
         model.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
         model.rescheduleReminders();
-        model.setIsPreviousCommandTimerToFalse();
-        model.commitToHistory();
+        model.commitToHistory(false);
         return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));
     }
 

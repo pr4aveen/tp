@@ -261,7 +261,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void commitToHistory() {
+        public void commitToHistory(boolean isPreviousCommandTimer) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -273,16 +273,6 @@ public class AddCommandTest {
         @Override
         public void resetUi(boolean isUndo, ViewMode viewMode, boolean isPreviousCommandTimer,
                        Project project, TrackedItem runningTimer, boolean toAdd) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setIsPreviousCommandTimerToTrue() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setIsPreviousCommandTimerToFalse() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -349,18 +339,9 @@ public class AddCommandTest {
                         isPreviousCommandTimer, currentProject, runningTimer, toAdd);
 
         @Override
-        public void setIsPreviousCommandTimerToTrue() {
-            isPreviousCommandTimer = true;
-        }
-
-        @Override
-        public void setIsPreviousCommandTimerToFalse() {
-            isPreviousCommandTimer = false;
-        }
-
-        @Override
-        public void commitToHistory() {
+        public void commitToHistory(boolean isPreviousCommandTimer) {
             versionedProjectBook.commit(viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
+            this.isPreviousCommandTimer = isPreviousCommandTimer;
         }
     }
 }

@@ -4,8 +4,11 @@ import static java.util.Objects.requireNonNull;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
+import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
 
 import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 
 /**
@@ -40,12 +43,14 @@ public class SortCommand extends Command {
             + "Ascending: asc; Descending: dsc. \n"
             + "Example: " + COMMAND_WORD + " " + SORT_TYPE + "alpha " + SORT_ORDER + "asc";
 
-    public static final String MESSAGE_SORT_SUCCESS = "List has been sorted in %1$s%2$s order";
+    public static final String MESSAGE_SORT_SUCCESS_PROJECTS = "Projects have been sorted in %1$s%2$s order";
+    public static final String MESSAGE_SORT_SUCCESS_TASKS = "Tasks have been sorted in %1$s%2$s order";
 
     private SortType sortType;
     private final boolean isAscending;
     private final boolean isDefault;
     private final boolean isSortedByCompletionStatus;
+    private Project parentProject;
 
     /**
      * Creates a SortCommand to sort the list of projects.
@@ -61,6 +66,23 @@ public class SortCommand extends Command {
         this.isDefault = isDefault;
         this.isSortedByCompletionStatus = isSortedByCompletionStatus;
     }
+//
+//    /**
+//     * Creates a SortCommand to sort the list of {@code Task} in a particular {@code Project}.
+//     * @param sortType                   Type of sort applied to projects.
+//     * @param isAscending                Boolean value to check if order of sort applied to projects is ascending.
+//     * @param isDefault                  Boolean value to check if SortCommand is default.
+//     * @param isSortedByCompletionStatus Boolean value to check if SortCommand is sorted by completion status.
+//     * @param parentProject              Project that contains the list of tasks to be added.
+//     */
+//    public SortCommand(SortType sortType, boolean isAscending, boolean isDefault, boolean isSortedByCompletionStatus,
+//                       Project parentProject) {
+//        this.sortType = sortType;
+//        this.isAscending = isAscending;
+//        this.isDefault = isDefault;
+//        this.isSortedByCompletionStatus = isSortedByCompletionStatus;
+//        this.parentProject = parentProject;
+//    }
 
     @Override
     public CommandResult execute(Model model) {
@@ -88,10 +110,18 @@ public class SortCommand extends Command {
             sortType = SortType.ALPHA;
         }
 
-        model.orderFilteredProjectList(sortType, isAscending, isSortedByCompletionStatus);
-        model.setIsPreviousCommandTimerToFalse();
-        model.commitToHistory();
-        return new CommandResult(String.format(MESSAGE_SORT_SUCCESS, type, order));
+        if (model.getViewMode() == ViewMode.PROJECTS) {
+            model.orderFilteredProjectList(sortType, isAscending, isSortedByCompletionStatus);
+            model.commitToHistory(false);
+            return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_PROJECTS, type, order));
+        } else {
+            Project projectBeforeSort = model.getCurrentProject();
+            Project projectAfterSort = model.getCurrentProject()
+                    .orderTaskList(sortType, isAscending, isSortedByCompletionStatus);
+            model.setTrackedItem(ViewMode.TASKS, projectBeforeSort, projectAfterSort);
+            model.commitToHistory(false);
+            return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_TASKS, type, order));
+        }
     }
 
     @Override

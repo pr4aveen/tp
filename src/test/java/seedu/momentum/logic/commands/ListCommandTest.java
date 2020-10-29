@@ -28,14 +28,14 @@ public class ListCommandTest {
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(false);
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS_PROJECTS, expectedModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(false);
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS_PROJECTS, expectedModel);
     }
 }

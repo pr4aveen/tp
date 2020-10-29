@@ -35,7 +35,7 @@ public class DeleteCommandTest {
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         expectedModel.deleteTrackedItem(trackedItemToDelete);
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(false);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
@@ -60,7 +60,7 @@ public class DeleteCommandTest {
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         expectedModel.deleteTrackedItem(trackedItemToDelete);
         showNoProject(expectedModel);
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(false);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }

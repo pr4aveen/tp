@@ -49,6 +49,7 @@ public class SortCommandParser implements Parser<SortCommand> {
         }
 
         return new SortCommand(sortType, isAscending, isDefault, isSortedByCompletionStatus);
+
     }
 
     private String parseSortOrder(ArgumentMultimap argMultimap) throws ParseException {

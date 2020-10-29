@@ -49,8 +49,7 @@ public class StopCommandTest {
 
         TrackedItem stoppedTrackedItem = startedTrackedItem.stopTimer();
         expectedModel.setTrackedItem(ViewMode.PROJECTS, startedTrackedItem, stoppedTrackedItem);
-        expectedModel.setIsPreviousCommandTimerToTrue();
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(true);
 
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
         Clock.reset();
@@ -92,8 +91,7 @@ public class StopCommandTest {
 
         TrackedItem stoppedTrackedItem = startedTrackedItem.stopTimer();
         expectedModel.setTrackedItem(ViewMode.PROJECTS, startedTrackedItem, stoppedTrackedItem);
-        expectedModel.setIsPreviousCommandTimerToTrue();
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(true);
 
         showProjectAtIndex(expectedModel, INDEX_FIRST_PROJECT);
 

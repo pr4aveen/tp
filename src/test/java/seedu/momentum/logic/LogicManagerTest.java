@@ -85,7 +85,7 @@ public class LogicManagerTest {
                 .build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addTrackedItem(expectedProject);
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(false);
         String expectedMessage = LogicManager.FILE_OPS_ERROR_MESSAGE + DUMMY_IO_EXCEPTION;
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }

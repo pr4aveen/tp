@@ -196,7 +196,7 @@ public interface Model {
     /**
      * Commits current {@code ProjectBook} state to history.
      */
-    void commitToHistory();
+    void commitToHistory(boolean isPreviousCommandTimer);
 
     /**
      * Undoes command to reset state to previous state in history.
@@ -208,16 +208,6 @@ public interface Model {
      */
     void resetUi(boolean isUndo, ViewMode viewMode, boolean isPreviousCommandTimer,
                    Project project, TrackedItem runningTimer, boolean toAdd);
-
-    /**
-     * Resets boolean value to true.
-     */
-    void setIsPreviousCommandTimerToTrue();
-
-    /**
-     * Resets boolean value to false.
-     */
-    void setIsPreviousCommandTimerToFalse();
 
     /**
      * Redoes previously undone command to reset state to before undo command.

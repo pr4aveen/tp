@@ -48,7 +48,7 @@ public class EditCommandTest {
 
         Model expectedModel = new ModelManager(new ProjectBook(model.getProjectBook()), new UserPrefs());
         expectedModel.setTrackedItem(ViewMode.PROJECTS, model.getFilteredTrackedItemList().get(0), editedProject);
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(false);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
@@ -73,7 +73,7 @@ public class EditCommandTest {
 
         Model expectedModel = new ModelManager(new ProjectBook(model.getProjectBook()), new UserPrefs());
         expectedModel.setTrackedItem(ViewMode.PROJECTS, lastTrackedItem, editedProject);
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(false);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
@@ -86,7 +86,7 @@ public class EditCommandTest {
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem);
 
         Model expectedModel = new ModelManager(new ProjectBook(model.getProjectBook()), new UserPrefs());
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(false);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
@@ -105,7 +105,7 @@ public class EditCommandTest {
 
         Model expectedModel = new ModelManager(new ProjectBook(model.getProjectBook()), new UserPrefs());
         expectedModel.setTrackedItem(ViewMode.PROJECTS, model.getFilteredTrackedItemList().get(0), editedTrackedItem);
-        expectedModel.commitToHistory();
+        expectedModel.commitToHistory(false);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }

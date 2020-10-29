@@ -79,8 +79,7 @@ public class StopCommand extends Command {
         }
 
         model.rescheduleReminders();
-        model.setIsPreviousCommandTimerToTrue();
-        model.commitToHistory();
+        model.commitToHistory(true);
 
         return new CommandResult(String.format(MESSAGE_STOP_TIMER_SUCCESS, targetIndex.getOneBased(),
                 newTrackedItem.getTimer().getTimeBetween(ChronoUnit.MINUTES)));
