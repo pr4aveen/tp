@@ -24,7 +24,7 @@ public class StartCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_START_TIMER_SUCCESS = "Started Project %1$s, at: ";
+    public static final String MESSAGE_START_TIMER_SUCCESS = "Started %1$s, at: ";
     public static final String MESSAGE_EXISTING_TIMER_ERROR = "There is already a timer running for this project";
 
     private final Index targetIndex;
@@ -72,7 +72,8 @@ public class StartCommand extends Command {
             model.setTrackedItem(ViewMode.PROJECTS, trackedItemToStart, newTrackedItem);
         } else {
             assert parentProject != null;
-            parentProject.setTask(trackedItemToStart, newTrackedItem);
+            Project newProject = parentProject.setTask(trackedItemToStart, newTrackedItem);
+            model.setTrackedItem(ViewMode.TASKS, parentProject, newProject);
         }
 
         model.rescheduleReminders();

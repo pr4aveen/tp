@@ -25,7 +25,7 @@ public class StopCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_STOP_TIMER_SUCCESS = "Stopped Project: %s! Total Duration: %s";
+    public static final String MESSAGE_STOP_TIMER_SUCCESS = "Stopped %s. Total Duration: %s";
     public static final String MESSAGE_NO_TIMER_ERROR = "There is no timer running for this project.";
 
     private final Index targetIndex;
@@ -75,7 +75,8 @@ public class StopCommand extends Command {
             model.setTrackedItem(ViewMode.PROJECTS, trackedItemToStop, newTrackedItem);
         } else {
             assert parentProject != null;
-            parentProject.setTask(trackedItemToStop, newTrackedItem);
+            Project newProject = parentProject.setTask(trackedItemToStop, newTrackedItem);
+            model.setTrackedItem(ViewMode.TASKS, parentProject, newProject);
         }
 
         model.rescheduleReminders();

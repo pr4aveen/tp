@@ -1,0 +1,360 @@
+{
+  "projects" : [ {
+    "name" : "Fiverr art commision",
+    "description" : "",
+    "completionStatus" : false,
+    "deadline" : {
+      "date" : "2020-10-04",
+      "time" : null
+    },
+    "reminder" : "2022-06-22T01:01:21",
+    "tagged" : [ "fiverr", "artcomm" ],
+    "durations" : [ {
+      "startTime" : "2020-10-29T14:39:26.379257",
+      "stopTime" : "2020-10-29T15:21:22.730034"
+    } ],
+    "timer" : {
+      "startTime" : "2020-10-29T14:39:26.379257",
+      "stopTime" : "2020-10-29T15:21:22.730034",
+      "isRunning" : false
+    },
+    "taskList" : [ {
+      "name" : "Client Meeting",
+      "description" : "",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : "2020-12-31",
+        "time" : null
+      },
+      "reminder" : "2020-12-30T00:00",
+      "tagged" : [ "meeting" ],
+      "durations" : [ {
+        "startTime" : "2020-10-29T14:53:30.661056",
+        "stopTime" : "2020-10-29T14:56:46.863834"
+      }, {
+        "startTime" : "2020-10-20T15:31:27.068668",
+        "stopTime" : "2020-10-20T16:00:05.235143"
+      } ],
+      "timer" : {
+        "startTime" : "2020-10-29T15:31:27.068668",
+        "stopTime" : "2020-10-29T16:00:05.235143",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    }, {
+      "name" : "Brainstorming Ideas",
+      "description" : "",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : null,
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ ],
+      "durations" : [ {
+        "startTime" : "2020-10-29T15:21:49.932326",
+        "stopTime" : "2020-10-29T15:25:52.384358"
+      }, {
+        "startTime" : "2020-10-29T15:28:41.865006",
+        "stopTime" : "2020-10-29T15:29:05.112899"
+      } ],
+      "timer" : {
+        "startTime" : "2020-10-29T15:28:41.865006",
+        "stopTime" : "2020-10-29T15:29:05.112899",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    }, {
+      "name" : "Confirm Payment Details",
+      "description" : "He better make this worth it",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : null,
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ "money", "invoice" ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-10-29T14:42:20.161792",
+        "stopTime" : "2020-10-29T14:42:20.161798",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    } ],
+    "createdDate" : "2019-10-04"
+  }, {
+    "name" : "XYZ startup web UI design",
+    "description" : "",
+    "completionStatus" : true,
+    "deadline" : {
+      "date" : "2020-10-10",
+      "time" : "01:01:21"
+    },
+    "reminder" : null,
+    "tagged" : [ "important", "webdesign" ],
+    "durations" : [ {
+      "startTime" : "2020-10-29T14:39:27.646492",
+      "stopTime" : "2020-10-29T15:29:16.067364"
+    } ],
+    "timer" : {
+      "startTime" : "2020-10-29T14:39:27.646492",
+      "stopTime" : "2020-10-29T15:29:16.067364",
+      "isRunning" : false
+    },
+    "taskList" : [ {
+      "name" : "Meet with Client",
+      "description" : "At ABC Building Level 4, Attire Smart Casual",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : "2020-12-15",
+        "time" : "14:00"
+      },
+      "reminder" : null,
+      "tagged" : [ "meeting" ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-10-29T14:33:44.142519",
+        "stopTime" : "2020-10-29T14:33:44.142527",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    }, {
+      "name" : "Request for Deadline Extension",
+      "description" : "To 2021 Aug",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : null,
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ "important" ],
+      "durations" : [ {
+        "startTime" : "2020-10-20T15:32:55.917929",
+        "stopTime" : "2020-10-20T15:54:01.610962"
+      } ],
+      "timer" : {
+        "startTime" : "2020-10-29T15:32:55.917929",
+        "stopTime" : "2020-10-29T15:34:01.610962",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    } ],
+    "createdDate" : "2019-10-10"
+  }, {
+    "name" : "Blog design",
+    "description" : "For friend",
+    "completionStatus" : false,
+    "deadline" : {
+      "date" : null,
+      "time" : null
+    },
+    "reminder" : null,
+    "tagged" : [ "webdesign" ],
+    "durations" : [ {
+      "startTime" : "2020-10-29T14:39:28.882446",
+      "stopTime" : "2020-10-29T15:21:35.626358"
+    } ],
+    "timer" : {
+      "startTime" : "2020-10-29T14:39:28.882446",
+      "stopTime" : "2020-10-29T15:21:35.626358",
+      "isRunning" : false
+    },
+    "taskList" : [ {
+      "name" : "Clarify blog requirements",
+      "description" : "What is he even talking about?",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : null,
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ "requirements" ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-10-29T14:36:43.492018",
+        "stopTime" : "2020-10-29T14:36:43.492031",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    }, {
+      "name" : "Discuss color scheme",
+      "description" : "",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : null,
+        "time" : null
+      },
+      "reminder" : "2020-11-30T20:00",
+      "tagged" : [ "UX", "UI" ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-10-29T14:36:48.984541",
+        "stopTime" : "2020-10-29T14:36:48.984568",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    }, {
+      "name" : "Fix Layout Issues",
+      "description" : "Banner image not in the right place",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : "2020-12-11",
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ "layout", "UX", "UI" ],
+      "durations" : [ {
+        "startTime" : "2020-10-29T15:22:12.386672",
+        "stopTime" : "2020-10-29T16:00:19.222503"
+      } ],
+      "timer" : {
+        "startTime" : "2020-10-29T15:22:12.386672",
+        "stopTime" : "2020-10-29T16:00:19.222503",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    } ],
+    "createdDate" : "2019-06-22"
+  }, {
+    "name" : "Logo",
+    "description" : "Aunt Mary bakery",
+    "completionStatus" : true,
+    "deadline" : {
+      "date" : "2020-11-04",
+      "time" : "08:10:21"
+    },
+    "reminder" : null,
+    "tagged" : [ "logodesign", "otot" ],
+    "durations" : [ {
+      "startTime" : "2020-10-20T14:39:30.353437",
+      "stopTime" : "2020-10-20T15:34:19.555833"
+    } ],
+    "timer" : {
+      "startTime" : "2020-10-20T14:39:30.353437",
+      "stopTime" : "2020-10-20T15:34:19.555833",
+      "isRunning" : false
+    },
+    "taskList" : [ {
+      "name" : "See Aunt Mary",
+      "description" : "See the new logo in action",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : "2020-12-15",
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ "meeting" ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-10-20T14:38:50.59557",
+        "stopTime" : "2020-10-20T14:38:50.595573",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    }, {
+      "name" : "Settle Payment Issue",
+      "description" : "Amount was not the same as what was agreed upon",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : null,
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ "important", "money" ],
+      "durations" : [ {
+        "startTime" : "2020-10-20T15:22:19.382267",
+        "stopTime" : "2020-10-20T16:00:55.517151"
+      } ],
+      "timer" : {
+        "startTime" : "2020-10-20T15:22:19.382267",
+        "stopTime" : "2020-10-20T16:00:55.517151",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    } ],
+    "createdDate" : "2019-11-04"
+  }, {
+    "name" : "Read up on new Illustrator Features",
+    "description" : "",
+    "completionStatus" : true,
+    "deadline" : {
+      "date" : "2024-10-24",
+      "time" : null
+    },
+    "reminder" : null,
+    "tagged" : [ "selfimprovement", "important" ],
+    "durations" : [ {
+      "startTime" : "2020-10-29T14:39:31.844237",
+      "stopTime" : "2020-10-29T14:49:00.371296"
+    }, {
+      "startTime" : "2020-10-29T14:49:07.681395",
+      "stopTime" : "2020-10-29T15:59:46.746239"
+    } ],
+    "timer" : {
+      "startTime" : "2020-10-29T14:49:07.681395",
+      "stopTime" : "2020-10-29T15:59:46.746239",
+      "isRunning" : false
+    },
+    "taskList" : [ {
+      "name" : "Check Website",
+      "description" : "https://helpx.adobe.com/sea/illustrator/using/whats-new.html?promoid=4SC996PM&mv=other",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : null,
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ ],
+      "durations" : [ {
+        "startTime" : "2020-10-29T15:34:32.766752",
+        "stopTime" : "2020-10-29T16:00:33.12442"
+      } ],
+      "timer" : {
+        "startTime" : "2020-10-29T15:34:32.766752",
+        "stopTime" : "2020-10-29T16:00:33.12442",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    }, {
+      "name" : "Check out Udemy Course",
+      "description" : "",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : null,
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-10-29T14:40:25.718715",
+        "stopTime" : "2020-10-29T14:40:25.718718",
+        "isRunning" : false
+      },
+      "createdDate" : "2020-10-29"
+    } ],
+    "createdDate" : "2019-10-24"
+  }, {
+    "name" : "Think of a new Project",
+    "description" : "",
+    "completionStatus" : false,
+    "deadline" : {
+      "date" : null,
+      "time" : null
+    },
+    "reminder" : null,
+    "tagged" : [ "brainstorming" ],
+    "durations" : [ {
+      "startTime" : "2020-10-29T14:39:33.829615",
+      "stopTime" : "2020-10-29T15:59:52.112224"
+    } ],
+    "timer" : {
+      "startTime" : "2020-10-29T14:39:33.829615",
+      "stopTime" : "2020-10-29T15:59:52.112224",
+      "isRunning" : false
+    },
+    "taskList" : [ ],
+    "createdDate" : "2019-01-04"
+  } ]
+}

@@ -69,7 +69,7 @@ public class ModelManager implements Model {
                 projectBook, viewMode, isPreviousCommandTimer, currentProject, runningTimer, toAdd);
         this.reminderManager = new ReminderManager(this.versionedProjectBook);
         rescheduleReminders();
-        this.viewList = FXCollections.observableArrayList();
+        this.viewList = this.versionedProjectBook.getTrackedItemList();
         filteredTrackedItems = new SimpleObjectProperty<>(new FilteredList<>(viewList, currentPredicate));
         //filteredTrackedItems = new FilteredList<>(viewList);
         viewProjects();
@@ -308,9 +308,18 @@ public class ModelManager implements Model {
      */
     public void updateRunningTimers() {
         runningTimers.clear();
-        for (TrackedItem trackedItem : filteredTrackedItems.get()) {
+        for (TrackedItem trackedItem : versionedProjectBook.getTrackedItemList()) {
             if (trackedItem.isRunning()) {
                 runningTimers.add(trackedItem);
+            }
+
+            if (!trackedItem.isTask()) {
+                Project project = (Project) trackedItem;
+                for (TrackedItem taskItem : project.getTaskList()) {
+                    if (taskItem.isRunning()) {
+                        runningTimers.add(taskItem);
+                    }
+                }
             }
         }
     }
