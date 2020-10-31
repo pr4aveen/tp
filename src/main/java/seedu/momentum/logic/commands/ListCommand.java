@@ -22,7 +22,6 @@ public class ListCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
-        model.setIsPreviousCommandTimerToFalse();
         model.commitToHistory();
         if (model.getViewMode() == ViewMode.PROJECTS) {
             return new CommandResult(MESSAGE_SUCCESS_PROJECTS);

@@ -111,11 +111,11 @@ public class EditCommand extends Command {
 
         try {
             if (model.getViewMode() == ViewMode.PROJECTS) {
-                model.setTrackedItem(ViewMode.PROJECTS, trackedItemToEdit, editedTrackedItem);
+                model.setTrackedItem(trackedItemToEdit, editedTrackedItem);
             } else {
                 Project projectBeforeEditTask = parentProject;
                 Project projectAfterEditTask = parentProject.setTask(trackedItemToEdit, editedTrackedItem);
-                model.setTrackedItem(ViewMode.TASKS, projectBeforeEditTask, projectAfterEditTask);
+                model.setTrackedItem(projectBeforeEditTask, projectAfterEditTask);
                 model.viewTasks(projectAfterEditTask);
             }
         } catch (Exception e) {
@@ -124,7 +124,6 @@ public class EditCommand extends Command {
 
         model.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
         model.rescheduleReminders();
-        model.setIsPreviousCommandTimerToFalse();
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));
     }

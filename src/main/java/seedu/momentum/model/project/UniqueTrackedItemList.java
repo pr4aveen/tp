@@ -174,7 +174,7 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
      *
      * @return duplicate {@code UniqueTrackedItemList} list.
      */
-    private UniqueTrackedItemList copy() {
+    public UniqueTrackedItemList copy() {
         UniqueTrackedItemList newList = new UniqueTrackedItemList();
         for (TrackedItem t : internalList) {
             newList.add(t);

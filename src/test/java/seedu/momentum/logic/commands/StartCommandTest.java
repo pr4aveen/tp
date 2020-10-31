@@ -17,7 +17,6 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
-import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.TypicalTimes;
 
@@ -37,8 +36,7 @@ public class StartCommandTest {
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
-        expectedModel.setTrackedItem(ViewMode.PROJECTS, trackedItemToStart, startedTrackedItem);
-        expectedModel.setIsPreviousCommandTimerToTrue();
+        expectedModel.setTrackedItem(trackedItemToStart, startedTrackedItem);
         expectedModel.commitToHistory();
 
         String expectedMessage =
@@ -62,7 +60,7 @@ public class StartCommandTest {
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
         TrackedItem trackedItemToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
-        model.setTrackedItem(ViewMode.PROJECTS, trackedItemToStart, trackedItemToStart.startTimer());
+        model.setTrackedItem(trackedItemToStart, trackedItemToStart.startTimer());
 
         assertCommandFailure(startCommand, model, StartCommand.MESSAGE_EXISTING_TIMER_ERROR);
     }
@@ -76,8 +74,7 @@ public class StartCommandTest {
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
-        expectedModel.setTrackedItem(ViewMode.PROJECTS, trackedItemToStart, startedTrackedItem);
-        expectedModel.setIsPreviousCommandTimerToTrue();
+        expectedModel.setTrackedItem(trackedItemToStart, startedTrackedItem);
         expectedModel.commitToHistory();
 
         StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);

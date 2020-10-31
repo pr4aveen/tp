@@ -109,7 +109,7 @@ public interface Model {
      * The tracked item identity of {@code editedTrackedItem} must not be the same as another existing tracked item in
      * the project book.
      */
-    void setTrackedItem(ViewMode viewMode, TrackedItem target, TrackedItem editedTrackedItem);
+    void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem);
 
     /**
      * Returns an unmodifiable view of the filtered project list.
@@ -206,18 +206,7 @@ public interface Model {
     /**
      * Undoes command to reset view mode to previous view mode.
      */
-    void resetUi(boolean isUndo, ViewMode viewMode, boolean isPreviousCommandTimer,
-                   Project project, TrackedItem runningTimer, boolean toAdd);
-
-    /**
-     * Resets boolean value to true.
-     */
-    void setIsPreviousCommandTimerToTrue();
-
-    /**
-     * Resets boolean value to false.
-     */
-    void setIsPreviousCommandTimerToFalse();
+    void resetUi(ViewMode viewMode, Project project);
 
     /**
      * Redoes previously undone command to reset state to before undo command.

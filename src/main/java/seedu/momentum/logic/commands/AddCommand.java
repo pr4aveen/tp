@@ -77,7 +77,6 @@ public class AddCommand extends Command {
             }
 
             model.addTrackedItem(toAdd);
-            model.setIsPreviousCommandTimerToFalse();
             model.commitToHistory();
             return new CommandResult(String.format(MESSAGE_SUCCESS, TEXT_PROJECT, toAdd));
         } else {
@@ -86,10 +85,9 @@ public class AddCommand extends Command {
             }
             Project projectBeforeAdd = projectToAddTask;
             Project projectAfterAdd = projectToAddTask.addTask(taskToAdd);
-            model.setTrackedItem(ViewMode.TASKS, projectBeforeAdd, projectAfterAdd);
+            model.setTrackedItem(projectBeforeAdd, projectAfterAdd);
             model.rescheduleReminders();
             model.viewTasks(projectAfterAdd);
-            model.setIsPreviousCommandTimerToFalse();
             model.commitToHistory();
             return new CommandResult(String.format(MESSAGE_SUCCESS, TEXT_TASK, taskToAdd));
         }

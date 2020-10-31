@@ -19,7 +19,6 @@ import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
-import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.TypicalTimes;
 
@@ -38,18 +37,17 @@ public class StopCommandTest {
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStop.startTimer();
-        expectedModel.setTrackedItem(ViewMode.PROJECTS, trackedItemToStop, startedTrackedItem);
+        expectedModel.setTrackedItem(trackedItemToStop, startedTrackedItem);
 
         StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 60);
-        model.setTrackedItem(ViewMode.PROJECTS, trackedItemToStop, startedTrackedItem);
+        model.setTrackedItem(trackedItemToStop, startedTrackedItem);
 
         Clock.advance(1, ChronoUnit.HOURS);
 
         TrackedItem stoppedTrackedItem = startedTrackedItem.stopTimer();
-        expectedModel.setTrackedItem(ViewMode.PROJECTS, startedTrackedItem, stoppedTrackedItem);
-        expectedModel.setIsPreviousCommandTimerToTrue();
+        expectedModel.setTrackedItem(startedTrackedItem, stoppedTrackedItem);
         expectedModel.commitToHistory();
 
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
@@ -84,15 +82,14 @@ public class StopCommandTest {
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStop.startTimer();
-        expectedModel.setTrackedItem(ViewMode.PROJECTS, trackedItemToStop, startedTrackedItem);
+        expectedModel.setTrackedItem(trackedItemToStop, startedTrackedItem);
 
-        model.setTrackedItem(ViewMode.PROJECTS, trackedItemToStop, startedTrackedItem);
+        model.setTrackedItem(trackedItemToStop, startedTrackedItem);
 
         Clock.advance(1, ChronoUnit.HOURS);
 
         TrackedItem stoppedTrackedItem = startedTrackedItem.stopTimer();
-        expectedModel.setTrackedItem(ViewMode.PROJECTS, startedTrackedItem, stoppedTrackedItem);
-        expectedModel.setIsPreviousCommandTimerToTrue();
+        expectedModel.setTrackedItem(startedTrackedItem, stoppedTrackedItem);
         expectedModel.commitToHistory();
 
         showProjectAtIndex(expectedModel, INDEX_FIRST_PROJECT);
