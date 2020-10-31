@@ -48,4 +48,22 @@ public class EditProjectCommand extends EditCommand {
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));
     }
+
+    @Override
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof EditProjectCommand)) {
+            return false;
+        }
+
+        // state check
+        EditProjectCommand e = (EditProjectCommand) other;
+        return index.equals(e.index)
+                && editTrackedItemDescriptor.equals(e.editTrackedItemDescriptor);
+    }
 }
