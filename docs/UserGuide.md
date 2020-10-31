@@ -184,15 +184,18 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 * The date and time of the reminder needs to be later than the current time.
 
 <div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**<br>
-    <ul>
-        <li>Projects and tasks can have any number of tags (including 0).</li> 
-        <li>A deadline of a project can include time.</li> 
-        <li>A project can have an empty description.</li>
-        <li>`T` separates the date and time in a reminder.</li>
-        <li>A reminder will be shown in the Reminder component of the sidebar at the date and time specified.</li>
-        <li>The reminder will be removed after it is shown in the sidebar.</li>
-    </ul>
+
+<ul>
+<li>Projects and tasks can have any number of tags (including 0).</li> 
+<li>A deadline of a project can include time.</li> 
+<li>A project can have an empty description.</li>
+<li>`T` separates the date and time in a reminder.</li>
+<li>A reminder will be shown in the Reminder component of the sidebar at the date and time specified.</li>
+<li>The reminder will be removed after it is shown in the sidebar.</li>
+</ul>
+
 </div>
 
 <div markdown="block" class="alert alert-info">
