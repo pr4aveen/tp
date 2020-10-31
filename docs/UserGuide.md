@@ -467,7 +467,7 @@ Example: `sort type/deadline`, `undo`, `redo`
 
 Result: Projects are sorted by deadline, then the application is reset to the sorting order before sort command was executed, then reset back to sort by deadline after redo command.
 
-<div markdown="span" class="alert alert-primary">
+<div markdown="block" class="alert alert-primary">
 
 :bulb: **Tip:**<br>
 * Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.<br>
