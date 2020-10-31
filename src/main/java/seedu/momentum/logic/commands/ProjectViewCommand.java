@@ -19,10 +19,7 @@ public class ProjectViewCommand extends Command {
 
     public static final String COMMAND_WORD = "view";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Views all of a project's tasks, identified by the index number used in the displayed project list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " " + "INDEX";
 
     public static final String MESSAGE_DELETE_PROJECT_SUCCESS = "Viewing Project: %1$s";
 

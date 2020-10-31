@@ -24,19 +24,13 @@ public class AddCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a project to the project book. "
-            + "Parameters: "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " "
             + PREFIX_NAME + "NAME "
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_COMPLETION_STATUS + "] "
             + String.format("[%sDEADLINE_DATE [%sDEADLINE_TIME] ] ", PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME)
             + "[" + PREFIX_REMINDER + "REMINDER_DATE_AND_TIME] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John Doe "
-            + PREFIX_DESCRIPTION + "random project"
-            + PREFIX_TAG + "friends "
-            + PREFIX_TAG + "owesMoney";
+            + "[" + PREFIX_TAG + "TAG]...";
 
     public static final String MESSAGE_SUCCESS = "New %1$s added: %2$s";
     public static final String MESSAGE_DUPLICATE_PROJECT = "This project already exists in the project book";

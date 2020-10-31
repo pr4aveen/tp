@@ -21,8 +21,7 @@ public class SetCommand extends Command {
 
     public static final String COMMAND_WORD = "set";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adjust various settings in the application.\n"
-        + "Parameters: "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " "
         + "[" + SET_THEME + "THEME]"
         + "[" + SET_STATISTIC_TIMEFRAME + "TIMEFRAME]";
 
