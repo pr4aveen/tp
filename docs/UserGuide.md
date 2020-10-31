@@ -186,30 +186,12 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 <div markdown="block" class="alert alert-primary">
 
 :bulb: **Tip:**<br>
-* Projects and tasks can have any number of tags (including 0).
-* A deadline of a project can include time.
-* A project can have an empty description.
-* `T` separates the date and time in a reminder.
-* A reminder will be shown in the Reminder component of the sidebar at the date and time specified.
-* The reminder will be removed after it is shown in the sidebar.
-
-</div>
-
-<div markdown="block" class="alert alert-info">
-
-**:information_source: Notes about the command format:**<br>
-
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-
-* Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-
-* Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-
-* Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+* Projects and tasks can have any number of tags (including 0).<br>
+* A deadline of a project can include time.<br>
+* A project can have an empty description.<br>
+* `T` separates the date and time in a reminder.<br>
+* A reminder will be shown in the Reminder component of the sidebar at the date and time specified.<br>
+* The reminder will be removed after it is shown in the sidebar.<br>
 
 </div>
 
@@ -285,14 +267,14 @@ Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
     * This is the default sort.
     * Add `c/` to disable this and sort without taking into account of completion status.
    
-<div markdown="span" class="alert alert-primary">
+<div markdown="block" class="alert alert-primary">
 
 :bulb: **Tip:**<br>
-* `type/alpha` and `order/asc` will be used as default if both sort type and order are not specified (i.e. command is `sort`)
-* Current sort type will be used if the `type` is not specified but `order` is specified.
-* `order/asc` will be used as default if the `order` is not specified but `type` is specified.
-* For `sort type/deadline`, projects without deadlines will be ordered alphabetically after the ordered list of projects with deadlines.
-* For both `sort type/deadline` and `sort type/created`, projects with same deadline or same created date will be sorted alphabetically.
+* `type/alpha` and `order/asc` will be used as default if both sort type and order are not specified (i.e. command is `sort`)<br>
+* Current sort type will be used if the `type` is not specified but `order` is specified.<br>
+* `order/asc` will be used as default if the `order` is not specified but `type` is specified.<br>
+* For `sort type/deadline`, projects without deadlines will be ordered alphabetically after the ordered list of projects with deadlines.<br>
+* For both `sort type/deadline` and `sort type/created`, projects with same deadline or same created date will be sorted alphabetically.<br>
 
 </div>
 
@@ -488,8 +470,8 @@ Result: Projects are sorted by deadline, then the application is reset to the so
 <div markdown="span" class="alert alert-primary">
 
 :bulb: **Tip:**<br>
-* Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.
-* Redo command only works if there the previous command is `undo`.
+* Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.<br>
+* Redo command only works if there the previous command is `undo`.<br>
 
 </div>
 
