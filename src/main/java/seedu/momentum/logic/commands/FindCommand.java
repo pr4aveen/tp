@@ -37,7 +37,6 @@ public class FindCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.viewAll();
         model.updatePredicate(predicate);
         model.commitToHistory();
         return new CommandResult(

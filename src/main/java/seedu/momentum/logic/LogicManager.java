@@ -51,8 +51,6 @@ public class LogicManager implements Logic {
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
-        model.resetView();
-
         CommandResult commandResult;
         Command command = projectBookParser.parseCommand(commandText, model);
         commandResult = command.execute(model);
