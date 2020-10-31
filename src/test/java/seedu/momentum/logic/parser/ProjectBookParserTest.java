@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.logic.commands.AddCommand;
+import seedu.momentum.logic.commands.AddProjectCommand;
 import seedu.momentum.logic.commands.ClearCommand;
 import seedu.momentum.logic.commands.DeleteCommand;
 import seedu.momentum.logic.commands.EditCommand;
@@ -51,8 +51,8 @@ public class ProjectBookParserTest {
     @Test
     public void parseCommand_add() throws Exception {
         Project project = new ProjectBuilder().withCurrentCreatedDate().build();
-        AddCommand command = (AddCommand) parser.parseCommand(ProjectUtil.getAddCommand(project), model);
-        assertEquals(new AddCommand(project), command);
+        AddProjectCommand command = (AddProjectCommand) parser.parseCommand(ProjectUtil.getAddCommand(project), model);
+        assertEquals(new AddProjectCommand(project), command);
     }
 
     @Test

@@ -37,6 +37,7 @@ import org.junit.jupiter.api.Test;
 import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.logic.commands.AddCommand;
+import seedu.momentum.logic.commands.AddProjectCommand;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
@@ -59,33 +60,33 @@ public class AddCommandParserTest {
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + DESCRIPTION_DESC_BOB
                         + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_BOB + REMINDER_DESC_AMY + TAG_DESC_FRIEND,
-                new AddCommand(expectedProject), model);
+                new AddProjectCommand(expectedProject), model);
 
         // multiple names - last name accepted
         assertParseSuccess(parser, NAME_DESC_AMY + NAME_DESC_BOB + DESCRIPTION_DESC_BOB
                         + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_BOB + REMINDER_DESC_AMY + TAG_DESC_FRIEND,
-                new AddCommand(expectedProject), model);
+                new AddProjectCommand(expectedProject), model);
 
         // multiple descriptions - last description accepted
         assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_AMY + DESCRIPTION_DESC_BOB
                         + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_BOB + REMINDER_DESC_AMY + TAG_DESC_FRIEND,
-                new AddCommand(expectedProject), model);
+                new AddProjectCommand(expectedProject), model);
 
         // multiple completion status
         assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB + COMPLETION_STATUS_DESC_BOB
                         + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_BOB + REMINDER_DESC_AMY + TAG_DESC_FRIEND,
-                new AddCommand(expectedProject), model);
+                new AddProjectCommand(expectedProject), model);
 
         // multiple deadlines - last deadline accepted
         assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB + DEADLINE_DATE_DESC_AMY
                         + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_BOB + REMINDER_DESC_AMY + TAG_DESC_FRIEND,
-                new AddCommand(expectedProject), model);
+                new AddProjectCommand(expectedProject), model);
 
         // multiple reminders, last reminder accepted
         assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB + DEADLINE_DATE_DESC_AMY
                         + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_BOB + REMINDER_DESC_AMY + TAG_DESC_FRIEND
                         + REMINDER_DESC_AMY,
-                new AddCommand(expectedProject), model);
+                new AddProjectCommand(expectedProject), model);
 
         // multiple tags - all accepted
         Project expectedProjectMultipleTags = new ProjectBuilder(BOB)
@@ -94,7 +95,7 @@ public class AddCommandParserTest {
                 .withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_BOB + DESCRIPTION_DESC_BOB + COMPLETION_STATUS_DESC_BOB
                         + DEADLINE_DATE_DESC_BOB + REMINDER_DESC_AMY + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                new AddCommand(expectedProjectMultipleTags), model);
+                new AddProjectCommand(expectedProjectMultipleTags), model);
     }
 
     @Test
@@ -102,29 +103,29 @@ public class AddCommandParserTest {
         // no description
         Project expectedProject = new ProjectBuilder(AMY).withEmptyDescription().withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + DEADLINE_DATE_DESC_AMY + DEADLINE_TIME_DESC_AMY
-                + REMINDER_DESC_AMY + TAG_DESC_FRIEND, new AddCommand(expectedProject), model);
+                + REMINDER_DESC_AMY + TAG_DESC_FRIEND, new AddProjectCommand(expectedProject), model);
 
         // no deadline
         expectedProject = new ProjectBuilder(AMY).withEmptyDeadline().withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + DESCRIPTION_DESC_AMY + REMINDER_DESC_AMY + TAG_DESC_FRIEND,
-                new AddCommand(expectedProject), model);
+                new AddProjectCommand(expectedProject), model);
 
         // no time in deadline
         expectedProject = new ProjectBuilder(AMY).withDeadline(VALID_DEADLINE_DATE_AMY, VALID_CREATED_DATE_AMY)
                 .withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + DESCRIPTION_DESC_AMY + DEADLINE_DATE_DESC_AMY + REMINDER_DESC_AMY
-                + TAG_DESC_FRIEND, new AddCommand(expectedProject), model);
+                + TAG_DESC_FRIEND, new AddProjectCommand(expectedProject), model);
 
         // no reminder
         expectedProject = new ProjectBuilder(AMY).withCurrentCreatedDate().withEmptyReminder().build();
         assertParseSuccess(parser,
                 NAME_DESC_AMY + DESCRIPTION_DESC_AMY + DEADLINE_DATE_DESC_AMY + DEADLINE_TIME_DESC_AMY
-                        + TAG_DESC_FRIEND, new AddCommand(expectedProject), model);
+                        + TAG_DESC_FRIEND, new AddProjectCommand(expectedProject), model);
 
         // zero tags
         expectedProject = new ProjectBuilder(AMY).withTags().withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + DESCRIPTION_DESC_AMY + DEADLINE_DATE_DESC_AMY
-                + DEADLINE_TIME_DESC_AMY + REMINDER_DESC_AMY, new AddCommand(expectedProject), model);
+                + DEADLINE_TIME_DESC_AMY + REMINDER_DESC_AMY, new AddProjectCommandZ(expectedProject), model);
     }
 
     @Test
