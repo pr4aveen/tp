@@ -403,7 +403,7 @@ Momentum remembers each timer that you start/stop and uses this information to c
 
 ### Starting a Timer for a Project: `start`
 
-Format: `/start PROJECT_ID`
+Format: `start PROJECT_ID`
 
 * Starts a timer for the project at the specified `PROJECT_ID`.
 * Only 1 timer can be running for a project at any time.
@@ -415,20 +415,20 @@ Format: `/start PROJECT_ID`
 You can run timers for more than one project concurrently, if you are multi-tasking.
 :::
 
-Example: `/start 2`
+Example: `start 2`
 
 Result: Starts a timer for the second project in the list.
 
 ### Stopping a Timer for a Project: `stop`
 
-Format: `/stop PROJECT_ID`
+Format: `stop PROJECT_ID`
 
 * Stops a running timer for the project at the specified `PROJECT_ID`.
 * A timer can only be stopped if there is one already running.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
-Example: `/stop 2`
+Example: `stop 2`
 
 Result: Stops the timer for the second project in the list.
 
@@ -438,7 +438,7 @@ Undo command undoes previous commmand and redo command redoes previously undone 
 ### Undoing the Previous Command: `undo`
 The undo command resets the application to the state before previous command was executed.
 
-Format: `/undo`
+Format: `undo`
 
 Example: `start 1`, `undo`
 
@@ -448,7 +448,7 @@ Result: Timer for project/task at index 1 is started, then stopped and removed a
 ### Redoing the Previous Command: `redo`
 The redo command redoes previously undone command and resets the application to the state before the previous undo command.
 
-Format: `/redo`
+Format: `redo`
 
 Example: `sort type/deadline`, `undo`, `redo`
 
