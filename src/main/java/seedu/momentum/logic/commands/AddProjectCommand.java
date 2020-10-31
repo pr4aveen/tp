@@ -28,7 +28,7 @@ public class AddProjectCommand extends AddCommand {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof AddTaskCommand // instanceof handles nulls
-                && project.equals(((AddTaskCommand) other).project));
+                || (other instanceof AddProjectCommand // instanceof handles nulls
+                && project.equals(((AddProjectCommand) other).project));
     }
 }

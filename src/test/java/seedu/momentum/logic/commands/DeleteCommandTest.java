@@ -29,7 +29,7 @@ public class DeleteCommandTest {
     @Test
     public void execute_validIndexUnfilteredList_success() {
         TrackedItem trackedItemToDelete = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
-        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PROJECT);
+        DeleteProjectCommand deleteCommand = new DeleteProjectCommand(INDEX_FIRST_PROJECT);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete);
 
@@ -43,7 +43,7 @@ public class DeleteCommandTest {
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredTrackedItemList().size() + 1);
-        DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
+        DeleteCommand deleteCommand = new DeleteProjectCommand(outOfBoundIndex);
 
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
     }
@@ -53,7 +53,7 @@ public class DeleteCommandTest {
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
         TrackedItem trackedItemToDelete = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
-        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PROJECT);
+        DeleteCommand deleteCommand = new DeleteProjectCommand(INDEX_FIRST_PROJECT);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete);
 
@@ -73,21 +73,21 @@ public class DeleteCommandTest {
         // ensures that outOfBoundIndex is still in bounds of project book list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getProjectBook().getTrackedItemList().size());
 
-        DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
+        DeleteCommand deleteCommand = new DeleteProjectCommand(outOfBoundIndex);
 
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
     }
 
     @Test
     public void equals() {
-        DeleteCommand deleteFirstCommand = new DeleteCommand(INDEX_FIRST_PROJECT);
-        DeleteCommand deleteSecondCommand = new DeleteCommand(INDEX_SECOND_PROJECT);
+        DeleteCommand deleteFirstCommand = new DeleteProjectCommand(INDEX_FIRST_PROJECT);
+        DeleteCommand deleteSecondCommand = new DeleteProjectCommand(INDEX_SECOND_PROJECT);
 
         // same object -> returns true
         assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
 
         // same values -> returns true
-        DeleteCommand deleteFirstCommandCopy = new DeleteCommand(INDEX_FIRST_PROJECT);
+        DeleteCommand deleteFirstCommandCopy = new DeleteProjectCommand(INDEX_FIRST_PROJECT);
         assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
 
         // different types -> returns false

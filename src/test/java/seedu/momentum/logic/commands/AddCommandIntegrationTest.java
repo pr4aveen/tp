@@ -1,6 +1,5 @@
 package seedu.momentum.logic.commands;
 
-import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
@@ -12,7 +11,6 @@ import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
-import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.ProjectBuilder;
 
 /**
@@ -57,10 +55,11 @@ public class AddCommandIntegrationTest {
                 String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, dana), expectedModel);
     }
 
-    @Test
-    public void execute_duplicateProject_throwsCommandException() {
-        TrackedItem trackedItemInList = model.getProjectBook().getTrackedItemList().get(0);
-        assertCommandFailure(new AddProjectCommand((Project) trackedItemInList), model, AddCommand.MESSAGE_DUPLICATE_ENTRY);
-    }
+    //    @Test
+    //    public void execute_duplicateProject_throwsCommandException() {
+    //        TrackedItem trackedItemInList = model.getProjectBook().getTrackedItemList().get(0);
+    //        assertCommandFailure(
+    //            new AddProjectCommand((Project) trackedItemInList), model, AddCommand.MESSAGE_DUPLICATE_ENTRY);
+    //    }
 
 }

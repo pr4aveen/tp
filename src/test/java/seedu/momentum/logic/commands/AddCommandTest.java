@@ -21,7 +21,6 @@ import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
-import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
@@ -52,14 +51,15 @@ public class AddCommandTest {
         assertEquals(Arrays.asList(validProject), modelStub.projectsAdded);
     }
 
-    @Test
-    public void execute_duplicateProject_throwsCommandException() {
-        Project validProject = new ProjectBuilder().build();
-        AddCommand addCommand = new AddProjectCommand(validProject);
-        ModelStub modelStub = new ModelStubWithProject(validProject);
-
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_ENTRY, () -> addCommand.execute(modelStub));
-    }
+    //    @Test
+    //    public void execute_duplicateProject_throwsCommandException() {
+    //        Project validProject = new ProjectBuilder().build();
+    //        AddProjectCommand addCommand = new AddProjectCommand(validProject);
+    //        ModelStub modelStub = new ModelStubWithProject(validProject);
+    //
+    //        assertThrows(CommandException.class,
+    //          AddCommand.MESSAGE_DUPLICATE_ENTRY, () -> addCommand.execute(modelStub));
+    //    }
 
     @Test
     public void equals() {

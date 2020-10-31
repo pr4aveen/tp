@@ -9,6 +9,7 @@ import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.logic.commands.StartCommand;
+import seedu.momentum.logic.commands.StartProjectCommand;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
@@ -19,7 +20,7 @@ class StartCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsStartCommand() {
-        assertParseSuccess(parser, "1", new StartCommand(INDEX_FIRST_PROJECT), model);
+        assertParseSuccess(parser, "1", new StartProjectCommand(INDEX_FIRST_PROJECT), model);
     }
 
     @Test

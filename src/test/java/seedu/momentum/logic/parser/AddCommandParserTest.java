@@ -125,7 +125,7 @@ public class AddCommandParserTest {
         // zero tags
         expectedProject = new ProjectBuilder(AMY).withTags().withCurrentCreatedDate().build();
         assertParseSuccess(parser, NAME_DESC_AMY + DESCRIPTION_DESC_AMY + DEADLINE_DATE_DESC_AMY
-                + DEADLINE_TIME_DESC_AMY + REMINDER_DESC_AMY, new AddProjectCommandZ(expectedProject), model);
+                + DEADLINE_TIME_DESC_AMY + REMINDER_DESC_AMY, new AddProjectCommand(expectedProject), model);
     }
 
     @Test
