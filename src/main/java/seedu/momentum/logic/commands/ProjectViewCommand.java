@@ -37,12 +37,12 @@ public class ProjectViewCommand extends Command {
         requireNonNull(model);
         List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
-        }
-
         if (model.getViewMode() != ViewMode.PROJECTS) {
             throw new CommandException(Messages.MESSAGE_NOT_PROJECT);
+        }
+
+        if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
         }
 
         Project projectToView = (Project) lastShownList.get(targetIndex.getZeroBased());
