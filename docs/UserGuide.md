@@ -186,20 +186,37 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 <div markdown="span" class="alert alert-primary">
 
 :bulb: **Tip:**<br>
-* Projects and tasks can have any number of tags (including 0).<br>
+* Projects and tasks can have any number of tags (including 0).
 
-* A deadline of a project can include time.<br>
+* A deadline of a project can include time.
 
-* A project can have an empty description.<br>
+* A project can have an empty description.
 
-* `T` separates the date and time in a reminder.<br>
+* `T` separates the date and time in a reminder.
 
-* A reminder will be shown in the Reminder component of the sidebar at the date and time specified.<br>
+* A reminder will be shown in the Reminder component of the sidebar at the date and time specified.
 
-* The reminder will be removed after it is shown in the sidebar.<br>
+* The reminder will be removed after it is shown in the sidebar.
 
 </div>
 
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the command format:**<br>
+
+* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
+  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+
+* Items in square brackets are optional.<br>
+  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+
+* Items with `…`​ after them can be used multiple times including zero times.<br>
+  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+
+* Parameters can be in any order.<br>
+  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+
+</div>
 
 Example: `add n/Momentum d/CS2103T Team Project dd/2020-12-07 dt/11:01:12 r/2020-12-07:11:01:12 t/impt`
 
