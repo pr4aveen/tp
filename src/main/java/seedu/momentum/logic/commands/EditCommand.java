@@ -1,6 +1,6 @@
 package seedu.momentum.logic.commands;
 
-import static java.util.Objects.requireNonNull;
+import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
@@ -11,12 +11,10 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import seedu.momentum.commons.core.DateWrapper;
-import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -37,7 +35,7 @@ import seedu.momentum.model.timer.UniqueDurationList;
 /**
  * Edits the details of an existing project in the project book.
  */
-public class EditCommand extends Command {
+public abstract class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
@@ -54,9 +52,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PROJECT = "This project already exists in the project book.";
 
-    private final Index index;
-    private final EditTrackedItemDescriptor editTrackedItemDescriptor;
-    private final Project parentProject;
+    protected final Index index;
+    protected final EditTrackedItemDescriptor editTrackedItemDescriptor;
 
     /**
      * Create a EditCommand that edits a project.
@@ -65,69 +62,19 @@ public class EditCommand extends Command {
      * @param editTrackedItemDescriptor details to edit the project with.
      */
     public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor) {
-        requireNonNull(index);
-        requireNonNull(editTrackedItemDescriptor);
-
+        requireAllNonNull(index, editTrackedItemDescriptor);
         this.index = index;
         this.editTrackedItemDescriptor = new EditTrackedItemDescriptor(editTrackedItemDescriptor);
-        this.parentProject = null;
-    }
-
-    /**
-     * Create a EditCommand that edits a task.
-     *
-     * @param index                     of the project in the filtered project list to edit.
-     * @param editTrackedItemDescriptor details to edit the project with.
-     * @param parentProject             The parent project of the task to edit.
-     */
-    public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor, Project parentProject) {
-        requireNonNull(index);
-        requireNonNull(editTrackedItemDescriptor);
-
-        this.index = index;
-        this.editTrackedItemDescriptor = new EditTrackedItemDescriptor(editTrackedItemDescriptor);
-        this.parentProject = parentProject;
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
-        List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
-
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
-        }
-
-        TrackedItem trackedItemToEdit = lastShownList.get(index.getZeroBased());
-        TrackedItem editedTrackedItem = createEditedTrackedItem(trackedItemToEdit, editTrackedItemDescriptor, model);
-
-        if (!trackedItemToEdit.isSameTrackedItem(editedTrackedItem) && model.hasTrackedItem(editedTrackedItem)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
-        }
-
-        try {
-            if (model.getViewMode() == ViewMode.PROJECTS) {
-                model.setTrackedItem(trackedItemToEdit, editedTrackedItem);
-            } else {
-                Project projectBeforeEditTask = parentProject;
-                Project projectAfterEditTask = parentProject.setTask(trackedItemToEdit, editedTrackedItem);
-                model.setTrackedItem(projectBeforeEditTask, projectAfterEditTask);
-                model.viewTasks(projectAfterEditTask);
-            }
-        } catch (Exception e) {
-            throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
-        }
-
-        model.rescheduleReminders();
-        model.commitToHistory();
-        return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));
-    }
+    public abstract CommandResult execute(Model model) throws CommandException;
 
     /**
      * Creates and returns a {@code Project} with the details of {@code projectToEdit}
      * edited with {@code editTrackedItemDescriptor}.
      */
-    private static TrackedItem createEditedTrackedItem(TrackedItem trackedItemToEdit,
+    protected static TrackedItem createEditedTrackedItem(TrackedItem trackedItemToEdit,
                                                        EditTrackedItemDescriptor editTrackedItemDescriptor,
                                                        Model model) throws CommandException {
         assert trackedItemToEdit != null;
