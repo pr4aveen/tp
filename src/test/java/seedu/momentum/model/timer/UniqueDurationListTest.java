@@ -12,9 +12,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.UniqueItemList;
+import seedu.momentum.model.project.exceptions.DuplicateItemException;
+import seedu.momentum.model.project.exceptions.ItemNotFoundException;
 import seedu.momentum.model.timer.WorkDuration;
-import seedu.momentum.model.timer.exceptions.DuplicateDurationException;
-import seedu.momentum.model.timer.exceptions.DurationNotFoundException;
 import seedu.momentum.testutil.TypicalWorkDuration;
 
 public class UniqueDurationListTest {
@@ -45,13 +45,13 @@ public class UniqueDurationListTest {
     @Test
     public void add_duplicateDuration_throwsDuplicateProjectException() {
         uniqueDurationList.add(TypicalWorkDuration.DURATION_ONE_DAY);
-        assertThrows(DuplicateDurationException.class, () ->
+        assertThrows(DuplicateItemException.class, () ->
                 uniqueDurationList.add(TypicalWorkDuration.DURATION_ONE_DAY));
     }
 
     @Test
     public void remove_projectDoesNotExist_throwsProjectNotFoundException() {
-        assertThrows(DurationNotFoundException.class, () ->
+        assertThrows(ItemNotFoundException.class, () ->
                 uniqueDurationList.remove(TypicalWorkDuration.DURATION_ONE_DAY));
     }
 
@@ -96,7 +96,7 @@ public class UniqueDurationListTest {
     public void setProjects_listWithDuplicateProjects_throwsDuplicateProjectException() {
         List<WorkDuration> listWithDuplicateDurations = Arrays.asList(TypicalWorkDuration.DURATION_ONE_DAY,
                 TypicalWorkDuration.DURATION_ONE_DAY);
-        assertThrows(DuplicateDurationException.class, () ->
+        assertThrows(DuplicateItemException.class, () ->
                 uniqueDurationList.setItems(listWithDuplicateDurations));
     }
 

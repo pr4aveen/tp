@@ -47,10 +47,6 @@ public class ProjectTest {
         editedAlice = new ProjectBuilder(ALICE).withCompletionStatus(VALID_COMPLETION_STATUS_BOB).build();
         assertFalse(ALICE.isSameAs(editedAlice));
 
-        // different created date -> returns false
-        editedAlice = new ProjectBuilder(ALICE).withCreatedDate(VALID_CREATED_DATE_BOB).build();
-        assertFalse(ALICE.isSameAs(editedAlice));
-
         // different deadline -> returns false
         editedAlice = new ProjectBuilder(ALICE).withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB).build();
         assertFalse(ALICE.isSameAs(editedAlice));

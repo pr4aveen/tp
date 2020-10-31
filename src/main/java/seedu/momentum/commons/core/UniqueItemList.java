@@ -94,7 +94,7 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
     public void setItems(List<T> items) {
         requireAllNonNull(items);
         if (!projectsAreUnique(items)) {
-            throw new DuplicateTrackableItemException();
+            throw new DuplicateItemException();
         }
 
         internalList.setAll(items);

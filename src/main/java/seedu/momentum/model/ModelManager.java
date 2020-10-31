@@ -228,7 +228,6 @@ public class ModelManager implements Model {
         requireAllNonNull(sortType, isAscending, isSortedByCompletionStatus);
         isCurrentSortAscending = isAscending;
         isCurrentSortIsByCompletionStatus = isSortedByCompletionStatus;
-        currentSortType = sortType;
         currentComparator = getComparator(sortType, isAscending, isSortedByCompletionStatus);
         updateDisplayList();
     }

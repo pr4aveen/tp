@@ -17,7 +17,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.UniqueItemList;
+import seedu.momentum.model.project.exceptions.DuplicateItemException;
 import seedu.momentum.model.project.exceptions.DuplicateTrackableItemException;
+import seedu.momentum.model.project.exceptions.ItemNotFoundException;
 import seedu.momentum.model.project.exceptions.TrackableItemNotFoundException;
 import seedu.momentum.model.timer.WorkDuration;
 import seedu.momentum.testutil.ProjectBuilder;
@@ -58,7 +60,7 @@ public class UniqueTrackedItemListTest {
     @Test
     public void add_duplicateProject_throwsDuplicateProjectException() {
         uniqueTrackedItemList.add(ALICE);
-        assertThrows(DuplicateTrackableItemException.class, () -> uniqueTrackedItemList.add(ALICE));
+        assertThrows(DuplicateItemException.class, () -> uniqueTrackedItemList.add(ALICE));
     }
 
     @Test
@@ -73,7 +75,7 @@ public class UniqueTrackedItemListTest {
 
     @Test
     public void setProject_targetProjectNotInList_throwsProjectNotFoundException() {
-        assertThrows(TrackableItemNotFoundException.class, () -> uniqueTrackedItemList.set(ALICE, ALICE));
+        assertThrows(ItemNotFoundException.class, () -> uniqueTrackedItemList.set(ALICE, ALICE));
     }
 
     @Test
@@ -109,7 +111,7 @@ public class UniqueTrackedItemListTest {
     public void setProject_editedProjectHasNonUniqueIdentity_throwsDuplicateProjectException() {
         uniqueTrackedItemList.add(ALICE);
         uniqueTrackedItemList.add(BOB);
-        assertThrows(DuplicateTrackableItemException.class, () -> uniqueTrackedItemList.set(ALICE, BOB));
+        assertThrows(DuplicateItemException.class, () -> uniqueTrackedItemList.set(ALICE, BOB));
     }
 
     @Test
@@ -119,7 +121,7 @@ public class UniqueTrackedItemListTest {
 
     @Test
     public void remove_projectDoesNotExist_throwsProjectNotFoundException() {
-        assertThrows(TrackableItemNotFoundException.class, () -> uniqueTrackedItemList.remove(ALICE));
+        assertThrows(ItemNotFoundException.class, () -> uniqueTrackedItemList.remove(ALICE));
     }
 
     @Test
@@ -163,7 +165,7 @@ public class UniqueTrackedItemListTest {
     @Test
     public void setProjects_listWithDuplicateProjects_throwsDuplicateProjectException() {
         List<TrackedItem> listWithDuplicateProjects = Arrays.asList(ALICE, ALICE);
-        assertThrows(DuplicateTrackableItemException.class, () ->
+        assertThrows(DuplicateItemException.class, () ->
             uniqueTrackedItemList.setItems(listWithDuplicateProjects));
     }
 

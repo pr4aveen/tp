@@ -87,7 +87,7 @@ public class FindCommandTest {
         expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getDisplayList());
+        assertEquals(Arrays.asList(ELLE, FIONA, CARL), model.getDisplayList());
     }
 
     @Test
@@ -168,7 +168,7 @@ public class FindCommandTest {
         expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getDisplayList());
+        assertEquals(Arrays.asList(ALICE, DANIEL, BENSON), model.getDisplayList());
     }
 
     @Test
