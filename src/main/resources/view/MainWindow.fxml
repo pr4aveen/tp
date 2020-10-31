@@ -16,8 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<fx:root minHeight="600.0" minWidth="1010.0" onCloseRequest="#handleExit" title="Momentum"
-     type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root minHeight="600.0" minWidth="1000.0" onCloseRequest="#handleExit" title="Momentum" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
    <icons>
       <Image url="@/images/address_book_32.png" />
    </icons>
@@ -66,8 +65,7 @@
                                     <Label styleClass="app-logo" text="Momentum" />
                                  </children>
                               </StackPane>
-                              <SplitPane fx:id="sideBarSplitPane" dividerPositions="0.15, 0.3" orientation="VERTICAL"
-                                     GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                              <SplitPane fx:id="sideBarSplitPane" dividerPositions="0.15, 0.3, 0.5" orientation="VERTICAL" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                 <items>
                                     <StackPane fx:id="reminderDisplayPlaceholder" styleClass="reminder-box" />
                                     <StackPane fx:id="infoDisplayPlaceholder" styleClass="content-box" />
@@ -94,7 +92,7 @@
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="56.0" vgrow="SOMETIMES" />
-                            <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                            <RowConstraints percentHeight="15.0" vgrow="SOMETIMES" />
                             <RowConstraints vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>

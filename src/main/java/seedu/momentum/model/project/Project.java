@@ -198,25 +198,27 @@ public class Project extends TrackedItem {
     /**
      * Removes all tasks belonging to this project.
      */
-    public void clearTasks() {
-        taskList = new UniqueTrackedItemList();
+    public Project clearTasks() {
+        UniqueTrackedItemList newList = new UniqueTrackedItemList();
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
+                tags, durations, timerWrapper, newList, sortType, isAscending, isSortedByCompletionStatus);
     }
 
 
     /**
      * Orders the list of tasks in a way given by the {@code sortType}.
      *
-     * @param orderType                  A boolean to check the type of order of the sort.
+     * @param sortType                  A boolean to check the type of order of the sort.
      * @param isAscending                A boolean to check if the list is sorted in ascending order.
      * @param isSortedByCompletionStatus A boolean to check if the list is sorted by completion status.
      */
-    public Project orderTaskList(SortType orderType, boolean isAscending, boolean isSortedByCompletionStatus) {
-        requireAllNonNull(orderType, isAscending, isSortedByCompletionStatus);
+    public Project orderTaskList(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
+        requireAllNonNull(sortType, isAscending, isSortedByCompletionStatus);
 
         UniqueTrackedItemList newList = taskList.copy();
 
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
-                tags, durations, timerWrapper, newList, orderType, isAscending, isSortedByCompletionStatus);
+                tags, durations, timerWrapper, newList, sortType, isAscending, isSortedByCompletionStatus);
     }
 
     public ObservableList<TrackedItem> getTaskList() {

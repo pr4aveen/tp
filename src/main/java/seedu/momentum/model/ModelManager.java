@@ -181,6 +181,7 @@ public class ModelManager implements Model {
         versionedProjectBook.setTrackedItem(target, editedTrackedItem);
         if (currentProject != null && currentProject.isSameTrackedItem(target)) {
             currentProject = (Project) editedTrackedItem;
+            resetUi(viewMode, currentProject);
         }
         rescheduleReminders();
         orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
