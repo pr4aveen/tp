@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.UniqueTrackedItemList;
 
 public class TypicalProjectsOrders {
 
@@ -105,8 +105,8 @@ public class TypicalProjectsOrders {
                 GEORGE));
     }
 
-    public static UniqueTrackedItemList getUniqueProjectList(List<TrackedItem> trackedItems) {
-        UniqueTrackedItemList uniqueTrackedItemList = new UniqueTrackedItemList();
+    public static UniqueItemList<TrackedItem> getUniqueProjectList(List<TrackedItem> trackedItems) {
+        UniqueItemList<TrackedItem> uniqueTrackedItemList = new UniqueItemList<>();
         for (TrackedItem p : trackedItems) {
             uniqueTrackedItemList.add(p);
         }

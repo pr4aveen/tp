@@ -456,7 +456,8 @@ public class ModelManager implements Model {
      * @param isAscending                order of sort.
      * @param isSortedByCompletionStatus sort by creation status.
      */
-    public Comparator<TrackedItem> getComparator(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
+    public Comparator<TrackedItem> getComparator(SortType sortType, boolean isAscending,
+                                                 boolean isSortedByCompletionStatus) {
         requireNonNull(sortType);
 
         switch (sortType) {

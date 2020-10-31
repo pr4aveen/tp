@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.model.timer.UniqueDurationList;
+import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.timer.WorkDuration;
 import seedu.momentum.model.timer.exceptions.DuplicateDurationException;
 import seedu.momentum.model.timer.exceptions.DurationNotFoundException;
@@ -19,7 +19,7 @@ import seedu.momentum.testutil.TypicalWorkDuration;
 
 public class UniqueDurationListTest {
 
-    private final UniqueDurationList uniqueDurationList = new UniqueDurationList();
+    private final UniqueItemList<WorkDuration> uniqueDurationList = new UniqueItemList<>();
 
     @Test
     public void contains_nullDuration_throwsNullPointerException() {
@@ -59,35 +59,35 @@ public class UniqueDurationListTest {
     public void remove_existingProject_removesProject() {
         uniqueDurationList.add(TypicalWorkDuration.DURATION_ONE_DAY);
         uniqueDurationList.remove(TypicalWorkDuration.DURATION_ONE_DAY);
-        UniqueDurationList expectedUniqueDurationList = new UniqueDurationList();
+        UniqueItemList<WorkDuration> expectedUniqueDurationList = new UniqueItemList<>();
         assertEquals(expectedUniqueDurationList, uniqueDurationList);
     }
 
     @Test
     public void setProjects_nullUniqueProjectList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueDurationList.setDurations((UniqueDurationList) null));
+        assertThrows(NullPointerException.class, () -> uniqueDurationList.setItems((UniqueItemList<WorkDuration>) null));
     }
 
     @Test
     public void setProjects_uniqueProjectList_replacesOwnListWithProvidedUniqueProjectList() {
         uniqueDurationList.add(TypicalWorkDuration.DURATION_ONE_DAY);
-        UniqueDurationList expectedUniqueDurationList = new UniqueDurationList();
+        UniqueItemList<WorkDuration> expectedUniqueDurationList = new UniqueItemList<>();
         expectedUniqueDurationList.add(TypicalWorkDuration.DURATION_ONE_MONTH);
-        uniqueDurationList.setDurations(expectedUniqueDurationList);
+        uniqueDurationList.setItems(expectedUniqueDurationList);
         assertEquals(expectedUniqueDurationList, uniqueDurationList);
     }
 
     @Test
     public void setProjects_nullList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueDurationList.setDurations((List<WorkDuration>) null));
+        assertThrows(NullPointerException.class, () -> uniqueDurationList.setItems((List<WorkDuration>) null));
     }
 
     @Test
     public void setProjects_list_replacesOwnListWithProvidedList() {
         uniqueDurationList.add(TypicalWorkDuration.DURATION_ONE_DAY);
         List<WorkDuration> durationList = Collections.singletonList(TypicalWorkDuration.DURATION_ONE_MONTH);
-        uniqueDurationList.setDurations(durationList);
-        UniqueDurationList expectedUniqueDurationList = new UniqueDurationList();
+        uniqueDurationList.setItems(durationList);
+        UniqueItemList<WorkDuration> expectedUniqueDurationList = new UniqueItemList<>();
         expectedUniqueDurationList.add(TypicalWorkDuration.DURATION_ONE_MONTH);
         assertEquals(expectedUniqueDurationList, uniqueDurationList);
     }
@@ -97,7 +97,7 @@ public class UniqueDurationListTest {
         List<WorkDuration> listWithDuplicateDurations = Arrays.asList(TypicalWorkDuration.DURATION_ONE_DAY,
                 TypicalWorkDuration.DURATION_ONE_DAY);
         assertThrows(DuplicateDurationException.class, () ->
-                uniqueDurationList.setDurations(listWithDuplicateDurations));
+                uniqueDurationList.setItems(listWithDuplicateDurations));
     }
 
     @Test

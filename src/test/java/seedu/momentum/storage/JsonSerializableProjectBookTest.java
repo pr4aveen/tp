@@ -26,7 +26,6 @@ public class JsonSerializableProjectBookTest {
                 JsonSerializableProjectBook.class).get();
         ProjectBook projectBookFromFile = dataFromFile.toModelType();
         ProjectBook typicalProjectsProjectBook = TypicalProjects.getTypicalProjectBook();
-        typicalProjectsProjectBook.setOrder(SortType.ALPHA, true, true);
         assertEquals(projectBookFromFile, typicalProjectsProjectBook);
     }
 

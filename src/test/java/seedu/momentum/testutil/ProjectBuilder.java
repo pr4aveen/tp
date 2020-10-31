@@ -5,6 +5,7 @@ import java.util.Set;
 
 import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
@@ -14,7 +15,6 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.TimerWrapper;
-import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 import seedu.momentum.model.util.SampleDataUtil;
 
@@ -36,7 +36,7 @@ public class ProjectBuilder {
     private Deadline deadline;
     private Reminder reminder;
     private Set<Tag> tags;
-    private UniqueDurationList durations;
+    private UniqueItemList<WorkDuration> durations;
     private TimerWrapper timerWrapper;
 
     /**
@@ -50,7 +50,7 @@ public class ProjectBuilder {
         deadline = new Deadline(DEFAULT_DEADLINE_DATE, DEFAULT_DEADLINE_TIME, createdDateWrapper);
         reminder = new Reminder();
         tags = new HashSet<>();
-        durations = new UniqueDurationList();
+        durations = new UniqueItemList<>();
         timerWrapper = new TimerWrapper();
     }
 
@@ -65,7 +65,7 @@ public class ProjectBuilder {
         deadline = trackedItemToCopy.getDeadline();
         reminder = trackedItemToCopy.getReminder();
         tags = new HashSet<>(trackedItemToCopy.getTags());
-        durations = new UniqueDurationList();
+        durations = new UniqueItemList<>();
         for (WorkDuration duration : trackedItemToCopy.getDurationList()) {
             durations.add(duration);
         }

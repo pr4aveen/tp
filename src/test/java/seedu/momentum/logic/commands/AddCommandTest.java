@@ -9,15 +9,14 @@ import static seedu.momentum.testutil.Assert.assertThrows;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.function.Predicate;
-
-import org.junit.jupiter.api.Test;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
+import org.junit.jupiter.api.Test;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
@@ -170,7 +169,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObjectProperty<FilteredList<TrackedItem>> getObservableDisplayList() {
+        public ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -296,7 +295,7 @@ public class AddCommandTest {
         @Override
         public boolean hasTrackedItem(TrackedItem trackedItem) {
             requireNonNull(trackedItem);
-            return this.project.isSameTrackedItem(trackedItem);
+            return this.project.isSameAs(trackedItem);
         }
     }
 
@@ -309,7 +308,7 @@ public class AddCommandTest {
         @Override
         public boolean hasTrackedItem(TrackedItem trackedItem) {
             requireNonNull(trackedItem);
-            return projectsAdded.stream().anyMatch(trackedItem::isSameTrackedItem);
+            return projectsAdded.stream().anyMatch(trackedItem::isSameAs);
         }
 
         @Override
@@ -330,12 +329,14 @@ public class AddCommandTest {
     private class ModelStubSetModelManager extends ModelStubAcceptingProjectAdded {
         private ViewMode viewMode = ViewMode.PROJECTS;
         private Project currentProject = null;
-        private final VersionedProjectBook versionedProjectBook =
-                new VersionedProjectBook(new ProjectBook(), viewMode, currentProject, , );
+        private Predicate<TrackedItem> currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
+        private Comparator<TrackedItem> currentComparator = null;
+        private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(new ProjectBook(),
+                viewMode, currentProject, currentPredicate, currentComparator);
 
         @Override
         public void commitToHistory() {
-            versionedProjectBook.commit(viewMode, currentProject, , );
+            versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator);
         }
     }
 }

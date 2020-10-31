@@ -61,20 +61,6 @@ public class ProjectBookTest {
     }
 
     @Test
-    public void setOrder_withSortTypeNull_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> projectBook.setOrder(null, true, true));
-    }
-
-    @Test
-    public void setOrder_withValidSortType_ordersProjectBook() {
-        ProjectBook unorderedProjectBook = getTypicalProjectBook();
-        ProjectBook orderedProjectBook = new ProjectBook();
-        orderedProjectBook.setTrackedItems(getOrderedProjectBookByDeadlineAscending());
-        unorderedProjectBook.setOrder(SortType.DEADLINE, true, false);
-        assertEquals(orderedProjectBook, unorderedProjectBook);
-    }
-
-    @Test
     public void hasProject_nullProject_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> projectBook.hasTrackedItem(null));
     }

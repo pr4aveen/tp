@@ -56,7 +56,6 @@ public class StorageManagerTest {
          * More extensive testing of UserPref saving/reading is done in {@link JsonProjectBookStorageTest} class.
          */
         ProjectBook original = getTypicalProjectBook();
-        original.setOrder(SortType.ALPHA, true, true);
         storageManager.saveProjectBook(original);
         ReadOnlyProjectBook retrieved = storageManager.readProjectBook().get();
         assertEquals(original, new ProjectBook(retrieved));
