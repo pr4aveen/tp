@@ -184,7 +184,7 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 * The date and time of the reminder needs to be later than the current time.
 
 <div markdown="span" class="alert alert-primary">
-:bulb: **Tip:**
+:bulb: **Tip:**<br>
 * Projects and tasks can have any number of tags (including 0).
 * A deadline of a project can include time.
 * A project can have an empty description.
