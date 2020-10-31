@@ -20,7 +20,7 @@ import seedu.momentum.model.ViewMode;
 public class ReminderManagerTest {
     private final ProjectBook projectBookUnmodified = getTypicalProjectBook();
     private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(
-            projectBookUnmodified, ViewMode.PROJECTS, null);
+            projectBookUnmodified, ViewMode.PROJECTS, null, , );
     private final ReminderManager reminderManagerUnmodified = new ReminderManager(versionedProjectBook);
     private ProjectBook projectBook;
     private ReminderManager reminderManager;
@@ -32,7 +32,7 @@ public class ReminderManagerTest {
 
     private void resetProjectBookAndReminderManager() {
         projectBook = getTypicalProjectBook();
-        VersionedProjectBook versionedProjectBook = new VersionedProjectBook(projectBook, ViewMode.PROJECTS, null);
+        VersionedProjectBook versionedProjectBook = new VersionedProjectBook(projectBook, ViewMode.PROJECTS, null, , );
         reminderManager = new ReminderManager(versionedProjectBook);
     }
 
@@ -92,7 +92,7 @@ public class ReminderManagerTest {
 
         // different project book -> return false
         assertFalse(reminderManager.equals(new ReminderManager(
-                new VersionedProjectBook(new ProjectBook(), ViewMode.PROJECTS, null))));
+                new VersionedProjectBook(new ProjectBook(), ViewMode.PROJECTS, null, , ))));
 
         // different currReminder
         reminderManager.updateCurrReminder(ALICE);

@@ -331,11 +331,11 @@ public class AddCommandTest {
         private ViewMode viewMode = ViewMode.PROJECTS;
         private Project currentProject = null;
         private final VersionedProjectBook versionedProjectBook =
-                new VersionedProjectBook(new ProjectBook(), viewMode, currentProject);
+                new VersionedProjectBook(new ProjectBook(), viewMode, currentProject, , );
 
         @Override
         public void commitToHistory() {
-            versionedProjectBook.commit(viewMode, currentProject);
+            versionedProjectBook.commit(viewMode, currentProject, , );
         }
     }
 }

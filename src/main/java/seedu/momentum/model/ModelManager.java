@@ -63,17 +63,17 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
 
         this.viewMode = ViewMode.PROJECTS;
+        this.currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
+        this.currentSortType = SortType.ALPHA;
+        this.isCurrentSortAscending = true;
+        this.isCurrentSortIsByCompletionStatus = true;
+        this.currentComparator = getComparatorNullType(true, true);
 
-        this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject);
+        this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
+                currentComparator);
         this.reminderManager = new ReminderManager(this.versionedProjectBook);
         this.itemList = this.versionedProjectBook.getTrackedItemList();
         this.displayList = new SimpleObjectProperty<>(this.itemList);
-
-        currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
-        currentSortType = SortType.ALPHA;
-        isCurrentSortAscending = true;
-        isCurrentSortIsByCompletionStatus = true;
-        currentComparator = getComparatorNullType(true, true);
 
         runningTimers = FXCollections.observableArrayList();
 
@@ -242,6 +242,16 @@ public class ModelManager implements Model {
         updateDisplayList();
     }
 
+    /**
+     * Updates the view to project view with specific predicate and comparator.
+     */
+    private void viewProjectsMaintainState() {
+        viewMode = ViewMode.PROJECTS;
+        logger.log(Level.INFO, "View mode changed to project view");
+        itemList = versionedProjectBook.getTrackedItemList();
+        updateDisplayList();
+    }
+
     @Override
     public void viewTasks(Project project) {
         requireNonNull(project);
@@ -250,6 +260,18 @@ public class ModelManager implements Model {
         logger.log(Level.INFO, "View mode changed to task view");
         itemList = project.getTaskList();
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
+        updateDisplayList();
+    }
+
+    /**
+     * Update view to task view with specific predicate and comparator.
+     */
+    private void viewTasksMaintainState(Project project) {
+        requireNonNull(project);
+        currentProject = project;
+        viewMode = ViewMode.TASKS;
+        logger.log(Level.INFO, "View mode changed to task view");
+        itemList = project.getTaskList();
         updateDisplayList();
     }
 
@@ -369,7 +391,7 @@ public class ModelManager implements Model {
 
     @Override
     public void commitToHistory() {
-        versionedProjectBook.commit(viewMode, currentProject);
+        versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator);
     }
 
     @Override
@@ -384,10 +406,11 @@ public class ModelManager implements Model {
         // extract view mode details from ProjectBook version after undo
         viewMode = versionedProjectBook.getCurrentViewMode();
 
-        resetUi(viewMode, currentProject);
-        if (viewMode == ViewMode.TASKS) {
-            viewTasks(newProject);
-        }
+        currentPredicate = versionedProjectBook.getCurrentPredicate();
+
+        currentComparator = versionedProjectBook.getCurrentComparator();
+
+        resetUi(viewMode, newProject);
     }
 
     @Override
@@ -396,12 +419,12 @@ public class ModelManager implements Model {
 
         switch (viewMode) {
         case PROJECTS:
-            viewProjects();
+            viewProjectsMaintainState();
             logger.log(Level.INFO, "View mode changed to project view");
             break;
         case TASKS:
             assert project != null;
-            viewTasks(project);
+            viewTasksMaintainState(project);
             logger.log(Level.INFO, "View mode changed to task view");
             break;
         default:
@@ -418,11 +441,10 @@ public class ModelManager implements Model {
         // extract both timer related and ViewMode details from ProjectBook version after redo
         viewMode = versionedProjectBook.getCurrentViewMode();
         currentProject = versionedProjectBook.getCurrentProject();
+        currentPredicate = versionedProjectBook.getCurrentPredicate();
+        currentComparator = versionedProjectBook.getCurrentComparator();
 
         resetUi(viewMode, currentProject);
-        if (viewMode == ViewMode.TASKS) {
-            viewTasks(currentProject);
-        }
     }
 
     //=========== Sorting ================================================================================
