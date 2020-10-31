@@ -187,17 +187,17 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 
 :bulb: **Tip:**<br>
 
-* Projects and tasks can have any number of tags (including 0).
+* Projects and tasks can have any number of tags (including 0).<br>
 
-* A deadline of a project can include time.
+* A deadline of a project can include time.<br>
 
-* A project can have an empty description.
+* A project can have an empty description.<br>
 
-* `T` separates the date and time in a reminder.
+* `T` separates the date and time in a reminder.<br>
 
-* A reminder will be shown in the Reminder component of the sidebar at the date and time specified.
+* A reminder will be shown in the Reminder component of the sidebar at the date and time specified.<br>
 
-* The reminder will be removed after it is shown in the sidebar.
+* The reminder will be removed after it is shown in the sidebar.<br>
 
 </div>
 
