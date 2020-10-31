@@ -46,7 +46,6 @@ public class SortCommand extends Command {
     private final boolean isAscending;
     private final boolean isDefault;
     private final boolean isSortedByCompletionStatus;
-    private Project parentProject;
 
     /**
      * Creates a SortCommand to sort the list of projects.
