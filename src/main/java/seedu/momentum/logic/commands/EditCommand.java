@@ -8,7 +8,6 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -119,7 +118,6 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
         }
 
-        model.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
         model.rescheduleReminders();
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));

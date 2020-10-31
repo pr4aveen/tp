@@ -51,9 +51,7 @@ public class DeleteCommand extends Command {
 
         ViewMode viewMode = model.getViewMode();
 
-        List<TrackedItem> lastShownList = viewMode == ViewMode.PROJECTS
-                ? model.getFilteredTrackedItemList()
-                : projectToDeleteTaskFrom.getTaskList();
+        List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
@@ -69,6 +67,7 @@ public class DeleteCommand extends Command {
             model.setTrackedItem(projectBeforeDeleteTask, projectAfterDeleteTask);
             model.viewTasks(projectAfterDeleteTask);
         }
+
         model.rescheduleReminders();
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete));

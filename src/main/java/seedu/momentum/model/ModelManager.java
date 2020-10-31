@@ -228,8 +228,8 @@ public class ModelManager implements Model {
         viewMode = ViewMode.PROJECTS;
         logger.log(Level.INFO, "View mode changed to project view");
         viewList = versionedProjectBook.getTrackedItemList();
-        filteredTrackedItems.set(new FilteredList<>(viewList, currentPredicate));
-        updateFilteredProjectList(currentPredicate);
+        filteredTrackedItems.set(new FilteredList<>(viewList, PREDICATE_SHOW_ALL_TRACKED_ITEMS));
+        updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
     @Override
@@ -239,8 +239,8 @@ public class ModelManager implements Model {
         viewMode = ViewMode.TASKS;
         logger.log(Level.INFO, "View mode changed to task view");
         viewList = project.getTaskList();
-        filteredTrackedItems.set(new FilteredList<>(viewList, currentPredicate));
-        updateFilteredProjectList(currentPredicate);
+        filteredTrackedItems.set(new FilteredList<>(viewList, PREDICATE_SHOW_ALL_TRACKED_ITEMS));
+        updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
     @Override
