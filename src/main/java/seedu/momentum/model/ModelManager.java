@@ -179,6 +179,9 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedTrackedItem);
 
         versionedProjectBook.setTrackedItem(target, editedTrackedItem);
+        if (currentProject != null && currentProject.isSameTrackedItem(target)) {
+            currentProject = (Project) editedTrackedItem;
+        }
         rescheduleReminders();
         orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
 
