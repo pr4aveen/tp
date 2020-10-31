@@ -114,9 +114,9 @@ public interface Model {
     /**
      * Returns an unmodifiable view of the filtered project list.
      */
-    ObservableList<TrackedItem> getFilteredTrackedItemList();
+    ObservableList<TrackedItem> getDisplayList();
 
-    ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList();
+    ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList();
 
     /**
      * Returns a list of projects whose timers are running.
@@ -154,14 +154,14 @@ public interface Model {
      *
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredProjectList(Predicate<TrackedItem> predicate);
+    void updatePredicate(Predicate<TrackedItem> predicate);
 
     /**
      * Orders the list of projects in a way given by the {@code sortType}.
      *
      * @throws NullPointerException if {@code sortType} is null.
      */
-    void orderFilteredProjectList(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus);
+    void updateOrder(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus);
 
     void viewProjects();
 

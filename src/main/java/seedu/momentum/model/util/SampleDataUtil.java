@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.project.CompletionStatus;
@@ -14,7 +15,6 @@ import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
-import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
@@ -88,9 +88,9 @@ public class SampleDataUtil {
     /**
      * Returns a UniqueDurationList containing the list of strings given.
      */
-    public static UniqueDurationList getDurationList(WorkDuration... durations) {
-        UniqueDurationList durationList = new UniqueDurationList();
-        durationList.setDurations(Arrays.asList(durations));
+    public static UniqueItemList<WorkDuration> getDurationList(WorkDuration... durations) {
+        UniqueItemList<WorkDuration> durationList = new UniqueItemList<>();
+        durationList.setItems(Arrays.asList(durations));
         return durationList;
     }
 

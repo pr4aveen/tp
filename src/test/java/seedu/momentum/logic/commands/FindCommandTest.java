@@ -73,10 +73,10 @@ public class FindCommandTest {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 0);
         NameContainsKeywordsPredicate predicate = prepareNamePredicate(FindType.ANY, " ");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredProjectList(predicate);
+        expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredTrackedItemList());
+        assertEquals(Collections.emptyList(), model.getDisplayList());
     }
 
     @Test
@@ -84,10 +84,10 @@ public class FindCommandTest {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 3);
         NameContainsKeywordsPredicate predicate = prepareNamePredicate(FindType.ANY, TEST_NAMES);
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredProjectList(predicate);
+        expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredTrackedItemList());
+        assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getDisplayList());
     }
 
     @Test
@@ -95,10 +95,10 @@ public class FindCommandTest {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 0);
         NameContainsKeywordsPredicate predicate = prepareNamePredicate(FindType.ALL, TEST_NAMES);
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredProjectList(predicate);
+        expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredTrackedItemList());
+        assertEquals(Collections.emptyList(), model.getDisplayList());
     }
 
     @Test
@@ -106,10 +106,10 @@ public class FindCommandTest {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 1);
         NameContainsKeywordsPredicate predicate = prepareNamePredicate(FindType.ALL, "CA rL Ku Rz");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredProjectList(predicate);
+        expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.singletonList(CARL), model.getFilteredTrackedItemList());
+        assertEquals(Collections.singletonList(CARL), model.getDisplayList());
     }
 
     @Test
@@ -118,10 +118,10 @@ public class FindCommandTest {
         DescriptionContainsKeywordsPredicate predicate =
                 prepareDescriptionPredicate(FindType.ANY, TEST_DESCRIPTIONS);
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredProjectList(predicate);
+        expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(DANIEL, ELLE, FIONA), model.getFilteredTrackedItemList());
+        assertEquals(Arrays.asList(DANIEL, ELLE, FIONA), model.getDisplayList());
     }
 
     @Test
@@ -130,10 +130,10 @@ public class FindCommandTest {
         DescriptionContainsKeywordsPredicate predicate =
                 prepareDescriptionPredicate(FindType.ALL, TEST_DESCRIPTIONS);
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredProjectList(predicate);
+        expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredTrackedItemList());
+        assertEquals(Collections.emptyList(), model.getDisplayList());
     }
 
     @Test
@@ -142,10 +142,10 @@ public class FindCommandTest {
         DescriptionContainsKeywordsPredicate predicate =
                 prepareDescriptionPredicate(FindType.ALL, "likes star bucks");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredProjectList(predicate);
+        expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.singletonList(FIONA), model.getFilteredTrackedItemList());
+        assertEquals(Collections.singletonList(FIONA), model.getDisplayList());
     }
 
     @Test
@@ -154,10 +154,10 @@ public class FindCommandTest {
         CompletionStatusPredicate predicate =
                 prepareCompletionStatusPredicate(FindType.ANY, CompletionStatusPredicate.COMPLETED_KEYWORD);
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredProjectList(predicate);
+        expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(BENSON, CARL, GEORGE), model.getFilteredTrackedItemList());
+        assertEquals(Arrays.asList(BENSON, CARL, GEORGE), model.getDisplayList());
     }
 
     @Test
@@ -165,10 +165,10 @@ public class FindCommandTest {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 3);
         TagListContainsKeywordsPredicate predicate = prepareTagListPredicate(FindType.ANY, TEST_TAGS);
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredProjectList(predicate);
+        expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getFilteredTrackedItemList());
+        assertEquals(Arrays.asList(ALICE, BENSON, DANIEL), model.getDisplayList());
     }
 
     @Test
@@ -176,10 +176,10 @@ public class FindCommandTest {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 1);
         TagListContainsKeywordsPredicate predicate = prepareTagListPredicate(FindType.ALL, TEST_TAGS);
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredProjectList(predicate);
+        expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.singletonList(BENSON), model.getFilteredTrackedItemList());
+        assertEquals(Collections.singletonList(BENSON), model.getDisplayList());
     }
 
     /**

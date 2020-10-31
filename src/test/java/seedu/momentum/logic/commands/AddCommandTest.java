@@ -165,18 +165,18 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObservableList<TrackedItem> getFilteredTrackedItemList() {
+        public ObservableList<TrackedItem> getDisplayList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList() {
+        public ObjectProperty<FilteredList<TrackedItem>> getObservableDisplayList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void orderFilteredProjectList(SortType sortType, boolean isAscending,
-                                             boolean isSortedByCompletionStatus) {
+        public void updateOrder(SortType sortType, boolean isAscending,
+                                boolean isSortedByCompletionStatus) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -226,7 +226,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void updateFilteredProjectList(Predicate<TrackedItem> predicate) {
+        public void updatePredicate(Predicate<TrackedItem> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 

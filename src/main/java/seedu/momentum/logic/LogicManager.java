@@ -89,8 +89,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList() {
-        return model.getObservableFilteredTrackedItemList();
+    public ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList() {
+        return model.getObservableDisplayList();
     }
 
     @Override

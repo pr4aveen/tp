@@ -55,7 +55,7 @@ public interface Logic {
     /**
      * Returns an unmodifiable view of the filtered list of tracked items.
      */
-    ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList();
+    ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList();
 
     /**
      * Returns a list of projects whose timers are running.

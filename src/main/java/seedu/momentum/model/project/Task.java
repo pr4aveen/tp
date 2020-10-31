@@ -3,22 +3,22 @@ package seedu.momentum.model.project;
 import java.util.Set;
 
 import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.UniqueItem;
+import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.TimerWrapper;
-import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Represents a Task in the project book.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Task extends TrackedItem {
+public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
 
     /**
      * Constructs a {@code Task}.
-     *
-     * @param name A valid name.
+     *  @param name A valid name.
      * @param description A description of the task.
      * @param completionStatus A completion status of the task.
      * @param createdDateWrapper A date associated with the creation of the task.
@@ -29,7 +29,7 @@ public class Task extends TrackedItem {
      * @param timerWrapper A timerWrapper associated with the task.
      */
     public Task(Name name, Description description, CompletionStatus completionStatus, DateWrapper createdDateWrapper,
-                Deadline deadline, Reminder reminder, Set<Tag> tags, UniqueDurationList durations,
+                Deadline deadline, Reminder reminder, Set<Tag> tags, UniqueItemList<WorkDuration> durations,
                 TimerWrapper timerWrapper) {
         super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
                 timerWrapper);
@@ -73,8 +73,7 @@ public class Task extends TrackedItem {
     public Task stopTimer() {
         TimerWrapper newTimerWrapper = timerWrapper.stop();
         WorkDuration duration = new WorkDuration(newTimerWrapper.getStartTime(), newTimerWrapper.getStopTime());
-        UniqueDurationList newDurations = new UniqueDurationList();
-        newDurations.setDurations(durations);
+        UniqueItemList<WorkDuration> newDurations = durations.copy();
         newDurations.add(duration);
         return new Task(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags,
                 newDurations, newTimerWrapper);
@@ -94,12 +93,12 @@ public class Task extends TrackedItem {
      * This defines a weaker notion of equality between two tasks.
      */
     @Override
-    public boolean isSameTrackedItem(TrackedItem otherTrackedItem) {
+    public boolean isSameAs(TrackedItem otherTrackedItem) {
         if (!(otherTrackedItem instanceof Task)) {
             return false;
         }
 
-        return super.isSameTrackedItem(otherTrackedItem);
+        return super.isSameAs(otherTrackedItem);
     }
 
     /**

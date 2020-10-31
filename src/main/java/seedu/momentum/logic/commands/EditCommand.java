@@ -18,6 +18,7 @@ import java.util.Set;
 
 import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.Messages;
+import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -30,10 +31,9 @@ import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.UniqueTrackedItemList;
 import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
-import seedu.momentum.model.timer.UniqueDurationList;
+import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Edits the details of an existing project in the project book.
@@ -93,7 +93,7 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
+        List<TrackedItem> lastShownList = model.getDisplayList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
@@ -102,7 +102,7 @@ public class EditCommand extends Command {
         TrackedItem trackedItemToEdit = lastShownList.get(index.getZeroBased());
         TrackedItem editedTrackedItem = createEditedTrackedItem(trackedItemToEdit, editTrackedItemDescriptor, model);
 
-        if (!trackedItemToEdit.isSameTrackedItem(editedTrackedItem) && model.hasTrackedItem(editedTrackedItem)) {
+        if (!trackedItemToEdit.isSameAs(editedTrackedItem) && model.hasTrackedItem(editedTrackedItem)) {
             throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
         }
 
@@ -119,7 +119,7 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
         }
 
-        model.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
+        model.updatePredicate(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
         model.rescheduleReminders();
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));
@@ -159,13 +159,13 @@ public class EditCommand extends Command {
 
         Set<Tag> updatedTags = editTrackedItemDescriptor.getTags().orElse(trackedItemToEdit.getTags());
 
-        UniqueDurationList durationList = new UniqueDurationList();
-        durationList.setDurations(trackedItemToEdit.getDurationList());
+        UniqueItemList<WorkDuration> durationList = new UniqueItemList<>();
+        durationList.setItems(trackedItemToEdit.getDurationList());
 
         if (model.getViewMode() == ViewMode.PROJECTS) {
             Project projectToEdit = (Project) trackedItemToEdit;
-            UniqueTrackedItemList taskList = new UniqueTrackedItemList();
-            taskList.setTrackedItems(projectToEdit.getTaskList());
+            UniqueItemList<TrackedItem> taskList = new UniqueItemList<>();
+            taskList.setItems(projectToEdit.getTaskList());
 
             return new Project(updatedName, updatedDescription, updatedCompletionStatus, createdDateWrapper,
                     updatedDeadline, updatedReminder, updatedTags, durationList, trackedItemToEdit.getTimer(),

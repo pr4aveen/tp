@@ -32,7 +32,7 @@ public class ProjectViewCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
+        List<TrackedItem> lastShownList = model.getDisplayList();
 
         if (model.getViewMode() != ViewMode.PROJECTS) {
             throw new CommandException(Messages.MESSAGE_NOT_PROJECT);

@@ -90,7 +90,7 @@ public class SortCommand extends Command {
         }
 
         if (model.getViewMode() == ViewMode.PROJECTS) {
-            model.orderFilteredProjectList(sortType, isAscending, isSortedByCompletionStatus);
+            model.updateOrder(sortType, isAscending, isSortedByCompletionStatus);
             model.commitToHistory();
             return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_PROJECTS, type, order));
         } else {

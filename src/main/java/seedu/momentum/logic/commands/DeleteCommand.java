@@ -52,7 +52,7 @@ public class DeleteCommand extends Command {
         ViewMode viewMode = model.getViewMode();
 
         List<TrackedItem> lastShownList = viewMode == ViewMode.PROJECTS
-                ? model.getFilteredTrackedItemList()
+                ? model.getDisplayList()
                 : projectToDeleteTaskFrom.getTaskList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {

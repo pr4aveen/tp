@@ -157,7 +157,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private void initProjectList() {
-        trackedItemListPanel = new TrackedItemListPanel(logic.getObservableFilteredTrackedItemList());
+        trackedItemListPanel = new TrackedItemListPanel(logic.getObservableDisplayList());
         projectListPanelPlaceholder.getChildren().add(trackedItemListPanel.getRoot());
     }
 
@@ -216,7 +216,7 @@ public class MainWindow extends UiPart<Stage> {
         infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
 
         // Add a listener to the project list that will update tags when there are changes made to the project list.
-        logic.getObservableFilteredTrackedItemList().get().addListener((ListChangeListener<TrackedItem>) c -> {
+        logic.getObservableDisplayList().get().addListener((ListChangeListener<TrackedItem>) c -> {
             TagsDisplay newTagsDisplay = new TagsDisplay(logic.getProjectBook().getTrackedItemTags());
             infoDisplayPlaceholder.getChildren().clear();
             infoDisplayPlaceholder.getChildren().add(newTagsDisplay.getRoot());

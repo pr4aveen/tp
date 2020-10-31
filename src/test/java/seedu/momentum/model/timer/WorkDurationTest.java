@@ -40,25 +40,25 @@ public class WorkDurationTest {
         // same values -> returns true
         WorkDuration durationCopy = new WorkDuration(TypicalWorkDuration.DURATION_ONE_DAY.getStartTime(),
                 TypicalWorkDuration.DURATION_ONE_DAY.getStopTime());
-        assertTrue(TypicalWorkDuration.DURATION_ONE_DAY.isSameDuration(durationCopy));
+        assertTrue(TypicalWorkDuration.DURATION_ONE_DAY.isSameAs(durationCopy));
 
         // same object -> returns true
-        assertTrue(TypicalWorkDuration.DURATION_ONE_DAY.isSameDuration(TypicalWorkDuration.DURATION_ONE_DAY));
+        assertTrue(TypicalWorkDuration.DURATION_ONE_DAY.isSameAs(TypicalWorkDuration.DURATION_ONE_DAY));
 
         // null -> returns false
-        assertFalse(TypicalWorkDuration.DURATION_ONE_DAY.isSameDuration(null));
+        assertFalse(TypicalWorkDuration.DURATION_ONE_DAY.isSameAs(null));
 
         // different project -> returns false
-        assertFalse(TypicalWorkDuration.DURATION_ONE_DAY.isSameDuration(TypicalWorkDuration.DURATION_ONE_MONTH));
+        assertFalse(TypicalWorkDuration.DURATION_ONE_DAY.isSameAs(TypicalWorkDuration.DURATION_ONE_MONTH));
 
         // different startTime -> returns false
         WorkDuration diffStart = new WorkDuration(new DateTimeWrapper(LocalDateTime.now()),
                 TypicalWorkDuration.DURATION_ONE_DAY.getStopTime());
-        assertFalse(TypicalWorkDuration.DURATION_ONE_DAY.isSameDuration(diffStart));
+        assertFalse(TypicalWorkDuration.DURATION_ONE_DAY.isSameAs(diffStart));
 
         // different stopTime -> returns false
         WorkDuration diffEnd = new WorkDuration(TypicalWorkDuration.DURATION_ONE_DAY.getStartTime(),
                 new DateTimeWrapper(LocalDateTime.now()));
-        assertFalse(TypicalWorkDuration.DURATION_ONE_DAY.isSameDuration(diffEnd));
+        assertFalse(TypicalWorkDuration.DURATION_ONE_DAY.isSameAs(diffEnd));
     }
 }

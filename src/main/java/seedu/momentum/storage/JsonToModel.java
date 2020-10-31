@@ -7,6 +7,7 @@ import java.util.Set;
 
 import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.commons.exceptions.IllegalValueException;
 import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Deadline;
@@ -14,11 +15,9 @@ import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.UniqueTrackedItemList;
 import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.TimerWrapper;
-import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
@@ -152,15 +151,15 @@ public class JsonToModel {
      * @return the model durations.
      * @throws IllegalValueException If the duration list is invalid.
      */
-    protected static UniqueDurationList getModelDurations(List<JsonAdaptedWorkDuration> durations)
+    protected static UniqueItemList<WorkDuration> getModelDurations(List<JsonAdaptedWorkDuration> durations)
             throws IllegalValueException {
         final List<WorkDuration> projectDurations = new ArrayList<>();
         for (JsonAdaptedWorkDuration duration : durations) {
             projectDurations.add(duration.toModelType());
         }
 
-        UniqueDurationList modelDurations = new UniqueDurationList();
-        modelDurations.setDurations(projectDurations);
+        UniqueItemList<WorkDuration> modelDurations = new UniqueItemList<>();
+        modelDurations.setItems(projectDurations);
         return modelDurations;
     }
 
@@ -171,13 +170,14 @@ public class JsonToModel {
      * @return the model tasks.
      * @throws IllegalValueException If the task list is invalid.
      */
-    protected static UniqueTrackedItemList getModelTasks(List<JsonAdaptedTask> taskList) throws IllegalValueException {
+    protected static UniqueItemList<TrackedItem> getModelTasks(List<JsonAdaptedTask> taskList)
+            throws IllegalValueException {
         final List<TrackedItem> projectTasks = new ArrayList<>();
         for (JsonAdaptedTask task : taskList) {
             projectTasks.add(task.toModelType());
         }
-        UniqueTrackedItemList modelTasks = new UniqueTrackedItemList();
-        modelTasks.setTrackedItems(projectTasks);
+        UniqueItemList<TrackedItem> modelTasks = new UniqueItemList<>();
+        modelTasks.setItems(projectTasks);
         modelTasks.setOrder(SortType.ALPHA, true, true);
         return modelTasks;
     }

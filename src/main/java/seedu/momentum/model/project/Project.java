@@ -7,28 +7,25 @@ import java.util.Set;
 
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.UniqueItem;
+import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.TimerWrapper;
-import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Represents a Project in the project book.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Project extends TrackedItem {
+public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
 
-    private UniqueTrackedItemList taskList;
-    private SortType sortType = SortType.ALPHA;
-    private boolean isAscending = true;
-    private boolean isSortedByCompletionStatus = true;
+    private UniqueItemList<TrackedItem> taskList;
 
     /**
      * Constructs a {@code Project}.
-     *
-     * @param name               A valid name.
+     *  @param name               A valid name.
      * @param description        A description of the project.
      * @param completionStatus   A completion status of the project.
      * @param createdDateWrapper A dateWrapper associated with the creation of the project.
@@ -41,7 +38,7 @@ public class Project extends TrackedItem {
      */
     public Project(Name name, Description description, CompletionStatus completionStatus,
                    DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder, Set<Tag> tags,
-                   UniqueDurationList durations, TimerWrapper timerWrapper, UniqueTrackedItemList taskList) {
+                   UniqueItemList<WorkDuration> durations, TimerWrapper timerWrapper, UniqueItemList<TrackedItem> taskList) {
         super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
                 timerWrapper);
         this.taskList = taskList;
@@ -49,37 +46,6 @@ public class Project extends TrackedItem {
 
     /**
      * Constructs a {@code Project}.
-     *
-     * @param name                       A valid name.
-     * @param description                A description of the project.
-     * @param completionStatus           A completion status of the project.
-     * @param createdDateWrapper         A dateWrapper associated with the creation of the project.
-     * @param deadline                   A deadline associated with the project.
-     * @param reminder                   A reminder associated with the tracked item.
-     * @param tags                       A set of tags associated to the project.
-     * @param durations                  A list of {@code WorkDuration} associated with the project.
-     * @param timerWrapper               A timerWrapper associated with the project.
-     * @param taskList                   UniqueTrackedListList associated with the project.
-     * @param sortType                  A boolean to check the type of order of the sort.
-     * @param isAscending                A boolean to check if the list is sorted in ascending order.
-     * @param isSortedByCompletionStatus A boolean to check if the list is sorted by completion status.
-     */
-    public Project(Name name, Description description, CompletionStatus completionStatus,
-                   DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder, Set<Tag> tags,
-                   UniqueDurationList durations, TimerWrapper timerWrapper, UniqueTrackedItemList taskList,
-                   SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
-        super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
-                timerWrapper);
-        this.taskList = taskList;
-        this.sortType = sortType;
-        this.isAscending = isAscending;
-        this.isSortedByCompletionStatus = isSortedByCompletionStatus;
-        taskList.setOrder(sortType, isAscending, isSortedByCompletionStatus);
-    }
-
-    /**
-     * Constructs a {@code Project}.
-     *
      * @param name               A valid name.
      * @param description        A description of the project.
      * @param completionStatus   A completion status of the project.
@@ -92,10 +58,10 @@ public class Project extends TrackedItem {
      */
     public Project(Name name, Description description, CompletionStatus completionStatus,
                    DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder, Set<Tag> tags,
-                   UniqueDurationList durations, TimerWrapper timerWrapper) {
+                   UniqueItemList<WorkDuration> durations, TimerWrapper timerWrapper) {
         super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
                 timerWrapper);
-        taskList = new UniqueTrackedItemList();
+        taskList = new UniqueItemList<>();
     }
 
     /**
@@ -112,7 +78,7 @@ public class Project extends TrackedItem {
     public Project(Name name, Description description, CompletionStatus completionStatus,
                    DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder, Set<Tag> tags) {
         super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags);
-        taskList = new UniqueTrackedItemList();
+        taskList = new UniqueItemList<>();
     }
 
     /**
@@ -137,8 +103,7 @@ public class Project extends TrackedItem {
     public Project stopTimer() {
         TimerWrapper newTimerWrapper = timerWrapper.stop();
         WorkDuration duration = new WorkDuration(newTimerWrapper.getStartTime(), newTimerWrapper.getStopTime());
-        UniqueDurationList newDurations = new UniqueDurationList();
-        newDurations.setDurations(durations);
+        UniqueItemList<WorkDuration> newDurations = durations.copy();
         newDurations.add(duration);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags,
                 newDurations, newTimerWrapper, taskList);
@@ -152,9 +117,10 @@ public class Project extends TrackedItem {
      */
     public Project addTask(TrackedItem task) {
         requireNonNull(task);
-        UniqueTrackedItemList newList = this.taskList.addTask(task);
+        UniqueItemList<TrackedItem> newList = taskList.copy();
+        newList.add(task);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
-                tags, durations, timerWrapper, newList, sortType, isAscending, isSortedByCompletionStatus);
+                tags, durations, timerWrapper, newList);
     }
 
     /**
@@ -175,7 +141,8 @@ public class Project extends TrackedItem {
      */
     public Project deleteTask(TrackedItem task) {
         requireNonNull(task);
-        UniqueTrackedItemList newList = taskList.removeTask(task);
+        UniqueItemList<TrackedItem> newList = taskList.copy();
+        newList.remove(task);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
                 tags, durations, timerWrapper, newList);
     }
@@ -188,9 +155,8 @@ public class Project extends TrackedItem {
      */
     public Project setTask(TrackedItem target, TrackedItem editedTask) {
         requireAllNonNull(target, editedTask);
-        UniqueTrackedItemList newList = taskList.copy();
-        newList.setTrackedItem(target, editedTask);
-        newList.setOrder(sortType, isAscending, isSortedByCompletionStatus);
+        UniqueItemList<TrackedItem> newList = taskList.copy();
+        newList.set(target, editedTask);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
                 tags, durations, timerWrapper, newList);
     }
@@ -199,7 +165,7 @@ public class Project extends TrackedItem {
      * Removes all tasks belonging to this project.
      */
     public Project clearTasks() {
-        UniqueTrackedItemList newList = new UniqueTrackedItemList();
+        UniqueTrackedItemList newList = new UniqueItemList<>();
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
                 tags, durations, timerWrapper, newList, sortType, isAscending, isSortedByCompletionStatus);
     }
@@ -215,10 +181,10 @@ public class Project extends TrackedItem {
     public Project orderTaskList(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
         requireAllNonNull(sortType, isAscending, isSortedByCompletionStatus);
 
-        UniqueTrackedItemList newList = taskList.copy();
+        UniqueItemList<TrackedItem> newList = taskList.copy();
 
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
-                tags, durations, timerWrapper, newList, sortType, isAscending, isSortedByCompletionStatus);
+                tags, durations, timerWrapper, newList);
     }
 
     public ObservableList<TrackedItem> getTaskList() {
@@ -230,12 +196,12 @@ public class Project extends TrackedItem {
      * This defines a weaker notion of equality between two projects.
      */
     @Override
-    public boolean isSameTrackedItem(TrackedItem otherTrackedItem) {
+    public boolean isSameAs(TrackedItem otherTrackedItem) {
         if (!(otherTrackedItem instanceof Project)) {
             return false;
         }
 
-        return super.isSameTrackedItem(otherTrackedItem);
+        return super.isSameAs(otherTrackedItem);
     }
 
     /**
@@ -261,7 +227,7 @@ public class Project extends TrackedItem {
      */
     public Project removeReminder(Task task) {
         Task newTask = task.removeReminder();
-        taskList.setTrackedItem(task, newTask);
+        taskList.set(task, newTask);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
                 timerWrapper, taskList);
     }
