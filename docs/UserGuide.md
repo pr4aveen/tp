@@ -145,12 +145,12 @@ Each project can also contain several tasks, each with the same information as a
 
 When you first open Momentum, you will see all the projects being tracked in Momentum. You can then view the tasks for each project seperately.
 
-:::info
+<div markdown="block" class="alert alert-info">
 
 **:information_source: Most commands in Momentum will do different things depending on whether you are viewing projects or tasks.**<br>
 Please refer to each command for these differences.
 
-:::
+</div>
 
 ### 3.1 View Projects: `home`<a name="#31-View-Projects-home"></a>
 
@@ -183,16 +183,17 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 * The format for date and time of the reminder is YYYY-MM-DDTHH:MM:SS, refer to [Date and Time Terms](#Date-and-Time-Terms) for more information on YYYY, MM, DD, HH, MM, and SS. 
 * The date and time of the reminder needs to be later than the current time.
 
-:::info
-:bulb: **Tip:**
-* Projects and tasks can have any number of tags (including 0).
-* A deadline of a project can include time.
-* A project can have an empty description.
-* `T` separates the date and time in a reminder.
-* A reminder will be shown in the Reminder component of the sidebar at the date and time specified.
-* The reminder will be removed after it is shown in the sidebar.
-:::
+<div markdown="block" class="alert alert-primary">
 
+:bulb: **Tip:**<br>
+* Projects and tasks can have any number of tags (including 0).<br>
+* A deadline of a project can include time.<br>
+* A project can have an empty description.<br>
+* `T` separates the date and time in a reminder.<br>
+* A reminder will be shown in the Reminder component of the sidebar at the date and time specified.<br>
+* The reminder will be removed after it is shown in the sidebar.<br>
+
+</div>
 
 Example: `add n/Momentum d/CS2103T Team Project dd/2020-12-07 dt/11:01:12 r/2020-12-07:11:01:12 t/impt`
 
@@ -266,14 +267,16 @@ Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
     * This is the default sort.
     * Add `c/` to disable this and sort without taking into account of completion status.
    
-:::info
-:bulb: **Tip:**
-* `type/alpha` and `order/asc` will be used as default if both sort type and order are not specified (i.e. command is `sort`)
-* Current sort type will be used if the `type` is not specified but `order` is specified.
-* `order/asc` will be used as default if the `order` is not specified but `type` is specified.
-* For `sort type/deadline`, projects without deadlines will be ordered alphabetically after the ordered list of projects with deadlines.
-* For both `sort type/deadline` and `sort type/created`, projects with same deadline or same created date will be sorted alphabetically.
-:::
+<div markdown="block" class="alert alert-primary">
+
+:bulb: **Tip:**<br>
+* `type/alpha` and `order/asc` will be used as default if both sort type and order are not specified (i.e. command is `sort`)<br>
+* Current sort type will be used if the `type` is not specified but `order` is specified.<br>
+* `order/asc` will be used as default if the `order` is not specified but `type` is specified.<br>
+* For `sort type/deadline`, projects without deadlines will be ordered alphabetically after the ordered list of projects with deadlines.<br>
+* For both `sort type/deadline` and `sort type/created`, projects with same deadline or same created date will be sorted alphabetically.<br>
+
+</div>
 
 Example:
 
@@ -344,15 +347,19 @@ Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_
 * `match/all` requires **all** parameters to match their respective entries in the project for it to be shown.
 * `match/any` shows the project as long as any parameter matches the user's input.
 
-:::info
+<div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**
 You can only search for projects in the project view and tasks in the tasks view
-:::
 
-:::info
+</div>
+
+<div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**
 `match/any` will be used if the `match` type is not specified.
-:::
+
+</div>
 
 Example:
 
@@ -379,10 +386,12 @@ If there are 3 projects in the project book:
 * The `t/` command checks whether a project has a certain tag. There can be multiple tags added to this command. For example, `t/freelance errands` will check for the projects that contain the tags `freelance` or `errands`.
 * Searching by tags will require a full word match unlike searching by name or description. This means that searching for the tag `free` will not find a project with the tag `freelance`.
 
-:::info
+<div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**
 Searches for tags require a full match whilst searches partial matches are sufficient for searches by name and description.
-:::
+
+</div>
 
 #### Searching by Completion Status
 
@@ -390,11 +399,13 @@ Searches for tags require a full match whilst searches partial matches are suffi
 * The `c/` command checks whether a project is completed. For example, `t/completed` will check for the projects that are completed.
 * When `c/` is not specified, both complete and incomplete projects will be shown.
 
-:::info
-:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">
+
+:bulb: **Tip:**<br>
 If a certain search type is used more than once, the latest entry will be used.
 `find n/a n/b n/c` will only search for projets/task that contain`c` in their name.
-:::
+
+</div>
 
 ## Time Tracking
 You can track the time you spend working on a project by starting a timer when you start working, and then stopping the timer once you finish.
@@ -403,32 +414,34 @@ Momentum remembers each timer that you start/stop and uses this information to c
 
 ### Starting a Timer for a Project: `start`
 
-Format: `/start PROJECT_ID`
+Format: `start PROJECT_ID`
 
 * Starts a timer for the project at the specified `PROJECT_ID`.
 * Only 1 timer can be running for a project at any time.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
-:::info
+<div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**
 You can run timers for more than one project concurrently, if you are multi-tasking.
-:::
 
-Example: `/start 2`
+</div>
+
+Example: `start 2`
 
 Result: Starts a timer for the second project in the list.
 
 ### Stopping a Timer for a Project: `stop`
 
-Format: `/stop PROJECT_ID`
+Format: `stop PROJECT_ID`
 
 * Stops a running timer for the project at the specified `PROJECT_ID`.
 * A timer can only be stopped if there is one already running.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
-Example: `/stop 2`
+Example: `stop 2`
 
 Result: Stops the timer for the second project in the list.
 
@@ -438,7 +451,7 @@ Undo command undoes previous commmand and redo command redoes previously undone 
 ### Undoing the Previous Command: `undo`
 The undo command resets the application to the state before previous command was executed.
 
-Format: `/undo`
+Format: `undo`
 
 Example: `start 1`, `undo`
 
@@ -448,17 +461,19 @@ Result: Timer for project/task at index 1 is started, then stopped and removed a
 ### Redoing the Previous Command: `redo`
 The redo command redoes previously undone command and resets the application to the state before the previous undo command.
 
-Format: `/redo`
+Format: `redo`
 
 Example: `sort type/deadline`, `undo`, `redo`
 
 Result: Projects are sorted by deadline, then the application is reset to the sorting order before sort command was executed, then reset back to sort by deadline after redo command.
 
-:::info
-:bulb: **Tip:**
-* Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.
-* Redo command only works if there the previous command is `undo`.
-:::
+<div markdown="block" class="alert alert-primary">
+
+:bulb: **Tip:**<br>
+* Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.<br>
+* Redo command only works if there the previous command is `undo`.<br>
+
+</div>
 
 ## Statistics
 Statistics are automatically generated and updated whenever projects are 

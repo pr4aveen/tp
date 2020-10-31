@@ -21,16 +21,12 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all projects whose names contain any or all of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " "
             + "[" + FIND_TYPE + "FIND_TYPE ] "
             + "[" + PREFIX_NAME + "NAME_KEYWORD [MORE_NAME_KEYWORDS]... ] "
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION_KEYWORD [MORE_DESCRIPTION_KEYWORDS]... ] "
             + "[" + PREFIX_COMPLETION_STATUS + "COMPLETION_STATUS_KEYWORD ] "
-            + "[" + PREFIX_TAG + "TAG_KEYWORD [MORE_TAG_KEYWORDS]... ] \n"
-            + "Example: " + COMMAND_WORD + " " + FIND_TYPE + "all " + PREFIX_NAME + "alice bob charlie "
-            + PREFIX_DESCRIPTION + "likes dim sum " + PREFIX_COMPLETION_STATUS + "completed " + PREFIX_TAG + "friends";
+            + "[" + PREFIX_TAG + "TAG_KEYWORD [MORE_TAG_KEYWORDS]... ]";
 
     private final Predicate<TrackedItem> predicate;
 
@@ -41,7 +37,6 @@ public class FindCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.viewAll();
         model.updateFilteredProjectList(predicate);
         model.commitToHistory();
         return new CommandResult(

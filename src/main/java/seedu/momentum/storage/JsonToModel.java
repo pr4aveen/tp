@@ -12,6 +12,7 @@ import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
+import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.UniqueTrackedItemList;
 import seedu.momentum.model.reminder.Reminder;
@@ -177,6 +178,7 @@ public class JsonToModel {
         }
         UniqueTrackedItemList modelTasks = new UniqueTrackedItemList();
         modelTasks.setTrackedItems(projectTasks);
+        modelTasks.setOrder(SortType.ALPHA, true, true);
         return modelTasks;
     }
 }

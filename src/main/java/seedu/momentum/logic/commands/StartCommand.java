@@ -19,10 +19,7 @@ public class StartCommand extends Command {
 
     public static final String COMMAND_WORD = "start";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Starts the project identified by the index number used in the displayed project list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " " + "INDEX";
 
     public static final String MESSAGE_START_TIMER_SUCCESS = "Started %1$s, at: ";
     public static final String MESSAGE_EXISTING_TIMER_ERROR = "There is already a timer running for this project";

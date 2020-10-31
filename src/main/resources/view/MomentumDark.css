@@ -111,6 +111,10 @@
     -fx-background-color: -fx-cool-gray-4;
 }
 
+.error {
+    -fx-text-fill: -fx-red;
+}
+
 .project-list #id {
     -fx-fill: -fx-white;
 }

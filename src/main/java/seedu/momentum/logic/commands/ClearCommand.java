@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ViewMode;
+import seedu.momentum.model.project.Project;
 
 /**
  * Clears the project book.
@@ -24,8 +25,10 @@ public class ClearCommand extends Command {
             model.commitToHistory();
             return new CommandResult(MESSAGE_SUCCESS_ALL);
         } else {
-            model.getCurrentProject().clearTasks();
-            model.viewTasks(model.getCurrentProject());
+            Project projectBeforeClear = model.getCurrentProject();
+            Project projectAfterClear = model.getCurrentProject().clearTasks();
+            model.setTrackedItem(projectBeforeClear, projectAfterClear);
+            model.viewTasks(projectAfterClear);
             model.commitToHistory();
             return new CommandResult(MESSAGE_SUCCESS_TASK);
         }
