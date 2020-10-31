@@ -178,7 +178,6 @@ public class JsonToModel {
         }
         UniqueItemList<TrackedItem> modelTasks = new UniqueItemList<>();
         modelTasks.setItems(projectTasks);
-        modelTasks.setOrder(SortType.ALPHA, true, true);
         return modelTasks;
     }
 }

@@ -165,9 +165,9 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
      * Removes all tasks belonging to this project.
      */
     public Project clearTasks() {
-        UniqueTrackedItemList newList = new UniqueItemList<>();
+        UniqueItemList<TrackedItem> newList = new UniqueItemList<>();
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
-                tags, durations, timerWrapper, newList, sortType, isAscending, isSortedByCompletionStatus);
+                tags, durations, timerWrapper, newList);
     }
 
 

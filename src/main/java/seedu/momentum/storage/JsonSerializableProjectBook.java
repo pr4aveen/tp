@@ -56,7 +56,6 @@ class JsonSerializableProjectBook {
             }
             projectBook.addTrackedItem(project);
         }
-        projectBook.setOrder(SortType.ALPHA, true, true);
         return projectBook;
     }
 
