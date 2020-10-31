@@ -37,7 +37,7 @@
 }
 
 .separator {
-    -fx-padding: -1000;
+    -fx-padding: -4;
 }
 
 .separator .line{
