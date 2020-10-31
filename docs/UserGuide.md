@@ -184,13 +184,15 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 * The date and time of the reminder needs to be later than the current time.
 
 <div markdown="span" class="alert alert-primary">
-:bulb: **Tip:**<br>
+
+:bulb: **Tip:**
 * Projects and tasks can have any number of tags (including 0).
 * A deadline of a project can include time.
 * A project can have an empty description.
 * `T` separates the date and time in a reminder.
 * A reminder will be shown in the Reminder component of the sidebar at the date and time specified.
 * The reminder will be removed after it is shown in the sidebar.
+
 </div>
 
 
@@ -267,12 +269,14 @@ Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
     * Add `c/` to disable this and sort without taking into account of completion status.
    
 <div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**
 * `type/alpha` and `order/asc` will be used as default if both sort type and order are not specified (i.e. command is `sort`)
 * Current sort type will be used if the `type` is not specified but `order` is specified.
 * `order/asc` will be used as default if the `order` is not specified but `type` is specified.
 * For `sort type/deadline`, projects without deadlines will be ordered alphabetically after the ordered list of projects with deadlines.
 * For both `sort type/deadline` and `sort type/created`, projects with same deadline or same created date will be sorted alphabetically.
+
 </div>
 
 Example:
@@ -345,13 +349,17 @@ Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_
 * `match/any` shows the project as long as any parameter matches the user's input.
 
 <div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**
 You can only search for projects in the project view and tasks in the tasks view
-</div>>
+
+</div>
 
 <div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**
 `match/any` will be used if the `match` type is not specified.
+
 </div>
 
 Example:
@@ -380,8 +388,10 @@ If there are 3 projects in the project book:
 * Searching by tags will require a full word match unlike searching by name or description. This means that searching for the tag `free` will not find a project with the tag `freelance`.
 
 <div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**
 Searches for tags require a full match whilst searches partial matches are sufficient for searches by name and description.
+
 </div>
 
 #### Searching by Completion Status
@@ -390,10 +400,12 @@ Searches for tags require a full match whilst searches partial matches are suffi
 * The `c/` command checks whether a project is completed. For example, `t/completed` will check for the projects that are completed.
 * When `c/` is not specified, both complete and incomplete projects will be shown.
 
-<div markdown="span" class="alert alert-primary">>
+<div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**
 If a certain search type is used more than once, the latest entry will be used.
 `find n/a n/b n/c` will only search for projets/task that contain`c` in their name.
+
 </div>
 
 ## Time Tracking
@@ -411,8 +423,10 @@ Format: `start PROJECT_ID`
 * The id **must be a positive integer** 1, 2, 3, …​
 
 <div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**
 You can run timers for more than one project concurrently, if you are multi-tasking.
+
 </div>
 
 Example: `start 2`
@@ -455,9 +469,11 @@ Example: `sort type/deadline`, `undo`, `redo`
 Result: Projects are sorted by deadline, then the application is reset to the sorting order before sort command was executed, then reset back to sort by deadline after redo command.
 
 <div markdown="span" class="alert alert-primary">
+
 :bulb: **Tip:**
 * Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.
 * Redo command only works if there the previous command is `undo`.
+
 </div>
 
 ## Statistics
