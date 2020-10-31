@@ -185,7 +185,7 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:**
+:bulb: **Tip:**<br>
 * Projects and tasks can have any number of tags (including 0).
 * A deadline of a project can include time.
 * A project can have an empty description.
@@ -270,7 +270,7 @@ Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
    
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:**
+:bulb: **Tip:**<br>
 * `type/alpha` and `order/asc` will be used as default if both sort type and order are not specified (i.e. command is `sort`)
 * Current sort type will be used if the `type` is not specified but `order` is specified.
 * `order/asc` will be used as default if the `order` is not specified but `type` is specified.
@@ -402,7 +402,7 @@ Searches for tags require a full match whilst searches partial matches are suffi
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:**
+:bulb: **Tip:**<br>
 If a certain search type is used more than once, the latest entry will be used.
 `find n/a n/b n/c` will only search for projets/task that contain`c` in their name.
 
@@ -470,7 +470,7 @@ Result: Projects are sorted by deadline, then the application is reset to the so
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:**
+:bulb: **Tip:**<br>
 * Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.
 * Redo command only works if there the previous command is `undo`.
 
