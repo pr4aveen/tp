@@ -19,10 +19,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.logic.commands.AddCommand;
+import seedu.momentum.logic.commands.AddProjectCommand;
 import seedu.momentum.logic.commands.ClearCommand;
 import seedu.momentum.logic.commands.DeleteCommand;
+import seedu.momentum.logic.commands.DeleteProjectCommand;
 import seedu.momentum.logic.commands.EditCommand;
+import seedu.momentum.logic.commands.EditProjectCommand;
 import seedu.momentum.logic.commands.ExitCommand;
 import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.commands.HelpCommand;
@@ -30,7 +32,9 @@ import seedu.momentum.logic.commands.ListCommand;
 import seedu.momentum.logic.commands.ShowComponentCommand;
 import seedu.momentum.logic.commands.SortCommand;
 import seedu.momentum.logic.commands.StartCommand;
+import seedu.momentum.logic.commands.StartProjectCommand;
 import seedu.momentum.logic.commands.StopCommand;
+import seedu.momentum.logic.commands.StopProjectCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
@@ -51,8 +55,8 @@ public class ProjectBookParserTest {
     @Test
     public void parseCommand_add() throws Exception {
         Project project = new ProjectBuilder().withCurrentCreatedDate().build();
-        AddCommand command = (AddCommand) parser.parseCommand(ProjectUtil.getAddCommand(project), model);
-        assertEquals(new AddCommand(project), command);
+        AddProjectCommand command = (AddProjectCommand) parser.parseCommand(ProjectUtil.getAddCommand(project), model);
+        assertEquals(new AddProjectCommand(project), command);
     }
 
     @Test
@@ -65,7 +69,7 @@ public class ProjectBookParserTest {
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
                 DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased(), model);
-        assertEquals(new DeleteCommand(INDEX_FIRST_PROJECT), command);
+        assertEquals(new DeleteProjectCommand(INDEX_FIRST_PROJECT), command);
     }
 
     @Test
@@ -75,7 +79,7 @@ public class ProjectBookParserTest {
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
             + INDEX_FIRST_PROJECT.getOneBased() + " "
             + ProjectUtil.getEditProjectDescriptorDetails(descriptor), model);
-        assertEquals(new EditCommand(INDEX_FIRST_PROJECT, descriptor), command);
+        assertEquals(new EditProjectCommand(INDEX_FIRST_PROJECT, descriptor), command);
     }
 
     @Test
@@ -117,14 +121,14 @@ public class ProjectBookParserTest {
     public void parseCommand_start() throws Exception {
         StartCommand command = (StartCommand) parser.parseCommand(
                 StartCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased(), model);
-        assertEquals(new StartCommand(INDEX_FIRST_PROJECT), command);
+        assertEquals(new StartProjectCommand(INDEX_FIRST_PROJECT), command);
     }
 
     @Test
     public void parseCommand_stop() throws Exception {
         StopCommand command = (StopCommand) parser.parseCommand(
                 StopCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased(), model);
-        assertEquals(new StopCommand(INDEX_FIRST_PROJECT), command);
+        assertEquals(new StopProjectCommand(INDEX_FIRST_PROJECT), command);
     }
 
     @Test

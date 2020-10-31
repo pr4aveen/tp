@@ -43,6 +43,7 @@ import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.TimeWrapper;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand;
+import seedu.momentum.logic.commands.EditProjectCommand;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
@@ -131,7 +132,7 @@ public class EditCommandParserTest {
                 .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
                 .withReminder(VALID_REMINDER_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditProjectCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand, model);
     }
@@ -155,45 +156,45 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + NAME_DESC_AMY;
         EditCommand.EditTrackedItemDescriptor descriptor =
                 new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_AMY).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditProjectCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand, model);
 
         // description
         userInput = targetIndex.getOneBased() + DESCRIPTION_DESC_AMY;
         descriptor = new EditTrackedItemDescriptorBuilder().withDescription(VALID_DESCRIPTION_AMY).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditProjectCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand, model);
 
         // completion status
         userInput = targetIndex.getOneBased() + COMPLETION_STATUS_DESC_BOB;
         descriptor = new EditTrackedItemDescriptorBuilder().withCompletionStatus(new CompletionStatus()).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditProjectCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand, model);
 
         // deadline with date
         userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB;
         descriptor = new EditTrackedItemDescriptorBuilder()
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditProjectCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand, model);
 
         // deadline with date and time
         userInput = targetIndex.getOneBased() + DEADLINE_DATE_DESC_BOB + DEADLINE_TIME_DESC_AMY;
         descriptor = new EditTrackedItemDescriptorBuilder()
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditProjectCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand, model);
 
         // reminder
         userInput = targetIndex.getOneBased() + REMINDER_DESC_AMY;
         descriptor = new EditTrackedItemDescriptorBuilder().withReminder(VALID_REMINDER_AMY).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditProjectCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand, model);
 
         // tags
         userInput = targetIndex.getOneBased() + TAG_DESC_FRIEND;
         descriptor = new EditTrackedItemDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditProjectCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand, model);
     }
 
@@ -205,7 +206,7 @@ public class EditCommandParserTest {
 
         EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder()
                 .withDescription(VALID_DESCRIPTION_BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditProjectCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand, model);
     }
@@ -235,7 +236,7 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + TAG_EMPTY;
 
         EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder().withTags().build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditProjectCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand, model);
     }

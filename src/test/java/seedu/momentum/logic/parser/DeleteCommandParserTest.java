@@ -9,6 +9,7 @@ import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.logic.commands.DeleteCommand;
+import seedu.momentum.logic.commands.DeleteProjectCommand;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
@@ -27,7 +28,7 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsDeleteCommand() {
-        assertParseSuccess(parser, "1", new DeleteCommand(INDEX_FIRST_PROJECT), model);
+        assertParseSuccess(parser, "1", new DeleteProjectCommand(INDEX_FIRST_PROJECT), model);
     }
 
     @Test

@@ -30,7 +30,7 @@ public class StartCommandTest {
     @Test
     public void execute_validIndexUnfilteredList_success() {
         Clock.initFixed(TypicalTimes.DAY);
-        StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
+        StartCommand startCommand = new StartProjectCommand(INDEX_FIRST_PROJECT);
 
         TrackedItem trackedItemToStart = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
@@ -50,14 +50,14 @@ public class StartCommandTest {
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getDisplayList().size() + 1);
-        StartCommand startCommand = new StartCommand(outOfBoundIndex);
+        StartCommand startCommand = new StartProjectCommand(outOfBoundIndex);
 
         assertCommandFailure(startCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
     }
 
     @Test
     public void execute_alreadyRunning_throwsCommandException() {
-        StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
+        StartCommand startCommand = new StartProjectCommand(INDEX_FIRST_PROJECT);
         TrackedItem trackedItemToStart = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         model.setTrackedItem(trackedItemToStart, trackedItemToStart.startTimer());
@@ -77,7 +77,7 @@ public class StartCommandTest {
         expectedModel.setTrackedItem(trackedItemToStart, startedTrackedItem);
         expectedModel.commitToHistory();
 
-        StartCommand startCommand = new StartCommand(INDEX_FIRST_PROJECT);
+        StartCommand startCommand = new StartProjectCommand(INDEX_FIRST_PROJECT);
         String expectedMessage =
                 String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST_PROJECT.getOneBased())
                         + startedTrackedItem.getTimer().getStartTime().getFormatted();
@@ -96,21 +96,21 @@ public class StartCommandTest {
         // ensures that outOfBoundIndex is still in bounds of project book list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getProjectBook().getTrackedItemList().size());
 
-        StartCommand startCommand = new StartCommand(outOfBoundIndex);
+        StartCommand startCommand = new StartProjectCommand(outOfBoundIndex);
 
         assertCommandFailure(startCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
     }
 
     @Test
     public void equals() {
-        StartCommand startFirstCommand = new StartCommand(INDEX_FIRST_PROJECT);
-        StartCommand startSecondCommand = new StartCommand(INDEX_SECOND_PROJECT);
+        StartCommand startFirstCommand = new StartProjectCommand(INDEX_FIRST_PROJECT);
+        StartCommand startSecondCommand = new StartProjectCommand(INDEX_SECOND_PROJECT);
 
         // same object -> returns true
         assertTrue(startFirstCommand.equals(startFirstCommand));
 
         // same values -> returns true
-        StartCommand startFirstCommandCopy = new StartCommand(INDEX_FIRST_PROJECT);
+        StartCommand startFirstCommandCopy = new StartProjectCommand(INDEX_FIRST_PROJECT);
         assertTrue(startFirstCommand.equals(startFirstCommandCopy));
 
         // different types -> returns false

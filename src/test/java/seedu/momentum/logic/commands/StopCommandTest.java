@@ -39,7 +39,7 @@ public class StopCommandTest {
         TrackedItem startedTrackedItem = trackedItemToStop.startTimer();
         expectedModel.setTrackedItem(trackedItemToStop, startedTrackedItem);
 
-        StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
+        StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 60);
         model.setTrackedItem(trackedItemToStop, startedTrackedItem);
@@ -57,14 +57,14 @@ public class StopCommandTest {
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getDisplayList().size() + 1);
-        StopCommand stopCommand = new StopCommand(outOfBoundIndex);
+        StopCommand stopCommand = new StopProjectCommand(outOfBoundIndex);
 
         assertCommandFailure(stopCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
     }
 
     @Test
     public void execute_noTimer_throwsCommandException() {
-        StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
+        StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST_PROJECT);
 
         assertCommandFailure(stopCommand, model, StopCommand.MESSAGE_NO_TIMER_ERROR);
     }
@@ -76,7 +76,7 @@ public class StopCommandTest {
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
         TrackedItem trackedItemToStop = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
-        StopCommand stopCommand = new StopCommand(INDEX_FIRST_PROJECT);
+        StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 60);
 
@@ -106,21 +106,21 @@ public class StopCommandTest {
         // ensures that outOfBoundIndex is still in bounds of project book list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getProjectBook().getTrackedItemList().size());
 
-        StopCommand stopCommand = new StopCommand(outOfBoundIndex);
+        StopCommand stopCommand = new StopProjectCommand(outOfBoundIndex);
 
         assertCommandFailure(stopCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
     }
 
     @Test
     public void equals() {
-        StopCommand stopFirstCommand = new StopCommand(INDEX_FIRST_PROJECT);
-        StopCommand stopSecondCommand = new StopCommand(INDEX_SECOND_PROJECT);
+        StopProjectCommand stopFirstCommand = new StopProjectCommand(INDEX_FIRST_PROJECT);
+        StopProjectCommand stopSecondCommand = new StopProjectCommand(INDEX_SECOND_PROJECT);
 
         // same object -> returns true
         assertTrue(stopFirstCommand.equals(stopFirstCommand));
 
         // same values -> returns true
-        StopCommand stopFirstCommandCopy = new StopCommand(INDEX_FIRST_PROJECT);
+        StopCommand stopFirstCommandCopy = new StopProjectCommand(INDEX_FIRST_PROJECT);
         assertTrue(stopFirstCommand.equals(stopFirstCommandCopy));
 
         // different types -> returns false
