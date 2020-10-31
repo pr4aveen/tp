@@ -20,10 +20,7 @@ public class StopCommand extends Command {
 
     public static final String COMMAND_WORD = "stop";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Stops the project identified by the index number used in the displayed project list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " " + "INDEX";
 
     public static final String MESSAGE_STOP_TIMER_SUCCESS = "Stopped %s. Total Duration: %s";
     public static final String MESSAGE_NO_TIMER_ERROR = "There is no timer running for this project.";

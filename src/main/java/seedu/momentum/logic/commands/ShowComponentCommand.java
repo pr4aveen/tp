@@ -14,11 +14,8 @@ public class ShowComponentCommand extends Command {
 
     public static final String COMMAND_WORD = "show";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows or hide the component of the sidebar. "
-            + "Parameters: "
-            + "[" + PREFIX_REMINDER + " ] " + "\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_REMINDER;
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " "
+            + "[" + PREFIX_REMINDER + " ] ";
 
     public static final String MESSAGE_SUCCESS = "%s is %s from the sidebar.";
 
