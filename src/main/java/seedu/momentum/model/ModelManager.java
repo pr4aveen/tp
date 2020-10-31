@@ -62,6 +62,8 @@ public class ModelManager implements Model {
 
         this.userPrefs = new UserPrefs(userPrefs);
 
+        this.viewMode = ViewMode.PROJECTS;
+
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject);
         this.reminderManager = new ReminderManager(this.versionedProjectBook);
         this.itemList = this.versionedProjectBook.getTrackedItemList();
@@ -72,7 +74,6 @@ public class ModelManager implements Model {
         isCurrentSortAscending = true;
         isCurrentSortIsByCompletionStatus = true;
         currentComparator = getComparatorNullType(true, true);
-        viewMode = ViewMode.PROJECTS;
 
         runningTimers = FXCollections.observableArrayList();
 
