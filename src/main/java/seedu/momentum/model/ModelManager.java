@@ -6,6 +6,8 @@ import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +32,7 @@ import seedu.momentum.model.project.comparators.CreatedDateCompare;
 import seedu.momentum.model.project.comparators.DeadlineCompare;
 import seedu.momentum.model.project.comparators.NameCompare;
 import seedu.momentum.model.reminder.ReminderManager;
+import seedu.momentum.model.tag.Tag;
 
 /**
  * Represents the in-memory model of the project book data.
@@ -158,6 +161,16 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public Set<Tag> getVisibleTags() {
+        Set<Tag> tags = new HashSet<>();
+        ObservableList<TrackedItem> visibleList = displayList.get();
+        for (TrackedItem trackedItem : visibleList) {
+            tags.addAll(trackedItem.getTags());
+        }
+        return tags;
+    }
+
+    @Override
     public Project getCurrentProject() {
         assert viewMode == ViewMode.TASKS : "Project can only be accessed in task view";
 
@@ -173,6 +186,7 @@ public class ModelManager implements Model {
     @Override
     public void deleteTrackedItem(TrackedItem target) {
         versionedProjectBook.removeTrackedItem(target);
+        updatePredicate(currentPredicate);
         rescheduleReminders();
     }
 

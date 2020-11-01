@@ -2,6 +2,7 @@ package seedu.momentum.logic;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
@@ -22,6 +23,7 @@ import seedu.momentum.logic.statistic.StatisticManager;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.tag.Tag;
 import seedu.momentum.storage.Storage;
 
 /**
@@ -128,5 +130,10 @@ public class LogicManager implements Logic {
     @Override
     public void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframe) {
         model.setStatisticTimeframeSettings(statisticTimeframe);
+    }
+
+    @Override
+    public Set<Tag> getVisibleTags() {
+        return model.getVisibleTags();
     }
 }
