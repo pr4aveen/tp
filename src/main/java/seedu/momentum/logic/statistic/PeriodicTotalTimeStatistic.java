@@ -60,7 +60,7 @@ public class PeriodicTotalTimeStatistic extends Statistic {
         DateTimeWrapper end = Clock.now();
 
         //Only calculate statistics for projects visible to the user
-        List<TrackedItem> trackedItems = model.getFilteredTrackedItemList();
+        List<TrackedItem> trackedItems = model.getDisplayList();
 
         timeList.clear();
 

@@ -93,7 +93,7 @@ public class LogicManagerTest {
     @Test
     public void getFilteredProjectList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () ->
-                logic.getObservableFilteredTrackedItemList().get().remove(0));
+                logic.getObservableDisplayList().get().remove(0));
     }
 
     /**

@@ -6,7 +6,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
@@ -55,7 +54,7 @@ public interface Logic {
     /**
      * Returns an unmodifiable view of the filtered list of tracked items.
      */
-    ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList();
+    ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList();
 
     /**
      * Returns a list of projects whose timers are running.

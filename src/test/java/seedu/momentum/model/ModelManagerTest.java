@@ -91,7 +91,7 @@ public class ModelManagerTest {
 
     @Test
     public void getFilteredProjectList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredTrackedItemList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getDisplayList().remove(0));
     }
 
     @Test
@@ -119,12 +119,12 @@ public class ModelManagerTest {
 
         // different filteredList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
-        modelManager.updateFilteredProjectList(
+        modelManager.updatePredicate(
                 new NameContainsKeywordsPredicate(FindType.ANY, Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(projectBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
+        modelManager.updatePredicate(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
 
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();

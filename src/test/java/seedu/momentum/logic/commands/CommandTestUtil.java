@@ -106,6 +106,8 @@ public class CommandTestUtil {
                                             Model expectedModel) {
         try {
             CommandResult result = command.execute(actualModel);
+            System.out.println(result.getFeedbackToUser());
+            System.out.println(expectedCommandResult.getFeedbackToUser());
             assertEquals(expectedCommandResult, result);
             assertEquals(expectedModel, actualModel);
         } catch (ParseException | CommandException ce) {
@@ -133,11 +135,11 @@ public class CommandTestUtil {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         ProjectBook expectedProjectBook = new ProjectBook(actualModel.getProjectBook());
-        List<TrackedItem> expectedFilteredList = new ArrayList<>(actualModel.getFilteredTrackedItemList());
+        List<TrackedItem> expectedFilteredList = new ArrayList<>(actualModel.getDisplayList());
 
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedProjectBook, actualModel.getProjectBook());
-        assertEquals(expectedFilteredList, actualModel.getFilteredTrackedItemList());
+        assertEquals(expectedFilteredList, actualModel.getDisplayList());
     }
 
     /**
@@ -145,14 +147,14 @@ public class CommandTestUtil {
      * {@code model}'s project book.
      */
     public static void showProjectAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredTrackedItemList().size());
+        assertTrue(targetIndex.getZeroBased() < model.getDisplayList().size());
 
-        TrackedItem trackedItem = model.getFilteredTrackedItemList().get(targetIndex.getZeroBased());
+        TrackedItem trackedItem = model.getDisplayList().get(targetIndex.getZeroBased());
         final String[] splitName = trackedItem.getName().fullName.split("\\s+");
-        model.updateFilteredProjectList(
+        model.updatePredicate(
             new NameContainsKeywordsPredicate(FindType.ANY, Collections.singletonList(splitName[0])));
 
-        assertEquals(1, model.getFilteredTrackedItemList().size());
+        assertEquals(1, model.getDisplayList().size());
     }
 
 }

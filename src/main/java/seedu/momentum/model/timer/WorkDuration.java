@@ -4,12 +4,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import seedu.momentum.commons.core.DateTimeWrapper;
+import seedu.momentum.commons.core.UniqueItem;
 
 /**
  * Represents a duration of dateTimeWrapper spent working on a project.
  * Guarantees: immutable.
  */
-public class WorkDuration {
+public class WorkDuration implements UniqueItem<WorkDuration> {
     private final DateTimeWrapper startDateTime;
     private final DateTimeWrapper stopDateTime;
 
@@ -45,7 +46,8 @@ public class WorkDuration {
     /**
      * Returns true if both durations have the same start and stop dateTimeWrapper.
      */
-    public boolean isSameDuration(WorkDuration otherDuration) {
+    @Override
+    public boolean isSameAs(WorkDuration otherDuration) {
         if (otherDuration == this) {
             return true;
         }
@@ -59,7 +61,7 @@ public class WorkDuration {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof WorkDuration // instanceof handles nulls
-                && isSameDuration((WorkDuration) other)); // state check
+                && isSameAs((WorkDuration) other)); // state check
     }
 
     @Override

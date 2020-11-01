@@ -32,7 +32,7 @@ public class StartCommandTest {
         Clock.initFixed(TypicalTimes.DAY);
         StartCommand startCommand = new StartProjectCommand(INDEX_FIRST_PROJECT);
 
-        TrackedItem trackedItemToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStart = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
@@ -49,7 +49,7 @@ public class StartCommandTest {
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredTrackedItemList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getDisplayList().size() + 1);
         StartCommand startCommand = new StartProjectCommand(outOfBoundIndex);
 
         assertCommandFailure(startCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
@@ -58,7 +58,7 @@ public class StartCommandTest {
     @Test
     public void execute_alreadyRunning_throwsCommandException() {
         StartCommand startCommand = new StartProjectCommand(INDEX_FIRST_PROJECT);
-        TrackedItem trackedItemToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStart = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         model.setTrackedItem(trackedItemToStart, trackedItemToStart.startTimer());
 
@@ -70,7 +70,7 @@ public class StartCommandTest {
         Clock.initFixed(TypicalTimes.DAY);
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
-        TrackedItem trackedItemToStart = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStart = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStart.startTimer();

@@ -8,7 +8,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
@@ -87,8 +86,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList() {
-        return model.getObservableFilteredTrackedItemList();
+    public ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList() {
+        return model.getObservableDisplayList();
     }
 
     @Override

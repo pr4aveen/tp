@@ -14,7 +14,6 @@ import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.UserPrefs;
-import seedu.momentum.model.project.SortType;
 
 public class StorageManagerTest {
 
@@ -56,7 +55,6 @@ public class StorageManagerTest {
          * More extensive testing of UserPref saving/reading is done in {@link JsonProjectBookStorageTest} class.
          */
         ProjectBook original = getTypicalProjectBook();
-        original.setOrder(SortType.ALPHA, true, true);
         storageManager.saveProjectBook(original);
         ReadOnlyProjectBook retrieved = storageManager.readProjectBook().get();
         assertEquals(original, new ProjectBook(retrieved));

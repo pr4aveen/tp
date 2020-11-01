@@ -25,7 +25,7 @@ public class EditProjectCommand extends EditCommand {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
+        List<TrackedItem> lastShownList = model.getDisplayList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
@@ -34,7 +34,7 @@ public class EditProjectCommand extends EditCommand {
         TrackedItem trackedItemToEdit = lastShownList.get(index.getZeroBased());
         TrackedItem editedTrackedItem = createEditedTrackedItem(trackedItemToEdit, editTrackedItemDescriptor, model);
 
-        if (!trackedItemToEdit.isSameTrackedItem(editedTrackedItem) && model.hasTrackedItem(editedTrackedItem)) {
+        if (!trackedItemToEdit.isSameAs(editedTrackedItem) && model.hasTrackedItem(editedTrackedItem)) {
             throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
         }
 

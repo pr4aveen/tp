@@ -33,7 +33,7 @@ public class StopCommandTest {
     public void execute_validIndexUnfilteredList_success() {
         Clock.initManual(TypicalTimes.DAY);
 
-        TrackedItem trackedItemToStop = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStop = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStop.startTimer();
@@ -56,7 +56,7 @@ public class StopCommandTest {
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredTrackedItemList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getDisplayList().size() + 1);
         StopCommand stopCommand = new StopProjectCommand(outOfBoundIndex);
 
         assertCommandFailure(stopCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
@@ -75,7 +75,7 @@ public class StopCommandTest {
 
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
-        TrackedItem trackedItemToStop = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStop = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
         StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST_PROJECT);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
                 INDEX_FIRST_PROJECT.getOneBased(), 60);

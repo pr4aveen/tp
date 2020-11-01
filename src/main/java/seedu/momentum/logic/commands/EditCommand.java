@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
@@ -27,10 +28,9 @@ import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.UniqueTrackedItemList;
 import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
-import seedu.momentum.model.timer.UniqueDurationList;
+import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Edits the details of an existing project in the project book.
@@ -104,13 +104,13 @@ public abstract class EditCommand extends Command {
 
         Set<Tag> updatedTags = editTrackedItemDescriptor.getTags().orElse(trackedItemToEdit.getTags());
 
-        UniqueDurationList durationList = new UniqueDurationList();
-        durationList.setDurations(trackedItemToEdit.getDurationList());
+        UniqueItemList<WorkDuration> durationList = new UniqueItemList<>();
+        durationList.setItems(trackedItemToEdit.getDurationList());
 
         if (model.getViewMode() == ViewMode.PROJECTS) {
             Project projectToEdit = (Project) trackedItemToEdit;
-            UniqueTrackedItemList taskList = new UniqueTrackedItemList();
-            taskList.setTrackedItems(projectToEdit.getTaskList());
+            UniqueItemList<TrackedItem> taskList = new UniqueItemList<>();
+            taskList.setItems(projectToEdit.getTaskList());
 
             return new Project(updatedName, updatedDescription, updatedCompletionStatus, createdDateWrapper,
                     updatedDeadline, updatedReminder, updatedTags, durationList, trackedItemToEdit.getTimer(),

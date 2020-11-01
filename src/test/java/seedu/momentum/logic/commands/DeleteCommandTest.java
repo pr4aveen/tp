@@ -28,7 +28,7 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        TrackedItem trackedItemToDelete = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToDelete = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
         DeleteProjectCommand deleteCommand = new DeleteProjectCommand(INDEX_FIRST_PROJECT);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete);
@@ -42,7 +42,7 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredTrackedItemList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getDisplayList().size() + 1);
         DeleteCommand deleteCommand = new DeleteProjectCommand(outOfBoundIndex);
 
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
@@ -52,7 +52,7 @@ public class DeleteCommandTest {
     public void execute_validIndexFilteredList_success() {
         showProjectAtIndex(model, INDEX_FIRST_PROJECT);
 
-        TrackedItem trackedItemToDelete = model.getFilteredTrackedItemList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToDelete = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
         DeleteCommand deleteCommand = new DeleteProjectCommand(INDEX_FIRST_PROJECT);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete);
@@ -104,8 +104,8 @@ public class DeleteCommandTest {
      * Updates {@code model}'s filtered list to show no one.
      */
     private void showNoProject(Model model) {
-        model.updateFilteredProjectList(p -> false);
+        model.updatePredicate(p -> false);
 
-        assertTrue(model.getFilteredTrackedItemList().isEmpty());
+        assertTrue(model.getDisplayList().isEmpty());
     }
 }

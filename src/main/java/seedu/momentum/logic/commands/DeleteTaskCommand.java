@@ -30,7 +30,7 @@ public class DeleteTaskCommand extends DeleteCommand {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
+        List<TrackedItem> lastShownList = model.getDisplayList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
