@@ -14,7 +14,6 @@ import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.UserPrefs;
-import seedu.momentum.model.project.SortType;
 
 public class StorageManagerTest {
 

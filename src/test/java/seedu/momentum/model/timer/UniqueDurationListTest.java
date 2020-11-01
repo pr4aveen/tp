@@ -65,7 +65,8 @@ public class UniqueDurationListTest {
 
     @Test
     public void setProjects_nullUniqueProjectList_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> uniqueDurationList.setItems((UniqueItemList<WorkDuration>) null));
+        assertThrows(NullPointerException.class, () ->
+                uniqueDurationList.setItems((UniqueItemList<WorkDuration>) null));
     }
 
     @Test

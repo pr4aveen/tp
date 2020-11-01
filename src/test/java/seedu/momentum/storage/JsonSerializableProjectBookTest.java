@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import seedu.momentum.commons.exceptions.IllegalValueException;
 import seedu.momentum.commons.util.JsonUtil;
 import seedu.momentum.model.ProjectBook;
-import seedu.momentum.model.project.SortType;
 import seedu.momentum.testutil.TypicalProjects;
 
 public class JsonSerializableProjectBookTest {

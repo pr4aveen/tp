@@ -27,7 +27,8 @@ public class VersionedProjectBook extends ProjectBook {
                                 Comparator<TrackedItem> currentComparator) {
         super(projectBook);
         this.projectBookStateList = new ArrayList<>();
-        projectBookStateList.add(new ProjectBookWithUi(projectBook, viewMode, currentProject, currentPredicate, currentComparator));
+        projectBookStateList.add(new ProjectBookWithUi(projectBook, viewMode,
+                currentProject, currentPredicate, currentComparator));
         currentStatePointer = 0;
     }
 
@@ -35,12 +36,14 @@ public class VersionedProjectBook extends ProjectBook {
      * Flushes out versions to be redone after the {@code currentStatePointer} and
      * commits current {@code VersionedProjectBook} into {@code projectBookStateList}.
      */
-    public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate, Comparator<TrackedItem> currentComparator) {
+    public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
+                       Comparator<TrackedItem> currentComparator) {
         int historySize = projectBookStateList.size();
         if (currentStatePointer < historySize - 1) {
             flushRedoVersions();
         }
-        projectBookStateList.add(new ProjectBookWithUi(this, viewMode, currentProject, currentPredicate, currentComparator));
+        projectBookStateList.add(new ProjectBookWithUi(this, viewMode,
+                currentProject, currentPredicate, currentComparator));
         shiftPointer(COMMIT);
     }
 

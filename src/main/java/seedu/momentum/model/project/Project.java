@@ -38,7 +38,8 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
      */
     public Project(Name name, Description description, CompletionStatus completionStatus,
                    DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder, Set<Tag> tags,
-                   UniqueItemList<WorkDuration> durations, TimerWrapper timerWrapper, UniqueItemList<TrackedItem> taskList) {
+                   UniqueItemList<WorkDuration> durations, TimerWrapper timerWrapper,
+                   UniqueItemList<TrackedItem> taskList) {
         super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
                 timerWrapper);
         this.taskList = taskList;

@@ -9,7 +9,6 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.momentum.model.project.exceptions.DuplicateItemException;
-import seedu.momentum.model.project.exceptions.DuplicateTrackableItemException;
 import seedu.momentum.model.project.exceptions.ItemNotFoundException;
 
 /**

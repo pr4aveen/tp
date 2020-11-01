@@ -8,7 +8,6 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
-import static seedu.momentum.testutil.TypicalProjectsOrders.getOrderedProjectBookByDeadlineAscending;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,10 +21,8 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.exceptions.DuplicateItemException;
-import seedu.momentum.model.project.exceptions.DuplicateTrackableItemException;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
 

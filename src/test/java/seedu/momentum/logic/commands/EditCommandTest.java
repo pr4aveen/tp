@@ -17,7 +17,6 @@ import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand.EditTrackedItemDescriptor;
@@ -30,7 +29,6 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.EditTrackedItemDescriptorBuilder;
 import seedu.momentum.testutil.ProjectBuilder;
-import seedu.momentum.testutil.TypicalTimes;
 
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for EditCommand.
@@ -113,16 +111,16 @@ public class EditCommandTest {
     //        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     //    }
 
-//    @Test
-//    public void execute_duplicateProjectUnfilteredList_failure() {
-//        Clock.initFixed(TypicalTimes.DAY);
-//        TrackedItem firstTrackedItem = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
-//        EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(firstTrackedItem).build();
-//        EditCommand editCommand = new EditProjectCommand(INDEX_SECOND_PROJECT, descriptor);
-//
-//        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PROJECT);
-//        Clock.reset();
-//    }
+    //@Test
+    //public void execute_duplicateProjectUnfilteredList_failure() {
+    //    Clock.initFixed(TypicalTimes.DAY);
+    //    TrackedItem firstTrackedItem = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
+    //    EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(firstTrackedItem).build();
+    //    EditCommand editCommand = new EditProjectCommand(INDEX_SECOND_PROJECT, descriptor);
+
+    //    assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PROJECT);
+    //    Clock.reset();
+    //}
 
     @Test
     public void execute_duplicateProjectFilteredList_failure() {

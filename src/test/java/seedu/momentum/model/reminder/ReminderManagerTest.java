@@ -33,7 +33,7 @@ public class ReminderManagerTest {
     private void resetProjectBookAndReminderManager() {
         projectBook = getTypicalProjectBook();
         VersionedProjectBook versionedProjectBook = new VersionedProjectBook(projectBook, ViewMode.PROJECTS, null,
-                null ,null);
+                null , null);
         reminderManager = new ReminderManager(versionedProjectBook);
     }
 

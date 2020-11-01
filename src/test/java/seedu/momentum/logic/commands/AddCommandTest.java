@@ -12,11 +12,12 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
+import org.junit.jupiter.api.Test;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-import org.junit.jupiter.api.Test;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;

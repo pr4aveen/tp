@@ -12,7 +12,6 @@ import seedu.momentum.commons.exceptions.IllegalValueException;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.SortType;
 
 /**
  * An Immutable ProjectBook that is serializable to JSON format.
