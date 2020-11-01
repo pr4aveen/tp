@@ -1,6 +1,7 @@
 package seedu.momentum.model;
 
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import javafx.beans.property.BooleanProperty;
@@ -13,6 +14,7 @@ import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.tag.Tag;
 
 /**
  * The API of the Model component.
@@ -121,6 +123,11 @@ public interface Model {
      * Returns a list of projects whose timers are running.
      */
     ObservableList<TrackedItem> getRunningTimers();
+
+    /**
+     * Returns a set of tags that are currently visible.
+     */
+    Set<Tag> getVisibleTags();
 
     /**
      * Reschedule all reminders.
