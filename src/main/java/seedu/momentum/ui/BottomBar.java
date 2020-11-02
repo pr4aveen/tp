@@ -14,13 +14,9 @@ public class BottomBar extends UiPart<Region> {
     private static final String VIEWING_PROJECTS = "Viewing all projects.";
     private static final String VIEWING_TASKS = "Viewing tasks in %s.";
     private static final String VISIBLE_RESULTS = "Showing %d of %d results.";
-    private static final String MOMENTUM = "Momentum";
 
     @FXML
     private Label viewDisplay;
-
-    @FXML
-    private Label momentumDisplay;
 
     @FXML
     private Label countDisplay;
@@ -34,7 +30,6 @@ public class BottomBar extends UiPart<Region> {
     public BottomBar(int totalVisible, int totalItems) {
         super(FXML);
         viewDisplay.setText(VIEWING_PROJECTS);
-        momentumDisplay.setText(MOMENTUM);
         countDisplay.setText(String.format(VISIBLE_RESULTS, totalVisible, totalItems));
     }
 
@@ -48,7 +43,6 @@ public class BottomBar extends UiPart<Region> {
     public BottomBar(int totalVisible, int totalItems, String projectName) {
         super(FXML);
         viewDisplay.setText(String.format(VIEWING_TASKS, projectName));
-        momentumDisplay.setText(MOMENTUM);
         countDisplay.setText(String.format(VISIBLE_RESULTS, totalVisible, totalItems));
     }
 

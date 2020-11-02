@@ -13,7 +13,7 @@
          </HBox.margin>
       </Label>
       <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-      <Label fx:id="momentumDisplay" styleClass="bottom-bar-item"/>
+      <Label text="Momentum" styleClass="bottom-bar-item"/>
       <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
       <Label fx:id="countDisplay" styleClass="bottom-bar-item">
          <padding>
