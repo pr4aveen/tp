@@ -58,6 +58,24 @@ public class TimeWrapperTest {
         // both TimeWrapper same time
         assertEquals(new TimeWrapper(LocalTime.parse(VALID_TIME)).hashCode(), TIME.hashCode());
     }
+    
+    @Test
+    public void equals() {
+        // same object -> returns true
+        assertTrue(TIME.equals(TIME));
+
+        // same date -> returns true
+        assertTrue(TIME.equals(new DateWrapper(VALID_TIME)));
+
+        // different types -> returns false
+        assertFalse(TIME.equals("1"));
+
+        // null -> return false
+        assertFalse(TIME.equals(null));
+
+        // different date -> return false
+        assertFalse(TIME.equals(LATER_TIME));
+    }
 
     @Test
     public void compareTo_returnsCorrectValue() {
