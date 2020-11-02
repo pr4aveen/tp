@@ -105,6 +105,13 @@ public class ReminderTest {
     }
 
     @Test
+    public void hashCodeTest() {
+        init();
+        assertEquals(emptyReminder.hashCode(), new Reminder().hashCode());
+        assertEquals(reminder.hashCode(), new Reminder(VALID_DATE_TIME).hashCode());
+    }
+
+    @Test
     public void compareTo_returnsCorrectValue() {
         init();
 

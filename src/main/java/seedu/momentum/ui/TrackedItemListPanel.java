@@ -1,14 +1,11 @@
 package seedu.momentum.ui;
 
-import java.util.logging.Logger;
-
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
-import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
@@ -16,7 +13,6 @@ import seedu.momentum.model.project.TrackedItem;
  */
 public class TrackedItemListPanel extends UiPart<Region> {
     private static final String FXML = "TrackedItemListPanel.fxml";
-    private final Logger logger = LogsCenter.getLogger(TrackedItemListPanel.class);
     private final ObjectProperty<ObservableList<TrackedItem>> sourceList;
 
     @FXML

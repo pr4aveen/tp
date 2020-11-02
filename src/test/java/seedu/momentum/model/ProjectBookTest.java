@@ -24,6 +24,7 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.exceptions.DuplicateItemException;
 import seedu.momentum.model.tag.Tag;
+import seedu.momentum.testutil.ProjectBookBuilder;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class ProjectBookTest {
@@ -94,6 +95,12 @@ public class ProjectBookTest {
         ProjectBook expectedProjectBook = new ProjectBook();
         expectedProjectBook.addTrackedItem(new ProjectBuilder(ALICE).withEmptyReminder().build());
         assertTrue(expectedProjectBook.equals(projectBook));
+    }
+
+    @Test
+    public void hashCodeTest() {
+        projectBook.addTrackedItem(ALICE);
+        assertEquals(new ProjectBookBuilder().withProject(ALICE).build().hashCode(), projectBook.hashCode());
     }
 
     /**

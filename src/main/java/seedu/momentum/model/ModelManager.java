@@ -38,7 +38,7 @@ import seedu.momentum.model.tag.Tag;
  * Represents the in-memory model of the project book data.
  */
 public class ModelManager implements Model {
-    private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
+    private static final Logger LOGGER = LogsCenter.getLogger(ModelManager.class);
 
     private final VersionedProjectBook versionedProjectBook;
     private final UserPrefs userPrefs;
@@ -61,7 +61,7 @@ public class ModelManager implements Model {
         super();
         requireAllNonNull(projectBook, userPrefs);
 
-        logger.fine("Initializing with project book: " + projectBook + " and user prefs " + userPrefs);
+        LOGGER.fine("Initializing with project book: " + projectBook + " and user prefs " + userPrefs);
 
         this.userPrefs = new UserPrefs(userPrefs);
 
@@ -250,7 +250,7 @@ public class ModelManager implements Model {
     @Override
     public void viewProjects() {
         viewMode = ViewMode.PROJECTS;
-        logger.log(Level.INFO, "View mode changed to project view");
+        LOGGER.log(Level.INFO, "View mode changed to project view");
         itemList = versionedProjectBook.getTrackedItemList();
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         updateDisplayList();
@@ -261,7 +261,7 @@ public class ModelManager implements Model {
      */
     private void viewProjectsMaintainState() {
         viewMode = ViewMode.PROJECTS;
-        logger.log(Level.INFO, "View mode changed to project view");
+        LOGGER.log(Level.INFO, "View mode changed to project view");
         itemList = versionedProjectBook.getTrackedItemList();
         updateDisplayList();
     }
@@ -271,7 +271,7 @@ public class ModelManager implements Model {
         requireNonNull(project);
         currentProject = project;
         viewMode = ViewMode.TASKS;
-        logger.log(Level.INFO, "View mode changed to task view");
+        LOGGER.log(Level.INFO, "View mode changed to task view");
         itemList = project.getTaskList();
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         updateDisplayList();
@@ -284,7 +284,7 @@ public class ModelManager implements Model {
         requireNonNull(project);
         currentProject = project;
         viewMode = ViewMode.TASKS;
-        logger.log(Level.INFO, "View mode changed to task view");
+        LOGGER.log(Level.INFO, "View mode changed to task view");
         itemList = project.getTaskList();
         updateDisplayList();
     }
@@ -411,12 +411,12 @@ public class ModelManager implements Model {
         switch (viewMode) {
         case PROJECTS:
             viewProjectsMaintainState();
-            logger.log(Level.INFO, "View mode changed to project view");
+            LOGGER.log(Level.INFO, "View mode changed to project view");
             break;
         case TASKS:
             assert project != null;
             viewTasksMaintainState(project);
-            logger.log(Level.INFO, "View mode changed to task view");
+            LOGGER.log(Level.INFO, "View mode changed to task view");
             break;
         default:
             break;

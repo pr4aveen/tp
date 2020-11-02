@@ -16,7 +16,7 @@ import seedu.momentum.model.UserPrefs;
  */
 public class StorageManager implements Storage {
 
-    private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
+    private static final Logger LOGGER = LogsCenter.getLogger(StorageManager.class);
     private ProjectBookStorage projectBookStorage;
     private UserPrefsStorage userPrefsStorage;
 
@@ -61,7 +61,7 @@ public class StorageManager implements Storage {
 
     @Override
     public Optional<ReadOnlyProjectBook> readProjectBook(Path filePath) throws DataConversionException, IOException {
-        logger.fine("Attempting to read data from file: " + filePath);
+        LOGGER.fine("Attempting to read data from file: " + filePath);
         return projectBookStorage.readProjectBook(filePath);
     }
 
@@ -72,7 +72,7 @@ public class StorageManager implements Storage {
 
     @Override
     public void saveProjectBook(ReadOnlyProjectBook projectBook, Path filePath) throws IOException {
-        logger.fine("Attempting to write to data file: " + filePath);
+        LOGGER.fine("Attempting to write to data file: " + filePath);
         projectBookStorage.saveProjectBook(projectBook, filePath);
     }
 
