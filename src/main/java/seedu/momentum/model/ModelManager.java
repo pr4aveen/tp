@@ -335,6 +335,10 @@ public class ModelManager implements Model {
         displayList.setValue(new SortedList<>(new FilteredList<>(itemList, currentPredicate), currentComparator));
     }
 
+    public int getTotalNumberOfItems() {
+        return itemList.size();
+    }
+
     //=========== Reminders =============================================================
 
     public void rescheduleReminders() {

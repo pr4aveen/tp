@@ -288,6 +288,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public int getTotalNumberOfItems() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void showOrHideTags() {
             throw new AssertionError("This method should not be called.");
         }

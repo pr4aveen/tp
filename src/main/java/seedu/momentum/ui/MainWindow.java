@@ -21,6 +21,7 @@ import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticEntry;
+import seedu.momentum.model.ViewMode;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -46,6 +47,7 @@ public class MainWindow extends UiPart<Stage> {
     private TimerListPanel timerListPanel;
     private StatListPanel statListPanel;
     private HelpWindow helpWindow;
+    private BottomBar bottomBar;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -73,6 +75,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane infoDisplayPlaceholder;
+
+    @FXML
+    private StackPane bottomBarPlaceholder;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -143,6 +148,7 @@ public class MainWindow extends UiPart<Stage> {
         initTagDisplay();
         initTimerList();
         initStatList();
+        initBottomBar();
     }
 
     private void initCommandBox() {
@@ -252,6 +258,29 @@ public class MainWindow extends UiPart<Stage> {
     private void initTimerList() {
         timerListPanel = new TimerListPanel(logic.getRunningTimers());
         timerListPanelPlaceholder.getChildren().add(timerListPanel.getRoot());
+    }
+
+    private void initBottomBar() {
+        bottomBar = new BottomBar(logic.getTotalNumberOfItems(), logic.getObservableDisplayList().get().size());
+        bottomBarPlaceholder.getChildren().add(bottomBar.getRoot());
+
+        logic.getObservableDisplayList().addListener(c -> {
+            BottomBar newBottomBar;
+
+            if (logic.getViewMode() == ViewMode.PROJECTS) {
+                newBottomBar = new BottomBar(
+                        logic.getObservableDisplayList().get().size(),
+                        logic.getTotalNumberOfItems());
+            } else {
+                newBottomBar = new BottomBar(
+                        logic.getObservableDisplayList().get().size(),
+                        logic.getTotalNumberOfItems(),
+                        logic.getCurrentProject().getName().fullName);
+            }
+
+            bottomBarPlaceholder.getChildren().clear();
+            bottomBarPlaceholder.getChildren().add(newBottomBar.getRoot());
+        });
     }
 
     /**
