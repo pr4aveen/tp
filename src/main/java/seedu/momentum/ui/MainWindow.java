@@ -9,6 +9,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.momentum.commons.core.GuiThemeSettings;
@@ -179,7 +180,7 @@ public class MainWindow extends UiPart<Stage> {
     private void showReminder() {
         logger.info("show reminder");
         reminderDisplayPlaceholder.setVisible(true);
-        reminderDisplayPlaceholder.setMinHeight(primaryStage.getHeight() / 6);
+        infoDisplayPlaceholder.setMaxHeight(Region.USE_COMPUTED_SIZE);
     }
 
     private void initReminderDisplayListeners() {
@@ -215,6 +216,18 @@ public class MainWindow extends UiPart<Stage> {
         initReminderDisplayListeners();
     }
 
+    private void hideTags() {
+        logger.info("hide tags");
+        infoDisplayPlaceholder.setVisible(false);
+        infoDisplayPlaceholder.setMaxHeight(0);
+    }
+
+    private void showTags() {
+        logger.info("show tags");
+        infoDisplayPlaceholder.setVisible(true);
+        infoDisplayPlaceholder.setMaxHeight(Region.USE_COMPUTED_SIZE);
+    }
+
     private void initTagDisplay() {
         tagsDisplay = new TagsDisplay(logic.getVisibleTags());
         infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
@@ -224,6 +237,15 @@ public class MainWindow extends UiPart<Stage> {
             TagsDisplay newTagsDisplay = new TagsDisplay(logic.getVisibleTags());
             infoDisplayPlaceholder.getChildren().clear();
             infoDisplayPlaceholder.getChildren().add(newTagsDisplay.getRoot());
+        });
+
+        infoDisplayPlaceholder.managedProperty().bind(infoDisplayPlaceholder.visibleProperty());
+        logic.getIsTagsVisible().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                showTags();
+            } else {
+                hideTags();
+            }
         });
     }
 
@@ -295,7 +317,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     public void updateStatList() {
         StatListPanel newStatList = new StatListPanel(logic.getStatistic().getTimePerProjectStatistic(),
-            logic.getStatisticTimeframeSettings().getStatTimeframe());
+                logic.getStatisticTimeframeSettings().getStatTimeframe());
         statListPanelPlaceholder.getChildren().clear();
         statListPanelPlaceholder.getChildren().add(newStatList.getRoot());
     }

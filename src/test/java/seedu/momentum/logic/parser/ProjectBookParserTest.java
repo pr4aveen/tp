@@ -15,6 +15,7 @@ import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -49,8 +50,8 @@ import seedu.momentum.testutil.ProjectUtil;
 
 public class ProjectBookParserTest {
 
-    private final ProjectBookParser parser = new ProjectBookParser();
-    private Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
+    private static final ProjectBookParser parser = new ProjectBookParser();
+    private static final Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
     @Test
     public void parseCommand_add() throws Exception {
@@ -77,8 +78,8 @@ public class ProjectBookParserTest {
         Project project = new ProjectBuilder().build();
         EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(project).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-            + INDEX_FIRST_PROJECT.getOneBased() + " "
-            + ProjectUtil.getEditProjectDescriptorDetails(descriptor), model);
+                + INDEX_FIRST_PROJECT.getOneBased() + " "
+                + ProjectUtil.getEditProjectDescriptorDetails(descriptor), model);
         assertEquals(new EditProjectCommand(INDEX_FIRST_PROJECT, descriptor), command);
     }
 
@@ -92,7 +93,7 @@ public class ProjectBookParserTest {
     public void parseCommand_find() throws Exception {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
-            FindCommand.COMMAND_WORD + " " + PREFIX_NAME + String.join(" ", keywords), model);
+                FindCommand.COMMAND_WORD + " " + PREFIX_NAME + String.join(" ", keywords), model);
         assertEquals(new FindCommand(new NameContainsKeywordsPredicate(FindType.ANY, keywords)), command);
     }
 
@@ -135,7 +136,9 @@ public class ProjectBookParserTest {
     public void parseCommand_showComponent() throws Exception {
         ShowComponentCommand command = (ShowComponentCommand) parser.parseCommand(
                 ShowComponentCommand.COMMAND_WORD + " " + PREFIX_REMINDER, model);
-        assertEquals(new ShowComponentCommand(ShowComponentCommandParser.ComponentType.REMINDER), command);
+        ShowComponentCommand expectedCommand = new ShowComponentCommand(Collections.singletonList(
+                ShowComponentCommandParser.ComponentType.REMINDER));
+        assertEquals(expectedCommand, command);
     }
 
     @Test
