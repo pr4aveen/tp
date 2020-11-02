@@ -7,9 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
-import seedu.momentum.commons.exceptions.IllegalValueException;
 import seedu.momentum.commons.util.DateTimeUtil;
 
 /**
