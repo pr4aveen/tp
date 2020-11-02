@@ -130,6 +130,18 @@ public interface Model {
     Set<Tag> getVisibleTags();
 
     /**
+     * Hide tags if shown, show tags when hidden.
+     */
+    void showOrHideTags();
+
+    /**
+     * Returns is tags visible boolean property.
+     *
+     * @return true if tags is visible, false otherwise.
+     */
+    BooleanProperty getIsTagsVisible();
+
+    /**
      * Reschedule all reminders.
      */
     void rescheduleReminders();
