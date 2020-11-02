@@ -4,6 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +19,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
@@ -22,7 +27,12 @@ import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.comparators.CompletionStatusCompare;
+import seedu.momentum.model.project.comparators.CreatedDateCompare;
+import seedu.momentum.model.project.comparators.DeadlineCompare;
+import seedu.momentum.model.project.comparators.NameCompare;
 import seedu.momentum.model.reminder.ReminderManager;
+import seedu.momentum.model.tag.Tag;
 
 /**
  * Represents the in-memory model of the project book data.
@@ -33,7 +43,6 @@ public class ModelManager implements Model {
     private final VersionedProjectBook versionedProjectBook;
     private final UserPrefs userPrefs;
     private final ReminderManager reminderManager;
-    private ObjectProperty<FilteredList<TrackedItem>> filteredTrackedItems;
     private final ObservableList<TrackedItem> runningTimers;
     private Predicate<TrackedItem> currentPredicate;
     private SortType currentSortType;
@@ -41,7 +50,9 @@ public class ModelManager implements Model {
     private boolean isCurrentSortByCompletionStatus;
     private ViewMode viewMode;
     private Project currentProject;
-    private ObservableList<TrackedItem> viewList;
+    private ObservableList<TrackedItem> itemList;
+    private Comparator<TrackedItem> currentComparator;
+    private ObjectProperty<ObservableList<TrackedItem>> displayList;
 
     /**
      * Initializes a ModelManager with the given projectBook and userPrefs.
@@ -54,21 +65,23 @@ public class ModelManager implements Model {
 
         this.userPrefs = new UserPrefs(userPrefs);
 
-        currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
-        currentSortType = SortType.ALPHA;
-        isCurrentSortAscending = true;
-        isCurrentSortByCompletionStatus = true;
-        viewMode = ViewMode.PROJECTS;
+        this.viewMode = ViewMode.PROJECTS;
+        this.currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
+        this.currentSortType = SortType.ALPHA;
+        this.isCurrentSortAscending = true;
+        this.isCurrentSortByCompletionStatus = true;
+        this.currentComparator = getComparatorNullType(true, this.isCurrentSortByCompletionStatus);
 
-        this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject);
+        this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
+                currentComparator);
         this.reminderManager = new ReminderManager(this.versionedProjectBook);
-        rescheduleReminders();
-        this.viewList = this.versionedProjectBook.getTrackedItemList();
-        filteredTrackedItems = new SimpleObjectProperty<>(new FilteredList<>(viewList, currentPredicate));
-        //filteredTrackedItems = new FilteredList<>(viewList);
-        viewProjects();
+        this.itemList = this.versionedProjectBook.getTrackedItemList();
+        this.displayList = new SimpleObjectProperty<>(this.itemList);
 
         runningTimers = FXCollections.observableArrayList();
+
+        rescheduleReminders();
+        viewProjects();
         updateRunningTimers();
 
     }
@@ -148,6 +161,16 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public Set<Tag> getVisibleTags() {
+        Set<Tag> tags = new HashSet<>();
+        ObservableList<TrackedItem> visibleList = displayList.get();
+        for (TrackedItem trackedItem : visibleList) {
+            tags.addAll(trackedItem.getTags());
+        }
+        return tags;
+    }
+
+    @Override
     public Project getCurrentProject() {
         assert viewMode == ViewMode.TASKS : "Project can only be accessed in task view";
 
@@ -163,6 +186,7 @@ public class ModelManager implements Model {
     @Override
     public void deleteTrackedItem(TrackedItem target) {
         versionedProjectBook.removeTrackedItem(target);
+        updatePredicate(currentPredicate);
         rescheduleReminders();
     }
 
@@ -170,8 +194,8 @@ public class ModelManager implements Model {
     public void addTrackedItem(TrackedItem trackedItem) {
         versionedProjectBook.addTrackedItem(trackedItem);
         rescheduleReminders();
-        orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
-        updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
+        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
+        updatePredicate(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
     @Override
@@ -179,12 +203,12 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedTrackedItem);
 
         versionedProjectBook.setTrackedItem(target, editedTrackedItem);
-        if (currentProject != null && currentProject.isSameTrackedItem(target)) {
+        if (currentProject != null && currentProject.isSameAs(target)) {
             currentProject = (Project) editedTrackedItem;
+            resetUi(viewMode, currentProject);
         }
         rescheduleReminders();
-        orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
-
+        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
     }
 
     //=========== Filtered Project List Accessors =============================================================
@@ -196,41 +220,50 @@ public class ModelManager implements Model {
      * @return the filtered tracked item list.
      */
     @Override
-    public ObservableList<TrackedItem> getFilteredTrackedItemList() {
-        return filteredTrackedItems.get();
+    public ObservableList<TrackedItem> getDisplayList() {
+        return displayList.get();
     }
 
     @Override
-    public ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList() {
-        return filteredTrackedItems;
+    public ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList() {
+        return displayList;
     }
 
     @Override
-    public void updateFilteredProjectList(Predicate<TrackedItem> predicate) {
+    public void updatePredicate(Predicate<TrackedItem> predicate) {
         requireNonNull(predicate);
         currentPredicate = predicate;
-        filteredTrackedItems.get().setPredicate(predicate);
+        updateDisplayList();
     }
 
     @Override
-    public void orderFilteredProjectList(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
+    public void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
         requireAllNonNull(sortType, isAscending, changeSortByCompletionStatus);
         isCurrentSortAscending = isAscending;
         if (changeSortByCompletionStatus) {
             isCurrentSortByCompletionStatus = !isCurrentSortByCompletionStatus;
         }
-        currentSortType = sortType;
-        versionedProjectBook.setOrder(sortType, isAscending, isCurrentSortByCompletionStatus);
-        updateFilteredProjectList(currentPredicate);
+        currentComparator = getComparator(sortType, isAscending, isCurrentSortByCompletionStatus);
+        updateDisplayList();
     }
 
     @Override
     public void viewProjects() {
         viewMode = ViewMode.PROJECTS;
         logger.log(Level.INFO, "View mode changed to project view");
-        viewList = versionedProjectBook.getTrackedItemList();
-        filteredTrackedItems.set(new FilteredList<>(viewList, currentPredicate));
-        updateFilteredProjectList(currentPredicate);
+        itemList = versionedProjectBook.getTrackedItemList();
+        currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
+        updateDisplayList();
+    }
+
+    /**
+     * Updates the view to project view with specific predicate and comparator.
+     */
+    private void viewProjectsMaintainState() {
+        viewMode = ViewMode.PROJECTS;
+        logger.log(Level.INFO, "View mode changed to project view");
+        itemList = versionedProjectBook.getTrackedItemList();
+        updateDisplayList();
     }
 
     @Override
@@ -239,9 +272,21 @@ public class ModelManager implements Model {
         currentProject = project;
         viewMode = ViewMode.TASKS;
         logger.log(Level.INFO, "View mode changed to task view");
-        viewList = project.getTaskList();
-        filteredTrackedItems.set(new FilteredList<>(viewList, currentPredicate));
-        updateFilteredProjectList(currentPredicate);
+        itemList = project.getTaskList();
+        currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
+        updateDisplayList();
+    }
+
+    /**
+     * Update view to task view with specific predicate and comparator.
+     */
+    private void viewTasksMaintainState(Project project) {
+        requireNonNull(project);
+        currentProject = project;
+        viewMode = ViewMode.TASKS;
+        logger.log(Level.INFO, "View mode changed to task view");
+        itemList = project.getTaskList();
+        updateDisplayList();
     }
 
     @Override
@@ -252,7 +297,7 @@ public class ModelManager implements Model {
             Project project = (Project) projectItem;
             allItems.addAll(project.getTaskList());
         }
-        this.viewList = allItems;
+        this.itemList = allItems;
     }
 
     @Override
@@ -268,6 +313,10 @@ public class ModelManager implements Model {
     @Override
     public ViewMode getViewMode() {
         return viewMode;
+    }
+
+    private void updateDisplayList() {
+        displayList.setValue(new SortedList<>(new FilteredList<>(itemList, currentPredicate), currentComparator));
     }
 
     //=========== Reminders =============================================================
@@ -333,7 +382,7 @@ public class ModelManager implements Model {
 
     @Override
     public void commitToHistory() {
-        versionedProjectBook.commit(viewMode, currentProject);
+        versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator);
     }
 
     @Override
@@ -348,10 +397,11 @@ public class ModelManager implements Model {
         // extract view mode details from ProjectBook version after undo
         viewMode = versionedProjectBook.getCurrentViewMode();
 
-        resetUi(viewMode, currentProject);
-        if (viewMode == ViewMode.TASKS) {
-            viewTasks(newProject);
-        }
+        currentPredicate = versionedProjectBook.getCurrentPredicate();
+
+        currentComparator = versionedProjectBook.getCurrentComparator();
+
+        resetUi(viewMode, newProject);
     }
 
     @Override
@@ -360,12 +410,12 @@ public class ModelManager implements Model {
 
         switch (viewMode) {
         case PROJECTS:
-            viewProjects();
+            viewProjectsMaintainState();
             logger.log(Level.INFO, "View mode changed to project view");
             break;
         case TASKS:
             assert project != null;
-            viewTasks(project);
+            viewTasksMaintainState(project);
             logger.log(Level.INFO, "View mode changed to task view");
             break;
         default:
@@ -382,11 +432,107 @@ public class ModelManager implements Model {
         // extract both timer related and ViewMode details from ProjectBook version after redo
         viewMode = versionedProjectBook.getCurrentViewMode();
         currentProject = versionedProjectBook.getCurrentProject();
+        currentPredicate = versionedProjectBook.getCurrentPredicate();
+        currentComparator = versionedProjectBook.getCurrentComparator();
 
         resetUi(viewMode, currentProject);
-        if (viewMode == ViewMode.TASKS) {
-            viewTasks(currentProject);
+    }
+
+    //=========== Sorting ================================================================================
+
+    /**
+     * Sets the order of the list of tracked items according to given {@code sortType} and {@code isAscending}.
+     *
+     * @param sortType                   type of sort.
+     * @param isAscending                order of sort.
+     * @param isSortedByCompletionStatus sort by creation status.
+     */
+    public Comparator<TrackedItem> getComparator(SortType sortType, boolean isAscending,
+                                                 boolean isSortedByCompletionStatus) {
+        requireNonNull(sortType);
+
+        switch (sortType) {
+        case ALPHA:
+            return getComparatorAlphaType(isAscending, isSortedByCompletionStatus);
+        case DEADLINE:
+            return getComparatorDeadlineType(isAscending, isSortedByCompletionStatus);
+        case CREATED:
+            return getComparatorCreatedType(isAscending, isSortedByCompletionStatus);
+        case NULL:
+            return getComparatorNullType(isAscending, isSortedByCompletionStatus);
+        default:
+            // Will always be one of the above. Default does nothing.
+            return null;
         }
+    }
+
+    private Comparator<TrackedItem> factorIsAscending(Comparator<TrackedItem> comparator, boolean isAscending) {
+        return isAscending ? comparator : comparator.reversed();
+    }
+
+    private Comparator<HashMap<String, Object>> factorIsAscendingHashMap(Comparator<HashMap<String, Object>> comparator,
+                                                                         boolean isAscending) {
+        return isAscending ? comparator : comparator.reversed();
+    }
+
+    private Comparator<TrackedItem> factorIsSortedByCompletionStatus(Comparator<TrackedItem> comparator,
+                                                                     boolean isSortedByCompletionStatus) {
+        return isSortedByCompletionStatus
+                ? new CompletionStatusCompare().thenComparing(comparator)
+                : comparator;
+    }
+
+    /**
+     * Sets the order of list of tracked items by alphabetical order, ascending or descending based on user input.
+     *
+     * @param isAscending                order of sort specified by user.
+     * @param isSortedByCompletionStatus sort by creation status.
+     */
+    private Comparator<TrackedItem> getComparatorAlphaType(boolean isAscending, boolean isSortedByCompletionStatus) {
+        Comparator<TrackedItem> nameCompare = factorIsAscending(new NameCompare(), isAscending);
+        this.currentSortType = SortType.ALPHA;
+        return factorIsSortedByCompletionStatus(nameCompare, isSortedByCompletionStatus);
+    }
+
+    /**
+     * Sets the order of list of tracked items by deadline order, ascending or descending based on user input.
+     *
+     * @param isAscending                order of sort specified by user.
+     * @param isSortedByCompletionStatus sort by creation status.
+     */
+    private Comparator<TrackedItem> getComparatorDeadlineType(boolean isAscending, boolean isSortedByCompletionStatus) {
+        Comparator<TrackedItem> nameCompare = new NameCompare();
+        Comparator<HashMap<String, Object>> deadlineCompareHashMap =
+                factorIsAscendingHashMap(new DeadlineCompare(), isAscending);
+        Comparator<TrackedItem> deadlineCompare = Comparator.comparing(TrackedItem::getNullOrDeadline,
+                Comparator.nullsLast(deadlineCompareHashMap));
+        deadlineCompare = deadlineCompare.thenComparing(nameCompare);
+        this.currentSortType = SortType.DEADLINE;
+
+        return factorIsSortedByCompletionStatus(deadlineCompare, isSortedByCompletionStatus);
+    }
+
+    /**
+     * Sets the order of list of tracked items by created date order, ascending or descending based on user input.
+     *
+     * @param isAscending                order of sort specified by user.
+     * @param isSortedByCompletionStatus sort by creation status.
+     */
+    private Comparator<TrackedItem> getComparatorCreatedType(boolean isAscending, boolean isSortedByCompletionStatus) {
+        Comparator<TrackedItem> createdDateCompare = factorIsAscending(new CreatedDateCompare(), isAscending);
+        this.currentSortType = SortType.CREATED;
+        return factorIsSortedByCompletionStatus(createdDateCompare, isSortedByCompletionStatus);
+    }
+
+    /**
+     * Sets the order of the list of tracked items to current sort type with specified order
+     * if sort type has not been specified by user.
+     *
+     * @param isAscending                order of sort specified by user.
+     * @param isSortedByCompletionStatus sort by creation status.
+     */
+    private Comparator<TrackedItem> getComparatorNullType(boolean isAscending, boolean isSortedByCompletionStatus) {
+        return getComparator(currentSortType, isAscending, isSortedByCompletionStatus);
     }
 
     @Override
@@ -406,7 +552,7 @@ public class ModelManager implements Model {
         return versionedProjectBook.equals(other.versionedProjectBook)
                 && userPrefs.equals(other.userPrefs)
                 && reminderManager.equals(other.reminderManager)
-                && filteredTrackedItems.get().equals(other.filteredTrackedItems.get())
+                && displayList.get().equals(other.displayList.get())
                 && runningTimers.equals(other.runningTimers)
                 && viewMode.equals(other.viewMode);
         //&& currentProject.equals(other.currentProject)

@@ -9,11 +9,10 @@ import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.UniqueTrackedItemList;
 import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.model.tag.Tag;
 
@@ -24,7 +23,7 @@ import seedu.momentum.model.tag.Tag;
 public class ProjectBook implements ReadOnlyProjectBook {
 
     private static final Logger logger = LogsCenter.getLogger(ProjectBook.class);
-    protected final UniqueTrackedItemList trackedItems;
+    protected final UniqueItemList<TrackedItem> trackedItems;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -34,7 +33,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
      *   among constructors.
      */
     {
-        trackedItems = new UniqueTrackedItemList();
+        trackedItems = new UniqueItemList<>();
     }
 
     public ProjectBook() {
@@ -55,7 +54,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
      * {@code trackedItems} must not contain duplicate tracked items.
      */
     public void setTrackedItems(List<TrackedItem> trackedItems) {
-        this.trackedItems.setTrackedItems(trackedItems);
+        this.trackedItems.setItems(trackedItems);
     }
 
     /**
@@ -65,20 +64,6 @@ public class ProjectBook implements ReadOnlyProjectBook {
         requireNonNull(newData);
 
         setTrackedItems(newData.getTrackedItemList());
-    }
-
-    /// sort operations
-
-    /**
-     * Sets the order of the list of projects according to given {@code sortType} and {@code isAscending}.
-     *
-     * @param sortType                   type of sort.
-     * @param isAscending                order of sort.
-     * @param isSortedByCompletionStatus sorted by completion status.
-     */
-    public void setOrder(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
-        requireNonNull(sortType);
-        trackedItems.setOrder(sortType, isAscending, isSortedByCompletionStatus);
     }
 
     //// project-level operations
@@ -108,7 +93,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
     public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
         requireNonNull(editedTrackedItem);
 
-        trackedItems.setTrackedItem(target, editedTrackedItem);
+        trackedItems.set(target, editedTrackedItem);
     }
 
     /**
@@ -155,7 +140,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
      */
     public void removeReminder(Project project) {
         Project newProject = project.removeReminder();
-        trackedItems.setTrackedItem(project, newProject);
+        trackedItems.set(project, newProject);
         logger.info("Reminder of project removed: " + project.getName());
     }
 
@@ -167,7 +152,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
      */
     public void removeReminder(Project project, Task task) {
         Project newProject = project.removeReminder(task);
-        trackedItems.setTrackedItem(project, newProject);
+        trackedItems.set(project, newProject);
         logger.info("Reminder of task of project removed: " + task.getName() + " " + project.getName());
     }
 

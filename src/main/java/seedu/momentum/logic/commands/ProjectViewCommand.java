@@ -19,10 +19,7 @@ public class ProjectViewCommand extends Command {
 
     public static final String COMMAND_WORD = "view";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Views all of a project's tasks, identified by the index number used in the displayed project list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " " + "INDEX";
 
     public static final String MESSAGE_DELETE_PROJECT_SUCCESS = "Viewing Project: %1$s";
 
@@ -35,17 +32,18 @@ public class ProjectViewCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<TrackedItem> lastShownList = model.getFilteredTrackedItemList();
-
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
-        }
+        List<TrackedItem> lastShownList = model.getDisplayList();
 
         if (model.getViewMode() != ViewMode.PROJECTS) {
             throw new CommandException(Messages.MESSAGE_NOT_PROJECT);
         }
 
+        if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
+        }
+
         Project projectToView = (Project) lastShownList.get(targetIndex.getZeroBased());
+        model.resetView();
         model.viewTasks(projectToView);
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, projectToView.getName().fullName));

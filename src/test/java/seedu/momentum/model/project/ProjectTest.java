@@ -30,33 +30,29 @@ public class ProjectTest {
     @Test
     public void isSameProject() {
         // same object -> returns true
-        assertTrue(ALICE.isSameTrackedItem(ALICE));
+        assertTrue(ALICE.isSameAs(ALICE));
 
         // null -> returns false
-        assertFalse(ALICE.isSameTrackedItem(null));
+        assertFalse(ALICE.isSameAs(null));
 
         // different name -> returns false
         Project editedAlice = new ProjectBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.isSameTrackedItem(editedAlice));
+        assertFalse(ALICE.isSameAs(editedAlice));
 
         // different description -> returns false
         editedAlice = new ProjectBuilder(ALICE).withDescription(VALID_DESCRIPTION_BOB).build();
-        assertFalse(ALICE.isSameTrackedItem(editedAlice));
+        assertFalse(ALICE.isSameAs(editedAlice));
 
         // different completion status -> returns false
         editedAlice = new ProjectBuilder(ALICE).withCompletionStatus(VALID_COMPLETION_STATUS_BOB).build();
-        assertFalse(ALICE.isSameTrackedItem(editedAlice));
-
-        // different created date -> returns false
-        editedAlice = new ProjectBuilder(ALICE).withCreatedDate(VALID_CREATED_DATE_BOB).build();
-        assertFalse(ALICE.isSameTrackedItem(editedAlice));
+        assertFalse(ALICE.isSameAs(editedAlice));
 
         // different deadline -> returns false
         editedAlice = new ProjectBuilder(ALICE).withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB).build();
-        assertFalse(ALICE.isSameTrackedItem(editedAlice));
+        assertFalse(ALICE.isSameAs(editedAlice));
         Project editedBob = new ProjectBuilder(BOB)
                 .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY).build();
-        assertFalse(BOB.isSameTrackedItem(editedBob));
+        assertFalse(BOB.isSameAs(editedBob));
 
         // same name, same phone, different attributes -> returns true
         //        editedAlice = new ProjectBuilder(ALICE).withEmail(VALID_EMAIL_BOB)

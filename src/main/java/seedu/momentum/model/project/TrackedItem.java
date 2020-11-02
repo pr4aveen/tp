@@ -10,17 +10,18 @@ import java.util.Set;
 
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.UniqueItem;
+import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.TimerWrapper;
-import seedu.momentum.model.timer.UniqueDurationList;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
  * Represents a Tracked Item in the project book.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public abstract class TrackedItem {
+public abstract class TrackedItem implements UniqueItem<TrackedItem> {
 
     // Identity fields
     protected final Name name;
@@ -33,12 +34,11 @@ public abstract class TrackedItem {
     protected final Reminder reminder;
     protected final Set<Tag> tags = new HashSet<>();
     protected final TimerWrapper timerWrapper;
-    protected final UniqueDurationList durations;
+    protected final UniqueItemList<WorkDuration> durations;
 
     /**
      * Constructs a {@code TrackedItem}.
-     *
-     * @param name               A valid name.
+     *  @param name               A valid name.
      * @param description        A description of the tracked item.
      * @param completionStatus   A completion status of the tracked item.
      * @param createdDateWrapper A dateWrapper associated with the creation of the tracked item.
@@ -50,7 +50,7 @@ public abstract class TrackedItem {
      */
     public TrackedItem(Name name, Description description, CompletionStatus completionStatus,
                        DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder,
-                       Set<Tag> tags, UniqueDurationList durations, TimerWrapper timerWrapper) {
+                       Set<Tag> tags, UniqueItemList<WorkDuration> durations, TimerWrapper timerWrapper) {
         requireAllNonNull(name, tags);
         this.name = name;
         this.description = description;
@@ -84,7 +84,7 @@ public abstract class TrackedItem {
         this.deadline = deadline;
         this.reminder = reminder;
         this.tags.addAll(tags);
-        this.durations = new UniqueDurationList();
+        this.durations = new UniqueItemList<>();
         this.timerWrapper = new TimerWrapper();
     }
 
@@ -179,7 +179,7 @@ public abstract class TrackedItem {
      * Returns true if both tracked item of the same name have at least one other identity field that is the same.
      * This defines a weaker notion of equality between two projects.
      */
-    public boolean isSameTrackedItem(TrackedItem otherTrackedItem) {
+    public boolean isSameAs(TrackedItem otherTrackedItem) {
         if (otherTrackedItem == this) {
             return true;
         }
@@ -188,7 +188,6 @@ public abstract class TrackedItem {
                 && otherTrackedItem.getName().equals(getName())
                 && otherTrackedItem.getDescription().equals(getDescription())
                 && otherTrackedItem.getCompletionStatus().equals(getCompletionStatus())
-                && otherTrackedItem.getCreatedDate().equals(getCreatedDate())
                 && otherTrackedItem.getDeadline().equals(getDeadline())
                 && otherTrackedItem.getReminder().equals(getReminder());
     }

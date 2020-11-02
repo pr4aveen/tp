@@ -1,12 +1,12 @@
 package seedu.momentum.logic;
 
 import java.nio.file.Path;
+import java.util.Set;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
@@ -16,6 +16,7 @@ import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.tag.Tag;
 
 /**
  * API of the Logic component
@@ -55,7 +56,7 @@ public interface Logic {
     /**
      * Returns an unmodifiable view of the filtered list of tracked items.
      */
-    ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList();
+    ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList();
 
     /**
      * Returns a list of projects whose timers are running.
@@ -86,6 +87,11 @@ public interface Logic {
      * Set the user prefs' GUI theme settings.
      */
     void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
+
+    /**
+     * Returns a set of currently visible tags.
+     */
+    Set<Tag> getVisibleTags();
 
     /**
      * Return the user prefs' statistic timeframe settings.

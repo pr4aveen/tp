@@ -2,7 +2,6 @@ package seedu.momentum.ui;
 
 import java.util.logging.Logger;
 
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +20,6 @@ import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticEntry;
-import seedu.momentum.model.project.TrackedItem;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -157,7 +155,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private void initProjectList() {
-        trackedItemListPanel = new TrackedItemListPanel(logic.getObservableFilteredTrackedItemList());
+        trackedItemListPanel = new TrackedItemListPanel(logic.getObservableDisplayList());
         projectListPanelPlaceholder.getChildren().add(trackedItemListPanel.getRoot());
     }
 
@@ -212,12 +210,12 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private void initTagDisplay() {
-        tagsDisplay = new TagsDisplay(logic.getProjectBook().getTrackedItemTags());
+        tagsDisplay = new TagsDisplay(logic.getVisibleTags());
         infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
 
         // Add a listener to the project list that will update tags when there are changes made to the project list.
-        logic.getObservableFilteredTrackedItemList().get().addListener((ListChangeListener<TrackedItem>) c -> {
-            TagsDisplay newTagsDisplay = new TagsDisplay(logic.getProjectBook().getTrackedItemTags());
+        logic.getObservableDisplayList().addListener(c -> {
+            TagsDisplay newTagsDisplay = new TagsDisplay(logic.getVisibleTags());
             infoDisplayPlaceholder.getChildren().clear();
             infoDisplayPlaceholder.getChildren().add(newTagsDisplay.getRoot());
         });

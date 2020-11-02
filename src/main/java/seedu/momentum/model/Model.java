@@ -1,19 +1,20 @@
 package seedu.momentum.model;
 
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.tag.Tag;
 
 /**
  * The API of the Model component.
@@ -114,14 +115,19 @@ public interface Model {
     /**
      * Returns an unmodifiable view of the filtered project list.
      */
-    ObservableList<TrackedItem> getFilteredTrackedItemList();
+    ObservableList<TrackedItem> getDisplayList();
 
-    ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList();
+    ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList();
 
     /**
      * Returns a list of projects whose timers are running.
      */
     ObservableList<TrackedItem> getRunningTimers();
+
+    /**
+     * Returns a set of tags that are currently visible.
+     */
+    Set<Tag> getVisibleTags();
 
     /**
      * Reschedule all reminders.
@@ -154,14 +160,14 @@ public interface Model {
      *
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredProjectList(Predicate<TrackedItem> predicate);
+    void updatePredicate(Predicate<TrackedItem> predicate);
 
     /**
      * Orders the list of projects in a way given by the {@code sortType}.
      *
      * @throws NullPointerException if {@code sortType} is null.
      */
-    void orderFilteredProjectList(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus);
+    void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus);
 
     void viewProjects();
 

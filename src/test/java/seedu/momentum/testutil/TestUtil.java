@@ -36,20 +36,20 @@ public class TestUtil {
      * Returns the middle index of the project in the {@code model}'s project list.
      */
     public static Index getMidIndex(Model model) {
-        return Index.fromOneBased(model.getFilteredTrackedItemList().size() / 2);
+        return Index.fromOneBased(model.getDisplayList().size() / 2);
     }
 
     /**
      * Returns the last index of the project in the {@code model}'s project list.
      */
     public static Index getLastIndex(Model model) {
-        return Index.fromOneBased(model.getFilteredTrackedItemList().size());
+        return Index.fromOneBased(model.getDisplayList().size());
     }
 
     /**
      * Returns the project in the {@code model}'s project list at {@code index}.
      */
     public static TrackedItem getProject(Model model, Index index) {
-        return model.getFilteredTrackedItemList().get(index.getZeroBased());
+        return model.getDisplayList().get(index.getZeroBased());
     }
 }

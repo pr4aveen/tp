@@ -8,7 +8,6 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
-import static seedu.momentum.testutil.TypicalProjectsOrders.getOrderedProjectBookByDeadlineAscending;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,9 +21,8 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.exceptions.DuplicateTrackableItemException;
+import seedu.momentum.model.project.exceptions.DuplicateItemException;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
 
@@ -57,21 +55,7 @@ public class ProjectBookTest {
         List<Project> newProjects = Arrays.asList(ALICE, editedAlice);
         ProjectBookStub newData = new ProjectBookStub(newProjects);
 
-        assertThrows(DuplicateTrackableItemException.class, () -> projectBook.resetData(newData));
-    }
-
-    @Test
-    public void setOrder_withSortTypeNull_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> projectBook.setOrder(null, true, true));
-    }
-
-    @Test
-    public void setOrder_withValidSortType_ordersProjectBook() {
-        ProjectBook unorderedProjectBook = getTypicalProjectBook();
-        ProjectBook orderedProjectBook = new ProjectBook();
-        orderedProjectBook.setTrackedItems(getOrderedProjectBookByDeadlineAscending());
-        unorderedProjectBook.setOrder(SortType.DEADLINE, true, false);
-        assertEquals(orderedProjectBook, unorderedProjectBook);
+        assertThrows(DuplicateItemException.class, () -> projectBook.resetData(newData));
     }
 
     @Test

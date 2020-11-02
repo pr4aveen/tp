@@ -2,13 +2,13 @@ package seedu.momentum.logic;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
@@ -23,6 +23,7 @@ import seedu.momentum.logic.statistic.StatisticManager;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.tag.Tag;
 import seedu.momentum.storage.Storage;
 
 /**
@@ -50,8 +51,6 @@ public class LogicManager implements Logic {
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
-
-        model.resetView();
 
         CommandResult commandResult;
         Command command = projectBookParser.parseCommand(commandText, model);
@@ -89,8 +88,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObjectProperty<FilteredList<TrackedItem>> getObservableFilteredTrackedItemList() {
-        return model.getObservableFilteredTrackedItemList();
+    public ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList() {
+        return model.getObservableDisplayList();
     }
 
     @Override
@@ -131,5 +130,10 @@ public class LogicManager implements Logic {
     @Override
     public void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframe) {
         model.setStatisticTimeframeSettings(statisticTimeframe);
+    }
+
+    @Override
+    public Set<Tag> getVisibleTags() {
+        return model.getVisibleTags();
     }
 }

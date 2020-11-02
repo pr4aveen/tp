@@ -4,6 +4,8 @@ import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMA
 
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.DeleteCommand;
+import seedu.momentum.logic.commands.DeleteProjectCommand;
+import seedu.momentum.logic.commands.DeleteTaskCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ViewMode;
@@ -24,9 +26,9 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             Index index = ParserUtil.parseIndex(args);
 
             if (model.getViewMode() == ViewMode.PROJECTS) {
-                return new DeleteCommand(index);
+                return new DeleteProjectCommand(index);
             } else {
-                return new DeleteCommand(index, model.getCurrentProject());
+                return new DeleteTaskCommand(index, model.getCurrentProject());
             }
 
         } catch (ParseException pe) {

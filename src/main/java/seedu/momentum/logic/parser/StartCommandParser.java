@@ -4,6 +4,8 @@ import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMA
 
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.StartCommand;
+import seedu.momentum.logic.commands.StartProjectCommand;
+import seedu.momentum.logic.commands.StartTaskCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ViewMode;
@@ -24,9 +26,9 @@ public class StartCommandParser implements Parser<StartCommand> {
             Index index = ParserUtil.parseIndex(args);
 
             if (model.getViewMode() == ViewMode.PROJECTS) {
-                return new StartCommand(index);
+                return new StartProjectCommand(index);
             } else {
-                return new StartCommand(index, model.getCurrentProject());
+                return new StartTaskCommand(index, model.getCurrentProject());
             }
 
         } catch (ParseException pe) {

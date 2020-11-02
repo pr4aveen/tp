@@ -18,7 +18,6 @@ import org.junit.jupiter.api.io.TempDir;
 import seedu.momentum.commons.exceptions.DataConversionException;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
-import seedu.momentum.model.project.SortType;
 
 public class JsonProjectBookStorageTest {
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonProjectBookStorageTest");
@@ -66,7 +65,6 @@ public class JsonProjectBookStorageTest {
     public void readAndSaveProjectBook_allInOrder_success() throws Exception {
         Path filePath = testFolder.resolve("TempProjectBook.json");
         ProjectBook original = getTypicalProjectBook();
-        original.setOrder(SortType.ALPHA, true, true);
         JsonProjectBookStorage jsonProjectBookStorage = new JsonProjectBookStorage(filePath);
 
         // Save in new file and read back
@@ -77,14 +75,12 @@ public class JsonProjectBookStorageTest {
         // Modify data, overwrite exiting file, and read back
         original.addTrackedItem(HOON);
         original.removeTrackedItem(ALICE);
-        original.setOrder(SortType.ALPHA, true, true);
         jsonProjectBookStorage.saveProjectBook(original, filePath);
         readBack = jsonProjectBookStorage.readProjectBook(filePath).get();
         assertEquals(original, new ProjectBook(readBack));
 
         // Save and read without specifying file path
         original.addTrackedItem(IDA);
-        original.setOrder(SortType.ALPHA, true, true);
         jsonProjectBookStorage.saveProjectBook(original); // file path not specified
         readBack = jsonProjectBookStorage.readProjectBook().get(); // file path not specified
         assertEquals(original, new ProjectBook(readBack));

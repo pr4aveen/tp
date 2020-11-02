@@ -1,9 +1,12 @@
 package seedu.momentum.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 
 public class VersionedProjectBook extends ProjectBook {
 
@@ -17,10 +20,15 @@ public class VersionedProjectBook extends ProjectBook {
     /**
      * Constructs a {@code VersionedProjectBook}.
      */
-    public VersionedProjectBook(ReadOnlyProjectBook projectBook, ViewMode viewMode, Project currentProject) {
+    public VersionedProjectBook(ReadOnlyProjectBook projectBook,
+                                ViewMode viewMode,
+                                Project currentProject,
+                                Predicate<TrackedItem> currentPredicate,
+                                Comparator<TrackedItem> currentComparator) {
         super(projectBook);
         this.projectBookStateList = new ArrayList<>();
-        projectBookStateList.add(new ProjectBookWithUi(projectBook, viewMode, currentProject));
+        projectBookStateList.add(new ProjectBookWithUi(projectBook, viewMode,
+                currentProject, currentPredicate, currentComparator));
         currentStatePointer = 0;
     }
 
@@ -28,12 +36,14 @@ public class VersionedProjectBook extends ProjectBook {
      * Flushes out versions to be redone after the {@code currentStatePointer} and
      * commits current {@code VersionedProjectBook} into {@code projectBookStateList}.
      */
-    public void commit(ViewMode viewMode, Project currentProject) {
+    public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
+                       Comparator<TrackedItem> currentComparator) {
         int historySize = projectBookStateList.size();
         if (currentStatePointer < historySize - 1) {
             flushRedoVersions();
         }
-        projectBookStateList.add(new ProjectBookWithUi(this, viewMode, currentProject));
+        projectBookStateList.add(new ProjectBookWithUi(this, viewMode,
+                currentProject, currentPredicate, currentComparator));
         shiftPointer(COMMIT);
     }
 
@@ -111,6 +121,14 @@ public class VersionedProjectBook extends ProjectBook {
 
     public Project getCurrentProject() {
         return getCurrentProjectBookWithUi().getProject();
+    }
+
+    public Predicate<TrackedItem> getCurrentPredicate() {
+        return getCurrentProjectBookWithUi().getPredicate();
+    }
+
+    public Comparator<TrackedItem> getCurrentComparator() {
+        return getCurrentProjectBookWithUi().getComparator();
     }
 
     @Override

@@ -18,6 +18,8 @@ import java.util.Set;
 import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand;
+import seedu.momentum.logic.commands.EditProjectCommand;
+import seedu.momentum.logic.commands.EditTaskCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ViewMode;
@@ -86,9 +88,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         if (model.getViewMode() == ViewMode.PROJECTS) {
-            return new EditCommand(index, editTrackedItemDescriptor);
+            return new EditProjectCommand(index, editTrackedItemDescriptor);
         } else {
-            return new EditCommand(index, editTrackedItemDescriptor, model.getCurrentProject());
+            return new EditTaskCommand(index, editTrackedItemDescriptor, model.getCurrentProject());
         }
     }
 
