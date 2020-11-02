@@ -130,8 +130,7 @@ public interface Logic {
     ViewMode getViewMode();
 
     /**
-     * Returns the
-     * @return
+     * Returns the project that is currently displayed if the application is in the task view.
      */
     Project getCurrentProject();
 }
