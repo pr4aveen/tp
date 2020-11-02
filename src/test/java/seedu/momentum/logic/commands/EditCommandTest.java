@@ -39,7 +39,8 @@ public class EditCommandTest {
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
-        Project editedProject = new ProjectBuilder().withCompletionStatus(CompletionStatus.COMPLETED).build();
+        Project editedProject =
+            new ProjectBuilder(model.getDisplayList().get(0)).withCompletionStatus(CompletionStatus.COMPLETED).build();
         EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(editedProject).build();
         EditCommand editCommand = new EditProjectCommand(INDEX_FIRST_PROJECT, descriptor);
 
@@ -48,7 +49,6 @@ public class EditCommandTest {
         Model expectedModel = new ModelManager(new ProjectBook(model.getProjectBook()), new UserPrefs());
         expectedModel.setTrackedItem(model.getDisplayList().get(0), editedProject);
         expectedModel.commitToHistory();
-
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 

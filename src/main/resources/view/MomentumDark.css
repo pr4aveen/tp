@@ -123,3 +123,6 @@
     -fx-background-color: -fx-purple;
 }
 
+.bottom-bar-item {
+    -fx-text-fill: -fx-white;
+}

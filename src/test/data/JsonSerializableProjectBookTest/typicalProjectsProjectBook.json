@@ -1,78 +1,254 @@
 {
-  "_comment": "ProjectBook save file which contains the same Project values as in TypicalProjects#getTypicalProjectBook()",
   "projects" : [ {
     "name" : "Alice Pauline",
-    "description": "Likes coding",
-    "createdDate": "2000-11-05",
-    "completionStatus": false,
-    "deadline": {
-      "date": "2020-11-05",
-      "time": "11:11:11"
+    "description" : "Likes coding",
+    "completionStatus" : false,
+    "deadline" : {
+      "date" : "2020-11-05",
+      "time" : "11:11:11"
     },
-    "reminder": null,
-    "tagged" : [ "friends" ]
+    "reminder" : null,
+    "tagged" : [ "friends" ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-11-02T15:38:17.819975",
+      "stopTime" : "2020-11-02T15:38:17.820002",
+      "isRunning" : false
+    },
+    "taskList" : [ {
+      "name" : "Thomas Jefferson",
+      "description" : "Likes coding",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : "2020-11-05",
+        "time" : "11:11:11"
+      },
+      "reminder" : null,
+      "tagged" : [ "friends" ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-11-02T15:39:07.982447",
+        "stopTime" : "2020-11-02T15:39:07.982461",
+        "isRunning" : false
+      },
+      "createdDate" : "2000-11-05"
+    }, {
+      "name" : "Zach Smart",
+      "description" : "Likes you",
+      "completionStatus" : true,
+      "deadline" : {
+        "date" : null,
+        "time" : null
+      },
+      "reminder" : "2021-12-05T02:45:23",
+      "tagged" : [ ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-11-02T15:39:58.418313",
+        "stopTime" : "2020-11-02T15:39:58.41833",
+        "isRunning" : false
+      },
+      "createdDate" : "2019-07-28"
+    } ],
+    "createdDate" : "2000-11-05"
   }, {
     "name" : "Benson Meier",
-    "description": "Likes dogs",
-    "createdDate": "2000-11-05",
-    "completionStatus": true,
-    "deadline": {
-      "date": "2020-11-05",
-      "time": "12:43:12"
+    "description" : "Likes dogs",
+    "completionStatus" : true,
+    "deadline" : {
+      "date" : "2020-11-05",
+      "time" : "12:43:12"
     },
-    "reminder": "2030-12-02T01:21:31",
+    "reminder" : "2030-12-02T01:21:31",
     "tagged" : [ "owesMoney", "friends" ],
     "durations" : [ {
-      "startTime" : "2019-01-01T00:00:00.00000",
-      "stopTime" : "2019-01-02T00:00:00.00000"
+      "startTime" : "2019-01-01T00:00:00",
+      "stopTime" : "2019-01-02T00:00:00"
     } ],
     "timer" : {
-      "startTime" : "2019-01-01T00:00:00.00000",
-      "stopTime" : "2019-01-02T00:00:00.00000",
+      "startTime" : "2019-01-01T00:00:00",
+      "stopTime" : "2019-01-02T00:00:00",
       "isRunning" : false
-    }
+    },
+    "taskList" : [ {
+      "name" : "Yvette Cool",
+      "description" : "Likes starbucks",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : "2020-03-21",
+        "time" : "05:02:09"
+      },
+      "reminder" : null,
+      "tagged" : [ ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-11-02T15:41:43.049568",
+        "stopTime" : "2020-11-02T15:41:43.049589",
+        "isRunning" : false
+      },
+      "createdDate" : "2019-03-21"
+    } ],
+    "createdDate" : "2000-11-05"
   }, {
     "name" : "Carl Kurz",
-    "description": "Likes poodles",
-    "completionStatus": true,
-    "createdDate": "2019-08-02",
-    "reminder": null,
-    "tagged" : [ ]
+    "description" : "Likes poodles",
+    "completionStatus" : true,
+    "deadline" : {
+      "date" : null,
+      "time" : null
+    },
+    "reminder" : null,
+    "tagged" : [ ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-11-02T15:38:17.824759",
+      "stopTime" : "2020-11-02T15:38:17.824771",
+      "isRunning" : false
+    },
+    "taskList" : [ ],
+    "createdDate" : "2019-08-02"
   }, {
     "name" : "Daniel Meier",
-    "description": "Likes cats",
-    "completionStatus": false,
-    "createdDate": "2019-05-21",
-    "reminder": null,
-    "tagged" : [ "friends" ]
+    "description" : "Likes cats",
+    "completionStatus" : false,
+    "deadline" : {
+      "date" : null,
+      "time" : null
+    },
+    "reminder" : null,
+    "tagged" : [ "friends" ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-11-02T15:38:17.825091",
+      "stopTime" : "2020-11-02T15:38:17.825102",
+      "isRunning" : false
+    },
+    "taskList" : [ {
+      "name" : "Veronica Vinod",
+      "description" : "Likes poodles",
+      "completionStatus" : true,
+      "deadline" : {
+        "date" : null,
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-11-02T15:42:36.203193",
+        "stopTime" : "2020-11-02T15:42:36.20323",
+        "isRunning" : false
+      },
+      "createdDate" : "2019-08-02"
+    }, {
+      "name" : "Ulysses Bob",
+      "description" : "Likes dogs",
+      "completionStatus" : true,
+      "deadline" : {
+        "date" : "2020-11-05",
+        "time" : "12:43:12"
+      },
+      "reminder" : "2030-12-02T01:21:31",
+      "tagged" : [ "owesMoney", "friends" ],
+      "durations" : [ {
+        "startTime" : "2019-01-01T00:00:00",
+        "stopTime" : "2019-01-02T00:00:00"
+      } ],
+      "timer" : {
+        "startTime" : "2020-11-02T15:44:14.100929",
+        "stopTime" : "2020-11-02T15:44:14.100934",
+        "isRunning" : false
+      },
+      "createdDate" : "2000-11-05"
+    } ],
+    "createdDate" : "2019-05-21"
   }, {
     "name" : "Elle Meyer",
-    "description": "Likes elephants",
-    "completionStatus": false,
-    "createdDate": "2019-07-21",
-    "reminder": null,
-    "deadline": {
-      "date": "2020-07-21",
-      "time": null
+    "description" : "Likes elephants",
+    "completionStatus" : false,
+    "deadline" : {
+      "date" : "2020-07-21",
+      "time" : null
     },
-    "tagged" : [ ]
+    "reminder" : null,
+    "tagged" : [ ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-11-02T15:38:17.825441",
+      "stopTime" : "2020-11-02T15:38:17.82545",
+      "isRunning" : false
+    },
+    "taskList" : [ ],
+    "createdDate" : "2019-07-21"
   }, {
     "name" : "Fiona Kunz",
-    "description": "Likes starbucks",
-    "completionStatus": false,
-    "createdDate": "2019-03-21",
-    "reminder": null,
-    "deadline": {
-      "date": "2020-03-21",
-      "time": "05:02:09"
+    "description" : "Likes starbucks",
+    "completionStatus" : false,
+    "deadline" : {
+      "date" : "2020-03-21",
+      "time" : "05:02:09"
     },
-    "tagged" : [ ]
+    "reminder" : null,
+    "tagged" : [ ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-11-02T15:38:17.825881",
+      "stopTime" : "2020-11-02T15:38:17.82589",
+      "isRunning" : false
+    },
+    "taskList" : [ {
+      "name" : "Wesley Tan",
+      "description" : "Likes cats",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : null,
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ "friends" ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-11-02T15:45:30.939213",
+        "stopTime" : "2020-11-02T15:45:30.939218",
+        "isRunning" : false
+      },
+      "createdDate" : "2019-05-21"
+    } ],
+    "createdDate" : "2019-03-21"
   }, {
     "name" : "George Best",
-    "description": "Likes you",
-    "completionStatus": true,
-    "reminder": "2021-12-05T02:45:23",
-    "createdDate": "2019-07-28",
-    "tagged" : [ ]
+    "description" : "Likes you",
+    "completionStatus" : true,
+    "deadline" : {
+      "date" : null,
+      "time" : null
+    },
+    "reminder" : "2021-12-05T02:45:23",
+    "tagged" : [ ],
+    "durations" : [ ],
+    "timer" : {
+      "startTime" : "2020-11-02T15:38:17.826364",
+      "stopTime" : "2020-11-02T15:38:17.826371",
+      "isRunning" : false
+    },
+    "taskList" : [ {
+      "name" : "Xavier Charles",
+      "description" : "Likes elephants",
+      "completionStatus" : false,
+      "deadline" : {
+        "date" : "2020-07-21",
+        "time" : null
+      },
+      "reminder" : null,
+      "tagged" : [ ],
+      "durations" : [ ],
+      "timer" : {
+        "startTime" : "2020-11-02T15:46:35.492075",
+        "stopTime" : "2020-11-02T15:46:35.492095",
+        "isRunning" : false
+      },
+      "createdDate" : "2019-07-21"
+    } ],
+    "createdDate" : "2019-07-28"
   } ]
 }

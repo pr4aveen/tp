@@ -11,12 +11,14 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<fx:root minHeight="600.0" minWidth="1000.0" onCloseRequest="#handleExit" title="Momentum" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root minHeight="600.0" minWidth="1000.0" onCloseRequest="#handleExit" title="Momentum" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
    <icons>
       <Image url="@/images/address_book_32.png" />
    </icons>
@@ -68,7 +70,6 @@
                               <SplitPane fx:id="sideBarSplitPane" dividerPositions="0.15, 0.3, 0.5" orientation="VERTICAL" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                                 <items>
                                     <StackPane fx:id="reminderDisplayPlaceholder" styleClass="reminder-box" />
-                                    <StackPane fx:id="infoDisplayPlaceholder" styleClass="content-box" />
                                     <StackPane fx:id="timerListPanelPlaceholder" styleClass="content-box">
                                         <children>
                                             <VBox fx:id="timerList" styleClass="content-box" />
@@ -79,6 +80,7 @@
                                           <VBox fx:id="statList" styleClass="content-box" />
                                        </children>
                                     </StackPane>
+                                    <StackPane fx:id="infoDisplayPlaceholder" styleClass="content-box" />
                                 </items>
                                  <GridPane.margin>
                                     <Insets />
@@ -107,6 +109,7 @@
                         </GridPane>
                      </children>
                   </GridPane>
+                   <StackPane fx:id="bottomBarPlaceholder" styleClass="reminder-box" />
                </children>
             </VBox>
          </root>
