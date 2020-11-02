@@ -3,7 +3,6 @@ package seedu.momentum.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.project.CompletionStatus;
@@ -107,8 +106,8 @@ public class TaskBuilder {
     /**
      * Sets the {@code createdDateWrapper} of the {@code Task} that we are building with current date.
      */
-    public TaskBuilder withCurrentCreatedDate() {
-        this.createdDateWrapper = new DateWrapper(Clock.now().getDate());
+    public TaskBuilder withCurrentCreatedDate(String createdDate) {
+        this.createdDateWrapper = new DateWrapper(createdDate);
         return this;
     }
 
