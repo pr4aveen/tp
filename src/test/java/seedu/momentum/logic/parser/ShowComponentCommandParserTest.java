@@ -2,9 +2,12 @@ package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
+
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,20 +17,27 @@ import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 
 public class ShowComponentCommandParserTest {
-    private ShowComponentCommandParser parser = new ShowComponentCommandParser();
-    private Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
+    private static final ShowComponentCommandParser parser = new ShowComponentCommandParser();
+    private static final Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
     @Test
     public void parse_validArgs_returnsShowComponentCommand() {
-        assertParseSuccess(parser,
-                ShowComponentCommand.COMMAND_WORD + " " + PREFIX_REMINDER,
-                new ShowComponentCommand(ShowComponentCommandParser.ComponentType.REMINDER),
-                model);
+        String userInput = ShowComponentCommand.COMMAND_WORD + " " + PREFIX_REMINDER;
+        ShowComponentCommand command =
+                new ShowComponentCommand(Arrays.asList(ShowComponentCommandParser.ComponentType.REMINDER));
+        assertParseSuccess(parser, userInput, command, model);
+        
+        userInput += " " + PREFIX_TAG;
+        command = new ShowComponentCommand(Arrays.asList(
+                ShowComponentCommandParser.ComponentType.REMINDER,
+                ShowComponentCommandParser.ComponentType.TAGS));
+        assertParseSuccess(parser, userInput, command, model);
     }
 
     @Test
     public void parse_invalidArgs_throwsParseException() {
-        assertParseFailure(parser, "a", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                ShowComponentCommand.MESSAGE_USAGE), model);
+        String userInput = "asd";
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowComponentCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, userInput, expectedMessage, model);
     }
 }

@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -48,6 +49,7 @@ public class ModelManager implements Model {
     private SortType currentSortType;
     private boolean isCurrentSortAscending;
     private boolean isCurrentSortByCompletionStatus;
+    private BooleanProperty isTagsVisible;
     private ViewMode viewMode;
     private Project currentProject;
     private ObservableList<TrackedItem> itemList;
@@ -70,6 +72,8 @@ public class ModelManager implements Model {
         this.currentSortType = SortType.ALPHA;
         this.isCurrentSortAscending = true;
         this.isCurrentSortByCompletionStatus = true;
+        this.isTagsVisible = new SimpleBooleanProperty();
+        this.isTagsVisible.set(true);
         this.currentComparator = getComparatorNullType(true, this.isCurrentSortByCompletionStatus);
 
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
@@ -170,6 +174,18 @@ public class ModelManager implements Model {
         return tags;
     }
 
+    //=========== Tags ================================================================================
+    @Override 
+    public void showOrHideTags() {
+        boolean isVisible = this.isTagsVisible.get();
+        this.isTagsVisible.set(!isVisible);
+    }
+    
+    @Override
+    public BooleanProperty getIsTagsVisible() {
+        return this.isTagsVisible;
+    }
+    
     @Override
     public Project getCurrentProject() {
         assert viewMode == ViewMode.TASKS : "Project can only be accessed in task view";
