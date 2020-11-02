@@ -11,24 +11,46 @@ public class BottomBar extends UiPart<Region> {
 
     private static final String FXML = "BottomBar.fxml";
 
+    private static final String VIEWING_PROJECTS = "Viewing all projects.";
+    private static final String VIEWING_TASKS = "Viewing tasks in %s.";
+    private static final String VISIBLE_RESULTS = "Showing %d of %d results.";
+    private static final String MOMENTUM = "Momentum";
+
     @FXML
     private Label viewDisplay;
 
     @FXML
-    private Label timeDisplay;
+    private Label momentumDisplay;
 
     @FXML
     private Label countDisplay;
 
 
     /**
-     * Creates a {@code BottomBar} with the given model.
+     * Creates a bottom bar for the project view.
+     *
+     * @param totalVisible number of visible projects in the project book.
+     * @param totalItems total number of projects in the project book.
      */
-    public BottomBar(String view, String count) {
+    public BottomBar(int totalVisible, int totalItems) {
         super(FXML);
-        viewDisplay.setText("Viewing all projects");
-        timeDisplay.setText("Mon, 2 Nov 2020");
-        countDisplay.setText("Showing 5/12 projects");
+        viewDisplay.setText(VIEWING_PROJECTS);
+        momentumDisplay.setText(MOMENTUM);
+        countDisplay.setText(String.format(VISIBLE_RESULTS, totalVisible, totalItems));
+    }
+
+    /**
+     * Creates a bottom bar for the task view.
+     *
+     * @param totalVisible number of visible tasks in the specified project.
+     * @param totalItems total number of tasks in the project book.
+     * @param projectName currently viewed project.
+     */
+    public BottomBar(int totalVisible, int totalItems, String projectName) {
+        super(FXML);
+        viewDisplay.setText(String.format(VIEWING_TASKS, projectName));
+        momentumDisplay.setText(MOMENTUM);
+        countDisplay.setText(String.format(VISIBLE_RESULTS, totalVisible, totalItems));
     }
 
 }

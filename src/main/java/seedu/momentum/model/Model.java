@@ -218,4 +218,9 @@ public interface Model {
      * Redoes previously undone command to reset state to before undo command.
      */
     void redoCommand();
+
+    /**
+     * Returns the total number of both visible and invisble items in the current project/task.
+     */
+    int getTotalNumberOfItems();
 }

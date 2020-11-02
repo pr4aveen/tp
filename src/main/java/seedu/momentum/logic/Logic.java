@@ -15,6 +15,8 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.model.ReadOnlyProjectBook;
+import seedu.momentum.model.ViewMode;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 
@@ -104,4 +106,20 @@ public interface Logic {
     void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings);
 
     StatisticGenerator getStatistic();
+
+    /**
+     * Returns the total number of both visible and invisble items in the current project/task.
+     */
+    int getTotalNumberOfItems();
+
+    /**
+     * Returns the current view mode.
+     */
+    ViewMode getViewMode();
+
+    /**
+     * Returns the
+     * @return
+     */
+    Project getCurrentProject();
 }

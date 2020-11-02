@@ -20,6 +20,7 @@ import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticEntry;
+import seedu.momentum.model.ViewMode;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -238,8 +239,26 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private void initBottomBar() {
-        bottomBar = new BottomBar(null, null);
+        bottomBar = new BottomBar(logic.getTotalNumberOfItems(), logic.getObservableDisplayList().get().size());
         bottomBarPlaceholder.getChildren().add(bottomBar.getRoot());
+
+        logic.getObservableDisplayList().addListener(c -> {
+            BottomBar newBottomBar;
+
+            if (logic.getViewMode() == ViewMode.PROJECTS) {
+                newBottomBar = new BottomBar(
+                        logic.getObservableDisplayList().get().size(),
+                        logic.getTotalNumberOfItems());
+            } else {
+                newBottomBar = new BottomBar(
+                        logic.getObservableDisplayList().get().size(),
+                        logic.getTotalNumberOfItems(),
+                        logic.getCurrentProject().getName().fullName);
+            }
+
+            bottomBarPlaceholder.getChildren().clear();
+            bottomBarPlaceholder.getChildren().add(newBottomBar.getRoot());
+        });
     }
 
     /**
