@@ -17,11 +17,11 @@ import javafx.application.Application;
 
 public class AppParametersTest {
 
-    private final ParametersStub parametersStub = new ParametersStub();
-    private final AppParameters expected = new AppParameters();
-    
     private static final String CONFIG = "config";
     private static final String CONFIG_JSON = CONFIG + ".json";
+
+    private final ParametersStub parametersStub = new ParametersStub();
+    private final AppParameters expected = new AppParameters();
 
     @Test
     public void parse_validConfigPath_success() {
@@ -59,7 +59,7 @@ public class AppParametersTest {
     public void hashCodeTest() {
         expected.setConfigPath(Paths.get(CONFIG_JSON));
         int expectedHashCode = expected.hashCode();
-        
+
         // same values -> returns true
         AppParameters actual = new AppParameters();
         actual.setConfigPath(Paths.get(CONFIG_JSON));

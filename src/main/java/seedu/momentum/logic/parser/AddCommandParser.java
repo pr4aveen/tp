@@ -66,7 +66,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             completionStatus = completionStatus.reverse();
         }
 
-        DateWrapper createdDateWrapper = new DateWrapper(Clock.now().getDate());
+        DateWrapper createdDateWrapper = Clock.now().getDateWrapper();
 
         Deadline deadline = ParserUtil.parseDeadline(
                 argMultimap.getValue(PREFIX_DEADLINE_DATE),
