@@ -11,7 +11,7 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 import static seedu.momentum.testutil.Assert.assertThrows;
-import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import java.util.Arrays;
@@ -68,8 +68,8 @@ public class ProjectBookParserTest {
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased(), model);
-        assertEquals(new DeleteProjectCommand(INDEX_FIRST_PROJECT), command);
+                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST.getOneBased(), model);
+        assertEquals(new DeleteProjectCommand(INDEX_FIRST), command);
     }
 
     @Test
@@ -77,9 +77,9 @@ public class ProjectBookParserTest {
         Project project = new ProjectBuilder().build();
         EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(project).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-            + INDEX_FIRST_PROJECT.getOneBased() + " "
+            + INDEX_FIRST.getOneBased() + " "
             + ProjectUtil.getEditProjectDescriptorDetails(descriptor), model);
-        assertEquals(new EditProjectCommand(INDEX_FIRST_PROJECT, descriptor), command);
+        assertEquals(new EditProjectCommand(INDEX_FIRST, descriptor), command);
     }
 
     @Test
@@ -120,15 +120,15 @@ public class ProjectBookParserTest {
     @Test
     public void parseCommand_start() throws Exception {
         StartCommand command = (StartCommand) parser.parseCommand(
-                StartCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased(), model);
-        assertEquals(new StartProjectCommand(INDEX_FIRST_PROJECT), command);
+                StartCommand.COMMAND_WORD + " " + INDEX_FIRST.getOneBased(), model);
+        assertEquals(new StartProjectCommand(INDEX_FIRST), command);
     }
 
     @Test
     public void parseCommand_stop() throws Exception {
         StopCommand command = (StopCommand) parser.parseCommand(
-                StopCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased(), model);
-        assertEquals(new StopProjectCommand(INDEX_FIRST_PROJECT), command);
+                StopCommand.COMMAND_WORD + " " + INDEX_FIRST.getOneBased(), model);
+        assertEquals(new StopProjectCommand(INDEX_FIRST), command);
     }
 
     @Test
