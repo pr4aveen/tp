@@ -48,22 +48,23 @@ public class SortCommand extends Command {
     private SortType sortType;
     private final boolean isAscending;
     private final boolean isDefault;
-    private final boolean isSortedByCompletionStatus;
-    private Project parentProject;
+    private final boolean changeSortByCompletionStatus;
 
     /**
      * Creates a SortCommand to sort the list of projects.
      *
-     * @param sortType                   Type of sort applied to projects.
-     * @param isAscending                Boolean value to check if order of sort applied to projects is ascending.
-     * @param isDefault                  Boolean value to check if SortCommand is default.
-     * @param isSortedByCompletionStatus Boolean value to check if SortCommand is sorted by completion status.
+     * @param sortType                     Type of sort applied to projects.
+     * @param isAscending                  Boolean value to check if order of sort applied to projects is ascending.
+     * @param isDefault                    Boolean value to check if SortCommand is default.
+     * @param changeSortByCompletionStatus Boolean value to check if SortCommand should change the sorted by
+     *                                     completion status.
      */
-    public SortCommand(SortType sortType, boolean isAscending, boolean isDefault, boolean isSortedByCompletionStatus) {
+    public SortCommand(SortType sortType, boolean isAscending, boolean isDefault,
+                       boolean changeSortByCompletionStatus) {
         this.sortType = sortType;
         this.isAscending = isAscending;
         this.isDefault = isDefault;
-        this.isSortedByCompletionStatus = isSortedByCompletionStatus;
+        this.changeSortByCompletionStatus = changeSortByCompletionStatus;
     }
 
     @Override
@@ -93,13 +94,13 @@ public class SortCommand extends Command {
         }
 
         if (model.getViewMode() == ViewMode.PROJECTS) {
-            model.orderFilteredProjectList(sortType, isAscending, isSortedByCompletionStatus);
+            model.orderFilteredProjectList(sortType, isAscending, changeSortByCompletionStatus);
             model.commitToHistory();
             return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_PROJECTS, type, order));
         } else {
             Project projectBeforeSort = model.getCurrentProject();
             Project projectAfterSort = model.getCurrentProject()
-                    .orderTaskList(sortType, isAscending, isSortedByCompletionStatus);
+                    .orderTaskList(sortType, isAscending, changeSortByCompletionStatus);
             model.setTrackedItem(projectBeforeSort, projectAfterSort);
             model.viewTasks(projectAfterSort);
             model.commitToHistory();
@@ -114,7 +115,7 @@ public class SortCommand extends Command {
                 && sortType.equals(((SortCommand) other).sortType) // field check
                 && isAscending == ((SortCommand) other).isAscending // field check
                 && isDefault == ((SortCommand) other).isDefault // field check
-                && isSortedByCompletionStatus == ((SortCommand) other).isSortedByCompletionStatus); // field check
+                && changeSortByCompletionStatus == ((SortCommand) other).changeSortByCompletionStatus); // field check
     }
 
 }

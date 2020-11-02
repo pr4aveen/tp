@@ -60,7 +60,7 @@ public class Project extends TrackedItem {
      * @param durations                  A list of {@code WorkDuration} associated with the project.
      * @param timerWrapper               A timerWrapper associated with the project.
      * @param taskList                   UniqueTrackedListList associated with the project.
-     * @param sortType                  A boolean to check the type of order of the sort.
+     * @param sortType                   A boolean to check the type of order of the sort.
      * @param isAscending                A boolean to check if the list is sorted in ascending order.
      * @param isSortedByCompletionStatus A boolean to check if the list is sorted by completion status.
      */
@@ -204,18 +204,22 @@ public class Project extends TrackedItem {
                 tags, durations, timerWrapper, newList, sortType, isAscending, isSortedByCompletionStatus);
     }
 
-
     /**
      * Orders the list of tasks in a way given by the {@code sortType}.
      *
-     * @param sortType                  A boolean to check the type of order of the sort.
-     * @param isAscending                A boolean to check if the list is sorted in ascending order.
-     * @param isSortedByCompletionStatus A boolean to check if the list is sorted by completion status.
+     * @param sortType                     A boolean to check the type of order of the sort.
+     * @param isAscending                  A boolean to check if the list is sorted in ascending order.
+     * @param changeSortByCompletionStatus A boolean value to check if SortCommand should change the sorted by
+     *                                     completion status.
      */
-    public Project orderTaskList(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
-        requireAllNonNull(sortType, isAscending, isSortedByCompletionStatus);
+    public Project orderTaskList(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
+        requireAllNonNull(sortType, isAscending, changeSortByCompletionStatus);
 
         UniqueTrackedItemList newList = taskList.copy();
+
+        if (changeSortByCompletionStatus) {
+            this.isSortedByCompletionStatus = !isSortedByCompletionStatus;
+        }
 
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
                 tags, durations, timerWrapper, newList, sortType, isAscending, isSortedByCompletionStatus);

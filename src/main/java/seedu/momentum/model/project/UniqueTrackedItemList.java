@@ -283,20 +283,7 @@ public class UniqueTrackedItemList implements Iterable<TrackedItem> {
      * @param isSortedByCompletionStatus sort by creation status.
      */
     private void setOrderNullType(boolean isAscending, boolean isSortedByCompletionStatus) {
-        switch (this.sortType) {
-        case ALPHA:
-            setOrder(SortType.ALPHA, isAscending, isSortedByCompletionStatus);
-            break;
-        case DEADLINE:
-            setOrder(SortType.DEADLINE, isAscending, isSortedByCompletionStatus);
-            break;
-        case CREATED:
-            setOrder(SortType.CREATED, isAscending, isSortedByCompletionStatus);
-            break;
-        default:
-            // Will always be one of the above. Default does nothing.
-            break;
-        }
+        setOrder(SortType.ALPHA, isAscending, isSortedByCompletionStatus);
     }
 
     /**

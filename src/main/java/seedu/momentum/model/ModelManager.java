@@ -38,7 +38,7 @@ public class ModelManager implements Model {
     private Predicate<TrackedItem> currentPredicate;
     private SortType currentSortType;
     private boolean isCurrentSortAscending;
-    private boolean isCurrentSortIsByCompletionStatus;
+    private boolean isCurrentSortByCompletionStatus;
     private ViewMode viewMode;
     private Project currentProject;
     private ObservableList<TrackedItem> viewList;
@@ -57,7 +57,7 @@ public class ModelManager implements Model {
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         currentSortType = SortType.ALPHA;
         isCurrentSortAscending = true;
-        isCurrentSortIsByCompletionStatus = true;
+        isCurrentSortByCompletionStatus = true;
         viewMode = ViewMode.PROJECTS;
 
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject);
@@ -170,7 +170,7 @@ public class ModelManager implements Model {
     public void addTrackedItem(TrackedItem trackedItem) {
         versionedProjectBook.addTrackedItem(trackedItem);
         rescheduleReminders();
-        orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
+        orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
         updateFilteredProjectList(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
@@ -183,7 +183,7 @@ public class ModelManager implements Model {
             currentProject = (Project) editedTrackedItem;
         }
         rescheduleReminders();
-        orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
+        orderFilteredProjectList(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
 
     }
 
@@ -213,12 +213,14 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void orderFilteredProjectList(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
-        requireAllNonNull(sortType, isAscending, isSortedByCompletionStatus);
+    public void orderFilteredProjectList(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
+        requireAllNonNull(sortType, isAscending, changeSortByCompletionStatus);
         isCurrentSortAscending = isAscending;
-        isCurrentSortIsByCompletionStatus = isSortedByCompletionStatus;
+        if (changeSortByCompletionStatus) {
+            isCurrentSortByCompletionStatus = !isCurrentSortByCompletionStatus;
+        }
         currentSortType = sortType;
-        versionedProjectBook.setOrder(sortType, isAscending, isSortedByCompletionStatus);
+        versionedProjectBook.setOrder(sortType, isAscending, isCurrentSortByCompletionStatus);
         updateFilteredProjectList(currentPredicate);
     }
 
@@ -317,29 +319,6 @@ public class ModelManager implements Model {
         }
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        // short circuit if same object
-        if (obj == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(obj instanceof ModelManager)) {
-            return false;
-        }
-
-        // state check
-        ModelManager other = (ModelManager) obj;
-        return versionedProjectBook.equals(other.versionedProjectBook)
-                && userPrefs.equals(other.userPrefs)
-                && reminderManager.equals(other.reminderManager)
-                && filteredTrackedItems.get().equals(other.filteredTrackedItems.get())
-                && runningTimers.equals(other.runningTimers)
-                && viewMode.equals(other.viewMode);
-        //&& currentProject.equals(other.currentProject)
-    }
-
     //=========== Undo/Redo ================================================================================
 
     @Override
@@ -409,4 +388,28 @@ public class ModelManager implements Model {
             viewTasks(currentProject);
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(obj instanceof ModelManager)) {
+            return false;
+        }
+
+        // state check
+        ModelManager other = (ModelManager) obj;
+        return versionedProjectBook.equals(other.versionedProjectBook)
+                && userPrefs.equals(other.userPrefs)
+                && reminderManager.equals(other.reminderManager)
+                && filteredTrackedItems.get().equals(other.filteredTrackedItems.get())
+                && runningTimers.equals(other.runningTimers)
+                && viewMode.equals(other.viewMode);
+        //&& currentProject.equals(other.currentProject)
+    }
+
 }

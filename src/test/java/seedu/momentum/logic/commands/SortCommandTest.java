@@ -42,6 +42,7 @@ public class SortCommandTest {
     @Test
     public void equals() {
 
+
         // same object -> returns true
         assertTrue(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS
                 .equals(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS));
@@ -69,7 +70,8 @@ public class SortCommandTest {
                 .equals(DEADLINE_ASCENDING_COMMAND_WITH_COMPLETION_STATUS));
 
         // different sort orders -> returns false
-        assertFalse(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS.equals(ALPHA_DESCENDING_COMMAND));
+        assertFalse(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS
+                .equals(ALPHA_DESCENDING_COMMAND));
     }
 
     @Test
@@ -144,8 +146,8 @@ public class SortCommandTest {
 
     @Test
     public void execute_nullSortTypeAscendingNonDefault_sortedInCurrentSortTypeAscendingOrder() {
-        model.orderFilteredProjectList(SortType.DEADLINE, false, true);
-        expectedModel.orderFilteredProjectList(SortType.DEADLINE, true, true);
+        model.orderFilteredProjectList(SortType.DEADLINE, false, false);
+        expectedModel.orderFilteredProjectList(SortType.ALPHA, true, false);
         expectedModel.commitToHistory();
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS_PROJECTS, EMPTY_STRING, OUTPUT_ASCENDING_ORDER);
         assertCommandSuccess(NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND, model, expectedMessage, expectedModel);
@@ -154,8 +156,8 @@ public class SortCommandTest {
 
     @Test
     public void execute_nullSortTypeDescendingNonDefault_sortedInCurrentSortTypeDscendingOrder() {
-        model.orderFilteredProjectList(SortType.CREATED, true, true);
-        expectedModel.orderFilteredProjectList(SortType.CREATED, false, true);
+        model.orderFilteredProjectList(SortType.CREATED, true, false);
+        expectedModel.orderFilteredProjectList(SortType.ALPHA, false, false);
         expectedModel.commitToHistory();
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS_PROJECTS, EMPTY_STRING, OUTPUT_DESCENDING_ORDER);
         assertCommandSuccess(NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND, model, expectedMessage, expectedModel);
