@@ -61,7 +61,7 @@ public class ShowComponentCommand extends Command {
                 throw new CommandException(MESSAGE_FAILURE);
             }
         }
-        
+
         if (resultString.isBlank()) {
             throw new CommandException(MESSAGE_FAILURE);
         }

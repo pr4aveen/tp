@@ -30,21 +30,21 @@ public class ShowComponentCommandParser implements Parser<ShowComponentCommand> 
      */
     public ShowComponentCommand parse(String args, Model model) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMINDER, PREFIX_TAG);
-        
+
         List<ComponentType> componentTypes = new ArrayList<>();
         if (argMultimap.getValue(PREFIX_REMINDER).isPresent()) {
             componentTypes.add(ComponentType.REMINDER);
         }
-        
+
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
             componentTypes.add(ComponentType.TAGS);
         }
-        
+
         if (componentTypes.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowComponentCommand.MESSAGE_USAGE));
         }
-        
-        return new ShowComponentCommand(componentTypes); 
+
+        return new ShowComponentCommand(componentTypes);
     }
 
 }

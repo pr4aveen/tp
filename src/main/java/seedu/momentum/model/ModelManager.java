@@ -175,17 +175,17 @@ public class ModelManager implements Model {
     }
 
     //=========== Tags ================================================================================
-    @Override 
+    @Override
     public void showOrHideTags() {
         boolean isVisible = this.isTagsVisible.get();
         this.isTagsVisible.set(!isVisible);
     }
-    
+
     @Override
     public BooleanProperty getIsTagsVisible() {
         return this.isTagsVisible;
     }
-    
+
     @Override
     public Project getCurrentProject() {
         assert viewMode == ViewMode.TASKS : "Project can only be accessed in task view";

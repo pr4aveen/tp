@@ -136,12 +136,12 @@ public class LogicManager implements Logic {
     public Set<Tag> getVisibleTags() {
         return model.getVisibleTags();
     }
-    
+
     @Override
     public void showOrHideTags() {
         model.showOrHideTags();
     }
-    
+
     @Override
     public BooleanProperty getIsTagsVisible() {
         return model.getIsTagsVisible();

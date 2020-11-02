@@ -209,7 +209,7 @@ public class MainWindow extends UiPart<Stage> {
         }
         initReminderDisplayListeners();
     }
-    
+
     private void hideTags() {
         logger.info("hide tags");
         infoDisplayPlaceholder.setVisible(false);
@@ -288,7 +288,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     public void updateStatList() {
         StatListPanel newStatList = new StatListPanel(logic.getStatistic().getTimePerProjectStatistic(),
-            logic.getStatisticTimeframeSettings().getStatTimeframe());
+                logic.getStatisticTimeframeSettings().getStatTimeframe());
         statListPanelPlaceholder.getChildren().clear();
         statListPanelPlaceholder.getChildren().add(newStatList.getRoot());
     }

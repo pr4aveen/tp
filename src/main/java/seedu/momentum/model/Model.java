@@ -136,7 +136,7 @@ public interface Model {
 
     /**
      * Returns is tags visible boolean property.
-     * 
+     *
      * @return true if tags is visible, false otherwise.
      */
     BooleanProperty getIsTagsVisible();
