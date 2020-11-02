@@ -39,6 +39,27 @@ public class NameTest {
     }
 
     @Test
+    public void equals() {
+        Name name = new Name("name");
+        // same object -> returns true
+        assertTrue(name.equals(name));
+
+        // same name -> returns true
+        assertTrue(name.equals(new Name("name")));
+
+        // different types -> returns false
+        assertFalse(name.equals("1"));
+
+        // null -> return false
+        assertFalse(name.equals(null));
+
+        // different name -> return false
+        assertFalse(name.equals("NAME"));
+        assertFalse(name.equals("name"));
+        assertFalse(name.equals("gqwrf"));
+    }
+
+    @Test
     public void compareTo_returnsCorrectValue() {
 
         Name aaa = new Name("AAA");

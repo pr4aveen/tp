@@ -18,4 +18,24 @@ public class DescriptionTest {
         assertTrue(new Description("    ").isEmpty());
         assertFalse(new Description("1").isEmpty());
     }
+
+    @Test
+    public void equals() {
+        Description description = new Description("description");
+        // same object -> returns true
+        assertTrue(description.equals(description));
+
+        // same description -> returns true
+        assertTrue(description.equals(new Description("description")));
+
+        // different types -> returns false
+        assertFalse(description.equals("1"));
+
+        // null -> return false
+        assertFalse(description.equals(null));
+
+        // different name -> return false
+        assertFalse(description.equals("descriptionfsd"));
+    }
+
 }

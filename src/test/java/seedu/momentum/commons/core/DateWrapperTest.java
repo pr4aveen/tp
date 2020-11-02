@@ -67,6 +67,24 @@ public class DateWrapperTest {
     }
 
     @Test
+    public void equals() {
+        // same object -> returns true
+        assertTrue(DATE.equals(DATE));
+
+        // same date -> returns true
+        assertTrue(DATE.equals(new DateWrapper(VALID_DATE)));
+
+        // different types -> returns false
+        assertFalse(DATE.equals("1"));
+
+        // null -> return false
+        assertFalse(DATE.equals(null));
+
+        // different date and time -> return false
+        assertFalse(DATE.equals(LATER_DATE));
+    }
+
+    @Test
     public void compareTo_returnsCorrectValue() {
         // second Date is later
         assertEquals(DATE.compareTo(LATER_DATE), -1);

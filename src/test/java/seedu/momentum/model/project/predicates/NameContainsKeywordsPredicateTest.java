@@ -55,9 +55,13 @@ public class NameContainsKeywordsPredicateTest {
         assertFalse(firstAnyPredicate.equals(null));
         assertFalse(firstAllPredicate.equals(null));
 
-        // different project -> returns false
+        // different keywords -> returns false
         assertFalse(firstAnyPredicate.equals(secondAnyPredicate));
         assertFalse(firstAllPredicate.equals(secondAllPredicate));
+
+        // different findType -> returns false
+        assertFalse(firstAnyPredicate.equals(firstAllPredicate));
+        assertFalse(secondAnyPredicate.equals(secondAllPredicate));
     }
 
     @Test

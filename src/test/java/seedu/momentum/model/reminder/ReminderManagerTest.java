@@ -14,32 +14,25 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import seedu.momentum.model.ProjectBook;
-import seedu.momentum.model.VersionedProjectBook;
-import seedu.momentum.model.ViewMode;
 
 public class ReminderManagerTest {
-    private final ProjectBook projectBookUnmodified = getTypicalProjectBook();
-    private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(
-            projectBookUnmodified, ViewMode.PROJECTS, null, null, null);
-    private final ReminderManager reminderManagerUnmodified = new ReminderManager(versionedProjectBook);
-    private ProjectBook projectBook;
+    private static final ProjectBook projectBookUnmodified = getTypicalProjectBook();
+    private static final ReminderManager reminderManagerUnmodified = new ReminderManager(projectBookUnmodified);
+
+    private static final BiFunction<BooleanProperty, BooleanProperty, Boolean> isBooleanPropertyEquals = (
+            booleanProperty, booleanProperty2) -> booleanProperty.getValue() == booleanProperty2.getValue();
+    private static final BiFunction<StringProperty, StringProperty, Boolean> isStringPropertyEquals = (stringProperty,
+            stringProperty2) -> stringProperty.getValue().equals(stringProperty2.getValue());
+
     private ReminderManager reminderManager;
 
-    private BiFunction<BooleanProperty, BooleanProperty, Boolean> isBooleanPropertyEquals = (booleanProperty,
-         booleanProperty2) -> booleanProperty.getValue() == booleanProperty2.getValue();
-    private BiFunction<StringProperty, StringProperty, Boolean> isStringPropertyEquals = (stringProperty,
-         stringProperty2) -> stringProperty.getValue().equals(stringProperty2.getValue());
-
-    private void resetProjectBookAndReminderManager() {
-        projectBook = getTypicalProjectBook();
-        VersionedProjectBook versionedProjectBook = new VersionedProjectBook(projectBook, ViewMode.PROJECTS, null,
-                null , null);
-        reminderManager = new ReminderManager(versionedProjectBook);
+    private void resetReminderManager() {
+        reminderManager = new ReminderManager(getTypicalProjectBook());
     }
 
     @Test
     public void updateCurrReminder() {
-        resetProjectBookAndReminderManager();
+        resetReminderManager();
         reminderManager.updateCurrReminder(ALICE);
         StringProperty expectedReminder = new SimpleStringProperty();
         expectedReminder.set(String.format(ReminderManager.PROJECT_REMINDER, ALICE.getName()));
@@ -48,8 +41,9 @@ public class ReminderManagerTest {
 
     @Test
     public void isReminderEmpty() {
-        resetProjectBookAndReminderManager();
+        resetReminderManager();
         BooleanProperty expectedBoolean = new SimpleBooleanProperty();
+
         expectedBoolean.set(true);
         assertTrue(isBooleanPropertyEquals.apply(expectedBoolean, reminderManagerUnmodified.isReminderEmpty()));
 
@@ -60,7 +54,7 @@ public class ReminderManagerTest {
 
     @Test
     public void removeReminder() {
-        resetProjectBookAndReminderManager();
+        resetReminderManager();
         reminderManager.updateCurrReminder(ALICE);
         reminderManager.removeReminder();
         assertTrue(reminderManager.isReminderEmpty().get());
@@ -68,7 +62,7 @@ public class ReminderManagerTest {
 
     @Test
     public void getReminder() {
-        resetProjectBookAndReminderManager();
+        resetReminderManager();
         StringProperty expectedStringProperty = new SimpleStringProperty();
         expectedStringProperty.set(String.format(ReminderManager.PROJECT_REMINDER, ALICE.getName()));
         reminderManager.updateCurrReminder(ALICE);
@@ -77,7 +71,7 @@ public class ReminderManagerTest {
 
     @Test
     public void equals() {
-        resetProjectBookAndReminderManager();
+        resetReminderManager();
 
         // same values -> returns true
         assertTrue(reminderManager.equals(reminderManagerUnmodified));
@@ -92,8 +86,7 @@ public class ReminderManagerTest {
         assertFalse(reminderManager.equals(5));
 
         // different project book -> return false
-        assertFalse(reminderManager.equals(new ReminderManager(
-                new VersionedProjectBook(new ProjectBook(), ViewMode.PROJECTS, null, null, null))));
+        assertFalse(reminderManager.equals(new ReminderManager(new ProjectBook())));
 
         // different currReminder
         reminderManager.updateCurrReminder(ALICE);

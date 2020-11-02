@@ -60,6 +60,24 @@ public class TimeWrapperTest {
     }
 
     @Test
+    public void equals() {
+        // same object -> returns true
+        assertTrue(TIME.equals(TIME));
+
+        // same date -> returns true
+        assertTrue(TIME.equals(new TimeWrapper(VALID_TIME)));
+
+        // different types -> returns false
+        assertFalse(TIME.equals("1"));
+
+        // null -> return false
+        assertFalse(TIME.equals(null));
+
+        // different date -> return false
+        assertFalse(TIME.equals(LATER_TIME));
+    }
+
+    @Test
     public void compareTo_returnsCorrectValue() {
         // second TimeWrapper is later
         assertEquals(TIME.compareTo(LATER_TIME), -1);
