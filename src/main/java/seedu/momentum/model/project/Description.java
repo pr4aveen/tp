@@ -24,7 +24,7 @@ public class Description {
     }
 
     public boolean isEmpty() {
-        return value.equals(EMPTY_DESCRIPTION.value);
+        return value.isBlank();
     }
 
     @Override

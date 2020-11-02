@@ -47,7 +47,7 @@ public class MainApp extends Application {
 
     public static final Version VERSION = new Version(1, 3, 0, true);
 
-    private static final Logger logger = LogsCenter.getLogger(MainApp.class);
+    private static final Logger LOGGER = LogsCenter.getLogger(MainApp.class);
 
     protected Ui ui;
     protected Logic logic;
@@ -57,7 +57,7 @@ public class MainApp extends Application {
 
     @Override
     public void init() throws Exception {
-        logger.info("=============================[ Initializing ProjectBook ]===========================");
+        LOGGER.info("=============================[ Initializing ProjectBook ]===========================");
         super.init();
 
         AppParameters appParameters = AppParameters.parse(getParameters());
@@ -90,12 +90,12 @@ public class MainApp extends Application {
         try {
             projectBookOptional = storage.readProjectBook();
             if (!projectBookOptional.isPresent()) {
-                logger.info("Data file not found. Will be starting with a sample ProjectBook");
+                LOGGER.info("Data file not found. Will be starting with a sample ProjectBook");
             }
 
             Optional<ReadOnlyProjectBook> defaultProjectBookOptional = getDefaultData();
             if (!projectBookOptional.isPresent()) {
-                logger.info("Default data file not found. Will start with bare bones sample data");
+                LOGGER.info("Default data file not found. Will start with bare bones sample data");
             }
 
             initialData = projectBookOptional
@@ -103,10 +103,10 @@ public class MainApp extends Application {
                     .orElseGet(SampleDataUtil::getSampleProjectBook);
 
         } catch (DataConversionException e) {
-            logger.warning("Data file not in the correct format. Will be starting with an empty ProjectBook");
+            LOGGER.warning("Data file not in the correct format. Will be starting with an empty ProjectBook");
             initialData = new ProjectBook();
         } catch (IOException e) {
-            logger.warning("Problem while reading from the file. Will be starting with an empty ProjectBook");
+            LOGGER.warning("Problem while reading from the file. Will be starting with an empty ProjectBook");
             initialData = new ProjectBook();
         }
 
@@ -157,17 +157,17 @@ public class MainApp extends Application {
         configFilePathUsed = Config.DEFAULT_CONFIG_FILE;
 
         if (configFilePath != null) {
-            logger.info("Custom Config file specified " + configFilePath);
+            LOGGER.info("Custom Config file specified " + configFilePath);
             configFilePathUsed = configFilePath;
         }
 
-        logger.info("Using config file : " + configFilePathUsed);
+        LOGGER.info("Using config file : " + configFilePathUsed);
 
         try {
             Optional<Config> configOptional = ConfigUtil.readConfig(configFilePathUsed);
             initializedConfig = configOptional.orElse(new Config());
         } catch (DataConversionException e) {
-            logger.warning("Config file at " + configFilePathUsed + " is not in the correct format. "
+            LOGGER.warning("Config file at " + configFilePathUsed + " is not in the correct format. "
                     + "Using default config properties");
             initializedConfig = new Config();
         }
@@ -176,7 +176,7 @@ public class MainApp extends Application {
         try {
             ConfigUtil.saveConfig(initializedConfig, configFilePathUsed);
         } catch (IOException e) {
-            logger.warning("Failed to save config file : " + StringUtil.getDetails(e));
+            LOGGER.warning("Failed to save config file : " + StringUtil.getDetails(e));
         }
         return initializedConfig;
     }
@@ -188,18 +188,18 @@ public class MainApp extends Application {
      */
     protected UserPrefs initPrefs(UserPrefsStorage storage) {
         Path prefsFilePath = storage.getUserPrefsFilePath();
-        logger.info("Using prefs file : " + prefsFilePath);
+        LOGGER.info("Using prefs file : " + prefsFilePath);
 
         UserPrefs initializedPrefs;
         try {
             Optional<UserPrefs> prefsOptional = storage.readUserPrefs();
             initializedPrefs = prefsOptional.orElse(new UserPrefs());
         } catch (DataConversionException e) {
-            logger.warning("UserPrefs file at " + prefsFilePath + " is not in the correct format. "
+            LOGGER.warning("UserPrefs file at " + prefsFilePath + " is not in the correct format. "
                     + "Using default user prefs");
             initializedPrefs = new UserPrefs();
         } catch (IOException e) {
-            logger.warning("Problem while reading from the file. Will be starting with an empty ProjectBook");
+            LOGGER.warning("Problem while reading from the file. Will be starting with an empty ProjectBook");
             initializedPrefs = new UserPrefs();
         }
 
@@ -207,7 +207,7 @@ public class MainApp extends Application {
         try {
             storage.saveUserPrefs(initializedPrefs);
         } catch (IOException e) {
-            logger.warning("Failed to save config file : " + StringUtil.getDetails(e));
+            LOGGER.warning("Failed to save config file : " + StringUtil.getDetails(e));
         }
 
         return initializedPrefs;
@@ -215,20 +215,20 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        logger.info("Starting ProjectBook " + MainApp.VERSION);
+        LOGGER.info("Starting ProjectBook " + MainApp.VERSION);
         ui.start(primaryStage);
     }
 
     @Override
     public void stop() {
-        logger.info("============================ [ Stopping Project Book ] =============================");
+        LOGGER.info("============================ [ Stopping Project Book ] =============================");
         try {
             storage.saveUserPrefs(model.getUserPrefs());
-            logger.info("Saved preferences. Quitting application now.");
+            LOGGER.info("Saved preferences. Quitting application now.");
             Platform.exit();
             System.exit(0);
         } catch (IOException e) {
-            logger.severe("Failed to save preferences " + StringUtil.getDetails(e));
+            LOGGER.severe("Failed to save preferences " + StringUtil.getDetails(e));
         }
     }
 }

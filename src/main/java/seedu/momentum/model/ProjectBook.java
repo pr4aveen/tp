@@ -22,7 +22,7 @@ import seedu.momentum.model.tag.Tag;
  */
 public class ProjectBook implements ReadOnlyProjectBook {
 
-    private static final Logger logger = LogsCenter.getLogger(ProjectBook.class);
+    private static final Logger LOGGER = LogsCenter.getLogger(ProjectBook.class);
     protected final UniqueItemList<TrackedItem> trackedItems;
 
     /*
@@ -141,7 +141,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
     public void removeReminder(Project project) {
         Project newProject = project.removeReminder();
         trackedItems.set(project, newProject);
-        logger.info("Reminder of project removed: " + project.getName());
+        LOGGER.info("Reminder of project removed: " + project.getName());
     }
 
     /**
@@ -153,7 +153,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
     public void removeReminder(Project project, Task task) {
         Project newProject = project.removeReminder(task);
         trackedItems.set(project, newProject);
-        logger.info("Reminder of task of project removed: " + task.getName() + " " + project.getName());
+        LOGGER.info("Reminder of task of project removed: " + task.getName() + " " + project.getName());
     }
 
     @Override

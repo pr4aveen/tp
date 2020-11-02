@@ -138,8 +138,7 @@ public class Deadline implements Comparable<Deadline> {
      * @return Number of days to deadline.
      */
     public long daysToDeadline() {
-        //return DateWrapper.getTimeBetween(Clock.now().getDate(), getDate(), ChronoUnit.DAYS);
-        return ChronoUnit.DAYS.between(Clock.now().getDate(), getDate().get());
+        return DateWrapper.getTimeBetween(Clock.now().getDateWrapper(), getDate(), ChronoUnit.DAYS);
     }
 
     @Override

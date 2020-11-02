@@ -3,9 +3,7 @@ package seedu.momentum.commons.core;
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.AppUtil.checkArgument;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 
@@ -75,7 +73,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      * Checks if an instance in timeWrapper is before this instance.
      *
      * @param otherTime The timeWrapper to check.
-     * @return
+     * @return the boolean.
      */
     public boolean isBefore(DateTimeWrapper otherTime) {
         return dateTime.isBefore(otherTime.get());
@@ -85,7 +83,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      * Checks if an instance in timeWrapper is after this instance.
      *
      * @param otherTime The timeWrapper to check.
-     * @return
+     * @return the boolean.
      */
     public boolean isAfter(DateTimeWrapper otherTime) {
         return dateTime.isAfter(otherTime.get());
@@ -97,18 +95,10 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      * @param time1 The earlier instance of timeWrapper.
      * @param time2 The later instance of timeWrapper.
      * @param units The units to the timeWrapper.
-     * @return
+     * @return the boolean.
      */
     public static long getTimeBetween(DateTimeWrapper time1, DateTimeWrapper time2, ChronoUnit units) {
         return units.between(time1.get(), time2.get());
-    }
-
-    public LocalDate getDate() {
-        return dateTime.toLocalDate();
-    }
-
-    public LocalTime getTime() {
-        return dateTime.toLocalTime();
     }
 
     public DateWrapper getDateWrapper() {

@@ -35,7 +35,14 @@ public class CompletionStatusPredicateTest {
         // Multiple keywords -> assertion error
         assertThrows(AssertionError.class, () -> new CompletionStatusPredicate(FindType.ANY,
                 MULTIPLE_KEYWORDS));
+    }
 
+    @Test
+    public void isValid() {
+        assertTrue(CompletionStatusPredicate.isValid(COMPLETED_KEYWORD));
+        assertTrue(CompletionStatusPredicate.isValid(INCOMPLETE_KEYWORD));
+        assertFalse(CompletionStatusPredicate.isValid(MULTIPLE_KEYWORDS));
+        assertFalse(CompletionStatusPredicate.isValid(NO_MATCHING_KEYWORD));
     }
 
     @Test

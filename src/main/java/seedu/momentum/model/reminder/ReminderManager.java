@@ -22,7 +22,7 @@ public class ReminderManager {
     public static final String TASK_REMINDER = "Project: %s\nTask: %s";
     public static final String PROJECT_REMINDER = "Project: %s";
 
-    private static final Logger logger = LogsCenter.getLogger(ReminderManager.class);
+    private static final Logger LOGGER = LogsCenter.getLogger(ReminderManager.class);
 
     private static final String EMPTY_STRING = "";
 
@@ -40,7 +40,7 @@ public class ReminderManager {
         this.currReminder = new SimpleStringProperty();
         this.currReminder.set(EMPTY_STRING);
         this.timer = new Timer();
-        logger.info("Initialised reminder manager");
+        LOGGER.info("Initialised reminder manager");
     }
 
     private void resetTimer() {
@@ -52,7 +52,7 @@ public class ReminderManager {
      * Reschedule all reminders in the project book.
      */
     public void rescheduleReminder() {
-        logger.info("Rescheduling all reminders");
+        LOGGER.info("Rescheduling all reminders");
         resetTimer();
         versionedProjectBook.rescheduleReminder(this);
     }
@@ -64,7 +64,7 @@ public class ReminderManager {
      */
     public void rescheduleReminder(Project project) {
         if (!project.getReminder().isEmpty()) {
-            logger.info("Rescheduling reminder for project:" + project.getName() + " at " + project.getReminder());
+            LOGGER.info("Rescheduling reminder for project:" + project.getName() + " at " + project.getReminder());
             scheduleReminder(project);
         }
         project.rescheduleReminder(this); // reschedule tasks
@@ -78,7 +78,7 @@ public class ReminderManager {
      */
     public void rescheduleReminder(Project project, Task task) {
         if (!task.getReminder().isEmpty()) {
-            logger.info("Rescheduling reminder for task:" + task.getName() + " from project: " + project.getName()
+            LOGGER.info("Rescheduling reminder for task:" + task.getName() + " from project: " + project.getName()
                     + " at " + task.getReminder());
             scheduleReminder(project, task);
         }
@@ -113,7 +113,7 @@ public class ReminderManager {
      */
     public void updateCurrReminder(Project project, Task task) {
         this.currReminder.set(String.format(TASK_REMINDER, project.getName(), task.getName()));
-        logger.info("Current reminder updated to:" + currReminder);
+        LOGGER.info("Current reminder updated to:" + currReminder);
     }
 
     /**
@@ -123,7 +123,7 @@ public class ReminderManager {
      */
     public void updateCurrReminder(Project project) {
         this.currReminder.set(String.format(PROJECT_REMINDER, project.getName()));
-        logger.info("Current reminder updated to:" + currReminder);
+        LOGGER.info("Current reminder updated to:" + currReminder);
     }
 
     /**
@@ -142,7 +142,7 @@ public class ReminderManager {
      */
     public void removeReminder() {
         this.currReminder.set(EMPTY_STRING);
-        logger.info("reminder removed");
+        LOGGER.info("reminder removed");
     }
 
     /**
@@ -197,7 +197,7 @@ public class ReminderManager {
 
         @Override
         public void run() {
-            logger.info("reminder running");
+            LOGGER.info("reminder running");
             Platform.runLater(getUpdateReminder());
             Platform.runLater(getRemoveReminder());
         }
