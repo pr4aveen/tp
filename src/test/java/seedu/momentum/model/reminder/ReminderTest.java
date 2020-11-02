@@ -105,38 +105,28 @@ public class ReminderTest {
     }
 
     @Test
+    public void equals() {
+        // same object -> returns true
+        assertTrue(reminder.equals(reminder));
+
+        // same date -> returns true
+        assertTrue(reminder.equals(new Reminder(VALID_DATE_TIME)));
+
+        // different types -> returns false
+        assertFalse(reminder.equals("1"));
+
+        // null -> return false
+        assertFalse(reminder.equals(null));
+
+        // different date and time -> return false
+        assertFalse(reminder.equals(laterDateReminder));
+        assertFalse(reminder.equals(laterTimeReminder));
+    }
+
+    @Test
     public void hashCodeTest() {
         init();
         assertEquals(emptyReminder.hashCode(), new Reminder().hashCode());
         assertEquals(reminder.hashCode(), new Reminder(VALID_DATE_TIME).hashCode());
-    }
-
-    @Test
-    public void compareTo_returnsCorrectValue() {
-        init();
-
-        // both reminders are empty -> returns 0
-        assertEquals(emptyReminder.compareTo(emptyReminder), 0);
-
-        // first reminder is empty -> returns 1
-        assertEquals(emptyReminder.compareTo(reminder), 1);
-
-        // second reminder is empty -> returns -1
-        assertEquals(reminder.compareTo(emptyReminder), -1);
-
-        // second reminder has later date -> returns -1
-        assertEquals(reminder.compareTo(laterDateReminder), -1);
-
-        // second reminder has earlier date -> returns 1
-        assertEquals(laterDateReminder.compareTo(reminder), 1);
-
-        // first and second reminder have same date and time -> returns 0
-        assertEquals(new Reminder(VALID_DATE_TIME).compareTo(reminder), 0);
-
-        // second reminder has same date, later time -> returns -1
-        assertEquals(reminder.compareTo(laterTimeReminder), -1);
-
-        // second reminder has same date, earlier time -> returns 1
-        assertEquals(laterDateReminder.compareTo(reminder), 1);
     }
 }

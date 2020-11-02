@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import seedu.momentum.commons.core.LogsCenter;
-import seedu.momentum.model.VersionedProjectBook;
+import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
 
@@ -26,17 +26,17 @@ public class ReminderManager {
 
     private static final String EMPTY_STRING = "";
 
-    protected final VersionedProjectBook versionedProjectBook;
+    protected final ProjectBook projectBook;
     protected Timer timer;
     private final StringProperty currReminder;
 
     /**
      * Instantiates a new Reminder manager.
      *
-     * @param versionedProjectBook the project book.
+     * @param projectBook the project book.
      */
-    public ReminderManager(VersionedProjectBook versionedProjectBook) {
-        this.versionedProjectBook = versionedProjectBook;
+    public ReminderManager(ProjectBook projectBook) {
+        this.projectBook = projectBook;
         this.currReminder = new SimpleStringProperty();
         this.currReminder.set(EMPTY_STRING);
         this.timer = new Timer();
@@ -54,7 +54,7 @@ public class ReminderManager {
     public void rescheduleReminder() {
         LOGGER.info("Rescheduling all reminders");
         resetTimer();
-        versionedProjectBook.rescheduleReminder(this);
+        projectBook.rescheduleReminder(this);
     }
 
     /**
@@ -133,7 +133,7 @@ public class ReminderManager {
      */
     public BooleanProperty isReminderEmpty() {
         BooleanProperty booleanProperty = new SimpleBooleanProperty();
-        booleanProperty.set(this.currReminder.get() == null || this.currReminder.get().isEmpty());
+        booleanProperty.set(this.currReminder.get().isEmpty());
         return booleanProperty;
     }
 
@@ -167,7 +167,7 @@ public class ReminderManager {
         }
 
         ReminderManager other = (ReminderManager) obj;
-        return versionedProjectBook.equals(other.versionedProjectBook)
+        return projectBook.equals(other.projectBook)
                 && currReminder.get().equals(other.currReminder.get());
     }
 
@@ -191,8 +191,8 @@ public class ReminderManager {
         }
 
         private Runnable getRemoveReminder() {
-            return task.<Runnable>map(taskObj -> () -> versionedProjectBook.removeReminder(project, taskObj))
-                    .orElseGet(() -> () -> versionedProjectBook.removeReminder(project));
+            return task.<Runnable>map(taskObj -> () -> projectBook.removeReminder(project, taskObj))
+                    .orElseGet(() -> () -> projectBook.removeReminder(project));
         }
 
         @Override

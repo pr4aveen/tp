@@ -98,6 +98,27 @@ public class ProjectBookTest {
     }
 
     @Test
+    public void equals() {
+        // same object -> returns true
+        assertTrue(projectBook.equals(projectBook));
+
+        // different types -> returns false
+        assertFalse(projectBook.equals("1"));
+
+        // null -> return false
+        assertFalse(projectBook.equals(null));
+
+        // different project book -> return false
+        ProjectBook expectedProjectBook = new ProjectBook();
+        expectedProjectBook.addTrackedItem(new ProjectBuilder(ALICE).build());
+        assertFalse(projectBook.equals(expectedProjectBook));
+
+        // same tracked items -> returns true
+        projectBook.addTrackedItem(new ProjectBuilder(ALICE).build());
+        assertTrue(projectBook.equals(expectedProjectBook));
+    }
+
+    @Test
     public void hashCodeTest() {
         projectBook.addTrackedItem(ALICE);
         assertEquals(new ProjectBookBuilder().withProject(ALICE).build().hashCode(), projectBook.hashCode());

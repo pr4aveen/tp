@@ -17,7 +17,7 @@ import seedu.momentum.commons.core.DateTimeWrapper;
  * Represents a Project's reminder in the project book.
  * Guarantees: immutable; is valid
  */
-public class Reminder implements Comparable<Reminder> {
+public class Reminder {
 
     /**
      * The constant REMINDER_MESSAGE_CONSTRAINTS.
@@ -138,19 +138,5 @@ public class Reminder implements Comparable<Reminder> {
     @Override
     public int hashCode() {
         return Objects.hash(this.dateTimeWrapper);
-    }
-
-    @Override
-    public int compareTo(Reminder other) {
-        if (this.isEmpty() && other.isEmpty()) {
-            return 0;
-        } else if (this.isEmpty() && !other.isEmpty()) {
-            return 1;
-        } else if (!this.isEmpty() && other.isEmpty()) {
-            return -1;
-        } else {
-            assert !this.isEmpty() && !other.isEmpty();
-            return this.dateTimeWrapper.get().compareTo(other.dateTimeWrapper.get());
-        }
     }
 }
