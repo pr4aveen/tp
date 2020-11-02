@@ -13,6 +13,7 @@ import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.WorkDuration;
@@ -92,6 +93,15 @@ public class SampleDataUtil {
         UniqueItemList<WorkDuration> durationList = new UniqueItemList<>();
         durationList.setItems(Arrays.asList(durations));
         return durationList;
+    }
+
+    /**
+     * Returns a UniqueitemList containing the list of tasks given.
+     */
+    public static UniqueItemList<TrackedItem> getTaskList(TrackedItem... tasks) {
+        UniqueItemList<TrackedItem> taskList = new UniqueItemList<>();
+        taskList.setItems(Arrays.asList(tasks));
+        return taskList;
     }
 
 }
