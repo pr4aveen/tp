@@ -37,8 +37,7 @@ public class FindCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        Predicate<TrackedItem> finalPredicate = model.getCurrentPredicate().and(predicate);
-        model.updatePredicate(finalPredicate);
+        model.updatePredicate(predicate);
         model.commitToHistory();
         return new CommandResult(
                 String.format(Messages.MESSAGE_PROJECTS_LISTED_OVERVIEW, model.getDisplayList().size()));

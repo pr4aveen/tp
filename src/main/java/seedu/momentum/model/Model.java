@@ -156,11 +156,6 @@ public interface Model {
     void updatePredicate(Predicate<TrackedItem> predicate);
 
     /**
-     * Returns the current {@code predicate} applied to the filtered list.
-     */
-    Predicate<TrackedItem> getCurrentPredicate();
-
-    /**
      * Orders the list of projects in a way given by the {@code sortType}.
      *
      * @throws NullPointerException if {@code sortType} is null.

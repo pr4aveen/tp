@@ -223,10 +223,6 @@ public class ModelManager implements Model {
         updateDisplayList();
     }
 
-    public Predicate<TrackedItem> getCurrentPredicate() {
-        return currentPredicate;
-    }
-
     @Override
     public void updateOrder(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
         requireAllNonNull(sortType, isAscending, isSortedByCompletionStatus);
