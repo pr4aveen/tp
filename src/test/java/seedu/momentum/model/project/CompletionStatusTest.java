@@ -23,6 +23,25 @@ public class CompletionStatusTest {
     }
 
     @Test
+    public void equals() {
+        // same object -> returns true
+        assertTrue(COMPLETED.equals(COMPLETED));
+
+        // same completion status -> returns true
+        assertTrue(COMPLETED.equals(new CompletionStatus().reverse()));
+        assertTrue(INCOMPLETE.equals(new CompletionStatus()));
+
+        // different types -> returns false
+        assertFalse(COMPLETED.equals("1"));
+
+        // null -> return false
+        assertFalse(COMPLETED.equals(null));
+
+        // different completion status -> return false
+        assertFalse(COMPLETED.equals(INCOMPLETE));
+    }
+
+    @Test
     public void hashCodeTest() {
         assertEquals(Boolean.hashCode(false), INCOMPLETE.hashCode());
         assertEquals(Boolean.hashCode(true), COMPLETED.hashCode());

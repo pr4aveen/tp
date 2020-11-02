@@ -80,8 +80,8 @@ public class DeadlineTest {
     @Test
     public void daysToDeadline() {
         Clock.initFixed(new DateTimeWrapper(VALID_DATE + "T01:01:01"));
-        assertEquals(2, new Deadline(VALID_LATER_DATE, new DateWrapper(VALID_DATE)).daysToDeadline());
-        assertEquals(0, new Deadline(VALID_DATE, VALID_TIME, new DateWrapper(VALID_DATE)).daysToDeadline());
+        assertEquals(2, new Deadline(VALID_LATER_DATE, VALID_CREATED_DATE_WRAPPER).daysToDeadline());
+        assertEquals(0, DEADLINE_WITH_DATE_AND_TIME.daysToDeadline());
     }
 
     @Test
@@ -91,6 +91,29 @@ public class DeadlineTest {
         String expectedDeadlineStr = DEADLINE_WITH_DATE_AND_TIME.getDate().toString()
                 + DEADLINE_WITH_DATE_AND_TIME.getTime().toString();
         assertEquals(expectedDeadlineStr, DEADLINE_WITH_DATE_AND_TIME.toString());
+    }
+
+    @Test
+    public void equals() {
+        // same object -> returns true
+        assertTrue(DEADLINE_WITH_DATE.equals(DEADLINE_WITH_DATE));
+
+        // same deadline -> returns true
+        assertTrue(EMPTY_DEADLINE.equals(new Deadline()));
+        assertTrue(DEADLINE_WITH_DATE.equals(new Deadline(VALID_DATE, VALID_CREATED_DATE_WRAPPER)));
+        assertTrue(DEADLINE_WITH_DATE_AND_TIME.equals(new Deadline(VALID_DATE, VALID_TIME,
+                VALID_CREATED_DATE_WRAPPER)));
+
+        // different types -> returns false
+        assertFalse(EMPTY_DEADLINE.equals("1"));
+
+        // null -> return false
+        assertFalse(EMPTY_DEADLINE.equals(null));
+
+        // different date and time -> return false
+        assertFalse(EMPTY_DEADLINE.equals(DEADLINE_WITH_DATE));
+        assertFalse(EMPTY_DEADLINE.equals(DEADLINE_WITH_DATE_AND_TIME));
+        assertFalse(DEADLINE_WITH_DATE.equals(DEADLINE_WITH_DATE_AND_TIME));
     }
 
     @Test
