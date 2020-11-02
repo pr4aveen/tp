@@ -115,7 +115,7 @@ public class ProjectBuilder {
      * Sets the {@code createdDateWrapper} of the {@code Project} that we are building with current date.
      */
     public ProjectBuilder withCurrentCreatedDate() {
-        this.createdDateWrapper = new DateWrapper(Clock.now().getDate());
+        this.createdDateWrapper = Clock.now().getDateWrapper();
         return this;
     }
 

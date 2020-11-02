@@ -5,13 +5,20 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.testutil.Assert.assertThrows;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.util.DateUtil;
 
 public class DateWrapperTest {
+
     private static final String VALID_DATE = "2019-09-23";
     private static final String VALID_LATER_DATE = "2019-09-25";
+
+    private static final DateWrapper DATE = new DateWrapper(VALID_DATE);
+    private static final DateWrapper LATER_DATE = new DateWrapper(VALID_LATER_DATE);
 
     @Test
     public void constructor_null_throwsNullPointerException() {
@@ -25,7 +32,13 @@ public class DateWrapperTest {
     }
 
     @Test
-    public void isValidDate() {
+    public void getTimeBetween() {
+        assertEquals(2, DateWrapper.getTimeBetween(DATE, LATER_DATE, ChronoUnit.DAYS));
+        assertEquals(0, DateWrapper.getTimeBetween(LATER_DATE, DATE, ChronoUnit.WEEKS));
+    }
+
+    @Test
+    public void isValid() {
         // null date time
         assertThrows(NullPointerException.class, () -> DateWrapper.isValid(null));
 
@@ -43,19 +56,43 @@ public class DateWrapperTest {
 
     @Test
     public void getFormattedDate_formatsCorrectly() {
-        DateWrapper dateWrapper = new DateWrapper(VALID_DATE);
+        DateWrapper dateWrapper = DATE;
         assertEquals(dateWrapper.get().format(DateUtil.FORMAT_DATE_MEDIUM), dateWrapper.getFormatted());
+    }
+
+    @Test
+    public void hashCodeTest() {
+        // both Date same date
+        assertEquals(new DateWrapper(LocalDate.parse(VALID_DATE)).hashCode(), DATE.hashCode());
+    }
+
+    @Test
+    public void equals() {
+        // same object -> returns true
+        assertTrue(DATE.equals(DATE));
+
+        // same date -> returns true
+        assertTrue(DATE.equals(new DateWrapper(VALID_DATE)));
+
+        // different types -> returns false
+        assertFalse(DATE.equals("1"));
+
+        // null -> return false
+        assertFalse(DATE.equals(null));
+
+        // different date and time -> return false
+        assertFalse(DATE.equals(LATER_DATE));
     }
 
     @Test
     public void compareTo_returnsCorrectValue() {
         // second Date is later
-        assertEquals(new DateWrapper(VALID_DATE).compareTo(new DateWrapper(VALID_LATER_DATE)), -1);
+        assertEquals(DATE.compareTo(LATER_DATE), -1);
 
         // second Date is earlier
-        assertEquals(new DateWrapper(VALID_LATER_DATE).compareTo(new DateWrapper(VALID_DATE)), 1);
+        assertEquals(LATER_DATE.compareTo(DATE), 1);
 
         // both Date same date
-        assertEquals(new DateWrapper(VALID_DATE).compareTo(new DateWrapper("2019-09-23")), 0);
+        assertEquals(DATE.compareTo(new DateWrapper("2019-09-23")), 0);
     }
 }

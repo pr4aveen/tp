@@ -171,16 +171,16 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
                 tags, durations, timerWrapper, newList);
     }
 
-
     /**
      * Orders the list of tasks in a way given by the {@code sortType}.
      *
-     * @param sortType                  A boolean to check the type of order of the sort.
-     * @param isAscending                A boolean to check if the list is sorted in ascending order.
-     * @param isSortedByCompletionStatus A boolean to check if the list is sorted by completion status.
+     * @param sortType                     A boolean to check the type of order of the sort.
+     * @param isAscending                  A boolean to check if the list is sorted in ascending order.
+     * @param changeSortByCompletionStatus A boolean value to check if SortCommand should change the sorted by
+     *                                     completion status.
      */
-    public Project orderTaskList(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
-        requireAllNonNull(sortType, isAscending, isSortedByCompletionStatus);
+    public Project orderTaskList(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
+        requireAllNonNull(sortType, isAscending, changeSortByCompletionStatus);
 
         UniqueItemList<TrackedItem> newList = taskList.copy();
 

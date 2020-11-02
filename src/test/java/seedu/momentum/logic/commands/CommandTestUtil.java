@@ -74,10 +74,11 @@ public class CommandTestUtil {
     public static final String INVALID_SORT_ORDER = " " + SORT_ORDER + "can you not";
     public static final String VALID_ASCENDING_SORT_ORDER = " " + SORT_ORDER + "asc";
     public static final String VALID_DESCENDING_SORT_ORDER = " " + SORT_ORDER + "dsc";
-    public static final String VALID_ALPHA_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_ALPHA_TYPE;
-    public static final String VALID_DEADLINE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_DEADLINE_TYPE;
-    public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_CREATED_TYPE
+    public static final String VALID_ALPHA_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_ALPHA_TYPE
             + " " + PREFIX_COMPLETION_STATUS;
+    public static final String VALID_DEADLINE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_DEADLINE_TYPE
+            + " " + PREFIX_COMPLETION_STATUS;
+    public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_CREATED_TYPE;
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
@@ -109,10 +110,8 @@ public class CommandTestUtil {
                                             Model expectedModel) {
         try {
             CommandResult result = command.execute(actualModel);
-            System.out.println(result.getFeedbackToUser());
-            System.out.println(expectedCommandResult.getFeedbackToUser());
             assertEquals(expectedCommandResult, result);
-            assertEquals(expectedModel, actualModel);
+            assertTrue(expectedModel.equals(actualModel));
         } catch (ParseException | CommandException ce) {
             throw new AssertionError("Execution of command should not fail.", ce);
         }

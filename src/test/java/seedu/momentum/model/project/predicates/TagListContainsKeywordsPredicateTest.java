@@ -55,9 +55,13 @@ public class TagListContainsKeywordsPredicateTest {
         assertFalse(firstAnyPredicate.equals(null));
         assertFalse(firstAllPredicate.equals(null));
 
-        // different project -> returns false
+        // different keywords -> returns false
         assertFalse(firstAnyPredicate.equals(secondAnyPredicate));
         assertFalse(firstAllPredicate.equals(secondAllPredicate));
+
+        // different findType -> return false
+        assertFalse(firstAllPredicate.equals(firstAnyPredicate));
+        assertFalse(secondAnyPredicate.equals(secondAllPredicate));
     }
 
     @Test

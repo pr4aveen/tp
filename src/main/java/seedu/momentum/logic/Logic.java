@@ -1,6 +1,7 @@
 package seedu.momentum.logic;
 
 import java.nio.file.Path;
+import java.util.Set;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -15,6 +16,7 @@ import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.tag.Tag;
 
 /**
  * API of the Logic component
@@ -85,6 +87,11 @@ public interface Logic {
      * Set the user prefs' GUI theme settings.
      */
     void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
+
+    /**
+     * Returns a set of currently visible tags.
+     */
+    Set<Tag> getVisibleTags();
 
     /**
      * Return the user prefs' statistic timeframe settings.
