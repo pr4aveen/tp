@@ -25,7 +25,6 @@ public class BottomBar extends UiPart<Region> {
     @FXML
     private Label countDisplay;
 
-
     /**
      * Creates a bottom bar for the project view.
      *

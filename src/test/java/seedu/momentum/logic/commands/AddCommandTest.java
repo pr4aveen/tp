@@ -287,6 +287,10 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        @Override
+        public int getTotalNumberOfItems() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
