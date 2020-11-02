@@ -81,7 +81,7 @@ public class DateTimeWrapperTest {
         assertTrue(DATE_TIME.equals(DATE_TIME));
 
         // same date and time -> returns true
-        assertTrue(DATE_TIME.equals(new DateWrapper(VALID_DATE_TIME)));
+        assertTrue(DATE_TIME.equals(new DateTimeWrapper(VALID_DATE_TIME)));
 
         // different types -> returns false
         assertFalse(DATE_TIME.equals("1"));

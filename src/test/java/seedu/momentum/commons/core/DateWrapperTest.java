@@ -65,12 +65,12 @@ public class DateWrapperTest {
         // both Date same date
         assertEquals(new DateWrapper(LocalDate.parse(VALID_DATE)).hashCode(), DATE.hashCode());
     }
-    
+
     @Test
     public void equals() {
         // same object -> returns true
         assertTrue(DATE.equals(DATE));
-        
+
         // same date -> returns true
         assertTrue(DATE.equals(new DateWrapper(VALID_DATE)));
 
@@ -80,7 +80,7 @@ public class DateWrapperTest {
         // null -> return false
         assertFalse(DATE.equals(null));
 
-        // different date -> return false
+        // different date and time -> return false
         assertFalse(DATE.equals(LATER_DATE));
     }
 
