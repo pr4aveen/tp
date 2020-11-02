@@ -45,6 +45,7 @@ public class MainWindow extends UiPart<Stage> {
     private TimerListPanel timerListPanel;
     private StatListPanel statListPanel;
     private HelpWindow helpWindow;
+    private BottomBar bottomBar;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -72,6 +73,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane infoDisplayPlaceholder;
+
+    @FXML
+    private StackPane bottomBarPlaceholder;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -142,6 +146,7 @@ public class MainWindow extends UiPart<Stage> {
         initTagDisplay();
         initTimerList();
         initStatList();
+        initBottomBar();
     }
 
     private void initCommandBox() {
@@ -230,6 +235,11 @@ public class MainWindow extends UiPart<Stage> {
     private void initTimerList() {
         timerListPanel = new TimerListPanel(logic.getRunningTimers());
         timerListPanelPlaceholder.getChildren().add(timerListPanel.getRoot());
+    }
+
+    private void initBottomBar() {
+        bottomBar = new BottomBar(null, null);
+        bottomBarPlaceholder.getChildren().add(bottomBar.getRoot());
     }
 
     /**

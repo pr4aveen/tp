@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<HBox prefHeight="28.0" prefWidth="304.0" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="viewDisplay" styleClass="bottom-bar-item">
+         <HBox.margin>
+            <Insets left="8.0" />
+         </HBox.margin>
+      </Label>
+      <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+      <Label fx:id="timeDisplay" styleClass="bottom-bar-item"/>
+      <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+      <Label fx:id="countDisplay" styleClass="bottom-bar-item">
+         <padding>
+            <Insets right="8.0" />
+         </padding>
+      </Label>
+   </children>
+</HBox>
