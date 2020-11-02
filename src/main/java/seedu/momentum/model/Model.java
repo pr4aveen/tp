@@ -130,6 +130,18 @@ public interface Model {
     Set<Tag> getVisibleTags();
 
     /**
+     * Hide tags if shown, show tags when hidden.
+     */
+    void showOrHideTags();
+
+    /**
+     * Returns is tags visible boolean property.
+     *
+     * @return true if tags is visible, false otherwise.
+     */
+    BooleanProperty getIsTagsVisible();
+
+    /**
      * Reschedule all reminders.
      */
     void rescheduleReminders();
@@ -218,4 +230,9 @@ public interface Model {
      * Redoes previously undone command to reset state to before undo command.
      */
     void redoCommand();
+
+    /**
+     * Returns the total number of both visible and invisble items in the current project/task.
+     */
+    int getTotalNumberOfItems();
 }
