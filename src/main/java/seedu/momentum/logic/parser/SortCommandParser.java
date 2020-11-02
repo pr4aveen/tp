@@ -43,12 +43,12 @@ public class SortCommandParser implements Parser<SortCommand> {
             sortType = SortType.NULL;
         }
 
-        boolean isSortedByCompletionStatus = true;
+        boolean changeSortByCompletionStatus = false;
         if (argMultimap.getValue(PREFIX_COMPLETION_STATUS).isPresent()) {
-            isSortedByCompletionStatus = false;
+            changeSortByCompletionStatus = true;
         }
 
-        return new SortCommand(sortType, isAscending, isDefault, isSortedByCompletionStatus);
+        return new SortCommand(sortType, isAscending, isDefault, changeSortByCompletionStatus);
 
     }
 

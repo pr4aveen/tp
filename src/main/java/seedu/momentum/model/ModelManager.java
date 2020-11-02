@@ -47,7 +47,7 @@ public class ModelManager implements Model {
     private Predicate<TrackedItem> currentPredicate;
     private SortType currentSortType;
     private boolean isCurrentSortAscending;
-    private boolean isCurrentSortIsByCompletionStatus;
+    private boolean isCurrentSortByCompletionStatus;
     private ViewMode viewMode;
     private Project currentProject;
     private ObservableList<TrackedItem> itemList;
@@ -69,8 +69,8 @@ public class ModelManager implements Model {
         this.currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         this.currentSortType = SortType.ALPHA;
         this.isCurrentSortAscending = true;
-        this.isCurrentSortIsByCompletionStatus = true;
-        this.currentComparator = getComparatorNullType(true, true);
+        this.isCurrentSortByCompletionStatus = true;
+        this.currentComparator = getComparatorNullType(true, this.isCurrentSortByCompletionStatus);
 
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
                 currentComparator);
@@ -194,7 +194,7 @@ public class ModelManager implements Model {
     public void addTrackedItem(TrackedItem trackedItem) {
         versionedProjectBook.addTrackedItem(trackedItem);
         rescheduleReminders();
-        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
+        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
         updatePredicate(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
@@ -208,8 +208,7 @@ public class ModelManager implements Model {
             resetUi(viewMode, currentProject);
         }
         rescheduleReminders();
-        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortIsByCompletionStatus);
-
+        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
     }
 
     //=========== Filtered Project List Accessors =============================================================
@@ -238,11 +237,13 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void updateOrder(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus) {
-        requireAllNonNull(sortType, isAscending, isSortedByCompletionStatus);
+    public void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
+        requireAllNonNull(sortType, isAscending, changeSortByCompletionStatus);
         isCurrentSortAscending = isAscending;
-        isCurrentSortIsByCompletionStatus = isSortedByCompletionStatus;
-        currentComparator = getComparator(sortType, isAscending, isSortedByCompletionStatus);
+        if (changeSortByCompletionStatus) {
+            isCurrentSortByCompletionStatus = !isCurrentSortByCompletionStatus;
+        }
+        currentComparator = getComparator(sortType, isAscending, isCurrentSortByCompletionStatus);
         updateDisplayList();
     }
 
@@ -367,29 +368,6 @@ public class ModelManager implements Model {
         }
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        // short circuit if same object
-        if (obj == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(obj instanceof ModelManager)) {
-            return false;
-        }
-
-        // state check
-        ModelManager other = (ModelManager) obj;
-        return versionedProjectBook.equals(other.versionedProjectBook)
-                && userPrefs.equals(other.userPrefs)
-                && reminderManager.equals(other.reminderManager)
-                && displayList.get().equals(other.displayList.get())
-                && runningTimers.equals(other.runningTimers)
-                && viewMode.equals(other.viewMode);
-        //&& currentProject.equals(other.currentProject)
-    }
-
     //=========== Undo/Redo ================================================================================
 
     @Override
@@ -488,6 +466,22 @@ public class ModelManager implements Model {
         }
     }
 
+    private Comparator<TrackedItem> factorIsAscending(Comparator<TrackedItem> comparator, boolean isAscending) {
+        return isAscending ? comparator : comparator.reversed();
+    }
+
+    private Comparator<HashMap<String, Object>> factorIsAscendingHashMap(Comparator<HashMap<String, Object>> comparator,
+                                                                         boolean isAscending) {
+        return isAscending ? comparator : comparator.reversed();
+    }
+
+    private Comparator<TrackedItem> factorIsSortedByCompletionStatus(Comparator<TrackedItem> comparator,
+                                                                     boolean isSortedByCompletionStatus) {
+        return isSortedByCompletionStatus
+                ? new CompletionStatusCompare().thenComparing(comparator)
+                : comparator;
+    }
+
     /**
      * Sets the order of list of tracked items by alphabetical order, ascending or descending based on user input.
      *
@@ -495,17 +489,9 @@ public class ModelManager implements Model {
      * @param isSortedByCompletionStatus sort by creation status.
      */
     private Comparator<TrackedItem> getComparatorAlphaType(boolean isAscending, boolean isSortedByCompletionStatus) {
-        Comparator<TrackedItem> nameCompare = new NameCompare();
-        nameCompare = isAscending ? nameCompare : nameCompare.reversed();
-        currentSortType = SortType.ALPHA;
-
-        Comparator<TrackedItem> compare;
-        if (isSortedByCompletionStatus) {
-            compare = new CompletionStatusCompare().thenComparing(nameCompare);
-        } else {
-            compare = nameCompare;
-        }
-        return compare;
+        Comparator<TrackedItem> nameCompare = factorIsAscending(new NameCompare(), isAscending);
+        this.currentSortType = SortType.ALPHA;
+        return factorIsSortedByCompletionStatus(nameCompare, isSortedByCompletionStatus);
     }
 
     /**
@@ -516,20 +502,14 @@ public class ModelManager implements Model {
      */
     private Comparator<TrackedItem> getComparatorDeadlineType(boolean isAscending, boolean isSortedByCompletionStatus) {
         Comparator<TrackedItem> nameCompare = new NameCompare();
-        Comparator<HashMap<String, Object>> deadlineCompareHashMap = new DeadlineCompare();
-        deadlineCompareHashMap = isAscending ? deadlineCompareHashMap : deadlineCompareHashMap.reversed();
+        Comparator<HashMap<String, Object>> deadlineCompareHashMap =
+                factorIsAscendingHashMap(new DeadlineCompare(), isAscending);
         Comparator<TrackedItem> deadlineCompare = Comparator.comparing(TrackedItem::getNullOrDeadline,
                 Comparator.nullsLast(deadlineCompareHashMap));
         deadlineCompare = deadlineCompare.thenComparing(nameCompare);
-        currentSortType = SortType.DEADLINE;
+        this.currentSortType = SortType.DEADLINE;
 
-        Comparator<TrackedItem> compare;
-        if (isSortedByCompletionStatus) {
-            compare = new CompletionStatusCompare().thenComparing(deadlineCompare);
-        } else {
-            compare = deadlineCompare;
-        }
-        return compare;
+        return factorIsSortedByCompletionStatus(deadlineCompare, isSortedByCompletionStatus);
     }
 
     /**
@@ -539,17 +519,9 @@ public class ModelManager implements Model {
      * @param isSortedByCompletionStatus sort by creation status.
      */
     private Comparator<TrackedItem> getComparatorCreatedType(boolean isAscending, boolean isSortedByCompletionStatus) {
-        Comparator<TrackedItem> createdDateCompare = new CreatedDateCompare();
-        createdDateCompare = isAscending ? createdDateCompare : createdDateCompare.reversed();
+        Comparator<TrackedItem> createdDateCompare = factorIsAscending(new CreatedDateCompare(), isAscending);
         this.currentSortType = SortType.CREATED;
-
-        Comparator<TrackedItem> compare;
-        if (isSortedByCompletionStatus) {
-            compare = new CompletionStatusCompare().thenComparing(createdDateCompare);
-        } else {
-            compare = createdDateCompare;
-        }
-        return compare;
+        return factorIsSortedByCompletionStatus(createdDateCompare, isSortedByCompletionStatus);
     }
 
     /**
@@ -562,4 +534,28 @@ public class ModelManager implements Model {
     private Comparator<TrackedItem> getComparatorNullType(boolean isAscending, boolean isSortedByCompletionStatus) {
         return getComparator(currentSortType, isAscending, isSortedByCompletionStatus);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(obj instanceof ModelManager)) {
+            return false;
+        }
+
+        // state check
+        ModelManager other = (ModelManager) obj;
+        return versionedProjectBook.equals(other.versionedProjectBook)
+                && userPrefs.equals(other.userPrefs)
+                && reminderManager.equals(other.reminderManager)
+                && displayList.get().equals(other.displayList.get())
+                && runningTimers.equals(other.runningTimers)
+                && viewMode.equals(other.viewMode);
+        //&& currentProject.equals(other.currentProject)
+    }
+
 }
