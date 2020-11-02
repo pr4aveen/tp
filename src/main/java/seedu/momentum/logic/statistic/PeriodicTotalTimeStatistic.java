@@ -57,7 +57,6 @@ public class PeriodicTotalTimeStatistic extends Statistic {
     @Override
     public void calculate(Model model) {
         DateTimeWrapper start = Clock.now().adjustToStartOfTimeframe(timeframe);
-        System.out.println(start.get());
         DateTimeWrapper end = Clock.now();
 
         //Only calculate statistics for projects visible to the user
