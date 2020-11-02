@@ -65,6 +65,8 @@ public class FindCommandParser implements Parser<FindCommand> {
         case ALL:
             operationType = Predicate::and;
             break;
+        case NONE:
+            // Fallthrough
         case ANY:
             // Find any is the default type
             // Fallthrough
@@ -73,7 +75,8 @@ public class FindCommandParser implements Parser<FindCommand> {
             break;
 
         }
-        return predicateList.stream().reduce(operationType).orElse(x -> true);
+        Predicate<TrackedItem> combinedPredicate = predicateList.stream().reduce(operationType).orElse(x -> true);
+        return findType == FindType.NONE ? combinedPredicate.negate() : combinedPredicate;
     }
 
     private void parseArguments (ArgumentMultimap argMultimap, Prefix prefix,
