@@ -42,6 +42,7 @@ public class SortCommandTest {
     @Test
     public void equals() {
 
+
         // same object -> returns true
         assertTrue(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS
                 .equals(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS));
@@ -69,7 +70,8 @@ public class SortCommandTest {
                 .equals(DEADLINE_ASCENDING_COMMAND_WITH_COMPLETION_STATUS));
 
         // different sort orders -> returns false
-        assertFalse(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS.equals(ALPHA_DESCENDING_COMMAND));
+        assertFalse(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS
+                .equals(ALPHA_DESCENDING_COMMAND));
     }
 
     @Test

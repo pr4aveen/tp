@@ -102,7 +102,7 @@ public class ProjectBookParserTest {
         SortCommand command = (SortCommand) parser.parseCommand(SortCommand.COMMAND_WORD + " "
                 + SORT_ORDER + SortCommand.INPUT_ASCENDING_ORDER + " " + SORT_TYPE + INPUT_ALPHA_TYPE + " "
                 + PREFIX_COMPLETION_STATUS, model);
-        assertEquals(new SortCommand(SortType.ALPHA, true, false, false), command);
+        assertEquals(new SortCommand(SortType.ALPHA, true, false, true), command);
     }
 
     @Test

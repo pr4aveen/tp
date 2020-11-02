@@ -13,7 +13,6 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.momentum.testutil.SortCommandUtil.ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS;
-import static seedu.momentum.testutil.SortCommandUtil.ALPHA_DESCENDING_COMMAND;
 import static seedu.momentum.testutil.SortCommandUtil.CREATED_DATE_ASCENDING_COMMAND;
 import static seedu.momentum.testutil.SortCommandUtil.DEADLINE_ASCENDING_COMMAND_WITH_COMPLETION_STATUS;
 import static seedu.momentum.testutil.SortCommandUtil.NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND;
@@ -35,7 +34,7 @@ public class SortCommandParserTest {
     private static final String MESSAGE_NON_EMPTY_PREAMBLE_FAILURE = String.format(
             MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE);
     private static final SortCommand DEFAULT_SORT_COMMAND =
-            new SortCommand(SortType.NULL, true, true, true);
+            new SortCommand(SortType.NULL, true, true, false);
 
     private final SortCommandParser parser = new SortCommandParser();
     private Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
@@ -71,8 +70,8 @@ public class SortCommandParserTest {
 
     @Test
     public void parse_allFieldsSpecified_returnsSortCommand() {
-        String userInput = VALID_ALPHA_SORT_TYPE + VALID_DESCENDING_SORT_ORDER + " " + PREFIX_COMPLETION_STATUS;
-        assertParseSuccess(parser, userInput, ALPHA_DESCENDING_COMMAND, model);
+        String userInput = VALID_ALPHA_SORT_TYPE + VALID_ASCENDING_SORT_ORDER + " " + PREFIX_COMPLETION_STATUS;
+        assertParseSuccess(parser, userInput, ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS, model);
     }
 
     @Test
