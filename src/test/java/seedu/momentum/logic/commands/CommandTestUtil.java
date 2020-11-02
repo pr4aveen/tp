@@ -23,6 +23,7 @@ import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.project.CompletionStatus;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
@@ -155,6 +156,16 @@ public class CommandTestUtil {
             new NameContainsKeywordsPredicate(FindType.ANY, Collections.singletonList(splitName[0])));
 
         assertEquals(1, model.getDisplayList().size());
+    }
+
+    /**
+     * Returns the project at the given {@code targetIndex} in the {@code model}'s project book.
+     */
+    public static Project getProjectAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getDisplayList().size());
+
+        TrackedItem trackedItem = model.getDisplayList().get(targetIndex.getZeroBased());
+        return (Project) trackedItem;
     }
 
 }
