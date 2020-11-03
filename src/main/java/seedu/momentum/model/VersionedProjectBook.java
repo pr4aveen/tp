@@ -55,6 +55,8 @@ public class VersionedProjectBook extends ProjectBook {
         shiftPointer(UNDO);
         ReadOnlyProjectBook undoVersion = projectBookStateList.get(currentStatePointer);
         resetData(undoVersion);
+        //either make SettingsUpdateManager update to new theme after resetData or in resetData
+        //Tried to do it jn but I wasn't very familiar with SettingsUpdateManager and Theme, sorry!
     }
 
     /**
@@ -65,6 +67,7 @@ public class VersionedProjectBook extends ProjectBook {
         shiftPointer(REDO);
         ReadOnlyProjectBook redoVersion = projectBookStateList.get(currentStatePointer);
         resetData(redoVersion);
+        //same for redo
     }
 
     private void shiftPointer(String command) {
