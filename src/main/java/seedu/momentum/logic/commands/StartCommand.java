@@ -32,11 +32,4 @@ public abstract class StartCommand extends Command {
 
     @Override
     public abstract CommandResult execute(Model model) throws CommandException;
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof StartProjectCommand // instanceof handles nulls
-                && targetIndex.equals(((StartProjectCommand) other).targetIndex)); // state check
-    }
 }

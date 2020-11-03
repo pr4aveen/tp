@@ -50,8 +50,8 @@ public class StartProjectCommand extends StartCommand {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof StartCommand // instanceof handles nulls
-                && targetIndex.equals(((StartCommand) other).targetIndex)); // state check
+                || (other instanceof StartProjectCommand // instanceof handles nulls
+                && targetIndex.equals(((StartProjectCommand) other).targetIndex)); // state check
     }
 
 }

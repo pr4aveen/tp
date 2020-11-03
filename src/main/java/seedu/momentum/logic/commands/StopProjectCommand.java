@@ -52,7 +52,7 @@ public class StopProjectCommand extends StopCommand {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof StopCommand // instanceof handles nulls
-                && targetIndex.equals(((StopCommand) other).targetIndex)); // state check
+                || (other instanceof StopProjectCommand // instanceof handles nulls
+                && targetIndex.equals(((StopProjectCommand) other).targetIndex)); // state check
     }
 }

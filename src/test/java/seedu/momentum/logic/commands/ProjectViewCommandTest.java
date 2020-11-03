@@ -1,5 +1,7 @@
 package seedu.momentum.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -7,6 +9,7 @@ import static seedu.momentum.logic.commands.CommandTestUtil.getProjectAtIndex;
 import static seedu.momentum.logic.commands.ProjectViewCommand.MESSAGE_NOT_PROJECT;
 import static seedu.momentum.logic.commands.ProjectViewCommand.MESSAGE_VIEW_PROJECT_SUCCESS;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -50,5 +53,27 @@ class ProjectViewCommandTest {
     public void execute_projectViewIndexTooLarge_throwsError() {
         assertCommandFailure(
             new ProjectViewCommand(Index.fromOneBased(1000)), model, MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void equals() {
+        ProjectViewCommand firstCommand = new ProjectViewCommand(INDEX_FIRST);
+        ProjectViewCommand secondCommand = new ProjectViewCommand(INDEX_SECOND);
+
+        // same object -> returns true
+        assertTrue(firstCommand.equals(firstCommand));
+
+        // same values -> returns true
+        ProjectViewCommand firstCommandCopy = new ProjectViewCommand(INDEX_FIRST);
+        assertTrue(firstCommand.equals(firstCommandCopy));
+
+        // different types -> returns false
+        assertFalse(firstCommand.equals(1));
+
+        // null -> returns false
+        assertFalse(firstCommand.equals(null));
+
+        // different index -> returns false
+        assertFalse(firstCommand.equals(secondCommand));
     }
 }
