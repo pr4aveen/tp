@@ -99,6 +99,11 @@
     -fx-padding: 12 8;
 }
 
+#createdDate .label {
+    -fx-font-style: italic;
+    -fx-font-size: 12px;
+}
+
 #tags {
     -fx-hgap: 7;
     -fx-vgap: 3;

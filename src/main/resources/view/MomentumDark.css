@@ -123,6 +123,10 @@
     -fx-fill: -fx-white;
 }
 
+#createdDate .label {
+    -fx-text-fill: -fx-text-muted;
+}
+
 #tags .label {
     -fx-background-color: -fx-purple;
 }
