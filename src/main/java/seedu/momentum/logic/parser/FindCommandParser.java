@@ -1,6 +1,8 @@
 package seedu.momentum.logic.parser;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.momentum.logic.parser.CliSyntax.FIND_TYPE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
@@ -22,7 +24,7 @@ import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
-import seedu.momentum.model.project.predicates.TagListContainsKeywordsPredicate;
+import seedu.momentum.model.project.predicates.TagListContainsKeywordPredicate;
 
 /**
  * Parses input arguments and creates a new FindCommand object
@@ -38,6 +40,7 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @throws ParseException if the user input does not conform the expected format.
      */
     public FindCommand parse(String args, Model model) throws ParseException {
+        requireAllNonNull(args, model);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS,
                         PREFIX_TAG, FIND_TYPE);
@@ -58,30 +61,44 @@ public class FindCommandParser implements Parser<FindCommand> {
         return new FindCommand(combinePredicates(findType, predicateList));
     }
 
+    /**
+     * Combines predicates using predicate chaining.
+     *
+     * @param findType find type of the search.
+     * @param predicateList list of predicates to be combined.
+     * @return a predicate that is the combination of all predicates in the predicate list.
+     */
     private Predicate<TrackedItem> combinePredicates(FindType findType, List<Predicate<TrackedItem>> predicateList) {
-
+        requireAllNonNull(findType, predicateList);
         BinaryOperator<Predicate<TrackedItem>> operationType;
         switch (findType) {
         case ALL:
             operationType = Predicate::and;
             break;
-        case NONE:
-            // Fallthrough.
-            // Find none falls through as it needs the logical negation of the or predicate.
         case ANY:
-            // Find any is the default type.
+            // Find any is the default find type.
             // Fallthrough.
         default:
             operationType = Predicate::or;
             break;
         }
 
-        Predicate<TrackedItem> combinedPredicate = predicateList.stream().reduce(operationType).orElse(x -> true);
-        return findType == FindType.NONE ? combinedPredicate.negate() : combinedPredicate;
+        return predicateList.stream().reduce(operationType).orElse(x -> true);
     }
 
+    /**
+     * Parses a given prefix and returns a predicate corresponding to that prefix.
+     *
+     * @param argMultimap argument multimap used for parsing.
+     * @param prefix prefix that is being parsed.
+     * @param predicateList list of predicates to add result to.
+     * @param findType find type used for the search.
+     * @throws ParseException if the syntax is invalid.
+     */
     private void parseArguments (ArgumentMultimap argMultimap, Prefix prefix,
                                  List<Predicate<TrackedItem>> predicateList, FindType findType) throws ParseException {
+
+        requireAllNonNull(argMultimap, predicateList, predicateList, findType);
 
         if (argMultimap.getValue(prefix).isEmpty()) {
             return;
@@ -95,6 +112,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         List<String> keywords = Arrays.asList(trimmedArgs.split(FIND_ARGUMENT_DELIMITER));
+        assert !keywords.isEmpty() : "Keywords list cannot be empty";
 
         if (prefix.equals(PREFIX_NAME)) {
             predicateList.add(new NameContainsKeywordsPredicate(findType, keywords));
@@ -104,13 +122,21 @@ public class FindCommandParser implements Parser<FindCommand> {
             if (!CompletionStatusPredicate.isValid(keywords)) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
-            predicateList.add(new CompletionStatusPredicate(findType, keywords));
+            predicateList.add(new CompletionStatusPredicate(keywords));
         } else if (prefix.equals(PREFIX_TAG)) {
-            predicateList.add(new TagListContainsKeywordsPredicate(findType, keywords));
+            predicateList.add(new TagListContainsKeywordPredicate(findType, keywords));
         }
     }
 
+    /**
+     * Converts a match type argument into a {@code FindType} object.
+     *
+     * @param argMultimap argument multimap used for parsing.
+     * @return FindType enumeration corresponding to the argument.
+     * @throws ParseException if the match type argument is invalid.
+     */
     private FindType getMatchType(ArgumentMultimap argMultimap) throws ParseException {
+        requireNonNull(argMultimap);
         if (argMultimap.getValue(FIND_TYPE).isEmpty()) {
             return FindType.ANY;
         }

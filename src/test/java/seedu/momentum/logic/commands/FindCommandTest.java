@@ -27,7 +27,7 @@ import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
-import seedu.momentum.model.project.predicates.TagListContainsKeywordsPredicate;
+import seedu.momentum.model.project.predicates.TagListContainsKeywordPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
@@ -152,7 +152,7 @@ public class FindCommandTest {
     public void anyMatch_singleCompletionStatusKeyword_multipleProjectsFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 3);
         CompletionStatusPredicate predicate =
-                prepareCompletionStatusPredicate(FindType.ANY, CompletionStatusPredicate.COMPLETED_KEYWORD);
+                prepareCompletionStatusPredicate(CompletionStatusPredicate.COMPLETED_KEYWORD);
         FindCommand command = new FindCommand(predicate);
         expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
@@ -163,7 +163,7 @@ public class FindCommandTest {
     @Test
     public void anyMatch_multipleTagKeywords_multipleProjectsFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 3);
-        TagListContainsKeywordsPredicate predicate = prepareTagListPredicate(FindType.ANY, TEST_TAGS);
+        TagListContainsKeywordPredicate predicate = prepareTagListPredicate(FindType.ANY, TEST_TAGS);
         FindCommand command = new FindCommand(predicate);
         expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
@@ -174,7 +174,7 @@ public class FindCommandTest {
     @Test
     public void allMatch_multipleTagKeywords_oneProjectFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 1);
-        TagListContainsKeywordsPredicate predicate = prepareTagListPredicate(FindType.ALL, TEST_TAGS);
+        TagListContainsKeywordPredicate predicate = prepareTagListPredicate(FindType.ALL, TEST_TAGS);
         FindCommand command = new FindCommand(predicate);
         expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
@@ -200,16 +200,15 @@ public class FindCommandTest {
     /**
      * Parses {@code userInput} into a {@code CompletionStatusPredicate}.
      */
-    private CompletionStatusPredicate prepareCompletionStatusPredicate(FindType findType, String userInput) {
-        return new CompletionStatusPredicate(findType,
-                Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
+    private CompletionStatusPredicate prepareCompletionStatusPredicate(String userInput) {
+        return new CompletionStatusPredicate(Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
     }
 
     /**
-     * Parses {@code userInput} into a {@code TagListContainsKeywordsPredicate}.
+     * Parses {@code userInput} into a {@code TagListContainsKeywordPredicate}.
      */
-    private TagListContainsKeywordsPredicate prepareTagListPredicate(FindType findType, String userInput) {
-        return new TagListContainsKeywordsPredicate(findType,
+    private TagListContainsKeywordPredicate prepareTagListPredicate(FindType findType, String userInput) {
+        return new TagListContainsKeywordPredicate(findType,
                 Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
     }
 }
