@@ -2,7 +2,9 @@ package seedu.momentum.logic.commands;
 
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.logic.commands.CommandTestUtil.showProjectAtIndex;
-import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
+import static seedu.momentum.logic.commands.CommandTestUtil.showTaskAtIndex;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
+import static seedu.momentum.testutil.TypicalProjects.ALICE;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -27,15 +29,35 @@ public class ListCommandTest {
     }
 
     @Test
-    public void execute_listIsNotFiltered_showsSameList() {
+    public void execute_projectListIsNotFiltered_showsSameList() {
         expectedModel.commitToHistory();
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS_PROJECTS, expectedModel);
     }
 
     @Test
-    public void execute_listIsFiltered_showsEverything() {
-        showProjectAtIndex(model, INDEX_FIRST_PROJECT);
+    public void execute_projectListIsFiltered_showsEverything() {
+        showProjectAtIndex(model, INDEX_FIRST);
         expectedModel.commitToHistory();
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS_PROJECTS, expectedModel);
+    }
+
+    @Test
+    public void execute_taskListIsNotFiltered_showsSameList() {
+        model.viewTasks(ALICE);
+        expectedModel.viewTasks(ALICE);
+        System.out.println(model.getDisplayList());
+        expectedModel.commitToHistory();
+        assertCommandSuccess(new ListCommand(), model,
+            String.format(ListCommand.MESSAGE_SUCCESS_TASKS, ALICE.getName().fullName), expectedModel);
+    }
+
+    @Test
+    public void execute_taskListIsFiltered_showsEverything() {
+        model.viewTasks(ALICE);
+        showTaskAtIndex(model, INDEX_FIRST);
+        expectedModel.viewTasks(ALICE);
+        expectedModel.commitToHistory();
+        assertCommandSuccess(new ListCommand(), model,
+                String.format(ListCommand.MESSAGE_SUCCESS_TASKS, ALICE.getName().fullName), expectedModel);
     }
 }

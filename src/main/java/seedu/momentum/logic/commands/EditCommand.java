@@ -49,8 +49,11 @@ public abstract class EditCommand extends Command {
             + "[" + PREFIX_TAG + "TAG]...";
 
     public static final String MESSAGE_EDIT_PROJECT_SUCCESS = "Edited Project: %1$s";
+    public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Task: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PROJECT = "This project already exists in the project book.";
+    public static final String MESSAGE_DUPLICATE_TASK = "This task already exists in the project book.";
+
 
     protected final Index index;
     protected final EditTrackedItemDescriptor editTrackedItemDescriptor;

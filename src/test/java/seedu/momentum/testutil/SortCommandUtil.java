@@ -27,8 +27,8 @@ public class SortCommandUtil {
             new SortCommand(SortType.CREATED, false, false, true);
 
     public static final SortCommand NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND =
-            new SortCommand(SortType.NULL, true, false, true);
+            new SortCommand(SortType.NULL, true, false, false);
 
     public static final SortCommand NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND =
-            new SortCommand(SortType.NULL, false, false, true);
+            new SortCommand(SortType.NULL, false, false, false);
 }

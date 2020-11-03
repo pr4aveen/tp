@@ -103,7 +103,7 @@ public class VersionedProjectBook extends ProjectBook {
 
     }
 
-    public List<ProjectBookWithUi> getProjectBookSateList() {
+    public List<ProjectBookWithUi> getProjectBookStateList() {
         return projectBookStateList;
     }
 
@@ -135,8 +135,8 @@ public class VersionedProjectBook extends ProjectBook {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof VersionedProjectBook // instanceof handles nulls
-                && trackedItems.equals(((VersionedProjectBook) other).trackedItems)
-                && projectBookStateList.equals(((VersionedProjectBook) other).getProjectBookSateList())
+                && getTrackedProjects().equals(((VersionedProjectBook) other).getTrackedProjects())
+                && projectBookStateList.equals(((VersionedProjectBook) other).getProjectBookStateList())
                 && currentStatePointer == ((VersionedProjectBook) other).getCurrentStatePointer());
     }
 

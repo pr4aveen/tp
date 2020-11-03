@@ -11,10 +11,11 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 import static seedu.momentum.testutil.Assert.assertThrows;
-import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -49,8 +50,8 @@ import seedu.momentum.testutil.ProjectUtil;
 
 public class ProjectBookParserTest {
 
-    private final ProjectBookParser parser = new ProjectBookParser();
-    private Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
+    private static final ProjectBookParser parser = new ProjectBookParser();
+    private static final Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
     @Test
     public void parseCommand_add() throws Exception {
@@ -68,8 +69,8 @@ public class ProjectBookParserTest {
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased(), model);
-        assertEquals(new DeleteProjectCommand(INDEX_FIRST_PROJECT), command);
+                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST.getOneBased(), model);
+        assertEquals(new DeleteProjectCommand(INDEX_FIRST), command);
     }
 
     @Test
@@ -77,9 +78,9 @@ public class ProjectBookParserTest {
         Project project = new ProjectBuilder().build();
         EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(project).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-            + INDEX_FIRST_PROJECT.getOneBased() + " "
-            + ProjectUtil.getEditProjectDescriptorDetails(descriptor), model);
-        assertEquals(new EditProjectCommand(INDEX_FIRST_PROJECT, descriptor), command);
+                + INDEX_FIRST.getOneBased() + " "
+                + ProjectUtil.getEditProjectDescriptorDetails(descriptor), model);
+        assertEquals(new EditProjectCommand(INDEX_FIRST, descriptor), command);
     }
 
     @Test
@@ -92,7 +93,7 @@ public class ProjectBookParserTest {
     public void parseCommand_find() throws Exception {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
-            FindCommand.COMMAND_WORD + " " + PREFIX_NAME + String.join(" ", keywords), model);
+                FindCommand.COMMAND_WORD + " " + PREFIX_NAME + String.join(" ", keywords), model);
         assertEquals(new FindCommand(new NameContainsKeywordsPredicate(FindType.ANY, keywords)), command);
     }
 
@@ -102,7 +103,7 @@ public class ProjectBookParserTest {
         SortCommand command = (SortCommand) parser.parseCommand(SortCommand.COMMAND_WORD + " "
                 + SORT_ORDER + SortCommand.INPUT_ASCENDING_ORDER + " " + SORT_TYPE + INPUT_ALPHA_TYPE + " "
                 + PREFIX_COMPLETION_STATUS, model);
-        assertEquals(new SortCommand(SortType.ALPHA, true, false, false), command);
+        assertEquals(new SortCommand(SortType.ALPHA, true, false, true), command);
     }
 
     @Test
@@ -120,22 +121,24 @@ public class ProjectBookParserTest {
     @Test
     public void parseCommand_start() throws Exception {
         StartCommand command = (StartCommand) parser.parseCommand(
-                StartCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased(), model);
-        assertEquals(new StartProjectCommand(INDEX_FIRST_PROJECT), command);
+                StartCommand.COMMAND_WORD + " " + INDEX_FIRST.getOneBased(), model);
+        assertEquals(new StartProjectCommand(INDEX_FIRST), command);
     }
 
     @Test
     public void parseCommand_stop() throws Exception {
         StopCommand command = (StopCommand) parser.parseCommand(
-                StopCommand.COMMAND_WORD + " " + INDEX_FIRST_PROJECT.getOneBased(), model);
-        assertEquals(new StopProjectCommand(INDEX_FIRST_PROJECT), command);
+                StopCommand.COMMAND_WORD + " " + INDEX_FIRST.getOneBased(), model);
+        assertEquals(new StopProjectCommand(INDEX_FIRST), command);
     }
 
     @Test
     public void parseCommand_showComponent() throws Exception {
         ShowComponentCommand command = (ShowComponentCommand) parser.parseCommand(
                 ShowComponentCommand.COMMAND_WORD + " " + PREFIX_REMINDER, model);
-        assertEquals(new ShowComponentCommand(ShowComponentCommandParser.ComponentType.REMINDER), command);
+        ShowComponentCommand expectedCommand = new ShowComponentCommand(Collections.singletonList(
+                ShowComponentCommandParser.ComponentType.REMINDER));
+        assertEquals(expectedCommand, command);
     }
 
     @Test

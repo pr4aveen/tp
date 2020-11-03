@@ -1,6 +1,7 @@
 package seedu.momentum.logic;
 
 import java.nio.file.Path;
+import java.util.Set;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -14,7 +15,10 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.model.ReadOnlyProjectBook;
+import seedu.momentum.model.ViewMode;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.tag.Tag;
 
 /**
  * API of the Logic component
@@ -87,6 +91,23 @@ public interface Logic {
     void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
 
     /**
+     * Returns a set of currently visible tags.
+     */
+    Set<Tag> getVisibleTags();
+
+    /**
+     * Hide tags if shown, show tags when hidden.
+     */
+    void showOrHideTags();
+
+    /**
+     * Returns is tags visible boolean property.
+     *
+     * @return true if tags is visible, false otherwise.
+     */
+    BooleanProperty getIsTagsVisible();
+
+    /**
      * Return the user prefs' statistic timeframe settings.
      */
     StatisticTimeframeSettings getStatisticTimeframeSettings();
@@ -97,4 +118,19 @@ public interface Logic {
     void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings);
 
     StatisticGenerator getStatistic();
+
+    /**
+     * Returns the total number of both visible and invisble items in the current project/task.
+     */
+    int getTotalNumberOfItems();
+
+    /**
+     * Returns the current view mode.
+     */
+    ViewMode getViewMode();
+
+    /**
+     * Returns the project that is currently displayed if the application is in the task view.
+     */
+    Project getCurrentProject();
 }

@@ -11,6 +11,7 @@ import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
 import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
@@ -38,6 +39,7 @@ public class ProjectBuilder {
     private Set<Tag> tags;
     private UniqueItemList<WorkDuration> durations;
     private TimerWrapper timerWrapper;
+    private UniqueItemList<TrackedItem> taskList;
 
     /**
      * Creates a {@code ProjectBuilder} with the default details.
@@ -52,6 +54,7 @@ public class ProjectBuilder {
         tags = new HashSet<>();
         durations = new UniqueItemList<>();
         timerWrapper = new TimerWrapper();
+        taskList = new UniqueItemList<>();
     }
 
     /**
@@ -70,6 +73,10 @@ public class ProjectBuilder {
             durations.add(duration);
         }
         timerWrapper = trackedItemToCopy.getTimer();
+        taskList = new UniqueItemList<>();
+        for (TrackedItem task : ((Project) trackedItemToCopy).getTaskList()) {
+            taskList.add(task);
+        }
     }
 
     /**
@@ -108,7 +115,7 @@ public class ProjectBuilder {
      * Sets the {@code createdDateWrapper} of the {@code Project} that we are building with current date.
      */
     public ProjectBuilder withCurrentCreatedDate() {
-        this.createdDateWrapper = new DateWrapper(Clock.now().getDate());
+        this.createdDateWrapper = Clock.now().getDateWrapper();
         return this;
     }
 
@@ -187,10 +194,19 @@ public class ProjectBuilder {
     }
 
     /**
+     * Parses the {@code tasks} into a {@code UniqueItemList<TrackedItem>} and set it to the {@code Project} that we
+     * are building.
+     */
+    public ProjectBuilder withTasks(Task... tasks) {
+        this.taskList = SampleDataUtil.getTaskList(tasks);
+        return this;
+    }
+
+    /**
      * Builds a {@code Project}.
      */
     public Project build() {
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
-                timerWrapper);
+                timerWrapper, taskList);
     }
 }

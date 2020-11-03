@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.chart.PieChart?>
+
+<VBox prefWidth="100.0" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <PieChart fx:id="pieChart" styleClass="pieChartLabel" legendVisible="false" VBox.vgrow="SOMETIMES"
+                  startAngle="180" animated="true"/>
+    </children>
+</VBox>

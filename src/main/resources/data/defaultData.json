@@ -10,12 +10,12 @@
     "reminder" : "2022-06-22T01:01:21",
     "tagged" : [ "fiverr", "artcomm" ],
     "durations" : [ {
-      "startTime" : "2020-10-29T14:39:26.379257",
-      "stopTime" : "2020-10-29T15:21:22.730034"
+      "startTime" : "2020-11-02T14:39:26.379257",
+      "stopTime" : "2020-11-02T15:21:22.730034"
     } ],
     "timer" : {
-      "startTime" : "2020-10-29T14:39:26.379257",
-      "stopTime" : "2020-10-29T15:21:22.730034",
+      "startTime" : "2020-11-02T14:39:26.379257",
+      "stopTime" : "2020-11-02T15:21:22.730034",
       "isRunning" : false
     },
     "taskList" : [ {
@@ -29,15 +29,15 @@
       "reminder" : "2020-12-30T00:00",
       "tagged" : [ "meeting" ],
       "durations" : [ {
-        "startTime" : "2020-10-29T14:53:30.661056",
-        "stopTime" : "2020-10-29T14:56:46.863834"
+        "startTime" : "2020-11-02T14:53:30.661056",
+        "stopTime" : "2020-11-02T14:56:46.863834"
       }, {
-        "startTime" : "2020-10-20T15:31:27.068668",
-        "stopTime" : "2020-10-20T16:00:05.235143"
+        "startTime" : "2020-11-02T15:31:27.068668",
+        "stopTime" : "2020-11-02T16:00:05.235143"
       } ],
       "timer" : {
-        "startTime" : "2020-10-29T15:31:27.068668",
-        "stopTime" : "2020-10-29T16:00:05.235143",
+        "startTime" : "2020-11-02T15:31:27.068668",
+        "stopTime" : "2020-11-02T16:00:05.235143",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -52,15 +52,15 @@
       "reminder" : null,
       "tagged" : [ ],
       "durations" : [ {
-        "startTime" : "2020-10-29T15:21:49.932326",
-        "stopTime" : "2020-10-29T15:25:52.384358"
+        "startTime" : "2020-11-02T15:21:49.932326",
+        "stopTime" : "2020-11-02T15:25:52.384358"
       }, {
-        "startTime" : "2020-10-29T15:28:41.865006",
-        "stopTime" : "2020-10-29T15:29:05.112899"
+        "startTime" : "2020-11-02T15:28:41.865006",
+        "stopTime" : "2020-11-02T15:29:05.112899"
       } ],
       "timer" : {
-        "startTime" : "2020-10-29T15:28:41.865006",
-        "stopTime" : "2020-10-29T15:29:05.112899",
+        "startTime" : "2020-11-02T15:28:41.865006",
+        "stopTime" : "2020-11-02T15:29:05.112899",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -76,8 +76,8 @@
       "tagged" : [ "money", "invoice" ],
       "durations" : [ ],
       "timer" : {
-        "startTime" : "2020-10-29T14:42:20.161792",
-        "stopTime" : "2020-10-29T14:42:20.161798",
+        "startTime" : "2020-11-02T14:42:20.161792",
+        "stopTime" : "2020-11-02T14:42:20.161798",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -94,12 +94,12 @@
     "reminder" : null,
     "tagged" : [ "important", "webdesign" ],
     "durations" : [ {
-      "startTime" : "2020-10-29T14:39:27.646492",
-      "stopTime" : "2020-10-29T15:29:16.067364"
+      "startTime" : "2020-11-02T14:39:27.646492",
+      "stopTime" : "2020-11-02T15:29:16.067364"
     } ],
     "timer" : {
-      "startTime" : "2020-10-29T14:39:27.646492",
-      "stopTime" : "2020-10-29T15:29:16.067364",
+      "startTime" : "2020-11-02T14:39:27.646492",
+      "stopTime" : "2020-11-02T15:29:16.067364",
       "isRunning" : false
     },
     "taskList" : [ {
@@ -114,8 +114,8 @@
       "tagged" : [ "meeting" ],
       "durations" : [ ],
       "timer" : {
-        "startTime" : "2020-10-29T14:33:44.142519",
-        "stopTime" : "2020-10-29T14:33:44.142527",
+        "startTime" : "2020-11-02T14:33:44.142519",
+        "stopTime" : "2020-11-02T14:33:44.142527",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -130,12 +130,12 @@
       "reminder" : null,
       "tagged" : [ "important" ],
       "durations" : [ {
-        "startTime" : "2020-10-20T15:32:55.917929",
-        "stopTime" : "2020-10-20T15:54:01.610962"
+        "startTime" : "2020-11-02T15:32:55.917929",
+        "stopTime" : "2020-11-02T15:54:01.610962"
       } ],
       "timer" : {
-        "startTime" : "2020-10-29T15:32:55.917929",
-        "stopTime" : "2020-10-29T15:34:01.610962",
+        "startTime" : "2020-11-02T15:32:55.917929",
+        "stopTime" : "2020-11-02T15:34:01.610962",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -152,12 +152,12 @@
     "reminder" : null,
     "tagged" : [ "webdesign" ],
     "durations" : [ {
-      "startTime" : "2020-10-29T14:39:28.882446",
-      "stopTime" : "2020-10-29T15:21:35.626358"
+      "startTime" : "2020-11-02T14:39:28.882446",
+      "stopTime" : "2020-11-02T15:21:35.626358"
     } ],
     "timer" : {
-      "startTime" : "2020-10-29T14:39:28.882446",
-      "stopTime" : "2020-10-29T15:21:35.626358",
+      "startTime" : "2020-11-02T14:39:28.882446",
+      "stopTime" : "2020-11-02T15:21:35.626358",
       "isRunning" : false
     },
     "taskList" : [ {
@@ -172,8 +172,8 @@
       "tagged" : [ "requirements" ],
       "durations" : [ ],
       "timer" : {
-        "startTime" : "2020-10-29T14:36:43.492018",
-        "stopTime" : "2020-10-29T14:36:43.492031",
+        "startTime" : "2020-11-02T14:36:43.492018",
+        "stopTime" : "2020-11-02T14:36:43.492031",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -189,8 +189,8 @@
       "tagged" : [ "UX", "UI" ],
       "durations" : [ ],
       "timer" : {
-        "startTime" : "2020-10-29T14:36:48.984541",
-        "stopTime" : "2020-10-29T14:36:48.984568",
+        "startTime" : "2020-11-02T14:36:48.984541",
+        "stopTime" : "2020-11-02T14:36:48.984568",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -205,12 +205,12 @@
       "reminder" : null,
       "tagged" : [ "layout", "UX", "UI" ],
       "durations" : [ {
-        "startTime" : "2020-10-29T15:22:12.386672",
-        "stopTime" : "2020-10-29T16:00:19.222503"
+        "startTime" : "2020-11-02T15:22:12.386672",
+        "stopTime" : "2020-11-02T16:00:19.222503"
       } ],
       "timer" : {
-        "startTime" : "2020-10-29T15:22:12.386672",
-        "stopTime" : "2020-10-29T16:00:19.222503",
+        "startTime" : "2020-11-02T15:22:12.386672",
+        "stopTime" : "2020-11-02T16:00:19.222503",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -227,12 +227,12 @@
     "reminder" : null,
     "tagged" : [ "logodesign", "otot" ],
     "durations" : [ {
-      "startTime" : "2020-10-20T14:39:30.353437",
-      "stopTime" : "2020-10-20T15:34:19.555833"
+      "startTime" : "2020-11-02T14:39:30.353437",
+      "stopTime" : "2020-11-02T15:34:19.555833"
     } ],
     "timer" : {
-      "startTime" : "2020-10-20T14:39:30.353437",
-      "stopTime" : "2020-10-20T15:34:19.555833",
+      "startTime" : "2020-11-02T14:39:30.353437",
+      "stopTime" : "2020-11-02T15:34:19.555833",
       "isRunning" : false
     },
     "taskList" : [ {
@@ -247,8 +247,8 @@
       "tagged" : [ "meeting" ],
       "durations" : [ ],
       "timer" : {
-        "startTime" : "2020-10-20T14:38:50.59557",
-        "stopTime" : "2020-10-20T14:38:50.595573",
+        "startTime" : "2020-11-02T14:38:50.59557",
+        "stopTime" : "2020-11-02T14:38:50.595573",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -263,12 +263,12 @@
       "reminder" : null,
       "tagged" : [ "important", "money" ],
       "durations" : [ {
-        "startTime" : "2020-10-20T15:22:19.382267",
-        "stopTime" : "2020-10-20T16:00:55.517151"
+        "startTime" : "2020-11-02T15:22:19.382267",
+        "stopTime" : "2020-11-02T16:00:55.517151"
       } ],
       "timer" : {
-        "startTime" : "2020-10-20T15:22:19.382267",
-        "stopTime" : "2020-10-20T16:00:55.517151",
+        "startTime" : "2020-11-02T15:22:19.382267",
+        "stopTime" : "2020-11-02T16:00:55.517151",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -285,15 +285,15 @@
     "reminder" : null,
     "tagged" : [ "selfimprovement", "important" ],
     "durations" : [ {
-      "startTime" : "2020-10-29T14:39:31.844237",
-      "stopTime" : "2020-10-29T14:49:00.371296"
+      "startTime" : "2020-11-02T14:39:31.844237",
+      "stopTime" : "2020-11-02T14:49:00.371296"
     }, {
-      "startTime" : "2020-10-29T14:49:07.681395",
-      "stopTime" : "2020-10-29T15:59:46.746239"
+      "startTime" : "2020-11-02T14:49:07.681395",
+      "stopTime" : "2020-11-02T15:59:46.746239"
     } ],
     "timer" : {
-      "startTime" : "2020-10-29T14:49:07.681395",
-      "stopTime" : "2020-10-29T15:59:46.746239",
+      "startTime" : "2020-11-02T14:49:07.681395",
+      "stopTime" : "2020-11-02T15:59:46.746239",
       "isRunning" : false
     },
     "taskList" : [ {
@@ -307,12 +307,12 @@
       "reminder" : null,
       "tagged" : [ ],
       "durations" : [ {
-        "startTime" : "2020-10-29T15:34:32.766752",
-        "stopTime" : "2020-10-29T16:00:33.12442"
+        "startTime" : "2020-11-02T15:34:32.766752",
+        "stopTime" : "2020-11-02T16:00:33.12442"
       } ],
       "timer" : {
-        "startTime" : "2020-10-29T15:34:32.766752",
-        "stopTime" : "2020-10-29T16:00:33.12442",
+        "startTime" : "2020-11-02T15:34:32.766752",
+        "stopTime" : "2020-11-02T16:00:33.12442",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -328,8 +328,8 @@
       "tagged" : [ ],
       "durations" : [ ],
       "timer" : {
-        "startTime" : "2020-10-29T14:40:25.718715",
-        "stopTime" : "2020-10-29T14:40:25.718718",
+        "startTime" : "2020-11-02T14:40:25.718715",
+        "stopTime" : "2020-11-02T14:40:25.718718",
         "isRunning" : false
       },
       "createdDate" : "2020-10-29"
@@ -346,12 +346,12 @@
     "reminder" : null,
     "tagged" : [ "brainstorming" ],
     "durations" : [ {
-      "startTime" : "2020-10-29T14:39:33.829615",
-      "stopTime" : "2020-10-29T15:59:52.112224"
+      "startTime" : "2020-11-02T14:39:33.829615",
+      "stopTime" : "2020-11-02T15:59:52.112224"
     } ],
     "timer" : {
-      "startTime" : "2020-10-29T14:39:33.829615",
-      "stopTime" : "2020-10-29T15:59:52.112224",
+      "startTime" : "2020-11-02T14:39:33.829615",
+      "stopTime" : "2020-11-02T15:59:52.112224",
       "isRunning" : false
     },
     "taskList" : [ ],

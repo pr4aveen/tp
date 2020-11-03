@@ -26,8 +26,8 @@ public class ListCommand extends Command {
         if (model.getViewMode() == ViewMode.PROJECTS) {
             return new CommandResult(MESSAGE_SUCCESS_PROJECTS);
         } else {
-            return new CommandResult(String.format(MESSAGE_SUCCESS_TASKS,
-                    model.getCurrentProject().getName().fullName));
+            String projectName = model.getCurrentProject().getName().fullName;
+            return new CommandResult(String.format(MESSAGE_SUCCESS_TASKS, projectName));
         }
     }
 }

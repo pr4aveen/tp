@@ -34,14 +34,14 @@ public class EditTaskCommand extends EditCommand {
         List<TrackedItem> lastShownList = model.getDisplayList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
         TrackedItem trackedItemToEdit = lastShownList.get(index.getZeroBased());
         TrackedItem editedTrackedItem = createEditedTrackedItem(trackedItemToEdit, editTrackedItemDescriptor, model);
 
         if (!trackedItemToEdit.isSameAs(editedTrackedItem) && model.hasTrackedItem(editedTrackedItem)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
+            throw new CommandException(MESSAGE_DUPLICATE_TASK);
         }
 
         try {
@@ -49,12 +49,12 @@ public class EditTaskCommand extends EditCommand {
             model.setTrackedItem(parentProject, projectAfterEditTask);
             model.viewTasks(projectAfterEditTask);
         } catch (Exception e) {
-            throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
+            throw new CommandException(MESSAGE_DUPLICATE_TASK);
         }
 
         model.rescheduleReminders();
         model.commitToHistory();
-        return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));
+        return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS, editedTrackedItem));
     }
 
     @Override

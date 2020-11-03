@@ -19,7 +19,7 @@ import seedu.momentum.model.ReadOnlyProjectBook;
  */
 public class JsonProjectBookStorage implements ProjectBookStorage {
 
-    private static final Logger logger = LogsCenter.getLogger(JsonProjectBookStorage.class);
+    private static final Logger LOGGER = LogsCenter.getLogger(JsonProjectBookStorage.class);
 
     private Path filePath;
 
@@ -54,7 +54,7 @@ public class JsonProjectBookStorage implements ProjectBookStorage {
         try {
             return Optional.of(jsonProjectBook.get().toModelType());
         } catch (IllegalValueException ive) {
-            logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
+            LOGGER.info("Illegal values found in " + filePath + ": " + ive.getMessage());
             throw new DataConversionException(ive);
         }
     }

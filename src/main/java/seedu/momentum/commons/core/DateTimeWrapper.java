@@ -3,9 +3,8 @@ package seedu.momentum.commons.core;
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.AppUtil.checkArgument;
 
-import java.time.LocalDate;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 
@@ -42,7 +41,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      *
      * @param amount Amount to increase by.
      * @param unit   Unit to increase with.
-     * @return The new dateTime
+     * @return The new DateTimeWrapper.
      */
     public DateTimeWrapper plus(long amount, ChronoUnit unit) {
         return new DateTimeWrapper(dateTime.plus(amount, unit));
@@ -53,10 +52,28 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      *
      * @param amount Amount to decrease by.
      * @param unit   Unit to decrease with.
-     * @return The new dateTime.
+     * @return The new DateTimeWrapper.
      */
     public DateTimeWrapper minus(long amount, ChronoUnit unit) {
         return new DateTimeWrapper(dateTime.minus(amount, unit));
+    }
+
+    /**
+     * Adjusts the DateTimeWrapper to the start of the timeframe as specified in a {@code StatisticTimeframe}.
+     *
+     * @param timeframe Timeframe to adjust to.
+     * @return The new DateTimeWrapper.
+     */
+    public DateTimeWrapper adjustToStartOfTimeframe(StatisticTimeframe timeframe) {
+        ChronoUnit timeframeUnit = timeframe.toChronoUnit();
+
+        if (timeframeUnit == ChronoUnit.DAYS) {
+            return new DateTimeWrapper(dateTime.truncatedTo(ChronoUnit.DAYS));
+        } else if (timeframeUnit == ChronoUnit.WEEKS) {
+            return new DateTimeWrapper(dateTime.with(DayOfWeek.MONDAY).truncatedTo(ChronoUnit.DAYS));
+        } else {
+            return new DateTimeWrapper(dateTime.withDayOfMonth(1).truncatedTo(ChronoUnit.DAYS));
+        }
     }
 
     /**
@@ -72,43 +89,35 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
     }
 
     /**
-     * Checks if an instance in timeWrapper is before this instance.
+     * Checks if an instance in another DateTimeWrapper is before this instance.
      *
-     * @param otherTime The timeWrapper to check.
-     * @return
+     * @param otherTime The DateTimeWrapper to check.
+     * @return the boolean.
      */
     public boolean isBefore(DateTimeWrapper otherTime) {
         return dateTime.isBefore(otherTime.get());
     }
 
     /**
-     * Checks if an instance in timeWrapper is after this instance.
+     * Checks if an instance in another DateTimeWrapper is after this instance.
      *
-     * @param otherTime The timeWrapper to check.
-     * @return
+     * @param otherTime The DateTimeWrapper to check.
+     * @return the boolean.
      */
     public boolean isAfter(DateTimeWrapper otherTime) {
         return dateTime.isAfter(otherTime.get());
     }
 
     /**
-     * Calculates the amount of timeWrapper between two instances of timeWrapper, in the provided units.
+     * Calculates the amount of time between two instances of DateTimeWrapper, in the provided units.
      *
-     * @param time1 The earlier instance of timeWrapper.
-     * @param time2 The later instance of timeWrapper.
-     * @param units The units to the timeWrapper.
-     * @return
+     * @param time1 The earlier instance of DateTimeWrapper.
+     * @param time2 The later instance of DateTimeWrapper.
+     * @param units The units to the DateTimeWrapper.
+     * @return the boolean.
      */
     public static long getTimeBetween(DateTimeWrapper time1, DateTimeWrapper time2, ChronoUnit units) {
         return units.between(time1.get(), time2.get());
-    }
-
-    public LocalDate getDate() {
-        return dateTime.toLocalDate();
-    }
-
-    public LocalTime getTime() {
-        return dateTime.toLocalTime();
     }
 
     public DateWrapper getDateWrapper() {

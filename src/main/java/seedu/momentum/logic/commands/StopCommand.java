@@ -16,7 +16,7 @@ public abstract class StopCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + " " + "INDEX";
 
     public static final String MESSAGE_STOP_TIMER_SUCCESS = "Stopped %s. Total Duration: %s";
-    public static final String MESSAGE_NO_TIMER_ERROR = "There is no timer running for this project.";
+    public static final String MESSAGE_NO_TIMER_ERROR = "There is no timer running for this.";
 
     protected final Index targetIndex;
 

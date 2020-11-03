@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
+import static seedu.momentum.testutil.TypicalProjects.BENSON;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,7 +36,16 @@ public class CompletionStatusPredicateTest {
         // Multiple keywords -> assertion error
         assertThrows(AssertionError.class, () -> new CompletionStatusPredicate(FindType.ANY,
                 MULTIPLE_KEYWORDS));
+        assertThrows(AssertionError.class, () -> new CompletionStatusPredicate(FindType.ALL,
+                MULTIPLE_KEYWORDS));
+    }
 
+    @Test
+    public void isValid() {
+        assertTrue(CompletionStatusPredicate.isValid(COMPLETED_KEYWORD));
+        assertTrue(CompletionStatusPredicate.isValid(INCOMPLETE_KEYWORD));
+        assertFalse(CompletionStatusPredicate.isValid(MULTIPLE_KEYWORDS));
+        assertFalse(CompletionStatusPredicate.isValid(NO_MATCHING_KEYWORD));
     }
 
     @Test
@@ -66,9 +76,13 @@ public class CompletionStatusPredicateTest {
         assertTrue(isIncompletePredicateAll.test(ALICE));
         assertFalse(isCompletedPredicateAny.test(ALICE));
 
+        assertFalse(isIncompletePredicateAll.test(BENSON));
+        assertTrue(isCompletedPredicateAny.test(BENSON));
+
         // No matching keyword -> return false
         CompletionStatusPredicate noMatchingKeywordsPredicate = new CompletionStatusPredicate(FindType.ANY,
                 NO_MATCHING_KEYWORD);
         assertFalse(noMatchingKeywordsPredicate.test(ALICE));
+
     }
 }

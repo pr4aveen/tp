@@ -1,6 +1,7 @@
 package seedu.momentum.model;
 
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import javafx.beans.property.BooleanProperty;
@@ -13,6 +14,7 @@ import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.tag.Tag;
 
 /**
  * The API of the Model component.
@@ -123,6 +125,23 @@ public interface Model {
     ObservableList<TrackedItem> getRunningTimers();
 
     /**
+     * Returns a set of tags that are currently visible.
+     */
+    Set<Tag> getVisibleTags();
+
+    /**
+     * Hide tags if shown, show tags when hidden.
+     */
+    void showOrHideTags();
+
+    /**
+     * Returns is tags visible boolean property.
+     *
+     * @return true if tags is visible, false otherwise.
+     */
+    BooleanProperty getIsTagsVisible();
+
+    /**
      * Reschedule all reminders.
      */
     void rescheduleReminders();
@@ -160,7 +179,7 @@ public interface Model {
      *
      * @throws NullPointerException if {@code sortType} is null.
      */
-    void updateOrder(SortType sortType, boolean isAscending, boolean isSortedByCompletionStatus);
+    void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus);
 
     void viewProjects();
 
@@ -211,4 +230,9 @@ public interface Model {
      * Redoes previously undone command to reset state to before undo command.
      */
     void redoCommand();
+
+    /**
+     * Returns the total number of both visible and invisble items in the current project/task.
+     */
+    int getTotalNumberOfItems();
 }

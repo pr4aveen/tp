@@ -16,7 +16,7 @@ public abstract class StartCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + " " + "INDEX";
 
     public static final String MESSAGE_START_TIMER_SUCCESS = "Started %1$s, at: ";
-    public static final String MESSAGE_EXISTING_TIMER_ERROR = "There is already a timer running for this project";
+    public static final String MESSAGE_EXISTING_TIMER_ERROR = "There is already a timer running for this";
 
     protected final Index targetIndex;
 

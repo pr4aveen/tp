@@ -13,6 +13,13 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_REMINDER_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.momentum.testutil.TypicalTasks.THOMAS;
+import static seedu.momentum.testutil.TypicalTasks.ULYSSES;
+import static seedu.momentum.testutil.TypicalTasks.VERONICA;
+import static seedu.momentum.testutil.TypicalTasks.WESLEY;
+import static seedu.momentum.testutil.TypicalTasks.XAVIER;
+import static seedu.momentum.testutil.TypicalTasks.YVETTE;
+import static seedu.momentum.testutil.TypicalTasks.ZACH;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,11 +33,15 @@ import seedu.momentum.model.project.Project;
  * A utility class containing a list of {@code Project} objects to be used in tests.
  */
 public class TypicalProjects {
+
+    // Projects
+
     public static final Project ALICE = new ProjectBuilder().withName("Alice Pauline")
             .withDescription("Likes coding")
             .withCreatedDate("2000-11-05")
             .withDeadline("2020-11-05", "11:11:11", "2000-11-05")
-            .withTags("friends").build();
+            .withTags("friends")
+            .withTasks(THOMAS, ZACH).build();
     public static final Project BENSON = new ProjectBuilder().withName("Benson Meier")
             .withDescription("Likes dogs")
             .withCreatedDate("2000-11-05")
@@ -39,7 +50,8 @@ public class TypicalProjects {
             .withReminder("2030-12-02T01:21:31")
             .withTags("owesMoney", "friends")
             .withDurations(TypicalWorkDuration.DURATION_ONE_DAY)
-            .withTimer(TypicalTimers.DAY).build();
+            .withTimer(TypicalTimers.DAY)
+            .withTasks(YVETTE).build();
     public static final Project CARL = new ProjectBuilder().withName("Carl Kurz")
             .withDescription("Likes poodles")
             .withCompletionStatus(CompletionStatus.COMPLETED)
@@ -50,7 +62,8 @@ public class TypicalProjects {
             .withDescription("Likes cats")
             .withCreatedDate("2019-05-21")
             .withEmptyDeadline()
-            .withTags("friends").build();
+            .withTags("friends")
+            .withTasks(VERONICA, ULYSSES).build();
     public static final Project ELLE = new ProjectBuilder().withName("Elle Meyer")
             .withDescription("Likes elephants")
             .withCreatedDate("2019-07-21")
@@ -59,14 +72,15 @@ public class TypicalProjects {
     public static final Project FIONA = new ProjectBuilder().withName("Fiona Kunz")
             .withDescription("Likes starbucks")
             .withCreatedDate("2019-03-21")
-            .withDeadline("2020-03-21", "05:02:09", "2019-03-21").build();
+            .withDeadline("2020-03-21", "05:02:09", "2019-03-21")
+            .withTasks(WESLEY).build();
     public static final Project GEORGE = new ProjectBuilder().withName("George Best")
             .withDescription("Likes you")
             .withCompletionStatus(CompletionStatus.COMPLETED)
             .withCreatedDate("2019-07-28")
             .withEmptyDeadline()
             .withReminder("2021-12-05T02:45:23")
-            .build();
+            .withTasks(XAVIER).build();
 
     // Manually added
     public static final Project HOON = new ProjectBuilder().withName("Hoon Meier")

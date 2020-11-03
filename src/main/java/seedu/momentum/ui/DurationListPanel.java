@@ -1,13 +1,10 @@
 package seedu.momentum.ui;
 
-import java.util.logging.Logger;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
-import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
@@ -15,7 +12,6 @@ import seedu.momentum.model.timer.WorkDuration;
  */
 public class DurationListPanel extends UiPart<Region> {
     private static final String FXML = "DurationListPanel.fxml";
-    private final Logger logger = LogsCenter.getLogger(DurationListPanel.class);
 
     @FXML
     private ListView<WorkDuration> durationListView;
