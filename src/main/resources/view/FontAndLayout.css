@@ -114,3 +114,8 @@
 .statLabel {
     -fx-padding: 0 8 0 0;
 }
+
+.pieChartLabel {
+    -fx-font-size: 14;
+    -fx-padding: 0 0 0 0;
+}
