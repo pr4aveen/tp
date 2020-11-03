@@ -6,7 +6,8 @@
     -fx-cool-white-2: #f6f7f7;
     -fx-cool-white-1: #fbfbfb;
     -fx-cool-white-0: #ffffff;
-    -fx-gray: #c0c2c4;
+    -fx-gray: #999999;
+    -fx-light-gray: #c0c2c4;
     -fx-black: #000000;
     -fx-red: #E24440;
     -fx-yellow: #F1B028;
@@ -22,6 +23,10 @@
 
 .background {
     -fx-background-color: -fx-cool-white-1;
+}
+
+.chart-pie-label {
+    -fx-fill: -fx-black;
 }
 
 .label {
@@ -80,7 +85,7 @@
 }
 
 .separator .line{
-    -fx-border-color: -fx-gray;
+    -fx-border-color: -fx-light-gray;
 }
 
 .scroll-bar {
@@ -119,6 +124,10 @@
 
 .project-list #id {
     -fx-fill: -fx-text-primary;
+}
+
+#createdDate .label {
+    -fx-text-fill: -fx-text-muted;
 }
 
 #tags .label {
