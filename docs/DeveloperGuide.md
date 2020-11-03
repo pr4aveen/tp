@@ -475,15 +475,16 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+   1.1 Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1.2 Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be
+    optimum.
 
-1. Saving window preferences
+2. Saving window preferences
 
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+   2.1 Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+   2.2 Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
 
 1. _{ more test cases …​ }_
@@ -512,3 +513,39 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+### Add a project
+
+### Edit a project
+
+### Delete a project
+
+### Clear all projects
+
+### Add a task
+
+### Edit a task
+
+### Delete a task
+
+### Clear all tasks
+
+### Changing Views
+
+### Finding tasks
+
+### Sorting tasks
+
+### Setting reminders
+
+### Time tracking
+
+### Statistics tracking
+
+### Undo/Redo
+
+### UI testing
+
+### Settings
+
+### Exit the program

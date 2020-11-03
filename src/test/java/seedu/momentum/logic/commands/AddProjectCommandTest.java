@@ -22,6 +22,7 @@ import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
+import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
@@ -34,7 +35,7 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
 
-public class AddCommandTest {
+public class AddProjectCommandTest {
 
     @Test
     public void constructor_nullProject_throwsNullPointerException() {
@@ -53,15 +54,14 @@ public class AddCommandTest {
         assertEquals(Arrays.asList(validProject), modelStub.projectsAdded);
     }
 
-    //    @Test
-    //    public void execute_duplicateProject_throwsCommandException() {
-    //        Project validProject = new ProjectBuilder().build();
-    //        AddProjectCommand addCommand = new AddProjectCommand(validProject);
-    //        ModelStub modelStub = new ModelStubWithProject(validProject);
-    //
-    //        assertThrows(CommandException.class,
-    //          AddCommand.MESSAGE_DUPLICATE_ENTRY, () -> addCommand.execute(modelStub));
-    //    }
+    @Test
+    public void execute_duplicateProject_throwsCommandException() {
+        Project validProject = new ProjectBuilder().build();
+        AddProjectCommand addCommand = new AddProjectCommand(validProject);
+        ModelStub modelStub = new ModelStubWithProject(validProject);
+        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, AddCommand.TEXT_PROJECT);
+        assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
+    }
 
     @Test
     public void equals() {

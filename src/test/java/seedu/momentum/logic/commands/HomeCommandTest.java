@@ -2,7 +2,7 @@ package seedu.momentum.logic.commands;
 
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.logic.commands.CommandTestUtil.getProjectAtIndex;
-import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +25,7 @@ class HomeCommandTest {
 
     @Test
     public void execute_taskView_showsProjectList() {
-        model.viewTasks(getProjectAtIndex(model, INDEX_FIRST_PROJECT));
+        model.viewTasks(getProjectAtIndex(model, INDEX_FIRST));
         expectedModel.commitToHistory();
         assertCommandSuccess(new HomeCommand(), model, HomeCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT, expectedModel);
     }

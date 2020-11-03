@@ -33,7 +33,7 @@ public class DeleteTaskCommand extends DeleteCommand {
         List<TrackedItem> lastShownList = model.getDisplayList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
         TrackedItem trackedItemToDelete = lastShownList.get(targetIndex.getZeroBased());
@@ -43,7 +43,7 @@ public class DeleteTaskCommand extends DeleteCommand {
 
         model.rescheduleReminders();
         model.commitToHistory();
-        return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete));
+        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, trackedItemToDelete));
     }
 
 

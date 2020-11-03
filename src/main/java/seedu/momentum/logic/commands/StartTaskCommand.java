@@ -34,7 +34,7 @@ public class StartTaskCommand extends StartCommand {
         List<TrackedItem> lastShownList = model.getDisplayList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
         TrackedItem trackedItemToStart = lastShownList.get(targetIndex.getZeroBased());
