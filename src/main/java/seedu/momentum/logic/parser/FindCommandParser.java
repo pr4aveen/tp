@@ -48,8 +48,8 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        FindType findType = getMatchType(argMultimap); // only parses find type if the argument exists
-        List<Predicate<TrackedItem>> predicateList = new ArrayList<>(); // list of all predicates that will be applied
+        FindType findType = getMatchType(argMultimap); // only parses find type if the argument exists.
+        List<Predicate<TrackedItem>> predicateList = new ArrayList<>(); // list of all predicates that will be applied.
 
         for (Prefix prefix : prefixesToParse) {
             parseArguments(argMultimap, prefix, predicateList, findType);
@@ -66,21 +66,22 @@ public class FindCommandParser implements Parser<FindCommand> {
             operationType = Predicate::and;
             break;
         case NONE:
-            // Fallthrough
+            // Fallthrough.
+            // Find none falls through as it needs the logical negation of the or predicate.
         case ANY:
-            // Find any is the default type
-            // Fallthrough
+            // Find any is the default type.
+            // Fallthrough.
         default:
             operationType = Predicate::or;
             break;
-
         }
+
         Predicate<TrackedItem> combinedPredicate = predicateList.stream().reduce(operationType).orElse(x -> true);
         return findType == FindType.NONE ? combinedPredicate.negate() : combinedPredicate;
     }
 
     private void parseArguments (ArgumentMultimap argMultimap, Prefix prefix,
-             List<Predicate<TrackedItem>> predicateList, FindType findType) throws ParseException {
+                                 List<Predicate<TrackedItem>> predicateList, FindType findType) throws ParseException {
 
         if (argMultimap.getValue(prefix).isEmpty()) {
             return;
