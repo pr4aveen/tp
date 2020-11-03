@@ -1,12 +1,6 @@
 package seedu.momentum.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-
-import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.ProjectBook;
-import seedu.momentum.model.ViewMode;
-import seedu.momentum.model.project.Project;
 
 /**
  * Represents a Clear command in Momentum.
@@ -23,7 +17,6 @@ public abstract class ClearCommand extends Command {
      *
      * @param model {@code Model} to remove data from.
      * @return feedback message of result of removing data for display.
-     * @throws CommandException If an error occurs during command execution.
      */
     public abstract CommandResult execute(Model model);
 }

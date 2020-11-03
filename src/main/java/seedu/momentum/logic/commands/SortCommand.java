@@ -7,8 +7,6 @@ import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.ViewMode;
-import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 
 /**
@@ -101,19 +99,19 @@ public class SortCommand extends Command {
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_SORT_SUCCESS, type, order));
 
-//        if (model.getViewMode() == ViewMode.PROJECTS) {
-//            model.updateOrder(sortType, isAscending, changeSortByCompletionStatus);
-//            model.commitToHistory();
-//            return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_PROJECTS, type, order));
-//        } else {
-//            Project projectBeforeSort = model.getCurrentProject();
-//            Project projectAfterSort = model.getCurrentProject()
-//                    .orderTaskList(sortType, isAscending, changeSortByCompletionStatus);
-//            model.setTrackedItem(projectBeforeSort, projectAfterSort);
-//            model.viewTasks(projectAfterSort);
-//            model.commitToHistory();
-//            return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_TASKS, type, order));
-//        }
+        //if (model.getViewMode() == ViewMode.PROJECTS) {
+        //    model.updateOrder(sortType, isAscending, changeSortByCompletionStatus);
+        //    model.commitToHistory();
+        //    return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_PROJECTS, type, order));
+        //} else {
+        //    Project projectBeforeSort = model.getCurrentProject();
+        //    Project projectAfterSort = model.getCurrentProject()
+        //            .orderTaskList(sortType, isAscending, changeSortByCompletionStatus);
+        //    model.setTrackedItem(projectBeforeSort, projectAfterSort);
+        //    model.viewTasks(projectAfterSort);
+        //    model.commitToHistory();
+        //    return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_TASKS, type, order));
+        //}
     }
 
     @Override

@@ -85,20 +85,10 @@ public interface Logic {
      */
     GuiThemeSettings getGuiThemeSettings();
 
-//    /**
-//     * Set the user prefs' GUI theme settings.
-//     */
-//    void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
-
     /**
      * Returns a set of all the tags in the items being displayed.
      */
     Set<Tag> getVisibleTags();
-
-//    /**
-//     * Hide tags if shown, show tags when hidden.
-//     */
-//    void showOrHideTags();
 
     /**
      * Returns an observable boolean value representing whether tags are visible.
@@ -108,15 +98,13 @@ public interface Logic {
     BooleanProperty getIsTagsVisible();
 
     /**
-     * Return the user prefs' statistic timeframe settings.
+     * Returns the user prefs' statistic timeframe settings.
      */
     StatisticTimeframeSettings getStatisticTimeframeSettings();
 
-//    /**
-//     * Set the user prefs' statistic timeframe settings.
-//     */
-//    void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings);
-
+    /**
+     * Returns the statistic manager
+     */
     StatisticGenerator getStatistic();
 
     /**

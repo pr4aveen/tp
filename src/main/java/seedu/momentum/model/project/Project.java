@@ -25,7 +25,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
 
     /**
      * Constructs a {@code Project}.
-     *  @param name               A valid name.
+     * @param name               A valid name.
      * @param description        A description of the project.
      * @param completionStatus   A completion status of the project.
      * @param createdDateWrapper A dateWrapper associated with the creation of the project.

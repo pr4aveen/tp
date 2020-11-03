@@ -14,8 +14,8 @@ public class DeadlineCompare implements Comparator<HashMap<String, Object>> {
     /**
      * Compares deadline of two tracked items.
      *
-     * @param p1 first project to compare.
-     * @param p2 second project to compare.
+     * @param p1 first tracked item to compare.
+     * @param p2 second tracked item to compare.
      * @return integer values for comparison.
      */
     public int compare(HashMap<String, Object> p1, HashMap<String, Object> p2) {

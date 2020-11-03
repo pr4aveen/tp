@@ -14,8 +14,8 @@ import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.TimeWrapper;
 
 /**
- * Represents a Project's deadline in the project book.
- * Guarantees: immutable; is valid
+ * Represents a deadline in Momentum.
+ * Guarantees: immutable; is valid.
  */
 public class Deadline implements Comparable<Deadline> {
 

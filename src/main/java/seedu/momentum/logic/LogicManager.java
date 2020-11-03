@@ -119,20 +119,10 @@ public class LogicManager implements Logic {
         return model.getGuiThemeSettings();
     }
 
-//    @Override
-//    public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
-//        model.setGuiThemeSettings(guiThemeSettings);
-//    }
-
     @Override
     public StatisticTimeframeSettings getStatisticTimeframeSettings() {
         return model.getStatisticTimeframeSettings();
     }
-//
-//    @Override
-//    public void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframe) {
-//        model.setStatisticTimeframeSettings(statisticTimeframe);
-//    }
 
     @Override
     public Set<Tag> getVisibleTags() {
@@ -153,11 +143,6 @@ public class LogicManager implements Logic {
     public Project getCurrentProject() {
         return model.getCurrentProject();
     }
-//
-//    @Override
-//    public void showOrHideTags() {
-//        model.showOrHideTags();
-//    }
 
     @Override
     public BooleanProperty getIsTagsVisible() {

@@ -14,10 +14,10 @@ public class DescriptionContainsKeywordsPredicate implements Predicate<TrackedIt
     private final FindType findType;
 
     /**
-     * Predicate to check whether the {@code Description} of a {@code Project} contains a
+     * Creates a predicate to check whether the {@code Description} of a {@code Project} contains a
      * certain keyword.
      *
-     * @param findType enum to indicate whether the find type to be used for this find command.
+     * @param findType enum to indicate the find type to be used for this find command.
      * @param keywords list of keywords to check for matches.
      */
     public DescriptionContainsKeywordsPredicate(FindType findType, List<String> keywords) {

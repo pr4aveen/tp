@@ -16,6 +16,6 @@
       <StackPane alignment="CENTER" >
          <StackPane fx:id="pieChartPlaceHolder" prefHeight="270" VBox.vgrow="SOMETIMES"/>
       </StackPane>
-      <ListView fx:id="statListView" prefHeight="120"/>
+      <ListView fx:id="statListView" prefHeight="120" VBox.vgrow="SOMETIMES"/>
    </children>
 </VBox>

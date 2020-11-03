@@ -6,12 +6,16 @@ import java.util.function.Predicate;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Represents a project book with additional information on how the data is displayed to the UI.
+ */
 public class ProjectBookWithUi extends ProjectBook {
 
     private final ViewMode viewMode;
     private final Project project;
     private final Predicate<TrackedItem> predicate;
     private final Comparator<TrackedItem> comparator;
+
     /**
      * Constructs a {@code ProjectBookWithUi}
      */

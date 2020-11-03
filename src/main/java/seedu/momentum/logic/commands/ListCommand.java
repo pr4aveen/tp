@@ -3,7 +3,6 @@ package seedu.momentum.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
 
-import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ViewMode;
 
