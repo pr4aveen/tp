@@ -66,17 +66,6 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         this.guiThemeSettings = guiThemeSettings;
     }
 
-    // use this instead of setGuiThemeSettings in ModelManager to return immutable UserPrefs
-    public UserPrefs returnChangedGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
-        requireNonNull(guiThemeSettings);
-        UserPrefs newUserPrefs = new UserPrefs();
-        newUserPrefs.setGuiThemeSettings(guiThemeSettings);
-        newUserPrefs.setGuiWindowSettings(this.getGuiWindowSettings());
-        newUserPrefs.setStatisticTimeframeSettings(this.getStatisticTimeframeSettings());
-        newUserPrefs.setProjectBookFilePath(this.projectBookFilePath);
-        return newUserPrefs;
-    }
-
     public void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings) {
         requireNonNull(statisticTimeframeSettings);
         this.statisticTimeframeSettings = statisticTimeframeSettings;

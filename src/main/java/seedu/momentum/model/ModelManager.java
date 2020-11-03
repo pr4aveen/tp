@@ -126,7 +126,6 @@ public class ModelManager implements Model {
     @Override
     public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
         requireNonNull(guiThemeSettings);
-        //here use returnChangedGuiThemeSettings and replace UserPrefs in ModelManager with updated UserPrefs
         userPrefs.setGuiThemeSettings(guiThemeSettings);
     }
 

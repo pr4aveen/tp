@@ -55,10 +55,8 @@ public class SetCommand extends Command {
             model.setStatisticTimeframeSettings(new StatisticTimeframeSettings(
                 settingsToChange.getStatTimeframe().get()));
             SettingsUpdateManager.updateStatisticTimeframe(newTimeframe);
-            //do the same for this, make it return immutable userPrefs after setting statsTimeframeSettings
         }
 
-        model.commitToHistory();
         return new CommandResult(MESSAGE_UPDATE_SETTINGS_SUCCESS);
     }
 
