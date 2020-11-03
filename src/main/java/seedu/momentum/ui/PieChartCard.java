@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
+import seedu.momentum.commons.exceptions.IllegalValueException;
 import seedu.momentum.logic.statistic.StatisticEntry;
 
 /**
@@ -19,6 +21,9 @@ public class PieChartCard extends UiPart<Region> {
     @FXML
     private PieChart pieChart;
 
+    @FXML
+    private Label message;
+
     /**
      * Creates a {@code PieChartCard} with the give {@code ObservableList}.
      *
@@ -26,13 +31,23 @@ public class PieChartCard extends UiPart<Region> {
      */
     public PieChartCard(ObservableList<StatisticEntry> statisticList) {
         super(FXML);
-        setStatistics(statisticList);
-        pieChart.setData(statisticsData);
+
+        try {
+            setStatistics(statisticList);
+            pieChart.setData(statisticsData);
+        } catch (IllegalValueException e) {
+            pieChart.setTitle("There are no durations in the list!\n"
+                    + "Start timing now.");
+        }
     }
 
-    private void setStatistics(ObservableList<StatisticEntry> statisticList) {
+    private void setStatistics(ObservableList<StatisticEntry> statisticList) throws IllegalValueException {
         statisticsData = FXCollections.observableArrayList();
         double sum = statisticList.stream().map(StatisticEntry::getValue).reduce(0.0, Double::sum);
+
+        if (sum == 0) {
+            throw new IllegalValueException("No durations in this list");
+        }
         for (StatisticEntry s : statisticList) {
             double value = s.getValue();
             String label = s.getLabel();
