@@ -18,101 +18,110 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<fx:root minHeight="600.0" minWidth="1000.0" onCloseRequest="#handleExit" title="Momentum" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
-   <icons>
-      <Image url="@/images/address_book_32.png" />
-   </icons>
-   <scene>
-      <Scene>
-         <stylesheets>
-            <URL value="@FontAndLayout.css" />
-         </stylesheets>
-         <root>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" styleClass="background">
-               <children>
-                  <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
-                     <menus>
-                        <Menu mnemonicParsing="false" text="File">
-                           <items>
-                              <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
-                           </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
-                           <items>
-                              <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
-                           </items>
-                        </Menu>
-                     </menus>
-                  </MenuBar>
-                  <GridPane VBox.vgrow="ALWAYS">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints vgrow="ALWAYS" />
-                    </rowConstraints>
-                     <children>
-                        <GridPane prefHeight="0.0" prefWidth="70.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="ALWAYS" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="56.0" valignment="CENTER" vgrow="SOMETIMES" />
-                            <RowConstraints vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <StackPane>
-                                 <children>
-                                    <Label styleClass="app-logo" text="Momentum" />
-                                 </children>
-                              </StackPane>
-                              <SplitPane fx:id="sideBarSplitPane" dividerPositions="0.15, 0.3, 0.5" orientation="VERTICAL" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-                                <items>
-                                    <StackPane fx:id="reminderDisplayPlaceholder" styleClass="reminder-box" />
-                                    <StackPane fx:id="timerListPanelPlaceholder" styleClass="content-box">
-                                        <children>
-                                            <VBox fx:id="timerList" styleClass="content-box" />
-                                        </children>
-                                    </StackPane>
-                                    <StackPane fx:id="statListPanelPlaceholder" styleClass="content-box">
-                                       <children>
-                                          <VBox fx:id="statList" styleClass="content-box" />
-                                       </children>
-                                    </StackPane>
-                                    <StackPane fx:id="infoDisplayPlaceholder" styleClass="content-box" />
-                                </items>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </SplitPane>
-                           </children>
+<fx:root minHeight="600.0" minWidth="1000.0" onCloseRequest="#handleExit" title="Momentum" type="javafx.stage.Stage"
+         xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
+    <icons>
+        <Image url="@/images/address_book_32.png" />
+    </icons>
+    <scene>
+        <Scene>
+            <stylesheets>
+                <URL value="@FontAndLayout.css" />
+            </stylesheets>
+            <root>
+                <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" styleClass="background">
+                    <children>
+                        <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
+                            <menus>
+                                <Menu mnemonicParsing="false" text="File">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
+                                    </items>
+                                </Menu>
+                                <Menu mnemonicParsing="false" text="Help">
+                                    <items>
+                                        <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp"
+                                                  text="Help" />
+                                    </items>
+                                </Menu>
+                            </menus>
+                        </MenuBar>
+                        <GridPane VBox.vgrow="ALWAYS">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.0"
+                                                   prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="ALWAYS" />
+                            </rowConstraints>
+                            <children>
+                                <GridPane prefHeight="0.0" prefWidth="70.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="56.0"
+                                                        valignment="CENTER" vgrow="SOMETIMES" />
+                                        <RowConstraints vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <StackPane>
+                                            <children>
+                                                <Label styleClass="app-logo" text="Momentum" />
+                                            </children>
+                                        </StackPane>
+                                        <SplitPane fx:id="sideBarSplitPane" dividerPositions="0.15, 0.3, 0.5"
+                                                   orientation="VERTICAL" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                            <items>
+                                                <StackPane fx:id="reminderDisplayPlaceholder"
+                                                           styleClass="reminder-box" VBox.vgrow="SOMETIMES"/>
+                                                <StackPane fx:id="timerListPanelPlaceholder" styleClass="content-box">
+                                                    <children>
+                                                        <VBox fx:id="timerList" styleClass="content-box"
+                                                              VBox.vgrow="SOMETIMES" />
+                                                    </children>
+                                                </StackPane>
+                                                <StackPane fx:id="statListPanelPlaceholder" styleClass="content-box"
+                                                           VBox.vgrow="SOMETIMES">
+                                                    <children>
+                                                        <VBox fx:id="pieChart"/>
+                                                        <VBox fx:id="statList" styleClass="content-box" />
+                                                    </children>
+                                                </StackPane>
+                                                <StackPane fx:id="infoDisplayPlaceholder" styleClass="content-box" />
+                                            </items>
+                                            <GridPane.margin>
+                                                <Insets />
+                                            </GridPane.margin>
+                                        </SplitPane>
+                                    </children>
+                                </GridPane>
+                                <GridPane prefHeight="82.0" prefWidth="241.0" GridPane.columnIndex="1">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="56.0" vgrow="SOMETIMES" />
+                                        <RowConstraints percentHeight="15.0" vgrow="SOMETIMES" />
+                                        <RowConstraints vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <StackPane fx:id="commandBoxPlaceholder" styleClass="command-box" />
+                                        <StackPane fx:id="resultDisplayPlaceholder" styleClass="result-box" GridPane.rowIndex="1" />
+                                        <VBox styleClass="project-list" GridPane.rowIndex="2">
+                                            <children>
+                                                <StackPane fx:id="projectListPanelPlaceholder" styleClass="pane-with-border" VBox.vgrow="ALWAYS" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </GridPane>
+                            </children>
                         </GridPane>
-                        <GridPane prefHeight="82.0" prefWidth="241.0" GridPane.columnIndex="1">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="ALWAYS" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="56.0" vgrow="SOMETIMES" />
-                            <RowConstraints percentHeight="15.0" vgrow="SOMETIMES" />
-                            <RowConstraints vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <StackPane fx:id="commandBoxPlaceholder" styleClass="command-box" />
-                              <StackPane fx:id="resultDisplayPlaceholder" styleClass="result-box" GridPane.rowIndex="1" />
-                              <VBox styleClass="project-list" GridPane.rowIndex="2">
-                                 <children>
-                                    <StackPane fx:id="projectListPanelPlaceholder" styleClass="pane-with-border" VBox.vgrow="ALWAYS" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </GridPane>
-                     </children>
-                  </GridPane>
-                   <StackPane fx:id="bottomBarPlaceholder" styleClass="reminder-box" />
-               </children>
-            </VBox>
-         </root>
-      </Scene>
-   </scene>
+                        <StackPane fx:id="bottomBarPlaceholder" styleClass="reminder-box" />
+                    </children>
+                </VBox>
+            </root>
+        </Scene>
+    </scene>
 </fx:root>
