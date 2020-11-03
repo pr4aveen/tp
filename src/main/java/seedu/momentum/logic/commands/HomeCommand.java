@@ -18,5 +18,4 @@ public class HomeCommand extends Command {
         model.commitToHistory();
         return new CommandResult(MESSAGE_EXIT_ACKNOWLEDGEMENT, false, false);
     }
-
 }
