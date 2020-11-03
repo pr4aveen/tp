@@ -24,6 +24,10 @@
     -fx-background-color: -fx-cool-white-1;
 }
 
+.chart-pie-label {
+    -fx-fill: -fx-black;
+}
+
 .label {
     -fx-text-fill: -fx-text-primary;
 }
