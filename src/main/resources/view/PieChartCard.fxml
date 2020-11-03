@@ -4,9 +4,10 @@
 
 <?import javafx.scene.chart.PieChart?>
 
+<?import javafx.scene.control.Label?>
 <VBox prefWidth="100.0" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <PieChart fx:id="pieChart" styleClass="pieChartLabel" legendVisible="false" VBox.vgrow="SOMETIMES"
-                  startAngle="180" animated="true"/>
+                  startAngle="180" />
     </children>
 </VBox>
