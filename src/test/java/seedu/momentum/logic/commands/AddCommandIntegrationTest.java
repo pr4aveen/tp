@@ -34,7 +34,7 @@ public class AddCommandIntegrationTest {
         expectedModel.commitToHistory();
 
         assertCommandSuccess(new AddProjectCommand(validProject), model,
-                String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, validProject), expectedModel);
+                String.format(AddCommand.MESSAGE_SUCCESS, AddProjectCommand.TEXT_PROJECT, validProject), expectedModel);
     }
 
     /**
@@ -52,7 +52,7 @@ public class AddCommandIntegrationTest {
         expectedModel.commitToHistory();
 
         assertCommandSuccess(addDanaCommand, model,
-                String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, dana), expectedModel);
+                String.format(AddCommand.MESSAGE_SUCCESS, AddProjectCommand.TEXT_PROJECT, dana), expectedModel);
     }
 
     //    @Test

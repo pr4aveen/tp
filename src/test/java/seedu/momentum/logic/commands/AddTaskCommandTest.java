@@ -39,7 +39,7 @@ public class AddTaskCommandTest {
 
         AddCommand addCommand = new AddTaskCommand(validTask, parentProject);
 
-        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_TASK, validTask);
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, AddTaskCommand.TEXT_TASK, validTask);
 
         Model expectedModel = new ModelManager(model.getProjectBook(), model.getUserPrefs());
         Project expectedParent = (Project) expectedModel.getDisplayList().get(INDEX_FIRST.getZeroBased());
@@ -57,7 +57,7 @@ public class AddTaskCommandTest {
         Task validTask = (Task) parentProject.getTaskList().get(INDEX_FIRST.getZeroBased());
         Task duplicateTask = new TaskBuilder(validTask).build();
         AddTaskCommand addCommand = new AddTaskCommand(duplicateTask, parentProject);
-        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, AddCommand.TEXT_TASK);
+        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, AddTaskCommand.TEXT_TASK);
         assertThrows(CommandException.class,
                 expectedMessage, () -> addCommand.execute(model));
     }

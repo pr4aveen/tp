@@ -38,7 +38,7 @@ public class ProjectBookParser {
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
     /**
-     * Parses user input into command for execution.
+     * Parses user input into a command for execution using the appropriate command parser.
      *
      * @param userInput full user input string.
      * @param model     the current model manager.
@@ -65,7 +65,7 @@ public class ProjectBookParser {
             return new DeleteCommandParser().parse(arguments, model);
 
         case ClearCommand.COMMAND_WORD:
-            return new ClearCommand();
+            return new ClearCommandParser().parse(arguments, model);
 
         case FindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments, model);

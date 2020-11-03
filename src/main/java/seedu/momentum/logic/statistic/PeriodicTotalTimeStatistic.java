@@ -17,7 +17,7 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
- * Tracks the total timeWrapper spent on each project for a specific timeframe.
+ * Tracks the total time spent on each project for a specific timeframe.
  */
 public class PeriodicTotalTimeStatistic extends Statistic {
 
@@ -30,7 +30,7 @@ public class PeriodicTotalTimeStatistic extends Statistic {
      * Constructs a {@code PeriodicTotalTimeStatistic}
      *
      * @param timeframe Timeframe to track.
-     * @param units Units for the total timeWrapper calculated.
+     * @param units Units for the total time calculated.
      */
     public PeriodicTotalTimeStatistic(StatisticTimeframe timeframe, ChronoUnit units) {
         requireAllNonNull(timeframe, units);
@@ -39,7 +39,7 @@ public class PeriodicTotalTimeStatistic extends Statistic {
     }
 
     /**
-     * Constructs a {@code PeriodicTotalTimeStatistic} with specified data.
+     * Constructs a {@code PeriodicTotalTimeStatistic} with the specified data.
      *
      * @param timeframe Timeframe to track.
      * @param units Units for the total timeWrapper calculated.
@@ -54,6 +54,12 @@ public class PeriodicTotalTimeStatistic extends Statistic {
         this.timeList = timeList;
     }
 
+    /**
+     * Calculates the total time spent on each project in the provided model, for a specific timeframe.
+     * The calculated data is saved, and can be retrieved using {@code getDisplayList}
+     *
+     * @param model The data required to calculate the statistic.
+     */
     @Override
     public void calculate(Model model) {
         DateTimeWrapper start = Clock.now().adjustToStartOfTimeframe(timeframe);
@@ -73,6 +79,14 @@ public class PeriodicTotalTimeStatistic extends Statistic {
         }
     }
 
+    /**
+     * Calculates the time spend on a specific item, for the specified timeframe.
+     *
+     * @param trackedItem The item to calculate for.
+     * @param start Start of the timeframe.
+     * @param end End of the timeframe.
+     * @return
+     */
     private long calculateTimeSpent(TrackedItem trackedItem, DateTimeWrapper start, DateTimeWrapper end) {
         List<WorkDuration> durations = trackedItem.getDurationList();
         long totalDuration = 0;
@@ -103,6 +117,7 @@ public class PeriodicTotalTimeStatistic extends Statistic {
 
         return totalDuration;
     }
+
 
     @Override
     public void setTimeframe(StatisticTimeframe timeframe) {

@@ -5,6 +5,7 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 
+import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
@@ -39,8 +40,7 @@ public class SortCommand extends Command {
             + "Ascending: asc; Descending: dsc. \n"
             + "Example: " + COMMAND_WORD + " " + SORT_TYPE + "alpha " + SORT_ORDER + "asc";
 
-    public static final String MESSAGE_SORT_SUCCESS_PROJECTS = "Projects have been sorted in %1$s%2$s order";
-    public static final String MESSAGE_SORT_SUCCESS_TASKS = "Tasks have been sorted in %1$s%2$s order";
+    public static final String MESSAGE_SORT_SUCCESS = "Sorted in %1$s%2$s order";
 
     private SortType sortType;
     private final boolean isAscending;
@@ -64,6 +64,13 @@ public class SortCommand extends Command {
         this.changeSortByCompletionStatus = changeSortByCompletionStatus;
     }
 
+    /**
+     * Sorts the items in the provided model.
+     *
+     * @param model {@code Model} whose items to sort.
+     * @return feedback message of sort result, for display
+     * @throws CommandException If an error occurs during the sorting process.
+     */
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
@@ -90,19 +97,23 @@ public class SortCommand extends Command {
             sortType = SortType.ALPHA;
         }
 
-        if (model.getViewMode() == ViewMode.PROJECTS) {
-            model.updateOrder(sortType, isAscending, changeSortByCompletionStatus);
-            model.commitToHistory();
-            return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_PROJECTS, type, order));
-        } else {
-            Project projectBeforeSort = model.getCurrentProject();
-            Project projectAfterSort = model.getCurrentProject()
-                    .orderTaskList(sortType, isAscending, changeSortByCompletionStatus);
-            model.setTrackedItem(projectBeforeSort, projectAfterSort);
-            model.viewTasks(projectAfterSort);
-            model.commitToHistory();
-            return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_TASKS, type, order));
-        }
+        model.updateOrder(sortType, isAscending, changeSortByCompletionStatus);
+        model.commitToHistory();
+        return new CommandResult(String.format(MESSAGE_SORT_SUCCESS, type, order));
+
+//        if (model.getViewMode() == ViewMode.PROJECTS) {
+//            model.updateOrder(sortType, isAscending, changeSortByCompletionStatus);
+//            model.commitToHistory();
+//            return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_PROJECTS, type, order));
+//        } else {
+//            Project projectBeforeSort = model.getCurrentProject();
+//            Project projectAfterSort = model.getCurrentProject()
+//                    .orderTaskList(sortType, isAscending, changeSortByCompletionStatus);
+//            model.setTrackedItem(projectBeforeSort, projectAfterSort);
+//            model.viewTasks(projectAfterSort);
+//            model.commitToHistory();
+//            return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_TASKS, type, order));
+//        }
     }
 
     @Override

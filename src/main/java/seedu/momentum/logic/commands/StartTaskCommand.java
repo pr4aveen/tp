@@ -11,14 +11,17 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Starts a timer to track a task in Momentum.
+ */
 public class StartTaskCommand extends StartCommand {
 
     private final Project parentProject;
 
     /**
-     * Creates a StartCommand that starts the timerWrapper for a task.
+     * Creates a StartTaskCommand that starts the timer for a task.
      *
-     * @param targetIndex The task to start.
+     * @param targetIndex The index of the task to start.
      * @param parentProject The parent project of the task.
      */
     public StartTaskCommand(Index targetIndex, Project parentProject) {
@@ -27,6 +30,13 @@ public class StartTaskCommand extends StartCommand {
         this.parentProject = parentProject;
     }
 
+    /**
+     * Starts the timer for the task in the provided model.
+     *
+     * @param model {@code Model} containing the task whose timer to start.
+     * @return feedback message of timer result, for display
+     * @throws CommandException If an error occurs when starting the timer.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

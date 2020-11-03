@@ -14,7 +14,9 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
 
 /**
- * Adds a project to the project book.
+ * Represents a add command in Momentum.
+ * Commands that add different items should extend this class with an implementation specific to the item
+ * being added.
  */
 public abstract class AddCommand extends Command {
 
@@ -30,19 +32,26 @@ public abstract class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New %1$s added: %2$s";
     public static final String MESSAGE_DUPLICATE_ENTRY = "This %s already exists in the project book";
-    public static final String TEXT_PROJECT = "Project";
-    public static final String TEXT_TASK = "Task";
 
     protected Project project;
 
     /**
      * Creates an AddCommand to add the specified {@code Project}
+     *
+     * @param project The project to add.
      */
     public AddCommand(Project project) {
         requireNonNull(project);
         this.project = project;
     }
 
+    /**
+     * Adds an item to the provided model.
+     *
+     * @param model {@code Model} which the command will add the item to.
+     * @return feedback message of the result of adding, for display
+     * @throws CommandException If an error occurs when adding the item.
+     */
     @Override
     public abstract CommandResult execute(Model model) throws CommandException;
 }

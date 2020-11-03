@@ -11,6 +11,9 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Edits tasks in a project in Momentum.
+ */
 public class EditTaskCommand extends EditCommand {
 
     private final Project parentProject;
@@ -18,7 +21,7 @@ public class EditTaskCommand extends EditCommand {
     /**
      * Create a EditTaskCommand that edits a task.
      *
-     * @param index                     of the project in the filtered project list to edit.
+     * @param index                     of the task in the project to edit.
      * @param editTrackedItemDescriptor details to edit the project with.
      * @param parentProject             The parent project of the task to edit.
      */
@@ -28,6 +31,13 @@ public class EditTaskCommand extends EditCommand {
         this.parentProject = parentProject;
     }
 
+    /**
+     * Edits the task in the project in the provided model.
+     *
+     * @param model {@code Model} containing the task to edit.
+     * @return feedback message of editing result, for display
+     * @throws CommandException If an error occurs during editing process.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

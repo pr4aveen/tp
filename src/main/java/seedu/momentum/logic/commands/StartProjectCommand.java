@@ -10,17 +10,27 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Starts a timer to track a project in Momentum.
+ */
 public class StartProjectCommand extends StartCommand {
 
     /**
-     * Creates a StartCommand that starts the timerWrapper for a project.
+     * Creates a StartProjectCommand that starts the timer for a project.
      *
-     * @param targetIndex The project to start.
+     * @param targetIndex The index of the project to start.
      */
     public StartProjectCommand(Index targetIndex) {
         super(targetIndex);
     }
 
+    /**
+     * Starts the timer for the project in the provided model.
+     *
+     * @param model {@code Model} containing the project whose timer to start.
+     * @return feedback message of timer result, for display
+     * @throws CommandException If an error occurs when starting the timer.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

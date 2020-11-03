@@ -25,15 +25,15 @@ import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.TagListContainsKeywordsPredicate;
 
 /**
- * Parses input arguments and creates a new FindCommand object
+ * Parses input arguments and creates an appropriate FindCommand object
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
     public static final String FIND_ARGUMENT_DELIMITER = "\\s+";
 
     /**
-     * Parses the given {@code String} of arguments in the context of the FindCommand
-     * and returns a FindCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the FindCommand,
+     * and returns the corresponding FindCommand object for execution.
      *
      * @throws ParseException if the user input does not conform the expected format.
      */

@@ -52,6 +52,12 @@ public class SortCommandParser implements Parser<SortCommand> {
 
     }
 
+    /**
+     * Parses the sort order
+     * @param argMultimap The parsed argument tokens, containing the sort order token.
+     * @return A String representing the order of the sort entered by the user.
+     * @throws ParseException if the user does not conform to the expceted format.
+     */
     private String parseSortOrder(ArgumentMultimap argMultimap) throws ParseException {
 
         if (argMultimap.getValue(SORT_ORDER).isEmpty()) {
@@ -69,6 +75,13 @@ public class SortCommandParser implements Parser<SortCommand> {
         }
     }
 
+    /**
+     * Parses the sort type and returns the corresponding enum value.
+     *
+     * @param argMultimap The parsed argument tokens, containing the sort type token.
+     * @return A SortType representing the type of the sort entered by the user.
+     * @throws ParseException if the user does not conform to the expceted format.
+     */
     private SortType parseSortType(ArgumentMultimap argMultimap) throws ParseException {
 
         if (argMultimap.getValue(SORT_TYPE).isEmpty()) {

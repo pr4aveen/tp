@@ -35,16 +35,16 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
-     * Returns true if the reminder is empty, false otherwise.
+     * Returns true if there is no reminder to display, false otherwise.
      *
-     * @return the boolean.
+     * @return A boolean value that can be observed for changes.
      */
     BooleanProperty isReminderEmpty();
 
     /**
      * Returns the string representation of the reminder.
      *
-     * @return the reminder.
+     * @return A String representing the reminder, and can be observed for changes.
      */
     StringProperty getReminder();
 
@@ -56,7 +56,7 @@ public interface Logic {
     ReadOnlyProjectBook getProjectBook();
 
     /**
-     * Returns an unmodifiable view of the filtered list of tracked items.
+     * Returns an unmodifiable view of the items to be displayed in the UI.
      */
     ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList();
 
@@ -85,23 +85,23 @@ public interface Logic {
      */
     GuiThemeSettings getGuiThemeSettings();
 
-    /**
-     * Set the user prefs' GUI theme settings.
-     */
-    void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
+//    /**
+//     * Set the user prefs' GUI theme settings.
+//     */
+//    void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
 
     /**
-     * Returns a set of currently visible tags.
+     * Returns a set of all the tags in the items being displayed.
      */
     Set<Tag> getVisibleTags();
 
-    /**
-     * Hide tags if shown, show tags when hidden.
-     */
-    void showOrHideTags();
+//    /**
+//     * Hide tags if shown, show tags when hidden.
+//     */
+//    void showOrHideTags();
 
     /**
-     * Returns is tags visible boolean property.
+     * Returns an observable boolean value representing whether tags are visible.
      *
      * @return true if tags is visible, false otherwise.
      */
@@ -112,10 +112,10 @@ public interface Logic {
      */
     StatisticTimeframeSettings getStatisticTimeframeSettings();
 
-    /**
-     * Set the user prefs' statistic timeframe settings.
-     */
-    void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings);
+//    /**
+//     * Set the user prefs' statistic timeframe settings.
+//     */
+//    void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings);
 
     StatisticGenerator getStatistic();
 

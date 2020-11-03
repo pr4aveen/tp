@@ -10,10 +10,12 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Deletes projects in Momentum.
+ */
 public class DeleteProjectCommand extends DeleteCommand {
-
     /**
-     * Deletes a project at a given index from the project book.
+     * Creates a {@code DeleteProjectCommand} that deletes a project at the given index form the model.
      *
      * @param targetIndex index of the project to be deleted.
      */
@@ -21,6 +23,13 @@ public class DeleteProjectCommand extends DeleteCommand {
         super(targetIndex);
     }
 
+    /**
+     * Deletes the project from the provided model.
+     *
+     * @param model {@code Model} from which to delete the project.
+     * @return feedback message of the result of deleting the project, for display
+     * @throws CommandException If an error occurs during the deletion.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

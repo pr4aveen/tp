@@ -49,7 +49,7 @@ public class AddProjectCommandTest {
 
         CommandResult commandResult = new AddProjectCommand(validProject).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, validProject),
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, AddProjectCommand.TEXT_PROJECT, validProject),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validProject), modelStub.projectsAdded);
     }
@@ -59,7 +59,7 @@ public class AddProjectCommandTest {
         Project validProject = new ProjectBuilder().build();
         AddProjectCommand addCommand = new AddProjectCommand(validProject);
         ModelStub modelStub = new ModelStubWithProject(validProject);
-        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, AddCommand.TEXT_PROJECT);
+        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, AddProjectCommand.TEXT_PROJECT);
         assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
     }
 
