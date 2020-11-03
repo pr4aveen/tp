@@ -13,6 +13,7 @@ public abstract class DeleteCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " " + "INDEX";
     public static final String MESSAGE_DELETE_PROJECT_SUCCESS = "Deleted Project: %1$s";
+    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
 
     protected final Index targetIndex;
 
