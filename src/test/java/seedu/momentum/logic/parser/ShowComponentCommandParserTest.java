@@ -1,7 +1,6 @@
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseSuccess;
