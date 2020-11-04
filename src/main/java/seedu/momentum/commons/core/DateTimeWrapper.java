@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.AppUtil.checkArgument;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
@@ -44,7 +43,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      *
      * @param amount Amount to increase by.
      * @param unit   Unit to increase with.
-     * @return       The new DateTimeWrapper.
+     * @return The new DateTimeWrapper.
      */
     public DateTimeWrapper plus(long amount, ChronoUnit unit) {
         return new DateTimeWrapper(dateTime.plus(amount, unit));
@@ -65,7 +64,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      * Adjusts the DateTimeWrapper to the start of the timeframe as specified in a {@code StatisticTimeframe}.
      *
      * @param timeframe Timeframe to adjust to.
-     * @return          The new DateTimeWrapper.
+     * @return The new DateTimeWrapper.
      */
     public DateTimeWrapper adjustToStartOfTimeframe(StatisticTimeframe timeframe) {
         ChronoUnit timeframeUnit = timeframe.toChronoUnit();
@@ -117,7 +116,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      * @param time1 The earlier instance of DateTimeWrapper.
      * @param time2 The later instance of DateTimeWrapper.
      * @param units The units to the DateTimeWrapper.
-     * @return      The amount of time between the 2 instances, in the units provided.
+     * @return The amount of time between the 2 instances, in the units provided.
      */
     public static long getTimeBetween(DateTimeWrapper time1, DateTimeWrapper time2, ChronoUnit units) {
         return units.between(time1.get(), time2.get());
