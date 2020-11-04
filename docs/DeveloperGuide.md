@@ -1136,6 +1136,32 @@ testers are expected to do more *exploratory* testing.
 
 ### Statistics tracking
 
+1. No available durations
+
+    1. Prerequisites: There are no durations available for all time frames.
+    
+    1. Test case: `set st/daily`.
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+    1. Test case: `set st/weekly`.
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+    1. Test case: `set st/monthly`.
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+1. Durations available
+
+    1. Prerequisites: There are no durations available for all time frames.
+    
+    1. Test case: `set st/daily`.
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+    
+    1. Test case: `set st/weekly`.
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+    
+    1. Test case: `set st/monthly`.
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+
 ### Undo/Redo
 
 ### UI testing
