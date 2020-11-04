@@ -58,7 +58,7 @@ public class VersionedProjectBook extends ProjectBook {
     public void undo() {
         assert canUndoCommand();
         shiftPointer(UNDO);
-        ProjectBookWithUi undoVersion = projectBookStateList.get(currentStatePointer);
+        ReadOnlyProjectBook undoVersion = projectBookStateList.get(currentStatePointer);
         resetData(undoVersion);
     }
 
@@ -68,7 +68,7 @@ public class VersionedProjectBook extends ProjectBook {
     public void redo() {
         assert canRedoCommand();
         shiftPointer(REDO);
-        ProjectBookWithUi redoVersion = projectBookStateList.get(currentStatePointer);
+        ReadOnlyProjectBook redoVersion = projectBookStateList.get(currentStatePointer);
         resetData(redoVersion);
     }
 
