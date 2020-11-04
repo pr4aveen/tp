@@ -94,7 +94,7 @@ public class ReminderManager {
             LOGGER.info("reminder scheduled for " + project);
             TimerTask timerTask = new ReminderTimerTask(project);
             this.timer.schedule(timerTask, project.getReminder().toDate());
-        } 
+        }
     }
 
     /**
