@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.reminder.Reminder;
 
 /**
  * An UI component that displays information of a {@code Project}.
@@ -21,6 +22,8 @@ public class TrackedItemCard extends UiPart<Region> {
     private static final String STYLE_COLOUR_RED = "-fx-red";
     private static final String STYLE_COLOUR_GREEN = "-fx-green";
     private static final String STYLE_COLOUR_YELLOW = "-fx-yellow";
+    private static final String STYLE_COLOUR_MUTED = "-fx-text-muted";
+    
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
      * As a consequence, UI elements' variable names cannot be set to such keywords
@@ -76,7 +79,9 @@ public class TrackedItemCard extends UiPart<Region> {
         setDeadlineStyle(deadlineLabel);
         deadline.getChildren().add(deadlineLabel);
 
-        Label reminderLabel = new Label("Reminder: " + trackedItem.getReminder().getFormattedReminder());
+        Reminder reminderItem = trackedItem.getReminder();
+        Label reminderLabel = new Label("Reminder: " + reminderItem.getFormattedReminder());
+        setReminderStyle(reminderLabel, reminderItem.isExpired());
         reminder.getChildren().add(reminderLabel);
 
         setTagsPane(trackedItem);
@@ -104,12 +109,17 @@ public class TrackedItemCard extends UiPart<Region> {
         } else {
             style += STYLE_COLOUR_RED;
         }
-
         completionStatus.setStyle(style);
     }
 
     private void setReminderStatusStyle(Label reminderStatus) {
         reminderStatus.setStyle(STYLE_TEXT + STYLE_COLOUR_YELLOW);
+    }
+
+    private void setReminderStyle(Label reminderLabel, boolean isExpired) {
+        if (isExpired) {
+            reminderLabel.setStyle(STYLE_TEXT + STYLE_COLOUR_MUTED);    
+        }        
     }
 
     private void setDeadlineStyle(Label deadline) {

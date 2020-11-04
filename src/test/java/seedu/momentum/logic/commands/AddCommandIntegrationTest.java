@@ -1,16 +1,23 @@
 package seedu.momentum.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
+
+import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.momentum.commons.core.Clock;
+import seedu.momentum.commons.core.ThreadWrapper;
+import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.testutil.ProjectBuilder;
 
 /**
@@ -61,5 +68,21 @@ public class AddCommandIntegrationTest {
     //        assertCommandFailure(
     //            new AddProjectCommand((Project) trackedItemInList), model, AddCommand.MESSAGE_DUPLICATE_ENTRY);
     //    }
+
+    @Test
+    public void execute_addCommand_showReminder() throws CommandException, InterruptedException {
+        ThreadWrapper.setIsRunningOnPlatform(false);
+
+        Project project = new ProjectBuilder()
+                .withName("daesdaef")
+                .withReminder(Clock.now().plus(1, ChronoUnit.SECONDS).toString()).build();
+        AddCommand actualCommand = new AddProjectCommand(project);
+        actualCommand.execute(model);
+        String expectedReminder = String.format(ReminderManager.PROJECT_REMINDER, project.getName().toString());
+
+        Thread thread = new Thread(() -> assertEquals(expectedReminder, model.getReminder().get()));
+        thread.sleep(1000);
+        thread.run();
+    }
 
 }

@@ -5,12 +5,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
-import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.commons.core.ThreadWrapper;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
@@ -90,8 +90,10 @@ public class ReminderManager {
      * @param project the project
      */
     public void scheduleReminder(Project project) {
-        TimerTask timerTask = new ReminderTimerTask(project);
-        this.timer.schedule(timerTask, project.getReminder().toDate());
+        if (!project.getReminder().canSchedule()) {
+            TimerTask timerTask = new ReminderTimerTask(project);
+            this.timer.schedule(timerTask, project.getReminder().toDate());    
+        }        
     }
 
     /**
@@ -101,8 +103,10 @@ public class ReminderManager {
      * @param task    the task
      */
     public void scheduleReminder(Project project, Task task) {
-        TimerTask timerTask = new ReminderTimerTask(task, project);
-        this.timer.schedule(timerTask, task.getReminder().toDate());
+        if (!task.getReminder().canSchedule()) {
+            TimerTask timerTask = new ReminderTimerTask(task, project);
+            this.timer.schedule(timerTask, task.getReminder().toDate());    
+        }        
     }
 
     /**
@@ -197,9 +201,10 @@ public class ReminderManager {
 
         @Override
         public void run() {
-            LOGGER.info("reminder running");
-            Platform.runLater(getUpdateReminder());
-            Platform.runLater(getRemoveReminder());
+            LOGGER.info("reminder running:");
+            System.out.println(project + " " + task);
+            ThreadWrapper.run(getUpdateReminder());
+            ThreadWrapper.run(getRemoveReminder());
         }
     }
 }

@@ -31,8 +31,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
      *
      * Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
      *   among constructors.
-     */
-    {
+     */ {
         trackedProjects = new UniqueItemList<>();
     }
 
@@ -124,10 +123,20 @@ public class ProjectBook implements ReadOnlyProjectBook {
         return tags;
     }
 
+    private void updateExpiredReminders() {
+        UniqueItemList<TrackedItem> itemList = new UniqueItemList<>();
+        for (TrackedItem item : trackedProjects) {
+            TrackedItem newItem = item.updateExpiredReminder();
+            itemList.add(newItem);
+        }
+        trackedProjects.setItems(itemList);
+    }
+
     /**
      * Reschedule all reminders in the model.
      */
     public void rescheduleReminder(ReminderManager reminderManager) {
+        updateExpiredReminders();
         for (TrackedItem item : trackedProjects) {
             reminderManager.rescheduleReminder((Project) item);
         }
