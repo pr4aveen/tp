@@ -72,7 +72,7 @@ public class Reminder {
         DateTimeWrapper dateTimeWrapper = new DateTimeWrapper(dateTimeStr);
         return !checkExpiry(dateTimeWrapper);
     }
-    
+
     /**
      * Recreate a reminder from a dateTimeStr.
      *
@@ -88,7 +88,7 @@ public class Reminder {
         if (!DateTimeWrapper.isValid(dateTimeStr)) {
             throw new IllegalValueException(DateTimeWrapper.MESSAGE_CONSTRAINTS);
         }
-        
+
         DateTimeWrapper dateTime = new DateTimeWrapper(dateTimeStr);
         return new Reminder(Optional.of(dateTime), checkExpiry(dateTime));
     }
@@ -109,7 +109,7 @@ public class Reminder {
     public boolean isExpired() {
         return this.expired;
     }
-    
+
     /**
      * Returns true if the reminder is empty, false otherwise.
      *
@@ -127,7 +127,7 @@ public class Reminder {
     public boolean canSchedule() {
         return !isEmpty() && !isExpired() && !checkExpiry(this.dateTimeWrapper.get());
     }
-    
+
     /**
      * Gets dateTimeWrapper of a reminder.
      *
@@ -153,10 +153,10 @@ public class Reminder {
      * @return the new reminder.
      */
     public Reminder updateExpired() {
-        return new Reminder(this.dateTimeWrapper, 
-            !isEmpty() && checkExpiry(this.dateTimeWrapper.get()));
+        return new Reminder(this.dateTimeWrapper,
+                !isEmpty() && checkExpiry(this.dateTimeWrapper.get()));
     }
-    
+
     /**
      * Convert the dateTime in reminder to a date object.
      *
@@ -181,7 +181,7 @@ public class Reminder {
      * @return the formatted reminder.
      */
     public String getFormattedReminder() {
-        return this.dateTimeWrapper.map(dateTime -> dateTime.getFormatted() 
+        return this.dateTimeWrapper.map(dateTime -> dateTime.getFormatted()
                 + (expired ? " (missed)" : ""))
                 .orElse("No reminder set");
     }

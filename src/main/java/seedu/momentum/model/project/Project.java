@@ -223,6 +223,16 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
                 durations, timerWrapper, taskList);
     }
 
+    /**
+     * Remove the reminder of a trackedItem.
+     */
+    public Project removeReminder(Task task) {
+        Task newTask = task.removeReminder();
+        taskList.set(task, newTask);
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
+                timerWrapper, taskList);
+    }
+
     @Override
     public Project updateExpiredReminder() {
         Reminder newReminder = reminder.updateExpired();
@@ -232,21 +242,9 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
             TrackedItem newItem = item.updateExpiredReminder();
             newTaskList.add(newItem);
         }
-        
-        System.out.println(name + " " + newReminder.getFormattedReminder());
 
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, newReminder, tags,
                 durations, timerWrapper, newTaskList);
-    }
-
-    /**
-     * Remove the reminder of a trackedItem.
-     */
-    public Project removeReminder(Task task) {
-        Task newTask = task.removeReminder();
-        taskList.set(task, newTask);
-        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
-                timerWrapper, taskList);
     }
 
     /**

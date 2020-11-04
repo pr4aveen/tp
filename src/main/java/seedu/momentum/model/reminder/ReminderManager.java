@@ -90,10 +90,11 @@ public class ReminderManager {
      * @param project the project
      */
     public void scheduleReminder(Project project) {
-        if (!project.getReminder().canSchedule()) {
+        if (project.getReminder().canSchedule()) {
+            LOGGER.info("reminder scheduled for " + project);
             TimerTask timerTask = new ReminderTimerTask(project);
-            this.timer.schedule(timerTask, project.getReminder().toDate());    
-        }        
+            this.timer.schedule(timerTask, project.getReminder().toDate());
+        }
     }
 
     /**
@@ -103,10 +104,11 @@ public class ReminderManager {
      * @param task    the task
      */
     public void scheduleReminder(Project project, Task task) {
-        if (!task.getReminder().canSchedule()) {
+        if (task.getReminder().canSchedule()) {
+            LOGGER.info("reminder scheduled for " + task + " in " + project);
             TimerTask timerTask = new ReminderTimerTask(task, project);
-            this.timer.schedule(timerTask, task.getReminder().toDate());    
-        }        
+            this.timer.schedule(timerTask, task.getReminder().toDate());
+        }
     }
 
     /**
@@ -202,9 +204,10 @@ public class ReminderManager {
         @Override
         public void run() {
             LOGGER.info("reminder running:");
-            System.out.println(project + " " + task);
+            ReminderManager.this.timer.cancel();
             ThreadWrapper.run(getUpdateReminder());
             ThreadWrapper.run(getRemoveReminder());
+            ThreadWrapper.run(ReminderManager.this::rescheduleReminder);
         }
     }
 }

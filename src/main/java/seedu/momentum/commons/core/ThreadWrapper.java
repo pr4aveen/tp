@@ -8,7 +8,7 @@ import javafx.application.Platform;
  * Change to run runnable if isRunningOnPlatform is true.
  */
 public class ThreadWrapper {
-    private static boolean isRunningOnPlatform;
+    private static boolean isRunningOnPlatform = true;
 
     /**
      * Sets the is running on platform boolean.

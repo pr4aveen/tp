@@ -23,7 +23,7 @@ public class TrackedItemCard extends UiPart<Region> {
     private static final String STYLE_COLOUR_GREEN = "-fx-green";
     private static final String STYLE_COLOUR_YELLOW = "-fx-yellow";
     private static final String STYLE_COLOUR_MUTED = "-fx-text-muted";
-    
+
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
      * As a consequence, UI elements' variable names cannot be set to such keywords
@@ -118,8 +118,8 @@ public class TrackedItemCard extends UiPart<Region> {
 
     private void setReminderStyle(Label reminderLabel, boolean isExpired) {
         if (isExpired) {
-            reminderLabel.setStyle(STYLE_TEXT + STYLE_COLOUR_MUTED);    
-        }        
+            reminderLabel.setStyle(STYLE_TEXT + STYLE_COLOUR_MUTED);
+        }
     }
 
     private void setDeadlineStyle(Label deadline) {

@@ -31,7 +31,8 @@ public class ProjectBook implements ReadOnlyProjectBook {
      *
      * Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
      *   among constructors.
-     */ {
+     */
+    {
         trackedProjects = new UniqueItemList<>();
     }
 
