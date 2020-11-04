@@ -210,7 +210,7 @@ public class ModelManager implements Model {
     public void addTrackedItem(TrackedItem trackedItem) {
         versionedProjectBook.addTrackedItem(trackedItem);
         rescheduleReminders();
-        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
+        updateOrder(currentSortType, isCurrentSortAscending);
         updatePredicate(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
@@ -224,7 +224,7 @@ public class ModelManager implements Model {
             resetUi(viewMode, currentProject);
         }
         rescheduleReminders();
-        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
+        updateOrder(currentSortType, isCurrentSortAscending);
     }
 
     //=========== Filtered Project List Accessors =============================================================
@@ -261,6 +261,10 @@ public class ModelManager implements Model {
         }
         currentComparator = getComparator(sortType, isAscending, isCurrentSortByCompletionStatus);
         updateDisplayList();
+    }
+    
+    private void updateOrder(SortType sortType, boolean isAscending) {
+        updateOrder(sortType, isAscending, false);
     }
 
     @Override
