@@ -682,13 +682,218 @@ testers are expected to do more *exploratory* testing.
 
 ### Clear all projects
 
+1. Clearing projects when all projects are shown.
+    
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `clear`<br>
+    Expected: All projects and tasks in the project book will be deleted. 
+
+1. Clearing projects when only some projects are shown.
+
+    1. Prerequisites: Find some projects using the `find` command. Multiple projects in the filtered list.
+    
+    1. Test case: `clear`<br>
+    Expected: All projects and tasks in the project book will be deleted. 
+
 ### Add a task
+
+1. Adding a task while all tasks are shown.
+
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `add n/task1`<br>
+    Expected: A new task with the name `task1` will be created. Details of the task shown in the status message.
+    
+    1. Test case: `add n/task2 d/desc2`<br>
+    Expected: A new task with the name `task2` and description `desc2` will be created. Details of the task shown in the status message.    
+    
+    1. Test case: `add n/task3 t/tagA t/tagB`<br>
+    Expected: A new task with the name `task3` and tags `tagA` and `tagB` will be created. Details of the task shown in the status message.    
+    
+    1. Test case: `add n/task4 c/`<br>
+    Expected: A new task with the name `task4` and completion status `done` will be created. Details of the task shown in the status message.     
+    
+    1. Test case: `add n/task5 dd/2020-12-21`<br>
+    Expected: A new task with the name `task5` and deadline date `2020-12-21` will be created. Details of the task shown in the status message.     
+    
+    1. Test case: `add n/task6 dd/2020-12-21 dt/12:34:56`<br>
+    Expected: A new task with the name `task5` and deadline date `2020-12-21` and deadline time `12:34:56` will be created. Details of the task shown in the status message.    
+    
+    1. Test case: `add n/task7 r/x` where `x` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new task with the name `task6` and a reminder scheduled at time `x` will be created. Details of the task shown in the status message.
+
+1. Adding a task while only some tasks are shown.
+    
+    1. Prerequisites: Viewing tasks for any project.List only some tasks using the `find` command.
+    
+    1. Test case: `add n/task1`<br>
+    Expected: A new task with the name `task1` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.
+    
+    1. Test case: `add n/task2 d/desc2`<br>
+    Expected: A new task with the name `task2` and description `desc2` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.   
+    
+    1. Test case: `add n/task3 t/tagA t/tagB`<br>
+    Expected: A new task with the name `task3` and tags `tagA` and `tagB` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.   
+    
+    1. Test case: `add n/task4 c/`<br>
+    Expected: A new task with the name `task4` and completion status `done` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.    
+    
+    1. Test case: `add n/task5 dd/2020-12-21`<br>
+    Expected: A new task with the name `task5` and deadline date `2020-12-21` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.    
+    
+    1. Test case: `add n/task6 dd/2020-12-21 dt/12:34:56`<br>
+    Expected: A new task with the name `task5` and deadline date `2020-12-21` and deadline time `12:34:56` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.    
+    
+    1. Test case: `add n/task7 r/x` where `x` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new task with the name `task6` and a reminder scheduled at time `x` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.
+
+1. Adding a task with invalid inputs parameters.
+
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `add n/$$`<br>
+    Expected: A new task will not be created. Invalid name format message shown in the status message.    
+    
+    1. Test case: `add n/task3 t/invalid tag`<br>
+    Expected: A new task will not be created. Invalid name format message shown in the status message.    
+    
+    1. Test case: `add n/task5 dd/2020-21-12`<br>
+    Expected: A new task will not be created. Invalid date format message shown in the status message.     
+    
+    1. Test case: `add n/task6 dd/2020-12-21 dt/99:99:99`<br>
+    Expected: A new task will not be created. Invalid time format message shown in the status message.    
+    
+    1. Test case: `add n/task7 r/x` where `x` is a time earlier that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new task will not be created. Invalid reminder date and time message shown in the status message.
 
 ### Edit a task
 
+1. Editing a task while all tasks are shown.
+
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `edit x n/task1` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the name `task1` Details of the edited task shown in the status message.
+    
+    1. Test case: `edit x d/desc2` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the description `desc2`. Details of the edited task shown in the status message.   
+    
+    1. Test case: `edit x t/tagA t/tagB` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the tags `tagA` and `tagB`. Details of the edited task shown in the status message.    
+    
+    1. Test case: `edit x c/` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the completion status `done`. Details of the edited task shown in the status message.     
+    
+    1. Test case: `edit x dd/2020-12-21` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the deadline date `2020-12-21`. Details of the edited task shown in the status message.     
+    
+    1. Test case: `edit x dd/2020-12-21 dt/12:34:56` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have thr deadline date `2020-12-21` and deadline time `12:34:56`. Details of the edited task shown in the status message.    
+    
+    1. Test case: `edit x r/y` where `x` is the index of a task in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The task at index `x` will be edited to have the name `task6` and a reminder scheduled at time `y`. Details of the edited task shown in the status message.
+
+1. Editing a task while only some tasks are shown.
+
+    1. Prerequisites: Viewing tasks for any project. List only some tasks using the `find` command.
+    
+    1. Test case: `edit x n/task1` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the name `task1` Details of the edited task shown in the status message. View will persist and only some tasks should be shown.
+    
+    1. Test case: `edit x d/desc2` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the description `desc2`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.   
+    
+    1. Test case: `edit x t/tagA t/tagB` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the tags `tagA` and `tagB`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.    
+    
+    1. Test case: `edit x c/` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the completion status `done`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.     
+    
+    1. Test case: `edit x dd/2020-12-21` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the deadline date `2020-12-21`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.     
+    
+    1. Test case: `edit x dd/2020-12-21 dt/12:34:56` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have thr deadline date `2020-12-21` and deadline time `12:34:56`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.    
+    
+    1. Test case: `edit x r/y` where `x` is the index of a task in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The task at index `x` will be edited to have the name `task6` and a reminder scheduled at time `y`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.
+
+1. Editing a task with invalid inputs parameters.
+
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `edit x n/$$` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will not be edited. Invalid name format message shown in the status message. 
+    
+    1. Test case: `edit x t/invalid tag` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will not be edited. Invalid tag format message shown in the status message.    
+    
+    1. Test case: `edit x dd/2020-21-12` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will not be edited. Invalid date format message shown in the status message.      
+    
+    1. Test case: `edit x dd/2020-12-21 dt/99:99:99` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will not be edited. Invalid time format message shown in the status message.   
+    
+    1. Test case: `edit x r/y` where `x` is the index of a task in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The task at index `x` will not be edited. Invalid reminder date and time message shown in the status message. 
+
 ### Delete a task
 
+1. Deleting a task while all tasks are shown.
+
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: The first task in the list will be deleted. Details of the deleted task shown in the status message.
+    
+    1. Test case: `delete 0`, `delete`<br>
+    Expected: No task will be deleted. Invalid command format message shown. No change to the list of tasks.
+    
+    1. Test case: `delete x`, where x is greater than the number of tasks<br>
+    Expected: No task will be deleted. Invalid index message shown.
+
+1. Deleting a task while only some tasks are being shown.
+
+    1. Prerequisites: Viewing tasks for any project. Find some tasks using the `find` command. Multiple tasks in the filtered list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: First task in the filtered list will be deleted. Details of the deleted task shown in the status message.  
+    
+    1. Test case: `delete 0`, `delete`<br>
+    Expected: No task will be deleted. Invalid command format message shown. No change to the list of tasks.
+    
+    1. Test case: `delete x`, where x is greater than the number of tasks<br>
+    Expected: No task will be deleted. Invalid index message shown.
+
+1. Deleting a task while only one task is being shown.
+    
+    1. Prerequisites: Viewing tasks for any project. Find a single task using the `find` command. Only one task in the filtered list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: First task in the filtered list will be deleted. Details of the deleted task shown in the status message. The filtered list will be empty. Application will not revert to an unfiltered list.  
+    
+    1. Test case: `delete 0`, `delete`<br>
+    Expected: No task will be deleted. Invalid command format message shown. No change to the list of tasks.
+    
+    1. Test case: `delete x`, where x is greater than the number of tasks<br>
+    Expected: No task will be deleted. Invalid index message shown.
+
 ### Clear all tasks
+
+1. Clearing tasks when all task are shown.
+    
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `clear`<br>
+    Expected: All tasks associated with the project being viewed will be deleted. Other projects and their tasks should not be deleted. 
+
+1. Clearing projects when only some projects are shown.
+
+    1. Prerequisites: Viewing tasks for any project. Find some tasks using the `find` command. Multiple tasks in the filtered list.
+    
+    1. Test case: `clear`<br>
+    Expected: All tasks associated with the project being viewed will be deleted. Other projects and their tasks should not be deleted. 
 
 ### Changing Views
 
