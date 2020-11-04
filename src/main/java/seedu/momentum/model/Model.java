@@ -187,6 +187,13 @@ public interface Model {
     void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus);
 
     /**
+     * Orders the display list in a way given by the {@code sortType}.
+     *
+     * @throws NullPointerException if {@code sortType} is null.
+     */
+    void updateOrder(SortType sortType, boolean isAscending);
+
+    /**
      * Updates the display list to show all projects.
      */
     void viewProjects();
