@@ -38,7 +38,7 @@ public class ProjectViewCommand extends Command {
      * Updates teh model to display all tasks belonging to the project.
      *
      * @param model {@code Model} containing the project.
-     * @return feedback message of displaying result, for display
+     * @return feedback message of displaying result, for display.
      * @throws CommandException If an error occurs during update process.
      */
     @Override

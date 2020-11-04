@@ -32,7 +32,7 @@ public abstract class DeleteCommand extends Command {
      * Deletes the item from the provided model.
      *
      * @param model {@code Model} from which to delete the item.
-     * @return feedback message of the result of deleting the item, for display
+     * @return feedback message of the result of deleting the item, for display.
      * @throws CommandException If an error occurs during the deletion.
      */
     @Override

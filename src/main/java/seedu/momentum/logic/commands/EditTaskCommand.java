@@ -35,7 +35,7 @@ public class EditTaskCommand extends EditCommand {
      * Edits the task in the project in the provided model.
      *
      * @param model {@code Model} containing the task to edit.
-     * @return feedback message of editing result, for display
+     * @return feedback message of editing result, for display.
      * @throws CommandException If an error occurs during editing process.
      */
     @Override

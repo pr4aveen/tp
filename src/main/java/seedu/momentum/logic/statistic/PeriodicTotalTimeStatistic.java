@@ -27,7 +27,7 @@ public class PeriodicTotalTimeStatistic extends Statistic {
     private ObservableList<StatisticEntry> timeList = FXCollections.observableArrayList();
 
     /**
-     * Constructs a {@code PeriodicTotalTimeStatistic}
+     * Constructs a {@code PeriodicTotalTimeStatistic}.
      *
      * @param timeframe Timeframe to track.
      * @param units Units for the total time calculated.
@@ -56,7 +56,7 @@ public class PeriodicTotalTimeStatistic extends Statistic {
 
     /**
      * Calculates the total time spent on each project in the provided model, for a specific timeframe.
-     * The calculated data is saved, and can be retrieved using {@code getDisplayList}
+     * The calculated data is saved, and can be retrieved using {@code getDisplayList}.
      *
      * @param model The data required to calculate the statistic.
      */
@@ -85,7 +85,6 @@ public class PeriodicTotalTimeStatistic extends Statistic {
      * @param trackedItem The item to calculate for.
      * @param start Start of the timeframe.
      * @param end End of the timeframe.
-     * @return
      */
     private long calculateTimeSpent(TrackedItem trackedItem, DateTimeWrapper start, DateTimeWrapper end) {
         List<WorkDuration> durations = trackedItem.getDurationList();

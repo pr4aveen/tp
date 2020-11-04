@@ -34,7 +34,7 @@ public abstract class StartCommand extends Command {
      * Starts the timer for the item in the provided model.
      *
      * @param model {@code Model} containing the item whose timer to start.
-     * @return feedback message of timer result, for display
+     * @return feedback message of timer result, for display.
      * @throws CommandException If an error occurs when starting the timer.
      */
     @Override

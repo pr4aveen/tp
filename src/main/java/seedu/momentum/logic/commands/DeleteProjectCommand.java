@@ -27,7 +27,7 @@ public class DeleteProjectCommand extends DeleteCommand {
      * Deletes the project from the provided model.
      *
      * @param model {@code Model} from which to delete the project.
-     * @return feedback message of the result of deleting the project, for display
+     * @return feedback message of the result of deleting the project, for display.
      * @throws CommandException If an error occurs during the deletion.
      */
     @Override

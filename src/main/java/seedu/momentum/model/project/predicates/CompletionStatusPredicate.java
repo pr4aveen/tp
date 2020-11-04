@@ -30,7 +30,7 @@ public class CompletionStatusPredicate implements Predicate<TrackedItem> {
     /**
      * Checks if the keywords are valid.
      *
-     * @param keywords The keywords to check
+     * @param keywords The keywords to check.
      * @return True if keywords are valid, false otherwise.
      */
     public static boolean isValid(List<String> keywords) {

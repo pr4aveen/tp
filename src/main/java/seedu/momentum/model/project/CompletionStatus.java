@@ -27,7 +27,7 @@ public class CompletionStatus implements Comparable<CompletionStatus> {
     /**
      * Returns true if the status is completed, false otherwise.
      *
-     * @return isCompleted
+     * @return isCompleted.
      */
     public boolean isCompleted() {
         return this.completionStatus;

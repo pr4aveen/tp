@@ -103,7 +103,7 @@ public interface Logic {
     StatisticTimeframeSettings getStatisticTimeframeSettings();
 
     /**
-     * Returns the statistic manager
+     * Returns the statistic manager.
      */
     StatisticGenerator getStatistic();
 

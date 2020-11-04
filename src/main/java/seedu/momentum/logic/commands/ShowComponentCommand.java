@@ -43,7 +43,7 @@ public class ShowComponentCommand extends Command {
      * Toggle the visibility of the UI components.
      *
      * @param model {@code Model} to perform the changes.
-     * @return feedback message of update result, for display
+     * @return feedback message of update result, for display.
      * @throws CommandException If an error occurs during UI updating process.
      */
     @Override

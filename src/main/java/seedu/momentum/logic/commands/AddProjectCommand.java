@@ -25,7 +25,7 @@ public class AddProjectCommand extends AddCommand {
      * Adds a project to the provided model.
      *
      * @param model {@code Model} which the command will add the project to.
-     * @return feedback message of the result of adding, for display
+     * @return feedback message of the result of adding, for display.
      * @throws CommandException If an error occurs when adding the project.
      */
     @Override

@@ -45,7 +45,7 @@ public class SetCommand extends Command {
      * Changes the settings in the application.
      *
      * @param model {@code Model} to perform the change on.
-     * @return feedback message of the change result, for display
+     * @return feedback message of the change result, for display.
      * @throws CommandException If an error occurs during changing process.
      */
     @Override

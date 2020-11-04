@@ -45,7 +45,7 @@ public class FindCommand extends Command {
      * Updates the provided model to show only the items that match the criteria defined in the predicate.
      *
      * @param model {@code Model} containing the model to update.
-     * @return feedback message of find result, for display
+     * @return feedback message of find result, for display.
      * @throws CommandException If an error occurs during updating process.
      */
     @Override

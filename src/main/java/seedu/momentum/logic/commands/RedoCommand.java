@@ -21,7 +21,7 @@ public class RedoCommand extends Command {
      * Redo the changes made to the provided model, if possible.
      *
      * @param model {@code Model} containing the data which the undo command had operated on.
-     * @return feedback message of the redo result, for display
+     * @return feedback message of the redo result, for display.
      * @throws CommandException If an error occurs during redo process, or if redoing is not possible.
      */
     @Override

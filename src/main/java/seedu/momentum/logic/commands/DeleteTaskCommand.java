@@ -33,7 +33,7 @@ public class DeleteTaskCommand extends DeleteCommand {
      * Deletes the task from the project in the provided model.
      *
      * @param model {@code Model} containing the proejct from which to delete the task.
-     * @return feedback message of the result of deleting the task, for display
+     * @return feedback message of the result of deleting the task, for display.
      * @throws CommandException If an error occurs during the deletion.
      */
     @Override

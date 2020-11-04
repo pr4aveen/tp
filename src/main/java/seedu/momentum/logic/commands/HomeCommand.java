@@ -15,7 +15,7 @@ public class HomeCommand extends Command {
      * Updates the model to show all projects.
      *
      * @param model {@code Model} containing the projects.
-     * @return feedback message of the result, for display
+     * @return feedback message of the result, for display.
      */
     @Override
     public CommandResult execute(Model model) {

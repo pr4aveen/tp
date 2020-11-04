@@ -35,7 +35,7 @@ public class StopTaskCommand extends StopCommand {
      * Stops the timer for the task in the provided model.
      *
      * @param model {@code Model} containing the task whose timer to stop.
-     * @return feedback message of timer result, for display
+     * @return feedback message of timer result, for display.
      * @throws CommandException If an error occurs when stopping the timer, or if a timer is already running.
      */
     @Override

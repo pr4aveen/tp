@@ -29,7 +29,7 @@ public class EditProjectCommand extends EditCommand {
      * Edits a project in the provided model.
      *
      * @param model {@code Model} containing the project to edit.
-     * @return feedback message of editing result, for display
+     * @return feedback message of editing result, for display.
      * @throws CommandException If an error occurs during editing process.
      */
     @Override

@@ -74,7 +74,7 @@ public abstract class EditCommand extends Command {
      * Edits an item in the provided model.
      *
      * @param model {@code Model} containing the item to edit.
-     * @return feedback message of editing result, for display
+     * @return feedback message of editing result, for display.
      * @throws CommandException If an error occurs during editing process.
      */
     @Override

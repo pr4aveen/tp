@@ -15,8 +15,7 @@ public class ClearProjectCommand extends ClearCommand {
      * This only happens when the user is viewing all projects.
      *
      * @param model {@code Model} to remove projects from.
-     * @return feedback message of the operation result, for display
-     * @throws CommandException If an error occurs during command execution.
+     * @return feedback message of the operation result, for display.
      */
     @Override
     public CommandResult execute(Model model) {

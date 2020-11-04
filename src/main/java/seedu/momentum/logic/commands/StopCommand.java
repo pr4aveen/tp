@@ -35,7 +35,7 @@ public abstract class StopCommand extends Command {
      * Stops the timer for the item in the provided model.
      *
      * @param model {@code Model} containing the item whose timer to stop.
-     * @return feedback message of timer result, for display
+     * @return feedback message of timer result, for display.
      * @throws CommandException If an error occurs when stopping the timer.
      */
     @Override

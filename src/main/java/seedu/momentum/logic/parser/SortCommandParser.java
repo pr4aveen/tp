@@ -19,7 +19,7 @@ import seedu.momentum.model.project.SortType;
 public class SortCommandParser implements Parser<SortCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the SortCommand
+     * Parses the given {@code String} of arguments in the context of the SortCommand.
      * and returns a SortCommand object for execution.
      *
      * @throws ParseException if the user does not conform to the expected format.
