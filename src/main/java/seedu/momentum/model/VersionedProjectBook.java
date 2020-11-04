@@ -135,7 +135,6 @@ public class VersionedProjectBook extends ProjectBook {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof VersionedProjectBook // instanceof handles nulls
-                && getTrackedProjects().equals(((VersionedProjectBook) other).getTrackedProjects())
                 && projectBookStateList.equals(((VersionedProjectBook) other).getProjectBookStateList())
                 && currentStatePointer == ((VersionedProjectBook) other).getCurrentStatePointer());
     }

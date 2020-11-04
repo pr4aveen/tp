@@ -40,4 +40,13 @@ public class ProjectBookWithUi extends ProjectBook {
         return comparator;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ProjectBookWithUi // instanceof handles nulls
+                && viewMode.equals(((ProjectBookWithUi) other).getViewMode())
+                && project == ((ProjectBookWithUi) other).getProject()
+                && predicate.equals(((ProjectBookWithUi) other).getPredicate())
+                && comparator.equals(((ProjectBookWithUi) other).getComparator()));
+    }
 }

@@ -38,4 +38,13 @@ public class NameCompareTest {
         assertEquals(NAME_COMPARATOR.compare(ALICE, SAME_NAME), 0);
 
     }
+
+    @Test
+    public void equals() {
+        // same object
+        assertEquals(NAME_COMPARATOR, NAME_COMPARATOR);
+
+        // different NameCompare objects
+        assertEquals(NAME_COMPARATOR, new NameCompare());
+    }
 }

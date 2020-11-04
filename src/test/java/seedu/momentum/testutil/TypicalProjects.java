@@ -119,4 +119,5 @@ public class TypicalProjects {
     public static List<Project> getTypicalProjects() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
     }
+
 }

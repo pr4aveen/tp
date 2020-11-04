@@ -7,6 +7,7 @@ import static seedu.momentum.model.Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
 import static seedu.momentum.testutil.TypicalProjects.BENSON;
+import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,12 +16,15 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.GuiWindowSettings;
+import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.ProjectBookBuilder;
+import seedu.momentum.testutil.TypicalProjectsOrders;
 
 public class ModelManagerTest {
 
+    private static final Model SORT_MODEL = new ModelManager(getTypicalProjectBook(), new UserPrefs());
     private ModelManager modelManager = new ModelManager();
 
     @Test
@@ -94,6 +98,31 @@ public class ModelManagerTest {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getDisplayList().remove(0));
     }
 
+    //=========== Sorting ================================================================================
+
+    @Test
+    public void updateOrder() {
+        // sort by alphabetical, ascending order by no completion status.
+        SORT_MODEL.updateOrder(SortType.ALPHA, true, true);
+        assertEquals(SORT_MODEL.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalAscending());
+
+        // sort by alphabetical, ascending order by completion status.
+        SORT_MODEL.updateOrder(SortType.ALPHA, true, false);
+        assertEquals(SORT_MODEL.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalAscendingCompleted());
+
+        // sort by alphabetical, descending order by no completion status.
+        SORT_MODEL.updateOrder(SortType.ALPHA, false, false);
+        assertEquals(SORT_MODEL.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalDescending());
+
+        // sort by alphabetical, descending order by completion status.
+        SORT_MODEL.updateOrder(SortType.ALPHA, true, false);
+        assertEquals(SORT_MODEL.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalDescendingCompleted());
+    }
+
     @Test
     public void equals() {
         ProjectBook projectBook = new ProjectBookBuilder().withProject(ALICE).withProject(BENSON).build();
@@ -131,4 +160,5 @@ public class ModelManagerTest {
         differentUserPrefs.setProjectBookFilePath(Paths.get("differentFilePath"));
         assertFalse(modelManager.equals(new ModelManager(projectBook, differentUserPrefs)));
     }
+
 }

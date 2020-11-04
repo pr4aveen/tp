@@ -252,16 +252,6 @@ public class ModelManager implements Model {
         updateDisplayList();
     }
 
-    @Override
-    public void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
-        requireAllNonNull(sortType, isAscending, changeSortByCompletionStatus);
-        isCurrentSortAscending = isAscending;
-        if (changeSortByCompletionStatus) {
-            isCurrentSortByCompletionStatus = !isCurrentSortByCompletionStatus;
-        }
-        currentComparator = getComparator(sortType, isAscending, isCurrentSortByCompletionStatus);
-        updateDisplayList();
-    }
 
     @Override
     public void viewProjects() {
@@ -460,6 +450,17 @@ public class ModelManager implements Model {
 
     //=========== Sorting ================================================================================
 
+    @Override
+    public void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
+        requireAllNonNull(sortType, isAscending, changeSortByCompletionStatus);
+        isCurrentSortAscending = isAscending;
+        if (changeSortByCompletionStatus) {
+            isCurrentSortByCompletionStatus = !isCurrentSortByCompletionStatus;
+        }
+        currentComparator = getComparator(sortType, isAscending, isCurrentSortByCompletionStatus);
+        updateDisplayList();
+    }
+
     /**
      * Sets the order of the list of tracked items according to given {@code sortType} and {@code isAscending}.
      *
@@ -575,7 +576,6 @@ public class ModelManager implements Model {
                 && displayList.get().equals(other.displayList.get())
                 && runningTimers.equals(other.runningTimers)
                 && viewMode.equals(other.viewMode);
-        //&& currentProject.equals(other.currentProject)
     }
 
 }
