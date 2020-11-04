@@ -881,14 +881,14 @@ testers are expected to do more *exploratory* testing.
 
 ### Clear all tasks
 
-1. Clearing tasks when all task are shown.
+1. Clearing tasks when all tasks are shown.
     
     1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
     
     1. Test case: `clear`<br>
     Expected: All tasks associated with the project being viewed will be deleted. Other projects and their tasks should not be deleted. 
 
-1. Clearing projects when only some projects are shown.
+1. Clearing projects when only some tasks are shown.
 
     1. Prerequisites: Viewing tasks for any project. Find some tasks using the `find` command. Multiple tasks in the filtered list.
     
@@ -896,6 +896,26 @@ testers are expected to do more *exploratory* testing.
     Expected: All tasks associated with the project being viewed will be deleted. Other projects and their tasks should not be deleted. 
 
 ### Changing Views
+
+1. Changing view while viewing all projects.
+
+    1. Prerequisites: View all projects by running the `home` command.
+    
+    1. Test case: `view x` where `x` is the index of a project in the list.<br>
+    Expected: All tasks associated with the selected project will be displayed.
+    
+    1. Test case: `home`
+    Expected: All projects should be displayed. Viewing all projects message should be displayed. 
+    
+1. Changing view while viewing all tasks associated with a project.
+
+    1. Prerequisites: Viewing tasks for any project. Run `home` followed by `view x` where `x` is the index of any project in the list.
+    
+    1. Test case: `view x` where `x` is the index of a task in the list.<br>
+    Expected: View will not change. Message saying that you cannot use the `view` command on a task will be shown.
+    
+    1. Test case: `home`
+    Expected: All projects should be displayed. Viewing all projects message will be shown.  
 
 ### Finding tasks
 
