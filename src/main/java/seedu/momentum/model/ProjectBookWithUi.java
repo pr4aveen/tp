@@ -12,16 +12,20 @@ public class ProjectBookWithUi extends ProjectBook {
     private final Project project;
     private final Predicate<TrackedItem> predicate;
     private final Comparator<TrackedItem> comparator;
+    private final boolean isTagsVisible;
+
     /**
      * Constructs a {@code ProjectBookWithUi}
      */
     public ProjectBookWithUi(ReadOnlyProjectBook projectBook, ViewMode viewMode, Project project,
-                             Predicate<TrackedItem> predicate, Comparator<TrackedItem> comparator) {
+                             Predicate<TrackedItem> predicate, Comparator<TrackedItem> comparator,
+                             boolean isTagsVisible) {
         super(projectBook);
         this.viewMode = viewMode;
         this.project = project;
         this.predicate = predicate;
         this.comparator = comparator;
+        this.isTagsVisible = isTagsVisible;
     }
 
     public ViewMode getViewMode() {
@@ -38,6 +42,10 @@ public class ProjectBookWithUi extends ProjectBook {
 
     public Comparator<TrackedItem> getComparator() {
         return comparator;
+    }
+
+    public boolean isTagsVisible() {
+        return isTagsVisible;
     }
 
 }

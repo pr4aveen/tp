@@ -353,12 +353,13 @@ public class AddProjectCommandTest {
         private Project currentProject = null;
         private Predicate<TrackedItem> currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         private Comparator<TrackedItem> currentComparator = null;
+        private boolean isTagsVisible = true;
         private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(new ProjectBook(),
-                viewMode, currentProject, currentPredicate, currentComparator);
+                viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible);
 
         @Override
         public void commitToHistory() {
-            versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator);
+            versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible);
         }
     }
 }

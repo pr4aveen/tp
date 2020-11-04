@@ -24,11 +24,12 @@ public class VersionedProjectBook extends ProjectBook {
                                 ViewMode viewMode,
                                 Project currentProject,
                                 Predicate<TrackedItem> currentPredicate,
-                                Comparator<TrackedItem> currentComparator) {
+                                Comparator<TrackedItem> currentComparator,
+                                boolean isTagsVisible) {
         super(projectBook);
         this.projectBookStateList = new ArrayList<>();
         projectBookStateList.add(new ProjectBookWithUi(projectBook, viewMode,
-                currentProject, currentPredicate, currentComparator));
+                currentProject, currentPredicate, currentComparator, isTagsVisible));
         currentStatePointer = 0;
     }
 
@@ -37,13 +38,13 @@ public class VersionedProjectBook extends ProjectBook {
      * commits current {@code VersionedProjectBook} into {@code projectBookStateList}.
      */
     public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
-                       Comparator<TrackedItem> currentComparator) {
+                       Comparator<TrackedItem> currentComparator, boolean isTagsVisible) {
         int historySize = projectBookStateList.size();
         if (currentStatePointer < historySize - 1) {
             flushRedoVersions();
         }
         projectBookStateList.add(new ProjectBookWithUi(this, viewMode,
-                currentProject, currentPredicate, currentComparator));
+                currentProject, currentPredicate, currentComparator, isTagsVisible));
         shiftPointer(COMMIT);
     }
 
@@ -129,6 +130,10 @@ public class VersionedProjectBook extends ProjectBook {
 
     public Comparator<TrackedItem> getCurrentComparator() {
         return getCurrentProjectBookWithUi().getComparator();
+    }
+
+    public boolean isTagsVisible() {
+        return getCurrentProjectBookWithUi().isTagsVisible();
     }
 
     @Override
