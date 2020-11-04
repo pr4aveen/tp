@@ -306,17 +306,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void viewAll() {
-        ObservableList<TrackedItem> allItems = FXCollections.observableArrayList();
-        for (TrackedItem projectItem : versionedProjectBook.getTrackedItemList()) {
-            allItems.add(projectItem);
-            Project project = (Project) projectItem;
-            allItems.addAll(project.getTaskList());
-        }
-        this.itemList = allItems;
-    }
-
-    @Override
     public void resetView() {
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         if (viewMode == ViewMode.PROJECTS) {

@@ -1,7 +1,7 @@
 package seedu.momentum.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.momentum.storage.JsonAdaptedWorkDuration.MISSING_FIELD_MESSAGE_FORMAT;
+import static seedu.momentum.storage.JsonAdaptedTimer.MISSING_FIELD_MESSAGE_FORMAT;
 import static seedu.momentum.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;

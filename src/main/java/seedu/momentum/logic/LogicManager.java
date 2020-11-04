@@ -120,18 +120,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
-        model.setGuiThemeSettings(guiThemeSettings);
-    }
-
-    @Override
     public StatisticTimeframeSettings getStatisticTimeframeSettings() {
         return model.getStatisticTimeframeSettings();
-    }
-
-    @Override
-    public void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframe) {
-        model.setStatisticTimeframeSettings(statisticTimeframe);
     }
 
     @Override
@@ -152,11 +142,6 @@ public class LogicManager implements Logic {
     @Override
     public Project getCurrentProject() {
         return model.getCurrentProject();
-    }
-
-    @Override
-    public void showOrHideTags() {
-        model.showOrHideTags();
     }
 
     @Override

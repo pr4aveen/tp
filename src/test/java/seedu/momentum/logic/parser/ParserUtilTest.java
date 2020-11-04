@@ -123,29 +123,28 @@ public class ParserUtilTest {
     @Test
     public void parseReminder_invalidValue_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseReminder(
-                Optional.of(VALID_DATE), VALID_CREATED_DATE_WRAPPER));
+                Optional.of(VALID_DATE)));
         assertThrows(ParseException.class, () -> ParserUtil.parseReminder(
-                Optional.of(VALID_TIME), VALID_CREATED_DATE_WRAPPER));
+                Optional.of(VALID_TIME)));
         assertThrows(ParseException.class, () -> ParserUtil.parseReminder(
-                Optional.of(INVALID_REMINDER), VALID_CREATED_DATE_WRAPPER));
+                Optional.of(INVALID_REMINDER)));
     }
 
     @Test
     public void parseReminder_validValueWithoutWhitespace_returnsReminder() throws Exception {
         Reminder expectedReminder = new Reminder(VALID_REMINDER);
         assertEquals(expectedReminder,
-                ParserUtil.parseReminder(Optional.of(VALID_REMINDER), VALID_CREATED_DATE_WRAPPER));
+                ParserUtil.parseReminder(Optional.of(VALID_REMINDER)));
 
         expectedReminder = new Reminder();
-        assertEquals(expectedReminder, ParserUtil.parseReminder(Optional.empty(), VALID_CREATED_DATE_WRAPPER));
+        assertEquals(expectedReminder, ParserUtil.parseReminder(Optional.empty()));
     }
 
     @Test
     public void parseReminder_validValueWithWhitespace_returnsTrimmedReminder() throws Exception {
         String reminderWithWhiteSpace = WHITESPACE + VALID_REMINDER + WHITESPACE;
         Reminder expectedReminder = new Reminder(VALID_REMINDER);
-        assertEquals(expectedReminder, ParserUtil.parseReminder(Optional.of(reminderWithWhiteSpace),
-                VALID_CREATED_DATE_WRAPPER));
+        assertEquals(expectedReminder, ParserUtil.parseReminder(Optional.of(reminderWithWhiteSpace)));
     }
 
     @Test

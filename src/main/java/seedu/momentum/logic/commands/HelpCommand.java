@@ -3,7 +3,7 @@ package seedu.momentum.logic.commands;
 import seedu.momentum.model.Model;
 
 /**
- * Format full help instructions for every command for display.
+ * Displays help instructions for every command.
  */
 public class HelpCommand extends Command {
 
@@ -14,6 +14,12 @@ public class HelpCommand extends Command {
 
     public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
 
+    /**
+     * Displays the help instructions.
+     *
+     * @param model Not important. Only exists to match the signature of the abstract class.
+     * @return feedback message of editing result, for display.
+     */
     @Override
     public CommandResult execute(Model model) {
         return new CommandResult(SHOWING_HELP_MESSAGE, true, false);

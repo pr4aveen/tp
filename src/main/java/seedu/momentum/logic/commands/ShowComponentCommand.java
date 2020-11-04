@@ -10,7 +10,7 @@ import seedu.momentum.logic.parser.ShowComponentCommandParser;
 import seedu.momentum.model.Model;
 
 /**
- * Shows or hides a component.
+ * Toggles the visibility of a UI component.
  */
 public class ShowComponentCommand extends Command {
 
@@ -30,15 +30,22 @@ public class ShowComponentCommand extends Command {
     private final List<ShowComponentCommandParser.ComponentType> componentTypes;
 
     /**
-     * Instantiates a new Show component command which shows or hide a command.
+     * Creates a ShowComponentCommand which shows or hide a UI component.
      *
-     * @param componentTypes the component types.
+     * @param componentTypes the component types to show or hide.
      */
     public ShowComponentCommand(List<ShowComponentCommandParser.ComponentType> componentTypes) {
         requireNonNull(componentTypes);
         this.componentTypes = componentTypes;
     }
 
+    /**
+     * Toggle the visibility of the UI components.
+     *
+     * @param model {@code Model} to perform the changes.
+     * @return feedback message of update result, for display.
+     * @throws CommandException If an error occurs during UI updating process.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

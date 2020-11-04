@@ -13,7 +13,7 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
- * View all of a project's tasks, identified using it's displayed index from the project book.
+ * View all of a project's tasks in Momentum.
  */
 public class ProjectViewCommand extends Command {
 
@@ -27,10 +27,22 @@ public class ProjectViewCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Creates a ProjectViewCommand that displays all the tasks belonging to the project with the specified index.
+     *
+     * @param targetIndex Index of the projects whose tasks are to be displayed.
+     */
     public ProjectViewCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
 
+    /**
+     * Updates teh model to display all tasks belonging to the project.
+     *
+     * @param model {@code Model} containing the project.
+     * @return feedback message of displaying result, for display.
+     * @throws CommandException If an error occurs during update process.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

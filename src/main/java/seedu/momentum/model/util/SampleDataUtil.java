@@ -69,6 +69,9 @@ public class SampleDataUtil {
         };
     }
 
+    /**
+     * Returns a ProjectBook containing all the sample data.
+     */
     public static ReadOnlyProjectBook getSampleProjectBook() {
         ProjectBook sampleProjectBook = new ProjectBook();
         for (Project sampleProject : getSampleProjects()) {

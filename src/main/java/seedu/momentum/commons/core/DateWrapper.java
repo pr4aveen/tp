@@ -55,7 +55,7 @@ public class DateWrapper implements InstanceWrapper<LocalDate>, Comparable<DateW
      * @param time1 The earlier instance of timeWrapper.
      * @param time2 The later instance of timeWrapper.
      * @param units The units to the timeWrapper.
-     * @return
+     * @return      The amount of time between the 2 instances, in the units provided.
      */
     public static long getTimeBetween(DateWrapper time1, DateWrapper time2, ChronoUnit units) {
         return units.between(time1.get(), time2.get());

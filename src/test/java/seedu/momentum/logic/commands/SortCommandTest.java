@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.momentum.logic.commands.SortCommand.MESSAGE_SORT_SUCCESS_PROJECTS;
+import static seedu.momentum.logic.commands.SortCommand.MESSAGE_SORT_SUCCESS;
 import static seedu.momentum.logic.commands.SortCommand.OUTPUT_ALPHA_TYPE;
 import static seedu.momentum.logic.commands.SortCommand.OUTPUT_ASCENDING_ORDER;
 import static seedu.momentum.logic.commands.SortCommand.OUTPUT_CREATED_TYPE;
@@ -77,7 +77,7 @@ public class SortCommandTest {
     public void execute_defaultSort_sortedInDefaultOrder() {
         EXPECTED_MODEL.updateOrder(SortType.ALPHA, true, true);
         EXPECTED_MODEL.commitToHistory();
-        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS_PROJECTS, EMPTY_STRING, OUTPUT_DEFAULT_TYPE);
+        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DEFAULT_TYPE);
         assertCommandSuccess(DEFAULT_SORT_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
         assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
     }
@@ -87,7 +87,7 @@ public class SortCommandTest {
         EXPECTED_MODEL.updateOrder(SortType.ALPHA, true, true);
         EXPECTED_MODEL.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS_PROJECTS, OUTPUT_ALPHA_TYPE, OUTPUT_ASCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_ASCENDING_ORDER);
         assertCommandSuccess(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS, MODEL, expectedMessage, EXPECTED_MODEL);
         assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
     }
@@ -97,7 +97,7 @@ public class SortCommandTest {
         EXPECTED_MODEL.updateOrder(SortType.ALPHA, false, false);
         EXPECTED_MODEL.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS_PROJECTS, OUTPUT_ALPHA_TYPE, OUTPUT_DESCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_DESCENDING_ORDER);
         assertCommandSuccess(ALPHA_DESCENDING_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
         assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
     }
@@ -107,7 +107,7 @@ public class SortCommandTest {
         EXPECTED_MODEL.updateOrder(SortType.DEADLINE, true, true);
         EXPECTED_MODEL.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS_PROJECTS, OUTPUT_DEADLINE_TYPE, OUTPUT_ASCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_ASCENDING_ORDER);
         assertCommandSuccess(DEADLINE_ASCENDING_COMMAND_WITH_COMPLETION_STATUS, MODEL, expectedMessage, EXPECTED_MODEL);
         assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
     }
@@ -117,7 +117,7 @@ public class SortCommandTest {
         EXPECTED_MODEL.updateOrder(SortType.DEADLINE, false, false);
         EXPECTED_MODEL.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS_PROJECTS, OUTPUT_DEADLINE_TYPE, OUTPUT_DESCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_DESCENDING_ORDER);
         assertCommandSuccess(DEADLINE_DESCENDING_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
         assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
     }
@@ -127,7 +127,7 @@ public class SortCommandTest {
         EXPECTED_MODEL.updateOrder(SortType.CREATED, true, false);
         EXPECTED_MODEL.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS_PROJECTS, OUTPUT_CREATED_TYPE, OUTPUT_ASCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_ASCENDING_ORDER);
         assertCommandSuccess(CREATED_DATE_ASCENDING_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
         assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
     }
@@ -137,7 +137,7 @@ public class SortCommandTest {
         EXPECTED_MODEL.updateOrder(SortType.CREATED, false, true);
         EXPECTED_MODEL.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS_PROJECTS, OUTPUT_CREATED_TYPE, OUTPUT_DESCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_DESCENDING_ORDER);
         assertCommandSuccess(CREATED_DATE_DESCENDING_COMMAND_WITH_COMPLETION_STATUS,
                 MODEL, expectedMessage, EXPECTED_MODEL);
         assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
@@ -148,7 +148,7 @@ public class SortCommandTest {
         MODEL.updateOrder(SortType.DEADLINE, false, true);
         EXPECTED_MODEL.updateOrder(SortType.DEADLINE, true, true);
         EXPECTED_MODEL.commitToHistory();
-        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS_PROJECTS, EMPTY_STRING, OUTPUT_ASCENDING_ORDER);
+        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_ASCENDING_ORDER);
         assertCommandSuccess(NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
         assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
     }
@@ -158,7 +158,7 @@ public class SortCommandTest {
         MODEL.updateOrder(SortType.CREATED, true, true);
         EXPECTED_MODEL.updateOrder(SortType.CREATED, false, true);
         EXPECTED_MODEL.commitToHistory();
-        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS_PROJECTS, EMPTY_STRING, OUTPUT_DESCENDING_ORDER);
+        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DESCENDING_ORDER);
         assertCommandSuccess(NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
         assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
     }

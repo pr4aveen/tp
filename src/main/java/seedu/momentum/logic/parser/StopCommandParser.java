@@ -11,13 +11,13 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ViewMode;
 
 /**
- * Parses input arguments and creates a new StopCommand object
+ * Parses input arguments and creates an appropriate StopCommand object
  */
 public class StopCommandParser implements Parser<StopCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the StopCommand
-     * and returns a StopCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the StopCommand and current model,
+     * and returns the corresponding StopCommand object for execution.
      *
      * @throws ParseException if the user input does not conform the expected format
      */
