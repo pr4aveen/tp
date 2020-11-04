@@ -2,7 +2,6 @@ package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 

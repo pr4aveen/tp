@@ -29,13 +29,17 @@ import seedu.momentum.logic.commands.EditProjectCommand;
 import seedu.momentum.logic.commands.ExitCommand;
 import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.commands.HelpCommand;
+import seedu.momentum.logic.commands.HomeCommand;
 import seedu.momentum.logic.commands.ListCommand;
+import seedu.momentum.logic.commands.ProjectViewCommand;
+import seedu.momentum.logic.commands.RedoCommand;
 import seedu.momentum.logic.commands.ShowComponentCommand;
 import seedu.momentum.logic.commands.SortCommand;
 import seedu.momentum.logic.commands.StartCommand;
 import seedu.momentum.logic.commands.StartProjectCommand;
 import seedu.momentum.logic.commands.StopCommand;
 import seedu.momentum.logic.commands.StopProjectCommand;
+import seedu.momentum.logic.commands.UndoCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
@@ -139,6 +143,32 @@ public class ProjectBookParserTest {
         ShowComponentCommand expectedCommand = new ShowComponentCommand(Collections.singletonList(
                 ShowComponentCommandParser.ComponentType.REMINDER));
         assertEquals(expectedCommand, command);
+    }
+
+    @Test
+    public void parseCommand_projectView() throws Exception {
+        ProjectViewCommand command = (ProjectViewCommand) parser.parseCommand(
+                ProjectViewCommand.COMMAND_WORD + " " + INDEX_FIRST.getOneBased(), model);
+        ProjectViewCommand expectedCommand = new ProjectViewCommand(INDEX_FIRST);
+        assertEquals(expectedCommand, command);
+    }
+
+    @Test
+    public void parseCommand_home() throws Exception {
+        assertTrue(parser.parseCommand(HomeCommand.COMMAND_WORD, model) instanceof HomeCommand);
+        assertTrue(parser.parseCommand(HomeCommand.COMMAND_WORD + " 3", model) instanceof HomeCommand);
+    }
+
+    @Test
+    public void parseCommand_undo() throws Exception {
+        assertTrue(parser.parseCommand(UndoCommand.COMMAND_WORD, model) instanceof UndoCommand);
+        assertTrue(parser.parseCommand(UndoCommand.COMMAND_WORD + " 3", model) instanceof UndoCommand);
+    }
+
+    @Test
+    public void parseCommand_redo() throws Exception {
+        assertTrue(parser.parseCommand(RedoCommand.COMMAND_WORD, model) instanceof RedoCommand);
+        assertTrue(parser.parseCommand(RedoCommand.COMMAND_WORD + " 3", model) instanceof RedoCommand);
     }
 
     @Test

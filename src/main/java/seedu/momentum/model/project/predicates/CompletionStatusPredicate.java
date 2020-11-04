@@ -1,5 +1,7 @@
 package seedu.momentum.model.project.predicates;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -13,17 +15,15 @@ public class CompletionStatusPredicate implements Predicate<TrackedItem> {
     public static final String INCOMPLETE_KEYWORD = "incomplete";
 
     private final List<String> keywords;
-    private final FindType findType;
 
     /**
      * Creates a predicate to check whether the {@code CompletionStatus} of a {@code Project} is incomplete.
      *
-     * @param findType enum to indicate the find type to be used for this find command.
      * @param keywords list of keywords to check for matches.
      */
-    public CompletionStatusPredicate(FindType findType, List<String> keywords) {
+    public CompletionStatusPredicate(List<String> keywords) {
+        requireNonNull(keywords);
         assert keywords.size() == 1;
-        this.findType = findType;
         this.keywords = keywords;
     }
 
@@ -34,6 +34,7 @@ public class CompletionStatusPredicate implements Predicate<TrackedItem> {
      * @return True if keywords are valid, false otherwise.
      */
     public static boolean isValid(List<String> keywords) {
+        requireNonNull(keywords);
         return keywords.size() == 1 // check that there is only 1 keyword
                 && (keywords.get(0).equals(COMPLETED_KEYWORD) // check that the keyword is valid
                 || keywords.get(0).equals(INCOMPLETE_KEYWORD)); // check that the keyword is valid
@@ -41,6 +42,7 @@ public class CompletionStatusPredicate implements Predicate<TrackedItem> {
 
     @Override
     public boolean test(TrackedItem trackedItem) {
+        requireNonNull(trackedItem);
         String keyword = keywords.get(0);
         boolean status = trackedItem.getCompletionStatus().isCompleted();
         switch (keyword) {

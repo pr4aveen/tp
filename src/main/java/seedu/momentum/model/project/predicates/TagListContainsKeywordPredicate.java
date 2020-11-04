@@ -1,5 +1,7 @@
 package seedu.momentum.model.project.predicates;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -11,9 +13,7 @@ import seedu.momentum.model.tag.Tag;
 /**
  * Tests that a {@code TrackedItem}'s {@code Tag} matches any of the keywords given.
  */
-public class TagListContainsKeywordsPredicate implements Predicate<TrackedItem> {
-    private final List<String> keywords;
-    private final FindType findType;
+public class TagListContainsKeywordPredicate extends ContainsKeywordPredicate {
 
     /**
      * Creates a predicate to check whether the {@code Tag} of a {@code Project} contains a
@@ -22,31 +22,24 @@ public class TagListContainsKeywordsPredicate implements Predicate<TrackedItem> 
      * @param findType enum to indicate the find type to be used for this find command.
      * @param keywords list of keywords to check for matches.
      */
-    public TagListContainsKeywordsPredicate(FindType findType, List<String> keywords) {
-        this.findType = findType;
-        this.keywords = keywords;
+    public TagListContainsKeywordPredicate(FindType findType, List<String> keywords) {
+        super(findType, keywords);
     }
 
     @Override
     public boolean test(TrackedItem trackedItem) {
+        requireNonNull(trackedItem);
         String tagString = buildTagString(trackedItem.getTags());
         Predicate<String> predicate = keyword -> StringUtil.containsWordIgnoreCase(tagString, keyword);
-        switch (findType) {
-        case ALL:
-            return keywords.stream().allMatch(predicate);
-        case ANY:
-            // Fallthrough
-        default:
-            return keywords.stream().anyMatch(predicate);
-        }
+        return testPredicate(predicate);
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof TagListContainsKeywordsPredicate // instanceof handles nulls
-                && keywords.equals(((TagListContainsKeywordsPredicate) other).keywords)) // state check
-                && findType == ((TagListContainsKeywordsPredicate) other).findType;
+                || (other instanceof TagListContainsKeywordPredicate // instanceof handles nulls
+                && keywords.equals(((TagListContainsKeywordPredicate) other).keywords)) // state check
+                && findType == ((TagListContainsKeywordPredicate) other).findType;
     }
 
     /**

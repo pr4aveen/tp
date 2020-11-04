@@ -21,7 +21,9 @@ public class ProjectViewCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " " + "INDEX";
 
-    public static final String MESSAGE_DELETE_PROJECT_SUCCESS = "Viewing Project: %1$s";
+    public static final String MESSAGE_VIEW_PROJECT_SUCCESS = "Viewing Project: %1$s";
+
+    public static final String MESSAGE_NOT_PROJECT = "You cannot view tasks within a project!";
 
     private final Index targetIndex;
 
@@ -47,7 +49,7 @@ public class ProjectViewCommand extends Command {
         List<TrackedItem> lastShownList = model.getDisplayList();
 
         if (model.getViewMode() != ViewMode.PROJECTS) {
-            throw new CommandException(Messages.MESSAGE_NOT_PROJECT);
+            throw new CommandException(MESSAGE_NOT_PROJECT);
         }
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
@@ -58,7 +60,7 @@ public class ProjectViewCommand extends Command {
         model.resetView();
         model.viewTasks(projectToView);
         model.commitToHistory();
-        return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, projectToView.getName().fullName));
+        return new CommandResult(String.format(MESSAGE_VIEW_PROJECT_SUCCESS, projectToView.getName().fullName));
     }
 
     @Override
