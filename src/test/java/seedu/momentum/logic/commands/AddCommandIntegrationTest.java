@@ -1,6 +1,7 @@
 package seedu.momentum.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.momentum.commons.core.Messages.MESSAGE_TEXT_PROJECT;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
@@ -41,7 +42,7 @@ public class AddCommandIntegrationTest {
         expectedModel.commitToHistory();
 
         assertCommandSuccess(new AddProjectCommand(validProject), model,
-                String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, validProject), expectedModel);
+                String.format(AddCommand.MESSAGE_SUCCESS, MESSAGE_TEXT_PROJECT, validProject), expectedModel);
     }
 
     /**
@@ -59,7 +60,7 @@ public class AddCommandIntegrationTest {
         expectedModel.commitToHistory();
 
         assertCommandSuccess(addDanaCommand, model,
-                String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, dana), expectedModel);
+                String.format(AddCommand.MESSAGE_SUCCESS, MESSAGE_TEXT_PROJECT, dana), expectedModel);
     }
 
     //    @Test

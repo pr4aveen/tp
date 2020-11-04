@@ -3,7 +3,7 @@ package seedu.momentum.commons.core;
 import seedu.momentum.MainApp;
 
 /**
- * UI theme of the application.
+ * Represents a UI theme of the application.
  */
 public class Theme {
 
@@ -24,6 +24,8 @@ public class Theme {
 
     /**
      * Fetches the filepath of the CSS stylesheet corresponding to the current theme.
+     *
+     * @return The filepath of the stylesheet as a String.
      */
     public String getStylesheet() {
         assert(themeType == ThemeType.LIGHT || themeType == ThemeType.DARK);

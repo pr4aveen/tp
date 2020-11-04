@@ -87,7 +87,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
     /**
      * Returns a copy of this project with its timerWrapper started.
      *
-     * @return A copy of this project, but with its timerWrapper started
+     * @return A copy of this project, but with its timerWrapper started.
      */
     @Override
     public Project startTimer() {
@@ -100,7 +100,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
      * Returns a copy of this project with its timerWrapper stopped, then adds the timed duration into
      * the list.
      *
-     * @return A copy of this project, but with its timerWrapper stopped
+     * @return A copy of this project, but with its timerWrapper stopped.
      */
     @Override
     public Project stopTimer() {

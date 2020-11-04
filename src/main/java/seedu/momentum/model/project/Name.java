@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents a Project's name in the project book.
+ * Represents a name in Momentum.
  * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
  */
 public class Name implements Comparable<Name> {

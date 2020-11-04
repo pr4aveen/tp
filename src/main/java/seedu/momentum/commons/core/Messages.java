@@ -11,4 +11,7 @@ public class Messages {
     public static final String MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX = "The project index provided is invalid";
     public static final String MESSAGE_INVALID_TASK_DISPLAYED_INDEX = "The task index provided is invalid";
     public static final String MESSAGE_PROJECTS_LISTED_OVERVIEW = "%1$d projects listed!";
+
+    public static final String MESSAGE_TEXT_PROJECT = "Project";
+    public static final String MESSAGE_TEXT_TASK = "Task";
 }

@@ -1,7 +1,7 @@
 package seedu.momentum.model.project;
 
 /**
- * Represents a Project's Completion status in the project book
+ * Represents a completion status in Momentum.
  * Guarantees: immutable.
  */
 public class CompletionStatus implements Comparable<CompletionStatus> {
@@ -25,9 +25,9 @@ public class CompletionStatus implements Comparable<CompletionStatus> {
     }
 
     /**
-     * Returns true if the project is completed, false otherwise.
+     * Returns true if the status is completed, false otherwise.
      *
-     * @return isCompleted
+     * @return isCompleted.
      */
     public boolean isCompleted() {
         return this.completionStatus;

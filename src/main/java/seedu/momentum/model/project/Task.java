@@ -55,7 +55,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
     /**
      * Returns a copy of this task with its timerWrapper started.
      *
-     * @return A copy of this task, but with its timerWrapper started
+     * @return A copy of this task, but with its timerWrapper started.
      */
     @Override
     public Task startTimer() {
@@ -68,7 +68,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
      * Returns a copy of this task with its timerWrapper stopped, then adds the timed duration into
      * the list.
      *
-     * @return A copy of this task, but with its timerWrapper stopped
+     * @return A copy of this task, but with its timerWrapper stopped.
      */
     @Override
     public Task stopTimer() {

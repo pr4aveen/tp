@@ -10,18 +10,28 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Edits a project in Momentum.
+ */
 public class EditProjectCommand extends EditCommand {
 
     /**
-     * Create a EditProjectCommand that edits a project.
+     * Create an EditProjectCommand that edits a project.
      *
-     * @param index                     of the project in the filtered project list to edit.
+     * @param index                     of the project in the model to edit.
      * @param editTrackedItemDescriptor details to edit the project with.
      */
     public EditProjectCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor) {
         super(index, editTrackedItemDescriptor);
     }
 
+    /**
+     * Edits a project in the provided model.
+     *
+     * @param model {@code Model} containing the project to edit.
+     * @return feedback message of editing result, for display.
+     * @throws CommandException If an error occurs during editing process.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
