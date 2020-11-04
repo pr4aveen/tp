@@ -57,7 +57,7 @@ public class Reminder {
      * Returns true if the dateTimeWrapper is after current date and time, false otherwise.
      *
      * @param dateTimeStr A string to be parsed as a dateTimeWrapper.
-     * @return the isValid boolean
+     * @return the isValid boolean.
      */
     public static boolean isValid(String dateTimeStr) {
         DateTimeWrapper dateTimeWrapper = new DateTimeWrapper(dateTimeStr);
@@ -67,7 +67,7 @@ public class Reminder {
     /**
      * Returns true if the reminder is empty, false otherwise.
      *
-     * @return the isEmpty boolean
+     * @return the isEmpty boolean.
      */
     public boolean isEmpty() {
         return this.dateTimeWrapper.isEmpty();
@@ -76,7 +76,7 @@ public class Reminder {
     /**
      * Gets dateTimeWrapper of a reminder.
      *
-     * @return the dateTimeWrapper
+     * @return the dateTimeWrapper.
      * @throws NoSuchElementException If there is no dateTimeWrapper.
      */
     public DateTimeWrapper getDateTimeWrapper() throws NoSuchElementException {

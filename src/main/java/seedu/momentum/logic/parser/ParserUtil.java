@@ -70,6 +70,13 @@ public class ParserUtil {
     /**
      * Parses {@code Optional<String> date} and {@code Optional<String> time}into a {@code Deadline}.
      * Leading and trailing whitespaces will be trimmed.
+     * If either date is not available, an empty Deadline is returned.
+     *
+     * @param date The date of the deadline.
+     * @param time The time of the deadline.
+     * @param createdDateWrapper The date when the item was created.
+     * @throws ParseException if the date or time is invalid, or if the provided date and time is before the created
+     * date.
      */
     public static Deadline parseDeadline(Optional<String> date, Optional<String> time, DateWrapper createdDateWrapper)
             throws ParseException {
@@ -101,8 +108,11 @@ public class ParserUtil {
     /**
      * Parses {@code Optional<String> dateTime} into a {@code Reminder}.
      * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param dateTime The date and time of the reminder.
+     * @throws ParseException if dateTime is invalid.
      */
-    public static Reminder parseReminder(Optional<String> dateTime, DateWrapper createdDateWrapper)
+    public static Reminder parseReminder(Optional<String> dateTime)
             throws ParseException {
         if (dateTime.isEmpty() || dateTime.get().isBlank()) {
             return new Reminder();
@@ -137,6 +147,8 @@ public class ParserUtil {
 
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
+     *
+     * @throws ParseException if any of the tags in the set are invalid.
      */
     public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
         requireNonNull(tags);

@@ -77,7 +77,7 @@ public class ModelManager implements Model {
         this.currentComparator = getComparatorNullType(true, this.isCurrentSortByCompletionStatus);
 
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
-                currentComparator, userPrefs);
+                currentComparator, isTagsVisible.get(), userPrefs);
         this.reminderManager = new ReminderManager(this.versionedProjectBook);
         this.itemList = this.versionedProjectBook.getTrackedItemList();
         this.displayList = new SimpleObjectProperty<>(this.itemList);
@@ -87,7 +87,6 @@ public class ModelManager implements Model {
         rescheduleReminders();
         viewProjects();
         updateRunningTimers();
-
     }
 
     public ModelManager() {
@@ -210,7 +209,7 @@ public class ModelManager implements Model {
     public void addTrackedItem(TrackedItem trackedItem) {
         versionedProjectBook.addTrackedItem(trackedItem);
         rescheduleReminders();
-        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
+        updateOrder(currentSortType, isCurrentSortAscending);
         updatePredicate(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
@@ -224,7 +223,7 @@ public class ModelManager implements Model {
             resetUi(viewMode, currentProject);
         }
         rescheduleReminders();
-        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
+        updateOrder(currentSortType, isCurrentSortAscending);
     }
 
     //=========== Filtered Project List Accessors =============================================================
@@ -261,6 +260,11 @@ public class ModelManager implements Model {
         }
         currentComparator = getComparator(sortType, isAscending, isCurrentSortByCompletionStatus);
         updateDisplayList();
+    }
+
+    @Override
+    public void updateOrder(SortType sortType, boolean isAscending) {
+        updateOrder(sortType, isAscending, false);
     }
 
     @Override
@@ -303,17 +307,6 @@ public class ModelManager implements Model {
         LOGGER.log(Level.INFO, "View mode changed to task view");
         itemList = project.getTaskList();
         updateDisplayList();
-    }
-
-    @Override
-    public void viewAll() {
-        ObservableList<TrackedItem> allItems = FXCollections.observableArrayList();
-        for (TrackedItem projectItem : versionedProjectBook.getTrackedItemList()) {
-            allItems.add(projectItem);
-            Project project = (Project) projectItem;
-            allItems.addAll(project.getTaskList());
-        }
-        this.itemList = allItems;
     }
 
     @Override
@@ -402,7 +395,8 @@ public class ModelManager implements Model {
 
     @Override
     public void commitToHistory() {
-        versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, userPrefs);
+        versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible.get(),
+            userPrefs);
     }
 
     @Override
@@ -427,6 +421,8 @@ public class ModelManager implements Model {
     @Override
     public void resetUi(ViewMode viewMode, Project project) {
         requireNonNull(viewMode);
+
+        isTagsVisible.setValue(versionedProjectBook.isTagsVisible());
 
         switch (viewMode) {
         case PROJECTS:

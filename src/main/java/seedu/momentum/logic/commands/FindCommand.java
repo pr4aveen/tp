@@ -10,12 +10,13 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.function.Predicate;
 
 import seedu.momentum.commons.core.Messages;
+import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
- * Finds and lists all projects in project book whose name contains any of the argument keywords.
- * Keyword matching is case insensitive.
+ * Finds and lists all items in Momentum that match a defined criteria.
+ * This is done by applying a predicate to filter the list of items.
  */
 public class FindCommand extends Command {
 
@@ -28,12 +29,25 @@ public class FindCommand extends Command {
             + "[" + PREFIX_COMPLETION_STATUS + "COMPLETION_STATUS_KEYWORD ] "
             + "[" + PREFIX_TAG + "TAG_KEYWORD [MORE_TAG_KEYWORDS]... ]";
 
+    // Defines the criteria to filter items by
     private final Predicate<TrackedItem> predicate;
 
+    /**
+     * Creates a FindCommand that uses the provided predicate to filter out items.
+     *
+     * @param predicate A predicate that specifies the criteria used to filter the items.
+     */
     public FindCommand(Predicate<TrackedItem> predicate) {
         this.predicate = predicate;
     }
 
+    /**
+     * Updates the provided model to show only the items that match the criteria defined in the predicate.
+     *
+     * @param model {@code Model} containing the model to update.
+     * @return feedback message of find result, for display.
+     * @throws CommandException If an error occurs during updating process.
+     */
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);

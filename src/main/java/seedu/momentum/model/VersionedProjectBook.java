@@ -9,6 +9,9 @@ import seedu.momentum.logic.SettingsUpdateManager;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Represents a project book that keeps track of its state, so that it can undo/redo changes.
+ */
 public class VersionedProjectBook extends ProjectBook {
 
     private static final String UNDO = "undo";
@@ -26,11 +29,12 @@ public class VersionedProjectBook extends ProjectBook {
                                 Project currentProject,
                                 Predicate<TrackedItem> currentPredicate,
                                 Comparator<TrackedItem> currentComparator,
+                                boolean isTagsVisible,
                                 ReadOnlyUserPrefs userPrefs) {
         super(projectBook);
         this.projectBookStateList = new ArrayList<>();
         projectBookStateList.add(new ProjectBookWithUi(projectBook, viewMode,
-                currentProject, currentPredicate, currentComparator, userPrefs));
+                currentProject, currentPredicate, currentComparator, isTagsVisible, userPrefs));
         currentStatePointer = 0;
     }
 
@@ -39,13 +43,13 @@ public class VersionedProjectBook extends ProjectBook {
      * commits current {@code VersionedProjectBook} into {@code projectBookStateList}.
      */
     public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
-                       Comparator<TrackedItem> currentComparator, ReadOnlyUserPrefs userPrefs) {
+                       Comparator<TrackedItem> currentComparator, boolean isTagsVisible, ReadOnlyUserPrefs userPrefs) {
         int historySize = projectBookStateList.size();
         if (currentStatePointer < historySize - 1) {
             flushRedoVersions();
         }
         projectBookStateList.add(new ProjectBookWithUi(this, viewMode,
-                currentProject, currentPredicate, currentComparator, userPrefs));
+                currentProject, currentPredicate, currentComparator, isTagsVisible, userPrefs));
         shiftPointer(COMMIT);
     }
 
@@ -139,6 +143,10 @@ public class VersionedProjectBook extends ProjectBook {
 
     public Comparator<TrackedItem> getCurrentComparator() {
         return getCurrentProjectBookWithUi().getComparator();
+    }
+
+    public boolean isTagsVisible() {
+        return getCurrentProjectBookWithUi().isTagsVisible();
     }
 
     @Override

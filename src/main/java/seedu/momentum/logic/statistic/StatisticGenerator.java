@@ -19,7 +19,7 @@ public interface StatisticGenerator {
     void updateStatisticTimeframe(StatisticTimeframe timeframe);
 
     /**
-     * Returns a list containing the amount of time spent on each project in the past week.
+     * Returns a list containing the amount of time spent on each project in the timeframe.
      *
      * @return A list of StatisticEntry, each entry containing the project name and time spent.
      */

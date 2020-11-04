@@ -12,10 +12,11 @@ import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.commons.core.Theme;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.SettingsUpdateManager;
+import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 
 /**
- * Adjust various settings in the application.
+ * Adjusts various settings in the application.
  */
 public class SetCommand extends Command {
 
@@ -40,6 +41,13 @@ public class SetCommand extends Command {
         this.settingsToChange = new SettingsToChange(settingsToChange);
     }
 
+    /**
+     * Changes the settings in the application.
+     *
+     * @param model {@code Model} to perform the change on.
+     * @return feedback message of the change result, for display.
+     * @throws CommandException If an error occurs during changing process.
+     */
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
@@ -62,6 +70,9 @@ public class SetCommand extends Command {
         return new CommandResult(MESSAGE_UPDATE_SETTINGS_SUCCESS);
     }
 
+    /**
+     * Stores the details of the settings to be changed.
+     */
     public static class SettingsToChange {
 
         private Theme theme;

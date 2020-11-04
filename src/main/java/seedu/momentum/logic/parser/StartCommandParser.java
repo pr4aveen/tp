@@ -11,13 +11,13 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ViewMode;
 
 /**
- * Parses input arguments and creates a new StartCommand object
+ * Parses input arguments and creates an appropriate StartCommand object
  */
 public class StartCommandParser implements Parser<StartCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the StartCommand
-     * and returns a StartCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the StartCommand and current model,
+     * and returns the corresponding StartCommand object for execution.
      *
      * @throws ParseException if the user input does not conform the expected format
      */

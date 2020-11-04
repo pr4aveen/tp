@@ -9,6 +9,9 @@ import seedu.momentum.logic.commands.SetCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 
+/**
+ * Parses input arguments and creates a new SetCommandParser object
+ */
 public class SetCommandParser implements Parser<SetCommand> {
 
     /**

@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.commons.core.Messages.MESSAGE_TEXT_PROJECT;
 import static seedu.momentum.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
@@ -50,7 +51,7 @@ public class AddProjectCommandTest {
 
         CommandResult commandResult = new AddProjectCommand(validProject).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, validProject),
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, MESSAGE_TEXT_PROJECT, validProject),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validProject), modelStub.projectsAdded);
     }
@@ -60,7 +61,7 @@ public class AddProjectCommandTest {
         Project validProject = new ProjectBuilder().build();
         AddProjectCommand addCommand = new AddProjectCommand(validProject);
         ModelStub modelStub = new ModelStubWithProject(validProject);
-        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, AddCommand.TEXT_PROJECT);
+        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, MESSAGE_TEXT_PROJECT);
         assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
     }
 
@@ -184,6 +185,11 @@ public class AddProjectCommandTest {
         }
 
         @Override
+        public void updateOrder(SortType sortType, boolean isAscending) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<TrackedItem> getRunningTimers() {
             throw new AssertionError("This method should not be called.");
         }
@@ -240,11 +246,6 @@ public class AddProjectCommandTest {
 
         @Override
         public Project getCurrentProject() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void viewAll() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -354,13 +355,15 @@ public class AddProjectCommandTest {
         private Project currentProject = null;
         private Predicate<TrackedItem> currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         private Comparator<TrackedItem> currentComparator = null;
+        private boolean isTagsVisible = true;
         private UserPrefs userPrefs = new UserPrefs();
         private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(new ProjectBook(),
-                viewMode, currentProject, currentPredicate, currentComparator, userPrefs);
+                viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible, userPrefs);
 
         @Override
         public void commitToHistory() {
-            versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, userPrefs);
+            versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible,
+                userPrefs);
         }
     }
 }

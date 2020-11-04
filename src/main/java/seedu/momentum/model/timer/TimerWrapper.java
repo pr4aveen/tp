@@ -7,7 +7,7 @@ import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.DateTimeWrapper;
 
 /**
- * Represents a timerWrapper in momentum.
+ * Represents a timer in momentum.
  * Guarantees: immutable.
  */
 public class TimerWrapper {
@@ -16,7 +16,7 @@ public class TimerWrapper {
     private boolean isRunning;
 
     /**
-     * Constructs a timerWrapper with default settings.
+     * Constructs a timer with default settings.
      */
     public TimerWrapper() {
         this.startDateTime = Clock.now();
@@ -25,11 +25,11 @@ public class TimerWrapper {
     }
 
     /**
-     * Constructs a timerWrapper with the provided data.
+     * Constructs a timer with the provided data.
      *
-     * @param startDateTime The dateTimeWrapper when the timerWrapper was started.
-     * @param stopDateTime The dateTimeWrapper when the timerWrapper was stopped.
-     * @param isRunning Whether the timerWrapper is running.
+     * @param startDateTime The date and time when the timer was started.
+     * @param stopDateTime The date and time when the timer was stopped.
+     * @param isRunning Whether the timer is running.
      */
     public TimerWrapper(DateTimeWrapper startDateTime, DateTimeWrapper stopDateTime, boolean isRunning) {
         this.startDateTime = startDateTime;
@@ -38,7 +38,7 @@ public class TimerWrapper {
     }
 
     /**
-     * Start the timerWrapper.
+     * Start the timer.
      */
     public TimerWrapper start() {
         assert (!isRunning);
@@ -46,7 +46,7 @@ public class TimerWrapper {
     }
 
     /**
-     * Stop the timerWrapper.
+     * Stop the timer.
      */
     public TimerWrapper stop() {
         assert (isRunning);
@@ -64,10 +64,10 @@ public class TimerWrapper {
     }
 
     /**
-     * Returns the length of dateTimeWrapper tracked in this timerWrapper, in (@code unit) units.
+     * Returns the length of time tracked by this timer, in (@code unit) units.
      *
-     * @param unit The units for the length of dateTimeWrapper.
-     * @return The length of dateTimeWrapper in the provided units.
+     * @param unit The units for the length of time.
+     * @return The length of time in the provided units.
      */
     public long getTimeBetween(ChronoUnit unit) {
         assert (!isRunning);

@@ -10,6 +10,7 @@ import seedu.momentum.logic.commands.AddCommand;
 import seedu.momentum.logic.commands.ClearCommand;
 import seedu.momentum.logic.commands.Command;
 import seedu.momentum.logic.commands.DeleteCommand;
+import seedu.momentum.logic.commands.DismissCommand;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.logic.commands.ExitCommand;
 import seedu.momentum.logic.commands.FindCommand;
@@ -38,7 +39,7 @@ public class ProjectBookParser {
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
     /**
-     * Parses user input into command for execution.
+     * Parses user input into a command for execution using the appropriate command parser.
      *
      * @param userInput full user input string.
      * @param model     the current model manager.
@@ -65,7 +66,7 @@ public class ProjectBookParser {
             return new DeleteCommandParser().parse(arguments, model);
 
         case ClearCommand.COMMAND_WORD:
-            return new ClearCommand();
+            return new ClearCommandParser().parse(arguments, model);
 
         case FindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments, model);
@@ -105,6 +106,9 @@ public class ProjectBookParser {
 
         case RedoCommand.COMMAND_WORD:
             return new RedoCommand();
+
+        case DismissCommand.COMMAND_WORD:
+            return new DismissCommand();
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
