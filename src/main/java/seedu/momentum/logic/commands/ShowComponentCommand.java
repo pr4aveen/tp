@@ -62,6 +62,7 @@ public class ShowComponentCommand extends Command {
             case TAGS:
                 boolean isShown = model.getIsTagsVisible().get();
                 model.showOrHideTags();
+                model.commitToHistory();
                 resultString += String.format(MESSAGE_SUCCESS, componentType.toString(), isShown ? REMOVED : SHOWN);
                 break;
             default:

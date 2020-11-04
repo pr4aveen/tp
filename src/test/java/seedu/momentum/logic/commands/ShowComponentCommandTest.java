@@ -32,6 +32,7 @@ public class ShowComponentCommandTest {
                 ShowComponentCommand.REMOVED);
         Model expectedModel = new ModelManager(getTypicalProjectBook(), new UserPrefs());
         expectedModel.showOrHideTags();
+        expectedModel.commitToHistory();
         assertCommandSuccess(showComponentCommand, model, successMessage, expectedModel);
     }
 
