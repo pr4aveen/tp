@@ -87,7 +87,6 @@ public class ModelManager implements Model {
         rescheduleReminders();
         viewProjects();
         updateRunningTimers();
-
     }
 
     public ModelManager() {
