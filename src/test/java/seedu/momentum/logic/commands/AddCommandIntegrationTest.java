@@ -3,6 +3,7 @@ package seedu.momentum.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.momentum.commons.core.Messages.MESSAGE_TEXT_PROJECT;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.momentum.testutil.TypicalProjects.ALICE;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import java.time.temporal.ChronoUnit;
@@ -18,8 +19,10 @@ import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.testutil.ProjectBuilder;
+import seedu.momentum.testutil.TaskBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code AddCommand}.
@@ -70,20 +73,40 @@ public class AddCommandIntegrationTest {
     //            new AddProjectCommand((Project) trackedItemInList), model, AddCommand.MESSAGE_DUPLICATE_ENTRY);
     //    }
 
-    @Test
-    public void execute_addCommand_showReminder() throws CommandException, InterruptedException {
+    private void testShowReminder(AddCommand addCommand, String expectedReminder, int delay) throws CommandException,
+            InterruptedException {
         ThreadWrapper.setIsRunningOnPlatform(false);
 
-        Project project = new ProjectBuilder()
-                .withName("daesdaef")
-                .withReminder(Clock.now().plus(1, ChronoUnit.SECONDS).toString()).build();
-        AddCommand actualCommand = new AddProjectCommand(project);
-        actualCommand.execute(model);
-        String expectedReminder = String.format(ReminderManager.PROJECT_REMINDER, project.getName().toString());
+        addCommand.execute(model);
 
         Thread thread = new Thread(() -> assertEquals(expectedReminder, model.getReminder().get()));
-        thread.sleep(1000);
+        thread.sleep(delay);
         thread.run();
+    }
+
+    @Test
+    public void execute_addProjectCommand_showReminder() throws CommandException, InterruptedException {
+        String dateTimeStr = Clock.now().plus(200, ChronoUnit.MILLIS).toString();
+        Project project = new ProjectBuilder().withName("daesdaef").withReminder(dateTimeStr).build();
+
+        AddCommand actualCommand = new AddProjectCommand(project);
+        String expectedReminder = String.format(ReminderManager.PROJECT_REMINDER, project.getName());
+        testShowReminder(actualCommand, expectedReminder, 400);
+    }
+
+    @Test
+    public void execute_addTaskCommand_showReminder() throws CommandException, InterruptedException {
+        ThreadWrapper.setIsRunningOnPlatform(false);
+        
+        String dateTimeStr = Clock.now().plus(500, ChronoUnit.MILLIS).toString();
+        Project parentProject = ALICE;
+        Task task = new TaskBuilder().withName("daesdaef").withReminder(dateTimeStr).build();
+
+        AddCommand actualCommand = new AddTaskCommand(task, parentProject);
+        
+        String expectedReminder = String.format(ReminderManager.TASK_REMINDER, parentProject.getName(), task.getName());
+        testShowReminder(actualCommand, expectedReminder, 1000);
+
     }
 
 }
