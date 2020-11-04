@@ -501,183 +501,183 @@ testers are expected to do more *exploratory* testing.
 
 1. Adding a project while all projects are shown.
 
-   1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `add n/project1`<br>
+    Expected: A new project with the name `project1` will be created. Details of the project shown in the status message.
+    
+    1. Test case: `add n/project2 d/desc2`<br>
+    Expected: A new project with the name `project2` and description `desc2` will be created. Details of the project shown in the status message.    
+    
+    1. Test case: `add n/project3 t/tagA t/tagB`<br>
+    Expected: A new project with the name `project3` and tags `tagA` and `tagB` will be created. Details of the project shown in the status message.    
+    
+    1. Test case: `add n/project4 c/`<br>
+    Expected: A new project with the name `project4` and completion status `done` will be created. Details of the project shown in the status message.     
+    
+    1. Test case: `add n/project5 dd/2020-12-21`<br>
+    Expected: A new project with the name `project5` and deadline date `2020-12-21` will be created. Details of the project shown in the status message.     
+    
+    1. Test case: `add n/project6 dd/2020-12-21 dt/12:34:56`<br>
+    Expected: A new project with the name `project5` and deadline date `2020-12-21` and deadline time `12:34:56` will be created. Details of the project shown in the status message.    
+    
+    1. Test case: `add n/project7 r/x` where `x` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new project with the name `project6` and a reminder scheduled at time `x` will be created. Details of the project shown in the status message.
 
-   1. Test case: `add n/project1`<br>
-      Expected: A new project with the name `project1` will be created. Details of the project shown in the status message.
-      
-   1. Test case: `add n/project2 d/desc2`<br>
-      Expected: A new project with the name `project2` and description `desc2` will be created. Details of the project shown in the status message.    
-      
-   1. Test case: `add n/project3 t/tagA t/tagB`<br>
-      Expected: A new project with the name `project3` and tags `tagA` and `tagB` will be created. Details of the project shown in the status message.    
-      
-   1. Test case: `add n/project4 c/`<br>
-      Expected: A new project with the name `project4` and completion status `done` will be created. Details of the project shown in the status message.     
-  
-   1. Test case: `add n/project5 dd/2020-12-21`<br>
-      Expected: A new project with the name `project5` and deadline date `2020-12-21` will be created. Details of the project shown in the status message.     
-   
-   1. Test case: `add n/project6 dd/2020-12-21 dt/12:34:56`<br>
-      Expected: A new project with the name `project5` and deadline date `2020-12-21` and deadline time `12:34:56` will be created. Details of the project shown in the status message.    
-   
-   1. Test case: `add n/project7 r/x` where `x` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
-      Expected: A new project with the name `project6` and a reminder scheduled at time `x` will be created. Details of the project shown in the status message.
-      
 1. Adding a project while only some projects are shown.
+    
+    1. Prerequisites: List only some projects using the `find` command.
+    
+    1. Test case: `add n/project1`<br>
+    Expected: A new project with the name `project1` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.
+    
+    1. Test case: `add n/project2 d/desc2`<br>
+    Expected: A new project with the name `project2` and description `desc2` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.   
+    
+    1. Test case: `add n/project3 t/tagA t/tagB`<br>
+    Expected: A new project with the name `project3` and tags `tagA` and `tagB` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.   
+    
+    1. Test case: `add n/project4 c/`<br>
+    Expected: A new project with the name `project4` and completion status `done` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.    
+    
+    1. Test case: `add n/project5 dd/2020-12-21`<br>
+    Expected: A new project with the name `project5` and deadline date `2020-12-21` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.    
+    
+    1. Test case: `add n/project6 dd/2020-12-21 dt/12:34:56`<br>
+    Expected: A new project with the name `project5` and deadline date `2020-12-21` and deadline time `12:34:56` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.    
+    
+    1. Test case: `add n/project7 r/x` where `x` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new project with the name `project6` and a reminder scheduled at time `x` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.
 
-   1. Prerequisites: List only some projects using the `find` command.
-
-   1. Test case: `add n/project1`<br>
-      Expected: A new project with the name `project1` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.
-      
-   1. Test case: `add n/project2 d/desc2`<br>
-      Expected: A new project with the name `project2` and description `desc2` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.   
-      
-   1. Test case: `add n/project3 t/tagA t/tagB`<br>
-      Expected: A new project with the name `project3` and tags `tagA` and `tagB` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.   
-      
-   1. Test case: `add n/project4 c/`<br>
-      Expected: A new project with the name `project4` and completion status `done` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.    
-  
-   1. Test case: `add n/project5 dd/2020-12-21`<br>
-      Expected: A new project with the name `project5` and deadline date `2020-12-21` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.    
-   
-   1. Test case: `add n/project6 dd/2020-12-21 dt/12:34:56`<br>
-      Expected: A new project with the name `project5` and deadline date `2020-12-21` and deadline time `12:34:56` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.    
-   
-   1. Test case: `add n/project7 r/x` where `x` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
-      Expected: A new project with the name `project6` and a reminder scheduled at time `x` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.
-       
 1. Adding a project with invalid inputs parameters.
 
-  1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
-
-  1. Test case: `add n/$$`<br>
-     Expected: A new project will not be created. Invalid name format message shown in the status message.    
-     
-  1. Test case: `add n/project3 t/invalid tag`<br>
-     Expected: A new project will not be created. Invalid name format message shown in the status message.    
- 
-  1. Test case: `add n/project5 dd/2020-21-12`<br>
-     Expected: A new project will not be created. Invalid date format message shown in the status message.     
-  
-  1. Test case: `add n/project6 dd/2020-12-21 dt/99:99:99`<br>
-     Expected: A new project will not be created. Invalid time format message shown in the status message.    
-  
-  1. Test case: `add n/project7 r/x` where `x` is a time earlier that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
-     Expected: A new project will not be created. Invalid reminder date and time message shown in the status message.
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `add n/$$`<br>
+    Expected: A new project will not be created. Invalid name format message shown in the status message.    
+    
+    1. Test case: `add n/project3 t/invalid tag`<br>
+    Expected: A new project will not be created. Invalid name format message shown in the status message.    
+    
+    1. Test case: `add n/project5 dd/2020-21-12`<br>
+    Expected: A new project will not be created. Invalid date format message shown in the status message.     
+    
+    1. Test case: `add n/project6 dd/2020-12-21 dt/99:99:99`<br>
+    Expected: A new project will not be created. Invalid time format message shown in the status message.    
+    
+    1. Test case: `add n/project7 r/x` where `x` is a time earlier that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new project will not be created. Invalid reminder date and time message shown in the status message.
 
 ### Edit a project
 
 1. Editing a project while all projects are shown.
 
-   1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `edit x n/project1` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the name `project1` Details of the edited project shown in the status message.
+    
+    1. Test case: `edit x d/desc2` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the description `desc2`. Details of the edited project shown in the status message.   
+    
+    1. Test case: `edit x t/tagA t/tagB` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the tags `tagA` and `tagB`. Details of the edited project shown in the status message.    
+    
+    1. Test case: `edit x c/` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the completion status `done`. Details of the edited project shown in the status message.     
+    
+    1. Test case: `edit x dd/2020-12-21` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the deadline date `2020-12-21`. Details of the edited project shown in the status message.     
+    
+    1. Test case: `edit x dd/2020-12-21 dt/12:34:56` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have thr deadline date `2020-12-21` and deadline time `12:34:56`. Details of the edited project shown in the status message.    
+    
+    1. Test case: `edit x r/y` where `x` is the index of a project in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The project at index `x` will be edited to have the name `project6` and a reminder scheduled at time `y`. Details of the edited project shown in the status message.
 
-   1. Test case: `edit x n/project1` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have the name `project1` Details of the edited project shown in the status message.
-      
-   1. Test case: `edit x d/desc2` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have the description `desc2`. Details of the edited project shown in the status message.   
-      
-   1. Test case: `edit x t/tagA t/tagB` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have the tags `tagA` and `tagB`. Details of the edited project shown in the status message.    
-      
-   1. Test case: `edit x c/` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have the completion status `done`. Details of the edited project shown in the status message.     
-  
-   1. Test case: `edit x dd/2020-12-21` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have the deadline date `2020-12-21`. Details of the edited project shown in the status message.     
-   
-   1. Test case: `edit x dd/2020-12-21 dt/12:34:56` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have thr deadline date `2020-12-21` and deadline time `12:34:56`. Details of the edited project shown in the status message.    
-   
-   1. Test case: `edit x r/y` where `x` is the index of a project in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
-      Expected: The project at index `x` will be edited to have the name `project6` and a reminder scheduled at time `y`. Details of the edited project shown in the status message.
-      
 1. Editing a project while only some projects are shown.
 
-   1. Prerequisites: List only some projects using the `find` command.
+    1. Prerequisites: List only some projects using the `find` command.
+    
+    1. Test case: `edit x n/project1` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the name `project1` Details of the edited project shown in the status message. View will persist and only some projects should be shown.
+    
+    1. Test case: `edit x d/desc2` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the description `desc2`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.   
+    
+    1. Test case: `edit x t/tagA t/tagB` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the tags `tagA` and `tagB`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.    
+    
+    1. Test case: `edit x c/` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the completion status `done`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.     
+    
+    1. Test case: `edit x dd/2020-12-21` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the deadline date `2020-12-21`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.     
+    
+    1. Test case: `edit x dd/2020-12-21 dt/12:34:56` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have thr deadline date `2020-12-21` and deadline time `12:34:56`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.    
+    
+    1. Test case: `edit x r/y` where `x` is the index of a project in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The project at index `x` will be edited to have the name `project6` and a reminder scheduled at time `y`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.
 
-   1. Test case: `edit x n/project1` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have the name `project1` Details of the edited project shown in the status message. View will persist and only some projects should be shown.
-      
-   1. Test case: `edit x d/desc2` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have the description `desc2`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.   
-      
-   1. Test case: `edit x t/tagA t/tagB` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have the tags `tagA` and `tagB`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.    
-      
-   1. Test case: `edit x c/` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have the completion status `done`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.     
-  
-   1. Test case: `edit x dd/2020-12-21` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have the deadline date `2020-12-21`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.     
-   
-   1. Test case: `edit x dd/2020-12-21 dt/12:34:56` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will be edited to have thr deadline date `2020-12-21` and deadline time `12:34:56`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.    
-   
-   1. Test case: `edit x r/y` where `x` is the index of a project in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
-      Expected: The project at index `x` will be edited to have the name `project6` and a reminder scheduled at time `y`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.
-        
 1. Editing a project with invalid inputs parameters.
 
-  1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
-
-   1. Test case: `edit x n/$$` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will not be edited. Invalid name format message shown in the status message. 
-      
-   1. Test case: `edit x t/invalid tag` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will not be edited. Invalid tag format message shown in the status message.    
-  
-   1. Test case: `edit x dd/2020-21-12` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will not be edited. Invalid date format message shown in the status message.      
-   
-   1. Test case: `edit x dd/2020-12-21 dt/99:99:99` where `x` is the index of a project in the list.<br>
-      Expected: The project at index `x` will not be edited. Invalid time format message shown in the status message.   
-   
-   1. Test case: `edit x r/y` where `x` is the index of a project in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
-      Expected: The project at index `x` will not be edited. Invalid reminder date and time message shown in the status message. 
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `edit x n/$$` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will not be edited. Invalid name format message shown in the status message. 
+    
+    1. Test case: `edit x t/invalid tag` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will not be edited. Invalid tag format message shown in the status message.    
+    
+    1. Test case: `edit x dd/2020-21-12` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will not be edited. Invalid date format message shown in the status message.      
+    
+    1. Test case: `edit x dd/2020-12-21 dt/99:99:99` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will not be edited. Invalid time format message shown in the status message.   
+    
+    1. Test case: `edit x r/y` where `x` is the index of a project in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The project at index `x` will not be edited. Invalid reminder date and time message shown in the status message. 
 
 ### Delete a project
 
 1. Deleting a project while all projects are shown.
 
-   1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: The first project in the list will be deleted. Details of the deleted project shown in the status message.
+    
+    1. Test case: `delete 0`, `delete`<br>
+    Expected: No project will be deleted. Invalid command format message shown. No change to the list of projects.
+    
+    1. Test case: `delete x`, where x is greater than the number of projects<br>
+    Expected: No project will be deleted. Invalid index message shown.
 
-   1. Test case: `delete 1`<br>
-      Expected: The first project in the list will be deleted. Details of the deleted project shown in the status message.
-
-   1. Test case: `delete 0`, `delete`<br>
-      Expected: No project will be deleted. Invalid command format message shown. No change to the list of projects.
-
-   1. Test case: `delete x`, where x is greater than the number of projects<br>
-      Expected: No project will be deleted. Invalid index message shown.
-      
 1. Deleting a project while only some projects are being shown.
 
-   1. Prerequisites: Find some projects using the `find` command. Multiple projects in the filtered list.
-
-   1. Test case: `delete 1`<br>
-      Expected: First project in the filtered list will be deleted. Details of the deleted project shown in the status message.  
-
-   1. Test case: `delete 0`, `delete`<br>
-      Expected: No project will be deleted. Invalid command format message shown. No change to the list of projects.
-
-   1. Test case: `delete x`, where x is greater than the number of projects<br>
-      Expected: No project will be deleted. Invalid index message shown.
-      
-1. Deleting a project while only one project is being shown.
-
- 1. Prerequisites: Find a single project using the `find` command. Only one project in the filtered list.
-
- 1. Test case: `delete 1`<br>
-    Expected: First project in the filtered list will be deleted. Details of the deleted project shown in the status message. The filtered list will be empty. Application will not revert to an unfiltered list.  
-
- 1. Test case: `delete 0`, `delete`<br>
+    1. Prerequisites: Find some projects using the `find` command. Multiple projects in the filtered list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: First project in the filtered list will be deleted. Details of the deleted project shown in the status message.  
+    
+    1. Test case: `delete 0`, `delete`<br>
     Expected: No project will be deleted. Invalid command format message shown. No change to the list of projects.
+    
+    1. Test case: `delete x`, where x is greater than the number of projects<br>
+    Expected: No project will be deleted. Invalid index message shown.
 
- 1. Test case: `delete x`, where x is greater than the number of projects<br>
+1. Deleting a project while only one project is being shown.
+    
+    1. Prerequisites: Find a single project using the `find` command. Only one project in the filtered list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: First project in the filtered list will be deleted. Details of the deleted project shown in the status message. The filtered list will be empty. Application will not revert to an unfiltered list.  
+    
+    1. Test case: `delete 0`, `delete`<br>
+    Expected: No project will be deleted. Invalid command format message shown. No change to the list of projects.
+    
+    1. Test case: `delete x`, where x is greater than the number of projects<br>
     Expected: No project will be deleted. Invalid index message shown.
 
 ### Clear all projects
