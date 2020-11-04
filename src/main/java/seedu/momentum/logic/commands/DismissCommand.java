@@ -36,4 +36,10 @@ public class DismissCommand extends Command {
             throw new CommandException(MESSAGE_FAILURE);
         }
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || other instanceof DismissCommand; // instanceof handles nulls
+    }
 }

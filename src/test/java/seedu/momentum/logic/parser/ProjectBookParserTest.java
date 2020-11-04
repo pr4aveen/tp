@@ -59,7 +59,7 @@ public class ProjectBookParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Project project = new ProjectBuilder().withCurrentCreatedDate().build();
+        Project project = new ProjectBuilder().withCurrentCreatedDate().withEmptyDeadline().build();
         AddProjectCommand command = (AddProjectCommand) parser.parseCommand(ProjectUtil.getAddCommand(project), model);
         assertEquals(new AddProjectCommand(project), command);
     }

@@ -55,6 +55,17 @@ public class ReminderTest {
         assertTrue(emptyReminder.isEmpty());
         assertFalse(reminder.isEmpty());
     }
+    
+    @Test
+    public void canSchedule() {
+        // empty
+        assertFalse(emptyReminder.canSchedule());
+        
+        // expired
+        Clock.initFixed(DateTimeWrapper.MAX);
+        assertFalse(reminder.canSchedule());
+        assertFalse(reminder.updateExpired().canSchedule());
+    }
 
     @Test
     public void getDateTimeWrapper() {
@@ -67,6 +78,18 @@ public class ReminderTest {
     }
 
     @Test
+    public void remove() {
+        assertEquals(emptyReminder, reminder.remove());
+    }
+    
+    @Test
+    public void toDate() {
+        Instant instant = reminder.getDateTimeWrapper().get().atZone(ZoneId.systemDefault()).toInstant();
+        Date expectedDate = Date.from(instant);
+        assertEquals(expectedDate, reminder.toDate());
+    }
+
+    @Test
     public void getStatus() {
         assertEquals("", emptyReminder.getStatus());
         assertEquals("\ud83d\udd14", reminder.getStatus());
@@ -76,18 +99,10 @@ public class ReminderTest {
     public void getFormattedReminder_formatsCorrectly() {
         assertEquals("No reminder set", emptyReminder.getFormattedReminder());
         assertEquals(reminder.getDateTimeWrapper().getFormatted(), reminder.getFormattedReminder());
-    }
-
-    @Test
-    public void remove() {
-        assertEquals(emptyReminder, reminder.remove());
-    }
-
-    @Test
-    public void toDate() {
-        Instant instant = reminder.getDateTimeWrapper().get().atZone(ZoneId.systemDefault()).toInstant();
-        Date expectedDate = Date.from(instant);
-        assertEquals(expectedDate, reminder.toDate());
+        
+        Clock.initFixed(DateTimeWrapper.MAX);
+        assertEquals(reminder.getDateTimeWrapper().getFormatted() + " (missed)",
+                reminder.updateExpired().getFormattedReminder());
     }
 
     @Test

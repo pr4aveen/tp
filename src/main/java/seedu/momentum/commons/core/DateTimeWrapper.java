@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.AppUtil.checkArgument;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
@@ -18,6 +19,8 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
 
     public static final String MESSAGE_CONSTRAINTS =
             "Dates and Times should be in ISO8601 format. e.g. 2020-09-23T16:55:12";
+
+    public static final DateTimeWrapper MAX = new DateTimeWrapper(LocalDateTime.MAX);
 
     private final LocalDateTime dateTime;
 

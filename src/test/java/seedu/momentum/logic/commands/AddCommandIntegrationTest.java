@@ -80,8 +80,8 @@ public class AddCommandIntegrationTest {
         addCommand.execute(model);
 
         Thread thread = new Thread(() -> assertEquals(expectedReminder, model.getReminder().get()));
-        thread.sleep(delay);
-        thread.run();
+        Thread.sleep(delay);
+        thread.start();
     }
 
     @Test
@@ -106,7 +106,6 @@ public class AddCommandIntegrationTest {
 
         String expectedReminder = String.format(ReminderManager.TASK_REMINDER, parentProject.getName(), task.getName());
         testShowReminder(actualCommand, expectedReminder, 1000);
-
     }
 
 }

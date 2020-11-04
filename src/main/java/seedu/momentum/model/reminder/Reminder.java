@@ -153,8 +153,7 @@ public class Reminder {
      * @return the new reminder.
      */
     public Reminder updateExpired() {
-        return new Reminder(this.dateTimeWrapper,
-                !isEmpty() && checkExpiry(this.dateTimeWrapper.get()));
+        return new Reminder(this.dateTimeWrapper, !canSchedule());
     }
 
     /**

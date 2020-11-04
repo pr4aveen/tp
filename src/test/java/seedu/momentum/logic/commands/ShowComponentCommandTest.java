@@ -31,5 +31,12 @@ public class ShowComponentCommandTest {
         expectedModel.showOrHideTags();
         expectedModel.commitToHistory();
         assertCommandSuccess(showComponentCommand, model, successMessage, expectedModel);
+
+        successMessage = String.format(ShowComponentCommand.MESSAGE_SUCCESS,
+                ShowComponentCommandParser.ComponentType.TAGS,
+                ShowComponentCommand.SHOWN);
+        expectedModel.showOrHideTags();
+        expectedModel.commitToHistory();
+        assertCommandSuccess(showComponentCommand, model, successMessage, expectedModel);
     }
 }
