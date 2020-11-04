@@ -15,7 +15,6 @@ import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -140,8 +139,8 @@ public class ProjectBookParserTest {
     public void parseCommand_showComponent() throws Exception {
         ShowComponentCommand command = (ShowComponentCommand) parser.parseCommand(
                 ShowComponentCommand.COMMAND_WORD + " " + PREFIX_TAG, model);
-        ShowComponentCommand expectedCommand = new ShowComponentCommand(Collections.singletonList(
-                ShowComponentCommandParser.ComponentType.TAGS));
+        ShowComponentCommand expectedCommand = new ShowComponentCommand(
+                ShowComponentCommandParser.ComponentType.TAGS);
         assertEquals(expectedCommand, command);
     }
 
