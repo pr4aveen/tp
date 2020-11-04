@@ -11,19 +11,13 @@ import seedu.momentum.model.project.TrackedItem;
  * Tests that a {@code TrackedItem}'s {@code CompletionStatus} is incomplete.
  */
 public class CompletionStatusPredicate implements Predicate<TrackedItem> {
-    /**
-     * The constant COMPLETED_KEYWORD.
-     */
     public static final String COMPLETED_KEYWORD = "completed";
-    /**
-     * The constant INCOMPLETE_KEYWORD.
-     */
     public static final String INCOMPLETE_KEYWORD = "incomplete";
 
     private final List<String> keywords;
 
     /**
-     * Predicate to check whether the {@code CompletionStatus} of a {@code Project} is incomplete.
+     * Creates a predicate to check whether the {@code CompletionStatus} of a {@code Project} is incomplete.
      *
      * @param keywords list of keywords to check for matches.
      */
@@ -34,10 +28,10 @@ public class CompletionStatusPredicate implements Predicate<TrackedItem> {
     }
 
     /**
-     * Returns true if the keywords are valid.
+     * Checks if the keywords are valid.
      *
-     * @param keywords the keywords
-     * @return the boolean
+     * @param keywords The keywords to check.
+     * @return True if keywords are valid, false otherwise.
      */
     public static boolean isValid(List<String> keywords) {
         requireNonNull(keywords);

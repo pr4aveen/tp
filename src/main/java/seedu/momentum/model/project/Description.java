@@ -3,7 +3,7 @@ package seedu.momentum.model.project;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Represent a Project's description in the project book.
+ * Represent a description in Momentum.
  * Guarantees: immutable;
  */
 public class Description {

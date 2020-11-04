@@ -53,20 +53,6 @@ public class ProjectTest {
         Project editedBob = new ProjectBuilder(BOB)
                 .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY).build();
         assertFalse(BOB.isSameAs(editedBob));
-
-        // same name, same phone, different attributes -> returns true
-        //        editedAlice = new ProjectBuilder(ALICE).withEmail(VALID_EMAIL_BOB)
-        //                .withTags(VALID_TAG_HUSBAND).build();
-        //        assertTrue(ALICE.isSameProject(editedAlice));
-
-        // same name, same email, different attributes -> returns true
-        //        editedAlice = new ProjectBuilder(ALICE).withPhone(VALID_PHONE_BOB)
-        //                .withTags(VALID_TAG_HUSBAND).build();
-        //        assertTrue(ALICE.isSameProject(editedAlice));
-
-        // same name, same phone, same email, different attributes -> returns true
-        //        editedAlice = new ProjectBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
-        //        assertTrue(ALICE.isSameProject(editedAlice));
     }
 
     @Test

@@ -7,8 +7,12 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
 
+/**
+ * Adds a task to a project in Momentum.
+ */
 public class AddTaskCommand extends AddCommand {
 
+    public static final String TEXT_TASK = "Task";
     private final Task taskToAdd;
 
     /**
@@ -23,6 +27,13 @@ public class AddTaskCommand extends AddCommand {
         this.taskToAdd = task;
     }
 
+    /**
+     * Adds a task to the project in the provided model.
+     *
+     * @param model {@code Model} containing the proejct which the command will add the task to.
+     * @return feedback message of the result of adding for display.
+     * @throws CommandException If an error occurs when adding the task.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

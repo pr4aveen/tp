@@ -27,13 +27,14 @@ import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.tag.Tag;
 
 /**
- * Parses input arguments and creates a new EditCommand object
+ * Parses input arguments and creates an appropriate new EditCommand object
  */
 public class EditCommandParser implements Parser<EditCommand> {
     /**
-     * Parses the given {@code String} of arguments in the context of the EditCommand
-     * and returns an EditCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the EditCommand and current model,
+     * and returns the corresponding EditCommand object for execution.
      *
+     * @param model The current model, to provide context for parsing the arguments.
      * @throws ParseException if the user input does not conform the expected format
      */
     public EditCommand parse(String args, Model model) throws ParseException {
@@ -77,8 +78,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         // check whether if the date of the reminder is after or on created date in edit command
         if (argMultimap.getValue(PREFIX_REMINDER).isPresent()) {
             editTrackedItemDescriptor.setReminder(ParserUtil.parseReminder(
-                    argMultimap.getValue(PREFIX_REMINDER),
-                    DateWrapper.MIN));
+                    argMultimap.getValue(PREFIX_REMINDER)));
         }
 
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editTrackedItemDescriptor::setTags);

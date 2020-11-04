@@ -6,11 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.exceptions.IllegalValueException;
 import seedu.momentum.commons.util.DateTimeUtil;
-import seedu.momentum.model.project.Project;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
- * Jackson-friendly version of {@link Project}.
+ * Jackson-friendly version of {@link WorkDuration}.
  */
 class JsonAdaptedWorkDuration {
 

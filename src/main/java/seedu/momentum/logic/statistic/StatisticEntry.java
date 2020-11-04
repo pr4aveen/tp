@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Objects;
 
 /**
- * Encapsulates a piece of statistics data
+ * Encapsulates a piece of statistics data.
  */
 public class StatisticEntry {
     private String label;

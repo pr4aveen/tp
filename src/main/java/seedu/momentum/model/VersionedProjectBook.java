@@ -8,6 +8,9 @@ import java.util.function.Predicate;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Represents a project book that keeps track of its state, so that it can undo/redo changes.
+ */
 public class VersionedProjectBook extends ProjectBook {
 
     private static final String UNDO = "undo";
