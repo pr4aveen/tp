@@ -29,11 +29,17 @@ public class DismissCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         if (!model.isReminderEmpty().getValue()) {
-            model.removeReminder();
+            model.removeReminderShown();
             model.commitToHistory();
             return new CommandResult(MESSAGE_SUCCESS);
         } else {
             throw new CommandException(MESSAGE_FAILURE);
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || other instanceof DismissCommand; // instanceof handles nulls
     }
 }

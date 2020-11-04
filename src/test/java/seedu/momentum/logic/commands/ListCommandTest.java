@@ -47,7 +47,6 @@ public class ListCommandTest {
     public void execute_taskListIsNotFiltered_showsSameList() {
         model.viewTasks(ALICE);
         expectedModel.viewTasks(ALICE);
-        System.out.println(model.getDisplayList());
         expectedModel.commitToHistory();
         assertCommandSuccess(new ListCommand(), model,
             String.format(MESSAGE_SUCCESS_TASKS, ALICE.getName().fullName), expectedModel);

@@ -89,7 +89,7 @@ class JsonAdaptedTask {
                 JsonToModel.getModelCompletionStatus(completionStatus),
                 modelCreatedDateWrapper,
                 JsonToModel.getModelDeadline(deadline, modelCreatedDateWrapper),
-                JsonToModel.getModelReminder(reminder, modelCreatedDateWrapper),
+                JsonToModel.getModelReminder(reminder),
                 JsonToModel.getModelTags(tagged),
                 JsonToModel.getModelDurations(durations),
                 JsonToModel.getModelTimerWrapper(timer));

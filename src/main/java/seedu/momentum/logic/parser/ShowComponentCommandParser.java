@@ -3,9 +3,6 @@ package seedu.momentum.logic.parser;
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import seedu.momentum.logic.commands.ShowComponentCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
@@ -35,17 +32,11 @@ public class ShowComponentCommandParser implements Parser<ShowComponentCommand> 
     public ShowComponentCommand parse(String args, Model model) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_TAG);
 
-        List<ComponentType> componentTypes = new ArrayList<>();
-
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
-            componentTypes.add(ComponentType.TAGS);
-        }
-
-        if (componentTypes.isEmpty()) {
+            return new ShowComponentCommand(ComponentType.TAGS);
+        } else {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowComponentCommand.MESSAGE_USAGE));
         }
-
-        return new ShowComponentCommand(componentTypes);
     }
 
 }

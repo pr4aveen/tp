@@ -6,9 +6,6 @@ import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseFailu
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.logic.commands.ShowComponentCommand;
@@ -23,12 +20,11 @@ public class ShowComponentCommandParserTest {
     @Test
     public void parse_validArgs_returnsShowComponentCommand() {
         String userInput = ShowComponentCommand.COMMAND_WORD + " " + PREFIX_TAG;
-        ShowComponentCommand command =
-                new ShowComponentCommand(Collections.singletonList(ShowComponentCommandParser.ComponentType.TAGS));
+        ShowComponentCommand command = new ShowComponentCommand(ShowComponentCommandParser.ComponentType.TAGS);
         assertParseSuccess(parser, userInput, command, model);
 
         userInput += " " + PREFIX_TAG;
-        command = new ShowComponentCommand(Arrays.asList(ShowComponentCommandParser.ComponentType.TAGS));
+        command = new ShowComponentCommand(ShowComponentCommandParser.ComponentType.TAGS);
         assertParseSuccess(parser, userInput, command, model);
     }
 

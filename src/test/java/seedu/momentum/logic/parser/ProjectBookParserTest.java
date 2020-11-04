@@ -15,15 +15,16 @@ import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.logic.commands.AddProjectCommand;
 import seedu.momentum.logic.commands.ClearCommand;
+import seedu.momentum.logic.commands.Command;
 import seedu.momentum.logic.commands.DeleteCommand;
 import seedu.momentum.logic.commands.DeleteProjectCommand;
+import seedu.momentum.logic.commands.DismissCommand;
 import seedu.momentum.logic.commands.EditCommand;
 import seedu.momentum.logic.commands.EditProjectCommand;
 import seedu.momentum.logic.commands.ExitCommand;
@@ -59,7 +60,7 @@ public class ProjectBookParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Project project = new ProjectBuilder().withCurrentCreatedDate().build();
+        Project project = new ProjectBuilder().withCurrentCreatedDate().withEmptyDeadline().build();
         AddProjectCommand command = (AddProjectCommand) parser.parseCommand(ProjectUtil.getAddCommand(project), model);
         assertEquals(new AddProjectCommand(project), command);
     }
@@ -140,8 +141,8 @@ public class ProjectBookParserTest {
     public void parseCommand_showComponent() throws Exception {
         ShowComponentCommand command = (ShowComponentCommand) parser.parseCommand(
                 ShowComponentCommand.COMMAND_WORD + " " + PREFIX_TAG, model);
-        ShowComponentCommand expectedCommand = new ShowComponentCommand(Collections.singletonList(
-                ShowComponentCommandParser.ComponentType.TAGS));
+        ShowComponentCommand expectedCommand = new ShowComponentCommand(
+                ShowComponentCommandParser.ComponentType.TAGS);
         assertEquals(expectedCommand, command);
     }
 
@@ -169,6 +170,12 @@ public class ProjectBookParserTest {
     public void parseCommand_redo() throws Exception {
         assertTrue(parser.parseCommand(RedoCommand.COMMAND_WORD, model) instanceof RedoCommand);
         assertTrue(parser.parseCommand(RedoCommand.COMMAND_WORD + " 3", model) instanceof RedoCommand);
+    }
+
+    @Test
+    public void parseCommand_dismiss() throws Exception {
+        Command dismissCommand = parser.parseCommand(DismissCommand.COMMAND_WORD, model);
+        assertTrue(dismissCommand instanceof DismissCommand);
     }
 
     @Test
