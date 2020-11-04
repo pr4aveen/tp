@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
-import seedu.momentum.logic.SettingsUpdateManager;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 

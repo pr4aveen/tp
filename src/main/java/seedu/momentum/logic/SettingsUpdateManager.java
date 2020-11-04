@@ -4,7 +4,6 @@ import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.commons.core.Theme;
 import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.model.ReadOnlyUserPrefs;
-import seedu.momentum.model.UserPrefs;
 import seedu.momentum.ui.Ui;
 
 /**
