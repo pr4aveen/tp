@@ -61,10 +61,6 @@ public class VersionedProjectBook extends ProjectBook {
         shiftPointer(UNDO);
         ProjectBookWithUi undoVersion = projectBookStateList.get(currentStatePointer);
         resetData(undoVersion);
-        ReadOnlyUserPrefs undoneUserPrefs = undoVersion.getUserPrefs();
-        SettingsUpdateManager.updateTheme(undoneUserPrefs.getGuiThemeSettings().getTheme());
-        SettingsUpdateManager.updateStatisticTimeframe(
-            undoneUserPrefs.getStatisticTimeframeSettings().getStatTimeframe());
     }
 
     /**
@@ -75,10 +71,6 @@ public class VersionedProjectBook extends ProjectBook {
         shiftPointer(REDO);
         ProjectBookWithUi redoVersion = projectBookStateList.get(currentStatePointer);
         resetData(redoVersion);
-        ReadOnlyUserPrefs redoneUserPrefs = redoVersion.getUserPrefs();
-        SettingsUpdateManager.updateTheme(redoneUserPrefs.getGuiThemeSettings().getTheme());
-        SettingsUpdateManager.updateStatisticTimeframe(
-            redoneUserPrefs.getStatisticTimeframeSettings().getStatTimeframe());
     }
 
     private void shiftPointer(String command) {
@@ -147,6 +139,10 @@ public class VersionedProjectBook extends ProjectBook {
 
     public boolean isTagsVisible() {
         return getCurrentProjectBookWithUi().isTagsVisible();
+    }
+
+    public ReadOnlyUserPrefs getUserPrefs() {
+        return getCurrentProjectBookWithUi().getUserPrefs();
     }
 
     @Override

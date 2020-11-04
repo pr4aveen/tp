@@ -25,6 +25,7 @@ import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
+import seedu.momentum.logic.SettingsUpdateManager;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
@@ -423,6 +424,7 @@ public class ModelManager implements Model {
         requireNonNull(viewMode);
 
         isTagsVisible.setValue(versionedProjectBook.isTagsVisible());
+        SettingsUpdateManager.updateApplicationSettings(versionedProjectBook.getUserPrefs());
 
         switch (viewMode) {
         case PROJECTS:
