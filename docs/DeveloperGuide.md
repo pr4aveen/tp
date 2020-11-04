@@ -904,7 +904,7 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `view x` where `x` is the index of a project in the list.<br>
     Expected: All tasks associated with the selected project will be displayed.
     
-    1. Test case: `home`
+    1. Test case: `home`<br>
     Expected: All projects should be displayed. Viewing all projects message should be displayed. 
     
 1. Changing view while viewing all tasks associated with a project.
@@ -914,7 +914,7 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `view x` where `x` is the index of a task in the list.<br>
     Expected: View will not change. Message saying that you cannot use the `view` command on a task will be shown.
     
-    1. Test case: `home`
+    1. Test case: `home`<br>
     Expected: All projects should be displayed. Viewing all projects message will be shown.  
 
 ### Finding tasks
@@ -923,99 +923,99 @@ testers are expected to do more *exploratory* testing.
     
     1. Prerequisites: View all projects by running the `home` command.
     
-    1. Test case: `find n/test`
+    1. Test case: `find n/test`<br>
     Expected: All projects that contain the word `test` in their names will be displayed.
     
-    1. Test case: `find match/any n/test`
+    1. Test case: `find match/any n/test`<br>
     Expected: All projects that contain the word `test` in their names will be displayed.
      
-    1. Test case: `find match/all n/test`
+    1. Test case: `find match/all n/test`<br>
     Expected: All projects that contain the word `test` in their names will be displayed.
     
-    1. Test case: `find d/desc`
+    1. Test case: `find d/desc`<br>
     Expected: All projects that contain the word `desc` in their description will be displayed.
     
-    1. Test case: `find match/any d/desc`
+    1. Test case: `find match/any d/desc`<br>
     Expected: All projects that contain the word `desc` in their description will be displayed.
     
-    1. Test case: `find match/all d/desc`
+    1. Test case: `find match/all d/desc`<br>
     Expected: All projects that contain the word `desc` in their description will be displayed.
     
-    1. Test case: `find t/tagA`
+    1. Test case: `find t/tagA`<br>
     Expected: All projects that contain the tag `tagA` will be displayed.
     
-    1. Test case: `find match/any t/tagA`
+    1. Test case: `find match/any t/tagA`<br>
     Expected: All projects that contain the tag `tagA` will be displayed.
     
-    1. Test case: `find match/all t/tagA`
+    1. Test case: `find match/all t/tagA`<br>
     Expected: All projects that contain the tag `tagA` will be displayed.
     
-    1. Test case: `find c/completed`
+    1. Test case: `find c/completed`<br>
     Expected: All projects that are marked as done will be displayed.
     
-    1. Test case: `find match/any c/completed`
+    1. Test case: `find match/any c/completed`<br>
     Expected: All projects that are marked as done will be displayed.
     
-    1. Test case: `find match/all c/completed`
+    1. Test case: `find match/all c/completed`<br>
     Expected: All projects that are marked as done will be displayed.
     
-    1. Test case: `find c/incomplete`
+    1. Test case: `find c/incomplete`<br>
     Expected: All projects that are marked as done will be displayed.
     
-    1. Test case: `find match/any c/incomplete`
+    1. Test case: `find match/any c/incomplete`<br>
     Expected: All projects that are not marked as done will be displayed.
     
-    1. Test case: `find match/all c/incomplete`
+    1. Test case: `find match/all c/incomplete`<br>
     Expected: All projects that are not marked as done will be displayed.
 
 1. Finding projects that match a single search parameter that only contains multiple values.
     
     1. Prerequisites: View all projects by running the `home` command.
     
-    1. Test case: `find n/test case`
+    1. Test case: `find n/test case`<br>
     Expected: All projects that contain `test` or `case` in their names will be displayed.
     
-    1. Test case: `find match/any n/test`
+    1. Test case: `find match/any n/test`<br>
     Expected: All projects that contain `test` or `case` in their names will be displayed.
      
-    1. Test case: `find match/all n/test`
+    1. Test case: `find match/all n/test`<br>
     Expected: All projects that contain both `test` and `case` in their names will be displayed.
     
-    1. Test case: `find d/desc ription`
+    1. Test case: `find d/desc ription`<br>
     Expected: All projects that contain `desc` or `ription` in their descriptions will be displayed.
     
-    1. Test case: `find match/any d/desc ription`
+    1. Test case: `find match/any d/desc ription`<br>
     Expected: All projects that contain `desc` or `ription` in their descriptions will be displayed.
     
-    1. Test case: `find match/all d/desc ription`
+    1. Test case: `find match/all d/desc ription`<br>
     Expected: All projects that contain both `desc` and `ription` in their descriptions will be displayed.
     
-    1. Test case: `find t/tagA tagB`
+    1. Test case: `find t/tagA tagB`<br>
     Expected: All projects that contain the tags `tagA` or `tagB` will be displayed.
     
-    1. Test case: `find match/any t/tagA tagB`
+    1. Test case: `find match/any t/tagA tagB`<br>
     Expected: All projects that contain the tags `tagA` or `tagB` will be displayed.
     
-    1. Test case: `find match/all t/tagA tagB`
+    1. Test case: `find match/all t/tagA tagB`<br>
     Expected: All projects that contain both tags `tagA` and `tagB` will be displayed.
 
 1. Finding projects that match multiple parameters that each contain multiple values.
 
     1. Prerequisites: View all projects by running the `home` command.
 
-    1. Test case: `find n/test case d/desc ription t/tagA tagB`
+    1. Test case: `find n/test case d/desc ription t/tagA tagB`<br>
     Expected: All projects that contain any one of the following will be shown:
         1. `test` or `case` in their names.
         1. `desc` or `ription` in their descriptions.
         1. The tags`tagA` or `tagB`
     
-    1. Test case: `find match/any n/test case d/desc ription t/tagA tagB`
+    1. Test case: `find match/any n/test case d/desc ription t/tagA tagB`<br>
     Expected: All projects that contain any one of the following will be shown:
         1. `test` or `case` in their names.
         1. `desc` or `ription` in their descriptions.
         1. The tags`tagA` or `tagB`
     
-    1. Test case: `find match/all n/test case d/desc ription t/tagA tagB`
+    1. Test case: `find match/all n/test case d/desc ription t/tagA tagB`<br>
     Expected: All projects that contain all of the following will be shown:
         1. Both `test` and `case` in their names.
         1. Both `desc` and `ription` in their descriptions.
@@ -1027,61 +1027,61 @@ testers are expected to do more *exploratory* testing.
 
     1. Prerequisites: View all projects by running the `home` command. There are multiple projects in the list.
 
-    1. Test case: `sort order/asc type/alpha`
+    1. Test case: `sort order/asc type/alpha`<br>
     Expected: Projects should be sorted by their names in alphabetical, ascending order.
     
-    1. Test case: `sort order/dsc type/alpha`
+    1. Test case: `sort order/dsc type/alpha`<br>
     Expected: Projects should be sorted by their names in alphabetical descending order.
     
-    1. Test case: `sort order/asc type/created`
+    1. Test case: `sort order/asc type/created`<br>
     Expected: Projects should be sorted by their created date in ascending order.
     
-    1. Test case: `sort order/dsc type/created`
+    1. Test case: `sort order/dsc type/created`<br>
     Expected: Projects should be sorted by their created date in descending order.
     
-    1. Test case: `sort order/asc type/deadline`
+    1. Test case: `sort order/asc type/deadline`<br>
     Expected: Projects should be sorted in their deadlines in ascending order. Projects without a deadline will be sent to the bottom.
     
-    1. Test case: `sort order/dsc type/deadline`
+    1. Test case: `sort order/dsc type/deadline`<br>
     Expected: Projects should be sorted in their deadlines in descending order. Projects without a deadline will be sent to the bottom.
 
 1. Sorting tasks by different parameters.
 
     1. Prerequisites: View all tasks by running the `home` command followed by `view x` where x is the index of a project in the list. There are multiple projects in the list.
 
-    1. Test case: `sort order/asc type/alpha`
+    1. Test case: `sort order/asc type/alpha`<br>
     Expected: Tasks should be sorted by their names in alphabetical, ascending order.
     
-    1. Test case: `sort order/dsc type/alpha`
+    1. Test case: `sort order/dsc type/alpha`<br>
     Expected: Tasks should be sorted by their names in alphabetical descending order.
     
-    1. Test case: `sort order/asc type/created`
+    1. Test case: `sort order/asc type/created`<br>
     Expected: Tasks should be sorted by their created date in ascending order.
     
-    1. Test case: `sort order/dsc type/created`
+    1. Test case: `sort order/dsc type/created`<br>
     Expected: Tasks should be sorted by their created date in descending order.
     
-    1. Test case: `sort order/asc type/deadline`
+    1. Test case: `sort order/asc type/deadline`<br>
     Expected: Tasks should be sorted in their deadlines in ascending order. Projects without a deadline will be sent to the bottom.
     
-    1. Test case: `sort order/dsc type/deadline`
+    1. Test case: `sort order/dsc type/deadline`<br>
     Expected: Tasks should be sorted in their deadlines in descending order. Projects without a deadline will be sent to the bottom.
 
 1. Persistence of sort
 
     1. Prerequisites: Run `sort order/asc type/alpha` in any view. There are multiple projects in the list.
     
-    1. Test case: `home`
+    1. Test case: `home`<br>
     Expected: Projects should be sorted by their names in alphabetical, ascending order.
     
-    1. Test case: `view x` where x is the index of a project in the list.
+    1. Test case: `view x` where x is the index of a project in the list.<br>
     Expected: Tasks should be sorted by their names in alphabetical, ascending order.
     
 1. Sorting by completion status in addition to a given sort order
 
     1. Prerequisites: There are multiple projects in the list.
     
-    1. Test case: `sort order/dsc type/created c/`
+    1. Test case: `sort order/dsc type/created c/`<br>
     Expected: Entries should be sorted by completion status. Entries from each completion status will be sorted by their created date in descending order.
     
 ### Setting reminders
@@ -1092,46 +1092,46 @@ testers are expected to do more *exploratory* testing.
 
     1. Prerequisites: View all projects by running the `home` command.
     
-    1. Test case: `start x` where `x` is the index of a project in the list.
+    1. Test case: `start x` where `x` is the index of a project in the list.<br>
     Expected: There should be a new timer for the project at index `x`.
     
-    1. Test case: `start x` where x is the greater than the number of projects.
+    1. Test case: `start x` where x is the greater than the number of projects.<br>
     Expected: No timer started. Invalid index message shown. 
     
 1. Stopping Timers for Projects
 
     1. Prerequisites: View all projects by running the `home` command.
     
-    1. Test case: `stop x` where `x` is the index of a project in the list with an active timer.
+    1. Test case: `stop x` where `x` is the index of a project in the list with an active timer.<br>
     Expected: There the timer for the project at index `x` should be stopped.
     
-    1. Test case: `stop x` where `x` is the index of a project in the list without an active timer.
+    1. Test case: `stop x` where `x` is the index of a project in the list without an active timer.<br>
     Expected: No timer stopped. No timer running message shown.
     
-    1. Test case: `stop x` where x is the greater than the number of projects.
+    1. Test case: `stop x` where x is the greater than the number of projects.<br>
     Expected: No timer stopped. Invalid index message shown. 
     
 1. Starting Timers for Tasks
 
     1. Prerequisites: View all tasks by running `home` followed by `view x` command, where `x` is the index of a project in the list.
     
-    1. Test case: `start x` where `x` is the index of a task in the list.
+    1. Test case: `start x` where `x` is the index of a task in the list.<br>
     Expected: There should be a new timer for the task at index `x`.
     
-    1. Test case: `start x` where x is the greater than the number of tasks.
+    1. Test case: `start x` where x is the greater than the number of tasks.<br>
     Expected: No timer started. Invalid index message shown. 
     
 1. Stopping Timers for Tasks
 
     1. Prerequisites: View all tasks by running `home` followed by `view x` command, where `x` is the index of a project in the list.
     
-    1. Test case: `stop x` where `x` is the index of a task in the list with an active timer.
+    1. Test case: `stop x` where `x` is the index of a task in the list with an active timer.<br>
     Expected: There the timer for the task at index `x` should be stopped.
     
-    1. Test case: `stop x` where `x` is the index of a task in the list without an active timer.
+    1. Test case: `stop x` where `x` is the index of a task in the list without an active timer.<br>
     Expected: No timer stopped. No timer running message shown.
     
-    1. Test case: `stop x` where x is the greater than the number of tasks.
+    1. Test case: `stop x` where x is the greater than the number of tasks.<br>
     Expected: No timer stopped. Invalid index message shown. 
 
 ### Statistics tracking
@@ -1140,26 +1140,26 @@ testers are expected to do more *exploratory* testing.
 
     1. Prerequisites: There are no durations available for all time frames.
     
-    1. Test case: `set st/daily`.
+    1. Test case: `set st/daily`.<br>
     Expected: Time spent section should indicate that there are no durations in the list.
     
-    1. Test case: `set st/weekly`.
+    1. Test case: `set st/weekly`.<br>
     Expected: Time spent section should indicate that there are no durations in the list.
     
-    1. Test case: `set st/monthly`.
+    1. Test case: `set st/monthly`.<br>
     Expected: Time spent section should indicate that there are no durations in the list.
     
 1. Durations available
 
     1. Prerequisites: There are no durations available for all time frames.
     
-    1. Test case: `set st/daily`.
+    1. Test case: `set st/daily`.<br>
     Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
     
-    1. Test case: `set st/weekly`.
+    1. Test case: `set st/weekly`.<br>
     Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
     
-    1. Test case: `set st/monthly`.
+    1. Test case: `set st/monthly`.<br>
     Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
 
 ### Undo/Redo
@@ -1172,23 +1172,23 @@ testers are expected to do more *exploratory* testing.
 
     1. Prerequisites: Program is open.
     
-    1. Test case: `set th/dark`
+    1. Test case: `set th/dark`<br>
     Expected: Program should switch to dark mode if it is not already in it.
         
-    1. Test case: `set th/light`
+    1. Test case: `set th/light`<br>
     Expected: Program should switch to light mode if it is not already in it.
     
 1. Changing statistics time frame.
 
     1. Prerequisites: Program is open.
     
-    1. Test case: `set st/daily`
+    1. Test case: `set st/daily`<br>
     Expected: Statistics panel should display `Daily Time Spent`
     
-    1. Test case: `set st/weekly`
+    1. Test case: `set st/weekly`<br>
     Expected: Statistics panel should display `Weekly Time Spent`
     
-    1. Test case: `set st/monthly`
+    1. Test case: `set st/monthly`<br>
     Expected: Statistics panel should display `Monthly Time Spent`
 
 ### Exit the program
@@ -1197,12 +1197,12 @@ testers are expected to do more *exploratory* testing.
 
     1. Prerequisites: Program is open
     
-    1. Test case: `exit`
+    1. Test case: `exit`<br>
     Expected: Program should close.
 
 1. Exit a program using the menu bar.
 
     1. Prerequisites: Program is open
     
-    1. Test case: Click `file` followed by `exit` in the menu bar.
+    1. Test case: Click `file` followed by `exit` in the menu bar.<br>
     Expected: Program should close.
