@@ -919,6 +919,108 @@ testers are expected to do more *exploratory* testing.
 
 ### Finding tasks
 
+1. Finding projects that match a single search parameter that only contains one value.
+    
+    1. Prerequisites: View all projects by running the `home` command.
+    
+    1. Test case: `find n/test`
+    Expected: All projects that contain the word `test` in their names will be displayed.
+    
+    1. Test case: `find match/any n/test`
+    Expected: All projects that contain the word `test` in their names will be displayed.
+     
+    1. Test case: `find match/all n/test`
+    Expected: All projects that contain the word `test` in their names will be displayed.
+    
+    1. Test case: `find d/desc`
+    Expected: All projects that contain the word `desc` in their description will be displayed.
+    
+    1. Test case: `find match/any d/desc`
+    Expected: All projects that contain the word `desc` in their description will be displayed.
+    
+    1. Test case: `find match/all d/desc`
+    Expected: All projects that contain the word `desc` in their description will be displayed.
+    
+    1. Test case: `find t/tagA`
+    Expected: All projects that contain the tag `tagA` will be displayed.
+    
+    1. Test case: `find match/any t/tagA`
+    Expected: All projects that contain the tag `tagA` will be displayed.
+    
+    1. Test case: `find match/all t/tagA`
+    Expected: All projects that contain the tag `tagA` will be displayed.
+    
+    1. Test case: `find c/completed`
+    Expected: All projects that are marked as done will be displayed.
+    
+    1. Test case: `find match/any c/completed`
+    Expected: All projects that are marked as done will be displayed.
+    
+    1. Test case: `find match/all c/completed`
+    Expected: All projects that are marked as done will be displayed.
+    
+    1. Test case: `find c/incomplete`
+    Expected: All projects that are marked as done will be displayed.
+    
+    1. Test case: `find match/any c/incomplete`
+    Expected: All projects that are not marked as done will be displayed.
+    
+    1. Test case: `find match/all c/incomplete`
+    Expected: All projects that are not marked as done will be displayed.
+
+1. Finding projects that match a single search parameter that only contains multiple values.
+    
+    1. Prerequisites: View all projects by running the `home` command.
+    
+    1. Test case: `find n/test case`
+    Expected: All projects that contain `test` or `case` in their names will be displayed.
+    
+    1. Test case: `find match/any n/test`
+    Expected: All projects that contain `test` or `case` in their names will be displayed.
+     
+    1. Test case: `find match/all n/test`
+    Expected: All projects that contain both `test` and `case` in their names will be displayed.
+    
+    1. Test case: `find d/desc ription`
+    Expected: All projects that contain `desc` or `ription` in their descriptions will be displayed.
+    
+    1. Test case: `find match/any d/desc ription`
+    Expected: All projects that contain `desc` or `ription` in their descriptions will be displayed.
+    
+    1. Test case: `find match/all d/desc ription`
+    Expected: All projects that contain both `desc` and `ription` in their descriptions will be displayed.
+    
+    1. Test case: `find t/tagA tagB`
+    Expected: All projects that contain the tags `tagA` or `tagB` will be displayed.
+    
+    1. Test case: `find match/any t/tagA tagB`
+    Expected: All projects that contain the tags `tagA` or `tagB` will be displayed.
+    
+    1. Test case: `find match/all t/tagA tagB`
+    Expected: All projects that contain both tags `tagA` and `tagB` will be displayed.
+
+1. Finding projects that match multiple parameters that each contain multiple values.
+
+    1. Prerequisites: View all projects by running the `home` command.
+
+    1. Test case: `find n/test case d/desc ription t/tagA tagB`
+    Expected: All projects that contain any one of the following will be shown:
+        1. `test` or `case` in their names.
+        1. `desc` or `ription` in their descriptions.
+        1. The tags`tagA` or `tagB`
+    
+    1. Test case: `find match/any n/test case d/desc ription t/tagA tagB`
+    Expected: All projects that contain any one of the following will be shown:
+        1. `test` or `case` in their names.
+        1. `desc` or `ription` in their descriptions.
+        1. The tags`tagA` or `tagB`
+    
+    1. Test case: `find match/all n/test case d/desc ription t/tagA tagB`
+    Expected: All projects that contain all of the following will be shown:
+        1. Both `test` and `case` in their names.
+        1. Both `desc` and `ription` in their descriptions.
+        1. Both tags`tagA` and `tagB`
+
 ### Sorting tasks
 
 ### Setting reminders
