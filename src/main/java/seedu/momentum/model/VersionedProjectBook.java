@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
+import seedu.momentum.logic.SettingsUpdateManager;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
@@ -24,11 +25,12 @@ public class VersionedProjectBook extends ProjectBook {
                                 ViewMode viewMode,
                                 Project currentProject,
                                 Predicate<TrackedItem> currentPredicate,
-                                Comparator<TrackedItem> currentComparator) {
+                                Comparator<TrackedItem> currentComparator,
+                                ReadOnlyUserPrefs userPrefs) {
         super(projectBook);
         this.projectBookStateList = new ArrayList<>();
         projectBookStateList.add(new ProjectBookWithUi(projectBook, viewMode,
-                currentProject, currentPredicate, currentComparator));
+                currentProject, currentPredicate, currentComparator, userPrefs));
         currentStatePointer = 0;
     }
 
@@ -37,13 +39,13 @@ public class VersionedProjectBook extends ProjectBook {
      * commits current {@code VersionedProjectBook} into {@code projectBookStateList}.
      */
     public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
-                       Comparator<TrackedItem> currentComparator) {
+                       Comparator<TrackedItem> currentComparator, ReadOnlyUserPrefs userPrefs) {
         int historySize = projectBookStateList.size();
         if (currentStatePointer < historySize - 1) {
             flushRedoVersions();
         }
         projectBookStateList.add(new ProjectBookWithUi(this, viewMode,
-                currentProject, currentPredicate, currentComparator));
+                currentProject, currentPredicate, currentComparator, userPrefs));
         shiftPointer(COMMIT);
     }
 
@@ -53,8 +55,12 @@ public class VersionedProjectBook extends ProjectBook {
     public void undo() {
         assert canUndoCommand();
         shiftPointer(UNDO);
-        ReadOnlyProjectBook undoVersion = projectBookStateList.get(currentStatePointer);
+        ProjectBookWithUi undoVersion = projectBookStateList.get(currentStatePointer);
         resetData(undoVersion);
+        ReadOnlyUserPrefs undoneUserPrefs = undoVersion.getUserPrefs();
+        SettingsUpdateManager.updateTheme(undoneUserPrefs.getGuiThemeSettings().getTheme());
+        SettingsUpdateManager.updateStatisticTimeframe(
+            undoneUserPrefs.getStatisticTimeframeSettings().getStatTimeframe());
     }
 
     /**
@@ -63,8 +69,12 @@ public class VersionedProjectBook extends ProjectBook {
     public void redo() {
         assert canRedoCommand();
         shiftPointer(REDO);
-        ReadOnlyProjectBook redoVersion = projectBookStateList.get(currentStatePointer);
+        ProjectBookWithUi redoVersion = projectBookStateList.get(currentStatePointer);
         resetData(redoVersion);
+        ReadOnlyUserPrefs redoneUserPrefs = redoVersion.getUserPrefs();
+        SettingsUpdateManager.updateTheme(redoneUserPrefs.getGuiThemeSettings().getTheme());
+        SettingsUpdateManager.updateStatisticTimeframe(
+            redoneUserPrefs.getStatisticTimeframeSettings().getStatTimeframe());
     }
 
     private void shiftPointer(String command) {

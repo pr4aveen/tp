@@ -33,7 +33,7 @@ public class SettingsUpdateManager {
      */
     public static void updateStatisticTimeframe(StatisticTimeframe timeframe) {
         statistic.updateStatisticTimeframe(timeframe);
-        ui.getMainWindow().updateStatList();
+        ui.getMainWindow().updateStatList(timeframe);
     }
 
 }

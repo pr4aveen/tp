@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
+import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.commons.core.Theme;
 import seedu.momentum.logic.Logic;
 import seedu.momentum.logic.commands.CommandResult;
@@ -315,9 +316,9 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Updates the statistic list.
      */
-    public void updateStatList() {
+    public void updateStatList(StatisticTimeframe newStatisticTimeframe) {
         StatListPanel newStatList = new StatListPanel(logic.getStatistic().getTimePerProjectStatistic(),
-                logic.getStatisticTimeframeSettings().getStatTimeframe());
+                newStatisticTimeframe);
         statListPanelPlaceholder.getChildren().clear();
         statListPanelPlaceholder.getChildren().add(newStatList.getRoot());
     }
