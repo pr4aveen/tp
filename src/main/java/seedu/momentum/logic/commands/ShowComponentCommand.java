@@ -1,7 +1,7 @@
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class ShowComponentCommand extends Command {
     public static final String COMMAND_WORD = "show";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " "
-            + "[" + PREFIX_REMINDER + " ] ";
+            + "[" + PREFIX_TAG + " ] ";
 
     public static final String MESSAGE_SUCCESS = "%s is %s from the sidebar.\n";
 
@@ -52,13 +52,6 @@ public class ShowComponentCommand extends Command {
         String resultString = "";
         for (ShowComponentCommandParser.ComponentType componentType : componentTypes) {
             switch (componentType) {
-            case REMINDER:
-                if (!model.isReminderEmpty().getValue()) {
-                    model.removeReminder();
-                    model.commitToHistory();
-                    resultString += String.format(MESSAGE_SUCCESS, componentType.toString(), REMOVED);
-                }
-                break;
             case TAGS:
                 boolean isShown = model.getIsTagsVisible().get();
                 model.showOrHideTags();

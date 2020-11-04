@@ -7,7 +7,7 @@ import static seedu.momentum.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.momentum.logic.commands.SortCommand.INPUT_ALPHA_TYPE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 import static seedu.momentum.testutil.Assert.assertThrows;
@@ -139,9 +139,9 @@ public class ProjectBookParserTest {
     @Test
     public void parseCommand_showComponent() throws Exception {
         ShowComponentCommand command = (ShowComponentCommand) parser.parseCommand(
-                ShowComponentCommand.COMMAND_WORD + " " + PREFIX_REMINDER, model);
+                ShowComponentCommand.COMMAND_WORD + " " + PREFIX_TAG, model);
         ShowComponentCommand expectedCommand = new ShowComponentCommand(Collections.singletonList(
-                ShowComponentCommandParser.ComponentType.REMINDER));
+                ShowComponentCommandParser.ComponentType.TAGS));
         assertEquals(expectedCommand, command);
     }
 
