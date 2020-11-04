@@ -11,18 +11,27 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Stops a previously started timer tracking a project in Momentum.
+ */
 public class StopProjectCommand extends StopCommand {
 
     /**
-     * Creates a StopProjectCommand that stops the timerWrapper for a project.
+     * Creates a StopProjectCommand that stops the timer for a project.
      *
-     * @param targetIndex The project to stop.
+     * @param targetIndex The index of the project to stop.
      */
     public StopProjectCommand(Index targetIndex) {
         super(targetIndex);
     }
 
-
+    /**
+     * Stops the timer for the project in the provided model.
+     *
+     * @param model {@code Model} containing the item whose timer to stop.
+     * @return feedback message of timer result, for display.
+     * @throws CommandException If an error occurs when stopping the timer, or if a timer is already running.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

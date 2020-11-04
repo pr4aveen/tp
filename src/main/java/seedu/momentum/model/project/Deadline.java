@@ -14,8 +14,8 @@ import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.TimeWrapper;
 
 /**
- * Represents a Project's deadline in the project book.
- * Guarantees: immutable; is valid
+ * Represents a deadline in Momentum.
+ * Guarantees: immutable; is valid.
  */
 public class Deadline implements Comparable<Deadline> {
 
@@ -76,7 +76,7 @@ public class Deadline implements Comparable<Deadline> {
      *
      * @param dateStr     A string to be parsed as a dateWrapper.
      * @param createdDateWrapper A created dateWrapper.
-     * @return the isBeforeCreatedDate boolean
+     * @return the isBeforeCreatedDate boolean.
      */
     public static boolean isBeforeCreatedDate(String dateStr, DateWrapper createdDateWrapper) {
         DateWrapper dateWrapper = new DateWrapper(dateStr);
@@ -86,7 +86,7 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Returns true if the deadline is empty, false otherwise.
      *
-     * @return the isEmpty boolean
+     * @return the isEmpty boolean.
      */
     public boolean isEmpty() {
         return this.dateWrapper.isEmpty();
@@ -95,7 +95,7 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Gets dateWrapper of a deadline.
      *
-     * @return the dateWrapper
+     * @return the dateWrapper.
      * @throws NoSuchElementException If there is no dateWrapper.
      */
     public DateWrapper getDate() throws NoSuchElementException {
@@ -105,7 +105,7 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Returns true if the deadline has a timeWrapper, false otherwise.
      *
-     * @return the hasTime boolean
+     * @return the hasTime boolean.
      */
     public boolean hasTime() {
         return this.timeWrapper.isPresent();
@@ -114,7 +114,7 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Gets timeWrapper of a deadline.
      *
-     * @return the timeWrapper
+     * @return the timeWrapper.
      * @throws NoSuchElementException If there is no timeWrapper.
      */
     public TimeWrapper getTime() throws NoSuchElementException {
@@ -124,7 +124,7 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Gets formatted deadline.
      *
-     * @return the formatted deadline
+     * @return the formatted deadline.
      */
     public String getFormattedDeadline() {
         return isEmpty() ? "No deadline set"

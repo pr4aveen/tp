@@ -1,7 +1,6 @@
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -23,15 +22,13 @@ public class ShowComponentCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsShowComponentCommand() {
-        String userInput = ShowComponentCommand.COMMAND_WORD + " " + PREFIX_REMINDER;
+        String userInput = ShowComponentCommand.COMMAND_WORD + " " + PREFIX_TAG;
         ShowComponentCommand command =
-                new ShowComponentCommand(Collections.singletonList(ShowComponentCommandParser.ComponentType.REMINDER));
+                new ShowComponentCommand(Collections.singletonList(ShowComponentCommandParser.ComponentType.TAGS));
         assertParseSuccess(parser, userInput, command, model);
 
         userInput += " " + PREFIX_TAG;
-        command = new ShowComponentCommand(Arrays.asList(
-                ShowComponentCommandParser.ComponentType.REMINDER,
-                ShowComponentCommandParser.ComponentType.TAGS));
+        command = new ShowComponentCommand(Arrays.asList(ShowComponentCommandParser.ComponentType.TAGS));
         assertParseSuccess(parser, userInput, command, model);
     }
 

@@ -129,7 +129,7 @@ public class ReminderManager {
     /**
      * Returns true if the current reminder is empty, false otherwise.
      *
-     * @return the boolean
+     * @return the boolean.
      */
     public BooleanProperty isReminderEmpty() {
         BooleanProperty booleanProperty = new SimpleBooleanProperty();

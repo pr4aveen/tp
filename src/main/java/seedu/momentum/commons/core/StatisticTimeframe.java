@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 /**
- * Timeframe of statistics tracked.
+ * Represents the timeframe for which statistics are tracked.
  */
 public class StatisticTimeframe implements Serializable {
 

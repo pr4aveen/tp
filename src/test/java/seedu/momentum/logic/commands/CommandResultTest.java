@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 
 public class CommandResultTest {
 
-    private static String FEEDBACK = "feedback";
-    private static String DIFFERENT = "different";
+    private static final String FEEDBACK = "feedback";
+    private static final String DIFFERENT = "different";
 
     @Test
     public void equals() {

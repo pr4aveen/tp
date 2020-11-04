@@ -1,36 +1,22 @@
 package seedu.momentum.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-
 import seedu.momentum.model.Model;
-import seedu.momentum.model.ProjectBook;
-import seedu.momentum.model.ViewMode;
-import seedu.momentum.model.project.Project;
 
 /**
- * Clears the project book.
+ * Represents a Clear command in Momentum.
+ * A Clear command can remove different data depending on the state of the application. The should be specified
+ * and implemented as extensions to this class.
  */
-public class ClearCommand extends Command {
-
+public abstract class ClearCommand extends Command {
     public static final String COMMAND_WORD = "clear";
     public static final String MESSAGE_SUCCESS_TASK = "All tasks have been cleared!";
     public static final String MESSAGE_SUCCESS_ALL = "All projects has been cleared!";
 
-
-    @Override
-    public CommandResult execute(Model model) {
-        requireNonNull(model);
-        if (model.getViewMode() == ViewMode.PROJECTS) {
-            model.setVersionedProjectBook(new ProjectBook());
-            model.commitToHistory();
-            return new CommandResult(MESSAGE_SUCCESS_ALL);
-        } else {
-            Project projectBeforeClear = model.getCurrentProject();
-            Project projectAfterClear = model.getCurrentProject().clearTasks();
-            model.setTrackedItem(projectBeforeClear, projectAfterClear);
-            model.viewTasks(projectAfterClear);
-            model.commitToHistory();
-            return new CommandResult(MESSAGE_SUCCESS_TASK);
-        }
-    }
+    /**
+     * Removes some data from the provided model.
+     *
+     * @param model {@code Model} to remove data from.
+     * @return feedback message of result of removing data for display.
+     */
+    public abstract CommandResult execute(Model model);
 }

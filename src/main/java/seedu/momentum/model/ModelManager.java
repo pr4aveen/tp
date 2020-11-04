@@ -77,7 +77,7 @@ public class ModelManager implements Model {
         this.currentComparator = getComparatorNullType(true, this.isCurrentSortByCompletionStatus);
 
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
-                currentComparator);
+                currentComparator, isTagsVisible.get());
         this.reminderManager = new ReminderManager(this.versionedProjectBook);
         this.itemList = this.versionedProjectBook.getTrackedItemList();
         this.displayList = new SimpleObjectProperty<>(this.itemList);
@@ -87,7 +87,6 @@ public class ModelManager implements Model {
         rescheduleReminders();
         viewProjects();
         updateRunningTimers();
-
     }
 
     public ModelManager() {
@@ -310,17 +309,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void viewAll() {
-        ObservableList<TrackedItem> allItems = FXCollections.observableArrayList();
-        for (TrackedItem projectItem : versionedProjectBook.getTrackedItemList()) {
-            allItems.add(projectItem);
-            Project project = (Project) projectItem;
-            allItems.addAll(project.getTaskList());
-        }
-        this.itemList = allItems;
-    }
-
-    @Override
     public void resetView() {
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         if (viewMode == ViewMode.PROJECTS) {
@@ -406,7 +394,7 @@ public class ModelManager implements Model {
 
     @Override
     public void commitToHistory() {
-        versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator);
+        versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible.get());
     }
 
     @Override
@@ -431,6 +419,8 @@ public class ModelManager implements Model {
     @Override
     public void resetUi(ViewMode viewMode, Project project) {
         requireNonNull(viewMode);
+
+        isTagsVisible.setValue(versionedProjectBook.isTagsVisible());
 
         switch (viewMode) {
         case PROJECTS:

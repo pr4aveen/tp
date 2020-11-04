@@ -7,7 +7,7 @@ import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.core.UniqueItem;
 
 /**
- * Represents a duration of dateTimeWrapper spent working on a project.
+ * Represents a duration of time spent working on a project.
  * Guarantees: immutable.
  */
 public class WorkDuration implements UniqueItem<WorkDuration> {
@@ -17,8 +17,8 @@ public class WorkDuration implements UniqueItem<WorkDuration> {
     /**
      * Constructs a {@code WorkDuration}.
      *
-     * @param startDateTime A valid start dateTimeWrapper.
-     * @param stopDateTime A valid stop dateTimeWrapper.
+     * @param startDateTime A valid start time.
+     * @param stopDateTime A valid stop time.
      */
     public WorkDuration(DateTimeWrapper startDateTime, DateTimeWrapper stopDateTime) {
         this.startDateTime = startDateTime;
@@ -34,17 +34,17 @@ public class WorkDuration implements UniqueItem<WorkDuration> {
     }
 
     /**
-     * Returns the length of dateTimeWrapper tracked in this duration, in (@code unit) units.
+     * Returns the length of time tracked in this duration, in (@code unit) units.
      *
-     * @param unit The units for the length of dateTimeWrapper.
-     * @return The length of dateTimeWrapper in the provided units.
+     * @param unit The units for the length of time.
+     * @return The length of time in the provided units.
      */
     public long getTimeBetween(ChronoUnit unit) {
         return unit.between(startDateTime.get(), stopDateTime.get());
     }
 
     /**
-     * Returns true if both durations have the same start and stop dateTimeWrapper.
+     * Returns true if both durations have the same start and stop time.
      */
     @Override
     public boolean isSameAs(WorkDuration otherDuration) {
