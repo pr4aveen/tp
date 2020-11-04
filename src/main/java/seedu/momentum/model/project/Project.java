@@ -25,6 +25,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
 
     /**
      * Constructs a {@code Project}.
+     *
      * @param name               A valid name.
      * @param description        A description of the project.
      * @param completionStatus   A completion status of the project.
@@ -47,6 +48,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
 
     /**
      * Constructs a {@code Project}.
+     *
      * @param name               A valid name.
      * @param description        A description of the project.
      * @param completionStatus   A completion status of the project.
@@ -214,9 +216,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
         }
     }
 
-    /**
-     * Remove the reminder of a project.
-     */
+    @Override
     public Project removeReminder() {
         Reminder newReminder = this.reminder.remove();
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, newReminder, tags,
@@ -231,6 +231,20 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
         taskList.set(task, newTask);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
                 timerWrapper, taskList);
+    }
+
+    @Override
+    public Project updateExpiredReminder() {
+        Reminder newReminder = reminder.updateExpired();
+
+        UniqueItemList<TrackedItem> newTaskList = new UniqueItemList<>();
+        for (TrackedItem item : taskList) {
+            TrackedItem newItem = item.updateExpiredReminder();
+            newTaskList.add(newItem);
+        }
+
+        return new Project(name, description, completionStatus, createdDateWrapper, deadline, newReminder, tags,
+                durations, timerWrapper, newTaskList);
     }
 
     /**

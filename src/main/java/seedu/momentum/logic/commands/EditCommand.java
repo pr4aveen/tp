@@ -91,8 +91,6 @@ public abstract class EditCommand extends Command {
     protected static TrackedItem createEditedTrackedItem(TrackedItem trackedItemToEdit,
                                                        EditTrackedItemDescriptor editTrackedItemDescriptor,
                                                        Model model) throws CommandException {
-        assert trackedItemToEdit != null;
-
         // Name
         Name updatedName = editTrackedItemDescriptor.getName().orElse(trackedItemToEdit.getName());
 

@@ -27,6 +27,7 @@ import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.CompletionStatusCompare;
 import seedu.momentum.model.project.comparators.CreatedDateCompare;
@@ -49,12 +50,12 @@ public class ModelManager implements Model {
     private SortType currentSortType;
     private boolean isCurrentSortAscending;
     private boolean isCurrentSortByCompletionStatus;
-    private BooleanProperty isTagsVisible;
+    private final BooleanProperty isTagsVisible;
     private ViewMode viewMode;
     private Project currentProject;
     private ObservableList<TrackedItem> itemList;
     private Comparator<TrackedItem> currentComparator;
-    private ObjectProperty<ObservableList<TrackedItem>> displayList;
+    private final ObjectProperty<ObservableList<TrackedItem>> displayList;
 
     /**
      * Initializes a ModelManager with the given projectBook and userPrefs.
@@ -78,7 +79,7 @@ public class ModelManager implements Model {
 
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
                 currentComparator, isTagsVisible.get());
-        this.reminderManager = new ReminderManager(this.versionedProjectBook);
+        this.reminderManager = new ReminderManager(this);
         this.itemList = this.versionedProjectBook.getTrackedItemList();
         this.displayList = new SimpleObjectProperty<>(this.itemList);
 
@@ -334,8 +335,14 @@ public class ModelManager implements Model {
 
     //=========== Reminders =============================================================
 
+    @Override
     public void rescheduleReminders() {
         reminderManager.rescheduleReminder();
+    }
+
+    @Override
+    public void rescheduleReminder() {
+        this.versionedProjectBook.rescheduleReminder(reminderManager);
     }
 
     @Override
@@ -349,8 +356,18 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void removeReminder() {
+    public void removeReminderShown() {
         reminderManager.removeReminder();
+    }
+
+    @Override
+    public void removeReminder(Project project) {
+        setTrackedItem(project, this.versionedProjectBook.removeReminder(project));
+    }
+
+    @Override
+    public void removeReminder(Project project, Task task) {
+        setTrackedItem(project, this.versionedProjectBook.removeReminder(project, task));
     }
 
     //=========== Timers =============================================================
@@ -415,6 +432,8 @@ public class ModelManager implements Model {
         currentComparator = versionedProjectBook.getCurrentComparator();
 
         resetUi(viewMode, newProject);
+
+        rescheduleReminders();
     }
 
     @Override
@@ -451,6 +470,8 @@ public class ModelManager implements Model {
         currentComparator = versionedProjectBook.getCurrentComparator();
 
         resetUi(viewMode, currentProject);
+
+        rescheduleReminders();
     }
 
     //=========== Sorting ================================================================================
