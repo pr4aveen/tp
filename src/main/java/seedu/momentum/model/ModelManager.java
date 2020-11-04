@@ -453,7 +453,7 @@ public class ModelManager implements Model {
         currentComparator = versionedProjectBook.getCurrentComparator();
 
         resetUi(viewMode, currentProject);
-        
+
         rescheduleReminders();
     }
 

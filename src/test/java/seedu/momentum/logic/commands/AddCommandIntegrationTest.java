@@ -97,13 +97,13 @@ public class AddCommandIntegrationTest {
     @Test
     public void execute_addTaskCommand_showReminder() throws CommandException, InterruptedException {
         ThreadWrapper.setIsRunningOnPlatform(false);
-        
+
         String dateTimeStr = Clock.now().plus(500, ChronoUnit.MILLIS).toString();
         Project parentProject = ALICE;
         Task task = new TaskBuilder().withName("daesdaef").withReminder(dateTimeStr).build();
 
         AddCommand actualCommand = new AddTaskCommand(task, parentProject);
-        
+
         String expectedReminder = String.format(ReminderManager.TASK_REMINDER, parentProject.getName(), task.getName());
         testShowReminder(actualCommand, expectedReminder, 1000);
 
