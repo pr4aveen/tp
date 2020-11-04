@@ -261,8 +261,9 @@ public class ModelManager implements Model {
         currentComparator = getComparator(sortType, isAscending, isCurrentSortByCompletionStatus);
         updateDisplayList();
     }
-    
-    private void updateOrder(SortType sortType, boolean isAscending) {
+
+    @Override
+    public void updateOrder(SortType sortType, boolean isAscending) {
         updateOrder(sortType, isAscending, false);
     }
 
