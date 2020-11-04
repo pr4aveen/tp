@@ -1045,6 +1045,38 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `sort order/dsc type/deadline`
     Expected: Projects should be sorted in their deadlines in descending order. Projects without a deadline will be sent to the bottom.
 
+1. Sorting tasks by different parameters.
+
+    1. Prerequisites: View all tasks by running the `home` command followed by `view x` where x is the index of a project in the list.
+
+    1. Test case: `sort order/asc type/alpha`
+    Expected: Tasks should be sorted by their names in alphabetical, ascending order.
+    
+    1. Test case: `sort order/dsc type/alpha`
+    Expected: Tasks should be sorted by their names in alphabetical descending order.
+    
+    1. Test case: `sort order/asc type/created`
+    Expected: Tasks should be sorted by their created date in ascending order.
+    
+    1. Test case: `sort order/dsc type/created`
+    Expected: Tasks should be sorted by their created date in descending order.
+    
+    1. Test case: `sort order/asc type/deadline`
+    Expected: Tasks should be sorted in their deadlines in ascending order. Projects without a deadline will be sent to the bottom.
+    
+    1. Test case: `sort order/dsc type/deadline`
+    Expected: Tasks should be sorted in their deadlines in descending order. Projects without a deadline will be sent to the bottom.
+
+1. Persistence of sort
+
+    1. Prerequisites: Run `sort order/asc type/alpha` in any view.
+    
+    1. Test case: `home`
+    Expected: Projects should be sorted by their names in alphabetical, ascending order.
+    
+    1. Test case: `view x` where x is the index of a project in the list.
+    Expected: Tasks should be sorted by their names in alphabetical, ascending order.
+    
 ### Setting reminders
 
 ### Time tracking
