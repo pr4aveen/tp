@@ -1121,7 +1121,6 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `start x` where x is the greater than the number of tasks.
     Expected: No timer started. Invalid index message shown. 
     
-    
 1. Stopping Timers for Tasks
 
     1. Prerequisites: View all tasks by running `home` followed by `view x` command, where `x` is the index of a project in the list.
@@ -1143,4 +1142,41 @@ testers are expected to do more *exploratory* testing.
 
 ### Settings
 
+1. Changing colour scheme.
+
+    1. Prerequisites: Program is open.
+    
+    1. Test case: `set th/dark`
+    Expected: Program should switch to dark mode if it is not already in it.
+        
+    1. Test case: `set th/light`
+    Expected: Program should switch to light mode if it is not already in it.
+    
+1. Changing statistics time frame.
+
+    1. Prerequisites: Program is open.
+    
+    1. Test case: `set st/daily`
+    Expected: Statistics panel should display `Daily Time Spent`
+    
+    1. Test case: `set st/weekly`
+    Expected: Statistics panel should display `Weekly Time Spent`
+    
+    1. Test case: `set st/monthly`
+    Expected: Statistics panel should display `Monthly Time Spent`
+
 ### Exit the program
+
+1. Exit a program using the exit command.
+
+    1. Prerequisites: Program is open
+    
+    1. Test case: `exit`
+    Expected: Program should close.
+
+1. Exit a program using the menu bar.
+
+    1. Prerequisites: Program is open
+    
+    1. Test case: Click `file` followed by `exit` in the menu bar.
+    Expected: Program should close.
