@@ -29,7 +29,7 @@ public class DismissCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         if (!model.isReminderEmpty().getValue()) {
-            model.removeReminder();
+            model.removeReminderShown();
             model.commitToHistory();
             return new CommandResult(MESSAGE_SUCCESS);
         } else {

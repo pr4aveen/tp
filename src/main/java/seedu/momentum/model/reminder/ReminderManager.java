@@ -11,12 +11,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.commons.core.ThreadWrapper;
-import seedu.momentum.model.ProjectBook;
+import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
 
 /**
- * Manages the scheduling of reminders in the project book.
+ * Manages the scheduling of reminders in the model.
  */
 public class ReminderManager {
     public static final String TASK_REMINDER = "Project: %s\nTask: %s";
@@ -26,17 +26,17 @@ public class ReminderManager {
 
     private static final String EMPTY_STRING = "";
 
-    protected final ProjectBook projectBook;
+    protected final Model model;
     protected Timer timer;
     private final StringProperty currReminder;
 
     /**
      * Instantiates a new Reminder manager.
      *
-     * @param projectBook the project book.
+     * @param model the model.
      */
-    public ReminderManager(ProjectBook projectBook) {
-        this.projectBook = projectBook;
+    public ReminderManager(Model model) {
+        this.model = model;
         this.currReminder = new SimpleStringProperty();
         this.currReminder.set(EMPTY_STRING);
         this.timer = new Timer();
@@ -49,12 +49,12 @@ public class ReminderManager {
     }
 
     /**
-     * Reschedule all reminders in the project book.
+     * Reschedule all reminders in the model.
      */
     public void rescheduleReminder() {
         LOGGER.info("Rescheduling all reminders");
         resetTimer();
-        projectBook.rescheduleReminder(this);
+        model.rescheduleReminder();
     }
 
     /**
@@ -94,7 +94,7 @@ public class ReminderManager {
             LOGGER.info("reminder scheduled for " + project);
             TimerTask timerTask = new ReminderTimerTask(project);
             this.timer.schedule(timerTask, project.getReminder().toDate());
-        }
+        } 
     }
 
     /**
@@ -172,9 +172,7 @@ public class ReminderManager {
             return false;
         }
 
-        ReminderManager other = (ReminderManager) obj;
-        return projectBook.equals(other.projectBook)
-                && currReminder.get().equals(other.currReminder.get());
+        return currReminder.get().equals(((ReminderManager) obj).currReminder.get());
     }
 
     private class ReminderTimerTask extends TimerTask {
@@ -197,8 +195,8 @@ public class ReminderManager {
         }
 
         private Runnable getRemoveReminder() {
-            return task.<Runnable>map(taskObj -> () -> projectBook.removeReminder(project, taskObj))
-                    .orElseGet(() -> () -> projectBook.removeReminder(project));
+            return task.<Runnable>map(taskObj -> () -> model.removeReminder(project, taskObj))
+                    .orElseGet(() -> () -> model.removeReminder(project));
         }
 
         @Override
