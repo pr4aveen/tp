@@ -1,5 +1,7 @@
 package seedu.momentum.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
@@ -18,21 +20,23 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class DismissCommandTest {
+    private static final DismissCommand dismissCommand = new DismissCommand();
+
     @Test
     public void execute_dismiss_successful() throws CommandException, InterruptedException {
         ThreadWrapper.setIsRunningOnPlatform(false);
 
         // trigger a reminder
-        Model expectedModel = new ModelManager(getTypicalProjectBook(), new UserPrefs());
+        Model actualModel = new ModelManager(getTypicalProjectBook(), new UserPrefs());
         String dateTimeStr = Clock.now().plus(200, ChronoUnit.MILLIS).toString();
         Project project = new ProjectBuilder().withName("daesdaef").withReminder(dateTimeStr).build();
-        new AddProjectCommand(project).execute(expectedModel);
+        new AddProjectCommand(project).execute(actualModel);
 
-        // dismiss the reminder
-        DismissCommand dismissCommand = new DismissCommand();
+        Model expectedModel = new ModelManager(getTypicalProjectBook(), new UserPrefs());
+        expectedModel.removeReminderShown();
 
         Thread thread = new Thread(() ->
-                assertCommandSuccess(dismissCommand, expectedModel, DismissCommand.MESSAGE_SUCCESS, expectedModel));
+                assertCommandSuccess(dismissCommand, actualModel, DismissCommand.MESSAGE_SUCCESS, expectedModel));
         Thread.sleep(500);
         thread.start();
     }
@@ -40,7 +44,21 @@ public class DismissCommandTest {
     @Test
     public void execute_dismiss_throwsCommandException() {
         Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
-        DismissCommand dismissCommand = new DismissCommand();
         assertCommandFailure(dismissCommand, model, DismissCommand.MESSAGE_FAILURE);
+    }
+
+    @Test
+    public void equals() {
+        // same object -> returns true
+        assertTrue(dismissCommand.equals(dismissCommand));
+
+        // same values -> returns true
+        assertTrue(dismissCommand.equals(new DismissCommand()));
+
+        // different types -> returns false
+        assertFalse(dismissCommand.equals(1));
+
+        // null -> returns false
+        assertFalse(dismissCommand.equals(null));
     }
 }

@@ -46,14 +46,10 @@ public class CompletionStatusPredicate implements Predicate<TrackedItem> {
         requireNonNull(trackedItem);
         String keyword = keywords.get(0);
         boolean status = trackedItem.getCompletionStatus().isCompleted();
-        switch (keyword) {
-        case COMPLETED_KEYWORD:
+        if (keyword.equals(COMPLETED_KEYWORD)) {
             return status;
-        case INCOMPLETE_KEYWORD:
-            return !status;
-        default:
-            return false;
         }
+        return !status;
     }
 
     @Override
