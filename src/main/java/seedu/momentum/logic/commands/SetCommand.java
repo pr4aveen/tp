@@ -60,10 +60,8 @@ public class SetCommand extends Command {
 
         if (settingsToChange.getStatTimeframe().isPresent()) {
             StatisticTimeframe newTimeframe = settingsToChange.getStatTimeframe().get();
-            model.setStatisticTimeframeSettings(new StatisticTimeframeSettings(
-                settingsToChange.getStatTimeframe().get()));
+            model.setStatisticTimeframeSettings(new StatisticTimeframeSettings(newTimeframe));
             SettingsUpdateManager.updateStatisticTimeframe(newTimeframe);
-            //do the same for this, make it return immutable userPrefs after setting statsTimeframeSettings
         }
 
         model.commitToHistory();
