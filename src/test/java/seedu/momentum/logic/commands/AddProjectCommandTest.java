@@ -184,6 +184,11 @@ public class AddProjectCommandTest {
         }
 
         @Override
+        public void updateOrder(SortType sortType, boolean isAscending) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<TrackedItem> getRunningTimers() {
             throw new AssertionError("This method should not be called.");
         }
