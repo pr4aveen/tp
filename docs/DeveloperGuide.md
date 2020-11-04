@@ -1081,6 +1081,53 @@ testers are expected to do more *exploratory* testing.
 
 ### Time tracking
 
+1. Starting Timers for Projects
+
+    1. Prerequisites: View all projects by running the `home` command.
+    
+    1. Test case: `start x` where `x` is the index of a project in the list.
+    Expected: There should be a new timer for the project at index `x`.
+    
+    1. Test case: `start x` where x is the greater than the number of projects.
+    Expected: No timer started. Invalid index message shown. 
+    
+1. Stopping Timers for Projects
+
+    1. Prerequisites: View all projects by running the `home` command.
+    
+    1. Test case: `stop x` where `x` is the index of a project in the list with an active timer.
+    Expected: There the timer for the project at index `x` should be stopped.
+    
+    1. Test case: `stop x` where `x` is the index of a project in the list without an active timer.
+    Expected: No timer stopped. No timer running message shown.
+    
+    1. Test case: `stop x` where x is the greater than the number of projects.
+    Expected: No timer stopped. Invalid index message shown. 
+    
+1. Starting Timers for Tasks
+
+    1. Prerequisites: View all tasks by running `home` followed by `view x` command, where `x` is the index of a project in the list.
+    
+    1. Test case: `start x` where `x` is the index of a task in the list.
+    Expected: There should be a new timer for the task at index `x`.
+    
+    1. Test case: `start x` where x is the greater than the number of tasks.
+    Expected: No timer started. Invalid index message shown. 
+    
+    
+1. Stopping Timers for Tasks
+
+    1. Prerequisites: View all tasks by running `home` followed by `view x` command, where `x` is the index of a project in the list.
+    
+    1. Test case: `stop x` where `x` is the index of a task in the list with an active timer.
+    Expected: There the timer for the task at index `x` should be stopped.
+    
+    1. Test case: `stop x` where `x` is the index of a task in the list without an active timer.
+    Expected: No timer stopped. No timer running message shown.
+    
+    1. Test case: `stop x` where x is the greater than the number of tasks.
+    Expected: No timer stopped. Invalid index message shown. 
+
 ### Statistics tracking
 
 ### Undo/Redo
