@@ -13,6 +13,7 @@ import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 
@@ -149,6 +150,26 @@ public interface Model {
     void rescheduleReminders();
 
     /**
+     * Reschedule all reminders in project book.
+     */
+    void rescheduleReminder();
+
+    /**
+     * Remove reminder from a project.
+     *
+     * @param project the project to remove the reminder from.
+     */
+    void removeReminder(Project project);
+
+    /**
+     * Remove reminder from a task.
+     *
+     * @param project the project with task to remove the reminder from.
+     * @param task    the task to remove the reminder from.
+     */
+    void removeReminder(Project project, Task task);
+
+    /**
      * Returns true if the reminder is empty, false otherwise.
      *
      * @return the boolean.
@@ -165,7 +186,7 @@ public interface Model {
     /**
      * Remove the reminder shown.
      */
-    void removeReminder();
+    void removeReminderShown();
 
     /**
      * Update the list of running timers.
@@ -185,6 +206,13 @@ public interface Model {
      * @throws NullPointerException if {@code sortType} is null.
      */
     void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus);
+
+    /**
+     * Orders the display list in a way given by the {@code sortType}.
+     *
+     * @throws NullPointerException if {@code sortType} is null.
+     */
+    void updateOrder(SortType sortType, boolean isAscending);
 
     /**
      * Updates the display list to show all projects.

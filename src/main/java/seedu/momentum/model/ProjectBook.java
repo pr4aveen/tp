@@ -124,10 +124,20 @@ public class ProjectBook implements ReadOnlyProjectBook {
         return tags;
     }
 
+    private void updateExpiredReminders() {
+        UniqueItemList<TrackedItem> itemList = new UniqueItemList<>();
+        for (TrackedItem item : trackedProjects) {
+            TrackedItem newItem = item.updateExpiredReminder();
+            itemList.add(newItem);
+        }
+        trackedProjects.setItems(itemList);
+    }
+
     /**
      * Reschedule all reminders in the model.
      */
     public void rescheduleReminder(ReminderManager reminderManager) {
+        updateExpiredReminders();
         for (TrackedItem item : trackedProjects) {
             reminderManager.rescheduleReminder((Project) item);
         }
@@ -137,11 +147,13 @@ public class ProjectBook implements ReadOnlyProjectBook {
      * Remove the reminder of a trackedItem.
      *
      * @param project project that contains the task with a reminder to be removed.
+     * @return the new project.
      */
-    public void removeReminder(Project project) {
+    public Project removeReminder(Project project) {
         Project newProject = project.removeReminder();
         trackedProjects.set(project, newProject);
         LOGGER.info("Reminder of project removed: " + project.getName());
+        return newProject;
     }
 
     /**
@@ -149,11 +161,13 @@ public class ProjectBook implements ReadOnlyProjectBook {
      *
      * @param project project that contains the task with a reminder to be removed.
      * @param task    task with a reminder to be removed.
+     * @return the new project.
      */
-    public void removeReminder(Project project, Task task) {
+    public Project removeReminder(Project project, Task task) {
         Project newProject = project.removeReminder(task);
         trackedProjects.set(project, newProject);
         LOGGER.info("Reminder of task of project removed: " + task.getName() + " " + project.getName());
+        return newProject;
     }
 
     public UniqueItemList<TrackedItem> getTrackedProjects() {

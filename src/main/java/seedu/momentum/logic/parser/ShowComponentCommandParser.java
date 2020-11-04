@@ -1,11 +1,7 @@
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import seedu.momentum.logic.commands.ShowComponentCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
@@ -19,7 +15,7 @@ public class ShowComponentCommandParser implements Parser<ShowComponentCommand> 
      * Represents all the possible components that can be operated on.
      */
     public enum ComponentType {
-        REMINDER, TAGS;
+        TAGS;
 
         @Override
         public String toString() {
@@ -34,22 +30,13 @@ public class ShowComponentCommandParser implements Parser<ShowComponentCommand> 
      * @throws ParseException if the user input does not conform the expected format.
      */
     public ShowComponentCommand parse(String args, Model model) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMINDER, PREFIX_TAG);
-
-        List<ComponentType> componentTypes = new ArrayList<>();
-        if (argMultimap.getValue(PREFIX_REMINDER).isPresent()) {
-            componentTypes.add(ComponentType.REMINDER);
-        }
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_TAG);
 
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
-            componentTypes.add(ComponentType.TAGS);
-        }
-
-        if (componentTypes.isEmpty()) {
+            return new ShowComponentCommand(ComponentType.TAGS);
+        } else {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowComponentCommand.MESSAGE_USAGE));
         }
-
-        return new ShowComponentCommand(componentTypes);
     }
 
 }

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.commons.exceptions.IllegalValueException;
@@ -97,24 +96,12 @@ public class JsonToModel {
     /**
      * Convert json reminder to model reminder.
      *
-     * @param reminder                the reminder.
-     * @param modelCreatedDateWrapper the model created date wrapper.
+     * @param reminder the reminder.
      * @return the model reminder.
      * @throws IllegalValueException If the reminder is invalid.
      */
-    protected static Reminder getModelReminder(String reminder, DateWrapper modelCreatedDateWrapper)
-            throws IllegalValueException {
-        if (reminder == null) {
-            return new Reminder();
-        }
-        if (!DateTimeWrapper.isValid(reminder)) {
-            throw new IllegalValueException(DateTimeWrapper.MESSAGE_CONSTRAINTS);
-        }
-
-        if (Reminder.isValid(reminder)) {
-            return new Reminder(reminder);
-        }
-        return new Reminder();
+    protected static Reminder getModelReminder(String reminder) throws IllegalValueException {
+        return Reminder.recreateReminder(reminder);
     }
 
     /**
