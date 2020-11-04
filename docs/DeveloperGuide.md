@@ -1025,7 +1025,7 @@ testers are expected to do more *exploratory* testing.
 
 1. Sorting projects by different parameters.
 
-    1. Prerequisites: View all projects by running the `home` command.
+    1. Prerequisites: View all projects by running the `home` command. There are multiple projects in the list.
 
     1. Test case: `sort order/asc type/alpha`
     Expected: Projects should be sorted by their names in alphabetical, ascending order.
@@ -1047,7 +1047,7 @@ testers are expected to do more *exploratory* testing.
 
 1. Sorting tasks by different parameters.
 
-    1. Prerequisites: View all tasks by running the `home` command followed by `view x` where x is the index of a project in the list.
+    1. Prerequisites: View all tasks by running the `home` command followed by `view x` where x is the index of a project in the list. There are multiple projects in the list.
 
     1. Test case: `sort order/asc type/alpha`
     Expected: Tasks should be sorted by their names in alphabetical, ascending order.
@@ -1069,13 +1069,20 @@ testers are expected to do more *exploratory* testing.
 
 1. Persistence of sort
 
-    1. Prerequisites: Run `sort order/asc type/alpha` in any view.
+    1. Prerequisites: Run `sort order/asc type/alpha` in any view. There are multiple projects in the list.
     
     1. Test case: `home`
     Expected: Projects should be sorted by their names in alphabetical, ascending order.
     
     1. Test case: `view x` where x is the index of a project in the list.
     Expected: Tasks should be sorted by their names in alphabetical, ascending order.
+    
+1. Sorting by completion status in addition to a given sort order
+
+    1. Prerequisites: There are multiple projects in the list.
+    
+    1. Test case: `sort order/dsc type/created c/`
+    Expected: Entries should be sorted by completion status. Entries from each completion status will be sorted by their created date in descending order.
     
 ### Setting reminders
 
