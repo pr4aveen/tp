@@ -13,14 +13,14 @@ import seedu.momentum.model.timer.TimerWrapper;
  */
 class JsonAdaptedTimer {
 
-    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Duration's %s field is missing!";
+    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Timer's %s field is missing!";
 
     private final String startTime;
     private final String stopTime;
     private final Boolean isRunning;
 
     /**
-     * Constructs a {@code JsonAdaptedWorkDuration} with the given duration details.
+     * Constructs a {@code TimerWrapper} with the given duration details.
      */
     @JsonCreator
     public JsonAdaptedTimer(@JsonProperty("startTime") String startTime,
@@ -32,7 +32,7 @@ class JsonAdaptedTimer {
     }
 
     /**
-     * Converts a given {@code WorkDuration} into this class for Jackson use.
+     * Converts a given {@code TimerWrapper} into this class for Jackson use.
      */
     public JsonAdaptedTimer(TimerWrapper source) {
         startTime = source.getStartTime().get().format(DateTimeUtil.FORMAT_DATA);
@@ -43,7 +43,7 @@ class JsonAdaptedTimer {
     /**
      * Converts this Jackson-friendly adapted duration object into the model's {@code TimerWrapper} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted duration.
+     * @throws IllegalValueException if there were any data constraints violated in the adapted timerWrapper.
      */
     public TimerWrapper toModelType() throws IllegalValueException {
         if (startTime == null) {

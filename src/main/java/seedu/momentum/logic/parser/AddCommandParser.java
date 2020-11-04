@@ -30,15 +30,15 @@ import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 
 /**
- * Parses input arguments and creates a new AddCommand object
+ * Parses input arguments and creates an appropriate AddCommand object
  */
 public class AddCommandParser implements Parser<AddCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the AddCommand
-     * and returns an AddCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of AddCommand and the current model,
+     * and returns the corresponding AddCommand object for execution.
      *
-     * @param model the current model.
+     * @param model The current model, to provide context for parsing the arguments.
      * @throws ParseException if the user input does not conform the expected format
      */
     public AddCommand parse(String args, Model model) throws ParseException {
@@ -73,7 +73,7 @@ public class AddCommandParser implements Parser<AddCommand> {
                 argMultimap.getValue(PREFIX_DEADLINE_TIME),
                 createdDateWrapper);
 
-        Reminder reminder = ParserUtil.parseReminder(argMultimap.getValue(PREFIX_REMINDER), createdDateWrapper);
+        Reminder reminder = ParserUtil.parseReminder(argMultimap.getValue(PREFIX_REMINDER));
 
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 

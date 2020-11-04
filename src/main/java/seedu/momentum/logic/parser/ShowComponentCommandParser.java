@@ -10,7 +10,13 @@ import seedu.momentum.logic.commands.ShowComponentCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 
+/**
+ * Parses input arguments and creates a new ShowComponentCommandParser object
+ */
 public class ShowComponentCommandParser implements Parser<ShowComponentCommand> {
+    /**
+     * Represents all the possible components that can be operated on.
+     */
     public enum ComponentType {
         TAGS;
 
@@ -24,7 +30,6 @@ public class ShowComponentCommandParser implements Parser<ShowComponentCommand> 
      * Parses the given {@code String} of arguments in the context of the ShowComponentCommand
      * and returns an ShowComponentCommand object for execution.
      *
-     * @param model the current model.
      * @throws ParseException if the user input does not conform the expected format.
      */
     public ShowComponentCommand parse(String args, Model model) throws ParseException {

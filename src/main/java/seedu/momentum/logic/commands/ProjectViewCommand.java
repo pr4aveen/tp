@@ -13,7 +13,7 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
- * View all of a project's tasks, identified using it's displayed index from the project book.
+ * View all of a project's tasks in Momentum.
  */
 public class ProjectViewCommand extends Command {
 
@@ -21,21 +21,35 @@ public class ProjectViewCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " " + "INDEX";
 
-    public static final String MESSAGE_DELETE_PROJECT_SUCCESS = "Viewing Project: %1$s";
+    public static final String MESSAGE_VIEW_PROJECT_SUCCESS = "Viewing Project: %1$s";
+
+    public static final String MESSAGE_NOT_PROJECT = "You cannot view tasks within a project!";
 
     private final Index targetIndex;
 
+    /**
+     * Creates a ProjectViewCommand that displays all the tasks belonging to the project with the specified index.
+     *
+     * @param targetIndex Index of the projects whose tasks are to be displayed.
+     */
     public ProjectViewCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
 
+    /**
+     * Updates teh model to display all tasks belonging to the project.
+     *
+     * @param model {@code Model} containing the project.
+     * @return feedback message of displaying result, for display.
+     * @throws CommandException If an error occurs during update process.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<TrackedItem> lastShownList = model.getDisplayList();
 
         if (model.getViewMode() != ViewMode.PROJECTS) {
-            throw new CommandException(Messages.MESSAGE_NOT_PROJECT);
+            throw new CommandException(MESSAGE_NOT_PROJECT);
         }
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
@@ -46,7 +60,7 @@ public class ProjectViewCommand extends Command {
         model.resetView();
         model.viewTasks(projectToView);
         model.commitToHistory();
-        return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, projectToView.getName().fullName));
+        return new CommandResult(String.format(MESSAGE_VIEW_PROJECT_SUCCESS, projectToView.getName().fullName));
     }
 
     @Override

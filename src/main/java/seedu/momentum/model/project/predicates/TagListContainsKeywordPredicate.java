@@ -16,10 +16,10 @@ import seedu.momentum.model.tag.Tag;
 public class TagListContainsKeywordPredicate extends ContainsKeywordPredicate {
 
     /**
-     * Predicate to check whether the {@code Tag} of a {@code Project} contains a
+     * Creates a predicate to check whether the {@code Tag} of a {@code Project} contains a
      * certain keyword.
      *
-     * @param findType enum to indicate whether the find type to be used for this find command.
+     * @param findType enum to indicate the find type to be used for this find command.
      * @param keywords list of keywords to check for matches.
      */
     public TagListContainsKeywordPredicate(FindType findType, List<String> keywords) {
