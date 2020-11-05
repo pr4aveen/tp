@@ -39,4 +39,12 @@ public abstract class ContainsKeywordPredicate implements Predicate<TrackedItem>
             return keywords.stream().anyMatch(predicate);
         }
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ContainsKeywordPredicate // instanceof handles nulls
+                && keywords.equals(((ContainsKeywordPredicate) other).keywords)) // state check
+                && findType == ((ContainsKeywordPredicate) other).findType;
+    }
 }
