@@ -1,15 +1,21 @@
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.momentum.logic.commands.ShowComponentCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 
+/**
+ * Parses input arguments and creates a new ShowComponentCommandParser object
+ */
 public class ShowComponentCommandParser implements Parser<ShowComponentCommand> {
+    /**
+     * Represents all the possible components that can be operated on.
+     */
     public enum ComponentType {
-        REMINDER;
+        TAGS;
 
         @Override
         public String toString() {
@@ -21,15 +27,16 @@ public class ShowComponentCommandParser implements Parser<ShowComponentCommand> 
      * Parses the given {@code String} of arguments in the context of the ShowComponentCommand
      * and returns an ShowComponentCommand object for execution.
      *
-     * @param model the current model.
      * @throws ParseException if the user input does not conform the expected format.
      */
     public ShowComponentCommand parse(String args, Model model) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMINDER);
-        if (argMultimap.getValue(PREFIX_REMINDER).isPresent()) {
-            return new ShowComponentCommand(ComponentType.REMINDER);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_TAG);
+
+        if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
+            return new ShowComponentCommand(ComponentType.TAGS);
+        } else {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowComponentCommand.MESSAGE_USAGE));
         }
-        throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowComponentCommand.MESSAGE_USAGE));
     }
 
 }

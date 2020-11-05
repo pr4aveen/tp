@@ -10,7 +10,7 @@ import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.UserPrefs;
 
-public class ClearCommandTest {
+public class ClearProjectCommandTest {
 
     @Test
     public void execute_emptyProjectBook_success() {
@@ -18,7 +18,7 @@ public class ClearCommandTest {
         Model expectedModel = new ModelManager();
         expectedModel.commitToHistory();
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS_ALL, expectedModel);
+        assertCommandSuccess(new ClearProjectCommand(), model, ClearCommand.MESSAGE_SUCCESS_ALL, expectedModel);
     }
 
     @Test
@@ -28,7 +28,6 @@ public class ClearCommandTest {
         expectedModel.setVersionedProjectBook(new ProjectBook());
         expectedModel.commitToHistory();
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS_ALL, expectedModel);
+        assertCommandSuccess(new ClearProjectCommand(), model, ClearCommand.MESSAGE_SUCCESS_ALL, expectedModel);
     }
-
 }

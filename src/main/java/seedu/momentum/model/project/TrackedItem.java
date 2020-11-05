@@ -38,7 +38,8 @@ public abstract class TrackedItem implements UniqueItem<TrackedItem> {
 
     /**
      * Constructs a {@code TrackedItem}.
-     *  @param name               A valid name.
+     *
+     * @param name               A valid name.
      * @param description        A description of the tracked item.
      * @param completionStatus   A completion status of the tracked item.
      * @param createdDateWrapper A dateWrapper associated with the creation of the tracked item.
@@ -150,9 +151,14 @@ public abstract class TrackedItem implements UniqueItem<TrackedItem> {
     public abstract TrackedItem removeReminder();
 
     /**
+     * Update the expiry of the reminder.
+     */
+    public abstract TrackedItem updateExpiredReminder();
+
+    /**
      * Returns a copy of this tracked item with its timerWrapper started.
      *
-     * @return A copy of this tracked item, but with its timerWrapper started
+     * @return A copy of this tracked item, but with its timerWrapper started.
      */
     public abstract TrackedItem startTimer();
 
@@ -160,7 +166,7 @@ public abstract class TrackedItem implements UniqueItem<TrackedItem> {
      * Returns a copy of this tracked item with its timerWrapper stopped, then adds the timed duration into
      * the list.
      *
-     * @return A copy of this tracked item, but with its timerWrapper stopped
+     * @return A copy of this tracked item, but with its timerWrapper stopped.
      */
     public abstract TrackedItem stopTimer();
 

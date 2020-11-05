@@ -7,7 +7,7 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ViewMode;
 
 /**
- * Lists all projects in the project book to the user.
+ * List all items available in the current context in Momentum.
  */
 public class ListCommand extends Command {
 
@@ -18,6 +18,14 @@ public class ListCommand extends Command {
     public static final String MESSAGE_SUCCESS_TASKS = "Listed all tasks belonging to %s";
 
 
+    /**
+     * Lists all items.
+     * All projects are listed if the model is in project view.
+     * All tasks of a project are listed if the model is in task view.
+     *
+     * @param model {@code Model} containing the items.
+     * @return feedback message of the result, for display.
+     */
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
@@ -26,8 +34,8 @@ public class ListCommand extends Command {
         if (model.getViewMode() == ViewMode.PROJECTS) {
             return new CommandResult(MESSAGE_SUCCESS_PROJECTS);
         } else {
-            return new CommandResult(String.format(MESSAGE_SUCCESS_TASKS,
-                    model.getCurrentProject().getName().fullName));
+            String projectName = model.getCurrentProject().getName().fullName;
+            return new CommandResult(String.format(MESSAGE_SUCCESS_TASKS, projectName));
         }
     }
 }

@@ -8,6 +8,9 @@ import java.util.function.Predicate;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Represents a project book that keeps track of its state, so that it can undo/redo changes.
+ */
 public class VersionedProjectBook extends ProjectBook {
 
     private static final String UNDO = "undo";
@@ -24,11 +27,12 @@ public class VersionedProjectBook extends ProjectBook {
                                 ViewMode viewMode,
                                 Project currentProject,
                                 Predicate<TrackedItem> currentPredicate,
-                                Comparator<TrackedItem> currentComparator) {
+                                Comparator<TrackedItem> currentComparator,
+                                boolean isTagsVisible) {
         super(projectBook);
         this.projectBookStateList = new ArrayList<>();
         projectBookStateList.add(new ProjectBookWithUi(projectBook, viewMode,
-                currentProject, currentPredicate, currentComparator));
+                currentProject, currentPredicate, currentComparator, isTagsVisible));
         currentStatePointer = 0;
     }
 
@@ -37,13 +41,13 @@ public class VersionedProjectBook extends ProjectBook {
      * commits current {@code VersionedProjectBook} into {@code projectBookStateList}.
      */
     public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
-                       Comparator<TrackedItem> currentComparator) {
+                       Comparator<TrackedItem> currentComparator, boolean isTagsVisible) {
         int historySize = projectBookStateList.size();
         if (currentStatePointer < historySize - 1) {
             flushRedoVersions();
         }
         projectBookStateList.add(new ProjectBookWithUi(this, viewMode,
-                currentProject, currentPredicate, currentComparator));
+                currentProject, currentPredicate, currentComparator, isTagsVisible));
         shiftPointer(COMMIT);
     }
 
@@ -131,11 +135,15 @@ public class VersionedProjectBook extends ProjectBook {
         return getCurrentProjectBookWithUi().getComparator();
     }
 
+    public boolean isTagsVisible() {
+        return getCurrentProjectBookWithUi().isTagsVisible();
+    }
+
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof VersionedProjectBook // instanceof handles nulls
-                && trackedItems.equals(((VersionedProjectBook) other).trackedItems)
+                && getTrackedProjects().equals(((VersionedProjectBook) other).getTrackedProjects())
                 && projectBookStateList.equals(((VersionedProjectBook) other).getProjectBookStateList())
                 && currentStatePointer == ((VersionedProjectBook) other).getCurrentStatePointer());
     }

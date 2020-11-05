@@ -2,16 +2,20 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.layout.StackPane?>
 
 <VBox styleClass="content-box" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="CENTER" styleClass="content-box-title">
+      <StackPane styleClass="content-box-title">
          <children>
             <Label fx:id="title" text="\$statListPanelTitle" />
          </children>
-      </HBox>
-      <ListView fx:id="statListView" />
+      </StackPane>
+      <StackPane alignment="CENTER" >
+         <StackPane fx:id="pieChartPlaceHolder" prefHeight="270" VBox.vgrow="SOMETIMES"/>
+      </StackPane>
+      <ListView fx:id="statListView" prefHeight="120" VBox.vgrow="SOMETIMES"/>
    </children>
 </VBox>

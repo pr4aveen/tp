@@ -22,6 +22,8 @@ import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.logic.statistic.StatisticManager;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ReadOnlyProjectBook;
+import seedu.momentum.model.ViewMode;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.storage.Storage;
@@ -118,22 +120,32 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
-        model.setGuiThemeSettings(guiThemeSettings);
-    }
-
-    @Override
     public StatisticTimeframeSettings getStatisticTimeframeSettings() {
         return model.getStatisticTimeframeSettings();
     }
 
     @Override
-    public void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframe) {
-        model.setStatisticTimeframeSettings(statisticTimeframe);
+    public Set<Tag> getVisibleTags() {
+        return model.getVisibleTags();
     }
 
     @Override
-    public Set<Tag> getVisibleTags() {
-        return model.getVisibleTags();
+    public int getTotalNumberOfItems() {
+        return model.getTotalNumberOfItems();
+    }
+
+    @Override
+    public ViewMode getViewMode() {
+        return model.getViewMode();
+    }
+
+    @Override
+    public Project getCurrentProject() {
+        return model.getCurrentProject();
+    }
+
+    @Override
+    public BooleanProperty getIsTagsVisible() {
+        return model.getIsTagsVisible();
     }
 }

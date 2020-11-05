@@ -99,6 +99,11 @@
     -fx-padding: 12 8;
 }
 
+#createdDate .label {
+    -fx-font-style: italic;
+    -fx-font-size: 12px;
+}
+
 #tags {
     -fx-hgap: 7;
     -fx-vgap: 3;
@@ -113,4 +118,9 @@
 
 .statLabel {
     -fx-padding: 0 8 0 0;
+}
+
+.pieChartLabel {
+    -fx-font-size: 14;
+    -fx-padding: 0 0 0 0;
 }

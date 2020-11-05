@@ -12,16 +12,16 @@ import seedu.momentum.model.project.exceptions.DuplicateItemException;
 import seedu.momentum.model.project.exceptions.ItemNotFoundException;
 
 /**
- * A list of tracked items that enforces uniqueness between its elements and does not allow nulls.
- * An item is considered unique by comparing using {@code TrackedItem#isSameTrackedItem(TrackedItem)}. As such, adding
- * and updating of tracked items uses TrackedItem#isSameTrackedItem(TrackedItem) for equality so as to ensure that
- * the tracked item being added or updated is unique in terms of identity in the UniqueTrackedItemList. However, the
- * removal of a tracked item uses TrackedItem#equals(Object) so as to ensure that the tracked item with exactly the
+ * A list of items that enforces uniqueness between its elements and does not allow nulls.
+ * An item is considered unique by comparing using {@code UniqueItem#isSameAs(UniqueItem)}. As such, adding
+ * and updating of items uses {@code UniqueItem#isSameTrackedItem(TrackedItem)} for equality so as to ensure that
+ * the item being added or updated is unique in terms of identity in the UniqueItemList. However, the
+ * removal of a item uses {@code equals(Object)} so as to ensure that the item with exactly the
  * same fields will be removed.
  * <p>
  * Supports a minimal set of list operations.
  *
- * @see TrackedItem#isSameAs(TrackedItem) (TrackedItem)
+ * @see UniqueItem#isSameAs(Object) (UniqueItem)
  */
 public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
 
@@ -30,7 +30,10 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
             FXCollections.unmodifiableObservableList(internalList);
 
     /**
-     * Returns true if the list contains an equivalent tracked item as the given argument.
+     * Returns true if the list contains an equivalent item as the given argument.
+     *
+     * @param toCheck The other item to check against.
+     * @return true if the two items are equivalent, false otherwise.
      */
     public boolean contains(T toCheck) {
         requireNonNull(toCheck);
@@ -38,8 +41,11 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
     }
 
     /**
-     * Adds a tracked item to the list.
-     * The tracked item must not already exist in the list.
+     * Adds a item to the list.
+     * The item must not already exist in the list.
+     *
+     * @param toAdd The item to add.
+     * @throws DuplicateItemException if the item already exists in the list.
      */
     public void add(T toAdd) {
         requireNonNull(toAdd);
@@ -50,10 +56,15 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
     }
 
     /**
-     * Replaces the tracked item {@code target} in the list with {@code editedItem}.
+     * Replaces the item {@code target} in the list with {@code editedItem}.
      * {@code target} must exist in the list.
-     * The tracked item identity of {@code editedItem} must not be the same as another existing tracked item
+     * The item identity of {@code editedItem} must not be the same as another existing item
      * in the list.
+     *
+     * @param target The item to replace.
+     * @param editedItem The new item.
+     * @throws ItemNotFoundException if the target does not exist in the list.
+     * @throws DuplicateItemException if the new item is equivalent to some other item in the list.
      */
     public void set(T target, T editedItem) {
         requireAllNonNull(target, editedItem);
@@ -73,6 +84,9 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
     /**
      * Removes the equivalent item from the list.
      * The item must exist in the list.
+     *
+     * @param toRemove The item to be removed.
+     * @throws ItemNotFoundException if the item does not exist in the list.
      */
     public void remove(T toRemove) {
         requireNonNull(toRemove);
@@ -81,6 +95,11 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
         }
     }
 
+    /**
+     * Replaces all items in the list with a new list of items from another {@code UniqueItemList}.
+     *
+     * @param replacement The list of replacement items.
+     */
     public void setItems(UniqueItemList<T> replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
@@ -88,11 +107,14 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
 
     /**
      * Replaces the contents of this list with {@code items}.
-     * {@code items} must not contain duplicate tracked items.
+     * {@code items} must not contain duplicate items.
+     *
+     * @param items The list of new items to be added.
+     * @throws DuplicateItemException if the new list of items contains duplicate items.
      */
     public void setItems(List<T> items) {
         requireAllNonNull(items);
-        if (!projectsAreUnique(items)) {
+        if (!itemsAreUnique(items)) {
             throw new DuplicateItemException();
         }
 
@@ -100,9 +122,9 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
     }
 
     /**
-     * Creates a duplicate {@code UniqueTrackedItemList}
+     * Creates a duplicate {@code UniqueItemList}
      *
-     * @return duplicate {@code UniqueTrackedItemList} list.
+     * @return duplicate {@code UniqueItemList} list.
      */
     public UniqueItemList<T> copy() {
         UniqueItemList<T> newList = new UniqueItemList<>();
@@ -137,9 +159,13 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
     }
 
     /**
-     * Returns true if {@code items} contains only unique projects.
+     * Returns true if {@code items} contains only unique elements,
+     * as determined by {@code UniqueItem#isSameAs(UniqueItem)}.
+     *
+     * @param items The list of items to check.
+     * @return true if all items are unique, false otherwise.
      */
-    private boolean projectsAreUnique(List<T> items) {
+    private boolean itemsAreUnique(List<T> items) {
         for (int i = 0; i < items.size() - 1; i++) {
             for (int j = i + 1; j < items.size(); j++) {
                 if (items.get(i).isSameAs(items.get(j))) {

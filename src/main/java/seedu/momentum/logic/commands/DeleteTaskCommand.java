@@ -11,12 +11,15 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Deletes tasks from a project in Momentum.
+ */
 public class DeleteTaskCommand extends DeleteCommand {
 
     private final Project projectToDeleteTaskFrom;
 
     /**
-     * Deletes a task at a given index from a certain project.
+     * Creates a {@code DeleteTaskCommand} that deletes a task at the given index from the specified project.
      *
      * @param targetIndex index of the task to be deleted.
      * @param project project to delete the task from.
@@ -26,6 +29,13 @@ public class DeleteTaskCommand extends DeleteCommand {
         this.projectToDeleteTaskFrom = project;
     }
 
+    /**
+     * Deletes the task from the project in the provided model.
+     *
+     * @param model {@code Model} containing the proejct from which to delete the task.
+     * @return feedback message of the result of deleting the task, for display.
+     * @throws CommandException If an error occurs during the deletion.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
@@ -33,7 +43,7 @@ public class DeleteTaskCommand extends DeleteCommand {
         List<TrackedItem> lastShownList = model.getDisplayList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
         TrackedItem trackedItemToDelete = lastShownList.get(targetIndex.getZeroBased());
@@ -43,7 +53,7 @@ public class DeleteTaskCommand extends DeleteCommand {
 
         model.rescheduleReminders();
         model.commitToHistory();
-        return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete));
+        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, trackedItemToDelete));
     }
 
 

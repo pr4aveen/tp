@@ -23,7 +23,7 @@ import seedu.momentum.model.tag.Tag;
 public class ProjectBook implements ReadOnlyProjectBook {
 
     private static final Logger LOGGER = LogsCenter.getLogger(ProjectBook.class);
-    protected final UniqueItemList<TrackedItem> trackedItems;
+    private final UniqueItemList<TrackedItem> trackedProjects;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -33,7 +33,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
      *   among constructors.
      */
     {
-        trackedItems = new UniqueItemList<>();
+        trackedProjects = new UniqueItemList<>();
     }
 
     public ProjectBook() {
@@ -50,11 +50,11 @@ public class ProjectBook implements ReadOnlyProjectBook {
     //// list overwrite operations
 
     /**
-     * Replaces the contents of the project list with {@code trackedItems}.
-     * {@code trackedItems} must not contain duplicate tracked items.
+     * Replaces the contents of the project list with {@code trackedProjects}.
+     * {@code trackedProjects} must not contain duplicate tracked projects.
      */
-    public void setTrackedItems(List<TrackedItem> trackedItems) {
-        this.trackedItems.setItems(trackedItems);
+    public void setTrackedProjects(List<TrackedItem> trackedProjects) {
+        this.trackedProjects.setItems(trackedProjects);
     }
 
     /**
@@ -63,7 +63,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
     public void resetData(ReadOnlyProjectBook newData) {
         requireNonNull(newData);
 
-        setTrackedItems(newData.getTrackedItemList());
+        setTrackedProjects(newData.getTrackedItemList());
     }
 
     //// project-level operations
@@ -73,7 +73,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
      */
     public boolean hasTrackedItem(TrackedItem trackedItem) {
         requireNonNull(trackedItem);
-        return trackedItems.contains(trackedItem);
+        return trackedProjects.contains(trackedItem);
     }
 
     /**
@@ -81,7 +81,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
      * The tracked item must not already exist in the project book.
      */
     public void addTrackedItem(TrackedItem trackedItem) {
-        trackedItems.add(trackedItem);
+        trackedProjects.add(trackedItem);
     }
 
     /**
@@ -93,7 +93,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
     public void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem) {
         requireNonNull(editedTrackedItem);
 
-        trackedItems.set(target, editedTrackedItem);
+        trackedProjects.set(target, editedTrackedItem);
     }
 
     /**
@@ -101,20 +101,20 @@ public class ProjectBook implements ReadOnlyProjectBook {
      * {@code key} must exist in the project book.
      */
     public void removeTrackedItem(TrackedItem key) {
-        trackedItems.remove(key);
+        trackedProjects.remove(key);
     }
 
     //// util methods
 
     @Override
     public String toString() {
-        return trackedItems.asUnmodifiableObservableList().size() + " projects";
+        return trackedProjects.asUnmodifiableObservableList().size() + " projects";
         // TODO: refine later
     }
 
     @Override
     public ObservableList<TrackedItem> getTrackedItemList() {
-        return trackedItems.asUnmodifiableObservableList();
+        return trackedProjects.asUnmodifiableObservableList();
     }
 
     @Override
@@ -124,11 +124,21 @@ public class ProjectBook implements ReadOnlyProjectBook {
         return tags;
     }
 
+    private void updateExpiredReminders() {
+        UniqueItemList<TrackedItem> itemList = new UniqueItemList<>();
+        for (TrackedItem item : trackedProjects) {
+            TrackedItem newItem = item.updateExpiredReminder();
+            itemList.add(newItem);
+        }
+        trackedProjects.setItems(itemList);
+    }
+
     /**
      * Reschedule all reminders in the model.
      */
     public void rescheduleReminder(ReminderManager reminderManager) {
-        for (TrackedItem item : trackedItems) {
+        updateExpiredReminders();
+        for (TrackedItem item : trackedProjects) {
             reminderManager.rescheduleReminder((Project) item);
         }
     }
@@ -137,11 +147,13 @@ public class ProjectBook implements ReadOnlyProjectBook {
      * Remove the reminder of a trackedItem.
      *
      * @param project project that contains the task with a reminder to be removed.
+     * @return the new project.
      */
-    public void removeReminder(Project project) {
+    public Project removeReminder(Project project) {
         Project newProject = project.removeReminder();
-        trackedItems.set(project, newProject);
+        trackedProjects.set(project, newProject);
         LOGGER.info("Reminder of project removed: " + project.getName());
+        return newProject;
     }
 
     /**
@@ -149,22 +161,28 @@ public class ProjectBook implements ReadOnlyProjectBook {
      *
      * @param project project that contains the task with a reminder to be removed.
      * @param task    task with a reminder to be removed.
+     * @return the new project.
      */
-    public void removeReminder(Project project, Task task) {
+    public Project removeReminder(Project project, Task task) {
         Project newProject = project.removeReminder(task);
-        trackedItems.set(project, newProject);
+        trackedProjects.set(project, newProject);
         LOGGER.info("Reminder of task of project removed: " + task.getName() + " " + project.getName());
+        return newProject;
+    }
+
+    public UniqueItemList<TrackedItem> getTrackedProjects() {
+        return trackedProjects;
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ProjectBook // instanceof handles nulls
-                && trackedItems.equals(((ProjectBook) other).trackedItems));
+                && trackedProjects.equals(((ProjectBook) other).trackedProjects));
     }
 
     @Override
     public int hashCode() {
-        return trackedItems.hashCode();
+        return trackedProjects.hashCode();
     }
 }

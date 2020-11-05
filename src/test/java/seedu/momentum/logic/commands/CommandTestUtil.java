@@ -1,6 +1,7 @@
 package seedu.momentum.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
@@ -14,7 +15,7 @@ import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 import static seedu.momentum.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import seedu.momentum.commons.core.index.Index;
@@ -22,7 +23,9 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
+import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.CompletionStatus;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
@@ -147,12 +150,38 @@ public class CommandTestUtil {
      */
     public static void showProjectAtIndex(Model model, Index targetIndex) {
         assertTrue(targetIndex.getZeroBased() < model.getDisplayList().size());
+        assertSame(model.getViewMode(), ViewMode.PROJECTS);
 
         TrackedItem trackedItem = model.getDisplayList().get(targetIndex.getZeroBased());
         final String[] splitName = trackedItem.getName().fullName.split("\\s+");
         model.updatePredicate(
-            new NameContainsKeywordsPredicate(FindType.ANY, Collections.singletonList(splitName[0])));
+            new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName)));
 
+        assertEquals(1, model.getDisplayList().size());
+    }
+
+    /**
+     * Returns the project at the given {@code targetIndex} in the {@code model}'s project book.
+     */
+    public static Project getProjectAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getDisplayList().size());
+
+        TrackedItem trackedItem = model.getDisplayList().get(targetIndex.getZeroBased());
+        return (Project) trackedItem;
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only the task at the given {@code targetIndex} in the
+     * {@code model}'s project book.
+     */
+    public static void showTaskAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getDisplayList().size());
+        assertSame(model.getViewMode(), ViewMode.TASKS);
+
+        TrackedItem trackedItem = model.getDisplayList().get(targetIndex.getZeroBased());
+        final String[] splitName = trackedItem.getName().fullName.split("\\s+");
+        model.updatePredicate(
+                new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName)));
         assertEquals(1, model.getDisplayList().size());
     }
 

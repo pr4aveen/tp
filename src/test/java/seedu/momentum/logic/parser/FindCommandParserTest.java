@@ -23,19 +23,33 @@ import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
-import seedu.momentum.model.project.predicates.TagListContainsKeywordsPredicate;
+import seedu.momentum.model.project.predicates.TagListContainsKeywordPredicate;
 
 public class FindCommandParserTest {
 
-    private FindCommandParser parser = new FindCommandParser();
-    private Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
+    private static final String WHITESPACE = "      ";
+
+    private final FindCommandParser parser = new FindCommandParser();
+    private final Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
     @Test
     public void parse_emptyArg_throwsParseException() {
-        assertParseFailure(parser, "     ",
+        assertParseFailure(parser, WHITESPACE,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
 
-        assertParseFailure(parser, " " + PREFIX_NAME + "         ",
+        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE),
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+
+        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE),
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+
+        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE),
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+
+        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE),
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+
+        assertParseFailure(parser, String.format(" %s%s %s%s", PREFIX_NAME, WHITESPACE, PREFIX_DESCRIPTION, WHITESPACE),
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
     }
 
@@ -77,12 +91,11 @@ public class FindCommandParserTest {
 
         // no leading and trailing whitespaces (tag)
         expectedFindCommand =
-                new FindCommand(new TagListContainsKeywordsPredicate(FindType.ALL, keywords));
+                new FindCommand(new TagListContainsKeywordPredicate(FindType.ALL, keywords));
         assertParseSuccess(parser, String.format(userInput, PREFIX_TAG), expectedFindCommand, model);
 
         // multiple whitespaces between keywords
         assertParseSuccess(parser, " " + PREFIX_TAG + "\nfirst \nsecond " + FIND_TYPE + "\nall",
             expectedFindCommand, model);
     }
-
 }

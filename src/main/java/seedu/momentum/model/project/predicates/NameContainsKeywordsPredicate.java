@@ -1,5 +1,7 @@
 package seedu.momentum.model.project.predicates;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -7,36 +9,27 @@ import seedu.momentum.commons.util.StringUtil;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
- * Tests that a {@code Project}'s {@code Name} matches any of the keywords given.
+ * Tests that a {@code TrackedItem}'s {@code Name} matches any of the keywords given.
  */
-public class NameContainsKeywordsPredicate implements Predicate<TrackedItem> {
-    private final List<String> keywords;
-    private final FindType findType;
+public class NameContainsKeywordsPredicate extends ContainsKeywordPredicate {
 
     /**
-     * Predicate to check whether the {@code Name} of a {@code Project} contains a
+     * Creates a predicate to check whether the {@code Name} of a {@code TrackedItem} contains a
      * certain keyword.
      *
-     * @param findType enum to indicate whether the find type to be used for this find command.
+     * @param findType enum to indicate the find type to be used for this find command.
      * @param keywords list of keywords to check for matches.
      */
     public NameContainsKeywordsPredicate(FindType findType, List<String> keywords) {
-        this.findType = findType;
-        this.keywords = keywords;
+        super(findType, keywords);
     }
 
     @Override
     public boolean test(TrackedItem trackedItem) {
+        requireNonNull(trackedItem);
         Predicate<String> predicate =
             keyword -> StringUtil.containsPartialIgnoreCase(trackedItem.getName().fullName, keyword);
-        switch (findType) {
-        case ALL:
-            return keywords.stream().allMatch(predicate);
-        case ANY:
-            // Fallthrough
-        default:
-            return keywords.stream().anyMatch(predicate);
-        }
+        return testPredicate(predicate);
     }
 
     @Override
@@ -46,5 +39,4 @@ public class NameContainsKeywordsPredicate implements Predicate<TrackedItem> {
                 && keywords.equals(((NameContainsKeywordsPredicate) other).keywords)) // state check
                 && findType == ((NameContainsKeywordsPredicate) other).findType;
     }
-
 }

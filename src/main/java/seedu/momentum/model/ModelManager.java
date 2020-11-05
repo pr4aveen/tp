@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.CompletionStatusCompare;
 import seedu.momentum.model.project.comparators.CreatedDateCompare;
@@ -48,11 +50,12 @@ public class ModelManager implements Model {
     private SortType currentSortType;
     private boolean isCurrentSortAscending;
     private boolean isCurrentSortByCompletionStatus;
+    private final BooleanProperty isTagsVisible;
     private ViewMode viewMode;
     private Project currentProject;
     private ObservableList<TrackedItem> itemList;
     private Comparator<TrackedItem> currentComparator;
-    private ObjectProperty<ObservableList<TrackedItem>> displayList;
+    private final ObjectProperty<ObservableList<TrackedItem>> displayList;
 
     /**
      * Initializes a ModelManager with the given projectBook and userPrefs.
@@ -70,11 +73,13 @@ public class ModelManager implements Model {
         this.currentSortType = SortType.ALPHA;
         this.isCurrentSortAscending = true;
         this.isCurrentSortByCompletionStatus = true;
+        this.isTagsVisible = new SimpleBooleanProperty();
+        this.isTagsVisible.set(true);
         this.currentComparator = getComparatorNullType(true, this.isCurrentSortByCompletionStatus);
 
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
-                currentComparator);
-        this.reminderManager = new ReminderManager(this.versionedProjectBook);
+                currentComparator, isTagsVisible.get());
+        this.reminderManager = new ReminderManager(this);
         this.itemList = this.versionedProjectBook.getTrackedItemList();
         this.displayList = new SimpleObjectProperty<>(this.itemList);
 
@@ -83,7 +88,6 @@ public class ModelManager implements Model {
         rescheduleReminders();
         viewProjects();
         updateRunningTimers();
-
     }
 
     public ModelManager() {
@@ -170,6 +174,18 @@ public class ModelManager implements Model {
         return tags;
     }
 
+    //=========== Tags ================================================================================
+    @Override
+    public void showOrHideTags() {
+        boolean isVisible = this.isTagsVisible.get();
+        this.isTagsVisible.set(!isVisible);
+    }
+
+    @Override
+    public BooleanProperty getIsTagsVisible() {
+        return this.isTagsVisible;
+    }
+
     @Override
     public Project getCurrentProject() {
         assert viewMode == ViewMode.TASKS : "Project can only be accessed in task view";
@@ -194,7 +210,7 @@ public class ModelManager implements Model {
     public void addTrackedItem(TrackedItem trackedItem) {
         versionedProjectBook.addTrackedItem(trackedItem);
         rescheduleReminders();
-        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
+        updateOrder(currentSortType, isCurrentSortAscending);
         updatePredicate(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
@@ -208,7 +224,7 @@ public class ModelManager implements Model {
             resetUi(viewMode, currentProject);
         }
         rescheduleReminders();
-        updateOrder(currentSortType, isCurrentSortAscending, isCurrentSortByCompletionStatus);
+        updateOrder(currentSortType, isCurrentSortAscending);
     }
 
     //=========== Filtered Project List Accessors =============================================================
@@ -245,6 +261,11 @@ public class ModelManager implements Model {
         }
         currentComparator = getComparator(sortType, isAscending, isCurrentSortByCompletionStatus);
         updateDisplayList();
+    }
+
+    @Override
+    public void updateOrder(SortType sortType, boolean isAscending) {
+        updateOrder(sortType, isAscending, false);
     }
 
     @Override
@@ -290,17 +311,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void viewAll() {
-        ObservableList<TrackedItem> allItems = FXCollections.observableArrayList();
-        for (TrackedItem projectItem : versionedProjectBook.getTrackedItemList()) {
-            allItems.add(projectItem);
-            Project project = (Project) projectItem;
-            allItems.addAll(project.getTaskList());
-        }
-        this.itemList = allItems;
-    }
-
-    @Override
     public void resetView() {
         currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         if (viewMode == ViewMode.PROJECTS) {
@@ -319,10 +329,20 @@ public class ModelManager implements Model {
         displayList.setValue(new SortedList<>(new FilteredList<>(itemList, currentPredicate), currentComparator));
     }
 
+    public int getTotalNumberOfItems() {
+        return itemList.size();
+    }
+
     //=========== Reminders =============================================================
 
+    @Override
     public void rescheduleReminders() {
         reminderManager.rescheduleReminder();
+    }
+
+    @Override
+    public void rescheduleReminder() {
+        this.versionedProjectBook.rescheduleReminder(reminderManager);
     }
 
     @Override
@@ -336,8 +356,18 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void removeReminder() {
+    public void removeReminderShown() {
         reminderManager.removeReminder();
+    }
+
+    @Override
+    public void removeReminder(Project project) {
+        setTrackedItem(project, this.versionedProjectBook.removeReminder(project));
+    }
+
+    @Override
+    public void removeReminder(Project project, Task task) {
+        setTrackedItem(project, this.versionedProjectBook.removeReminder(project, task));
     }
 
     //=========== Timers =============================================================
@@ -382,7 +412,7 @@ public class ModelManager implements Model {
 
     @Override
     public void commitToHistory() {
-        versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator);
+        versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible.get());
     }
 
     @Override
@@ -402,11 +432,15 @@ public class ModelManager implements Model {
         currentComparator = versionedProjectBook.getCurrentComparator();
 
         resetUi(viewMode, newProject);
+
+        rescheduleReminders();
     }
 
     @Override
     public void resetUi(ViewMode viewMode, Project project) {
         requireNonNull(viewMode);
+
+        isTagsVisible.setValue(versionedProjectBook.isTagsVisible());
 
         switch (viewMode) {
         case PROJECTS:
@@ -436,6 +470,8 @@ public class ModelManager implements Model {
         currentComparator = versionedProjectBook.getCurrentComparator();
 
         resetUi(viewMode, currentProject);
+
+        rescheduleReminders();
     }
 
     //=========== Sorting ================================================================================

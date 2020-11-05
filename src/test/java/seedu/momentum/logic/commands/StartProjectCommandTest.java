@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.logic.commands.CommandTestUtil.showProjectAtIndex;
-import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
-import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND_PROJECT;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import org.junit.jupiter.api.Test;
@@ -23,16 +23,16 @@ import seedu.momentum.testutil.TypicalTimes;
 /**
  * Contains unit tests for {@code StartCommand}.
  */
-public class StartCommandTest {
+public class StartProjectCommandTest {
 
     private Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
         Clock.initFixed(TypicalTimes.DAY);
-        StartCommand startCommand = new StartProjectCommand(INDEX_FIRST_PROJECT);
+        StartCommand startCommand = new StartProjectCommand(INDEX_FIRST);
 
-        TrackedItem trackedItemToStart = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStart = model.getDisplayList().get(INDEX_FIRST.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
@@ -40,7 +40,7 @@ public class StartCommandTest {
         expectedModel.commitToHistory();
 
         String expectedMessage =
-                String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST_PROJECT.getOneBased())
+                String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST.getOneBased())
                 + startedTrackedItem.getTimer().getStartTime().getFormatted();
 
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);
@@ -57,8 +57,8 @@ public class StartCommandTest {
 
     @Test
     public void execute_alreadyRunning_throwsCommandException() {
-        StartCommand startCommand = new StartProjectCommand(INDEX_FIRST_PROJECT);
-        TrackedItem trackedItemToStart = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        StartCommand startCommand = new StartProjectCommand(INDEX_FIRST);
+        TrackedItem trackedItemToStart = model.getDisplayList().get(INDEX_FIRST.getZeroBased());
 
         model.setTrackedItem(trackedItemToStart, trackedItemToStart.startTimer());
 
@@ -68,21 +68,21 @@ public class StartCommandTest {
     @Test
     public void execute_validIndexFilteredList_success() {
         Clock.initFixed(TypicalTimes.DAY);
-        showProjectAtIndex(model, INDEX_FIRST_PROJECT);
+        showProjectAtIndex(model, INDEX_FIRST);
 
-        TrackedItem trackedItemToStart = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStart = model.getDisplayList().get(INDEX_FIRST.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
         expectedModel.setTrackedItem(trackedItemToStart, startedTrackedItem);
         expectedModel.commitToHistory();
 
-        StartCommand startCommand = new StartProjectCommand(INDEX_FIRST_PROJECT);
+        StartCommand startCommand = new StartProjectCommand(INDEX_FIRST);
         String expectedMessage =
-                String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST_PROJECT.getOneBased())
+                String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST.getOneBased())
                         + startedTrackedItem.getTimer().getStartTime().getFormatted();
 
-        showProjectAtIndex(expectedModel, INDEX_FIRST_PROJECT);
+        showProjectAtIndex(expectedModel, INDEX_FIRST);
 
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);
         Clock.reset();
@@ -90,9 +90,9 @@ public class StartCommandTest {
 
     @Test
     public void execute_invalidIndexFilteredList_throwsCommandException() {
-        showProjectAtIndex(model, INDEX_FIRST_PROJECT);
+        showProjectAtIndex(model, INDEX_FIRST);
 
-        Index outOfBoundIndex = INDEX_SECOND_PROJECT;
+        Index outOfBoundIndex = INDEX_SECOND;
         // ensures that outOfBoundIndex is still in bounds of project book list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getProjectBook().getTrackedItemList().size());
 
@@ -103,14 +103,14 @@ public class StartCommandTest {
 
     @Test
     public void equals() {
-        StartCommand startFirstCommand = new StartProjectCommand(INDEX_FIRST_PROJECT);
-        StartCommand startSecondCommand = new StartProjectCommand(INDEX_SECOND_PROJECT);
+        StartCommand startFirstCommand = new StartProjectCommand(INDEX_FIRST);
+        StartCommand startSecondCommand = new StartProjectCommand(INDEX_SECOND);
 
         // same object -> returns true
         assertTrue(startFirstCommand.equals(startFirstCommand));
 
         // same values -> returns true
-        StartCommand startFirstCommandCopy = new StartProjectCommand(INDEX_FIRST_PROJECT);
+        StartCommand startFirstCommandCopy = new StartProjectCommand(INDEX_FIRST);
         assertTrue(startFirstCommand.equals(startFirstCommandCopy));
 
         // different types -> returns false

@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.commons.core.Messages.MESSAGE_TEXT_PROJECT;
 import static seedu.momentum.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
@@ -22,6 +23,7 @@ import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
+import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
@@ -30,11 +32,12 @@ import seedu.momentum.model.VersionedProjectBook;
 import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
 
-public class AddCommandTest {
+public class AddProjectCommandTest {
 
     @Test
     public void constructor_nullProject_throwsNullPointerException() {
@@ -48,20 +51,19 @@ public class AddCommandTest {
 
         CommandResult commandResult = new AddProjectCommand(validProject).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, validProject),
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, MESSAGE_TEXT_PROJECT, validProject),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validProject), modelStub.projectsAdded);
     }
 
-    //    @Test
-    //    public void execute_duplicateProject_throwsCommandException() {
-    //        Project validProject = new ProjectBuilder().build();
-    //        AddProjectCommand addCommand = new AddProjectCommand(validProject);
-    //        ModelStub modelStub = new ModelStubWithProject(validProject);
-    //
-    //        assertThrows(CommandException.class,
-    //          AddCommand.MESSAGE_DUPLICATE_ENTRY, () -> addCommand.execute(modelStub));
-    //    }
+    @Test
+    public void execute_duplicateProject_throwsCommandException() {
+        Project validProject = new ProjectBuilder().build();
+        AddProjectCommand addCommand = new AddProjectCommand(validProject);
+        ModelStub modelStub = new ModelStubWithProject(validProject);
+        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, MESSAGE_TEXT_PROJECT);
+        assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
+    }
 
     @Test
     public void equals() {
@@ -183,6 +185,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void updateOrder(SortType sortType, boolean isAscending) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<TrackedItem> getRunningTimers() {
             throw new AssertionError("This method should not be called.");
         }
@@ -198,6 +205,21 @@ public class AddCommandTest {
         }
 
         @Override
+        public void rescheduleReminder() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeReminder(Project project) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeReminder(Project project, Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public BooleanProperty isReminderEmpty() {
             throw new AssertionError("This method should not be called.");
         }
@@ -208,7 +230,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void removeReminder() {
+        public void removeReminderShown() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -239,11 +261,6 @@ public class AddCommandTest {
 
         @Override
         public Project getCurrentProject() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void viewAll() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -287,6 +304,20 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        @Override
+        public int getTotalNumberOfItems() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void showOrHideTags() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public BooleanProperty getIsTagsVisible() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -339,12 +370,13 @@ public class AddCommandTest {
         private Project currentProject = null;
         private Predicate<TrackedItem> currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         private Comparator<TrackedItem> currentComparator = null;
+        private boolean isTagsVisible = true;
         private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(new ProjectBook(),
-                viewMode, currentProject, currentPredicate, currentComparator);
+                viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible);
 
         @Override
         public void commitToHistory() {
-            versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator);
+            versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible);
         }
     }
 }

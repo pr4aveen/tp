@@ -18,15 +18,16 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
 
     /**
      * Constructs a {@code Task}.
-     *  @param name A valid name.
-     * @param description A description of the task.
-     * @param completionStatus A completion status of the task.
+     *
+     * @param name               A valid name.
+     * @param description        A description of the task.
+     * @param completionStatus   A completion status of the task.
      * @param createdDateWrapper A date associated with the creation of the task.
-     * @param deadline A deadline associated with the task.
-     * @param reminder         A reminder associated with the tracked item.
-     * @param tags A set of tags associated to the task.
-     * @param durations A list of {@code WorkDuration} associated with the task.
-     * @param timerWrapper A timerWrapper associated with the task.
+     * @param deadline           A deadline associated with the task.
+     * @param reminder           A reminder associated with the tracked item.
+     * @param tags               A set of tags associated to the task.
+     * @param durations          A list of {@code WorkDuration} associated with the task.
+     * @param timerWrapper       A timerWrapper associated with the task.
      */
     public Task(Name name, Description description, CompletionStatus completionStatus, DateWrapper createdDateWrapper,
                 Deadline deadline, Reminder reminder, Set<Tag> tags, UniqueItemList<WorkDuration> durations,
@@ -38,13 +39,13 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
     /**
      * Constructs a new {@code Task}
      *
-     * @param name A valid name.
-     * @param completionStatus A completion status of the task.
+     * @param name               A valid name.
+     * @param completionStatus   A completion status of the task.
      * @param createdDateWrapper A date associated with the creation of the task.
-     * @param deadline A deadline associated with the task.
-     * @param reminder         A reminder associated with the tracked item.
-     * @param description A description of the task.
-     * @param tags A set of tags associated to the task.
+     * @param deadline           A deadline associated with the task.
+     * @param reminder           A reminder associated with the tracked item.
+     * @param description        A description of the task.
+     * @param tags               A set of tags associated to the task.
      */
     public Task(Name name, Description description, CompletionStatus completionStatus, DateWrapper createdDateWrapper,
                 Deadline deadline, Reminder reminder, Set<Tag> tags) {
@@ -54,7 +55,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
     /**
      * Returns a copy of this task with its timerWrapper started.
      *
-     * @return A copy of this task, but with its timerWrapper started
+     * @return A copy of this task, but with its timerWrapper started.
      */
     @Override
     public Task startTimer() {
@@ -67,7 +68,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
      * Returns a copy of this task with its timerWrapper stopped, then adds the timed duration into
      * the list.
      *
-     * @return A copy of this task, but with its timerWrapper stopped
+     * @return A copy of this task, but with its timerWrapper stopped.
      */
     @Override
     public Task stopTimer() {
@@ -79,11 +80,16 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
                 newDurations, newTimerWrapper);
     }
 
-    /**
-     * Removes the reminder of a project.
-     */
+    @Override
     public Task removeReminder() {
         Reminder newReminder = reminder.remove();
+        return new Task(name, description, completionStatus, createdDateWrapper, deadline, newReminder, tags, durations,
+                timerWrapper);
+    }
+
+    @Override
+    public Task updateExpiredReminder() {
+        Reminder newReminder = reminder.updateExpired();
         return new Task(name, description, completionStatus, createdDateWrapper, deadline, newReminder, tags, durations,
                 timerWrapper);
     }

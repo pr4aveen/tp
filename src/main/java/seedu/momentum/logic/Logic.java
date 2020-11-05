@@ -15,6 +15,8 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.logic.statistic.StatisticGenerator;
 import seedu.momentum.model.ReadOnlyProjectBook;
+import seedu.momentum.model.ViewMode;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 
@@ -33,16 +35,16 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
-     * Returns true if the reminder is empty, false otherwise.
+     * Returns true if there is no reminder to display, false otherwise.
      *
-     * @return the boolean.
+     * @return A boolean value that can be observed for changes.
      */
     BooleanProperty isReminderEmpty();
 
     /**
      * Returns the string representation of the reminder.
      *
-     * @return the reminder.
+     * @return A String representing the reminder, and can be observed for changes.
      */
     StringProperty getReminder();
 
@@ -54,7 +56,7 @@ public interface Logic {
     ReadOnlyProjectBook getProjectBook();
 
     /**
-     * Returns an unmodifiable view of the filtered list of tracked items.
+     * Returns an unmodifiable view of the items to be displayed in the UI.
      */
     ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList();
 
@@ -84,24 +86,39 @@ public interface Logic {
     GuiThemeSettings getGuiThemeSettings();
 
     /**
-     * Set the user prefs' GUI theme settings.
-     */
-    void setGuiThemeSettings(GuiThemeSettings guiThemeSettings);
-
-    /**
-     * Returns a set of currently visible tags.
+     * Returns a set of all the tags in the items being displayed.
      */
     Set<Tag> getVisibleTags();
 
     /**
-     * Return the user prefs' statistic timeframe settings.
+     * Returns an observable boolean value representing whether tags are visible.
+     *
+     * @return true if tags is visible, false otherwise.
+     */
+    BooleanProperty getIsTagsVisible();
+
+    /**
+     * Returns the user prefs' statistic timeframe settings.
      */
     StatisticTimeframeSettings getStatisticTimeframeSettings();
 
     /**
-     * Set the user prefs' statistic timeframe settings.
+     * Returns the statistic manager.
      */
-    void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings);
-
     StatisticGenerator getStatistic();
+
+    /**
+     * Returns the total number of both visible and invisble items in the current project/task.
+     */
+    int getTotalNumberOfItems();
+
+    /**
+     * Returns the current view mode.
+     */
+    ViewMode getViewMode();
+
+    /**
+     * Returns the project that is currently displayed if the application is in the task view.
+     */
+    Project getCurrentProject();
 }

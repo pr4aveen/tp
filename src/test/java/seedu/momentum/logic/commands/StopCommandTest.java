@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.logic.commands.CommandTestUtil.showProjectAtIndex;
-import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
-import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND_PROJECT;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import java.time.temporal.ChronoUnit;
@@ -33,15 +33,15 @@ public class StopCommandTest {
     public void execute_validIndexUnfilteredList_success() {
         Clock.initManual(TypicalTimes.DAY);
 
-        TrackedItem trackedItemToStop = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
+        TrackedItem trackedItemToStop = model.getDisplayList().get(INDEX_FIRST.getZeroBased());
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStop.startTimer();
         expectedModel.setTrackedItem(trackedItemToStop, startedTrackedItem);
 
-        StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST_PROJECT);
+        StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
-                INDEX_FIRST_PROJECT.getOneBased(), 60);
+                INDEX_FIRST.getOneBased(), 60);
         model.setTrackedItem(trackedItemToStop, startedTrackedItem);
 
         Clock.advance(1, ChronoUnit.HOURS);
@@ -64,7 +64,7 @@ public class StopCommandTest {
 
     @Test
     public void execute_noTimer_throwsCommandException() {
-        StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST_PROJECT);
+        StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST);
 
         assertCommandFailure(stopCommand, model, StopCommand.MESSAGE_NO_TIMER_ERROR);
     }
@@ -73,12 +73,12 @@ public class StopCommandTest {
     public void execute_validIndexFilteredList_success() {
         Clock.initManual(TypicalTimes.DAY);
 
-        showProjectAtIndex(model, INDEX_FIRST_PROJECT);
+        showProjectAtIndex(model, INDEX_FIRST);
 
-        TrackedItem trackedItemToStop = model.getDisplayList().get(INDEX_FIRST_PROJECT.getZeroBased());
-        StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST_PROJECT);
+        TrackedItem trackedItemToStop = model.getDisplayList().get(INDEX_FIRST.getZeroBased());
+        StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
-                INDEX_FIRST_PROJECT.getOneBased(), 60);
+                INDEX_FIRST.getOneBased(), 60);
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStop.startTimer();
@@ -92,7 +92,7 @@ public class StopCommandTest {
         expectedModel.setTrackedItem(startedTrackedItem, stoppedTrackedItem);
         expectedModel.commitToHistory();
 
-        showProjectAtIndex(expectedModel, INDEX_FIRST_PROJECT);
+        showProjectAtIndex(expectedModel, INDEX_FIRST);
 
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
         Clock.reset();
@@ -100,9 +100,9 @@ public class StopCommandTest {
 
     @Test
     public void execute_invalidIndexFilteredList_throwsCommandException() {
-        showProjectAtIndex(model, INDEX_FIRST_PROJECT);
+        showProjectAtIndex(model, INDEX_FIRST);
 
-        Index outOfBoundIndex = INDEX_SECOND_PROJECT;
+        Index outOfBoundIndex = INDEX_SECOND;
         // ensures that outOfBoundIndex is still in bounds of project book list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getProjectBook().getTrackedItemList().size());
 
@@ -113,14 +113,14 @@ public class StopCommandTest {
 
     @Test
     public void equals() {
-        StopProjectCommand stopFirstCommand = new StopProjectCommand(INDEX_FIRST_PROJECT);
-        StopProjectCommand stopSecondCommand = new StopProjectCommand(INDEX_SECOND_PROJECT);
+        StopProjectCommand stopFirstCommand = new StopProjectCommand(INDEX_FIRST);
+        StopProjectCommand stopSecondCommand = new StopProjectCommand(INDEX_SECOND);
 
         // same object -> returns true
         assertTrue(stopFirstCommand.equals(stopFirstCommand));
 
         // same values -> returns true
-        StopCommand stopFirstCommandCopy = new StopProjectCommand(INDEX_FIRST_PROJECT);
+        StopCommand stopFirstCommandCopy = new StopProjectCommand(INDEX_FIRST);
         assertTrue(stopFirstCommand.equals(stopFirstCommandCopy));
 
         // different types -> returns false

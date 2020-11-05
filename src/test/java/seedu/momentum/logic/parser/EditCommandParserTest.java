@@ -31,9 +31,9 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST_PROJECT;
-import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND_PROJECT;
-import static seedu.momentum.testutil.TypicalIndexes.INDEX_THIRD_PROJECT;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND;
+import static seedu.momentum.testutil.TypicalIndexes.INDEX_THIRD;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import org.junit.jupiter.api.Test;
@@ -120,7 +120,7 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_allFieldsSpecified_success() {
-        Index targetIndex = INDEX_SECOND_PROJECT;
+        Index targetIndex = INDEX_SECOND;
         String userInput = targetIndex.getOneBased() + TAG_DESC_HUSBAND + NAME_DESC_AMY + DESCRIPTION_DESC_AMY
                 + COMPLETION_STATUS_DESC_BOB + DEADLINE_DATE_DESC_AMY + DEADLINE_TIME_DESC_AMY
                 + REMINDER_DESC_AMY + TAG_DESC_FRIEND;
@@ -152,7 +152,7 @@ public class EditCommandParserTest {
     @Test
     public void parse_oneFieldSpecified_success() {
         // name
-        Index targetIndex = INDEX_THIRD_PROJECT;
+        Index targetIndex = INDEX_THIRD;
         String userInput = targetIndex.getOneBased() + NAME_DESC_AMY;
         EditCommand.EditTrackedItemDescriptor descriptor =
                 new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_AMY).build();
@@ -200,7 +200,7 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_multipleRepeatedFields_acceptsLast() {
-        Index targetIndex = INDEX_FIRST_PROJECT;
+        Index targetIndex = INDEX_FIRST;
         String userInput = targetIndex.getOneBased() + DESCRIPTION_DESC_AMY + TAG_DESC_FRIEND
                 + DESCRIPTION_DESC_AMY + TAG_DESC_FRIEND + DESCRIPTION_DESC_BOB + TAG_DESC_HUSBAND;
 
@@ -232,7 +232,7 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_resetTags_success() {
-        Index targetIndex = INDEX_THIRD_PROJECT;
+        Index targetIndex = INDEX_THIRD;
         String userInput = targetIndex.getOneBased() + TAG_EMPTY;
 
         EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder().withTags().build();

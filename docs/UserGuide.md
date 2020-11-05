@@ -505,10 +505,10 @@ Result: Sets a dark theme to the GUI and changes the statistics pane to show the
 ## Clear All Projects/Tasks : `clear`
 Removes all projects and tasks in Momentum.
 
-:::danger
+<div markdown="block" class="alert alert-danger">
 :warning: **Warning**
 This will remove **everything** in Momentum, including all saved data.
-:::
+</div>
 
 Format: `clear`
 
@@ -531,10 +531,10 @@ Format: `show [r/]`
 Example: `show r/`
 Result: Hides the Reminder component of the sidebar.
 
-:::danger
+<div markdown="block" class="alert alert-danger">
 :warning: **Warning**
 A reminder that has been dismissed cannot be shown again.
-:::
+</div>
 
 ## Exiting the Program : `exit`
 All project, task and timer data are saved automatically after every command. There is no need to save manually.
