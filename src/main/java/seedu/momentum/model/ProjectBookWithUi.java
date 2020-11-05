@@ -57,4 +57,14 @@ public class ProjectBookWithUi extends ProjectBook {
         return userPrefs;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other) && (other == this // short circuit if same object
+                || (other instanceof ProjectBookWithUi // instanceof handles nulls
+                && viewMode.equals(((ProjectBookWithUi) other).getViewMode())
+                && ((project == null && ((ProjectBookWithUi) other).getProject() == null)
+                || (project.equals(((ProjectBookWithUi) other).getProject())))
+                && isTagsVisible == ((ProjectBookWithUi) other).isTagsVisible()));
+        //&& predicate.equals(((ProjectBookWithUi) other).getPredicate())));
+    }
 }

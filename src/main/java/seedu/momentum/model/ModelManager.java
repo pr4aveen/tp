@@ -28,6 +28,7 @@ import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.logic.SettingsUpdateManager;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.CompletionStatusCompare;
 import seedu.momentum.model.project.comparators.CreatedDateCompare;
@@ -49,12 +50,12 @@ public class ModelManager implements Model {
     private SortType currentSortType;
     private boolean isCurrentSortAscending;
     private boolean isCurrentSortByCompletionStatus;
-    private BooleanProperty isTagsVisible;
+    private final BooleanProperty isTagsVisible;
     private ViewMode viewMode;
     private Project currentProject;
     private ObservableList<TrackedItem> itemList;
     private Comparator<TrackedItem> currentComparator;
-    private ObjectProperty<ObservableList<TrackedItem>> displayList;
+    private final ObjectProperty<ObservableList<TrackedItem>> displayList;
     private UserPrefs userPrefs;
 
     /**
@@ -79,7 +80,7 @@ public class ModelManager implements Model {
 
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
                 currentComparator, isTagsVisible.get(), userPrefs);
-        this.reminderManager = new ReminderManager(this.versionedProjectBook);
+        this.reminderManager = new ReminderManager(this);
         this.itemList = this.versionedProjectBook.getTrackedItemList();
         this.displayList = new SimpleObjectProperty<>(this.itemList);
 
@@ -88,6 +89,7 @@ public class ModelManager implements Model {
         rescheduleReminders();
         viewProjects();
         updateRunningTimers();
+
     }
 
     public ModelManager() {
@@ -221,7 +223,7 @@ public class ModelManager implements Model {
         versionedProjectBook.setTrackedItem(target, editedTrackedItem);
         if (currentProject != null && currentProject.isSameAs(target)) {
             currentProject = (Project) editedTrackedItem;
-            resetUi(viewMode, currentProject);
+            resetUi(viewMode);
         }
         rescheduleReminders();
         updateOrder(currentSortType, isCurrentSortAscending);
@@ -250,22 +252,6 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         currentPredicate = predicate;
         updateDisplayList();
-    }
-
-    @Override
-    public void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
-        requireAllNonNull(sortType, isAscending, changeSortByCompletionStatus);
-        isCurrentSortAscending = isAscending;
-        if (changeSortByCompletionStatus) {
-            isCurrentSortByCompletionStatus = !isCurrentSortByCompletionStatus;
-        }
-        currentComparator = getComparator(sortType, isAscending, isCurrentSortByCompletionStatus);
-        updateDisplayList();
-    }
-
-    @Override
-    public void updateOrder(SortType sortType, boolean isAscending) {
-        updateOrder(sortType, isAscending, false);
     }
 
     @Override
@@ -301,12 +287,11 @@ public class ModelManager implements Model {
     /**
      * Update view to task view with specific predicate and comparator.
      */
-    private void viewTasksMaintainState(Project project) {
-        requireNonNull(project);
-        currentProject = project;
+    private void viewTasksMaintainState() {
+        requireNonNull(currentProject);
         viewMode = ViewMode.TASKS;
         LOGGER.log(Level.INFO, "View mode changed to task view");
-        itemList = project.getTaskList();
+        itemList = currentProject.getTaskList();
         updateDisplayList();
     }
 
@@ -335,8 +320,14 @@ public class ModelManager implements Model {
 
     //=========== Reminders =============================================================
 
+    @Override
     public void rescheduleReminders() {
         reminderManager.rescheduleReminder();
+    }
+
+    @Override
+    public void rescheduleReminder() {
+        this.versionedProjectBook.rescheduleReminder(reminderManager);
     }
 
     @Override
@@ -350,8 +341,18 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void removeReminder() {
+    public void removeReminderShown() {
         reminderManager.removeReminder();
+    }
+
+    @Override
+    public void removeReminder(Project project) {
+        setTrackedItem(project, this.versionedProjectBook.removeReminder(project));
+    }
+
+    @Override
+    public void removeReminder(Project project, Task task) {
+        setTrackedItem(project, this.versionedProjectBook.removeReminder(project, task));
     }
 
     //=========== Timers =============================================================
@@ -403,48 +404,24 @@ public class ModelManager implements Model {
     @Override
     public void undoCommand() {
 
-        // extract timer related details of ProjectBook version before undo
-        currentProject = versionedProjectBook.getCurrentProject();
-
+        assert canUndoCommand();
         versionedProjectBook.undo();
-        Project newProject = versionedProjectBook.getCurrentProject();
 
         // extract view mode details from ProjectBook version after undo
         viewMode = versionedProjectBook.getCurrentViewMode();
-
+        currentProject = versionedProjectBook.getCurrentProject();
         currentPredicate = versionedProjectBook.getCurrentPredicate();
-
         currentComparator = versionedProjectBook.getCurrentComparator();
 
-        resetUi(viewMode, newProject);
-    }
+        resetUi(viewMode);
 
-    @Override
-    public void resetUi(ViewMode viewMode, Project project) {
-        requireNonNull(viewMode);
-
-        isTagsVisible.setValue(versionedProjectBook.isTagsVisible());
-        SettingsUpdateManager.updateApplicationSettings(versionedProjectBook.getUserPrefs());
-
-        switch (viewMode) {
-        case PROJECTS:
-            viewProjectsMaintainState();
-            LOGGER.log(Level.INFO, "View mode changed to project view");
-            break;
-        case TASKS:
-            assert project != null;
-            viewTasksMaintainState(project);
-            LOGGER.log(Level.INFO, "View mode changed to task view");
-            break;
-        default:
-            break;
-        }
-
+        rescheduleReminders();
     }
 
     @Override
     public void redoCommand() {
 
+        assert canRedoCommand();
         versionedProjectBook.redo();
 
         // extract both timer related and ViewMode details from ProjectBook version after redo
@@ -453,10 +430,49 @@ public class ModelManager implements Model {
         currentPredicate = versionedProjectBook.getCurrentPredicate();
         currentComparator = versionedProjectBook.getCurrentComparator();
 
-        resetUi(viewMode, currentProject);
+        resetUi(viewMode);
+
+        rescheduleReminders();
+    }
+
+    @Override
+    public void resetUi(ViewMode viewMode) {
+        requireNonNull(viewMode);
+
+        isTagsVisible.setValue(versionedProjectBook.isTagsVisible());
+        SettingsUpdateManager.updateApplicationSettings(versionedProjectBook.getUserPrefs());
+
+        switch (viewMode) {
+        case PROJECTS:
+            viewProjectsMaintainState();
+            break;
+        case TASKS:
+            assert currentProject != null;
+            viewTasksMaintainState();
+            break;
+        default:
+            break;
+        }
+
     }
 
     //=========== Sorting ================================================================================
+
+    @Override
+    public void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
+        requireAllNonNull(sortType, isAscending, changeSortByCompletionStatus);
+        isCurrentSortAscending = isAscending;
+        if (changeSortByCompletionStatus) {
+            isCurrentSortByCompletionStatus = !isCurrentSortByCompletionStatus;
+        }
+        currentComparator = getComparator(sortType, isAscending, isCurrentSortByCompletionStatus);
+        updateDisplayList();
+    }
+
+    @Override
+    public void updateOrder(SortType sortType, boolean isAscending) {
+        updateOrder(sortType, isAscending, false);
+    }
 
     /**
      * Sets the order of the list of tracked items according to given {@code sortType} and {@code isAscending}.

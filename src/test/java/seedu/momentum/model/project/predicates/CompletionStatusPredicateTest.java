@@ -30,8 +30,7 @@ public class CompletionStatusPredicateTest {
     @Test
     public void constructor_assertionError() {
         // Multiple keywords -> assertion error
-        assertThrows(AssertionError.class, () -> new CompletionStatusPredicate(MULTIPLE_KEYWORDS));
-        assertThrows(AssertionError.class, () -> new CompletionStatusPredicate(MULTIPLE_KEYWORDS));
+        assertThrows(IllegalArgumentException.class, () -> new CompletionStatusPredicate(MULTIPLE_KEYWORDS));
     }
 
     @Test
@@ -58,7 +57,6 @@ public class CompletionStatusPredicateTest {
 
         // different predicate -> returns false
         assertFalse(isCompletedPredicate.equals(isIncompletePredicate));
-        assertFalse(isCompletedPredicate.equals(isIncompletePredicate));
     }
 
     @Test
@@ -68,10 +66,5 @@ public class CompletionStatusPredicateTest {
 
         assertFalse(isIncompletePredicate.test(BENSON));
         assertTrue(isCompletedPredicate.test(BENSON));
-
-        // No matching keyword -> return false
-        CompletionStatusPredicate noMatchingKeywordsPredicate = new CompletionStatusPredicate(NO_MATCHING_KEYWORD);
-        assertFalse(noMatchingKeywordsPredicate.test(ALICE));
-
     }
 }

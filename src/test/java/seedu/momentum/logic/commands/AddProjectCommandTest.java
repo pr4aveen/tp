@@ -33,6 +33,7 @@ import seedu.momentum.model.VersionedProjectBook;
 import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
@@ -205,6 +206,21 @@ public class AddProjectCommandTest {
         }
 
         @Override
+        public void rescheduleReminder() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeReminder(Project project) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeReminder(Project project, Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public BooleanProperty isReminderEmpty() {
             throw new AssertionError("This method should not be called.");
         }
@@ -215,7 +231,7 @@ public class AddProjectCommandTest {
         }
 
         @Override
-        public void removeReminder() {
+        public void removeReminderShown() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -275,7 +291,7 @@ public class AddProjectCommandTest {
         }
 
         @Override
-        public void resetUi(ViewMode viewMode, Project project) {
+        public void resetUi(ViewMode viewMode) {
             throw new AssertionError("This method should not be called.");
         }
 

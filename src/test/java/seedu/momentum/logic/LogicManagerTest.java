@@ -1,20 +1,25 @@
 package seedu.momentum.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_PROJECT_DISPLAYED_INDEX;
 import static seedu.momentum.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.momentum.logic.commands.CommandTestUtil.DESCRIPTION_DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.AMY;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import seedu.momentum.commons.core.Clock;
+import seedu.momentum.commons.core.ThreadWrapper;
 import seedu.momentum.logic.commands.AddCommand;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.ListCommand;
@@ -22,6 +27,7 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
+import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
@@ -90,10 +96,40 @@ public class LogicManagerTest {
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }
 
+    private void triggerReminder() throws CommandException, ParseException {
+        ThreadWrapper.setIsRunningOnPlatform(false);
+
+        Model actualModel = new ModelManager(new ProjectBook(), new UserPrefs());
+        JsonProjectBookStorage projectBookStorage =
+                new JsonProjectBookStorage(temporaryFolder.resolve("projectBook.json"));
+        JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
+        StorageManager storage = new StorageManager(projectBookStorage, userPrefsStorage);
+        logic = new LogicManager(actualModel, storage);
+
+        String dateTimeStr = Clock.now().plus(200, ChronoUnit.MILLIS).toString();
+        String addCommand = AddCommand.COMMAND_WORD + " " + NAME_DESC_AMY + " " + PREFIX_REMINDER + dateTimeStr;
+        logic.execute(addCommand);
+    }
+
+    @Test
+    public void isReminderEmpty() {
+        assertTrue(logic.isReminderEmpty().get());
+    }
+
+    @Test
+    public void getReminder() throws CommandException, InterruptedException {
+        assertEquals("", logic.getReminder().get());
+    }
+
     @Test
     public void getFilteredProjectList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () ->
                 logic.getObservableDisplayList().get().remove(0));
+    }
+
+    @Test
+    public void getIsTagsVisible() {
+        assertTrue(logic.getIsTagsVisible().get());
     }
 
     /**
@@ -101,10 +137,11 @@ public class LogicManagerTest {
      * - no exceptions are thrown <br>
      * - the feedback message is equal to {@code expectedMessage} <br>
      * - the internal model manager state is the same as that in {@code expectedModel} <br>
+     *
      * @see #assertCommandFailure(String, Class, String, Model)
      */
     private void assertCommandSuccess(String inputCommand, String expectedMessage,
-            Model expectedModel) throws CommandException, ParseException {
+                                      Model expectedModel) throws CommandException, ParseException {
         CommandResult result = logic.execute(inputCommand);
         assertEquals(expectedMessage, result.getFeedbackToUser());
         assertEquals(expectedModel, model);
@@ -112,6 +149,7 @@ public class LogicManagerTest {
 
     /**
      * Executes the command, confirms that a ParseException is thrown and that the result message is correct.
+     *
      * @see #assertCommandFailure(String, Class, String, Model)
      */
     private void assertParseException(String inputCommand, String expectedMessage) {
@@ -120,6 +158,7 @@ public class LogicManagerTest {
 
     /**
      * Executes the command, confirms that a CommandException is thrown and that the result message is correct.
+     *
      * @see #assertCommandFailure(String, Class, String, Model)
      */
     private void assertCommandException(String inputCommand, String expectedMessage) {
@@ -128,10 +167,11 @@ public class LogicManagerTest {
 
     /**
      * Executes the command, confirms that the exception is thrown and that the result message is correct.
+     *
      * @see #assertCommandFailure(String, Class, String, Model)
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
-            String expectedMessage) {
+                                      String expectedMessage) {
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedModel);
     }
@@ -141,10 +181,11 @@ public class LogicManagerTest {
      * - the {@code expectedException} is thrown <br>
      * - the resulting error message is equal to {@code expectedMessage} <br>
      * - the internal model manager state is the same as that in {@code expectedModel} <br>
+     *
      * @see #assertCommandSuccess(String, String, Model)
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
-            String expectedMessage, Model expectedModel) {
+                                      String expectedMessage, Model expectedModel) {
         assertThrows(expectedException, expectedMessage, () -> logic.execute(inputCommand));
         assertEquals(expectedModel, model);
     }
