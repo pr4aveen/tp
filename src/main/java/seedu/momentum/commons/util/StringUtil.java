@@ -90,4 +90,26 @@ public class StringUtil {
             return false;
         }
     }
+
+    /**
+     * Formats a value in minutes into hr:min format.
+     *
+     * @param value An amount of time in minutes.
+     * @return The formated string
+     */
+    public static String formatMinutesToString(double value) {
+        String output = "";
+        int hours = (int) Math.floor(value / 60);
+        int minutes = (int) value % 60;
+
+        if (hours > 0) {
+            output += String.format("%d hr ", hours);
+        }
+
+        if (minutes > 0) {
+            output += String.format("%d min", minutes);
+        }
+
+        return output;
+    }
 }

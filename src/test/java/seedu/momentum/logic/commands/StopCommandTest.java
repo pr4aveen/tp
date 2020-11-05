@@ -41,7 +41,7 @@ public class StopCommandTest {
 
         StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
-                INDEX_FIRST.getOneBased(), 60);
+                INDEX_FIRST.getOneBased(), "1 hr ");
         model.setTrackedItem(trackedItemToStop, startedTrackedItem);
 
         Clock.advance(1, ChronoUnit.HOURS);
@@ -78,7 +78,7 @@ public class StopCommandTest {
         TrackedItem trackedItemToStop = model.getDisplayList().get(INDEX_FIRST.getZeroBased());
         StopCommand stopCommand = new StopProjectCommand(INDEX_FIRST);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
-                INDEX_FIRST.getOneBased(), 60);
+                INDEX_FIRST.getOneBased(), "1 hr ");
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStop.startTimer();

@@ -3,6 +3,7 @@ package seedu.momentum.ui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
+import seedu.momentum.commons.util.StringUtil;
 import seedu.momentum.logic.statistic.StatisticEntry;
 
 /**
@@ -27,23 +28,7 @@ public class StatCard extends UiPart<Region> {
         super(FXML);
         this.statisticEntry = statisticEntry;
         statLabel.setText(statisticEntry.getLabel());
-        statValue.setText(formatToString(statisticEntry.getValue()));
-    }
-
-    private String formatToString(double value) {
-        String output = "";
-        int hours = (int) Math.floor(value / 60);
-        int minutes = (int) value % 60;
-
-        if (hours > 0) {
-            output += String.format("%d hr ", hours);
-        }
-
-        if (minutes > 0) {
-            output += String.format("%d min", minutes);
-        }
-
-        return output;
+        statValue.setText(StringUtil.formatMinutesToString(statisticEntry.getValue()));
     }
 
     @Override

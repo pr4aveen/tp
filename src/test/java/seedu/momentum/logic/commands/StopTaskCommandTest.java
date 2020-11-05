@@ -50,7 +50,7 @@ public class StopTaskCommandTest {
 
         StopCommand stopCommand = new StopTaskCommand(INDEX_FIRST, parentProject);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
-                INDEX_FIRST.getOneBased(), 60);
+                INDEX_FIRST.getOneBased(), "1 hr ");
         Project newProject = parentProject.setTask(trackedItemToStop, startedTrackedItem);
         model.setTrackedItem(parentProject, newProject);
 
@@ -96,7 +96,7 @@ public class StopTaskCommandTest {
         TrackedItem trackedItemToStop = model.getDisplayList().get(INDEX_FIRST.getZeroBased());
         StopCommand stopCommand = new StopTaskCommand(INDEX_FIRST, parentProject);
         String expectedMessage = String.format(StopCommand.MESSAGE_STOP_TIMER_SUCCESS,
-                INDEX_FIRST.getOneBased(), 60);
+                INDEX_FIRST.getOneBased(), "1 hr ");
 
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         Project expectedProject = (Project) expectedModel.getDisplayList().get(INDEX_FIRST.getZeroBased());
