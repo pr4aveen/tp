@@ -74,5 +74,9 @@ Given below are my contributions to the project.
     * Added user cases and user stories for time tracking features.
     
 * **Community**:
-  * PRs reviewed (with non-trivial review comments): [\#12](), [\#32](), [\#19](), [\#42]()
-  * Reported bugs and suggestions for other teams in the class (examples: [1](), [2](), [3]())
+  * PRs reviewed (with non-trivial review comments):
+  [1](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/24)
+  [2](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/45)
+  [3](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/38)
+  * Reported bugs and suggestions for other teams in the class (examples: [PED](https://github.com/boundtotheearth/ped/issues))
+  
