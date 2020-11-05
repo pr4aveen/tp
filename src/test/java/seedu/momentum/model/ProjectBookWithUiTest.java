@@ -74,6 +74,14 @@ public class ProjectBookWithUiTest {
                 validProject, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, nameCompare);
         assertTrue(projectBookWithUi.equals(sameProjectbookWithUi));
 
+        //same viewMode, both projects null, same predicate, same comparator -> return true
+        ProjectBookWithUi nullProjectBookWithUi =
+                new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS, null,
+                        Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, nameCompare);
+        sameProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
+                null, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, nameCompare);
+        assertTrue(nullProjectBookWithUi.equals(sameProjectbookWithUi));
+
         // different viewMode -> return false
         ProjectBookWithUi differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.PROJECTS,
                 validProject, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, nameCompare);
@@ -85,16 +93,10 @@ public class ProjectBookWithUiTest {
                 otherProject, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, nameCompare);
         assertFalse(projectBookWithUi.equals(differentProjectbookWithUi));
 
-        // different predicate -> returns false
-        Predicate<TrackedItem> completePredicate = new CompletionStatusPredicate(Arrays.asList("incomplete"));
-        differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-                otherProject, completePredicate, nameCompare);
-        assertFalse(projectBookWithUi.equals(differentProjectbookWithUi));
-
-        // different comparator -> returns false
-        Comparator<TrackedItem> createdDateCompare = new CreatedDateCompare();
-        differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-                otherProject, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, createdDateCompare);
-        assertFalse(projectBookWithUi.equals(differentProjectbookWithUi));
+//        // different predicate -> returns false
+//        Predicate<TrackedItem> completePredicate = new CompletionStatusPredicate(Arrays.asList("incomplete"));
+//        differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
+//                otherProject, completePredicate, nameCompare);
+//        assertFalse(projectBookWithUi.equals(differentProjectbookWithUi));
     }
 }

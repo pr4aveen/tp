@@ -398,20 +398,17 @@ public class ModelManager implements Model {
     @Override
     public void undoCommand() {
 
-        // extract timer related details of ProjectBook version before undo
-        currentProject = versionedProjectBook.getCurrentProject();
+        assert canUndoCommand();
 
         versionedProjectBook.undo();
-        Project newProject = versionedProjectBook.getCurrentProject();
 
         // extract view mode details from ProjectBook version after undo
         viewMode = versionedProjectBook.getCurrentViewMode();
-
+        currentProject = versionedProjectBook.getCurrentProject();
         currentPredicate = versionedProjectBook.getCurrentPredicate();
-
         currentComparator = versionedProjectBook.getCurrentComparator();
 
-        resetUi(viewMode, newProject);
+        resetUi(viewMode, currentProject);
     }
 
     @Override
@@ -436,6 +433,8 @@ public class ModelManager implements Model {
 
     @Override
     public void redoCommand() {
+
+        assert canRedoCommand();
 
         versionedProjectBook.redo();
 

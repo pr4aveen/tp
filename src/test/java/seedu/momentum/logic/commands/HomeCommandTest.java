@@ -26,6 +26,8 @@ class HomeCommandTest {
     @Test
     public void execute_taskView_showsProjectList() {
         model.viewTasks(getProjectAtIndex(model, INDEX_FIRST));
+        expectedModel.viewTasks(getProjectAtIndex(expectedModel, INDEX_FIRST));
+        expectedModel.viewProjects();
         expectedModel.commitToHistory();
         assertCommandSuccess(new HomeCommand(), model, HomeCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT, expectedModel);
     }

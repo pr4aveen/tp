@@ -39,12 +39,4 @@ public class NameCompareTest {
 
     }
 
-    @Test
-    public void equals() {
-        // same object
-        assertEquals(NAME_COMPARATOR, NAME_COMPARATOR);
-
-        // different NameCompare objects
-        assertEquals(NAME_COMPARATOR, new NameCompare());
-    }
 }

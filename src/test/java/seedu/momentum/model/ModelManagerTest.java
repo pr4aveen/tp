@@ -24,7 +24,6 @@ import seedu.momentum.testutil.TypicalProjectsOrders;
 
 public class ModelManagerTest {
 
-    private static final Model SORT_MODEL = new ModelManager(getTypicalProjectBook(), new UserPrefs());
     private ModelManager modelManager = new ModelManager();
 
     @Test
@@ -98,29 +97,102 @@ public class ModelManagerTest {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getDisplayList().remove(0));
     }
 
-    //=========== Sorting ================================================================================
+    //=========== Undo/Redo ================================================================================
 
     @Test
+    public void canUndoCommand_cannotUndoCommand_returnsFalse() {
+        // modelManager has just been initialiaed, no history log for undo.
+        assertEquals(modelManager.canUndoCommand(), false);
+    }
+
+    @Test
+    public void canUndoCommand_canUndoCommand_returnsTrue() {
+        modelManager.commitToHistory();
+        assertEquals(modelManager.canUndoCommand(), true);
+    }
+
+    @Test
+    public void canRedoCommand_cannotRedoCommand_returnsFalse() {
+        // modelManager has just been initialiaed, no history log for redo.
+        assertEquals(modelManager.canRedoCommand(), false);
+    }
+
+    @Test
+    public void canRedoCommand_canRedoCommand_returnsTrue() {
+        modelManager.commitToHistory();
+        modelManager.undoCommand();
+        assertEquals(modelManager.canRedoCommand(), true);
+    }
+
+    //=========== Sorting ================================================================================
+
+    /**
+     * This test tests for all sort related methods in ModelManager.
+     */
+    @Test
     public void updateOrder() {
-        // sort by alphabetical, ascending order by no completion status.
-        SORT_MODEL.updateOrder(SortType.ALPHA, true, true);
-        assertEquals(SORT_MODEL.getDisplayList(),
-                TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalAscending());
+
+        Model sortModel = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
         // sort by alphabetical, ascending order by completion status.
-        SORT_MODEL.updateOrder(SortType.ALPHA, true, false);
-        assertEquals(SORT_MODEL.getDisplayList(),
+        sortModel.updateOrder(SortType.ALPHA, true, false);
+        assertEquals(sortModel.getDisplayList(),
                 TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalAscendingCompleted());
 
-        // sort by alphabetical, descending order by no completion status.
-        SORT_MODEL.updateOrder(SortType.ALPHA, false, false);
-        assertEquals(SORT_MODEL.getDisplayList(),
-                TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalDescending());
+        // sort by alphabetical, ascending order by no completion status.
+        sortModel.updateOrder(SortType.ALPHA, true, true);
+        assertEquals(sortModel.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalAscending());
 
         // sort by alphabetical, descending order by completion status.
-        SORT_MODEL.updateOrder(SortType.ALPHA, true, false);
-        assertEquals(SORT_MODEL.getDisplayList(),
+        sortModel.updateOrder(SortType.ALPHA, false, true);
+        assertEquals(sortModel.getDisplayList(),
                 TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalDescendingCompleted());
+
+        // sort by alphabetical, descending order by no completion status.
+        sortModel.updateOrder(SortType.ALPHA, false, true);
+        assertEquals(sortModel.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByAlphabeticalDescending());
+
+        // sort by deadline, ascending order by completion status.
+        sortModel.updateOrder(SortType.DEADLINE, true, true);
+        assertEquals(sortModel.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByDeadlineAscendingCompleted());
+
+        // sort by deadline, ascending order by no completion status.
+        sortModel.updateOrder(SortType.DEADLINE, true, true);
+        assertEquals(sortModel.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByDeadlineAscending());
+
+        // sort by deadline, descending order by completion status.
+        sortModel.updateOrder(SortType.DEADLINE, false, true);
+        assertEquals(sortModel.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByDeadlineDescendingCompleted());
+
+        // sort by deadline, descending order by no completion status.
+        sortModel.updateOrder(SortType.DEADLINE, false, true);
+        assertEquals(sortModel.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByDeadlineDescending());
+
+        // sort by created date, ascending order by completion status.
+        sortModel.updateOrder(SortType.CREATED, true, true);
+        assertEquals(sortModel.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByCreatedDateAscendingCompleted());
+
+        // sort by created date, ascending order by no completion status.
+        sortModel.updateOrder(SortType.CREATED, true, true);
+        assertEquals(sortModel.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByCreatedDateAscending());
+
+        // sort by created date, descending order by completion status.
+        sortModel.updateOrder(SortType.CREATED, false, true);
+        assertEquals(sortModel.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByCreatedDateDescendingCompleted());
+
+        // sort by created date, descending order by no completion status.
+        sortModel.updateOrder(SortType.CREATED, false, true);
+        assertEquals(sortModel.getDisplayList(),
+                TypicalProjectsOrders.getOrderedProjectBookByCreatedDateDescending());
     }
 
     @Test
