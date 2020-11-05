@@ -71,6 +71,9 @@ public class NameContainsKeywordsPredicateTest {
         // ContainsKeywordPredicate, different subtype -> returns false
         fourthPredicate = new DescriptionContainsKeywordsPredicate(FindType.ALL, FIRST_KEYWORD_LIST);
         assertFalse(thirdPredicate.equals(fourthPredicate));
+
+        // ContainsKeywordPredicate, equal to itself -> returns true
+        assertTrue(thirdPredicate.equals(thirdPredicate));
     }
 
     @Test

@@ -72,6 +72,9 @@ public class CompletionStatusPredicateTest {
         secondPredicate = new DescriptionContainsKeywordsPredicate(FindType.ALL, COMPLETED_KEYWORD);
         assertFalse(firstPredicate.equals(secondPredicate));
 
+        // ContainsKeywordPredicate, equal to itself -> returns true
+        assertTrue(firstPredicate.equals(firstPredicate));
+
     }
 
     @Test
