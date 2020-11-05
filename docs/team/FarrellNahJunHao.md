@@ -79,4 +79,3 @@ Given below are my contributions to the project.
   [2](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/45)
   [3](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/38)
   * Reported bugs and suggestions for other teams in the class (examples: [PED](https://github.com/boundtotheearth/ped/issues))
-  
