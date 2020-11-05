@@ -127,8 +127,7 @@ public class Deadline implements Comparable<Deadline> {
      * @return the formatted deadline
      */
     public String getFormattedDeadline() {
-        return isEmpty() ? "No deadline set"
-                : this.dateWrapper.map(DateWrapper::getFormatted).orElse("")
+        return this.dateWrapper.map(DateWrapper::getFormatted).orElse("No deadline set")
                 + this.timeWrapper.map(timeWrapper -> " " + timeWrapper.getFormatted()).orElse("");
     }
 
