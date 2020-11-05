@@ -33,6 +33,8 @@ public abstract class ContainsKeywordPredicate implements Predicate<TrackedItem>
         switch (findType) {
         case ALL:
             return keywords.stream().allMatch(predicate);
+        case NONE:
+            return keywords.stream().noneMatch(predicate);
         case ANY:
             // Fallthrough
         default:

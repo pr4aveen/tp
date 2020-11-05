@@ -25,8 +25,8 @@ public class CompletionStatusPredicate extends ContainsKeywordPredicate {
      *
      * @param keywords list of keywords to check for matches.
      */
-    public CompletionStatusPredicate(List<String> keywords) {
-        super(FindType.ALL, keywords);
+    public CompletionStatusPredicate(FindType findType, List<String> keywords) {
+        super(findType, keywords);
         checkArgument(isValid(keywords));
     }
 
@@ -47,7 +47,12 @@ public class CompletionStatusPredicate extends ContainsKeywordPredicate {
     protected boolean testPredicate(Predicate<String> predicate) {
         requireNonNull(predicate);
         String keyword = keywords.get(0);
-        return predicate.test(keyword);
+        switch (findType) {
+        case NONE:
+            return predicate.negate().test(keyword);
+        default:
+            return predicate.test(keyword);
+        }
     }
 
     @Override
@@ -63,5 +68,4 @@ public class CompletionStatusPredicate extends ContainsKeywordPredicate {
                 || (other instanceof CompletionStatusPredicate // instanceof handles nulls
                 && super.equals(other)); // state check
     }
-
 }

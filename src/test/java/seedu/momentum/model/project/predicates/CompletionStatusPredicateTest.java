@@ -23,14 +23,14 @@ public class CompletionStatusPredicateTest {
     private static final List<String> NO_MATCHING_KEYWORD = Collections.singletonList("asfsfd");
 
     private static final CompletionStatusPredicate isCompletedPredicate =
-            new CompletionStatusPredicate(COMPLETED_KEYWORD);
+            new CompletionStatusPredicate(FindType.ALL, COMPLETED_KEYWORD);
     private static final CompletionStatusPredicate isIncompletePredicate =
-            new CompletionStatusPredicate(INCOMPLETE_KEYWORD);
+            new CompletionStatusPredicate(FindType.ALL, INCOMPLETE_KEYWORD);
 
     @Test
     public void constructor_assertionError() {
         // Multiple keywords -> assertion error
-        assertThrows(IllegalArgumentException.class, () -> new CompletionStatusPredicate(MULTIPLE_KEYWORDS));
+        assertThrows(IllegalArgumentException.class, () -> new CompletionStatusPredicate(FindType.ALL, MULTIPLE_KEYWORDS));
     }
 
     @Test

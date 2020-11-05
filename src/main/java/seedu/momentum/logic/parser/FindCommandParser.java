@@ -72,6 +72,8 @@ public class FindCommandParser implements Parser<FindCommand> {
         requireAllNonNull(findType, predicateList);
         BinaryOperator<Predicate<TrackedItem>> operationType;
         switch (findType) {
+        case NONE:
+            // Find none needs the logical 'and' of individual predicates.
         case ALL:
             operationType = Predicate::and;
             break;
@@ -122,7 +124,7 @@ public class FindCommandParser implements Parser<FindCommand> {
             if (!CompletionStatusPredicate.isValid(keywords)) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
-            predicateList.add(new CompletionStatusPredicate(keywords));
+            predicateList.add(new CompletionStatusPredicate(findType, keywords));
         } else if (prefix.equals(PREFIX_TAG)) {
             predicateList.add(new TagListContainsKeywordPredicate(findType, keywords));
         }
