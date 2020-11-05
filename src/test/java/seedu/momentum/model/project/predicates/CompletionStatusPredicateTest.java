@@ -34,8 +34,8 @@ public class CompletionStatusPredicateTest {
     @Test
     public void constructor_assertionError() {
         // Multiple keywords -> assertion error
-        assertThrows(IllegalArgumentException.class,
-            () -> new CompletionStatusPredicate(FindType.ALL, MULTIPLE_KEYWORDS));
+        assertThrows(IllegalArgumentException.class, () ->
+                new CompletionStatusPredicate(FindType.ALL, MULTIPLE_KEYWORDS));
     }
 
     @Test
