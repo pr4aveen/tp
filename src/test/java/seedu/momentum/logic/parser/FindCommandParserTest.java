@@ -28,49 +28,50 @@ import seedu.momentum.model.project.predicates.TagListContainsKeywordPredicate;
 public class FindCommandParserTest {
 
     private static final String WHITESPACE = "      ";
+    private static final String COMMAND_USAGE_ERROR =
+        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
 
     private final FindCommandParser parser = new FindCommandParser();
     private final Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
     @Test
     public void parse_emptyArg_throwsParseException() {
-        assertParseFailure(parser, WHITESPACE,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+        assertParseFailure(parser, WHITESPACE, COMMAND_USAGE_ERROR, model);
 
-        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE),
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE), COMMAND_USAGE_ERROR, model);
 
-        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE),
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE), COMMAND_USAGE_ERROR, model);
 
-        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE),
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE), COMMAND_USAGE_ERROR, model);
 
-        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE),
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+        assertParseFailure(parser, String.format(" %s%s", PREFIX_NAME, WHITESPACE), COMMAND_USAGE_ERROR, model);
 
         assertParseFailure(parser, String.format(" %s%s %s%s", PREFIX_NAME, WHITESPACE, PREFIX_DESCRIPTION, WHITESPACE),
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+                COMMAND_USAGE_ERROR, model);
     }
 
     @Test
     public void parse_invalidArg_throwsParseException() {
         // invalid match type
-        assertParseFailure(parser, FIND_TYPE + "fail",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+        assertParseFailure(parser, FIND_TYPE + "fail", COMMAND_USAGE_ERROR, model);
 
         // non empty preamble
-        assertParseFailure(parser, "preamble " + PREFIX_NAME + "name",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+        assertParseFailure(parser, "preamble " + PREFIX_NAME + "name", COMMAND_USAGE_ERROR, model);
 
         // prefixes (other than /match) missing
-        assertParseFailure(parser, FIND_TYPE + "all",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+        assertParseFailure(parser, FIND_TYPE + "all", COMMAND_USAGE_ERROR, model);
+
+        System.out.println(String.format("%s%s %s%s %s", FIND_TYPE, "any", PREFIX_COMPLETION_STATUS,
+                CompletionStatusPredicate.COMPLETED_KEYWORD, CompletionStatusPredicate.INCOMPLETE_KEYWORD));
 
         // > 1 keyword for completion status
-        assertParseFailure(parser, String.format("%s %s %s %s %s", FIND_TYPE, "any", PREFIX_COMPLETION_STATUS,
+        assertParseFailure(parser, String.format("%s%s %s%s %s", FIND_TYPE, "any", PREFIX_COMPLETION_STATUS,
                 CompletionStatusPredicate.COMPLETED_KEYWORD, CompletionStatusPredicate.INCOMPLETE_KEYWORD),
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE), model);
+                COMMAND_USAGE_ERROR, model);
+
+        // invalid keyword for completion status
+        assertParseFailure(parser, String.format("%s%s %s%s", FIND_TYPE, "any", PREFIX_COMPLETION_STATUS,
+                "invalid"), COMMAND_USAGE_ERROR, model);
     }
 
     @Test

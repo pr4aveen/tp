@@ -26,11 +26,16 @@ public class CompletionStatusPredicateTest {
             new CompletionStatusPredicate(FindType.ALL, COMPLETED_KEYWORD);
     private static final CompletionStatusPredicate isIncompletePredicate =
             new CompletionStatusPredicate(FindType.ALL, INCOMPLETE_KEYWORD);
+    private static final CompletionStatusPredicate isNegatedCompletedPredicate =
+            new CompletionStatusPredicate(FindType.NONE, COMPLETED_KEYWORD);
+    private static final CompletionStatusPredicate isNegatedIncompletePredicate =
+            new CompletionStatusPredicate(FindType.NONE, INCOMPLETE_KEYWORD);
 
     @Test
     public void constructor_assertionError() {
         // Multiple keywords -> assertion error
-        assertThrows(IllegalArgumentException.class, () -> new CompletionStatusPredicate(FindType.ALL, MULTIPLE_KEYWORDS));
+        assertThrows(IllegalArgumentException.class,
+            () -> new CompletionStatusPredicate(FindType.ALL, MULTIPLE_KEYWORDS));
     }
 
     @Test
@@ -57,6 +62,16 @@ public class CompletionStatusPredicateTest {
 
         // different predicate -> returns false
         assertFalse(isCompletedPredicate.equals(isIncompletePredicate));
+
+        // ContainsKeywordPredicate, same subtype -> returns true
+        ContainsKeywordPredicate firstPredicate = new CompletionStatusPredicate(FindType.ALL, COMPLETED_KEYWORD);
+        ContainsKeywordPredicate secondPredicate = new CompletionStatusPredicate(FindType.ALL, COMPLETED_KEYWORD);
+        assertTrue(firstPredicate.equals(secondPredicate));
+
+        // ContainsKeywordPredicate, different subtype -> returns false
+        secondPredicate = new DescriptionContainsKeywordsPredicate(FindType.ALL, COMPLETED_KEYWORD);
+        assertFalse(firstPredicate.equals(secondPredicate));
+
     }
 
     @Test
@@ -66,5 +81,11 @@ public class CompletionStatusPredicateTest {
 
         assertFalse(isIncompletePredicate.test(BENSON));
         assertTrue(isCompletedPredicate.test(BENSON));
+
+        assertTrue(isNegatedCompletedPredicate.test(ALICE));
+        assertFalse(isNegatedIncompletePredicate.test(ALICE));
+
+        assertFalse(isNegatedCompletedPredicate.test(BENSON));
+        assertTrue(isNegatedIncompletePredicate.test(BENSON));
     }
 }

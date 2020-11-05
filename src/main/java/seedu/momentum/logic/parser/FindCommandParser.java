@@ -32,6 +32,8 @@ import seedu.momentum.model.project.predicates.TagListContainsKeywordPredicate;
 public class FindCommandParser implements Parser<FindCommand> {
 
     public static final String FIND_ARGUMENT_DELIMITER = "\\s+";
+    private static final String FIND_COMMAND_USAGE =
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
 
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand,
@@ -41,14 +43,13 @@ public class FindCommandParser implements Parser<FindCommand> {
      */
     public FindCommand parse(String args, Model model) throws ParseException {
         requireAllNonNull(args, model);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS,
-                        PREFIX_TAG, FIND_TYPE);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
+            args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS, PREFIX_TAG, FIND_TYPE);
 
         Prefix[] prefixesToParse = new Prefix[] {PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS, PREFIX_TAG};
 
         if (!argMultimap.getPreamble().isEmpty() || !anyPrefixPresent(argMultimap, prefixesToParse)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            throw new ParseException(FIND_COMMAND_USAGE);
         }
 
         FindType findType = getMatchType(argMultimap); // only parses find type if the argument exists.
@@ -109,8 +110,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         String args = argMultimap.getValue(prefix).get();
         String trimmedArgs = args.trim();
         if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            throw new ParseException(FIND_COMMAND_USAGE);
         }
 
         List<String> keywords = Arrays.asList(trimmedArgs.split(FIND_ARGUMENT_DELIMITER));
@@ -122,7 +122,7 @@ public class FindCommandParser implements Parser<FindCommand> {
             predicateList.add(new DescriptionContainsKeywordsPredicate(findType, keywords));
         } else if (prefix.equals(PREFIX_COMPLETION_STATUS)) {
             if (!CompletionStatusPredicate.isValid(keywords)) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+                throw new ParseException(FIND_COMMAND_USAGE);
             }
             predicateList.add(new CompletionStatusPredicate(findType, keywords));
         } else if (prefix.equals(PREFIX_TAG)) {
@@ -149,8 +149,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         try {
             return FindType.valueOf(findTypeArgument.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            throw new ParseException(FIND_COMMAND_USAGE);
         }
 
     }

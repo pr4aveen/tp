@@ -47,12 +47,10 @@ public class CompletionStatusPredicate extends ContainsKeywordPredicate {
     protected boolean testPredicate(Predicate<String> predicate) {
         requireNonNull(predicate);
         String keyword = keywords.get(0);
-        switch (findType) {
-        case NONE:
+        if (findType == FindType.NONE) {
             return predicate.negate().test(keyword);
-        default:
-            return predicate.test(keyword);
         }
+        return predicate.test(keyword);
     }
 
     @Override

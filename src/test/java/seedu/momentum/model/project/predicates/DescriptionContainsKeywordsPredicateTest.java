@@ -19,21 +19,22 @@ public class DescriptionContainsKeywordsPredicateTest {
     private static final List<String> NO_MATCHING_KEYWORDS = Arrays.asList("nothing", "matches");
     private static final List<String> ONLY_MATCHES_NAME = Arrays.asList("Alice", "Pauline");
     private static final List<String> ONLY_MATCHES_TAG = Collections.singletonList("friends");
+    private static final List<String> ONLY_MATCHES_COMPLETION_STATUS = Collections.singletonList("incomplete");
+    private static final List<String> FIRST_KEYWORD_LIST = Collections.singletonList("first");
+    private static final List<String> SECOND_KEYWORD_LIST = Arrays.asList("first", "second");
 
     @Test
     public void equals() {
-        List<String> firstPredicateKeywordList = Collections.singletonList("first");
-        List<String> secondPredicateKeywordList = Arrays.asList("first", "second");
 
         DescriptionContainsKeywordsPredicate firstAnyPredicate =
-                new DescriptionContainsKeywordsPredicate(FindType.ANY, firstPredicateKeywordList);
+                new DescriptionContainsKeywordsPredicate(FindType.ANY, FIRST_KEYWORD_LIST);
         DescriptionContainsKeywordsPredicate secondAnyPredicate =
-                new DescriptionContainsKeywordsPredicate(FindType.ANY, secondPredicateKeywordList);
+                new DescriptionContainsKeywordsPredicate(FindType.ANY, SECOND_KEYWORD_LIST);
 
         DescriptionContainsKeywordsPredicate firstAllPredicate =
-                new DescriptionContainsKeywordsPredicate(FindType.ALL, firstPredicateKeywordList);
+                new DescriptionContainsKeywordsPredicate(FindType.ALL, FIRST_KEYWORD_LIST);
         DescriptionContainsKeywordsPredicate secondAllPredicate =
-                new DescriptionContainsKeywordsPredicate(FindType.ALL, secondPredicateKeywordList);
+                new DescriptionContainsKeywordsPredicate(FindType.ALL, SECOND_KEYWORD_LIST);
 
         // same object -> returns true
         assertTrue(firstAnyPredicate.equals(firstAnyPredicate));
@@ -41,10 +42,10 @@ public class DescriptionContainsKeywordsPredicateTest {
 
         // same values -> returns true
         DescriptionContainsKeywordsPredicate firstAnyPredicateCopy =
-                new DescriptionContainsKeywordsPredicate(FindType.ANY, firstPredicateKeywordList);
+                new DescriptionContainsKeywordsPredicate(FindType.ANY, FIRST_KEYWORD_LIST);
         assertTrue(firstAnyPredicate.equals(firstAnyPredicateCopy));
         DescriptionContainsKeywordsPredicate firstAllPredicateCopy =
-                new DescriptionContainsKeywordsPredicate(FindType.ALL, firstPredicateKeywordList);
+                new DescriptionContainsKeywordsPredicate(FindType.ALL, FIRST_KEYWORD_LIST);
         assertTrue(firstAllPredicate.equals(firstAllPredicateCopy));
 
         // different types -> returns false
@@ -62,6 +63,17 @@ public class DescriptionContainsKeywordsPredicateTest {
         // different findType -> returns false
         assertFalse(firstAnyPredicate.equals(firstAllPredicate));
         assertFalse(secondAnyPredicate.equals(secondAllPredicate));
+
+        // ContainsKeywordPredicate, same subtype -> returns true
+        ContainsKeywordPredicate thirdPredicate =
+                new DescriptionContainsKeywordsPredicate(FindType.ALL, FIRST_KEYWORD_LIST);
+        ContainsKeywordPredicate fourthPredicate =
+                new DescriptionContainsKeywordsPredicate(FindType.ALL, FIRST_KEYWORD_LIST);
+        assertTrue(thirdPredicate.equals(fourthPredicate));
+
+        // ContainsKeywordPredicate, different subtype -> returns false
+        fourthPredicate = new NameContainsKeywordsPredicate(FindType.ALL, FIRST_KEYWORD_LIST);
+        assertFalse(thirdPredicate.equals(fourthPredicate));
     }
 
     @Test
@@ -99,10 +111,27 @@ public class DescriptionContainsKeywordsPredicateTest {
         // Mixed-case keywords (All)
         allPredicate = new DescriptionContainsKeywordsPredicate(FindType.ALL, MIXED_CASE_KEYWORDS);
         assertTrue(allPredicate.test(ALICE));
+
+        // One keyword (None)
+        DescriptionContainsKeywordsPredicate nonePredicate =
+                new DescriptionContainsKeywordsPredicate(FindType.NONE, SINGLE_KEYWORD);
+        assertFalse(nonePredicate.test(ALICE));
+
+        // Multiple keywords (None)
+        nonePredicate = new DescriptionContainsKeywordsPredicate(FindType.NONE, MULTIPLE_KEYWORDS);
+        assertFalse(nonePredicate.test(ALICE));
+
+        // Only one matching keyword (None)
+        nonePredicate = new DescriptionContainsKeywordsPredicate(FindType.NONE, ONE_MATCHING_KEYWORD);
+        assertFalse(nonePredicate.test(ALICE));
+
+        // Mixed-case keywords (None)
+        nonePredicate = new DescriptionContainsKeywordsPredicate(FindType.NONE, MIXED_CASE_KEYWORDS);
+        assertFalse(nonePredicate.test(ALICE));
     }
 
     @Test
-    public void test_descriptionDoesNotContainKeywords_returnsFalse() {
+    public void test_descriptionDoesNotContainKeywords() {
         // Non-matching keyword (Any)
         DescriptionContainsKeywordsPredicate anyPredicate =
                 new DescriptionContainsKeywordsPredicate(FindType.ANY, NO_MATCHING_KEYWORDS);
@@ -114,6 +143,10 @@ public class DescriptionContainsKeywordsPredicateTest {
 
         // Keywords match tag, but does not match description (Any)
         anyPredicate = new DescriptionContainsKeywordsPredicate(FindType.ANY, ONLY_MATCHES_TAG);
+        assertFalse(anyPredicate.test(ALICE));
+
+        // Keywords match completion status, but does not match description (Any)
+        anyPredicate = new DescriptionContainsKeywordsPredicate(FindType.ANY, ONLY_MATCHES_COMPLETION_STATUS);
         assertFalse(anyPredicate.test(ALICE));
 
         // Non-matching keyword (All)
@@ -128,5 +161,26 @@ public class DescriptionContainsKeywordsPredicateTest {
         // Keywords match tag, but does not match description (All)
         allPredicate = new DescriptionContainsKeywordsPredicate(FindType.ALL, ONLY_MATCHES_TAG);
         assertFalse(allPredicate.test(ALICE));
+
+        // Keywords match completion status, but does not match description (Any)
+        allPredicate = new DescriptionContainsKeywordsPredicate(FindType.ALL, ONLY_MATCHES_COMPLETION_STATUS);
+        assertFalse(allPredicate.test(ALICE));
+
+        // Non-matching keyword (None)
+        DescriptionContainsKeywordsPredicate nonePredicate =
+                new DescriptionContainsKeywordsPredicate(FindType.NONE, NO_MATCHING_KEYWORDS);
+        assertTrue(nonePredicate.test(ALICE));
+
+        // Keywords match name, but does not match description (None)
+        nonePredicate = new DescriptionContainsKeywordsPredicate(FindType.NONE, ONLY_MATCHES_NAME);
+        assertTrue(nonePredicate.test(ALICE));
+
+        // Keywords match tag, but does not match description (None)
+        nonePredicate = new DescriptionContainsKeywordsPredicate(FindType.NONE, ONLY_MATCHES_TAG);
+        assertTrue(nonePredicate.test(ALICE));
+
+        // Keywords match completion status, but does not match description (None)
+        nonePredicate = new DescriptionContainsKeywordsPredicate(FindType.NONE, ONLY_MATCHES_COMPLETION_STATUS);
+        assertTrue(nonePredicate.test(ALICE));
     }
 }
