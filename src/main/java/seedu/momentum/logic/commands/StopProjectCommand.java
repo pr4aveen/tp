@@ -7,6 +7,7 @@ import java.util.List;
 
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
+import seedu.momentum.commons.util.StringUtil;
 import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
@@ -49,13 +50,15 @@ public class StopProjectCommand extends StopCommand {
         }
 
         TrackedItem newTrackedItem = trackedItemToStop.stopTimer();
+        String timePassed =
+                StringUtil.formatMinutesToString(newTrackedItem.getTimer().getTimeBetween(ChronoUnit.MINUTES));
 
         model.setTrackedItem(trackedItemToStop, newTrackedItem);
         model.rescheduleReminders();
         model.commitToHistory();
 
         return new CommandResult(String.format(MESSAGE_STOP_TIMER_SUCCESS, targetIndex.getOneBased(),
-                newTrackedItem.getTimer().getTimeBetween(ChronoUnit.MINUTES)));
+                timePassed));
     }
 
     @Override
