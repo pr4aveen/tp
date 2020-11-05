@@ -10,6 +10,8 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.momentum.logic.parser.CliSyntax.SET_STATISTIC_TIMEFRAME;
+import static seedu.momentum.logic.parser.CliSyntax.SET_THEME;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 import static seedu.momentum.testutil.Assert.assertThrows;
@@ -30,6 +32,7 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.EditTrackedItemDescriptorBuilder;
+import seedu.momentum.testutil.SettingsToChangeBuilder;
 
 /**
  * Contains helper methods for testing commands.
@@ -80,6 +83,27 @@ public class CommandTestUtil {
             + " " + PREFIX_COMPLETION_STATUS;
     public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_CREATED_TYPE;
 
+    public static final String INVALID_THEME = "transparent";
+    public static final String INVALID_STATISTIC_TIMEFRAME = "yearly";
+    public static final String VALID_THEME_DARK = "dark";
+    public static final String VALID_THEME_LIGHT = "light";
+    public static final String VALID_STATISTIC_TIMEFRAME_DAILY = "daily";
+    public static final String VALID_STATISTIC_TIMEFRAME_WEEKLY = "weekly";
+    public static final String VALID_STATISTIC_TIMEFRAME_MONTHLY = "monthly";
+
+    public static final String THEME_DESC_DARK = " " + SET_THEME + VALID_THEME_DARK;
+    public static final String THEME_DESC_LIGHT = " " + SET_THEME + VALID_THEME_LIGHT;
+    public static final String STATISTIC_TIMEFRAME_DESC_DAILY = " " + SET_STATISTIC_TIMEFRAME
+        + VALID_STATISTIC_TIMEFRAME_DAILY;
+    public static final String STATISTIC_TIMEFRAME_DESC_WEEKLY = " " + SET_STATISTIC_TIMEFRAME
+        + VALID_STATISTIC_TIMEFRAME_WEEKLY;
+    public static final String STATISTIC_TIMEFRAME_DESC_MONTHLY = " " + SET_STATISTIC_TIMEFRAME
+        + VALID_STATISTIC_TIMEFRAME_MONTHLY;
+
+    public static final String INVALID_THEME_DESC = " " + SET_THEME + INVALID_THEME;
+    public static final String INVALID_STATISTIC_TIMEFRAME_DESC = " " + SET_STATISTIC_TIMEFRAME
+        + INVALID_STATISTIC_TIMEFRAME;
+
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
@@ -99,6 +123,19 @@ public class CommandTestUtil {
                 .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
                 .build();
+    }
+
+    public static final SetCommand.SettingsToChange SETTINGS_ONE;
+    public static final SetCommand.SettingsToChange SETTINGS_TWO;
+
+    static {
+        SETTINGS_ONE = new SettingsToChangeBuilder().withTheme(VALID_THEME_DARK)
+            .withStatisticTimeframe(VALID_STATISTIC_TIMEFRAME_MONTHLY)
+            .build();
+
+        SETTINGS_TWO = new SettingsToChangeBuilder().withTheme(VALID_THEME_LIGHT)
+            .withStatisticTimeframe(VALID_STATISTIC_TIMEFRAME_DAILY)
+            .build();
     }
 
     /**
