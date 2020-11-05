@@ -1,9 +1,11 @@
 package seedu.momentum.ui;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
+import javafx.scene.text.TextAlignment;
 
 /**
  * A UI component to display the current reminder that exist inside the project book.
@@ -32,7 +34,12 @@ public class ReminderDisplay extends UiPart<Region> {
 
     private void fillReminder() {
         if (!isEmpty) {
-            reminderPane.getChildren().add(new Label(reminderStr));
+            Label reminderLabel = new Label(reminderStr);
+            reminderLabel.setAlignment(Pos.CENTER_LEFT);
+            reminderLabel.setTextAlignment(TextAlignment.LEFT);
+            reminderLabel.setMaxWidth(reminderPane.getPrefWrapLength() * 8 / 10);
+            reminderLabel.setWrapText(true);
+            reminderPane.getChildren().add(reminderLabel);
         }
     }
 }
