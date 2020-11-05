@@ -290,7 +290,7 @@ public class AddProjectCommandTest {
         }
 
         @Override
-        public void resetUi(ViewMode viewMode, Project project) {
+        public void resetUi(ViewMode viewMode) {
             throw new AssertionError("This method should not be called.");
         }
 

@@ -267,7 +267,7 @@ public interface Model {
     /**
      * Undoes command to reset view mode to previous view mode.
      */
-    void resetUi(ViewMode viewMode, Project project);
+    void resetUi(ViewMode viewMode);
 
     /**
      * Redoes previously undone command to reset state to before undo command.

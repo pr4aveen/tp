@@ -12,6 +12,6 @@
                 <Label text="Timers" />
             </children>
         </HBox>
-        <ListView fx:id="timerListView" />
+        <ListView fx:id="timerListView"/>
     </children>
 </VBox>

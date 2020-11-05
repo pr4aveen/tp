@@ -38,4 +38,5 @@ public class NameCompareTest {
         assertEquals(NAME_COMPARATOR.compare(ALICE, SAME_NAME), 0);
 
     }
+
 }

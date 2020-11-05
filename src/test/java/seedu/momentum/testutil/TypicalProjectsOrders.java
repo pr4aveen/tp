@@ -17,6 +17,17 @@ import seedu.momentum.model.project.TrackedItem;
 
 public class TypicalProjectsOrders {
 
+    public static List<TrackedItem> getOrderedProjectBookByAlphabeticalAscendingCompleted() {
+        return new ArrayList<>(Arrays.asList(
+                ALICE,
+                DANIEL,
+                ELLE,
+                FIONA,
+                BENSON,
+                CARL,
+                GEORGE));
+    }
+
     public static List<TrackedItem> getOrderedProjectBookByAlphabeticalAscending() {
         return new ArrayList<>(Arrays.asList(
                 ALICE,
@@ -26,6 +37,17 @@ public class TypicalProjectsOrders {
                 ELLE,
                 FIONA,
                 GEORGE));
+    }
+
+    public static List<TrackedItem> getOrderedProjectBookByAlphabeticalDescendingCompleted() {
+        return new ArrayList<>(Arrays.asList(
+                FIONA,
+                ELLE,
+                DANIEL,
+                ALICE,
+                GEORGE,
+                CARL,
+                BENSON));
     }
 
     public static List<TrackedItem> getOrderedProjectBookByAlphabeticalDescending() {
@@ -39,6 +61,17 @@ public class TypicalProjectsOrders {
                 ALICE));
     }
 
+    public static List<TrackedItem> getOrderedProjectBookByDeadlineAscendingCompleted() {
+        return new ArrayList<>(Arrays.asList(
+                FIONA,
+                ELLE,
+                ALICE,
+                DANIEL,
+                BENSON,
+                CARL,
+                GEORGE));
+    }
+
     public static List<TrackedItem> getOrderedProjectBookByDeadlineAscending() {
         return new ArrayList<>(Arrays.asList(
                 FIONA,
@@ -47,6 +80,17 @@ public class TypicalProjectsOrders {
                 BENSON,
                 CARL,
                 DANIEL,
+                GEORGE));
+    }
+
+    public static List<TrackedItem> getOrderedProjectBookByDeadlineDescendingCompleted() {
+        return new ArrayList<>(Arrays.asList(
+                ALICE,
+                ELLE,
+                FIONA,
+                DANIEL,
+                BENSON,
+                CARL,
                 GEORGE));
     }
 
@@ -61,6 +105,17 @@ public class TypicalProjectsOrders {
                 GEORGE));
     }
 
+    public static List<TrackedItem> getOrderedProjectBookByCreatedDateAscendingCompleted() {
+        return new ArrayList<>(Arrays.asList(
+                ALICE,
+                FIONA,
+                DANIEL,
+                ELLE,
+                BENSON,
+                GEORGE,
+                CARL));
+    }
+
     public static List<TrackedItem> getOrderedProjectBookByCreatedDateAscending() {
         return new ArrayList<>(Arrays.asList(
                 ALICE,
@@ -70,6 +125,17 @@ public class TypicalProjectsOrders {
                 ELLE,
                 GEORGE,
                 CARL));
+    }
+
+    public static List<TrackedItem> getOrderedProjectBookByCreatedDateDescendingCompleted() {
+        return new ArrayList<>(Arrays.asList(
+                ELLE,
+                DANIEL,
+                FIONA,
+                ALICE,
+                CARL,
+                GEORGE,
+                BENSON));
     }
 
     public static List<TrackedItem> getOrderedProjectBookByCreatedDateDescending() {
@@ -83,6 +149,17 @@ public class TypicalProjectsOrders {
                 ALICE));
     }
 
+    public static List<TrackedItem> getOrderedProjectBookByReminderAscendingCompleted() {
+        return new ArrayList<>(Arrays.asList(
+                ALICE,
+                DANIEL,
+                ELLE,
+                FIONA,
+                GEORGE,
+                BENSON,
+                CARL));
+    }
+
     public static List<TrackedItem> getOrderedProjectBookByReminderAscending() {
         return new ArrayList<>(Arrays.asList(
                 GEORGE,
@@ -92,6 +169,17 @@ public class TypicalProjectsOrders {
                 DANIEL,
                 ELLE,
                 FIONA));
+    }
+
+    public static List<TrackedItem> getOrderedProjectBookByReminderDescendingCompleted() {
+        return new ArrayList<>(Arrays.asList(
+                FIONA,
+                ELLE,
+                DANIEL,
+                ALICE,
+                CARL,
+                BENSON,
+                GEORGE));
     }
 
     public static List<TrackedItem> getOrderedProjectBookByReminderDescending() {
