@@ -28,6 +28,7 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.ReadOnlyUserPrefs;
+import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.VersionedProjectBook;
 import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
@@ -371,12 +372,14 @@ public class AddProjectCommandTest {
         private Predicate<TrackedItem> currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         private Comparator<TrackedItem> currentComparator = null;
         private boolean isTagsVisible = true;
+        private UserPrefs userPrefs = new UserPrefs();
         private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(new ProjectBook(),
-                viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible);
+                viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible, userPrefs);
 
         @Override
         public void commitToHistory() {
-            versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible);
+            versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible,
+                userPrefs);
         }
     }
 }

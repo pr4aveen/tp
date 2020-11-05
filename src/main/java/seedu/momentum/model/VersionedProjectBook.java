@@ -28,11 +28,12 @@ public class VersionedProjectBook extends ProjectBook {
                                 Project currentProject,
                                 Predicate<TrackedItem> currentPredicate,
                                 Comparator<TrackedItem> currentComparator,
-                                boolean isTagsVisible) {
+                                boolean isTagsVisible,
+                                ReadOnlyUserPrefs userPrefs) {
         super(projectBook);
         this.projectBookStateList = new ArrayList<>();
         projectBookStateList.add(new ProjectBookWithUi(projectBook, viewMode,
-                currentProject, currentPredicate, currentComparator, isTagsVisible));
+                currentProject, currentPredicate, currentComparator, isTagsVisible, userPrefs));
         currentStatePointer = 0;
     }
 
@@ -41,13 +42,13 @@ public class VersionedProjectBook extends ProjectBook {
      * commits current {@code VersionedProjectBook} into {@code projectBookStateList}.
      */
     public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
-                       Comparator<TrackedItem> currentComparator, boolean isTagsVisible) {
+                       Comparator<TrackedItem> currentComparator, boolean isTagsVisible, ReadOnlyUserPrefs userPrefs) {
         int historySize = projectBookStateList.size();
         if (currentStatePointer < historySize - 1) {
             flushRedoVersions();
         }
         projectBookStateList.add(new ProjectBookWithUi(this, viewMode,
-                currentProject, currentPredicate, currentComparator, isTagsVisible));
+                currentProject, currentPredicate, currentComparator, isTagsVisible, userPrefs));
         shiftPointer(COMMIT);
     }
 
@@ -137,6 +138,10 @@ public class VersionedProjectBook extends ProjectBook {
 
     public boolean isTagsVisible() {
         return getCurrentProjectBookWithUi().isTagsVisible();
+    }
+
+    public ReadOnlyUserPrefs getUserPrefs() {
+        return getCurrentProjectBookWithUi().getUserPrefs();
     }
 
     @Override

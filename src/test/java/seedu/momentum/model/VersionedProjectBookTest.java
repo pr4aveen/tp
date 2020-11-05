@@ -11,6 +11,8 @@ import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.momentum.commons.core.GuiThemeSettings;
+import seedu.momentum.commons.core.Theme;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.CreatedDateCompare;
@@ -32,9 +34,12 @@ public class VersionedProjectBookTest {
     private static final Comparator<TrackedItem> AFTER_COMPARE = new CreatedDateCompare();
     private static final boolean INIT_TAGS_VISIBLE = true;
     private static final boolean AFTER_TAGS_VISIBLE = false;
+    private static final ReadOnlyUserPrefs INIT_USER_PREFS = new UserPrefs();
+    private static final ReadOnlyUserPrefs AFTER_USER_PREFS =
+        new UserPrefs().returnChangedGuiThemeSettings(new GuiThemeSettings(new Theme(Theme.ThemeType.LIGHT)));
 
     private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(PROJECT_BOOK, INIT_VIEWMODE,
-            TEST_PROJECT, INIT_PREDICATE, INIT_COMPARE, INIT_TAGS_VISIBLE);
+            TEST_PROJECT, INIT_PREDICATE, INIT_COMPARE, INIT_TAGS_VISIBLE, INIT_USER_PREFS);
 
     @Test
     public void constructor() {
@@ -45,7 +50,7 @@ public class VersionedProjectBookTest {
         assertEquals(INIT_TAGS_VISIBLE, versionedProjectBook.isTagsVisible());
         assertEquals(0, versionedProjectBook.getCurrentStatePointer());
         assertEquals(new ProjectBookWithUi(PROJECT_BOOK, INIT_VIEWMODE, TEST_PROJECT, INIT_PREDICATE, INIT_COMPARE,
-                INIT_TAGS_VISIBLE), versionedProjectBook.getCurrentProjectBookWithUi());
+                INIT_TAGS_VISIBLE, INIT_USER_PREFS), versionedProjectBook.getCurrentProjectBookWithUi());
     }
 
     /**
@@ -55,13 +60,14 @@ public class VersionedProjectBookTest {
     @Test
     public void commit_noNeedFlush_success() {
         ProjectBookWithUi toAdd = new ProjectBookWithUi(versionedProjectBook, AFTER_VIEWMODE, AFTER_PROJECT,
-                AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
+                AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE, AFTER_USER_PREFS);
         List<ProjectBookWithUi> expectedStateList = versionedProjectBook.getProjectBookStateList();
 
         expectedStateList.add(toAdd);
 
         assertEquals(versionedProjectBook.getCurrentStatePointer(), 0);
-        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
+        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE,
+            AFTER_USER_PREFS);
 
         assertEquals(versionedProjectBook.getCurrentStatePointer(), 1);
         assertEquals(versionedProjectBook.getProjectBookStateList(), expectedStateList);
@@ -70,6 +76,7 @@ public class VersionedProjectBookTest {
         assertEquals(versionedProjectBook.getCurrentComparator(), AFTER_COMPARE);
         assertEquals(versionedProjectBook.getCurrentPredicate(), AFTER_PREDICATE);
         assertEquals(versionedProjectBook.isTagsVisible(), AFTER_TAGS_VISIBLE);
+        assertEquals(versionedProjectBook.getUserPrefs(), AFTER_USER_PREFS);
     }
 
     /**
@@ -79,15 +86,17 @@ public class VersionedProjectBookTest {
     @Test
     public void commit_flush_success() {
         ProjectBookWithUi toAdd = new ProjectBookWithUi(versionedProjectBook, AFTER_VIEWMODE, AFTER_PROJECT,
-                AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
+                AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE, AFTER_USER_PREFS);
         List<ProjectBookWithUi> expectedStateList = versionedProjectBook.getProjectBookStateList();
 
         expectedStateList.add(toAdd);
 
         assertEquals(versionedProjectBook.getCurrentStatePointer(), 0);
-        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
+        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE,
+            AFTER_USER_PREFS);
         versionedProjectBook.undo();
-        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
+        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE,
+            AFTER_USER_PREFS);
 
         assertEquals(versionedProjectBook.getCurrentStatePointer(), 1);
         assertEquals(versionedProjectBook.getProjectBookStateList(), expectedStateList);
@@ -104,7 +113,8 @@ public class VersionedProjectBookTest {
         assertEquals(versionedProjectBook.getCurrentStatePointer(), 0);
 
         // To shift pointer to be able to undo command
-        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
+        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE,
+            AFTER_USER_PREFS);
         assertEquals(versionedProjectBook.getCurrentStatePointer(), 1);
 
         versionedProjectBook.undo();
@@ -124,7 +134,8 @@ public class VersionedProjectBookTest {
         assertEquals(versionedProjectBook.getCurrentStatePointer(), 0);
 
         // To shift pointer to be able to undo then redo command
-        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
+        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE,
+            AFTER_USER_PREFS);
         assertEquals(versionedProjectBook.getCurrentStatePointer(), 1);
 
         versionedProjectBook.undo();
@@ -150,7 +161,8 @@ public class VersionedProjectBookTest {
     @Test
     public void canUndoCommand_canUndo_returnTrue() {
         // after initializing versionedProjectBook (no history log)
-        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
+        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE,
+            AFTER_USER_PREFS);
         assertTrue(versionedProjectBook.canUndoCommand());
     }
 
@@ -158,8 +170,9 @@ public class VersionedProjectBookTest {
     public void getProjectBookStateList() {
         List<ProjectBookWithUi> expectedStateList = versionedProjectBook.getProjectBookStateList();
         expectedStateList.add(new ProjectBookWithUi(versionedProjectBook, AFTER_VIEWMODE, AFTER_PROJECT,
-                AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE));
-        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
+                AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE, AFTER_USER_PREFS));
+        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE,
+            AFTER_USER_PREFS);
         assertEquals(versionedProjectBook.getProjectBookStateList(), expectedStateList);
     }
 
@@ -171,7 +184,8 @@ public class VersionedProjectBookTest {
     @Test
     public void getCurrentProjectBookWithUi() {
         ProjectBookWithUi expectedProjectBook = new ProjectBookWithUi(
-                versionedProjectBook, INIT_VIEWMODE, TEST_PROJECT, INIT_PREDICATE, INIT_COMPARE, INIT_TAGS_VISIBLE);
+                versionedProjectBook, INIT_VIEWMODE, TEST_PROJECT, INIT_PREDICATE, INIT_COMPARE, INIT_TAGS_VISIBLE,
+            INIT_USER_PREFS);
         assertEquals(versionedProjectBook.getCurrentProjectBookWithUi(), expectedProjectBook);
     }
 
@@ -212,19 +226,22 @@ public class VersionedProjectBookTest {
 
         // different project book -> return false
         VersionedProjectBook other = new VersionedProjectBook(PROJECT_BOOK, AFTER_VIEWMODE,
-                AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
+                AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE, AFTER_USER_PREFS);
         assertFalse(versionedProjectBook.equals(other));
 
         // same projectBookStateList and currentStatePointer -> returns true
         VersionedProjectBook expectedProjectBook = new VersionedProjectBook(PROJECT_BOOK, INIT_VIEWMODE,
-                TEST_PROJECT, INIT_PREDICATE, INIT_COMPARE, INIT_TAGS_VISIBLE);
-        expectedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
-        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE);
+                TEST_PROJECT, INIT_PREDICATE, INIT_COMPARE, INIT_TAGS_VISIBLE, INIT_USER_PREFS);
+        expectedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE,
+            AFTER_USER_PREFS);
+        versionedProjectBook.commit(AFTER_VIEWMODE, AFTER_PROJECT, AFTER_PREDICATE, AFTER_COMPARE, AFTER_TAGS_VISIBLE,
+            AFTER_USER_PREFS);
         assertTrue(versionedProjectBook.equals(expectedProjectBook));
 
         // different projectBookStateList and currentStatePointer -> returns false
         // projectBookStateList and currentStatePointer will be changed together
-        expectedProjectBook.commit(INIT_VIEWMODE, TEST_PROJECT, INIT_PREDICATE, INIT_COMPARE, INIT_TAGS_VISIBLE);
+        expectedProjectBook.commit(INIT_VIEWMODE, TEST_PROJECT, INIT_PREDICATE, INIT_COMPARE, INIT_TAGS_VISIBLE,
+            AFTER_USER_PREFS);
         assertFalse(versionedProjectBook.equals(expectedProjectBook));
     }
 }

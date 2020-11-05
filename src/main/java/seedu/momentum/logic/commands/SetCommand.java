@@ -60,11 +60,11 @@ public class SetCommand extends Command {
 
         if (settingsToChange.getStatTimeframe().isPresent()) {
             StatisticTimeframe newTimeframe = settingsToChange.getStatTimeframe().get();
-            model.setStatisticTimeframeSettings(new StatisticTimeframeSettings(
-                settingsToChange.getStatTimeframe().get()));
+            model.setStatisticTimeframeSettings(new StatisticTimeframeSettings(newTimeframe));
             SettingsUpdateManager.updateStatisticTimeframe(newTimeframe);
         }
 
+        model.commitToHistory();
         return new CommandResult(MESSAGE_UPDATE_SETTINGS_SUCCESS);
     }
 

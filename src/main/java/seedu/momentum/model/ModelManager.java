@@ -25,6 +25,7 @@ import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
+import seedu.momentum.logic.SettingsUpdateManager;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.Task;
@@ -43,7 +44,6 @@ public class ModelManager implements Model {
     private static final Logger LOGGER = LogsCenter.getLogger(ModelManager.class);
 
     private final VersionedProjectBook versionedProjectBook;
-    private final UserPrefs userPrefs;
     private final ReminderManager reminderManager;
     private final ObservableList<TrackedItem> runningTimers;
     private Predicate<TrackedItem> currentPredicate;
@@ -56,6 +56,7 @@ public class ModelManager implements Model {
     private ObservableList<TrackedItem> itemList;
     private Comparator<TrackedItem> currentComparator;
     private final ObjectProperty<ObservableList<TrackedItem>> displayList;
+    private UserPrefs userPrefs;
 
     /**
      * Initializes a ModelManager with the given projectBook and userPrefs.
@@ -78,7 +79,7 @@ public class ModelManager implements Model {
         this.currentComparator = getComparatorNullType(true, this.isCurrentSortByCompletionStatus);
 
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
-                currentComparator, isTagsVisible.get());
+                currentComparator, isTagsVisible.get(), userPrefs);
         this.reminderManager = new ReminderManager(this);
         this.itemList = this.versionedProjectBook.getTrackedItemList();
         this.displayList = new SimpleObjectProperty<>(this.itemList);
@@ -127,7 +128,7 @@ public class ModelManager implements Model {
     @Override
     public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
         requireNonNull(guiThemeSettings);
-        userPrefs.setGuiThemeSettings(guiThemeSettings);
+        userPrefs = userPrefs.returnChangedGuiThemeSettings(guiThemeSettings);
     }
 
     @Override
@@ -138,7 +139,7 @@ public class ModelManager implements Model {
     @Override
     public void setStatisticTimeframeSettings(StatisticTimeframeSettings statisticTimeframeSettings) {
         requireNonNull(statisticTimeframeSettings);
-        userPrefs.setStatisticTimeframeSettings(statisticTimeframeSettings);
+        userPrefs = userPrefs.returnChangedStatisticsTimeframeSettings(statisticTimeframeSettings);
     }
 
     @Override
@@ -149,7 +150,7 @@ public class ModelManager implements Model {
     @Override
     public void setProjectBookFilePath(Path projectBookFilePath) {
         requireNonNull(projectBookFilePath);
-        userPrefs.setProjectBookFilePath(projectBookFilePath);
+        userPrefs = userPrefs.returnChangedProjectBookFilePath(projectBookFilePath);
     }
 
     //=========== ProjectBook ================================================================================
@@ -396,7 +397,8 @@ public class ModelManager implements Model {
 
     @Override
     public void commitToHistory() {
-        versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible.get());
+        versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible.get(),
+            userPrefs);
     }
 
     @Override
@@ -438,6 +440,7 @@ public class ModelManager implements Model {
         requireNonNull(viewMode);
 
         isTagsVisible.setValue(versionedProjectBook.isTagsVisible());
+        SettingsUpdateManager.updateApplicationSettings(versionedProjectBook.getUserPrefs());
 
         switch (viewMode) {
         case PROJECTS:

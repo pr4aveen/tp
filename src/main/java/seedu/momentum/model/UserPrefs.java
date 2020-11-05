@@ -33,6 +33,16 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         resetData(userPrefs);
     }
 
+    private UserPrefs(GuiWindowSettings guiWindowSettings,
+                      GuiThemeSettings guiThemeSettings,
+                      StatisticTimeframeSettings statisticTimeframeSettings,
+                      Path projectBookFilePath) {
+        this.guiWindowSettings = guiWindowSettings;
+        this.guiThemeSettings = guiThemeSettings;
+        this.statisticTimeframeSettings = statisticTimeframeSettings;
+        this.projectBookFilePath = projectBookFilePath;
+    }
+
     /**
      * Resets the existing data of this {@code UserPrefs} with {@code newUserPrefs}.
      */
@@ -56,6 +66,10 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         return statisticTimeframeSettings;
     }
 
+    public Path getProjectBookFilePath() {
+        return projectBookFilePath;
+    }
+
     public void setGuiWindowSettings(GuiWindowSettings guiWindowSettings) {
         requireNonNull(guiWindowSettings);
         this.guiWindowSettings = guiWindowSettings;
@@ -71,13 +85,45 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         this.statisticTimeframeSettings = statisticTimeframeSettings;
     }
 
-    public Path getProjectBookFilePath() {
-        return projectBookFilePath;
-    }
-
     public void setProjectBookFilePath(Path projectBookFilePath) {
         requireNonNull(projectBookFilePath);
         this.projectBookFilePath = projectBookFilePath;
+    }
+
+    /**
+     * Returns a new {@code UserPrefs} updated with the {@code newGuiThemeSetings}.
+     *
+     * @param newGuiThemeSettings new theme settings to be applied.
+     * @return the new {@code UserPrefs}.
+     */
+    public UserPrefs returnChangedGuiThemeSettings(GuiThemeSettings newGuiThemeSettings) {
+        requireNonNull(newGuiThemeSettings);
+        return new UserPrefs(this.guiWindowSettings, newGuiThemeSettings,
+            this.statisticTimeframeSettings, this.projectBookFilePath);
+    }
+
+    /**
+     * Returns a new {@code UserPrefs} updated with the {@code newStatisticTimeframeSetings}.
+     *
+     * @param newTimeframeSettings new statistic timeframe settings to be applied.
+     * @return the new {@code UserPrefs}.
+     */
+    public UserPrefs returnChangedStatisticsTimeframeSettings(StatisticTimeframeSettings newTimeframeSettings) {
+        requireNonNull(newTimeframeSettings);
+        return new UserPrefs(this.guiWindowSettings, this.guiThemeSettings,
+            newTimeframeSettings, this.projectBookFilePath);
+    }
+
+    /**
+     * Returns a new {@code UserPrefs} updated with the {@code newProjectBookFilePath}.
+     *
+     * @param newProjectBookFilePath new statistic timeframe settings to be applied.
+     * @return the new {@code UserPrefs}.
+     */
+    public UserPrefs returnChangedProjectBookFilePath(Path newProjectBookFilePath) {
+        requireNonNull(newProjectBookFilePath);
+        return new UserPrefs(this.guiWindowSettings, this.guiThemeSettings,
+            this.statisticTimeframeSettings, newProjectBookFilePath);
     }
 
     @Override
