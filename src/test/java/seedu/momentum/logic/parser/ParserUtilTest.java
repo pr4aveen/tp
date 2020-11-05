@@ -18,6 +18,8 @@ import org.junit.jupiter.api.Test;
 import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.StatisticTimeframe;
+import seedu.momentum.commons.core.Theme;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Description;
@@ -33,6 +35,8 @@ public class ParserUtilTest {
     private static final String INVALID_REMINDER = "3000-12-1202:31:23";
     private static final String INVALID_TIME = "42:12:12";
     private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_THEME = "transparent";
+    private static final String INVALID_STATISTIC_TIMEFRAME = "yearly";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_DESCRIPTION = "Loves to eat";
@@ -41,6 +45,8 @@ public class ParserUtilTest {
     private static final String VALID_REMINDER = "2025-12-23T13:21:25";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
+    private static final String VALID_THEME = "dark";
+    private static final String VALID_STATISTIC_TIMEFRAME = "daily";
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -216,5 +222,51 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = new HashSet<>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
+    }
+
+    @Test
+    public void parseTheme_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseTheme(null));
+    }
+
+    @Test
+    public void parseTheme_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseTheme(INVALID_THEME));
+    }
+
+    @Test
+    public void parseTheme_validValueWithoutWhitespace_returnsTheme() throws Exception {
+        Theme expectedTheme = new Theme(VALID_THEME);
+        assertEquals(expectedTheme, ParserUtil.parseTheme(VALID_THEME));
+    }
+
+    @Test
+    public void parseTheme_validValueWithWhitespace_returnsTrimmedTheme() throws Exception {
+        String themeWithWhitespace = WHITESPACE + VALID_THEME + WHITESPACE;
+        Theme expectedTheme = new Theme(VALID_THEME);
+        assertEquals(expectedTheme, ParserUtil.parseTheme(themeWithWhitespace));
+    }
+
+    @Test
+    public void parseStatisticTimeframe_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseStatisticTimeframe(null));
+    }
+
+    @Test
+    public void parseStatisticTimeframe_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseStatisticTimeframe(INVALID_STATISTIC_TIMEFRAME));
+    }
+
+    @Test
+    public void parseStatisticTimeframe_validValueWithoutWhitespace_returnsStatisticTimeframe() throws Exception {
+        StatisticTimeframe expectedStatisticTimeframe = new StatisticTimeframe(VALID_STATISTIC_TIMEFRAME);
+        assertEquals(expectedStatisticTimeframe, ParserUtil.parseStatisticTimeframe(VALID_STATISTIC_TIMEFRAME));
+    }
+
+    @Test
+    public void parseStatisticTimeframe_validValueWithWhitespace_returnsTrimmedStatisticTimeframe() throws Exception {
+        String statisticTimeframeWithWhitespace = WHITESPACE + VALID_STATISTIC_TIMEFRAME + WHITESPACE;
+        StatisticTimeframe expectedStatisticTimeframe = new StatisticTimeframe(VALID_STATISTIC_TIMEFRAME);
+        assertEquals(expectedStatisticTimeframe, ParserUtil.parseStatisticTimeframe(statisticTimeframeWithWhitespace));
     }
 }

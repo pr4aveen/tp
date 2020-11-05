@@ -1,5 +1,8 @@
 package seedu.momentum.commons.core;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.momentum.commons.util.AppUtil.checkArgument;
+
 import seedu.momentum.MainApp;
 
 /**
@@ -18,8 +21,24 @@ public class Theme {
     public Theme() {
     }
 
+    /**
+     * Constructs a {@code Theme} with the specified theme type.
+     *
+     * @param themeType a valid theme type.
+     */
     public Theme(ThemeType themeType) {
         this.themeType = themeType;
+    }
+
+    /**
+     * Constructs a {@code Theme} with the specified theme type expressed as a String.
+     *
+     * @param themeType a valid theme type.
+     */
+    public Theme(String themeType) {
+        requireNonNull(themeType);
+        checkArgument(isValid(themeType), MESSAGE_CONSTRAINTS);
+        this.themeType = ThemeType.valueOf(themeType.toUpperCase());
     }
 
     /**
@@ -38,6 +57,17 @@ public class Theme {
         return MainApp.class.getResource("/view/" + stylesheetName).toString();
     }
 
+    /**
+     * Returns true if a given string is a valid theme.
+     */
+    public static boolean isValid(String theme) {
+        try {
+            ThemeType.valueOf(theme.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public String toString() {

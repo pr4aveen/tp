@@ -105,6 +105,7 @@ public class VersionedProjectBookTest {
         assertEquals(versionedProjectBook.getCurrentComparator(), AFTER_COMPARE);
         assertEquals(versionedProjectBook.getCurrentPredicate(), AFTER_PREDICATE);
         assertEquals(versionedProjectBook.isTagsVisible(), AFTER_TAGS_VISIBLE);
+        assertEquals(versionedProjectBook.getUserPrefs(), AFTER_USER_PREFS);
     }
 
     @Test
@@ -126,6 +127,7 @@ public class VersionedProjectBookTest {
         assertEquals(versionedProjectBook.getCurrentComparator(), INIT_COMPARE);
         assertEquals(versionedProjectBook.getCurrentPredicate(), INIT_PREDICATE);
         assertEquals(versionedProjectBook.isTagsVisible(), INIT_TAGS_VISIBLE);
+        assertEquals(versionedProjectBook.getUserPrefs(), INIT_USER_PREFS);
     }
 
     @Test
@@ -150,6 +152,7 @@ public class VersionedProjectBookTest {
         assertEquals(versionedProjectBook.getCurrentComparator(), AFTER_COMPARE);
         assertEquals(versionedProjectBook.getCurrentPredicate(), AFTER_PREDICATE);
         assertEquals(versionedProjectBook.isTagsVisible(), AFTER_TAGS_VISIBLE);
+        assertEquals(versionedProjectBook.getUserPrefs(), AFTER_USER_PREFS);
     }
 
     @Test
@@ -208,9 +211,15 @@ public class VersionedProjectBookTest {
     public void getCurrentComparator() {
         assertEquals(versionedProjectBook.getCurrentComparator(), INIT_COMPARE);
     }
+
     @Test
     public void getCurrentIsTagsVisible() {
         assertEquals(versionedProjectBook.isTagsVisible(), INIT_TAGS_VISIBLE);
+    }
+
+    @Test
+    public void getCurrentUserPrefs() {
+        assertEquals(versionedProjectBook.getUserPrefs(), INIT_USER_PREFS);
     }
 
     @Test
