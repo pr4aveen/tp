@@ -11,12 +11,15 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Deletes tasks from a project in Momentum.
+ */
 public class DeleteTaskCommand extends DeleteCommand {
 
     private final Project projectToDeleteTaskFrom;
 
     /**
-     * Deletes a task at a given index from a certain project.
+     * Creates a {@code DeleteTaskCommand} that deletes a task at the given index from the specified project.
      *
      * @param targetIndex index of the task to be deleted.
      * @param project project to delete the task from.
@@ -26,6 +29,13 @@ public class DeleteTaskCommand extends DeleteCommand {
         this.projectToDeleteTaskFrom = project;
     }
 
+    /**
+     * Deletes the task from the project in the provided model.
+     *
+     * @param model {@code Model} containing the proejct from which to delete the task.
+     * @return feedback message of the result of deleting the task, for display.
+     * @throws CommandException If an error occurs during the deletion.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

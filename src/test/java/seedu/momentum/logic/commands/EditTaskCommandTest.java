@@ -223,7 +223,7 @@ public class EditTaskCommandTest {
         assertFalse(standardCommand.equals(null));
 
         // different types -> returns false
-        assertFalse(standardCommand.equals(new ClearCommand()));
+        assertFalse(standardCommand.equals(new ClearProjectCommand()));
 
         // different index -> returns false
         assertFalse(standardCommand.equals(new EditProjectCommand(INDEX_SECOND, DESC_AMY)));

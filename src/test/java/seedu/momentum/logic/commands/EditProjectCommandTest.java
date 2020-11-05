@@ -18,6 +18,7 @@ import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.Clock;
+import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.EditCommand.EditTrackedItemDescriptor;
@@ -26,6 +27,7 @@ import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.CompletionStatus;
+import seedu.momentum.model.project.Deadline;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.testutil.EditTrackedItemDescriptorBuilder;
@@ -41,8 +43,8 @@ public class EditProjectCommandTest {
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
-        Project editedProject =
-            new ProjectBuilder(model.getDisplayList().get(0)).withCompletionStatus(CompletionStatus.COMPLETED).build();
+        Project editedProject = new ProjectBuilder(model.getDisplayList().get(0))
+                .withCompletionStatus(CompletionStatus.COMPLETED).build();
         EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(editedProject).build();
         EditCommand editCommand = new EditProjectCommand(INDEX_FIRST, descriptor);
 
@@ -65,9 +67,9 @@ public class EditProjectCommandTest {
                 .withTags(VALID_TAG_HUSBAND).build();
 
         EditCommand.EditTrackedItemDescriptor descriptor =
-            new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
-                .withTags(VALID_TAG_HUSBAND).build();
+                new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_BOB)
+                        .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
+                        .withTags(VALID_TAG_HUSBAND).build();
         EditCommand editCommand = new EditProjectCommand(indexLastTrackedItem, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PROJECT_SUCCESS, editedProject);
@@ -98,7 +100,7 @@ public class EditProjectCommandTest {
         showProjectAtIndex(model, INDEX_FIRST);
 
         TrackedItem trackedItemInFilteredList =
-            model.getDisplayList().get(INDEX_FIRST.getZeroBased());
+                model.getDisplayList().get(INDEX_FIRST.getZeroBased());
         TrackedItem editedTrackedItem = new ProjectBuilder(trackedItemInFilteredList).withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditProjectCommand(INDEX_FIRST,
                 new EditTrackedItemDescriptorBuilder().withName(VALID_NAME_BOB).build());
@@ -131,7 +133,7 @@ public class EditProjectCommandTest {
 
         // edit project in filtered list into a duplicate in project book
         TrackedItem trackedItemInList =
-            model.getProjectBook().getTrackedItemList().get(INDEX_SECOND.getZeroBased());
+                model.getProjectBook().getTrackedItemList().get(INDEX_SECOND.getZeroBased());
         EditCommand editCommand = new EditProjectCommand(INDEX_FIRST,
                 new EditTrackedItemDescriptorBuilder(trackedItemInList).build());
 
@@ -166,6 +168,19 @@ public class EditProjectCommandTest {
     }
 
     @Test
+    public void execute_invalidDeadline_failure() {
+        Project editedProject = new ProjectBuilder(model.getDisplayList().get(0))
+                .withDeadline(DateWrapper.MIN.toString(), DateWrapper.MIN.toString()).build();
+        EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(editedProject).build();
+        EditCommand editCommand = new EditProjectCommand(INDEX_FIRST, descriptor);
+
+        Model expectedModel = new ModelManager(new ProjectBook(model.getProjectBook()), new UserPrefs());
+        expectedModel.setTrackedItem(model.getDisplayList().get(0), editedProject);
+        expectedModel.commitToHistory();
+        assertCommandFailure(editCommand, model, Deadline.CREATED_DATE_MESSAGE_CONSTRAINT);
+    }
+
+    @Test
     public void equals() {
         final EditCommand standardCommand = new EditProjectCommand(INDEX_FIRST, DESC_AMY);
 
@@ -181,7 +196,7 @@ public class EditProjectCommandTest {
         assertFalse(standardCommand.equals(null));
 
         // different types -> returns false
-        assertFalse(standardCommand.equals(new ClearCommand()));
+        assertFalse(standardCommand.equals(new ClearProjectCommand()));
 
         // different index -> returns false
         assertFalse(standardCommand.equals(new EditProjectCommand(INDEX_SECOND, DESC_AMY)));

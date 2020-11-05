@@ -12,14 +12,17 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
+/**
+ * Stops a previously started timer tracking a task in Momentum.
+ */
 public class StopTaskCommand extends StopCommand {
 
     private final Project parentProject;
 
     /**
-     * Creates a StopCommand that stops the timerWrapper for a task.
+     * Creates a StopTaskCommand that stops the timer for the task.
      *
-     * @param targetIndex The task to stop.
+     * @param targetIndex The index of the task to stop.
      * @param parentProject The parent Project of the task.
      */
     public StopTaskCommand(Index targetIndex, Project parentProject) {
@@ -28,7 +31,13 @@ public class StopTaskCommand extends StopCommand {
         this.parentProject = parentProject;
     }
 
-
+    /**
+     * Stops the timer for the task in the provided model.
+     *
+     * @param model {@code Model} containing the task whose timer to stop.
+     * @return feedback message of timer result, for display.
+     * @throws CommandException If an error occurs when stopping the timer, or if a timer is already running.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

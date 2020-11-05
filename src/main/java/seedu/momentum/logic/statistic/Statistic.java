@@ -5,7 +5,7 @@ import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.model.Model;
 
 /**
- * Represents a statistic tracked by the app and the instructions to calculate it.
+ * Represents a statistic tracked by Momentum and the instructions to calculate it.
  */
 public abstract class Statistic {
 
@@ -20,5 +20,9 @@ public abstract class Statistic {
      * Sets the timeframe of the statistic tracked.
      */
     public abstract void setTimeframe(StatisticTimeframe statisticTimeframe);
+
+    /**
+     * Retrieves the statistics data in a displayable format.
+     */
     public abstract ObservableList<StatisticEntry> getDisplayList();
 }

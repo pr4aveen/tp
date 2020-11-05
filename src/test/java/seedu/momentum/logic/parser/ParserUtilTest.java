@@ -6,6 +6,7 @@ import static seedu.momentum.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,6 +15,8 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.momentum.commons.core.Clock;
+import seedu.momentum.commons.core.DateTimeWrapper;
 import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.project.Deadline;
@@ -26,6 +29,7 @@ public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_DATE = "2021-42-12";
     private static final String INVALID_DEADLINE_DATE = "1000-09-12";
+    private static final String INVALID_REMINDER_EARLY = "2021-10-23T13:21:25";
     private static final String INVALID_REMINDER = "3000-12-1202:31:23";
     private static final String INVALID_TIME = "42:12:12";
     private static final String INVALID_TAG = "#friend";
@@ -123,29 +127,31 @@ public class ParserUtilTest {
     @Test
     public void parseReminder_invalidValue_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseReminder(
-                Optional.of(VALID_DATE), VALID_CREATED_DATE_WRAPPER));
+                Optional.of(VALID_DATE)));
         assertThrows(ParseException.class, () -> ParserUtil.parseReminder(
-                Optional.of(VALID_TIME), VALID_CREATED_DATE_WRAPPER));
+                Optional.of(VALID_TIME)));
         assertThrows(ParseException.class, () -> ParserUtil.parseReminder(
-                Optional.of(INVALID_REMINDER), VALID_CREATED_DATE_WRAPPER));
+                Optional.of(INVALID_REMINDER)));
+        Clock.initFixed(new DateTimeWrapper(INVALID_REMINDER_EARLY).plus(1, ChronoUnit.DAYS));
+        assertThrows(ParseException.class, () -> ParserUtil.parseReminder(
+                Optional.of(INVALID_REMINDER_EARLY)));
     }
 
     @Test
     public void parseReminder_validValueWithoutWhitespace_returnsReminder() throws Exception {
         Reminder expectedReminder = new Reminder(VALID_REMINDER);
         assertEquals(expectedReminder,
-                ParserUtil.parseReminder(Optional.of(VALID_REMINDER), VALID_CREATED_DATE_WRAPPER));
+                ParserUtil.parseReminder(Optional.of(VALID_REMINDER)));
 
         expectedReminder = new Reminder();
-        assertEquals(expectedReminder, ParserUtil.parseReminder(Optional.empty(), VALID_CREATED_DATE_WRAPPER));
+        assertEquals(expectedReminder, ParserUtil.parseReminder(Optional.empty()));
     }
 
     @Test
     public void parseReminder_validValueWithWhitespace_returnsTrimmedReminder() throws Exception {
         String reminderWithWhiteSpace = WHITESPACE + VALID_REMINDER + WHITESPACE;
         Reminder expectedReminder = new Reminder(VALID_REMINDER);
-        assertEquals(expectedReminder, ParserUtil.parseReminder(Optional.of(reminderWithWhiteSpace),
-                VALID_CREATED_DATE_WRAPPER));
+        assertEquals(expectedReminder, ParserUtil.parseReminder(Optional.of(reminderWithWhiteSpace)));
     }
 
     @Test

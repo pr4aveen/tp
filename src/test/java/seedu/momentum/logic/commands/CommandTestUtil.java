@@ -117,6 +117,21 @@ public class CommandTestUtil {
         }
     }
 
+    //    /**
+    //     * Executes the given {@code command}, confirms that <br>
+    //     * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
+    //     */
+    //    public static void assertUndoCommandSuccess(Command command, Model actualModel,
+    //                                                String expectedMessage) {
+    //        try {
+    //            CommandResult result = command.execute(actualModel);
+    //            CommandResult expectedCommandResult = new CommandResult(expectedMessage);
+    //            assertEquals(result, expectedCommandResult);
+    //        } catch (ParseException | CommandException ce) {
+    //            throw new AssertionError("Execution of command should not fail.", ce);
+    //        }
+    //    }
+
     /**
      * Convenience wrapper to {@link #assertCommandSuccess(Command, Model, CommandResult, Model)}
      * that takes a string {@code expectedMessage}.

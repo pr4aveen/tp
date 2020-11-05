@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.momentum.commons.core.Messages.MESSAGE_TEXT_PROJECT;
 import static seedu.momentum.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
@@ -31,6 +32,7 @@ import seedu.momentum.model.VersionedProjectBook;
 import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
@@ -49,7 +51,7 @@ public class AddProjectCommandTest {
 
         CommandResult commandResult = new AddProjectCommand(validProject).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, AddCommand.TEXT_PROJECT, validProject),
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, MESSAGE_TEXT_PROJECT, validProject),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validProject), modelStub.projectsAdded);
     }
@@ -59,7 +61,7 @@ public class AddProjectCommandTest {
         Project validProject = new ProjectBuilder().build();
         AddProjectCommand addCommand = new AddProjectCommand(validProject);
         ModelStub modelStub = new ModelStubWithProject(validProject);
-        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, AddCommand.TEXT_PROJECT);
+        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, MESSAGE_TEXT_PROJECT);
         assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
     }
 
@@ -183,6 +185,11 @@ public class AddProjectCommandTest {
         }
 
         @Override
+        public void updateOrder(SortType sortType, boolean isAscending) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<TrackedItem> getRunningTimers() {
             throw new AssertionError("This method should not be called.");
         }
@@ -198,6 +205,21 @@ public class AddProjectCommandTest {
         }
 
         @Override
+        public void rescheduleReminder() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeReminder(Project project) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeReminder(Project project, Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public BooleanProperty isReminderEmpty() {
             throw new AssertionError("This method should not be called.");
         }
@@ -208,7 +230,7 @@ public class AddProjectCommandTest {
         }
 
         @Override
-        public void removeReminder() {
+        public void removeReminderShown() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -243,11 +265,6 @@ public class AddProjectCommandTest {
         }
 
         @Override
-        public void viewAll() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void resetView() {
             throw new AssertionError("This method should not be called.");
         }
@@ -273,7 +290,7 @@ public class AddProjectCommandTest {
         }
 
         @Override
-        public void resetUi(ViewMode viewMode, Project project) {
+        public void resetUi(ViewMode viewMode) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -353,12 +370,13 @@ public class AddProjectCommandTest {
         private Project currentProject = null;
         private Predicate<TrackedItem> currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         private Comparator<TrackedItem> currentComparator = null;
+        private boolean isTagsVisible = true;
         private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(new ProjectBook(),
-                viewMode, currentProject, currentPredicate, currentComparator);
+                viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible);
 
         @Override
         public void commitToHistory() {
-            versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator);
+            versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible);
         }
     }
 }

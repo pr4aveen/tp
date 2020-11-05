@@ -11,13 +11,15 @@ import java.time.temporal.ChronoUnit;
 import seedu.momentum.commons.util.DateTimeUtil;
 
 /**
- * Represents a WorkDuration's dateTime in the project book.
+ * Represents a date and time in the project book.
  * Guarantees: immutable; is valid as declared in {@link #isValid(String)}
  */
 public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparable<DateTimeWrapper> {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Dates and Times should be in ISO8601 format. e.g. 2020-09-23T16:55:12";
+
+    public static final DateTimeWrapper MAX = new DateTimeWrapper(LocalDateTime.MAX);
 
     private final LocalDateTime dateTime;
 
@@ -37,7 +39,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
     }
 
     /**
-     * Returns a new DateTimeWrapper that is after this DateTimeWrapper be a specified amount
+     * Returns a new DateTimeWrapper that is after this DateTimeWrapper by a specified amount
      *
      * @param amount Amount to increase by.
      * @param unit   Unit to increase with.
@@ -92,7 +94,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      * Checks if an instance in another DateTimeWrapper is before this instance.
      *
      * @param otherTime The DateTimeWrapper to check.
-     * @return the boolean.
+     * @return true if the other time is before this instance, false otherwise.
      */
     public boolean isBefore(DateTimeWrapper otherTime) {
         return dateTime.isBefore(otherTime.get());
@@ -102,7 +104,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      * Checks if an instance in another DateTimeWrapper is after this instance.
      *
      * @param otherTime The DateTimeWrapper to check.
-     * @return the boolean.
+     * @return true if the other time is after this instance, false otherwise.
      */
     public boolean isAfter(DateTimeWrapper otherTime) {
         return dateTime.isAfter(otherTime.get());
@@ -114,16 +116,26 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      * @param time1 The earlier instance of DateTimeWrapper.
      * @param time2 The later instance of DateTimeWrapper.
      * @param units The units to the DateTimeWrapper.
-     * @return the boolean.
+     * @return The amount of time between the 2 instances, in the units provided.
      */
     public static long getTimeBetween(DateTimeWrapper time1, DateTimeWrapper time2, ChronoUnit units) {
         return units.between(time1.get(), time2.get());
     }
 
+    /**
+     * Returns only the date portion of the {@code DateTimeWrapper}.
+     *
+     * @return A {@code DateWrapper} representing the date of this instance.
+     */
     public DateWrapper getDateWrapper() {
         return new DateWrapper(dateTime.toLocalDate());
     }
 
+    /**
+     * Returns only the time portion of the {@code DateTimeWrapper}.
+     *
+     * @return A {@code TimeWrapper} representing the time of this instance.
+     */
     public TimeWrapper getTimeWrapper() {
         return new TimeWrapper(dateTime.toLocalTime());
     }

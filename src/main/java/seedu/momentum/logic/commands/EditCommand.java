@@ -33,7 +33,7 @@ import seedu.momentum.model.tag.Tag;
 import seedu.momentum.model.timer.WorkDuration;
 
 /**
- * Edits the details of an existing project in the project book.
+ * Represents a command that edits the details of an existing item in Momentum.
  */
 public abstract class EditCommand extends Command {
 
@@ -59,10 +59,10 @@ public abstract class EditCommand extends Command {
     protected final EditTrackedItemDescriptor editTrackedItemDescriptor;
 
     /**
-     * Create a EditCommand that edits a project.
+     * Create a EditCommand that edits an item.
      *
-     * @param index                     of the project in the filtered project list to edit.
-     * @param editTrackedItemDescriptor details to edit the project with.
+     * @param index                     of the item in the model to edit.
+     * @param editTrackedItemDescriptor The new details of the item.
      */
     public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor) {
         requireAllNonNull(index, editTrackedItemDescriptor);
@@ -70,30 +70,44 @@ public abstract class EditCommand extends Command {
         this.editTrackedItemDescriptor = new EditTrackedItemDescriptor(editTrackedItemDescriptor);
     }
 
+    /**
+     * Edits an item in the provided model.
+     *
+     * @param model {@code Model} containing the item to edit.
+     * @return feedback message of editing result, for display.
+     * @throws CommandException If an error occurs during editing process.
+     */
     @Override
     public abstract CommandResult execute(Model model) throws CommandException;
 
     /**
-     * Creates and returns a {@code Project} with the details of {@code projectToEdit}
+     * Creates and returns a {@code Project} or {@code Task} with the details of {@code trackedItemToEdit}
      * edited with {@code editTrackedItemDescriptor}.
+     *
+     * @param trackedItemToEdit The original item to edit.
+     * @param editTrackedItemDescriptor The new details of the item.
+     * @param model Provides context under which the item is being edited.
      */
     protected static TrackedItem createEditedTrackedItem(TrackedItem trackedItemToEdit,
                                                        EditTrackedItemDescriptor editTrackedItemDescriptor,
                                                        Model model) throws CommandException {
-        assert trackedItemToEdit != null;
-
+        // Name
         Name updatedName = editTrackedItemDescriptor.getName().orElse(trackedItemToEdit.getName());
 
+        // Description
         Description updatedDescription =
                 editTrackedItemDescriptor.getDescription().orElse(trackedItemToEdit.getDescription());
 
+        // Completion Status
         CompletionStatus updatedCompletionStatus = trackedItemToEdit.getCompletionStatus();
         if (editTrackedItemDescriptor.getCompletionStatus().isPresent()) {
             updatedCompletionStatus = updatedCompletionStatus.reverse();
         }
 
+        // Created Date
         DateWrapper createdDateWrapper = trackedItemToEdit.getCreatedDate();
 
+        // Deadline
         Deadline updatedDeadline = editTrackedItemDescriptor.getDeadline().orElse(trackedItemToEdit.getDeadline());
         if (editTrackedItemDescriptor.getDeadline().isPresent()
                 && !editTrackedItemDescriptor.getDeadline().get().isEmpty()
@@ -103,13 +117,17 @@ public abstract class EditCommand extends Command {
             throw new CommandException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
         }
 
+        // Reminder
         Reminder updatedReminder = editTrackedItemDescriptor.getReminder().orElse(trackedItemToEdit.getReminder());
 
+        // Tags
         Set<Tag> updatedTags = editTrackedItemDescriptor.getTags().orElse(trackedItemToEdit.getTags());
 
+        // WorkDurations
         UniqueItemList<WorkDuration> durationList = new UniqueItemList<>();
         durationList.setItems(trackedItemToEdit.getDurationList());
 
+        // Return Project or Task depending on view mode
         if (model.getViewMode() == ViewMode.PROJECTS) {
             Project projectToEdit = (Project) trackedItemToEdit;
             UniqueItemList<TrackedItem> taskList = new UniqueItemList<>();

@@ -12,14 +12,20 @@ import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.GuiWindowSettings;
+import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.ProjectBookBuilder;
+import seedu.momentum.testutil.ProjectBuilder;
 import seedu.momentum.testutil.TypicalProjectsOrders;
 
 public class ModelManagerTest {
@@ -113,7 +119,7 @@ public class ModelManagerTest {
 
     @Test
     public void canRedoCommand_cannotRedoCommand_returnsFalse() {
-        // modelManager has just been initialiaed, no history log for redo.
+        // modelManager has just been initialized, no history log for redo.
         assertEquals(modelManager.canRedoCommand(), false);
     }
 
@@ -122,6 +128,78 @@ public class ModelManagerTest {
         modelManager.commitToHistory();
         modelManager.undoCommand();
         assertEquals(modelManager.canRedoCommand(), true);
+    }
+
+    @Test
+    public void undoCommand() {
+
+        // view tasks in a project
+        Project project = new ProjectBuilder().withName("TEST").build();
+        modelManager.addTrackedItem(project);
+        modelManager.viewTasks(project);
+        List<TrackedItem> initialDisplayList = modelManager.getDisplayList();
+        modelManager.commitToHistory();
+
+        // go to home view
+        modelManager.viewProjects();
+        modelManager.updateOrder(SortType.CREATED, true);
+        modelManager.updatePredicate(new CompletionStatusPredicate(Arrays.asList("incomplete")));
+        modelManager.commitToHistory();
+
+        // undo home view command
+        modelManager.undoCommand();
+
+        assertEquals(ViewMode.TASKS, modelManager.getViewMode());
+        assertEquals(project, modelManager.getCurrentProject());
+        assertEquals(PREDICATE_SHOW_ALL_TRACKED_ITEMS, modelManager.getProjectBook().getCurrentPredicate());
+        assertEquals(initialDisplayList, modelManager.getDisplayList());
+    }
+
+    @Test
+    public void redoCommand() {
+
+        // view tasks in a project
+        Project project = new ProjectBuilder().withName("TEST").build();
+        modelManager.addTrackedItem(project);
+        modelManager.viewTasks(project);
+        modelManager.commitToHistory();
+
+        // go to home view
+        modelManager.viewProjects();
+        modelManager.updateOrder(SortType.CREATED, true);
+        Predicate<TrackedItem> newPredicate = new CompletionStatusPredicate(Arrays.asList("incomplete"));
+        modelManager.updatePredicate(newPredicate);
+        List<TrackedItem> initialDisplayList = modelManager.getDisplayList();
+        modelManager.commitToHistory();
+
+        // undo home view command
+        modelManager.undoCommand();
+        modelManager.redoCommand();
+
+        assertEquals(ViewMode.PROJECTS, modelManager.getViewMode());
+        // cannot call getCurrentProject() in ModelManager in project view
+        assertEquals(project, modelManager.getProjectBook().getCurrentProject());
+        assertEquals(newPredicate, modelManager.getProjectBook().getCurrentPredicate());
+        assertEquals(initialDisplayList, modelManager.getDisplayList());
+    }
+
+    @Test
+    public void resetUi_fromTaskViewToProjectView_success() {
+        Project project = new ProjectBuilder().withName("TEST").build();
+        List<TrackedItem> initialDisplayList = modelManager.getDisplayList();
+        modelManager.viewTasks(project);
+        modelManager.resetUi(ViewMode.PROJECTS);
+        assertEquals(initialDisplayList, modelManager.getDisplayList());
+    }
+
+    @Test
+    public void resetUi_fromProjectViewToTaskView_success() {
+        Project project = new ProjectBuilder().withName("TEST").build();
+        modelManager.viewTasks(project);
+        List<TrackedItem> initialDisplayList = modelManager.getDisplayList();
+        modelManager.viewProjects();
+        modelManager.resetUi(ViewMode.TASKS);
+        assertEquals(initialDisplayList, modelManager.getDisplayList());
     }
 
     //=========== Sorting ================================================================================

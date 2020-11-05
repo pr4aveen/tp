@@ -13,6 +13,7 @@ import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 
@@ -22,6 +23,7 @@ import seedu.momentum.model.tag.Tag;
 public interface Model {
     /**
      * {@code Predicate} that always evaluate to true.
+     * Used to show all items.
      */
     Predicate<TrackedItem> PREDICATE_SHOW_ALL_TRACKED_ITEMS = unused -> true;
 
@@ -87,20 +89,18 @@ public interface Model {
 
     /**
      * Returns true if a tracked item with the same identity as {@code trackedItem} exists in the project book.
-     *
-     * @param trackedItem
      */
     boolean hasTrackedItem(TrackedItem trackedItem);
 
     /**
-     * Deletes the given project.
-     * The project must exist in the project book.
+     * Deletes the given tracked item.
+     * The tracked item must exist in the project book.
      */
     void deleteTrackedItem(TrackedItem target);
 
     /**
-     * Adds the given project.
-     * {@code project} must not already exist in the project book.
+     * Adds the given tracked item.
+     * {@code trackedItem} must not already exist in the project book.
      */
     void addTrackedItem(TrackedItem trackedItem);
 
@@ -113,14 +113,17 @@ public interface Model {
     void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem);
 
     /**
-     * Returns an unmodifiable view of the filtered project list.
+     * Returns an unmodifiable view of the list of items to display.
      */
     ObservableList<TrackedItem> getDisplayList();
 
+    /**
+     * Returns the list of items to display, that can be observed for changes.
+     */
     ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList();
 
     /**
-     * Returns a list of projects whose timers are running.
+     * Returns a list of TrackedItem whose timers are running.
      */
     ObservableList<TrackedItem> getRunningTimers();
 
@@ -147,6 +150,26 @@ public interface Model {
     void rescheduleReminders();
 
     /**
+     * Reschedule all reminders in project book.
+     */
+    void rescheduleReminder();
+
+    /**
+     * Remove reminder from a project.
+     *
+     * @param project the project to remove the reminder from.
+     */
+    void removeReminder(Project project);
+
+    /**
+     * Remove reminder from a task.
+     *
+     * @param project the project with task to remove the reminder from.
+     * @param task    the task to remove the reminder from.
+     */
+    void removeReminder(Project project, Task task);
+
+    /**
      * Returns true if the reminder is empty, false otherwise.
      *
      * @return the boolean.
@@ -163,30 +186,47 @@ public interface Model {
     /**
      * Remove the reminder shown.
      */
-    void removeReminder();
+    void removeReminderShown();
 
+    /**
+     * Update the list of running timers.
+     */
     void updateRunningTimers();
 
     /**
-     * Updates the filter of the filtered project list to filter by the given {@code predicate}.
+     * Updates the filter of the display list to filter by the given {@code predicate}.
      *
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updatePredicate(Predicate<TrackedItem> predicate);
 
     /**
-     * Orders the list of projects in a way given by the {@code sortType}.
+     * Orders the display list in a way given by the {@code sortType}.
      *
      * @throws NullPointerException if {@code sortType} is null.
      */
     void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus);
 
+    /**
+     * Orders the display list in a way given by the {@code sortType}.
+     *
+     * @throws NullPointerException if {@code sortType} is null.
+     */
+    void updateOrder(SortType sortType, boolean isAscending);
+
+    /**
+     * Updates the display list to show all projects.
+     */
     void viewProjects();
 
+    /**
+     * Updates the display list to show all tasks belonging to the specified project.
+     */
     void viewTasks(Project project);
 
-    void viewAll();
-
+    /**
+     * Resets the display list to show all items.
+     */
     void resetView();
 
     /**
@@ -196,6 +236,9 @@ public interface Model {
      */
     Project getCurrentProject();
 
+    /**
+     * Returns the current view of the model.
+     */
     ViewMode getViewMode();
 
 
@@ -224,7 +267,7 @@ public interface Model {
     /**
      * Undoes command to reset view mode to previous view mode.
      */
-    void resetUi(ViewMode viewMode, Project project);
+    void resetUi(ViewMode viewMode);
 
     /**
      * Redoes previously undone command to reset state to before undo command.
@@ -232,7 +275,7 @@ public interface Model {
     void redoCommand();
 
     /**
-     * Returns the total number of both visible and invisble items in the current project/task.
+     * Returns the total number of both visible and invisble items in the current display list.
      */
     int getTotalNumberOfItems();
 }

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
@@ -12,91 +11,108 @@ import org.junit.jupiter.api.Test;
 
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.comparators.CreatedDateCompare;
 import seedu.momentum.model.project.comparators.NameCompare;
-import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class ProjectBookWithUiTest {
 
-    private static final Project validProject = new ProjectBuilder().withName("TEST").build();
-    private static final Comparator<TrackedItem> nameCompare = new NameCompare();
+    private static final Project VALID_PROJECT = new ProjectBuilder().withName("TEST").build();
+    private static final Comparator<TrackedItem> NAME_COMPARE = new NameCompare();
 
-    private static final ProjectBookWithUi projectBookWithUi =
-            new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS, validProject,
-                    Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, nameCompare);
+    private static final ProjectBookWithUi PROJECT_BOOK_WITH_UI =
+            new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS, VALID_PROJECT,
+                    Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true);
 
     @Test
     public void constructor() {
-        assertEquals(ViewMode.TASKS, projectBookWithUi.getViewMode());
-        assertEquals(validProject, projectBookWithUi.getProject());
-        assertEquals(Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, projectBookWithUi.getPredicate());
-        assertEquals(nameCompare, projectBookWithUi.getComparator());
+        assertEquals(ViewMode.TASKS, PROJECT_BOOK_WITH_UI.getViewMode());
+        assertEquals(VALID_PROJECT, PROJECT_BOOK_WITH_UI.getProject());
+        assertEquals(Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, PROJECT_BOOK_WITH_UI.getPredicate());
+        assertEquals(NAME_COMPARE, PROJECT_BOOK_WITH_UI.getComparator());
+        assertEquals(true, PROJECT_BOOK_WITH_UI.isTagsVisible());
     }
 
     @Test
     public void getViewMode_returnsViewMode() {
-        ViewMode viewMode = projectBookWithUi.getViewMode();
+        ViewMode viewMode = PROJECT_BOOK_WITH_UI.getViewMode();
         assertEquals(viewMode, ViewMode.TASKS);
     }
 
     @Test
     public void getProject_returnsProject() {
-        Project project = projectBookWithUi.getProject();
-        assertEquals(project, validProject);
+        Project project = PROJECT_BOOK_WITH_UI.getProject();
+        assertEquals(project, VALID_PROJECT);
     }
 
     @Test
     public void getPredicate_returnsPredicate() {
-        Predicate<TrackedItem> predicate = projectBookWithUi.getPredicate();
+        Predicate<TrackedItem> predicate = PROJECT_BOOK_WITH_UI.getPredicate();
         assertEquals(predicate, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS);
     }
 
     @Test
     public void getComparator_returnsComparator() {
-        Comparator<TrackedItem> comparator = projectBookWithUi.getComparator();
-        assertEquals(comparator, nameCompare);
+        Comparator<TrackedItem> comparator = PROJECT_BOOK_WITH_UI.getComparator();
+        assertEquals(comparator, NAME_COMPARE);
+    }
+
+    @Test
+    public void isTagsVisible_returnsTrue() {
+        assertEquals(true, PROJECT_BOOK_WITH_UI.isTagsVisible());
+    }
+
+    @Test
+    public void isTagsVisible_returnsFalse() {
+        ProjectBookWithUi projectBookTagsInvisible =
+                new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS, VALID_PROJECT,
+                        Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, false);
+        assertEquals(false, projectBookTagsInvisible.isTagsVisible());
     }
 
     @Test
     public void equals() {
         // same object -> returns true
-        assertTrue(projectBookWithUi.equals(projectBookWithUi));
+        assertTrue(PROJECT_BOOK_WITH_UI.equals(PROJECT_BOOK_WITH_UI));
 
         // different types -> returns false
-        assertFalse(projectBookWithUi.equals("1"));
+        assertFalse(PROJECT_BOOK_WITH_UI.equals("1"));
 
         // null -> return false
-        assertFalse(projectBookWithUi.equals(null));
+        assertFalse(PROJECT_BOOK_WITH_UI.equals(null));
 
         //same viewMode, project, predicate, comparator -> return true
         ProjectBookWithUi sameProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-                validProject, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, nameCompare);
-        assertTrue(projectBookWithUi.equals(sameProjectbookWithUi));
+                VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true);
+        assertTrue(PROJECT_BOOK_WITH_UI.equals(sameProjectbookWithUi));
 
         //same viewMode, both projects null, same predicate, same comparator -> return true
         ProjectBookWithUi nullProjectBookWithUi =
                 new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS, null,
-                        Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, nameCompare);
+                        Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true);
         sameProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-                null, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, nameCompare);
+                null, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true);
         assertTrue(nullProjectBookWithUi.equals(sameProjectbookWithUi));
 
         // different viewMode -> return false
         ProjectBookWithUi differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.PROJECTS,
-                validProject, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, nameCompare);
-        assertFalse(projectBookWithUi.equals(differentProjectbookWithUi));
+                VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true);
+        assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
 
         // different project -> returns false
         Project otherProject = new ProjectBuilder().withName("OTHER").build();
         differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-                otherProject, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, nameCompare);
-        assertFalse(projectBookWithUi.equals(differentProjectbookWithUi));
+                otherProject, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true);
+        assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
 
-//        // different predicate -> returns false
-//        Predicate<TrackedItem> completePredicate = new CompletionStatusPredicate(Arrays.asList("incomplete"));
-//        differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-//                otherProject, completePredicate, nameCompare);
-//        assertFalse(projectBookWithUi.equals(differentProjectbookWithUi));
+        // different tags visibility -> returns false
+        differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
+                VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, false);
+        assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
+
+        //        // different predicate -> returns false
+        //        Predicate<TrackedItem> completePredicate = new CompletionStatusPredicate(Arrays.asList("incomplete"));
+        //        differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
+        //                otherProject, completePredicate, nameCompare);
+        //        assertFalse(projectBookWithUi.equals(differentProjectbookWithUi));
     }
 }

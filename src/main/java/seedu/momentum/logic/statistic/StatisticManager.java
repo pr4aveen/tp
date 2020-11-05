@@ -9,7 +9,7 @@ import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.model.Model;
 
 /**
- * The main statistics manager of the app.
+ * Manages all the statistics being tracked in Momentum.
  * This class contains the specifications of statistics being tracked by the app,
  * and methods to generate those statistics
  */
@@ -19,13 +19,14 @@ public class StatisticManager implements StatisticGenerator {
 
     // Statistics being tracked by the app
     private Statistic totalTimePerProjectStatistic;
+
     // Maintain an array of the above statistics for easy iteration
     private Statistic[] statistics;
 
     /**
      * Constructs a {@code StatisticManager} that tracks statistics form the specified model.
      *
-     * @param model The Model to track.
+     * @param model The model containing the data to track.
      */
     public StatisticManager(Model model) {
         this.model = model;

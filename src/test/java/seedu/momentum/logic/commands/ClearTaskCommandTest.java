@@ -8,31 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
-import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
 
-public class ClearCommandTest {
-
-    @Test
-    public void execute_emptyProjectBook_success() {
-        Model model = new ModelManager();
-        Model expectedModel = new ModelManager();
-        expectedModel.commitToHistory();
-
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS_ALL, expectedModel);
-    }
-
-    @Test
-    public void execute_nonEmptyProjectBook_success() {
-        Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
-        Model expectedModel = new ModelManager(getTypicalProjectBook(), new UserPrefs());
-        expectedModel.setVersionedProjectBook(new ProjectBook());
-        expectedModel.commitToHistory();
-
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS_ALL, expectedModel);
-    }
-
+public class ClearTaskCommandTest {
     @Test
     public void execute_clearTasks_success() {
         Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
@@ -47,7 +26,7 @@ public class ClearCommandTest {
         expectedModel.viewTasks(newProject);
         expectedModel.commitToHistory();
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS_TASK, expectedModel);
+        assertCommandSuccess(new ClearTaskCommand(), model, ClearCommand.MESSAGE_SUCCESS_TASK, expectedModel);
     }
 
 }

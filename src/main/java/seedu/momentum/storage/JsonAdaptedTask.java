@@ -13,7 +13,7 @@ import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
- * Jackson-friendly version of {@link TrackedItem}.
+ * Jackson-friendly version of {@link Task}.
  */
 class JsonAdaptedTask {
 
@@ -30,7 +30,7 @@ class JsonAdaptedTask {
     private final JsonAdaptedTimer timer;
 
     /**
-     * Constructs a {@code Task} with the given project details.
+     * Constructs a {@code Task} with the given details.
      */
     @JsonCreator
     public JsonAdaptedTask(@JsonProperty("name") String name,
@@ -77,9 +77,9 @@ class JsonAdaptedTask {
     }
 
     /**
-     * Converts this Jackson-friendly adapted project object into the model's {@code TrackedItem} object.
+     * Converts this Jackson-friendly adapted task object into the model's {@code Task} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted tracked item.
+     * @throws IllegalValueException if there were any data constraints violated in the adapted task.
      */
     public Task toModelType() throws IllegalValueException {
         final DateWrapper modelCreatedDateWrapper = JsonToModel.getModelCreatedDate(createdDate);
@@ -89,7 +89,7 @@ class JsonAdaptedTask {
                 JsonToModel.getModelCompletionStatus(completionStatus),
                 modelCreatedDateWrapper,
                 JsonToModel.getModelDeadline(deadline, modelCreatedDateWrapper),
-                JsonToModel.getModelReminder(reminder, modelCreatedDateWrapper),
+                JsonToModel.getModelReminder(reminder),
                 JsonToModel.getModelTags(tagged),
                 JsonToModel.getModelDurations(durations),
                 JsonToModel.getModelTimerWrapper(timer));
