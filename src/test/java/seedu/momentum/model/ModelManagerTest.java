@@ -131,7 +131,7 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void undoCommand() {
+    public void undoCommand_updatesFields() {
 
         // view tasks in a project
         Project project = new ProjectBuilder().withName("TEST").build();
@@ -156,7 +156,7 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void redoCommand() {
+    public void redoCommand_updatesFields() {
 
         // view tasks in a project
         Project project = new ProjectBuilder().withName("TEST").build();
@@ -208,7 +208,7 @@ public class ModelManagerTest {
      * This test tests for all sort related methods in ModelManager.
      */
     @Test
-    public void updateOrder() {
+    public void updateOrder_updatesDisplayList() {
 
         Model sortModel = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
