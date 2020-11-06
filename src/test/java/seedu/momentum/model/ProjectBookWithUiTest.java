@@ -9,6 +9,8 @@ import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.momentum.commons.core.GuiThemeSettings;
+import seedu.momentum.commons.core.Theme;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.NameCompare;
@@ -31,6 +33,7 @@ public class ProjectBookWithUiTest {
         assertEquals(Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, PROJECT_BOOK_WITH_UI.getPredicate());
         assertEquals(NAME_COMPARE, PROJECT_BOOK_WITH_UI.getComparator());
         assertEquals(true, PROJECT_BOOK_WITH_UI.isTagsVisible());
+        assertEquals(USER_PREFS, PROJECT_BOOK_WITH_UI.getUserPrefs());
     }
 
     @Test
@@ -68,6 +71,12 @@ public class ProjectBookWithUiTest {
                 new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS, VALID_PROJECT,
                         Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, false, USER_PREFS);
         assertEquals(false, projectBookTagsInvisible.isTagsVisible());
+    }
+
+    @Test
+    public void getUserPrefs_returnsUserPref() {
+        ReadOnlyUserPrefs userPrefs = PROJECT_BOOK_WITH_UI.getUserPrefs();
+        assertEquals(userPrefs, USER_PREFS);
     }
 
     @Test
@@ -115,5 +124,12 @@ public class ProjectBookWithUiTest {
         //        differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
         //                otherProject, completePredicate, nameCompare);
         //        assertFalse(projectBookWithUi.equals(differentProjectbookWithUi));
+
+        // different user prefs -> returns false
+        ReadOnlyUserPrefs otherUserPrefs =
+            new UserPrefs().returnChangedGuiThemeSettings(new GuiThemeSettings(new Theme(Theme.ThemeType.LIGHT)));
+        differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
+            VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, otherUserPrefs);
+        assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
     }
 }

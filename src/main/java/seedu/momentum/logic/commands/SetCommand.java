@@ -68,6 +68,23 @@ public class SetCommand extends Command {
         return new CommandResult(MESSAGE_UPDATE_SETTINGS_SUCCESS);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof SetCommand)) {
+            return false;
+        }
+
+        // state check
+        SetCommand o = (SetCommand) other;
+        return settingsToChange.equals(o.settingsToChange);
+    }
+
     /**
      * Stores the details of the settings to be changed.
      */
@@ -108,6 +125,24 @@ public class SetCommand extends Command {
 
         public Optional<StatisticTimeframe> getStatTimeframe() {
             return Optional.ofNullable(statTimeframe);
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            // short circuit if same object
+            if (other == this) {
+                return true;
+            }
+
+            // instanceof handles nulls
+            if (!(other instanceof SettingsToChange)) {
+                return false;
+            }
+
+            // state check
+            SettingsToChange o = (SettingsToChange) other;
+            return getTheme().equals(o.getTheme())
+                && getStatTimeframe().equals(o.getStatTimeframe());
         }
     }
 }
