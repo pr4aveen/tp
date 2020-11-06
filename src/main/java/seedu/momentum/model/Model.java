@@ -12,9 +12,9 @@ import seedu.momentum.commons.core.GuiThemeSettings;
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.comparators.SortType;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.comparators.SortType;
 import seedu.momentum.model.tag.Tag;
 
 /**
