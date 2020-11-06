@@ -57,7 +57,6 @@ public class StartTaskCommand extends StartCommand {
         Project newProject = parentProject.setTask(trackedItemToStart, newTrackedItem);
         model.setTrackedItem(parentProject, newProject);
 
-        model.rescheduleReminders();
         model.commitToHistory();
 
         return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())

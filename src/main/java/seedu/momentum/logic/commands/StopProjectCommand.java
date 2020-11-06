@@ -54,7 +54,7 @@ public class StopProjectCommand extends StopCommand {
                 StringUtil.formatMinutesToString(newTrackedItem.getTimer().getTimeBetween(ChronoUnit.MINUTES));
 
         model.setTrackedItem(trackedItemToStop, newTrackedItem);
-        model.rescheduleReminders();
+
         model.commitToHistory();
 
         return new CommandResult(String.format(MESSAGE_STOP_TIMER_SUCCESS, targetIndex.getOneBased(),

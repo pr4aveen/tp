@@ -50,7 +50,6 @@ public class StartProjectCommand extends StartCommand {
         TrackedItem newTrackedItem = trackedItemToStart.startTimer();
         model.setTrackedItem(trackedItemToStart, newTrackedItem);
 
-        model.rescheduleReminders();
         model.commitToHistory();
 
         return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())

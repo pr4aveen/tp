@@ -79,6 +79,20 @@ public abstract class EditCommand extends Command {
      */
     @Override
     public abstract CommandResult execute(Model model) throws CommandException;
+    
+    protected static Deadline getUpdatedDeadline(TrackedItem trackedItemToEdit,
+            EditTrackedItemDescriptor editTrackedItemDescriptor, DateWrapper createdDateWrapper) throws CommandException{
+        Optional<Deadline> editedDeadline = editTrackedItemDescriptor.getDeadline();
+        Deadline updatedDeadline = editedDeadline.orElse(trackedItemToEdit.getDeadline());
+        // deadline is before created date
+        // created date wrapped by LocalDate.EPOCH by default
+        if (editedDeadline.isPresent()
+                && !editedDeadline.get().isEmpty()
+                && Deadline.isBeforeCreatedDate(updatedDeadline.getDate().toString(), createdDateWrapper)) {
+            throw new CommandException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
+        }
+        return updatedDeadline;
+    }
 
     /**
      * Creates and returns a {@code Project} or {@code Task} with the details of {@code trackedItemToEdit}
@@ -89,8 +103,7 @@ public abstract class EditCommand extends Command {
      * @param model Provides context under which the item is being edited.
      */
     protected static TrackedItem createEditedTrackedItem(TrackedItem trackedItemToEdit,
-                                                       EditTrackedItemDescriptor editTrackedItemDescriptor,
-                                                       Model model) throws CommandException {
+            EditTrackedItemDescriptor editTrackedItemDescriptor, Model model) throws CommandException {
         // Name
         Name updatedName = editTrackedItemDescriptor.getName().orElse(trackedItemToEdit.getName());
 
@@ -108,14 +121,7 @@ public abstract class EditCommand extends Command {
         DateWrapper createdDateWrapper = trackedItemToEdit.getCreatedDate();
 
         // Deadline
-        Deadline updatedDeadline = editTrackedItemDescriptor.getDeadline().orElse(trackedItemToEdit.getDeadline());
-        if (editTrackedItemDescriptor.getDeadline().isPresent()
-                && !editTrackedItemDescriptor.getDeadline().get().isEmpty()
-                && Deadline.isBeforeCreatedDate(updatedDeadline.getDate().toString(), createdDateWrapper)) {
-            // deadline is before created date
-            // created date wrapped by LocalDate.EPOCH by default
-            throw new CommandException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
-        }
+        Deadline updatedDeadline = getUpdatedDeadline(trackedItemToEdit, editTrackedItemDescriptor, createdDateWrapper);
 
         // Reminder
         Reminder updatedReminder = editTrackedItemDescriptor.getReminder().orElse(trackedItemToEdit.getReminder());

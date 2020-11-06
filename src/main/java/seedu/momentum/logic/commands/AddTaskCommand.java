@@ -44,7 +44,6 @@ public class AddTaskCommand extends AddCommand {
         Project projectBeforeAdd = project;
         Project projectAfterAdd = project.addTask(taskToAdd);
         model.setTrackedItem(projectBeforeAdd, projectAfterAdd);
-        model.rescheduleReminders();
         model.viewTasks(projectAfterAdd);
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_SUCCESS, TEXT_TASK, taskToAdd));
