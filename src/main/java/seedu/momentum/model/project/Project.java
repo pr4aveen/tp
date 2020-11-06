@@ -91,6 +91,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
      */
     @Override
     public Project startTimer() {
+        LOGGER.info("Started Timer For: " + name.fullName);
         TimerWrapper newTimerWrapper = timerWrapper.start();
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
                 newTimerWrapper, taskList);
@@ -104,6 +105,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
      */
     @Override
     public Project stopTimer() {
+        LOGGER.info("Stopped Timer For: " + name.fullName);
         TimerWrapper newTimerWrapper = timerWrapper.stop();
         WorkDuration duration = new WorkDuration(newTimerWrapper.getStartTime(), newTimerWrapper.getStopTime());
         UniqueItemList<WorkDuration> newDurations = durations.copy();
@@ -120,6 +122,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
      */
     public Project addTask(TrackedItem task) {
         requireNonNull(task);
+        LOGGER.info(String.format("Added a Task: %s, To: %s", task, this));
         UniqueItemList<TrackedItem> newList = taskList.copy();
         newList.add(task);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
@@ -144,6 +147,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
      */
     public Project deleteTask(TrackedItem task) {
         requireNonNull(task);
+        LOGGER.info(String.format("Deleted a Task: %s, From: %s", task, this));
         UniqueItemList<TrackedItem> newList = taskList.copy();
         newList.remove(task);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
@@ -158,6 +162,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
      */
     public Project setTask(TrackedItem target, TrackedItem editedTask) {
         requireAllNonNull(target, editedTask);
+        LOGGER.info(String.format("Replaced Task: %s, With: %s, In: %s", target, editedTask, this));
         UniqueItemList<TrackedItem> newList = taskList.copy();
         newList.set(target, editedTask);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
@@ -169,23 +174,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
      */
     public Project clearTasks() {
         UniqueItemList<TrackedItem> newList = new UniqueItemList<>();
-        return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
-                tags, durations, timerWrapper, newList);
-    }
-
-    /**
-     * Orders the list of tasks in a way given by the {@code sortType}.
-     *
-     * @param sortType                     A boolean to check the type of order of the sort.
-     * @param isAscending                  A boolean to check if the list is sorted in ascending order.
-     * @param changeSortByCompletionStatus A boolean value to check if SortCommand should change the sorted by
-     *                                     completion status.
-     */
-    public Project orderTaskList(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
-        requireAllNonNull(sortType, isAscending, changeSortByCompletionStatus);
-
-        UniqueItemList<TrackedItem> newList = taskList.copy();
-
+        LOGGER.info(String.format("Cleared All Tasks In: %s", this));
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
                 tags, durations, timerWrapper, newList);
     }
