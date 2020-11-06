@@ -1,5 +1,8 @@
 package seedu.momentum.commons.core;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.momentum.commons.util.AppUtil.checkArgument;
+
 import java.io.Serializable;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
@@ -28,10 +31,33 @@ public class StatisticTimeframe implements Serializable {
     }
 
     /**
+     * Constructs a {@code StatisticTimeframe} with the specified timeframe expressed as a String.
+     *
+     * @param timeframe a valid timeframe.
+     */
+    public StatisticTimeframe(String timeframe) {
+        requireNonNull(timeframe);
+        checkArgument(isValid(timeframe), MESSAGE_CONSTRAINTS);
+        this.timeframe = Timeframe.valueOf(timeframe.toUpperCase());
+    }
+
+    /**
      * Converts the timeframe to a {@code ChronoUnit}.
      */
     public ChronoUnit toChronoUnit() {
         return timeframe.toChronoUnit();
+    }
+
+    /**
+     * Returns true if a given string is a valid timeframe.
+     */
+    public static boolean isValid(String timeframe) {
+        try {
+            Timeframe.valueOf(timeframe.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
     }
 
     @Override

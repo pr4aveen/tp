@@ -205,7 +205,6 @@ public class ReminderManager {
             ReminderManager.this.timer.cancel();
             ThreadWrapper.run(getUpdateReminder());
             ThreadWrapper.run(getRemoveReminder());
-            ThreadWrapper.run(ReminderManager.this::rescheduleReminder);
         }
     }
 }

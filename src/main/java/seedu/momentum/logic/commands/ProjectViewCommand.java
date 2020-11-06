@@ -23,7 +23,7 @@ public class ProjectViewCommand extends Command {
 
     public static final String MESSAGE_VIEW_PROJECT_SUCCESS = "Viewing Project: %1$s";
 
-    public static final String MESSAGE_NOT_PROJECT = "You cannot view tasks within a project!";
+    public static final String MESSAGE_NOT_PROJECT = "You cannot use the view command on tasks!";
 
     private final Index targetIndex;
 

@@ -34,14 +34,6 @@ public class TagListContainsKeywordPredicate extends ContainsKeywordPredicate {
         return testPredicate(predicate);
     }
 
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof TagListContainsKeywordPredicate // instanceof handles nulls
-                && keywords.equals(((TagListContainsKeywordPredicate) other).keywords)) // state check
-                && findType == ((TagListContainsKeywordPredicate) other).findType;
-    }
-
     /**
      * Converts a set of {@code Tag} to a string where each entry is followed by a space.
      * This is the format used by {@code StringUtil} methods.
@@ -56,6 +48,13 @@ public class TagListContainsKeywordPredicate extends ContainsKeywordPredicate {
             sb.append(" ");
         }
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof TagListContainsKeywordPredicate // instanceof handles nulls
+                && super.equals(other)); // state check
     }
 
 }

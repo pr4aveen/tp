@@ -18,6 +18,7 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.CreatedDateCompare;
 import seedu.momentum.model.project.comparators.NameCompare;
 import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
+import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class VersionedProjectBookTest {
@@ -29,7 +30,7 @@ public class VersionedProjectBookTest {
     private static final ViewMode AFTER_VIEWMODE = ViewMode.PROJECTS;
     private static final Predicate<TrackedItem> INIT_PREDICATE = Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
     private static final Predicate<TrackedItem> AFTER_PREDICATE =
-            new CompletionStatusPredicate(Arrays.asList("incomplete"));
+            new CompletionStatusPredicate(FindType.ALL, Arrays.asList("incomplete"));
     private static final Comparator<TrackedItem> INIT_COMPARE = new NameCompare();
     private static final Comparator<TrackedItem> AFTER_COMPARE = new CreatedDateCompare();
     private static final boolean INIT_TAGS_VISIBLE = true;
@@ -105,6 +106,7 @@ public class VersionedProjectBookTest {
         assertEquals(versionedProjectBook.getCurrentComparator(), AFTER_COMPARE);
         assertEquals(versionedProjectBook.getCurrentPredicate(), AFTER_PREDICATE);
         assertEquals(versionedProjectBook.isTagsVisible(), AFTER_TAGS_VISIBLE);
+        assertEquals(versionedProjectBook.getUserPrefs(), AFTER_USER_PREFS);
     }
 
     @Test
@@ -126,6 +128,7 @@ public class VersionedProjectBookTest {
         assertEquals(versionedProjectBook.getCurrentComparator(), INIT_COMPARE);
         assertEquals(versionedProjectBook.getCurrentPredicate(), INIT_PREDICATE);
         assertEquals(versionedProjectBook.isTagsVisible(), INIT_TAGS_VISIBLE);
+        assertEquals(versionedProjectBook.getUserPrefs(), INIT_USER_PREFS);
     }
 
     @Test
@@ -150,6 +153,7 @@ public class VersionedProjectBookTest {
         assertEquals(versionedProjectBook.getCurrentComparator(), AFTER_COMPARE);
         assertEquals(versionedProjectBook.getCurrentPredicate(), AFTER_PREDICATE);
         assertEquals(versionedProjectBook.isTagsVisible(), AFTER_TAGS_VISIBLE);
+        assertEquals(versionedProjectBook.getUserPrefs(), AFTER_USER_PREFS);
     }
 
     @Test
@@ -208,9 +212,15 @@ public class VersionedProjectBookTest {
     public void getCurrentComparator() {
         assertEquals(versionedProjectBook.getCurrentComparator(), INIT_COMPARE);
     }
+
     @Test
     public void getCurrentIsTagsVisible() {
         assertEquals(versionedProjectBook.isTagsVisible(), INIT_TAGS_VISIBLE);
+    }
+
+    @Test
+    public void getCurrentUserPrefs() {
+        assertEquals(versionedProjectBook.getUserPrefs(), INIT_USER_PREFS);
     }
 
     @Test

@@ -20,6 +20,9 @@ public class SettingsUpdateManager {
     private static final String UI_NOT_PRESENT = "Ui not found. Ui changes will not be applied for now.";
     private static final String STAT_NOT_PRESENT = "Statistics not found. Statistics timeframe is not changed for now.";
 
+    private static final Runnable LOG_UI_NOT_PRESENT = () -> LOGGER.warning(UI_NOT_PRESENT);
+    private static final Runnable LOG_STAT_NOT_PRESENT = () -> LOGGER.warning(STAT_NOT_PRESENT);
+
     private static Ui ui;
     private static StatisticGenerator statistic;
 
@@ -35,7 +38,7 @@ public class SettingsUpdateManager {
      * Updates the theme of the application.
      */
     public static void updateTheme(Theme theme) {
-        Optional.ofNullable(ui).ifPresentOrElse(ui -> ui.getMainWindow().updateTheme(theme), logUiNotPresent());
+        Optional.ofNullable(ui).ifPresentOrElse(ui -> ui.getMainWindow().updateTheme(theme), LOG_UI_NOT_PRESENT);
     }
 
     /**
@@ -43,9 +46,9 @@ public class SettingsUpdateManager {
      */
     public static void updateStatisticTimeframe(StatisticTimeframe timeframe) {
         Optional.ofNullable(statistic).ifPresentOrElse(stat -> stat.updateStatisticTimeframe(timeframe),
-            logStatisticNotPresent());
+            LOG_STAT_NOT_PRESENT);
         Optional.ofNullable(ui).ifPresentOrElse(ui -> ui.getMainWindow().updateStatList(timeframe),
-            logUiNotPresent());
+            LOG_UI_NOT_PRESENT);
     }
 
     /**
@@ -54,14 +57,6 @@ public class SettingsUpdateManager {
     public static void updateApplicationSettings(ReadOnlyUserPrefs userPrefs) {
         updateTheme(userPrefs.getGuiThemeSettings().getTheme());
         updateStatisticTimeframe(userPrefs.getStatisticTimeframeSettings().getStatTimeframe());
-    }
-
-    private static Runnable logUiNotPresent() {
-        return () -> LOGGER.warning(UI_NOT_PRESENT);
-    }
-
-    private static Runnable logStatisticNotPresent() {
-        return () -> LOGGER.warning(STAT_NOT_PRESENT);
     }
 
 }
