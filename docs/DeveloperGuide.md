@@ -4,7 +4,7 @@ title: Developer Guide
 ---
 
 * Table of Contents
-  {:toc}
+  [toc]
 
 ---
 
@@ -17,16 +17,6 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 ## **Design**
 
 ### Architecture
-
-<img src="images/ArchitectureDiagram.png" width="450" />
-
-The **_Architecture Diagram_** given above explains the high-level design of the App. Given below is a quick overview of each component.
-
-<div markdown="span" class="alert alert-primary">
-
-:bulb: **Tip:** The `.puml` files used to create diagrams in this document can be found in the [diagrams](https://github.com/se-edu/addressbook-level3/tree/master/docs/diagrams/) folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
-
-</div>
 
 **`Main`** has two classes called [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java). It is responsible for,
 
@@ -105,6 +95,7 @@ The `Model`,
 
 * stores a `UserPref` object that represents the user’s preferences.
 * stores the project book data.
+* stores a `ReminderManager` object the schedules and remove reminders.
 * exposes an unmodifiable `ObservableList<Project>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
@@ -135,19 +126,38 @@ Classes used by multiple components are in the `seedu.momentum.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Adding Tasks to Projects
+Since projects and tasks contain very similar fields, we have chosen to implement an abstract class, `TrackedItem` with these fields, and have both `Project` and `Task` extend from it. We then have each `Project` contain a list of `Task` that can be accessed. This is illustrated in the class diagram below:
+
+//Image here//
+
+This allows us to reduce code duplication, and allows us to handle both projects and task in a more general, abstract way. For example, the same `start`/`stop` command classes can be used for both projects and tasks by implementing them using `TrackedItem`. 
+
+#### Alternate Implementation: Projects in Projects
+Instead of have seperate `Project` and `Task` classes, we can model the concept by having each `Project` object contain more `Project` objects, as illustrated in the class diagram below:
+
+//Image here//
+
+We ultimately chose not to use this implementation because we expect `Project` and `Task` to be further differentiated in the future. Our chosen implementation will allow us to modify and extend the functionality of `Project` and `Task` seperately.
+
+#### Alternate Implementation: Using predicates to filter Tasks and Projects
+Another implementation we considered was to add all `Project` and `Task` objects the same `UniqueProjectsList`. The UI will only display projects when it is in the project view and tasks when it is in the tasks view. This will be done by modifying the predicates used on the `filteredTrackedItems` list in `ModelManager`. Other commands such as `Find` will modify the predicate similarly. 
+
+We rejected this implementation as we felt that it would be difficult to write more rigorous tests compared to our chosen implementation. The chosen implementation can reuse a lot of the tests that are already present in the codebase. This was an important consideration for us due to the time constraints we are presented with.
+
 ### Immutability
-`Projects`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new
+`Projects`, `Tasks`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new
  object is created with the new details, and the model is updated with the new object.
-
+ 
 Notable examples include:
-* Starting/Stopping a Timer: A new object is created with the updated timerWrapper state and durations,
-* Editing a Project: A new object is created with the new project's details, with the same timerWrapper and durations recorded.
+* Starting/Stopping a Timer: A new object is created with the updated timer state and durations, 
+* Editing a Project: A new object is created with the new project's details, with the same timer and durations recorded.
 
-Below is an example of what happens when a project's timerWrapper is stopped:
+Below is an example of what happens when a project's timer is stopped:
 
 ![StopTimerSequenceDiagram](images/StopTimerSequenceDiagram.png)
 
-In this case, since the project's timerWrapper is being changed, new `TimerWrapper`, `WorkDuration`, `UniqueDurationList` objects are
+In this case, since the project's timer is being changed, new `TimerWrapper`, `WorkDuration`, `UniqueDurationList` objects are
  created, which are then used to create a new `Project`, which is subsequently used to replace the old `Project` in
   the model.
 
@@ -156,21 +166,21 @@ We chose to implement projects this way as immutability makes these classes more
 ### Timers and Durations
 The time tracking features in Momentum are implemented using `TimerWrapper` and `WorkDuration` objects. The below diagram
  illustrates the relevant classes that work together to produce statistics
-
+ 
  ![StopTimerSequenceDiagram](images/TimerDurationClassDiagram.png)
 
 
-Each project has a `TimerWrapper` that can be started and stopped by the user (using the `start`/`stop` commands). The timerWrapper
+Each project has a `TimerWrapper` that can be started and stopped by the user (using the `start`/`stop` commands). The timer
  does not run actively (counting each second/millisecond), instead it records the time when it was started, and the time
   when it was stopped. 
  
 This implementation was chosen because it allows Momentum's timers to continue running even when the application is
-closed, bye saving the timerWrapper's start/stop times together with project data. We chose to give each `Project` its own
- timerWrapper as that allows Momentum to support running multiple timers concurrently, one for each project, for users that
+closed, bye saving the timer's start/stop times together with project data. We chose to give each `Project` its own
+ timer as that allows Momentum to support running multiple timers concurrently, one for each project, for users that
   want to multi-task.
 
 A `WorkDuration` represents a period of time that the user spent working on a project. Each `Project` contains a list
- of `WorkDuration` that represents each time the each the user starts and stops the timerWrapper for the project.
+ of `WorkDuration` that represents each time the each the user starts and stops the timer for the project.
  
 We chose to do this implementation to allow for flexibility in calculating statistics
 
@@ -185,22 +195,25 @@ The date and time of a deadline of a project is parsed separately. This design i
 
 An alternative design is to parse both date and time together. This is harder to implement as date and time is stored separately in deadline. This design would also restrict the format of the date and time.
 
-The deadline also has a constraint that is has to beon or after the created date. This constraint has been added to prevent the occurences of any bug due to offset with date and times.
+The deadline also has a constraint that is has to be on or after the created date. This constraint has been added so that more meaningful statistics can be generated.
 
 As a result, the deadline has to be aware of the created date when created. The constructor of `Deadline` accepts a created date. For `EditCommand`, a descriptor containing edited fields is created directly from parsing the user input in `EditCommandParser`, hence the created date is unknown. A dummy date using `LocalDate.EPOCH` is passed into the constructor of `Deadline` in `EditCommandParser` to allow creation of the deadline. The check that deadline has to be on or after the created date is done in `EditCommand` after the creation date of the project to be edited is known.
 
-
 ### Reminders
 
-The reminder of a task is implemented using `ReminderManager` and `Reminder`. The date and time of a reminder is stored in `Reminder`. `ReminderManager` schedules the reminder using `Timer` and runs the reminder using `Platform.runLater`. 
+The reminder of a task is implemented using `ReminderManager` and `Reminder`. The date and time of a reminder is stored in `Reminder`. `ReminderManager` schedules the reminder using `Timer` and runs the reminder using `ThreadWrapper`. 
 
 An alternative would be to schedule and run the reminder in `Reminder` class directly. This design was not chosen as that `Reminder` would have to contain references to both `Model` and `ProjectBook`, which is undesired.
 
-`ReminderManager` contains a reference to a `ProjectBook` so that the projects and tasks can be iterated and the reminders of the projects can be modified. `ReminderManager` makes use of callback functions such as `rescheduleReminder(ReminderManager reminderManager)` to iterate through the project, which in turns calls `rescheduleReminder(Project project)` in `ReminderManager`.
+`ThreadWrapper` is a utility class which runs runnables using `Platform.runLater` when running the javaFX application, but switches to running the runnables directly when performing automated tests.
 
-`ReminderManager` has an inner class `ReminderTimerTask` which implements `TimerTask` that is used to schedule a reminder with `Timer`. This design was chosen as `ReminderTimerTask` references non-static methods of `ReminderMananger` as well as `ProjectBook`, which is also referenced in `ReminderManager`.
+An alternative would be to use `Platform.runLater` only to run the reminder. However, automated tests cannot directly run the reminder as it does not support `Platform`. This design was chosen to enable the reminder to be run directly.
 
-An alternative implementation is to implement `ReminderTimerTask` as a separate class. With this implementation, `ReminderTimerTask` will have to contain extra references such as `ReminderManager` and `ProjectBook`.
+`ReminderManager` contains a reference to a `Model` so that the projects and tasks can be iterated through callback methods and the reminders of the projects can be modified. `ReminderManager` makes use of several callback functions such as `rescheduleReminder(ReminderManager reminderManager)` to iterate through the project, which in turns calls `rescheduleReminder(Project project)` in `ReminderManager`.
+
+`ReminderManager` has an inner class `ReminderTimerTask` which implements `TimerTask` that is used to schedule a reminder with `Timer`. This design was chosen as `ReminderTimerTask` references non-static methods of `ReminderMananger` as well as `Model`, which is also referenced in `ReminderManager`.
+
+An alternative implementation is to implement `ReminderTimerTask` as a separate class. With this implementation, `ReminderTimerTask` will have to contain extra references such as `ReminderManager` and `Model`.
 
 The result of the reminder is stored as a `StringProperty` and retrieved from the `Model` so that a listener can be used in `MainWindow` to detect changes and update the GUI acccordingly. This design was chosen due to the ease of implementation. 
 
@@ -209,6 +222,7 @@ The result of the reminder is stored as a `StringProperty` and retrieved from th
 Whenever a project is added, edited or removed, the reminders needs to be adjusted accordingly. The chosen implementations is to reschedule all the reminders. 
 
 An alternative would be to only reschedule projects that are affected by the change. This design was not chosen as it is more complicated and would increase the coupling between `ReminderManager` and other related classes.
+
 
 ### Statistics
 Statistics in Momentum are implemented using a Command design pattern, similar to how Commands are implemented. A
@@ -244,13 +258,33 @@ The `Clock` class acts as a consistent, single course of the 'current time' with
  
 This implementation was chosen because it allows all time-related features to be more easily testable.
 
-Rejected Implementation: Using `LocalDateTime.now()` directly
+#### Rejected Implementation: Using `LocalDateTime.now()` directly
 This implementation was considered but ultimately rejected as it introduced several problems in testing time-realted
  features. Notable issues are:
  * It is impossible to check for equality when getting system time directly using `LocalDateTime.now()` and other
   similar methods, since time would always progress by a small amount between each call
  * It is difficult to test features that require the passage of time, such as the `start` and `stop` commands as we
   would need to actually wait an amount of time during the tests.
+
+### Find Command
+The find command uses predicate chaining to search for projects/tasks based on one or more parameters. A predicate is created for each type of search parameter (name, description, tags, completion status). There are four predicates classes defined for this purpose.
+
+* `NameContainsKeywordPredicate` - Searches for projects/tasks based on name.
+* `DescriptionContainsKeywordPredicate` - Searches for projects/tasks based on description.
+* `TagListContainsKeywordPredicate` - Searches for projects/tasks based on tags.
+* `CompletionStatusPredicate` - Searches for projects/tasks based on completion status.
+
+The `FindCommandParser` creates a list of predicates based on the arguments entered into the command. Each predicate takes in a match type, represented by the enumeration `FindType`.
+
+*check if correct representation for non-static*-> `FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem>`. The `filteredTrackedItemsList` is updated to contain all projects and tasks without updating the user interface. After this, `FindCommand` uses used to update the`filteredTrackedItemsList` and the user interface.
+
+This design was chosen as it built on the existing implementation of the find command, which passed a `NameContainsKeywordPredicate` to the `filteredTrackedItemsList`. This means that minimal changes to other parts of the project were required. 
+
+// should i include a disadvantge of this method -- testability of predicate chaining //
+
+The following sequence diagram shows how the find command works.
+
+// Insert seq diagram here. //
 
 ### \[Proposed\] Undo/redo feature
 
@@ -385,9 +419,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                        | add and edit a reminder for a project                    |                                                                         |
 | `* * *`  | user                                        | delete a project                     | remove entries that I no longer need                                    |
 | `* * *`  | user                                        | find a project by name               | locate details of projects without having to go through the entire list |
+| `* * *`  | user                                        | find a project by completion status               | locate projects that are completed or imcomplete without having to go through the entire list |
 | `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
-| `* *`    | new user                                    | start and stop a timerWrapper for a project | track the time I spent on the project                                   |
+| `*`      | user with many projects in the project book | sort projects by completion status                | locate an incomplete or complete project easily                                                 |
+| `*`      | user with many projects in the project book | hide and show the tags panel                | focus more on statistics and timers                                                 |
+| `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
 | `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
+| `* *`    | user | can create tasks within a project | better organize my work
+
 _{More to be added}_
 
 ### Use cases
@@ -398,22 +437,22 @@ _{More to be added}_
 
 **MSS**
 
-1.  User requests to start a timerWrapper for a specific project in the list.
-2.  Momemtum starts the timerWrapper for the project.
-3.  User requests to end a timerWrapper for a specific project in the list.
-4.  Momemtum ends the timerWrapper for the project.
+1.  User requests to start a timer for a specific project in the list.
+2.  Momemtum starts the timer for the project.
+3.  User requests to end a timer for a specific project in the list.
+4.  Momemtum ends the timer for the project.
 (For all use cases below, the **System** is the `ProjectBook` and the **Actor** is the `user`, unless specified
  otherwise).
 
 **Extensions**
 
-* 2a. There is an existing timerWrapper for the given project id.
+* 2a. There is an existing timer for the given project id.
   
   * a1. Momentum shows an error message.
 
     Use case ends.
 
-* 3a. There is no ongoing timerWrapper for the given project id.
+* 3a. There is no ongoing timer for the given project id.
   
   * a1. Momentum shows an error message.
 
@@ -475,17 +514,33 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1.1 Download the jar file and copy into an empty folder
+   1. Download the jar file and copy into an empty folder
 
-   1.2 Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be
-    optimum.
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-2. Saving window preferences
+1. Saving window preferences
 
-   2.1 Resize the window to an optimum size. Move the window to a different location. Close the window.
+   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   2.2 Re-launch the app by double-clicking the jar file.<br>
+   1. Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
+
+1. _{ more test cases …​ }_
+
+### Deleting a project
+
+1. Deleting a project while all projects are being shown
+
+   1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+
+   1. Test case: `delete 1`<br>
+      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+
+   1. Test case: `delete 0`<br>
+      Expected: No project is deleted. Error details shown in the status message. Status bar remains the same.
+
+   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+      Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
 
