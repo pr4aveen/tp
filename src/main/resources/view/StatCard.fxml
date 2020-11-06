@@ -19,7 +19,7 @@
           <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="statLabel" styleClass="statLabel" text="Label" wrapText="true" GridPane.halignment="CENTER"
+            <Label fx:id="statLabel" styleClass="statLabel" text="Label" GridPane.halignment="CENTER"
                    GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets />
