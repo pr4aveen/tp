@@ -59,6 +59,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
      */
     @Override
     public Task startTimer() {
+        LOGGER.info("Started Timer For: " + name.fullName);
         TimerWrapper newTimerWrapper = timerWrapper.start();
         return new Task(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
                 newTimerWrapper);
@@ -72,6 +73,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
      */
     @Override
     public Task stopTimer() {
+        LOGGER.info("Stopped Timer For: " + name.fullName);
         TimerWrapper newTimerWrapper = timerWrapper.stop();
         WorkDuration duration = new WorkDuration(newTimerWrapper.getStartTime(), newTimerWrapper.getStopTime());
         UniqueItemList<WorkDuration> newDurations = durations.copy();

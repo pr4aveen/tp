@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import seedu.momentum.commons.core.DateWrapper;
+import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.commons.core.UniqueItem;
 import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.reminder.Reminder;
@@ -22,6 +24,7 @@ import seedu.momentum.model.timer.WorkDuration;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public abstract class TrackedItem implements UniqueItem<TrackedItem> {
+    protected static final Logger LOGGER = LogsCenter.getLogger(TrackedItem.class);
 
     // Identity fields
     protected final Name name;
