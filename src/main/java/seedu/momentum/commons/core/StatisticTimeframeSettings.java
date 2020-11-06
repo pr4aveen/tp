@@ -1,3 +1,5 @@
+//@@author khoodehui
+
 package seedu.momentum.commons.core;
 
 import java.io.Serializable;
@@ -23,6 +25,8 @@ public class StatisticTimeframeSettings implements Serializable {
 
     /**
      * Constructs a {@code StatisticTimeframeSettings} with the specified timeframe.
+     *
+     * @param statTimeframe Timeframe to create the settings object.
      */
     public StatisticTimeframeSettings(StatisticTimeframe statTimeframe) {
         this.statTimeframe = statTimeframe;

@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -17,7 +19,7 @@ public class DeleteProjectCommand extends DeleteCommand {
     /**
      * Creates a {@code DeleteProjectCommand} that deletes a project at the given index form the model.
      *
-     * @param targetIndex index of the project to be deleted.
+     * @param targetIndex Index of the project to be deleted.
      */
     public DeleteProjectCommand(Index targetIndex) {
         super(targetIndex);
@@ -27,7 +29,7 @@ public class DeleteProjectCommand extends DeleteCommand {
      * Deletes the project from the provided model.
      *
      * @param model {@code Model} from which to delete the project.
-     * @return feedback message of the result of deleting the project, for display.
+     * @return Feedback message of the result of deleting the project, for display.
      * @throws CommandException If an error occurs during the deletion.
      */
     @Override

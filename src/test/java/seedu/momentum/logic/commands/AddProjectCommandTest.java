@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.momentum.commons.core.Messages.MESSAGE_TEXT_PROJECT;
+import static seedu.momentum.logic.commands.AddProjectCommand.TEXT_PROJECT;
 import static seedu.momentum.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
@@ -52,7 +52,7 @@ public class AddProjectCommandTest {
 
         CommandResult commandResult = new AddProjectCommand(validProject).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, MESSAGE_TEXT_PROJECT, validProject),
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, TEXT_PROJECT, validProject),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validProject), modelStub.projectsAdded);
     }
@@ -62,7 +62,7 @@ public class AddProjectCommandTest {
         Project validProject = new ProjectBuilder().build();
         AddProjectCommand addCommand = new AddProjectCommand(validProject);
         ModelStub modelStub = new ModelStubWithProject(validProject);
-        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, MESSAGE_TEXT_PROJECT);
+        String expectedMessage = String.format(AddCommand.MESSAGE_DUPLICATE_ENTRY, TEXT_PROJECT);
         assertThrows(CommandException.class, expectedMessage, () -> addCommand.execute(modelStub));
     }
 

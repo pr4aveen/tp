@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -21,8 +23,8 @@ public class DeleteTaskCommand extends DeleteCommand {
     /**
      * Creates a {@code DeleteTaskCommand} that deletes a task at the given index from the specified project.
      *
-     * @param targetIndex index of the task to be deleted.
-     * @param project project to delete the task from.
+     * @param targetIndex Index of the task to be deleted.
+     * @param project Project to delete the task from.
      */
     public DeleteTaskCommand(Index targetIndex, Project project) {
         super(targetIndex);
@@ -33,7 +35,7 @@ public class DeleteTaskCommand extends DeleteCommand {
      * Deletes the task from the project in the provided model.
      *
      * @param model {@code Model} containing the proejct from which to delete the task.
-     * @return feedback message of the result of deleting the task, for display.
+     * @return Feedback message of the result of deleting the task, for display.
      * @throws CommandException If an error occurs during the deletion.
      */
     @Override

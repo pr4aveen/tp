@@ -18,7 +18,7 @@ public class HelpCommand extends Command {
      * Displays the help instructions.
      *
      * @param model Not important. Only exists to match the signature of the abstract class.
-     * @return feedback message of editing result, for display.
+     * @return Feedback message of editing result, for display.
      */
     @Override
     public CommandResult execute(Model model) {

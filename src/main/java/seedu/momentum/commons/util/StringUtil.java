@@ -38,6 +38,7 @@ public class StringUtil {
                 .anyMatch(preppedWord::equalsIgnoreCase);
     }
 
+    //@@author pr4aveen
     /**
      * Returns true if the {@code sentence} contains the {@code word}.
      *   Ignores case, but a partial match is sufficient.
@@ -47,8 +48,8 @@ public class StringUtil {
      *       containsPartialIgnoreCase("ABc def", "AB") == true //partial word match
      *       </pre>
      *
-     * @param sentence cannot be null.
-     * @param word cannot be null, cannot be empty, must be a single word.
+     * @param sentence Sentence to check.
+     * @param word Word to check sentence for.
      */
     public static boolean containsPartialIgnoreCase(String sentence, String word) {
         requireNonNull(sentence);
@@ -62,6 +63,7 @@ public class StringUtil {
 
         return preppedSentence.contains(preppedKeyword);
     }
+    //@@author
 
     /**
      * Returns a detailed message of the t, including the stack trace.
@@ -91,11 +93,12 @@ public class StringUtil {
         }
     }
 
+    //@@author boundtotheearth
     /**
      * Formats a value in minutes into hr:min format.
      *
      * @param value An amount of time in minutes.
-     * @return The formated string
+     * @return The formatted string.
      */
     public static String formatMinutesToString(double value) {
         String output = "";

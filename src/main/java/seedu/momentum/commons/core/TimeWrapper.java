@@ -1,3 +1,5 @@
+//@@author claracheong4
+
 package seedu.momentum.commons.core;
 
 import static java.util.Objects.requireNonNull;
@@ -36,6 +38,9 @@ public class TimeWrapper implements InstanceWrapper<LocalTime>, Comparable<TimeW
 
     /**
      * Returns true if a given string is a valid time.
+     *
+     * @param test String to be tested.
+     * @return Whether the string is valid.
      */
     public static boolean isValid(String test) {
         try {
@@ -73,6 +78,7 @@ public class TimeWrapper implements InstanceWrapper<LocalTime>, Comparable<TimeW
         return this.time.hashCode();
     }
 
+    //@@author kkangs0226
     @Override
     public int compareTo(TimeWrapper other) {
         if (this.get().isBefore(other.get())) {

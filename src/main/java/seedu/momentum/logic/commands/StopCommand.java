@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -16,7 +18,7 @@ public abstract class StopCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + " " + "INDEX";
 
     public static final String MESSAGE_STOP_TIMER_SUCCESS = "Stopped %s. Total Duration: %s";
-    public static final String MESSAGE_NO_TIMER_ERROR = "There is no timer running for this.";
+    public static final String MESSAGE_NO_TIMER_ERROR = "There is no timer running for this!";
 
     protected final Index targetIndex;
 
@@ -35,7 +37,7 @@ public abstract class StopCommand extends Command {
      * Stops the timer for the item in the provided model.
      *
      * @param model {@code Model} containing the item whose timer to stop.
-     * @return feedback message of timer result, for display.
+     * @return Feedback message of timer result, for display.
      * @throws CommandException If an error occurs when stopping the timer.
      */
     @Override

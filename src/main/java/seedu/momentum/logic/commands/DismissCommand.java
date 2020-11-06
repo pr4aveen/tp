@@ -1,3 +1,5 @@
+//@@author claracheong4
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -39,7 +41,6 @@ public class DismissCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || other instanceof DismissCommand; // instanceof handles nulls
+        return other instanceof DismissCommand; // instanceof handles nulls
     }
 }

@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -10,7 +12,6 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.function.Predicate;
 
 import seedu.momentum.commons.core.Messages;
-import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
 
@@ -45,8 +46,7 @@ public class FindCommand extends Command {
      * Updates the provided model to show only the items that match the criteria defined in the predicate.
      *
      * @param model {@code Model} containing the model to update.
-     * @return feedback message of find result, for display.
-     * @throws CommandException If an error occurs during updating process.
+     * @return Feedback message of find result, for display.
      */
     @Override
     public CommandResult execute(Model model) {

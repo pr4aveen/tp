@@ -1,3 +1,5 @@
+//@@author kkangs0226
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -5,7 +7,6 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 
-import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.SortType;
 
@@ -66,8 +67,7 @@ public class SortCommand extends Command {
      * Sorts the items in the provided model.
      *
      * @param model {@code Model} whose items to sort.
-     * @return feedback message of sort result, for display
-     * @throws CommandException If an error occurs during the sorting process.
+     * @return Feedback message of sort result, for display.
      */
     @Override
     public CommandResult execute(Model model) {
@@ -98,20 +98,6 @@ public class SortCommand extends Command {
         model.updateOrder(sortType, isAscending, changeSortByCompletionStatus);
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_SORT_SUCCESS, type, order));
-
-        //if (model.getViewMode() == ViewMode.PROJECTS) {
-        //    model.updateOrder(sortType, isAscending, changeSortByCompletionStatus);
-        //    model.commitToHistory();
-        //    return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_PROJECTS, type, order));
-        //} else {
-        //    Project projectBeforeSort = model.getCurrentProject();
-        //    Project projectAfterSort = model.getCurrentProject()
-        //            .orderTaskList(sortType, isAscending, changeSortByCompletionStatus);
-        //    model.setTrackedItem(projectBeforeSort, projectAfterSort);
-        //    model.viewTasks(projectAfterSort);
-        //    model.commitToHistory();
-        //    return new CommandResult(String.format(MESSAGE_SORT_SUCCESS_TASKS, type, order));
-        //}
     }
 
     @Override
