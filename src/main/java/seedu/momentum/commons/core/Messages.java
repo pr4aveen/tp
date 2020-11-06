@@ -13,5 +13,4 @@ public class Messages {
     public static final String MESSAGE_PROJECTS_LISTED_OVERVIEW = "%1$d projects listed!";
 
     public static final String MESSAGE_TEXT_PROJECT = "Project";
-    public static final String MESSAGE_TEXT_TASK = "Task";
 }

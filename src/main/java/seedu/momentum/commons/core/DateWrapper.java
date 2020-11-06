@@ -1,3 +1,5 @@
+//@@author claracheong4
+
 package seedu.momentum.commons.core;
 
 import static java.util.Objects.requireNonNull;
@@ -39,6 +41,8 @@ public class DateWrapper implements InstanceWrapper<LocalDate>, Comparable<DateW
 
     /**
      * Returns true if a given string is a valid date.
+     *
+     * @param test String to test.
      */
     public static boolean isValid(String test) {
         try {

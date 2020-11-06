@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import seedu.momentum.model.Model;
@@ -16,7 +18,7 @@ public abstract class ClearCommand extends Command {
      * Removes some data from the provided model.
      *
      * @param model {@code Model} to remove data from.
-     * @return feedback message of result of removing data for display.
+     * @return Feedback message of result of removing data for display.
      */
     public abstract CommandResult execute(Model model);
 }

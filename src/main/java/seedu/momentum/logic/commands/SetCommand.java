@@ -1,3 +1,5 @@
+//@@author khoodehui
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -12,7 +14,6 @@ import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.commons.core.Theme;
 import seedu.momentum.commons.util.CollectionUtil;
 import seedu.momentum.logic.SettingsUpdateManager;
-import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 
 /**
@@ -34,7 +35,7 @@ public class SetCommand extends Command {
     /**
      * Creates a SetCommand that changes application settings.
      *
-     * @param settingsToChange settings to change.
+     * @param settingsToChange New setting to change to.
      */
     public SetCommand(SettingsToChange settingsToChange) {
         requireNonNull(settingsToChange);
@@ -45,8 +46,7 @@ public class SetCommand extends Command {
      * Changes the settings in the application.
      *
      * @param model {@code Model} to perform the change on.
-     * @return feedback message of the change result, for display.
-     * @throws CommandException If an error occurs during changing process.
+     * @return Feedback message of the change result, for display.
      */
     @Override
     public CommandResult execute(Model model) {
@@ -98,15 +98,14 @@ public class SetCommand extends Command {
 
         /**
          * Copy constructor.
+         *
+         * @param toCopy Setting to copy.
          */
         public SettingsToChange(SettingsToChange toCopy) {
             setTheme(toCopy.theme);
             setStatTimeframe(toCopy.statTimeframe);
         }
 
-        /**
-         * Returns true if at least one setting is changed.
-         */
         public boolean isAnySettingChanged() {
             return CollectionUtil.isAnyNonNull(theme, statTimeframe);
         }

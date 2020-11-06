@@ -1,3 +1,5 @@
+//@@author khoodehui
+
 package seedu.momentum.commons.core;
 
 import static java.util.Objects.requireNonNull;
@@ -13,6 +15,9 @@ public class Theme {
     public static final String MESSAGE_CONSTRAINTS =
         "Theme should either be 'light' or 'dark'.";
 
+    private static final String THEME_LIGHT = "/view/MomentumLight.css";
+    private static final String THEME_DARK = "/view/MomentumDark.css";
+
     private ThemeType themeType;
 
     /**
@@ -24,7 +29,7 @@ public class Theme {
     /**
      * Constructs a {@code Theme} with the specified theme type.
      *
-     * @param themeType a valid theme type.
+     * @param themeType A valid theme type.
      */
     public Theme(ThemeType themeType) {
         this.themeType = themeType;
@@ -33,7 +38,7 @@ public class Theme {
     /**
      * Constructs a {@code Theme} with the specified theme type expressed as a String.
      *
-     * @param themeType a valid theme type.
+     * @param themeType A valid theme type.
      */
     public Theme(String themeType) {
         requireNonNull(themeType);
@@ -51,14 +56,17 @@ public class Theme {
 
         String stylesheetName =
             themeType == ThemeType.LIGHT
-            ? "MomentumLight.css"
-            : "MomentumDark.css";
+            ? THEME_LIGHT
+            : THEME_DARK;
 
-        return MainApp.class.getResource("/view/" + stylesheetName).toString();
+        return MainApp.class.getResource(stylesheetName).toString();
     }
 
     /**
      * Returns true if a given string is a valid theme.
+     *
+     * @param theme The theme to check.
+     * @return Whether the theme is valid.
      */
     public static boolean isValid(String theme) {
         try {
@@ -95,7 +103,11 @@ public class Theme {
     }
 
 
+    /**
+     * Represents the available themes in Momentum.
+     */
     public enum ThemeType {
-        LIGHT, DARK
+        LIGHT,
+        DARK
     }
 }

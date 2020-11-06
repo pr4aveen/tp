@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -28,7 +30,7 @@ public class StartProjectCommand extends StartCommand {
      * Starts the timer for the project in the provided model.
      *
      * @param model {@code Model} containing the project whose timer to start.
-     * @return feedback message of timer result, for display.
+     * @return Feedback message of timer result, for display.
      * @throws CommandException If an error occurs when starting the timer.
      */
     @Override

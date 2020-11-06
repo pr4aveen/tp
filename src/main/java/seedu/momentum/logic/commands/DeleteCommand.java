@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import seedu.momentum.commons.core.index.Index;
@@ -22,7 +24,7 @@ public abstract class DeleteCommand extends Command {
     /**
      * Creates a DeleteCommand that deletes an item at a given index from the model.
      *
-     * @param targetIndex index of the item to be deleted.
+     * @param targetIndex Index of the item to be deleted.
      */
     public DeleteCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
@@ -32,7 +34,7 @@ public abstract class DeleteCommand extends Command {
      * Deletes the item from the provided model.
      *
      * @param model {@code Model} from which to delete the item.
-     * @return feedback message of the result of deleting the item, for display.
+     * @return Feedback message of the result of deleting the item, for display.
      * @throws CommandException If an error occurs during the deletion.
      */
     @Override

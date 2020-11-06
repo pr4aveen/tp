@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
@@ -61,7 +63,7 @@ public abstract class EditCommand extends Command {
     /**
      * Create a EditCommand that edits an item.
      *
-     * @param index                     of the item in the model to edit.
+     * @param index                     Of the item in the model to edit.
      * @param editTrackedItemDescriptor The new details of the item.
      */
     public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor) {
@@ -74,7 +76,7 @@ public abstract class EditCommand extends Command {
      * Edits an item in the provided model.
      *
      * @param model {@code Model} containing the item to edit.
-     * @return feedback message of editing result, for display.
+     * @return Feedback message of editing result, for display.
      * @throws CommandException If an error occurs during editing process.
      */
     @Override
@@ -94,6 +96,7 @@ public abstract class EditCommand extends Command {
         return updatedDeadline;
     }
 
+    //@@author
     /**
      * Creates and returns a {@code Project} or {@code Task} with the details of {@code trackedItemToEdit}
      * edited with {@code editTrackedItemDescriptor}.
@@ -107,10 +110,12 @@ public abstract class EditCommand extends Command {
         // Name
         Name updatedName = editTrackedItemDescriptor.getName().orElse(trackedItemToEdit.getName());
 
+        //@@author kkangs0226
         // Description
         Description updatedDescription =
                 editTrackedItemDescriptor.getDescription().orElse(trackedItemToEdit.getDescription());
 
+        //@@author claracheong4
         // Completion Status
         CompletionStatus updatedCompletionStatus = trackedItemToEdit.getCompletionStatus();
         if (editTrackedItemDescriptor.getCompletionStatus().isPresent()) {
@@ -125,6 +130,7 @@ public abstract class EditCommand extends Command {
 
         // Reminder
         Reminder updatedReminder = editTrackedItemDescriptor.getReminder().orElse(trackedItemToEdit.getReminder());
+        //@@author
 
         // Tags
         Set<Tag> updatedTags = editTrackedItemDescriptor.getTags().orElse(trackedItemToEdit.getTags());
@@ -166,6 +172,7 @@ public abstract class EditCommand extends Command {
                 && editTrackedItemDescriptor.equals(e.editTrackedItemDescriptor);
     }
 
+    //@@author
     /**
      * Stores the details to edit the tracked item with. Each non-empty field value will replace the
      * corresponding field value of the tracked item.
@@ -208,7 +215,7 @@ public abstract class EditCommand extends Command {
         public Optional<Name> getName() {
             return Optional.ofNullable(name);
         }
-
+        //@@author kkangs0226
         public void setDescription(Description description) {
             this.description = description;
         }
@@ -216,7 +223,7 @@ public abstract class EditCommand extends Command {
         public Optional<Description> getDescription() {
             return Optional.ofNullable(description);
         }
-
+        //@@author claracheong4
         public void setCompletionStatus(CompletionStatus completionStatus) {
             this.completionStatus = completionStatus;
         }
@@ -240,7 +247,7 @@ public abstract class EditCommand extends Command {
         public Optional<Reminder> getReminder() {
             return Optional.ofNullable(reminder);
         }
-
+        //@@author
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.

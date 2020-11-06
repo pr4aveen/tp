@@ -1,3 +1,5 @@
+//@@author kkangs0226
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -18,22 +20,19 @@ public class UndoCommand extends Command {
             + "There are no commands to undo.";
 
     /**
-     * Undo the changes made to the provided model, if possible.
+     * Undoes the changes made to the provided model, if possible.
      *
      * @param model {@code Model} containing the data which the previous command had operated on.
-     * @return feedback message of the redo result, for display.
+     * @return Feedback message of the redo result, for display.
      * @throws CommandException If an error occurs during redo process, or if undoing is not possible.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        if (!model.canUndoCommand()) {
-            throw new CommandException(MESSAGE_CANNOT_UNDO);
-        } else {
+        if (model.canUndoCommand()) {
             model.undoCommand();
             return new CommandResult(MESSAGE_SUCCESS);
         }
-
+        throw new CommandException(MESSAGE_CANNOT_UNDO);
     }
 }
