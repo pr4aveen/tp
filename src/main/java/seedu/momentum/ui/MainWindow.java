@@ -181,7 +181,7 @@ public class MainWindow extends UiPart<Stage> {
     private void showReminder() {
         logger.info("show reminder");
         reminderDisplayPlaceholder.setVisible(true);
-        infoDisplayPlaceholder.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        reminderDisplayPlaceholder.setMaxHeight(Region.USE_COMPUTED_SIZE);
     }
 
     private void initReminderDisplayListeners() {

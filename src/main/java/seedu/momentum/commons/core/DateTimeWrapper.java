@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.commons.core;
 
 import static java.util.Objects.requireNonNull;
@@ -60,6 +62,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
         return new DateTimeWrapper(dateTime.minus(amount, unit));
     }
 
+    //@@author khoodehui
     /**
      * Adjusts the DateTimeWrapper to the start of the timeframe as specified in a {@code StatisticTimeframe}.
      *
@@ -77,6 +80,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
             return new DateTimeWrapper(dateTime.withDayOfMonth(1).truncatedTo(ChronoUnit.DAYS));
         }
     }
+    //@@author
 
     /**
      * Returns true if a given string is a valid dateTime.
@@ -94,7 +98,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      * Checks if an instance in another DateTimeWrapper is before this instance.
      *
      * @param otherTime The DateTimeWrapper to check.
-     * @return true if the other time is before this instance, false otherwise.
+     * @return True if the other time is before this instance, false otherwise.
      */
     public boolean isBefore(DateTimeWrapper otherTime) {
         return dateTime.isBefore(otherTime.get());
@@ -104,7 +108,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
      * Checks if an instance in another DateTimeWrapper is after this instance.
      *
      * @param otherTime The DateTimeWrapper to check.
-     * @return true if the other time is after this instance, false otherwise.
+     * @return True if the other time is after this instance, false otherwise.
      */
     public boolean isAfter(DateTimeWrapper otherTime) {
         return dateTime.isAfter(otherTime.get());
@@ -121,7 +125,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
     public static long getTimeBetween(DateTimeWrapper time1, DateTimeWrapper time2, ChronoUnit units) {
         return units.between(time1.get(), time2.get());
     }
-
+    //@@author claracheong4
     /**
      * Returns only the date portion of the {@code DateTimeWrapper}.
      *
@@ -167,6 +171,7 @@ public class DateTimeWrapper implements InstanceWrapper<LocalDateTime>, Comparab
         return dateTime.hashCode();
     }
 
+    //@@author kkangs0226
     @Override
     public int compareTo(DateTimeWrapper other) {
         LocalDateTime thisLocalDateTime = this.get();

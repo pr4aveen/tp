@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.comparators.SortType;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.FindType;
@@ -143,7 +143,7 @@ public class ModelManagerTest {
         // go to home view
         modelManager.viewProjects();
         modelManager.updateOrder(SortType.CREATED, true);
-        modelManager.updatePredicate(new CompletionStatusPredicate(Arrays.asList("incomplete")));
+        modelManager.updatePredicate(new CompletionStatusPredicate(FindType.ALL, Arrays.asList("incomplete")));
         modelManager.commitToHistory();
 
         // undo home view command
@@ -167,7 +167,7 @@ public class ModelManagerTest {
         // go to home view
         modelManager.viewProjects();
         modelManager.updateOrder(SortType.CREATED, true);
-        Predicate<TrackedItem> newPredicate = new CompletionStatusPredicate(Arrays.asList("incomplete"));
+        Predicate<TrackedItem> newPredicate = new CompletionStatusPredicate(FindType.ALL, Arrays.asList("incomplete"));
         modelManager.updatePredicate(newPredicate);
         List<TrackedItem> initialDisplayList = modelManager.getDisplayList();
         modelManager.commitToHistory();

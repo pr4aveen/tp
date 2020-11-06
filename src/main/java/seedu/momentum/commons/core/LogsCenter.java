@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.commons.core;
 
 import java.io.IOException;

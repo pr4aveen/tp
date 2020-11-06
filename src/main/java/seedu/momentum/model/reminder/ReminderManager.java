@@ -1,3 +1,4 @@
+//@@author claracheong4
 package seedu.momentum.model.reminder;
 
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class ReminderManager {
     /**
      * Instantiates a new Reminder manager.
      *
-     * @param model the model.
+     * @param model The model associated to the instance of the application.
      */
     public ReminderManager(Model model) {
         this.model = model;
@@ -60,7 +61,7 @@ public class ReminderManager {
     /**
      * Reschedule the reminder of a {@code project} and its tasks.
      *
-     * @param project the project
+     * @param project The project to reschedule the reminder of.
      */
     public void rescheduleReminder(Project project) {
         if (!project.getReminder().isEmpty()) {
@@ -73,8 +74,8 @@ public class ReminderManager {
     /**
      * Reschedule the reminder of a {@code task}.
      *
-     * @param project the project
-     * @param task    the task
+     * @param project The project containing the task to be rescheduled.
+     * @param task    The task to reschedule the reminder of.
      */
     public void rescheduleReminder(Project project, Task task) {
         if (!task.getReminder().isEmpty()) {
@@ -87,7 +88,7 @@ public class ReminderManager {
     /**
      * Schedule the reminder of a {@code project}.
      *
-     * @param project the project
+     * @param project The project to schedule a reminder in.
      */
     public void scheduleReminder(Project project) {
         if (project.getReminder().canSchedule()) {
@@ -100,8 +101,8 @@ public class ReminderManager {
     /**
      * Schedule the reminder of a {@code task}.
      *
-     * @param project the project
-     * @param task    the task
+     * @param project The project containing the task to have a reminder scheduled in.
+     * @param task    The task to schedule a reminder in.
      */
     public void scheduleReminder(Project project, Task task) {
         if (task.getReminder().canSchedule()) {
@@ -114,8 +115,8 @@ public class ReminderManager {
     /**
      * Update current reminder to be displayed.
      *
-     * @param project the project
-     * @param task    the task
+     * @param project The project containing the task with the reminder to be displayed.
+     * @param task    The task with the reminder to be displayed.
      */
     public void updateCurrReminder(Project project, Task task) {
         this.currReminder.set(String.format(TASK_REMINDER, project.getName(), task.getName()));
@@ -125,7 +126,7 @@ public class ReminderManager {
     /**
      * Update current reminder to be displayed.
      *
-     * @param project the project
+     * @param project The project with the reminder to be displayed.
      */
     public void updateCurrReminder(Project project) {
         this.currReminder.set(String.format(PROJECT_REMINDER, project.getName()));
@@ -133,9 +134,9 @@ public class ReminderManager {
     }
 
     /**
-     * Returns true if the current reminder is empty, false otherwise.
+     * Checks if the current reminder is empty.
      *
-     * @return the boolean.
+     * @return True if the current reminder is empty, false otherwise.
      */
     public BooleanProperty isReminderEmpty() {
         BooleanProperty booleanProperty = new SimpleBooleanProperty();
@@ -152,9 +153,9 @@ public class ReminderManager {
     }
 
     /**
-     * Gets reminder.
+     * Gets the current reminder.
      *
-     * @return the reminder.
+     * @return The current reminder.
      */
     public StringProperty getReminder() {
         return this.currReminder;
@@ -205,7 +206,6 @@ public class ReminderManager {
             ReminderManager.this.timer.cancel();
             ThreadWrapper.run(getUpdateReminder());
             ThreadWrapper.run(getRemoveReminder());
-            ThreadWrapper.run(ReminderManager.this::rescheduleReminder);
         }
     }
 }

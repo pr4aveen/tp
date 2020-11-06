@@ -1,3 +1,5 @@
+//@@author claracheong4
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -28,10 +30,11 @@ public class ShowComponentCommand extends Command {
     /**
      * Creates a ShowComponentCommand which shows or hide a UI component.
      *
-     * @param componentType the component types to show or hide.
+     * @param componentType The component types to show or hide.
      */
     public ShowComponentCommand(ShowComponentCommandParser.ComponentType componentType) {
         requireNonNull(componentType);
+
         this.componentType = componentType;
     }
 
@@ -39,13 +42,14 @@ public class ShowComponentCommand extends Command {
      * Toggle the visibility of the UI components.
      *
      * @param model {@code Model} to perform the changes.
-     * @return feedback message of update result, for display.
+     * @return Feedback message of update result, for display.
      * @throws CommandException If an error occurs during UI updating process.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         assert ShowComponentCommandParser.ComponentType.TAGS == this.componentType;
         requireNonNull(model);
+
         boolean isShown = model.getIsTagsVisible().get();
         model.showOrHideTags();
         model.commitToHistory();

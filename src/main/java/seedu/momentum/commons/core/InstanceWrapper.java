@@ -1,3 +1,5 @@
+//@@author claracheong4
+
 package seedu.momentum.commons.core;
 
 /**

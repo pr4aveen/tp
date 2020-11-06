@@ -17,14 +17,13 @@ public class ListCommand extends Command {
 
     public static final String MESSAGE_SUCCESS_TASKS = "Listed all tasks belonging to %s";
 
-
     /**
      * Lists all items.
      * All projects are listed if the model is in project view.
      * All tasks of a project are listed if the model is in task view.
      *
      * @param model {@code Model} containing the items.
-     * @return feedback message of the result, for display.
+     * @return Feedback message of the result, for display.
      */
     @Override
     public CommandResult execute(Model model) {

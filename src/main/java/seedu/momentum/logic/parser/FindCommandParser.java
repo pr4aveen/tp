@@ -1,3 +1,4 @@
+//@@author pr4aveen
 package seedu.momentum.logic.parser;
 
 import static java.util.Objects.requireNonNull;
@@ -27,28 +28,32 @@ import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.TagListContainsKeywordPredicate;
 
 /**
- * Parses input arguments and creates an appropriate FindCommand object
+ * Parses input arguments and creates an appropriate FindCommand object.
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
     public static final String FIND_ARGUMENT_DELIMITER = "\\s+";
+    private static final String FIND_COMMAND_USAGE =
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE);
 
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand,
      * and returns the corresponding FindCommand object for execution.
      *
-     * @throws ParseException if the user input does not conform the expected format.
+     * @param args Arguments to parse.
+     * @param model The current model, to provide context for parsing the arguments.
+     * @return A new find command with the parsed arguments.
+     * @throws ParseException If the user input does not conform the expected format.
      */
     public FindCommand parse(String args, Model model) throws ParseException {
         requireAllNonNull(args, model);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS,
-                        PREFIX_TAG, FIND_TYPE);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
+            args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS, PREFIX_TAG, FIND_TYPE);
 
         Prefix[] prefixesToParse = new Prefix[] {PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS, PREFIX_TAG};
 
         if (!argMultimap.getPreamble().isEmpty() || !anyPrefixPresent(argMultimap, prefixesToParse)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            throw new ParseException(FIND_COMMAND_USAGE);
         }
 
         FindType findType = getMatchType(argMultimap); // only parses find type if the argument exists.
@@ -64,14 +69,16 @@ public class FindCommandParser implements Parser<FindCommand> {
     /**
      * Combines predicates using predicate chaining.
      *
-     * @param findType find type of the search.
-     * @param predicateList list of predicates to be combined.
-     * @return a predicate that is the combination of all predicates in the predicate list.
+     * @param findType Find type of the search.
+     * @param predicateList List of predicates to be combined.
+     * @return A predicate that is the combination of all predicates in the predicate list.
      */
     private Predicate<TrackedItem> combinePredicates(FindType findType, List<Predicate<TrackedItem>> predicateList) {
         requireAllNonNull(findType, predicateList);
         BinaryOperator<Predicate<TrackedItem>> operationType;
         switch (findType) {
+        case NONE:
+            // Find none needs the logical 'and' of individual predicates.
         case ALL:
             operationType = Predicate::and;
             break;
@@ -89,11 +96,11 @@ public class FindCommandParser implements Parser<FindCommand> {
     /**
      * Parses a given prefix and returns a predicate corresponding to that prefix.
      *
-     * @param argMultimap argument multimap used for parsing.
-     * @param prefix prefix that is being parsed.
-     * @param predicateList list of predicates to add result to.
-     * @param findType find type used for the search.
-     * @throws ParseException if the syntax is invalid.
+     * @param argMultimap Argument multimap used for parsing.
+     * @param prefix Prefix that is being parsed.
+     * @param predicateList List of predicates to add result to.
+     * @param findType Find type used for the search.
+     * @throws ParseException If the syntax is invalid.
      */
     private void parseArguments (ArgumentMultimap argMultimap, Prefix prefix,
                                  List<Predicate<TrackedItem>> predicateList, FindType findType) throws ParseException {
@@ -107,8 +114,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         String args = argMultimap.getValue(prefix).get();
         String trimmedArgs = args.trim();
         if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            throw new ParseException(FIND_COMMAND_USAGE);
         }
 
         List<String> keywords = Arrays.asList(trimmedArgs.split(FIND_ARGUMENT_DELIMITER));
@@ -120,9 +126,9 @@ public class FindCommandParser implements Parser<FindCommand> {
             predicateList.add(new DescriptionContainsKeywordsPredicate(findType, keywords));
         } else if (prefix.equals(PREFIX_COMPLETION_STATUS)) {
             if (!CompletionStatusPredicate.isValid(keywords)) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+                throw new ParseException(FIND_COMMAND_USAGE);
             }
-            predicateList.add(new CompletionStatusPredicate(keywords));
+            predicateList.add(new CompletionStatusPredicate(findType, keywords));
         } else if (prefix.equals(PREFIX_TAG)) {
             predicateList.add(new TagListContainsKeywordPredicate(findType, keywords));
         }
@@ -131,9 +137,9 @@ public class FindCommandParser implements Parser<FindCommand> {
     /**
      * Converts a match type argument into a {@code FindType} object.
      *
-     * @param argMultimap argument multimap used for parsing.
+     * @param argMultimap Argument multimap used for parsing.
      * @return FindType enumeration corresponding to the argument.
-     * @throws ParseException if the match type argument is invalid.
+     * @throws ParseException If the match type argument is invalid.
      */
     private FindType getMatchType(ArgumentMultimap argMultimap) throws ParseException {
         requireNonNull(argMultimap);
@@ -147,8 +153,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         try {
             return FindType.valueOf(findTypeArgument.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            throw new ParseException(FIND_COMMAND_USAGE);
         }
 
     }

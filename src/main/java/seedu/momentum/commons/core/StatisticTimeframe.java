@@ -1,3 +1,5 @@
+//@@author khoodehui
+
 package seedu.momentum.commons.core;
 
 import static java.util.Objects.requireNonNull;
@@ -33,7 +35,11 @@ public class StatisticTimeframe implements Serializable {
     /**
      * Constructs a {@code StatisticTimeframe} with the specified timeframe expressed as a String.
      *
+<<<<<<< HEAD
      * @param timeframe a valid timeframe.
+=======
+     * @param timeframe A valid timeframe.
+>>>>>>> 02b87a73eb8a43978e9849900eaa0f8a7cc0e890
      */
     public StatisticTimeframe(String timeframe) {
         requireNonNull(timeframe);
@@ -43,6 +49,8 @@ public class StatisticTimeframe implements Serializable {
 
     /**
      * Converts the timeframe to a {@code ChronoUnit}.
+     *
+     * @returns The ChronoUnit associated with the timeframe.
      */
     public ChronoUnit toChronoUnit() {
         return timeframe.toChronoUnit();
@@ -50,6 +58,12 @@ public class StatisticTimeframe implements Serializable {
 
     /**
      * Returns true if a given string is a valid timeframe.
+<<<<<<< HEAD
+=======
+     *
+     * @param timeframe The timeframe to be tested.
+     * @returns Whether the timeframe is valid.
+>>>>>>> 02b87a73eb8a43978e9849900eaa0f8a7cc0e890
      */
     public static boolean isValid(String timeframe) {
         try {
@@ -84,11 +98,18 @@ public class StatisticTimeframe implements Serializable {
         return Objects.hash(timeframe);
     }
 
+    /**
+     * Represents the possible timeframes supported by Momentum.
+     */
     public enum Timeframe {
-        DAILY, WEEKLY, MONTHLY;
+        DAILY,
+        WEEKLY,
+        MONTHLY;
 
         /**
          * Converts the timeframe to a {@code ChronoUnit}.
+         *
+         * @return The ChronoUnit associated with the timeframe.
          */
         public ChronoUnit toChronoUnit() {
             return this == DAILY

@@ -1,4 +1,4 @@
-package seedu.momentum.model.project.exceptions;
+package seedu.momentum.commons.exceptions;
 
 /**
  * Signals that the operation will result in duplicate items (Items are considered

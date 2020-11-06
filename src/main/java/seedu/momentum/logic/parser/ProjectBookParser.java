@@ -2,6 +2,7 @@ package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.momentum.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,12 +42,13 @@ public class ProjectBookParser {
     /**
      * Parses user input into a command for execution using the appropriate command parser.
      *
-     * @param userInput full user input string.
-     * @param model     the current model manager.
-     * @return the command based on the user input.
-     * @throws ParseException if the user input does not conform the expected format.
+     * @param userInput Full user input string.
+     * @param model     The current model manager.
+     * @return The command based on the user input.
+     * @throws ParseException If the user input does not conform the expected format.
      */
     public Command parseCommand(String userInput, Model model) throws ParseException {
+        requireAllNonNull(userInput, model);
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));

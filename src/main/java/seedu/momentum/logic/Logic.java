@@ -21,14 +21,14 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 
 /**
- * API of the Logic component
+ * API of the Logic component.
  */
 public interface Logic {
     /**
      * Executes the command and returns the result.
      *
      * @param commandText The command as entered by the user.
-     * @return the result of the command execution.
+     * @return The result of the command execution.
      * @throws CommandException If an error occurs during command execution.
      * @throws ParseException   If an error occurs during parsing.
      */
@@ -108,7 +108,7 @@ public interface Logic {
     StatisticGenerator getStatistic();
 
     /**
-     * Returns the total number of both visible and invisble items in the current project/task.
+     * Returns the total number of both visible and invisible items in the current project/task.
      */
     int getTotalNumberOfItems();
 

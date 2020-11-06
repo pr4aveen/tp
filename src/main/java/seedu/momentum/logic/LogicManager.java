@@ -42,6 +42,9 @@ public class LogicManager implements Logic {
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
+     *
+     * @param model The model containing the data to be managed.
+     * @param storage The storage object that handles saving and loading the data associated with this instance.
      */
     public LogicManager(Model model, Storage storage) {
         this.model = model;
@@ -70,6 +73,7 @@ public class LogicManager implements Logic {
         return commandResult;
     }
 
+    @Override
     public StatisticGenerator getStatistic() {
         return statistic;
     }

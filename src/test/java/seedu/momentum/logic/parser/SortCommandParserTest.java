@@ -25,7 +25,7 @@ import seedu.momentum.logic.commands.SortCommand;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
-import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.comparators.SortType;
 
 public class SortCommandParserTest {
 

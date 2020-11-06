@@ -32,7 +32,7 @@ public class ParserUtil {
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
      *
-     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+     * @throws ParseException If the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
         String trimmedIndex = oneBasedIndex.trim();
@@ -46,7 +46,7 @@ public class ParserUtil {
      * Parses a {@code String name} into a {@code Name}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code name} is invalid.
+     * @throws ParseException If the given {@code name} is invalid.
      */
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
@@ -57,9 +57,13 @@ public class ParserUtil {
         return new Name(trimmedName);
     }
 
+    //@@author kkangs0226
     /**
      * Parses a {@code String description} into an {@code Description}.
      * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param description The description of the TrackedItem.
+     * @return The parsed description.
      */
     public static Description parseDescription(String description) {
         requireNonNull(description);
@@ -67,6 +71,7 @@ public class ParserUtil {
         return new Description(trimmedDescription);
     }
 
+    //@@author claracheong4
     /**
      * Parses {@code Optional<String> date} and {@code Optional<String> time}into a {@code Deadline}.
      * Leading and trailing whitespaces will be trimmed.
@@ -75,7 +80,7 @@ public class ParserUtil {
      * @param date The date of the deadline.
      * @param time The time of the deadline.
      * @param createdDateWrapper The date when the item was created.
-     * @throws ParseException if the date or time is invalid, or if the provided date and time is before the created
+     * @throws ParseException If the date or time is invalid, or if the provided date and time is before the created
      * date.
      */
     public static Deadline parseDeadline(Optional<String> date, Optional<String> time, DateWrapper createdDateWrapper)
@@ -110,7 +115,7 @@ public class ParserUtil {
      * Leading and trailing whitespaces will be trimmed.
      *
      * @param dateTime The date and time of the reminder.
-     * @throws ParseException if dateTime is invalid.
+     * @throws ParseException If dateTime is invalid.
      */
     public static Reminder parseReminder(Optional<String> dateTime)
             throws ParseException {
@@ -129,6 +134,7 @@ public class ParserUtil {
 
         return new Reminder(trimmedDateTime);
     }
+    //@@author
 
     /**
      * Parses a {@code String tag} into a {@code Tag}.
@@ -148,7 +154,7 @@ public class ParserUtil {
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
      *
-     * @throws ParseException if any of the tags in the set are invalid.
+     * @throws ParseException If any of the tags in the set are invalid.
      */
     public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
         requireNonNull(tags);
@@ -159,10 +165,13 @@ public class ParserUtil {
         return tagSet;
     }
 
+    //@@author khoodehui
     /**
      * Parses a {@code String theme} into a {@code Theme}.
      *
-     * @throws ParseException if the given {@code theme} is invalid.
+     * @param theme The theme of the application.
+     * @return The parsed theme.
+     * @throws ParseException If the given {@code theme} is invalid.
      */
     public static Theme parseTheme(String theme) throws ParseException {
         requireNonNull(theme);
@@ -176,7 +185,9 @@ public class ParserUtil {
     /**
      * Parses a {@code String statisticTimeframe} into a {@code StatisticTimeframe}.
      *
-     * @throws ParseException if the give {@code statisticTimeframe} is invalid.
+     * @param statisticTimeframe The timeframe of the statistics displayed.
+     * @return The parsed statistic timeframe.
+     * @throws ParseException If the give {@code statisticTimeframe} is invalid.
      */
     public static StatisticTimeframe parseStatisticTimeframe(String statisticTimeframe) throws ParseException {
         requireNonNull(statisticTimeframe);

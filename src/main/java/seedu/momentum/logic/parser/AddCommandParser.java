@@ -1,6 +1,7 @@
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
@@ -30,7 +31,7 @@ import seedu.momentum.model.reminder.Reminder;
 import seedu.momentum.model.tag.Tag;
 
 /**
- * Parses input arguments and creates an appropriate AddCommand object
+ * Parses input arguments and creates an appropriate AddCommand object.
  */
 public class AddCommandParser implements Parser<AddCommand> {
 
@@ -38,10 +39,13 @@ public class AddCommandParser implements Parser<AddCommand> {
      * Parses the given {@code String} of arguments in the context of AddCommand and the current model,
      * and returns the corresponding AddCommand object for execution.
      *
+     * @param args Arguments to parse.
      * @param model The current model, to provide context for parsing the arguments.
-     * @throws ParseException if the user input does not conform the expected format
+     * @return A new add command with the parsed arguments.
+     * @throws ParseException If the user input does not conform the expected format.
      */
     public AddCommand parse(String args, Model model) throws ParseException {
+        requireAllNonNull(args, model);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION, PREFIX_COMPLETION_STATUS,
                         PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME, PREFIX_REMINDER, PREFIX_TAG);
@@ -53,6 +57,7 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
 
+        //@@author kkangs0226
         Description description;
         if (!argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
             description = Description.EMPTY_DESCRIPTION;
@@ -61,6 +66,7 @@ public class AddCommandParser implements Parser<AddCommand> {
                     argMultimap.getValue(PREFIX_DESCRIPTION).get());
         }
 
+        //@@author claracheong4
         CompletionStatus completionStatus = new CompletionStatus();
         if (argMultimap.getValue(PREFIX_COMPLETION_STATUS).isPresent()) {
             completionStatus = completionStatus.reverse();
@@ -74,9 +80,10 @@ public class AddCommandParser implements Parser<AddCommand> {
                 createdDateWrapper);
 
         Reminder reminder = ParserUtil.parseReminder(argMultimap.getValue(PREFIX_REMINDER));
-
+        //@@author
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
+        //@@author pr4aveen
         if (model.getViewMode() == ViewMode.PROJECTS) {
             return new AddProjectCommand(new Project(name, description, completionStatus, createdDateWrapper,
                     deadline, reminder, tagList));
@@ -84,10 +91,11 @@ public class AddCommandParser implements Parser<AddCommand> {
             return new AddTaskCommand(new Task(name, description, completionStatus, createdDateWrapper,
                     deadline, reminder, tagList), model.getCurrentProject());
         }
+        //@@author
     }
 
     /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given.
      * {@code ArgumentMultimap}.
      */
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {

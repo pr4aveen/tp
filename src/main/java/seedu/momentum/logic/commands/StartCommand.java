@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -16,7 +18,7 @@ public abstract class StartCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + " " + "INDEX";
 
     public static final String MESSAGE_START_TIMER_SUCCESS = "Started %1$s, at: ";
-    public static final String MESSAGE_EXISTING_TIMER_ERROR = "There is already a timer running for this";
+    public static final String MESSAGE_EXISTING_TIMER_ERROR = "There is already a timer running for this!";
 
     protected final Index targetIndex;
 
@@ -34,7 +36,7 @@ public abstract class StartCommand extends Command {
      * Starts the timer for the item in the provided model.
      *
      * @param model {@code Model} containing the item whose timer to start.
-     * @return feedback message of timer result, for display.
+     * @return Feedback message of timer result, for display.
      * @throws CommandException If an error occurs when starting the timer.
      */
     @Override

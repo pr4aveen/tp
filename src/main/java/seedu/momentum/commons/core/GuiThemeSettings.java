@@ -1,3 +1,5 @@
+//@@author khoodehui
+
 package seedu.momentum.commons.core;
 
 import java.io.Serializable;
@@ -22,6 +24,8 @@ public class GuiThemeSettings implements Serializable {
 
     /**
      * Constructs a {@code GuiThemeSettings} with the specified theme.
+     *
+     * @param theme Theme to create the settings object with.
      */
     public GuiThemeSettings(Theme theme) {
         this.theme = theme;

@@ -27,7 +27,7 @@ import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.commons.core.StatisticTimeframeSettings;
 import seedu.momentum.logic.SettingsUpdateManager;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.comparators.SortType;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.CompletionStatusCompare;
@@ -347,12 +347,22 @@ public class ModelManager implements Model {
 
     @Override
     public void removeReminder(Project project) {
-        setTrackedItem(project, this.versionedProjectBook.removeReminder(project));
+        Project newProject = this.versionedProjectBook.removeReminder(project);
+        if (currentProject != null && currentProject.isSameAs(project)) {
+            currentProject = newProject;
+            resetUi(viewMode);
+        }
+        rescheduleReminders();
     }
 
     @Override
     public void removeReminder(Project project, Task task) {
-        setTrackedItem(project, this.versionedProjectBook.removeReminder(project, task));
+        Project newProject = this.versionedProjectBook.removeReminder(project);
+        if (currentProject != null && currentProject.isSameAs(project)) {
+            currentProject = newProject;
+            resetUi(viewMode);
+        }
+        rescheduleReminders();
     }
 
     //=========== Timers =============================================================
@@ -398,7 +408,7 @@ public class ModelManager implements Model {
     @Override
     public void commitToHistory() {
         versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible.get(),
-            userPrefs);
+                userPrefs);
     }
 
     @Override

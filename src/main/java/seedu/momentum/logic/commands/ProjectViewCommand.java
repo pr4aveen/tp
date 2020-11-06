@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -23,7 +25,7 @@ public class ProjectViewCommand extends Command {
 
     public static final String MESSAGE_VIEW_PROJECT_SUCCESS = "Viewing Project: %1$s";
 
-    public static final String MESSAGE_NOT_PROJECT = "You cannot view tasks within a project!";
+    public static final String MESSAGE_NOT_PROJECT = "You cannot use the view command on tasks!";
 
     private final Index targetIndex;
 
@@ -37,11 +39,11 @@ public class ProjectViewCommand extends Command {
     }
 
     /**
-     * Updates teh model to display all tasks belonging to the project.
+     * Updates the model to display all tasks belonging to the project.
      *
      * @param model {@code Model} containing the project.
-     * @return feedback message of displaying result, for display.
-     * @throws CommandException If an error occurs during update process.
+     * @return Feedback message of displaying result, for display.
+     * @throws CommandException If the specified item is not a project or not in the list.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {

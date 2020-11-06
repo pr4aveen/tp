@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
-import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.comparators.SortType;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code SortCommand}.

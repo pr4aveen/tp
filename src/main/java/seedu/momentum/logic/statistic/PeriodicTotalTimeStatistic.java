@@ -1,3 +1,4 @@
+//@@author boundtotheearth
 package seedu.momentum.logic.statistic;
 
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
@@ -80,11 +81,12 @@ public class PeriodicTotalTimeStatistic extends Statistic {
     }
 
     /**
-     * Calculates the time spend on a specific item, for the specified timeframe.
+     * Calculates the time spent on a specific item, for the specified timeframe.
      *
      * @param trackedItem The item to calculate for.
      * @param start Start of the timeframe.
      * @param end End of the timeframe.
+     * @return Total time spent for the item for the specified timeframe.
      */
     private long calculateTimeSpent(TrackedItem trackedItem, DateTimeWrapper start, DateTimeWrapper end) {
         List<WorkDuration> durations = trackedItem.getDurationList();

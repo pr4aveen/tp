@@ -1,3 +1,4 @@
+//@@author boundtotheearth
 package seedu.momentum.logic.statistic;
 
 import static java.util.Objects.requireNonNull;
@@ -12,10 +13,10 @@ public class StatisticEntry {
     private double value;
 
     /**
-     * Constructs a {@code StatisticEntry}
+     * Constructs a {@code StatisticEntry}.
      *
-     * @param label The label for the statistic
-     * @param value The statistic value
+     * @param label The label for the statistic.
+     * @param value The statistic value.
      */
     public StatisticEntry(String label, double value) {
         requireNonNull(label);

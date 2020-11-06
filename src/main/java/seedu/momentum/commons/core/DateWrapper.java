@@ -1,3 +1,5 @@
+//@@author claracheong4
+
 package seedu.momentum.commons.core;
 
 import static java.util.Objects.requireNonNull;
@@ -11,7 +13,7 @@ import seedu.momentum.commons.util.DateUtil;
 
 /**
  * Represents a date in the project book.
- * Guarantees: immutable; is valid as declared in {@link #isValid(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValid(String)}.
  */
 public class DateWrapper implements InstanceWrapper<LocalDate>, Comparable<DateWrapper> {
 
@@ -39,6 +41,8 @@ public class DateWrapper implements InstanceWrapper<LocalDate>, Comparable<DateW
 
     /**
      * Returns true if a given string is a valid date.
+     *
+     * @param test String to test.
      */
     public static boolean isValid(String test) {
         try {

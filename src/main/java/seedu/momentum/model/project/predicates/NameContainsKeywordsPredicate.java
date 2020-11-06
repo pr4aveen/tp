@@ -1,3 +1,4 @@
+//@@author pr4aveen
 package seedu.momentum.model.project.predicates;
 
 import static java.util.Objects.requireNonNull;
@@ -17,8 +18,8 @@ public class NameContainsKeywordsPredicate extends ContainsKeywordPredicate {
      * Creates a predicate to check whether the {@code Name} of a {@code TrackedItem} contains a
      * certain keyword.
      *
-     * @param findType enum to indicate the find type to be used for this find command.
-     * @param keywords list of keywords to check for matches.
+     * @param findType Enum to indicate the find type to be used for this find command.
+     * @param keywords List of keywords to check for matches.
      */
     public NameContainsKeywordsPredicate(FindType findType, List<String> keywords) {
         super(findType, keywords);
@@ -36,7 +37,6 @@ public class NameContainsKeywordsPredicate extends ContainsKeywordPredicate {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof NameContainsKeywordsPredicate // instanceof handles nulls
-                && keywords.equals(((NameContainsKeywordsPredicate) other).keywords)) // state check
-                && findType == ((NameContainsKeywordsPredicate) other).findType;
+                && super.equals(other)); // state check
     }
 }

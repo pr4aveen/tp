@@ -1,3 +1,4 @@
+//@@author pr4aveen
 package seedu.momentum.model.project;
 
 import java.util.Set;
@@ -26,7 +27,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
      * @param deadline           A deadline associated with the task.
      * @param reminder           A reminder associated with the tracked item.
      * @param tags               A set of tags associated to the task.
-     * @param durations          A list of {@code WorkDuration} associated with the task.
+     * @param durations          A list of durations spent working on the task.
      * @param timerWrapper       A timerWrapper associated with the task.
      */
     public Task(Name name, Description description, CompletionStatus completionStatus, DateWrapper createdDateWrapper,
@@ -37,7 +38,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
     }
 
     /**
-     * Constructs a new {@code Task}
+     * Constructs a new {@code Task}.
      *
      * @param name               A valid name.
      * @param completionStatus   A completion status of the task.
@@ -52,6 +53,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
         super(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags);
     }
 
+    //@@author boundtotheearth
     /**
      * Returns a copy of this task with its timerWrapper started.
      *
@@ -59,6 +61,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
      */
     @Override
     public Task startTimer() {
+        LOGGER.info("Started Timer For: " + name.fullName);
         TimerWrapper newTimerWrapper = timerWrapper.start();
         return new Task(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,
                 newTimerWrapper);
@@ -72,6 +75,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
      */
     @Override
     public Task stopTimer() {
+        LOGGER.info("Stopped Timer For: " + name.fullName);
         TimerWrapper newTimerWrapper = timerWrapper.stop();
         WorkDuration duration = new WorkDuration(newTimerWrapper.getStartTime(), newTimerWrapper.getStopTime());
         UniqueItemList<WorkDuration> newDurations = durations.copy();
@@ -80,6 +84,7 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
                 newDurations, newTimerWrapper);
     }
 
+    //@@author claracheong4
     @Override
     public Task removeReminder() {
         Reminder newReminder = reminder.remove();
@@ -94,9 +99,13 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
                 timerWrapper);
     }
 
+    //@@author pr4aveen
     /**
-     * Returns true if both tracked item of the same name have at least one other identity field that is the same.
+     * Checks whether two tracked item are the same.
      * This defines a weaker notion of equality between two tasks.
+     *
+     * @param otherTrackedItem The other tracked item to check against.
+     * @return True if both tracked item of the same name have at least one other identity field that is the same.
      */
     @Override
     public boolean isSameAs(TrackedItem otherTrackedItem) {
@@ -108,7 +117,9 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
     }
 
     /**
-     * Returns true if the instance is a Task. Returns false otherwise.
+     * Checks whether the instance is a task.
+     *
+     * @return True if the instance is a Task, false otherwise.
      */
     @Override
     public boolean isTask() {
@@ -116,8 +127,11 @@ public class Task extends TrackedItem implements UniqueItem<TrackedItem> {
     }
 
     /**
-     * Returns true if both tracked items have the same identity and data fields.
+     * Checks whether another object is equal to this tracked item.
      * This defines a stronger notion of equality between two tracked items.
+     *
+     * @param other Other object to check.
+     * @return True if both tracked items have the same identity and data fields.
      */
     @Override
     public boolean equals(Object other) {

@@ -14,7 +14,7 @@
                 <Label text="Reminder" />
             </children>
         </HBox>
-        <FlowPane fx:id="reminderPane" alignment="CENTER">
+        <FlowPane fx:id="reminderPane" alignment="CENTER_LEFT">
             <opaqueInsets>
                 <Insets />
             </opaqueInsets>

@@ -1,3 +1,4 @@
+//@@author boundtotheearth
 package seedu.momentum.logic.statistic;
 
 import javafx.collections.ObservableList;
@@ -16,13 +17,19 @@ public abstract class Statistic {
      */
     public abstract void calculate(Model model);
 
+    //@@author khoodehui
     /**
      * Sets the timeframe of the statistic tracked.
+     *
+     * @param statisticTimeframe Timeframe to set the statistics of the item to.
      */
     public abstract void setTimeframe(StatisticTimeframe statisticTimeframe);
+    //@@author
 
     /**
      * Retrieves the statistics data in a displayable format.
+     *
+     * @return The displayable list of the statistics data.
      */
     public abstract ObservableList<StatisticEntry> getDisplayList();
 }

@@ -1,3 +1,4 @@
+//@@author pr4aveen
 package seedu.momentum.model.project.predicates;
 
 import static java.util.Objects.requireNonNull;
@@ -19,8 +20,8 @@ public abstract class ContainsKeywordPredicate implements Predicate<TrackedItem>
     /**
      * Predicate to check whether a component of a {@code Project} contains a certain keyword.
      *
-     * @param findType enum to indicate whether the find type to be used for this find command.
-     * @param keywords list of keywords to check for matches.
+     * @param findType Enum to indicate whether the find type to be used for this find command.
+     * @param keywords List of keywords to check for matches.
      */
     public ContainsKeywordPredicate(FindType findType, List<String> keywords) {
         requireAllNonNull(findType, keywords);
@@ -28,11 +29,19 @@ public abstract class ContainsKeywordPredicate implements Predicate<TrackedItem>
         this.keywords = keywords;
     }
 
+    /**
+     * Tests a given predicate with the specified find type.
+     *
+     * @param predicate Predicate to be tested.
+     * @return Result of the test.
+     */
     protected boolean testPredicate(Predicate<String> predicate) {
         requireNonNull(predicate);
         switch (findType) {
         case ALL:
             return keywords.stream().allMatch(predicate);
+        case NONE:
+            return keywords.stream().noneMatch(predicate);
         case ANY:
             // Fallthrough
         default:

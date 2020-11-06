@@ -28,6 +28,9 @@ public class SettingsUpdateManager {
 
     /**
      * Initializes the {@code Ui} and {@code StatisticGenerator} to be maintained.
+     *
+     * @param appUi Ui to change the settings of.
+     * @param appStatistic Statistic generator to change the settings of.
      */
     public static void initSettingsUpdateManager(Ui appUi, StatisticGenerator appStatistic) {
         ui = appUi;
@@ -36,6 +39,8 @@ public class SettingsUpdateManager {
 
     /**
      * Updates the theme of the application.
+     *
+     * @param theme New theme to update the application Ui to.
      */
     public static void updateTheme(Theme theme) {
         Optional.ofNullable(ui).ifPresentOrElse(ui -> ui.getMainWindow().updateTheme(theme), LOG_UI_NOT_PRESENT);
@@ -43,6 +48,8 @@ public class SettingsUpdateManager {
 
     /**
      * Updates the timeframe for the statistics tracked.
+     *
+     * @param timeframe New timeframe to update the application statistics to.
      */
     public static void updateStatisticTimeframe(StatisticTimeframe timeframe) {
         Optional.ofNullable(statistic).ifPresentOrElse(stat -> stat.updateStatisticTimeframe(timeframe),
@@ -53,6 +60,8 @@ public class SettingsUpdateManager {
 
     /**
      * Updates the application settings from the provided {@code userPrefs}.
+     *
+     * @param userPrefs The set of user preferences containing the settings to change.
      */
     public static void updateApplicationSettings(ReadOnlyUserPrefs userPrefs) {
         updateTheme(userPrefs.getGuiThemeSettings().getTheme());

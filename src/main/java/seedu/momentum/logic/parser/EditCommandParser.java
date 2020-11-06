@@ -1,7 +1,7 @@
 package seedu.momentum.logic.parser;
 
-import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_DATE;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DEADLINE_TIME;
@@ -27,7 +27,7 @@ import seedu.momentum.model.project.CompletionStatus;
 import seedu.momentum.model.tag.Tag;
 
 /**
- * Parses input arguments and creates an appropriate new EditCommand object
+ * Parses input arguments and creates an appropriate new EditCommand object.
  */
 public class EditCommandParser implements Parser<EditCommand> {
     /**
@@ -35,10 +35,10 @@ public class EditCommandParser implements Parser<EditCommand> {
      * and returns the corresponding EditCommand object for execution.
      *
      * @param model The current model, to provide context for parsing the arguments.
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException If the user input does not conform the expected format.
      */
     public EditCommand parse(String args, Model model) throws ParseException {
-        requireNonNull(args);
+        requireAllNonNull(args, model);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DESCRIPTION,
                 PREFIX_COMPLETION_STATUS, PREFIX_DEADLINE_DATE, PREFIX_DEADLINE_TIME, PREFIX_REMINDER, PREFIX_TAG);
 
@@ -56,11 +56,13 @@ public class EditCommandParser implements Parser<EditCommand> {
             editTrackedItemDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
 
+        //@@author kkangs0226
         if (argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
             editTrackedItemDescriptor.setDescription(
                     ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).get()));
         }
 
+        //@@author claracheong4
         if (argMultimap.getValue(PREFIX_COMPLETION_STATUS).isPresent()) {
             editTrackedItemDescriptor.setCompletionStatus(new CompletionStatus());
         }
@@ -74,12 +76,11 @@ public class EditCommandParser implements Parser<EditCommand> {
                     DateWrapper.MIN));
         }
 
-        // use a default date to parse the reminder first
-        // check whether if the date of the reminder is after or on created date in edit command
         if (argMultimap.getValue(PREFIX_REMINDER).isPresent()) {
             editTrackedItemDescriptor.setReminder(ParserUtil.parseReminder(
                     argMultimap.getValue(PREFIX_REMINDER)));
         }
+        //@@author
 
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editTrackedItemDescriptor::setTags);
 
@@ -87,11 +88,13 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
+        //@@author pr4aveen
         if (model.getViewMode() == ViewMode.PROJECTS) {
             return new EditProjectCommand(index, editTrackedItemDescriptor);
         } else {
             return new EditTaskCommand(index, editTrackedItemDescriptor, model.getCurrentProject());
         }
+        //@@author
     }
 
     /**

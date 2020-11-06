@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.commons.core;
 
 import static java.util.Objects.requireNonNull;
@@ -8,13 +10,13 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.momentum.model.project.exceptions.DuplicateItemException;
-import seedu.momentum.model.project.exceptions.ItemNotFoundException;
+import seedu.momentum.commons.exceptions.DuplicateItemException;
+import seedu.momentum.commons.exceptions.ItemNotFoundException;
 
 /**
  * A list of items that enforces uniqueness between its elements and does not allow nulls.
  * An item is considered unique by comparing using {@code UniqueItem#isSameAs(UniqueItem)}. As such, adding
- * and updating of items uses {@code UniqueItem#isSameTrackedItem(TrackedItem)} for equality so as to ensure that
+ * and updating of items uses {@code UniqueItem#isSameAs(UniqueItem)} for equality so as to ensure that
  * the item being added or updated is unique in terms of identity in the UniqueItemList. However, the
  * removal of a item uses {@code equals(Object)} so as to ensure that the item with exactly the
  * same fields will be removed.
@@ -33,7 +35,7 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
      * Returns true if the list contains an equivalent item as the given argument.
      *
      * @param toCheck The other item to check against.
-     * @return true if the two items are equivalent, false otherwise.
+     * @return True if the two items are equivalent, false otherwise.
      */
     public boolean contains(T toCheck) {
         requireNonNull(toCheck);
@@ -63,8 +65,8 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
      *
      * @param target The item to replace.
      * @param editedItem The new item.
-     * @throws ItemNotFoundException if the target does not exist in the list.
-     * @throws DuplicateItemException if the new item is equivalent to some other item in the list.
+     * @throws ItemNotFoundException If the target does not exist in the list.
+     * @throws DuplicateItemException If the new item is equivalent to some other item in the list.
      */
     public void set(T target, T editedItem) {
         requireAllNonNull(target, editedItem);
@@ -86,7 +88,7 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
      * The item must exist in the list.
      *
      * @param toRemove The item to be removed.
-     * @throws ItemNotFoundException if the item does not exist in the list.
+     * @throws ItemNotFoundException If the item does not exist in the list.
      */
     public void remove(T toRemove) {
         requireNonNull(toRemove);
@@ -110,7 +112,7 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
      * {@code items} must not contain duplicate items.
      *
      * @param items The list of new items to be added.
-     * @throws DuplicateItemException if the new list of items contains duplicate items.
+     * @throws DuplicateItemException If the new list of items contains duplicate items.
      */
     public void setItems(List<T> items) {
         requireAllNonNull(items);
@@ -121,10 +123,11 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
         internalList.setAll(items);
     }
 
+    //@@author kkangs0226
     /**
      * Creates a duplicate {@code UniqueItemList}
      *
-     * @return duplicate {@code UniqueItemList} list.
+     * @return Duplicate {@code UniqueItemList} list.
      */
     public UniqueItemList<T> copy() {
         UniqueItemList<T> newList = new UniqueItemList<>();
@@ -133,6 +136,7 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
         }
         return newList;
     }
+    //@@author
 
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.

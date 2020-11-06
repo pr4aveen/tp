@@ -18,6 +18,7 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.CreatedDateCompare;
 import seedu.momentum.model.project.comparators.NameCompare;
 import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
+import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class VersionedProjectBookTest {
@@ -29,7 +30,7 @@ public class VersionedProjectBookTest {
     private static final ViewMode AFTER_VIEWMODE = ViewMode.PROJECTS;
     private static final Predicate<TrackedItem> INIT_PREDICATE = Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
     private static final Predicate<TrackedItem> AFTER_PREDICATE =
-            new CompletionStatusPredicate(Arrays.asList("incomplete"));
+            new CompletionStatusPredicate(FindType.ALL, Arrays.asList("incomplete"));
     private static final Comparator<TrackedItem> INIT_COMPARE = new NameCompare();
     private static final Comparator<TrackedItem> AFTER_COMPARE = new CreatedDateCompare();
     private static final boolean INIT_TAGS_VISIBLE = true;
