@@ -201,11 +201,6 @@ public class AddProjectCommandTest {
         }
 
         @Override
-        public void rescheduleReminders() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void rescheduleReminder() {
             throw new AssertionError("This method should not be called.");
         }
@@ -379,7 +374,7 @@ public class AddProjectCommandTest {
         @Override
         public void commitToHistory() {
             versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible,
-                userPrefs);
+                    userPrefs);
         }
     }
 }
