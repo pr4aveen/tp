@@ -152,7 +152,7 @@ public class FindCommandTest {
     public void anyMatch_singleCompletionStatusKeyword_multipleProjectsFound() {
         String expectedMessage = String.format(MESSAGE_PROJECTS_LISTED_OVERVIEW, 3);
         CompletionStatusPredicate predicate =
-                prepareCompletionStatusPredicate(CompletionStatusPredicate.COMPLETED_KEYWORD);
+                prepareCompletionStatusPredicate(FindType.ALL, CompletionStatusPredicate.COMPLETED_KEYWORD);
         FindCommand command = new FindCommand(predicate);
         expectedModel.updatePredicate(predicate);
         expectedModel.commitToHistory();
@@ -200,8 +200,8 @@ public class FindCommandTest {
     /**
      * Parses {@code userInput} into a {@code CompletionStatusPredicate}.
      */
-    private CompletionStatusPredicate prepareCompletionStatusPredicate(String userInput) {
-        return new CompletionStatusPredicate(Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
+    private CompletionStatusPredicate prepareCompletionStatusPredicate(FindType findType, String userInput) {
+        return new CompletionStatusPredicate(findType, Arrays.asList(userInput.split(FIND_ARGUMENT_DELIMITER)));
     }
 
     /**
