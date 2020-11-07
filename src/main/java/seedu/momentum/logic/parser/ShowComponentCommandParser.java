@@ -40,9 +40,8 @@ public class ShowComponentCommandParser implements Parser<ShowComponentCommand> 
 
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
             return new ShowComponentCommand(ComponentType.TAGS);
-        } else {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowComponentCommand.MESSAGE_USAGE));
         }
+        throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowComponentCommand.MESSAGE_USAGE));
     }
 
 }

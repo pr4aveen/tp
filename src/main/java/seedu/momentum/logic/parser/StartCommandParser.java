@@ -33,10 +33,8 @@ public class StartCommandParser implements Parser<StartCommand> {
 
             if (model.getViewMode() == ViewMode.PROJECTS) {
                 return new StartProjectCommand(index);
-            } else {
-                return new StartTaskCommand(index, model.getCurrentProject());
             }
-
+            return new StartTaskCommand(index, model.getCurrentProject());
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, StartCommand.MESSAGE_USAGE), pe);

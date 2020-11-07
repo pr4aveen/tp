@@ -33,10 +33,8 @@ public class StopCommandParser implements Parser<StopCommand> {
 
             if (model.getViewMode() == ViewMode.PROJECTS) {
                 return new StopProjectCommand(index);
-            } else {
-                return new StopTaskCommand(index, model.getCurrentProject());
             }
-
+            return new StopTaskCommand(index, model.getCurrentProject());
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, StopCommand.MESSAGE_USAGE), pe);

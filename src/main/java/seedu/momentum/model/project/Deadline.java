@@ -164,9 +164,8 @@ public class Deadline implements Comparable<Deadline> {
             return -1;
         } else if (thisDateWrapper.get().isAfter(otherDateWrapper.get())) {
             return 1;
-        } else {
-            return sameDateCompare(other);
         }
+        return sameDateCompare(other);
     }
 
 
@@ -185,9 +184,8 @@ public class Deadline implements Comparable<Deadline> {
             TimeWrapper thisTimeWrapper = this.getTime();
             TimeWrapper otherTimeWrapper = other.getTime();
             return thisTimeWrapper.compareTo(otherTimeWrapper);
-        } else {
-            return 0;
         }
+        return 0;
     }
     //@@author
 }
