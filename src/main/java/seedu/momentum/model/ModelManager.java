@@ -494,19 +494,30 @@ public class ModelManager implements Model {
     public Comparator<TrackedItem> getComparator(SortType sortType, boolean isAscending,
                                                  boolean isSortedByCompletionStatus) {
         requireNonNull(sortType);
+        Comparator<TrackedItem> comparator;
 
         switch (sortType) {
         case ALPHA:
-            return getComparatorAlphaType(isAscending, isSortedByCompletionStatus);
+            comparator = getComparatorAlphaType(isAscending);
+            break;
         case DEADLINE:
-            return getComparatorDeadlineType(isAscending, isSortedByCompletionStatus);
+            comparator = getComparatorDeadlineType(isAscending);
+            break;
         case CREATED:
-            return getComparatorCreatedType(isAscending, isSortedByCompletionStatus);
+            comparator = getComparatorCreatedType(isAscending);
+            break;
         case NULL:
-            return getComparatorNullType(isAscending, isSortedByCompletionStatus);
+            comparator = getComparatorNullType(isAscending, isSortedByCompletionStatus);
+            break;
         default:
             // Will always be one of the above. Default does nothing.
             return null;
+        }
+
+        if (isSortedByCompletionStatus) {
+            return new CompletionStatusCompare().thenComparing(comparator);
+        } else {
+            return comparator;
         }
     }
 
@@ -518,33 +529,24 @@ public class ModelManager implements Model {
                                                                          boolean isAscending) {
         return isAscending ? comparator : comparator.reversed();
     }
-
-    private Comparator<TrackedItem> factorIsSortedByCompletionStatus(Comparator<TrackedItem> comparator,
-                                                                     boolean isSortedByCompletionStatus) {
-        return isSortedByCompletionStatus
-                ? new CompletionStatusCompare().thenComparing(comparator)
-                : comparator;
-    }
-
+    
     /**
      * Sets the order of list of tracked items by alphabetical order, ascending or descending based on user input.
      *
      * @param isAscending                order of sort specified by user.
-     * @param isSortedByCompletionStatus sort by creation status.
      */
-    private Comparator<TrackedItem> getComparatorAlphaType(boolean isAscending, boolean isSortedByCompletionStatus) {
+    private Comparator<TrackedItem> getComparatorAlphaType(boolean isAscending) {
         Comparator<TrackedItem> nameCompare = factorIsAscending(new NameCompare(), isAscending);
         this.currentSortType = SortType.ALPHA;
-        return factorIsSortedByCompletionStatus(nameCompare, isSortedByCompletionStatus);
+        return nameCompare;
     }
 
     /**
      * Sets the order of list of tracked items by deadline order, ascending or descending based on user input.
      *
      * @param isAscending                order of sort specified by user.
-     * @param isSortedByCompletionStatus sort by creation status.
      */
-    private Comparator<TrackedItem> getComparatorDeadlineType(boolean isAscending, boolean isSortedByCompletionStatus) {
+    private Comparator<TrackedItem> getComparatorDeadlineType(boolean isAscending) {
         Comparator<TrackedItem> nameCompare = new NameCompare();
         Comparator<HashMap<String, Object>> deadlineCompareHashMap =
                 factorIsAscendingHashMap(new DeadlineCompare(), isAscending);
@@ -553,19 +555,18 @@ public class ModelManager implements Model {
         deadlineCompare = deadlineCompare.thenComparing(nameCompare);
         this.currentSortType = SortType.DEADLINE;
 
-        return factorIsSortedByCompletionStatus(deadlineCompare, isSortedByCompletionStatus);
+        return deadlineCompare;
     }
 
     /**
      * Sets the order of list of tracked items by created date order, ascending or descending based on user input.
      *
      * @param isAscending                order of sort specified by user.
-     * @param isSortedByCompletionStatus sort by creation status.
      */
-    private Comparator<TrackedItem> getComparatorCreatedType(boolean isAscending, boolean isSortedByCompletionStatus) {
+    private Comparator<TrackedItem> getComparatorCreatedType(boolean isAscending) {
         Comparator<TrackedItem> createdDateCompare = factorIsAscending(new CreatedDateCompare(), isAscending);
         this.currentSortType = SortType.CREATED;
-        return factorIsSortedByCompletionStatus(createdDateCompare, isSortedByCompletionStatus);
+        return createdDateCompare;
     }
 
     /**
