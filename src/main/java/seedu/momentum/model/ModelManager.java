@@ -529,7 +529,6 @@ public class ModelManager implements Model {
                                                                          boolean isAscending) {
         return isAscending ? comparator : comparator.reversed();
     }
-    
     /**
      * Sets the order of list of tracked items by alphabetical order, ascending or descending based on user input.
      *
