@@ -1,0 +1,22 @@
+@startuml
+start
+:Clock initialized in Manual mode\nwith initial time 20:00;
+
+:Current Time requested \n by another component;
+
+:Initial time is returned (20:00);
+
+:Exactly 1 min passes;
+
+:Current Time requested \n by another component;
+
+:Same initial time is returned (20:00);
+
+:Clock is advanced by 1 min;
+
+:Current Time requested \n by another component;
+
+:New time is returned (20:01);
+
+stop
+@enduml

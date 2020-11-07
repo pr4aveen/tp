@@ -15,3 +15,4 @@ public class Messages {
     public static final String MESSAGE_TEXT_PROJECT = "Project";
     public static final String MESSAGE_TEXT_TASK = "Task";
 }
+

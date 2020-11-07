@@ -1,0 +1,16 @@
+@startuml
+start
+:Clock initialized in Fixed mode\nwith a fixed time 20:00;
+
+:Current Time requested \n by another component;
+
+:The fixed time is returned (20:00);
+
+:Exactly 1 min passes;
+
+:Current Time requested \n by another component;
+
+:Same fixed time is returned (20:01);
+
+stop
+@enduml
