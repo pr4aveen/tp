@@ -4,7 +4,7 @@ title: Developer Guide
 ---
 
 * Table of Contents
-  {:toc}
+  [toc]
 
 ---
 
@@ -17,16 +17,6 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 ## **Design**
 
 ### Architecture
-
-<img src="images/ArchitectureDiagram.png" width="450" />
-
-The **_Architecture Diagram_** given above explains the high-level design of the App. Given below is a quick overview of each component.
-
-<div markdown="span" class="alert alert-primary">
-
-:bulb: **Tip:** The `.puml` files used to create diagrams in this document can be found in the [diagrams](https://github.com/se-edu/addressbook-level3/tree/master/docs/diagrams/) folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
-
-</div>
 
 **`Main`** has two classes called [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java). It is responsible for,
 
@@ -105,6 +95,7 @@ The `Model`,
 
 * stores a `UserPref` object that represents the user’s preferences.
 * stores the project book data.
+* stores a `ReminderManager` object the schedules and remove reminders.
 * exposes an unmodifiable `ObservableList<Project>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
@@ -135,19 +126,38 @@ Classes used by multiple components are in the `seedu.momentum.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Adding Tasks to Projects
+Since projects and tasks contain very similar fields, we have chosen to implement an abstract class, `TrackedItem` with these fields, and have both `Project` and `Task` extend from it. We then have each `Project` contain a list of `Task` that can be accessed. This is illustrated in the class diagram below:
+
+//Image here//
+
+This allows us to reduce code duplication, and allows us to handle both projects and task in a more general, abstract way. For example, the same `start`/`stop` command classes can be used for both projects and tasks by implementing them using `TrackedItem`. 
+
+#### Alternate Implementation: Projects in Projects
+Instead of have seperate `Project` and `Task` classes, we can model the concept by having each `Project` object contain more `Project` objects, as illustrated in the class diagram below:
+
+//Image here//
+
+We ultimately chose not to use this implementation because we expect `Project` and `Task` to be further differentiated in the future. Our chosen implementation will allow us to modify and extend the functionality of `Project` and `Task` seperately.
+
+#### Alternate Implementation: Using predicates to filter Tasks and Projects
+Another implementation we considered was to add all `Project` and `Task` objects the same `UniqueProjectsList`. The UI will only display projects when it is in the project view and tasks when it is in the tasks view. This will be done by modifying the predicates used on the `filteredTrackedItems` list in `ModelManager`. Other commands such as `Find` will modify the predicate similarly. 
+
+We rejected this implementation as we felt that it would be difficult to write more rigorous tests compared to our chosen implementation. The chosen implementation can reuse a lot of the tests that are already present in the codebase. This was an important consideration for us due to the time constraints we are presented with.
+
 ### Immutability
-`Projects`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new
+`Projects`, `Tasks`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new
  object is created with the new details, and the model is updated with the new object.
-
+ 
 Notable examples include:
-* Starting/Stopping a Timer: A new object is created with the updated timerWrapper state and durations,
-* Editing a Project: A new object is created with the new project's details, with the same timerWrapper and durations recorded.
+* Starting/Stopping a Timer: A new object is created with the updated timer state and durations, 
+* Editing a Project: A new object is created with the new project's details, with the same timer and durations recorded.
 
-Below is an example of what happens when a project's timerWrapper is stopped:
+Below is an example of what happens when a project's timer is stopped:
 
 ![StopTimerSequenceDiagram](images/StopTimerSequenceDiagram.png)
 
-In this case, since the project's timerWrapper is being changed, new `TimerWrapper`, `WorkDuration`, `UniqueDurationList` objects are
+In this case, since the project's timer is being changed, new `TimerWrapper`, `WorkDuration`, `UniqueDurationList` objects are
  created, which are then used to create a new `Project`, which is subsequently used to replace the old `Project` in
   the model.
 
@@ -156,21 +166,21 @@ We chose to implement projects this way as immutability makes these classes more
 ### Timers and Durations
 The time tracking features in Momentum are implemented using `TimerWrapper` and `WorkDuration` objects. The below diagram
  illustrates the relevant classes that work together to produce statistics
-
+ 
  ![StopTimerSequenceDiagram](images/TimerDurationClassDiagram.png)
 
 
-Each project has a `TimerWrapper` that can be started and stopped by the user (using the `start`/`stop` commands). The timerWrapper
+Each project has a `TimerWrapper` that can be started and stopped by the user (using the `start`/`stop` commands). The timer
  does not run actively (counting each second/millisecond), instead it records the time when it was started, and the time
   when it was stopped. 
  
 This implementation was chosen because it allows Momentum's timers to continue running even when the application is
-closed, bye saving the timerWrapper's start/stop times together with project data. We chose to give each `Project` its own
- timerWrapper as that allows Momentum to support running multiple timers concurrently, one for each project, for users that
+closed, bye saving the timer's start/stop times together with project data. We chose to give each `Project` its own
+ timer as that allows Momentum to support running multiple timers concurrently, one for each project, for users that
   want to multi-task.
 
 A `WorkDuration` represents a period of time that the user spent working on a project. Each `Project` contains a list
- of `WorkDuration` that represents each time the each the user starts and stops the timerWrapper for the project.
+ of `WorkDuration` that represents each time the each the user starts and stops the timer for the project.
  
 We chose to do this implementation to allow for flexibility in calculating statistics
 
@@ -185,22 +195,25 @@ The date and time of a deadline of a project is parsed separately. This design i
 
 An alternative design is to parse both date and time together. This is harder to implement as date and time is stored separately in deadline. This design would also restrict the format of the date and time.
 
-The deadline also has a constraint that is has to beon or after the created date. This constraint has been added to prevent the occurences of any bug due to offset with date and times.
+The deadline also has a constraint that is has to be on or after the created date. This constraint has been added so that more meaningful statistics can be generated.
 
 As a result, the deadline has to be aware of the created date when created. The constructor of `Deadline` accepts a created date. For `EditCommand`, a descriptor containing edited fields is created directly from parsing the user input in `EditCommandParser`, hence the created date is unknown. A dummy date using `LocalDate.EPOCH` is passed into the constructor of `Deadline` in `EditCommandParser` to allow creation of the deadline. The check that deadline has to be on or after the created date is done in `EditCommand` after the creation date of the project to be edited is known.
 
-
 ### Reminders
 
-The reminder of a task is implemented using `ReminderManager` and `Reminder`. The date and time of a reminder is stored in `Reminder`. `ReminderManager` schedules the reminder using `Timer` and runs the reminder using `Platform.runLater`. 
+The reminder of a task is implemented using `ReminderManager` and `Reminder`. The date and time of a reminder is stored in `Reminder`. `ReminderManager` schedules the reminder using `Timer` and runs the reminder using `ThreadWrapper`. 
 
 An alternative would be to schedule and run the reminder in `Reminder` class directly. This design was not chosen as that `Reminder` would have to contain references to both `Model` and `ProjectBook`, which is undesired.
 
-`ReminderManager` contains a reference to a `ProjectBook` so that the projects and tasks can be iterated and the reminders of the projects can be modified. `ReminderManager` makes use of callback functions such as `rescheduleReminder(ReminderManager reminderManager)` to iterate through the project, which in turns calls `rescheduleReminder(Project project)` in `ReminderManager`.
+`ThreadWrapper` is a utility class which runs runnables using `Platform.runLater` when running the javaFX application, but switches to running the runnables directly when performing automated tests.
 
-`ReminderManager` has an inner class `ReminderTimerTask` which implements `TimerTask` that is used to schedule a reminder with `Timer`. This design was chosen as `ReminderTimerTask` references non-static methods of `ReminderMananger` as well as `ProjectBook`, which is also referenced in `ReminderManager`.
+An alternative would be to use `Platform.runLater` only to run the reminder. However, automated tests cannot directly run the reminder as it does not support `Platform`. This design was chosen to enable the reminder to be run directly.
 
-An alternative implementation is to implement `ReminderTimerTask` as a separate class. With this implementation, `ReminderTimerTask` will have to contain extra references such as `ReminderManager` and `ProjectBook`.
+`ReminderManager` contains a reference to a `Model` so that the projects and tasks can be iterated through callback methods and the reminders of the projects can be modified. `ReminderManager` makes use of several callback functions such as `rescheduleReminder(ReminderManager reminderManager)` to iterate through the project, which in turns calls `rescheduleReminder(Project project)` in `ReminderManager`.
+
+`ReminderManager` has an inner class `ReminderTimerTask` which implements `TimerTask` that is used to schedule a reminder with `Timer`. This design was chosen as `ReminderTimerTask` references non-static methods of `ReminderMananger` as well as `Model`, which is also referenced in `ReminderManager`.
+
+An alternative implementation is to implement `ReminderTimerTask` as a separate class. With this implementation, `ReminderTimerTask` will have to contain extra references such as `ReminderManager` and `Model`.
 
 The result of the reminder is stored as a `StringProperty` and retrieved from the `Model` so that a listener can be used in `MainWindow` to detect changes and update the GUI acccordingly. This design was chosen due to the ease of implementation. 
 
@@ -209,6 +222,7 @@ The result of the reminder is stored as a `StringProperty` and retrieved from th
 Whenever a project is added, edited or removed, the reminders needs to be adjusted accordingly. The chosen implementations is to reschedule all the reminders. 
 
 An alternative would be to only reschedule projects that are affected by the change. This design was not chosen as it is more complicated and would increase the coupling between `ReminderManager` and other related classes.
+
 
 ### Statistics
 Statistics in Momentum are implemented using a Command design pattern, similar to how Commands are implemented. A
@@ -244,13 +258,33 @@ The `Clock` class acts as a consistent, single course of the 'current time' with
  
 This implementation was chosen because it allows all time-related features to be more easily testable.
 
-Rejected Implementation: Using `LocalDateTime.now()` directly
+#### Rejected Implementation: Using `LocalDateTime.now()` directly
 This implementation was considered but ultimately rejected as it introduced several problems in testing time-realted
  features. Notable issues are:
  * It is impossible to check for equality when getting system time directly using `LocalDateTime.now()` and other
   similar methods, since time would always progress by a small amount between each call
  * It is difficult to test features that require the passage of time, such as the `start` and `stop` commands as we
   would need to actually wait an amount of time during the tests.
+
+### Find Command
+The find command uses predicate chaining to search for projects/tasks based on one or more parameters. A predicate is created for each type of search parameter (name, description, tags, completion status). There are four predicates classes defined for this purpose.
+
+* `NameContainsKeywordPredicate` - Searches for projects/tasks based on name.
+* `DescriptionContainsKeywordPredicate` - Searches for projects/tasks based on description.
+* `TagListContainsKeywordPredicate` - Searches for projects/tasks based on tags.
+* `CompletionStatusPredicate` - Searches for projects/tasks based on completion status.
+
+The `FindCommandParser` creates a list of predicates based on the arguments entered into the command. Each predicate takes in a match type, represented by the enumeration `FindType`.
+
+*check if correct representation for non-static*-> `FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem>`. The `filteredTrackedItemsList` is updated to contain all projects and tasks without updating the user interface. After this, `FindCommand` uses used to update the`filteredTrackedItemsList` and the user interface.
+
+This design was chosen as it built on the existing implementation of the find command, which passed a `NameContainsKeywordPredicate` to the `filteredTrackedItemsList`. This means that minimal changes to other parts of the project were required. 
+
+// should i include a disadvantge of this method -- testability of predicate chaining //
+
+The following sequence diagram shows how the find command works.
+
+// Insert seq diagram here. //
 
 ### \[Proposed\] Undo/redo feature
 
@@ -385,9 +419,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                        | add and edit a reminder for a project                    |                                                                         |
 | `* * *`  | user                                        | delete a project                     | remove entries that I no longer need                                    |
 | `* * *`  | user                                        | find a project by name               | locate details of projects without having to go through the entire list |
+| `* * *`  | user                                        | find a project by completion status               | locate projects that are completed or imcomplete without having to go through the entire list |
 | `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
-| `* *`    | new user                                    | start and stop a timerWrapper for a project | track the time I spent on the project                                   |
+| `*`      | user with many projects in the project book | sort projects by completion status                | locate an incomplete or complete project easily                                                 |
+| `*`      | user with many projects in the project book | hide and show the tags panel                | focus more on statistics and timers                                                 |
+| `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
 | `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
+| `* *`    | user | can create tasks within a project | better organize my work
+
 _{More to be added}_
 
 ### Use cases
@@ -398,22 +437,22 @@ _{More to be added}_
 
 **MSS**
 
-1.  User requests to start a timerWrapper for a specific project in the list.
-2.  Momemtum starts the timerWrapper for the project.
-3.  User requests to end a timerWrapper for a specific project in the list.
-4.  Momemtum ends the timerWrapper for the project.
+1.  User requests to start a timer for a specific project in the list.
+2.  Momemtum starts the timer for the project.
+3.  User requests to end a timer for a specific project in the list.
+4.  Momemtum ends the timer for the project.
 (For all use cases below, the **System** is the `ProjectBook` and the **Actor** is the `user`, unless specified
  otherwise).
 
 **Extensions**
 
-* 2a. There is an existing timerWrapper for the given project id.
+* 2a. There is an existing timer for the given project id.
   
   * a1. Momentum shows an error message.
 
     Use case ends.
 
-* 3a. There is no ongoing timerWrapper for the given project id.
+* 3a. There is no ongoing timer for the given project id.
   
   * a1. Momentum shows an error message.
 
@@ -475,16 +514,15 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1.1 Download the jar file and copy into an empty folder
+   1. Download the jar file and copy into an empty folder
 
-   1.2 Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be
-    optimum.
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-2. Saving window preferences
+1. Saving window preferences
 
-   2.1 Resize the window to an optimum size. Move the window to a different location. Close the window.
+   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   2.2 Re-launch the app by double-clicking the jar file.<br>
+   1. Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
 
 1. _{ more test cases …​ }_
@@ -516,36 +554,764 @@ testers are expected to do more *exploratory* testing.
 
 ### Add a project
 
+1. Adding a project while all projects are shown.
+
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `add n/project1`<br>
+    Expected: A new project with the name `project1` will be created. Details of the project shown in the status message.
+    
+    1. Test case: `add n/project2 d/desc2`<br>
+    Expected: A new project with the name `project2` and description `desc2` will be created. Details of the project shown in the status message.    
+    
+    1. Test case: `add n/project3 t/tagA t/tagB`<br>
+    Expected: A new project with the name `project3` and tags `tagA` and `tagB` will be created. Details of the project shown in the status message.    
+    
+    1. Test case: `add n/project4 c/`<br>
+    Expected: A new project with the name `project4` and completion status `done` will be created. Details of the project shown in the status message.     
+    
+    1. Test case: `add n/project5 dd/2020-12-21`<br>
+    Expected: A new project with the name `project5` and deadline date `2020-12-21` will be created. Details of the project shown in the status message.     
+    
+    1. Test case: `add n/project6 dd/2020-12-21 dt/12:34:56`<br>
+    Expected: A new project with the name `project5` and deadline date `2020-12-21` and deadline time `12:34:56` will be created. Details of the project shown in the status message.    
+    
+    1. Test case: `add n/project7 r/x` where `x` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new project with the name `project6` and a reminder scheduled at time `x` will be created. Details of the project shown in the status message.
+
+1. Adding a project while only some projects are shown.
+    
+    1. Prerequisites: List only some projects using the `find` command.
+    
+    1. Test case: `add n/project1`<br>
+    Expected: A new project with the name `project1` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.
+    
+    1. Test case: `add n/project2 d/desc2`<br>
+    Expected: A new project with the name `project2` and description `desc2` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.   
+    
+    1. Test case: `add n/project3 t/tagA t/tagB`<br>
+    Expected: A new project with the name `project3` and tags `tagA` and `tagB` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.   
+    
+    1. Test case: `add n/project4 c/`<br>
+    Expected: A new project with the name `project4` and completion status `done` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.    
+    
+    1. Test case: `add n/project5 dd/2020-12-21`<br>
+    Expected: A new project with the name `project5` and deadline date `2020-12-21` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.    
+    
+    1. Test case: `add n/project6 dd/2020-12-21 dt/12:34:56`<br>
+    Expected: A new project with the name `project5` and deadline date `2020-12-21` and deadline time `12:34:56` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.    
+    
+    1. Test case: `add n/project7 r/x` where `x` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new project with the name `project6` and a reminder scheduled at time `x` will be created. Details of the project shown in the status message. View will be reset and all projects should be shown.
+
+1. Adding a project with invalid inputs parameters.
+
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `add n/$$`<br>
+    Expected: A new project will not be created. Invalid name format message shown in the status message.    
+    
+    1. Test case: `add n/project3 t/invalid tag`<br>
+    Expected: A new project will not be created. Invalid name format message shown in the status message.    
+    
+    1. Test case: `add n/project5 dd/2020-21-12`<br>
+    Expected: A new project will not be created. Invalid date format message shown in the status message.     
+    
+    1. Test case: `add n/project6 dd/2020-12-21 dt/99:99:99`<br>
+    Expected: A new project will not be created. Invalid time format message shown in the status message.    
+    
+    1. Test case: `add n/project7 r/x` where `x` is a time earlier that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new project will not be created. Invalid reminder date and time message shown in the status message.
+
 ### Edit a project
+
+1. Editing a project while all projects are shown.
+
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `edit x n/project1` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the name `project1` Details of the edited project shown in the status message.
+    
+    1. Test case: `edit x d/desc2` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the description `desc2`. Details of the edited project shown in the status message.   
+    
+    1. Test case: `edit x t/tagA t/tagB` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the tags `tagA` and `tagB`. Details of the edited project shown in the status message.    
+    
+    1. Test case: `edit x c/` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the completion status `done`. Details of the edited project shown in the status message.     
+    
+    1. Test case: `edit x dd/2020-12-21` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the deadline date `2020-12-21`. Details of the edited project shown in the status message.     
+    
+    1. Test case: `edit x dd/2020-12-21 dt/12:34:56` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have thr deadline date `2020-12-21` and deadline time `12:34:56`. Details of the edited project shown in the status message.    
+    
+    1. Test case: `edit x r/y` where `x` is the index of a project in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The project at index `x` will be edited to have the name `project6` and a reminder scheduled at time `y`. Details of the edited project shown in the status message.
+
+1. Editing a project while only some projects are shown.
+
+    1. Prerequisites: List only some projects using the `find` command.
+    
+    1. Test case: `edit x n/project1` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the name `project1` Details of the edited project shown in the status message. View will persist and only some projects should be shown.
+    
+    1. Test case: `edit x d/desc2` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the description `desc2`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.   
+    
+    1. Test case: `edit x t/tagA t/tagB` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the tags `tagA` and `tagB`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.    
+    
+    1. Test case: `edit x c/` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the completion status `done`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.     
+    
+    1. Test case: `edit x dd/2020-12-21` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have the deadline date `2020-12-21`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.     
+    
+    1. Test case: `edit x dd/2020-12-21 dt/12:34:56` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will be edited to have thr deadline date `2020-12-21` and deadline time `12:34:56`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.    
+    
+    1. Test case: `edit x r/y` where `x` is the index of a project in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The project at index `x` will be edited to have the name `project6` and a reminder scheduled at time `y`. Details of the edited project shown in the status message. View will persist and only some projects should be shown.
+
+1. Editing a project with invalid inputs parameters.
+
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `edit x n/$$` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will not be edited. Invalid name format message shown in the status message. 
+    
+    1. Test case: `edit x t/invalid tag` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will not be edited. Invalid tag format message shown in the status message.    
+    
+    1. Test case: `edit x dd/2020-21-12` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will not be edited. Invalid date format message shown in the status message.      
+    
+    1. Test case: `edit x dd/2020-12-21 dt/99:99:99` where `x` is the index of a project in the list.<br>
+    Expected: The project at index `x` will not be edited. Invalid time format message shown in the status message.   
+    
+    1. Test case: `edit x r/y` where `x` is the index of a project in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The project at index `x` will not be edited. Invalid reminder date and time message shown in the status message. 
 
 ### Delete a project
 
+1. Deleting a project while all projects are shown.
+
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: The first project in the list will be deleted. Details of the deleted project shown in the status message.
+    
+    1. Test case: `delete 0`, `delete`<br>
+    Expected: No project will be deleted. Invalid command format message shown. No change to the list of projects.
+    
+    1. Test case: `delete x`, where x is greater than the number of projects<br>
+    Expected: No project will be deleted. Invalid index message shown.
+
+1. Deleting a project while only some projects are being shown.
+
+    1. Prerequisites: Find some projects using the `find` command. Multiple projects in the filtered list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: First project in the filtered list will be deleted. Details of the deleted project shown in the status message.  
+    
+    1. Test case: `delete 0`, `delete`<br>
+    Expected: No project will be deleted. Invalid command format message shown. No change to the list of projects.
+    
+    1. Test case: `delete x`, where x is greater than the number of projects<br>
+    Expected: No project will be deleted. Invalid index message shown.
+
+1. Deleting a project while only one project is being shown.
+    
+    1. Prerequisites: Find a single project using the `find` command. Only one project in the filtered list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: First project in the filtered list will be deleted. Details of the deleted project shown in the status message. The filtered list will be empty. Application will not revert to an unfiltered list.  
+    
+    1. Test case: `delete 0`, `delete`<br>
+    Expected: No project will be deleted. Invalid command format message shown. No change to the list of projects.
+    
+    1. Test case: `delete x`, where x is greater than the number of projects<br>
+    Expected: No project will be deleted. Invalid index message shown.
+
 ### Clear all projects
+
+1. Clearing projects when all projects are shown.
+    
+    1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
+    
+    1. Test case: `clear`<br>
+    Expected: All projects and tasks in the project book will be deleted. 
+
+1. Clearing projects when only some projects are shown.
+
+    1. Prerequisites: Find some projects using the `find` command. Multiple projects in the filtered list.
+    
+    1. Test case: `clear`<br>
+    Expected: All projects and tasks in the project book will be deleted. 
 
 ### Add a task
 
+1. Adding a task while all tasks are shown.
+
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `add n/task1`<br>
+    Expected: A new task with the name `task1` will be created. Details of the task shown in the status message.
+    
+    1. Test case: `add n/task2 d/desc2`<br>
+    Expected: A new task with the name `task2` and description `desc2` will be created. Details of the task shown in the status message.    
+    
+    1. Test case: `add n/task3 t/tagA t/tagB`<br>
+    Expected: A new task with the name `task3` and tags `tagA` and `tagB` will be created. Details of the task shown in the status message.    
+    
+    1. Test case: `add n/task4 c/`<br>
+    Expected: A new task with the name `task4` and completion status `done` will be created. Details of the task shown in the status message.     
+    
+    1. Test case: `add n/task5 dd/2020-12-21`<br>
+    Expected: A new task with the name `task5` and deadline date `2020-12-21` will be created. Details of the task shown in the status message.     
+    
+    1. Test case: `add n/task6 dd/2020-12-21 dt/12:34:56`<br>
+    Expected: A new task with the name `task5` and deadline date `2020-12-21` and deadline time `12:34:56` will be created. Details of the task shown in the status message.    
+    
+    1. Test case: `add n/task7 r/x` where `x` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new task with the name `task6` and a reminder scheduled at time `x` will be created. Details of the task shown in the status message.
+
+1. Adding a task while only some tasks are shown.
+    
+    1. Prerequisites: Viewing tasks for any project.List only some tasks using the `find` command.
+    
+    1. Test case: `add n/task1`<br>
+    Expected: A new task with the name `task1` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.
+    
+    1. Test case: `add n/task2 d/desc2`<br>
+    Expected: A new task with the name `task2` and description `desc2` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.   
+    
+    1. Test case: `add n/task3 t/tagA t/tagB`<br>
+    Expected: A new task with the name `task3` and tags `tagA` and `tagB` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.   
+    
+    1. Test case: `add n/task4 c/`<br>
+    Expected: A new task with the name `task4` and completion status `done` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.    
+    
+    1. Test case: `add n/task5 dd/2020-12-21`<br>
+    Expected: A new task with the name `task5` and deadline date `2020-12-21` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.    
+    
+    1. Test case: `add n/task6 dd/2020-12-21 dt/12:34:56`<br>
+    Expected: A new task with the name `task5` and deadline date `2020-12-21` and deadline time `12:34:56` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.    
+    
+    1. Test case: `add n/task7 r/x` where `x` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new task with the name `task6` and a reminder scheduled at time `x` will be created. Details of the task shown in the status message. View will be reset and all tasks should be shown.
+
+1. Adding a task with invalid inputs parameters.
+
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `add n/$$`<br>
+    Expected: A new task will not be created. Invalid name format message shown in the status message.    
+    
+    1. Test case: `add n/task3 t/invalid tag`<br>
+    Expected: A new task will not be created. Invalid name format message shown in the status message.    
+    
+    1. Test case: `add n/task5 dd/2020-21-12`<br>
+    Expected: A new task will not be created. Invalid date format message shown in the status message.     
+    
+    1. Test case: `add n/task6 dd/2020-12-21 dt/99:99:99`<br>
+    Expected: A new task will not be created. Invalid time format message shown in the status message.    
+    
+    1. Test case: `add n/task7 r/x` where `x` is a time earlier that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: A new task will not be created. Invalid reminder date and time message shown in the status message.
+
 ### Edit a task
+
+1. Editing a task while all tasks are shown.
+
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `edit x n/task1` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the name `task1` Details of the edited task shown in the status message.
+    
+    1. Test case: `edit x d/desc2` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the description `desc2`. Details of the edited task shown in the status message.   
+    
+    1. Test case: `edit x t/tagA t/tagB` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the tags `tagA` and `tagB`. Details of the edited task shown in the status message.    
+    
+    1. Test case: `edit x c/` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the completion status `done`. Details of the edited task shown in the status message.     
+    
+    1. Test case: `edit x dd/2020-12-21` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the deadline date `2020-12-21`. Details of the edited task shown in the status message.     
+    
+    1. Test case: `edit x dd/2020-12-21 dt/12:34:56` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have thr deadline date `2020-12-21` and deadline time `12:34:56`. Details of the edited task shown in the status message.    
+    
+    1. Test case: `edit x r/y` where `x` is the index of a task in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The task at index `x` will be edited to have the name `task6` and a reminder scheduled at time `y`. Details of the edited task shown in the status message.
+
+1. Editing a task while only some tasks are shown.
+
+    1. Prerequisites: Viewing tasks for any project. List only some tasks using the `find` command.
+    
+    1. Test case: `edit x n/task1` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the name `task1` Details of the edited task shown in the status message. View will persist and only some tasks should be shown.
+    
+    1. Test case: `edit x d/desc2` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the description `desc2`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.   
+    
+    1. Test case: `edit x t/tagA t/tagB` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the tags `tagA` and `tagB`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.    
+    
+    1. Test case: `edit x c/` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the completion status `done`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.     
+    
+    1. Test case: `edit x dd/2020-12-21` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have the deadline date `2020-12-21`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.     
+    
+    1. Test case: `edit x dd/2020-12-21 dt/12:34:56` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will be edited to have thr deadline date `2020-12-21` and deadline time `12:34:56`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.    
+    
+    1. Test case: `edit x r/y` where `x` is the index of a task in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The task at index `x` will be edited to have the name `task6` and a reminder scheduled at time `y`. Details of the edited task shown in the status message. View will persist and only some tasks should be shown.
+
+1. Editing a task with invalid inputs parameters.
+
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `edit x n/$$` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will not be edited. Invalid name format message shown in the status message. 
+    
+    1. Test case: `edit x t/invalid tag` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will not be edited. Invalid tag format message shown in the status message.    
+    
+    1. Test case: `edit x dd/2020-21-12` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will not be edited. Invalid date format message shown in the status message.      
+    
+    1. Test case: `edit x dd/2020-12-21 dt/99:99:99` where `x` is the index of a task in the list.<br>
+    Expected: The task at index `x` will not be edited. Invalid time format message shown in the status message.   
+    
+    1. Test case: `edit x r/y` where `x` is the index of a task in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
+    Expected: The task at index `x` will not be edited. Invalid reminder date and time message shown in the status message. 
 
 ### Delete a task
 
+1. Deleting a task while all tasks are shown.
+
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: The first task in the list will be deleted. Details of the deleted task shown in the status message.
+    
+    1. Test case: `delete 0`, `delete`<br>
+    Expected: No task will be deleted. Invalid command format message shown. No change to the list of tasks.
+    
+    1. Test case: `delete x`, where x is greater than the number of tasks<br>
+    Expected: No task will be deleted. Invalid index message shown.
+
+1. Deleting a task while only some tasks are being shown.
+
+    1. Prerequisites: Viewing tasks for any project. Find some tasks using the `find` command. Multiple tasks in the filtered list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: First task in the filtered list will be deleted. Details of the deleted task shown in the status message.  
+    
+    1. Test case: `delete 0`, `delete`<br>
+    Expected: No task will be deleted. Invalid command format message shown. No change to the list of tasks.
+    
+    1. Test case: `delete x`, where x is greater than the number of tasks<br>
+    Expected: No task will be deleted. Invalid index message shown.
+
+1. Deleting a task while only one task is being shown.
+    
+    1. Prerequisites: Viewing tasks for any project. Find a single task using the `find` command. Only one task in the filtered list.
+    
+    1. Test case: `delete 1`<br>
+    Expected: First task in the filtered list will be deleted. Details of the deleted task shown in the status message. The filtered list will be empty. Application will not revert to an unfiltered list.  
+    
+    1. Test case: `delete 0`, `delete`<br>
+    Expected: No task will be deleted. Invalid command format message shown. No change to the list of tasks.
+    
+    1. Test case: `delete x`, where x is greater than the number of tasks<br>
+    Expected: No task will be deleted. Invalid index message shown.
+
 ### Clear all tasks
+
+1. Clearing tasks when all tasks are shown.
+    
+    1. Prerequisites: Viewing tasks for any project. List all tasks using the `list` command. Multiple tasks in the list.
+    
+    1. Test case: `clear`<br>
+    Expected: All tasks associated with the project being viewed will be deleted. Other projects and their tasks should not be deleted. 
+
+1. Clearing projects when only some tasks are shown.
+
+    1. Prerequisites: Viewing tasks for any project. Find some tasks using the `find` command. Multiple tasks in the filtered list.
+    
+    1. Test case: `clear`<br>
+    Expected: All tasks associated with the project being viewed will be deleted. Other projects and their tasks should not be deleted. 
 
 ### Changing Views
 
+1. Changing view while viewing all projects.
+
+    1. Prerequisites: View all projects by running the `home` command.
+    
+    1. Test case: `view x` where `x` is the index of a project in the list.<br>
+    Expected: All tasks associated with the selected project will be displayed.
+    
+    1. Test case: `home`<br>
+    Expected: All projects should be displayed. Viewing all projects message should be displayed. 
+    
+1. Changing view while viewing all tasks associated with a project.
+
+    1. Prerequisites: Viewing tasks for any project. Run `home` followed by `view x` where `x` is the index of any project in the list.
+    
+    1. Test case: `view x` where `x` is the index of a task in the list.<br>
+    Expected: View will not change. Message saying that you cannot use the `view` command on a task will be shown.
+    
+    1. Test case: `home`<br>
+    Expected: All projects should be displayed. Viewing all projects message will be shown.  
+
 ### Finding tasks
+
+1. Finding projects that match a single search parameter that only contains one value.
+    
+    1. Prerequisites: View all projects by running the `home` command.
+    
+    1. Test case: `find n/test`<br>
+    Expected: All projects that contain the word `test` in their names will be displayed.
+    
+    1. Test case: `find match/any n/test`<br>
+    Expected: All projects that contain the word `test` in their names will be displayed.
+     
+    1. Test case: `find match/all n/test`<br>
+    Expected: All projects that contain the word `test` in their names will be displayed.
+    
+    1. Test case: `find d/desc`<br>
+    Expected: All projects that contain the word `desc` in their description will be displayed.
+    
+    1. Test case: `find match/any d/desc`<br>
+    Expected: All projects that contain the word `desc` in their description will be displayed.
+    
+    1. Test case: `find match/all d/desc`<br>
+    Expected: All projects that contain the word `desc` in their description will be displayed.
+    
+    1. Test case: `find t/tagA`<br>
+    Expected: All projects that contain the tag `tagA` will be displayed.
+    
+    1. Test case: `find match/any t/tagA`<br>
+    Expected: All projects that contain the tag `tagA` will be displayed.
+    
+    1. Test case: `find match/all t/tagA`<br>
+    Expected: All projects that contain the tag `tagA` will be displayed.
+    
+    1. Test case: `find c/completed`<br>
+    Expected: All projects that are marked as done will be displayed.
+    
+    1. Test case: `find match/any c/completed`<br>
+    Expected: All projects that are marked as done will be displayed.
+    
+    1. Test case: `find match/all c/completed`<br>
+    Expected: All projects that are marked as done will be displayed.
+    
+    1. Test case: `find c/incomplete`<br>
+    Expected: All projects that are marked as done will be displayed.
+    
+    1. Test case: `find match/any c/incomplete`<br>
+    Expected: All projects that are not marked as done will be displayed.
+    
+    1. Test case: `find match/all c/incomplete`<br>
+    Expected: All projects that are not marked as done will be displayed.
+
+1. Finding projects that match a single search parameter that only contains multiple values.
+    
+    1. Prerequisites: View all projects by running the `home` command.
+    
+    1. Test case: `find n/test case`<br>
+    Expected: All projects that contain `test` or `case` in their names will be displayed.
+    
+    1. Test case: `find match/any n/test`<br>
+    Expected: All projects that contain `test` or `case` in their names will be displayed.
+     
+    1. Test case: `find match/all n/test`<br>
+    Expected: All projects that contain both `test` and `case` in their names will be displayed.
+    
+    1. Test case: `find d/desc ription`<br>
+    Expected: All projects that contain `desc` or `ription` in their descriptions will be displayed.
+    
+    1. Test case: `find match/any d/desc ription`<br>
+    Expected: All projects that contain `desc` or `ription` in their descriptions will be displayed.
+    
+    1. Test case: `find match/all d/desc ription`<br>
+    Expected: All projects that contain both `desc` and `ription` in their descriptions will be displayed.
+    
+    1. Test case: `find t/tagA tagB`<br>
+    Expected: All projects that contain the tags `tagA` or `tagB` will be displayed.
+    
+    1. Test case: `find match/any t/tagA tagB`<br>
+    Expected: All projects that contain the tags `tagA` or `tagB` will be displayed.
+    
+    1. Test case: `find match/all t/tagA tagB`<br>
+    Expected: All projects that contain both tags `tagA` and `tagB` will be displayed.
+
+1. Finding projects that match multiple parameters that each contain multiple values.
+
+    1. Prerequisites: View all projects by running the `home` command.
+
+    1. Test case: `find n/test case d/desc ription t/tagA tagB`<br>
+    Expected: All projects that contain any one of the following will be shown:
+        1. `test` or `case` in their names.
+        1. `desc` or `ription` in their descriptions.
+        1. The tags`tagA` or `tagB`
+    
+    1. Test case: `find match/any n/test case d/desc ription t/tagA tagB`<br>
+    Expected: All projects that contain any one of the following will be shown:
+        1. `test` or `case` in their names.
+        1. `desc` or `ription` in their descriptions.
+        1. The tags`tagA` or `tagB`
+    
+    1. Test case: `find match/all n/test case d/desc ription t/tagA tagB`<br>
+    Expected: All projects that contain all of the following will be shown:
+        1. Both `test` and `case` in their names.
+        1. Both `desc` and `ription` in their descriptions.
+        1. Both tags`tagA` and `tagB`
 
 ### Sorting tasks
 
-### Setting reminders
+1. Sorting projects by different parameters.
 
+    1. Prerequisites: View all projects by running the `home` command. There are multiple projects in the list.
+
+    1. Test case: `sort order/asc type/alpha`<br>
+    Expected: Projects should be sorted by their names in alphabetical, ascending order.
+    
+    1. Test case: `sort order/dsc type/alpha`<br>
+    Expected: Projects should be sorted by their names in alphabetical descending order.
+    
+    1. Test case: `sort order/asc type/created`<br>
+    Expected: Projects should be sorted by their created date in ascending order.
+    
+    1. Test case: `sort order/dsc type/created`<br>
+    Expected: Projects should be sorted by their created date in descending order.
+    
+    1. Test case: `sort order/asc type/deadline`<br>
+    Expected: Projects should be sorted in their deadlines in ascending order. Projects without a deadline will be sent to the bottom.
+    
+    1. Test case: `sort order/dsc type/deadline`<br>
+    Expected: Projects should be sorted in their deadlines in descending order. Projects without a deadline will be sent to the bottom.
+
+1. Sorting tasks by different parameters.
+
+    1. Prerequisites: View all tasks by running the `home` command followed by `view x` where x is the index of a project in the list. There are multiple projects in the list.
+
+    1. Test case: `sort order/asc type/alpha`<br>
+    Expected: Tasks should be sorted by their names in alphabetical, ascending order.
+    
+    1. Test case: `sort order/dsc type/alpha`<br>
+    Expected: Tasks should be sorted by their names in alphabetical descending order.
+    
+    1. Test case: `sort order/asc type/created`<br>
+    Expected: Tasks should be sorted by their created date in ascending order.
+    
+    1. Test case: `sort order/dsc type/created`<br>
+    Expected: Tasks should be sorted by their created date in descending order.
+    
+    1. Test case: `sort order/asc type/deadline`<br>
+    Expected: Tasks should be sorted in their deadlines in ascending order. Projects without a deadline will be sent to the bottom, displayed in alphabetical ascending order.
+    
+    1. Test case: `sort order/dsc type/deadline`<br>
+    Expected: Tasks should be sorted in their deadlines in descending order. Projects without a deadline will be sent to the bottom, displayed in alphabetical descending order.
+
+1. Persistence of sort
+
+    1. Prerequisites: Run `sort order/asc type/alpha` in any view. There are multiple projects in the list.
+    
+    1. Test case: `home`<br>
+    Expected: Projects should be sorted by their names in alphabetical, ascending order.
+    
+    1. Test case: `view x` where x is the index of a project in the list.<br>
+    Expected: Tasks should be sorted by their names in alphabetical, ascending order.
+    
+1. Sorting by completion status in addition to a given sort order
+
+    1. Prerequisites: There are multiple projects in the list. Sort by completion status is disabled.
+    
+    1. Test case: `sort order/dsc type/created c/`<br>
+    Expected: Entries should be sorted by completion status. Entries from each completion status will be sorted by their created date in descending order.
+    
+1. Ignoring completion status for a given sort order
+
+    1. Prerequisites: There are multiple projects in the list. Sort by completion status is enabled.
+    
+    1. Test case: `sort order/dsc type/created c/`<br>
+    Expected: Entries should only be sorted by their created date in descending order.
+    
 ### Time tracking
+
+1. Starting Timers for Projects
+
+    1. Prerequisites: View all projects by running the `home` command.
+    
+    1. Test case: `start x` where `x` is the index of a project in the list.<br>
+    Expected: There should be a new timer for the project at index `x`.
+    
+    1. Test case: `start x` where x is the greater than the number of projects.<br>
+    Expected: No timer started. Invalid index message shown. 
+    
+1. Stopping Timers for Projects
+
+    1. Prerequisites: View all projects by running the `home` command.
+    
+    1. Test case: `stop x` where `x` is the index of a project in the list with an active timer.<br>
+    Expected: There the timer for the project at index `x` should be stopped.
+    
+    1. Test case: `stop x` where `x` is the index of a project in the list without an active timer.<br>
+    Expected: No timer stopped. No timer running message shown.
+    
+    1. Test case: `stop x` where x is the greater than the number of projects.<br>
+    Expected: No timer stopped. Invalid index message shown. 
+    
+1. Starting Timers for Tasks
+
+    1. Prerequisites: View all tasks by running `home` followed by `view x` command, where `x` is the index of a project in the list.
+    
+    1. Test case: `start x` where `x` is the index of a task in the list.<br>
+    Expected: There should be a new timer for the task at index `x`.
+    
+    1. Test case: `start x` where x is the greater than the number of tasks.<br>
+    Expected: No timer started. Invalid index message shown. 
+    
+1. Stopping Timers for Tasks
+
+    1. Prerequisites: View all tasks by running `home` followed by `view x` command, where `x` is the index of a project in the list.
+    
+    1. Test case: `stop x` where `x` is the index of a task in the list with an active timer.<br>
+    Expected: There the timer for the task at index `x` should be stopped.
+    
+    1. Test case: `stop x` where `x` is the index of a task in the list without an active timer.<br>
+    Expected: No timer stopped. No timer running message shown.
+    
+    1. Test case: `stop x` where x is the greater than the number of tasks.<br>
+    Expected: No timer stopped. Invalid index message shown. 
 
 ### Statistics tracking
 
+1. No available durations
+
+    1. Prerequisites: There are no durations available for all time frames.
+    
+    1. Test case: `set st/daily`.<br>
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+    1. Test case: `set st/weekly`.<br>
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+    1. Test case: `set st/monthly`.<br>
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+1. Durations available
+
+    1. Prerequisites: There are no durations available for all time frames.
+    
+    1. Test case: `set st/daily`.<br>
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+    
+    1. Test case: `set st/weekly`.<br>
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+    
+    1. Test case: `set st/monthly`.<br>
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+
 ### Undo/Redo
+
+1. Undoing a command
+    
+    1. Prerequisites: A command that can be undone has been used.
+    
+    1. Test case: `undo` <br>
+    Expected: Actions of undone command have been reverted.
+    
+1. Redoing a command
+    
+    1. Prerequisites: A command has been undone.
+    
+    1. Test case: `redo` <br>
+    Expected: Actions of undone command have been redone.
 
 ### UI testing
 
+1. Hiding Tag List.
+    
+    1. Prerequisites: Tag list is visible.
+    
+    1. Test case: `show t/` <br>
+    Expected: Tag list should be hidden.
+    
+1. Showing Tag List.
+    
+    1. Prerequisites: Tag list is not visible.
+    
+    1. Test case: `show t/` <br>
+    Expected: Tag list should be shown.
+
+1. Updating tag list after find command.
+    
+    1. Prerequisites: Multiple projects in the list. Tag list is visible.
+    
+    1. Test case: `find n/test` <br>
+    Expected: Only the tags associated with the visible projects are shown.
+
+1. Waiting for a reminder.
+    
+    1. Prerequisites: Reminder has been set.
+    
+    1. Test case: Wait till reminder time <br>
+    Expected: Reminder will be displayed in the UI.
+
+1. Dismissing a reminder.
+    
+    1. Prerequisites: Reminder is displayed in the UI.
+    
+    1. Test case: `dismiss` <br>
+    Expected: The reminder should no longer be visible.
+
 ### Settings
 
+1. Changing colour scheme.
+
+    1. Prerequisites: Program is open.
+    
+    1. Test case: `set th/dark`<br>
+    Expected: Program should switch to dark mode if it is not already in it.
+        
+    1. Test case: `set th/light`<br>
+    Expected: Program should switch to light mode if it is not already in it.
+    
+1. Changing statistics time frame.
+
+    1. Prerequisites: Program is open.
+    
+    1. Test case: `set st/daily`<br>
+    Expected: Statistics panel should display `Daily Time Spent`
+    
+    1. Test case: `set st/weekly`<br>
+    Expected: Statistics panel should display `Weekly Time Spent`
+    
+    1. Test case: `set st/monthly`<br>
+    Expected: Statistics panel should display `Monthly Time Spent`
+
 ### Exit the program
+
+1. Exit a program using the exit command.
+
+    1. Prerequisites: Program is open
+    
+    1. Test case: `exit`<br>
+    Expected: Program should close.
+
+1. Exit a program using the menu bar.
+
+    1. Prerequisites: Program is open
+    
+    1. Test case: Click `file` followed by `exit` in the menu bar.<br>
+    Expected: Program should close.
