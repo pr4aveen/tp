@@ -49,10 +49,10 @@ public class Clock {
      * Advances the clock's time.
      *
      * @param amount Amount to advance by.
-     * @param units Units of time to advance by.
+     * @param units  Units of time to advance by.
      */
     public static void advance(long amount, ChronoUnit units) {
-        assert(clockState == ClockState.MANUAL);
+        assert (clockState == ClockState.MANUAL);
         currentDateTime = currentDateTime.plus(amount, units);
     }
 
@@ -60,10 +60,10 @@ public class Clock {
      * Reverses the clock's time.
      *
      * @param amount Amount to advance by.
-     * @param units Units of time to advance by.
+     * @param units  Units of time to advance by.
      */
     public static void reverse(long amount, ChronoUnit units) {
-        assert(clockState == ClockState.MANUAL);
+        assert (clockState == ClockState.MANUAL);
         currentDateTime = currentDateTime.minus(amount, units);
     }
 

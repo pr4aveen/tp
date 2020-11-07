@@ -52,6 +52,18 @@ public class TimeWrapper implements InstanceWrapper<LocalTime>, Comparable<TimeW
     }
 
     @Override
+    public int hashCode() {
+        return this.time.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof TimeWrapper // instanceof handles nulls
+                && this.time.equals(((TimeWrapper) other).get())); // state check
+    }
+
+    @Override
     public LocalTime get() {
         return this.time;
     }
@@ -66,18 +78,6 @@ public class TimeWrapper implements InstanceWrapper<LocalTime>, Comparable<TimeW
         return this.time.toString();
     }
 
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof TimeWrapper // instanceof handles nulls
-                && this.time.equals(((TimeWrapper) other).get())); // state check
-    }
-
-    @Override
-    public int hashCode() {
-        return this.time.hashCode();
-    }
-
     //@@author kkangs0226
     @Override
     public int compareTo(TimeWrapper other) {
@@ -85,9 +85,8 @@ public class TimeWrapper implements InstanceWrapper<LocalTime>, Comparable<TimeW
             return -1;
         } else if (this.get().isAfter(other.get())) {
             return 1;
-        } else {
-            return 0;
         }
+        return 0;
     }
 
 }

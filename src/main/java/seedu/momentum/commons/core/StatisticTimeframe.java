@@ -15,7 +15,7 @@ import java.util.Objects;
 public class StatisticTimeframe implements Serializable {
 
     public static final String MESSAGE_CONSTRAINTS =
-        "Timeframe should be either 'daily', 'weekly', or 'monthly'.";
+            "Timeframe should be either 'daily', 'weekly', or 'monthly'.";
 
     private Timeframe timeframe;
 
@@ -34,17 +34,30 @@ public class StatisticTimeframe implements Serializable {
 
     /**
      * Constructs a {@code StatisticTimeframe} with the specified timeframe expressed as a String.
+     * <p>
      *
-<<<<<<< HEAD
      * @param timeframe a valid timeframe.
-=======
      * @param timeframe A valid timeframe.
->>>>>>> 02b87a73eb8a43978e9849900eaa0f8a7cc0e890
      */
     public StatisticTimeframe(String timeframe) {
         requireNonNull(timeframe);
         checkArgument(isValid(timeframe), MESSAGE_CONSTRAINTS);
         this.timeframe = Timeframe.valueOf(timeframe.toUpperCase());
+    }
+
+    /**
+     * Returns true if a given string is a valid timeframe.
+     *
+     * @param timeframe The timeframe to be tested.
+     * @returns Whether the timeframe is valid.
+     */
+    public static boolean isValid(String timeframe) {
+        try {
+            Timeframe.valueOf(timeframe.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -56,27 +69,9 @@ public class StatisticTimeframe implements Serializable {
         return timeframe.toChronoUnit();
     }
 
-    /**
-     * Returns true if a given string is a valid timeframe.
-<<<<<<< HEAD
-=======
-     *
-     * @param timeframe The timeframe to be tested.
-     * @returns Whether the timeframe is valid.
->>>>>>> 02b87a73eb8a43978e9849900eaa0f8a7cc0e890
-     */
-    public static boolean isValid(String timeframe) {
-        try {
-            Timeframe.valueOf(timeframe.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        return true;
-    }
-
     @Override
-    public String toString() {
-        return timeframe.toString();
+    public int hashCode() {
+        return Objects.hash(timeframe);
     }
 
     @Override
@@ -94,8 +89,8 @@ public class StatisticTimeframe implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(timeframe);
+    public String toString() {
+        return timeframe.toString();
     }
 
     /**
@@ -113,16 +108,16 @@ public class StatisticTimeframe implements Serializable {
          */
         public ChronoUnit toChronoUnit() {
             return this == DAILY
-                ? ChronoUnit.DAYS
-                : this == WEEKLY
-                ? ChronoUnit.WEEKS
-                : ChronoUnit.MONTHS;
+                    ? ChronoUnit.DAYS
+                    : this == WEEKLY
+                    ? ChronoUnit.WEEKS
+                    : ChronoUnit.MONTHS;
         }
 
         @Override
         public String toString() {
             return super.toString().charAt(0)
-                + super.toString().substring(1).toLowerCase();
+                    + super.toString().substring(1).toLowerCase();
         }
     }
 }
