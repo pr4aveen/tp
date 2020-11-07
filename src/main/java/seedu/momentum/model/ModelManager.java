@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Level;
@@ -165,7 +166,7 @@ public class ModelManager implements Model {
     //@@author
 
     @Override
-    public ReadOnlyProjectBook getProjectBook() {
+    public VersionedProjectBook getProjectBook() {
         return versionedProjectBook;
     }
 
@@ -614,8 +615,8 @@ public class ModelManager implements Model {
                 && reminderManager.equals(other.reminderManager)
                 && displayList.get().equals(other.displayList.get())
                 && runningTimers.equals(other.runningTimers)
-                && viewMode.equals(other.viewMode);
-        //&& currentProject.equals(other.currentProject)
+                && viewMode.equals(other.viewMode)
+                && Objects.equals(currentProject, other.currentProject);
     }
 
 }
