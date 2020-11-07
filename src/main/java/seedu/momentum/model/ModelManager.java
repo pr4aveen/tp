@@ -120,6 +120,7 @@ public class ModelManager implements Model {
         userPrefs.setGuiWindowSettings(guiWindowSettings);
     }
 
+    //@@author khoodehui
     @Override
     public GuiThemeSettings getGuiThemeSettings() {
         return userPrefs.getGuiThemeSettings();
@@ -141,6 +142,7 @@ public class ModelManager implements Model {
         requireNonNull(statisticTimeframeSettings);
         userPrefs = userPrefs.returnChangedStatisticsTimeframeSettings(statisticTimeframeSettings);
     }
+    //@@author
 
     @Override
     public Path getProjectBookFilePath() {
@@ -154,40 +156,20 @@ public class ModelManager implements Model {
     }
 
     //=========== ProjectBook ================================================================================
-
+    //@@author kkangs0226
     @Override
     public void setVersionedProjectBook(ReadOnlyProjectBook versionedProjectBook) {
         this.versionedProjectBook.resetData(versionedProjectBook);
         rescheduleReminders();
     }
+    //@@author
 
     @Override
-    public VersionedProjectBook getProjectBook() {
+    public ReadOnlyProjectBook getProjectBook() {
         return versionedProjectBook;
     }
 
-    @Override
-    public Set<Tag> getVisibleTags() {
-        Set<Tag> tags = new HashSet<>();
-        ObservableList<TrackedItem> visibleList = displayList.get();
-        for (TrackedItem trackedItem : visibleList) {
-            tags.addAll(trackedItem.getTags());
-        }
-        return tags;
-    }
-
-    //=========== Tags ================================================================================
-    @Override
-    public void showOrHideTags() {
-        boolean isVisible = this.isTagsVisible.get();
-        this.isTagsVisible.set(!isVisible);
-    }
-
-    @Override
-    public BooleanProperty getIsTagsVisible() {
-        return this.isTagsVisible;
-    }
-
+    //@@author pr4aveen
     @Override
     public Project getCurrentProject() {
         assert viewMode == ViewMode.TASKS : "Project can only be accessed in task view";
@@ -229,31 +211,7 @@ public class ModelManager implements Model {
         updateOrder(currentSortType, isCurrentSortAscending);
     }
 
-    //=========== Filtered Project List Accessors =============================================================
-
-    /**
-     * Returns an unmodifiable view of the list of {@code TrackedItem} backed by the internal list of
-     * {@code versionedProjectBook}.
-     *
-     * @return the filtered tracked item list.
-     */
-    @Override
-    public ObservableList<TrackedItem> getDisplayList() {
-        return displayList.get();
-    }
-
-    @Override
-    public ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList() {
-        return displayList;
-    }
-
-    @Override
-    public void updatePredicate(Predicate<TrackedItem> predicate) {
-        requireNonNull(predicate);
-        currentPredicate = predicate;
-        updateDisplayList();
-    }
-
+    //@@author boundtotheearth
     @Override
     public void viewProjects() {
         viewMode = ViewMode.PROJECTS;
@@ -310,16 +268,68 @@ public class ModelManager implements Model {
         return viewMode;
     }
 
-    private void updateDisplayList() {
-        displayList.setValue(new SortedList<>(new FilteredList<>(itemList, currentPredicate), currentComparator));
-    }
-
+    //@@author pr4aveen
+    @Override
     public int getTotalNumberOfItems() {
         return itemList.size();
     }
 
-    //=========== Reminders =============================================================
+    //=========== Tags =======================================================================================
+    @Override
+    public Set<Tag> getVisibleTags() {
+        Set<Tag> tags = new HashSet<>();
+        ObservableList<TrackedItem> visibleList = displayList.get();
+        for (TrackedItem trackedItem : visibleList) {
+            tags.addAll(trackedItem.getTags());
+        }
+        return tags;
+    }
 
+    //@@author claracheong4
+    @Override
+    public void showOrHideTags() {
+        boolean isVisible = this.isTagsVisible.get();
+        this.isTagsVisible.set(!isVisible);
+    }
+
+    @Override
+    public BooleanProperty getIsTagsVisible() {
+        return this.isTagsVisible;
+    }
+
+    //=========== Filtered Project List Accessors ============================================================
+    //@@author boundtotheearth
+    /**
+     * Returns an unmodifiable view of the list of {@code TrackedItem} backed by the internal list of
+     * {@code versionedProjectBook}.
+     *
+     * @return The filtered tracked item list.
+     */
+    @Override
+    public ObservableList<TrackedItem> getDisplayList() {
+        return displayList.get();
+    }
+
+    @Override
+    public ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList() {
+        return displayList;
+    }
+
+    //@@author pr4aveen
+    @Override
+    public void updatePredicate(Predicate<TrackedItem> predicate) {
+        requireNonNull(predicate);
+        currentPredicate = predicate;
+        updateDisplayList();
+    }
+
+    //@@author boundtotheearth
+    private void updateDisplayList() {
+        displayList.setValue(new SortedList<>(new FilteredList<>(itemList, currentPredicate), currentComparator));
+    }
+
+    //=========== Reminders ==================================================================================
+    //@@author claracheong4
     private void rescheduleReminders() {
         reminderManager.rescheduleReminder();
     }
@@ -364,8 +374,8 @@ public class ModelManager implements Model {
         rescheduleReminders();
     }
 
-    //=========== Timers =============================================================
-
+    //=========== Timers =====================================================================================
+    //@@author boundtotheearth
     @Override
     public ObservableList<TrackedItem> getRunningTimers() {
         return runningTimers;
@@ -382,18 +392,22 @@ public class ModelManager implements Model {
             }
 
             if (!trackedItem.isTask()) {
-                Project project = (Project) trackedItem;
-                for (TrackedItem taskItem : project.getTaskList()) {
-                    if (taskItem.isRunning()) {
-                        runningTimers.add(taskItem);
-                    }
-                }
+                updateTaskRunningTimers(trackedItem);
             }
         }
     }
 
-    //=========== Undo/Redo ================================================================================
+    private void updateTaskRunningTimers(TrackedItem trackedItem) {
+        Project project = (Project) trackedItem;
+        for (TrackedItem taskItem : project.getTaskList()) {
+            if (taskItem.isRunning()) {
+                runningTimers.add(taskItem);
+            }
+        }
+    }
 
+    //=========== Undo/Redo ==================================================================================
+    //@@author kkangs0226
     @Override
     public boolean canUndoCommand() {
         return versionedProjectBook.canUndoCommand();
@@ -462,11 +476,9 @@ public class ModelManager implements Model {
         default:
             break;
         }
-
     }
 
-    //=========== Sorting ================================================================================
-
+    //=========== Sorting ====================================================================================
     @Override
     public void updateOrder(SortType sortType, boolean isAscending, boolean changeSortByCompletionStatus) {
         requireAllNonNull(sortType, isAscending, changeSortByCompletionStatus);
@@ -483,14 +495,15 @@ public class ModelManager implements Model {
         updateOrder(sortType, isAscending, false);
     }
 
+
     /**
      * Sets the order of the list of tracked items according to given {@code sortType} and {@code isAscending}.
      *
-     * @param sortType                   type of sort.
-     * @param isAscending                order of sort.
-     * @param isSortedByCompletionStatus sort by creation status.
+     * @param sortType                   Type of sort.
+     * @param isAscending                Order of sort.
+     * @param isSortedByCompletionStatus Sort by creation status.
      */
-    public Comparator<TrackedItem> getComparator(SortType sortType, boolean isAscending,
+    private Comparator<TrackedItem> getComparator(SortType sortType, boolean isAscending,
                                                  boolean isSortedByCompletionStatus) {
         requireNonNull(sortType);
 
@@ -528,8 +541,9 @@ public class ModelManager implements Model {
     /**
      * Sets the order of list of tracked items by alphabetical order, ascending or descending based on user input.
      *
-     * @param isAscending                order of sort specified by user.
-     * @param isSortedByCompletionStatus sort by creation status.
+     * @param isAscending                Order of sort specified by user.
+     * @param isSortedByCompletionStatus Sort by creation status.
+     * @return The comparator that compares tracked items lexicographically and completion status.
      */
     private Comparator<TrackedItem> getComparatorAlphaType(boolean isAscending, boolean isSortedByCompletionStatus) {
         Comparator<TrackedItem> nameCompare = factorIsAscending(new NameCompare(), isAscending);
@@ -540,8 +554,9 @@ public class ModelManager implements Model {
     /**
      * Sets the order of list of tracked items by deadline order, ascending or descending based on user input.
      *
-     * @param isAscending                order of sort specified by user.
-     * @param isSortedByCompletionStatus sort by creation status.
+     * @param isAscending                Order of sort specified by user.
+     * @param isSortedByCompletionStatus Sort by creation status.
+     * @return The comparator that compares tracked items using their deadlines and completion status.
      */
     private Comparator<TrackedItem> getComparatorDeadlineType(boolean isAscending, boolean isSortedByCompletionStatus) {
         Comparator<TrackedItem> nameCompare = new NameCompare();
@@ -558,8 +573,9 @@ public class ModelManager implements Model {
     /**
      * Sets the order of list of tracked items by created date order, ascending or descending based on user input.
      *
-     * @param isAscending                order of sort specified by user.
-     * @param isSortedByCompletionStatus sort by creation status.
+     * @param isAscending                Order of sort specified by user.
+     * @param isSortedByCompletionStatus Sort by creation status.
+     * @return The comparator that compares tracked items using their created date and completion status.
      */
     private Comparator<TrackedItem> getComparatorCreatedType(boolean isAscending, boolean isSortedByCompletionStatus) {
         Comparator<TrackedItem> createdDateCompare = factorIsAscending(new CreatedDateCompare(), isAscending);
@@ -571,8 +587,9 @@ public class ModelManager implements Model {
      * Sets the order of the list of tracked items to current sort type with specified order
      * if sort type has not been specified by user.
      *
-     * @param isAscending                order of sort specified by user.
-     * @param isSortedByCompletionStatus sort by creation status.
+     * @param isAscending                Order of sort specified by user.
+     * @param isSortedByCompletionStatus Sort by creation status.
+     * @return The comparator based on the currently specified sort type and completion status.
      */
     private Comparator<TrackedItem> getComparatorNullType(boolean isAscending, boolean isSortedByCompletionStatus) {
         return getComparator(currentSortType, isAscending, isSortedByCompletionStatus);

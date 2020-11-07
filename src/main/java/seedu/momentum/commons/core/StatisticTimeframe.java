@@ -34,9 +34,7 @@ public class StatisticTimeframe implements Serializable {
 
     /**
      * Constructs a {@code StatisticTimeframe} with the specified timeframe expressed as a String.
-     * <p>
      *
-     * @param timeframe a valid timeframe.
      * @param timeframe A valid timeframe.
      */
     public StatisticTimeframe(String timeframe) {
@@ -49,7 +47,7 @@ public class StatisticTimeframe implements Serializable {
      * Returns true if a given string is a valid timeframe.
      *
      * @param timeframe The timeframe to be tested.
-     * @returns Whether the timeframe is valid.
+     * @return Whether the timeframe is valid.
      */
     public static boolean isValid(String timeframe) {
         try {
@@ -63,7 +61,7 @@ public class StatisticTimeframe implements Serializable {
     /**
      * Converts the timeframe to a {@code ChronoUnit}.
      *
-     * @returns The ChronoUnit associated with the timeframe.
+     * @return The ChronoUnit associated with the timeframe.
      */
     public ChronoUnit toChronoUnit() {
         return timeframe.toChronoUnit();
