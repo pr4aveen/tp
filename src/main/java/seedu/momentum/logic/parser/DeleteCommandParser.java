@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -30,10 +32,8 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
 
             if (model.getViewMode() == ViewMode.PROJECTS) {
                 return new DeleteProjectCommand(index);
-            } else {
-                return new DeleteTaskCommand(index, model.getCurrentProject());
             }
-
+            return new DeleteTaskCommand(index, model.getCurrentProject());
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);

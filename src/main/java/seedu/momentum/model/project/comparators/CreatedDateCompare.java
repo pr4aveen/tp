@@ -29,8 +29,7 @@ public class CreatedDateCompare implements Comparator<TrackedItem> {
             return -1;
         } else if (p1DateWrapper.get().isAfter(p2DateWrapper.get())) {
             return 1;
-        } else {
-            return nameCompare.compare(t1, t2);
         }
+        return nameCompare.compare(t1, t2);
     }
 }

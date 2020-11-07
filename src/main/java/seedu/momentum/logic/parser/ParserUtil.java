@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic.parser;
 
 import static java.util.Objects.requireNonNull;
@@ -58,6 +60,7 @@ public class ParserUtil {
     }
 
     //@@author kkangs0226
+
     /**
      * Parses a {@code String description} into an {@code Description}.
      * Leading and trailing whitespaces will be trimmed.
@@ -72,16 +75,17 @@ public class ParserUtil {
     }
 
     //@@author claracheong4
+
     /**
      * Parses {@code Optional<String> date} and {@code Optional<String> time}into a {@code Deadline}.
      * Leading and trailing whitespaces will be trimmed.
      * If either date is not available, an empty Deadline is returned.
      *
-     * @param date The date of the deadline.
-     * @param time The time of the deadline.
+     * @param date               The date of the deadline.
+     * @param time               The time of the deadline.
      * @param createdDateWrapper The date when the item was created.
      * @throws ParseException If the date or time is invalid, or if the provided date and time is before the created
-     * date.
+     *                        date.
      */
     public static Deadline parseDeadline(Optional<String> date, Optional<String> time, DateWrapper createdDateWrapper)
             throws ParseException {
@@ -137,6 +141,20 @@ public class ParserUtil {
     //@@author
 
     /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
+     *
+     * @throws ParseException If any of the tags in the set are invalid.
+     */
+    public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
+        requireNonNull(tags);
+        final Set<Tag> tagSet = new HashSet<>();
+        for (String tagName : tags) {
+            tagSet.add(parseTag(tagName));
+        }
+        return tagSet;
+    }
+
+    /**
      * Parses a {@code String tag} into a {@code Tag}.
      * Leading and trailing whitespaces will be trimmed.
      *
@@ -151,21 +169,8 @@ public class ParserUtil {
         return new Tag(trimmedTag);
     }
 
-    /**
-     * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
-     *
-     * @throws ParseException If any of the tags in the set are invalid.
-     */
-    public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
-        requireNonNull(tags);
-        final Set<Tag> tagSet = new HashSet<>();
-        for (String tagName : tags) {
-            tagSet.add(parseTag(tagName));
-        }
-        return tagSet;
-    }
-
     //@@author khoodehui
+
     /**
      * Parses a {@code String theme} into a {@code Theme}.
      *

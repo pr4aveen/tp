@@ -59,7 +59,7 @@ public class DateWrapper implements InstanceWrapper<LocalDate>, Comparable<DateW
      * @param time1 The earlier instance of timeWrapper.
      * @param time2 The later instance of timeWrapper.
      * @param units The units to the timeWrapper.
-     * @return      The amount of time between the 2 instances, in the units provided.
+     * @return The amount of time between the 2 instances, in the units provided.
      */
     public static long getTimeBetween(DateWrapper time1, DateWrapper time2, ChronoUnit units) {
         return units.between(time1.get(), time2.get());
@@ -76,8 +76,8 @@ public class DateWrapper implements InstanceWrapper<LocalDate>, Comparable<DateW
     }
 
     @Override
-    public String toString() {
-        return this.date.toString();
+    public int hashCode() {
+        return this.date.hashCode();
     }
 
     @Override
@@ -88,8 +88,8 @@ public class DateWrapper implements InstanceWrapper<LocalDate>, Comparable<DateW
     }
 
     @Override
-    public int hashCode() {
-        return this.date.hashCode();
+    public String toString() {
+        return this.date.toString();
     }
 
     @Override
@@ -98,8 +98,7 @@ public class DateWrapper implements InstanceWrapper<LocalDate>, Comparable<DateW
             return -1;
         } else if (this.get().isAfter(other.get())) {
             return 1;
-        } else {
-            return 0;
         }
+        return 0;
     }
 }

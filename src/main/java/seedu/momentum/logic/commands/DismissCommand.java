@@ -34,9 +34,8 @@ public class DismissCommand extends Command {
             model.removeReminderShown();
             model.commitToHistory();
             return new CommandResult(MESSAGE_SUCCESS);
-        } else {
-            throw new CommandException(MESSAGE_FAILURE);
         }
+        throw new CommandException(MESSAGE_FAILURE);
     }
 
     @Override

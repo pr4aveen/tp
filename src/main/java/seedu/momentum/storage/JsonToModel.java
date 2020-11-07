@@ -59,9 +59,8 @@ public class JsonToModel {
     protected static CompletionStatus getModelCompletionStatus(boolean completionStatus) {
         if (completionStatus) {
             return new CompletionStatus().reverse();
-        } else {
-            return new CompletionStatus();
         }
+        return new CompletionStatus();
     }
 
     /**

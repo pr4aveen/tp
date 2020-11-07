@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -32,9 +34,8 @@ public class ListCommand extends Command {
         model.commitToHistory();
         if (model.getViewMode() == ViewMode.PROJECTS) {
             return new CommandResult(MESSAGE_SUCCESS_PROJECTS);
-        } else {
-            String projectName = model.getCurrentProject().getName().fullName;
-            return new CommandResult(String.format(MESSAGE_SUCCESS_TASKS, projectName));
         }
+        String projectName = model.getCurrentProject().getName().fullName;
+        return new CommandResult(String.format(MESSAGE_SUCCESS_TASKS, projectName));
     }
 }

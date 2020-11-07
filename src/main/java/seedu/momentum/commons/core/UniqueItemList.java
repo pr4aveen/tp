@@ -32,40 +32,14 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
             FXCollections.unmodifiableObservableList(internalList);
 
     /**
-     * Returns true if the list contains an equivalent item as the given argument.
-     *
-     * @param toCheck The other item to check against.
-     * @return True if the two items are equivalent, false otherwise.
-     */
-    public boolean contains(T toCheck) {
-        requireNonNull(toCheck);
-        return internalList.stream().anyMatch(toCheck::isSameAs);
-    }
-
-    /**
-     * Adds a item to the list.
-     * The item must not already exist in the list.
-     *
-     * @param toAdd The item to add.
-     * @throws DuplicateItemException if the item already exists in the list.
-     */
-    public void add(T toAdd) {
-        requireNonNull(toAdd);
-        if (contains(toAdd)) {
-            throw new DuplicateItemException();
-        }
-        internalList.add(toAdd);
-    }
-
-    /**
      * Replaces the item {@code target} in the list with {@code editedItem}.
      * {@code target} must exist in the list.
      * The item identity of {@code editedItem} must not be the same as another existing item
      * in the list.
      *
-     * @param target The item to replace.
+     * @param target     The item to replace.
      * @param editedItem The new item.
-     * @throws ItemNotFoundException If the target does not exist in the list.
+     * @throws ItemNotFoundException  If the target does not exist in the list.
      * @throws DuplicateItemException If the new item is equivalent to some other item in the list.
      */
     public void set(T target, T editedItem) {
@@ -81,6 +55,17 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
         }
 
         internalList.set(index, editedItem);
+    }
+
+    /**
+     * Returns true if the list contains an equivalent item as the given argument.
+     *
+     * @param toCheck The other item to check against.
+     * @return True if the two items are equivalent, false otherwise.
+     */
+    public boolean contains(T toCheck) {
+        requireNonNull(toCheck);
+        return internalList.stream().anyMatch(toCheck::isSameAs);
     }
 
     /**
@@ -123,45 +108,6 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
         internalList.setAll(items);
     }
 
-    //@@author kkangs0226
-    /**
-     * Creates a duplicate {@code UniqueItemList}
-     *
-     * @return Duplicate {@code UniqueItemList} list.
-     */
-    public UniqueItemList<T> copy() {
-        UniqueItemList<T> newList = new UniqueItemList<>();
-        for (T t : internalList) {
-            newList.add(t);
-        }
-        return newList;
-    }
-    //@@author
-
-    /**
-     * Returns the backing list as an unmodifiable {@code ObservableList}.
-     */
-    public ObservableList<T> asUnmodifiableObservableList() {
-        return internalUnmodifiableList;
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return internalList.iterator();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof UniqueItemList<?> // instanceof handles nulls
-                && internalList.equals(((UniqueItemList<?>) other).internalList));
-    }
-
-    @Override
-    public int hashCode() {
-        return internalList.hashCode();
-    }
-
     /**
      * Returns true if {@code items} contains only unique elements,
      * as determined by {@code UniqueItem#isSameAs(UniqueItem)}.
@@ -178,5 +124,60 @@ public class UniqueItemList<T extends UniqueItem<T>> implements Iterable<T> {
             }
         }
         return true;
+    }
+
+    //@@author kkangs0226
+
+    /**
+     * Creates a duplicate {@code UniqueItemList}
+     *
+     * @return Duplicate {@code UniqueItemList} list.
+     */
+    public UniqueItemList<T> copy() {
+        UniqueItemList<T> newList = new UniqueItemList<>();
+        for (T t : internalList) {
+            newList.add(t);
+        }
+        return newList;
+    }
+    //@@author
+
+    /**
+     * Adds a item to the list.
+     * The item must not already exist in the list.
+     *
+     * @param toAdd The item to add.
+     * @throws DuplicateItemException if the item already exists in the list.
+     */
+    public void add(T toAdd) {
+        requireNonNull(toAdd);
+        if (contains(toAdd)) {
+            throw new DuplicateItemException();
+        }
+        internalList.add(toAdd);
+    }
+
+    /**
+     * Returns the backing list as an unmodifiable {@code ObservableList}.
+     */
+    public ObservableList<T> asUnmodifiableObservableList() {
+        return internalUnmodifiableList;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return internalList.iterator();
+    }
+
+    @Override
+    public int hashCode() {
+        return internalList.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof UniqueItemList<?> // instanceof handles nulls
+                && internalList.equals(((UniqueItemList<?>) other).internalList));
     }
 }

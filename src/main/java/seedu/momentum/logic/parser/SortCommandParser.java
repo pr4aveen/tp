@@ -1,4 +1,5 @@
 //@@author kkangs0226
+
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -77,10 +78,9 @@ public class SortCommandParser implements Parser<SortCommand> {
 
         if (sortOrder.equals(INPUT_ASCENDING_ORDER) || sortOrder.equals(INPUT_DESCENDING_ORDER)) {
             return sortOrder;
-        } else {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_INVALID_SORT_TYPE_OR_ORDER));
         }
+        throw new ParseException(String.format(
+                MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_INVALID_SORT_TYPE_OR_ORDER));
     }
 
     /**

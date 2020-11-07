@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic;
 
 import java.io.IOException;
@@ -73,11 +75,7 @@ public class LogicManager implements Logic {
         return commandResult;
     }
 
-    @Override
-    public StatisticGenerator getStatistic() {
-        return statistic;
-    }
-
+    //@@author claracheong4
     @Override
     public BooleanProperty isReminderEmpty() {
         return model.isReminderEmpty();
@@ -88,6 +86,7 @@ public class LogicManager implements Logic {
         return model.getReminder();
     }
 
+    //@@author
     @Override
     public ReadOnlyProjectBook getProjectBook() {
         return model.getProjectBook();
@@ -108,6 +107,7 @@ public class LogicManager implements Logic {
         return model.getProjectBookFilePath();
     }
 
+    //@@author khoodehui
     @Override
     public GuiWindowSettings getGuiWindowSettings() {
         return model.getGuiWindowSettings();
@@ -123,14 +123,28 @@ public class LogicManager implements Logic {
         return model.getGuiThemeSettings();
     }
 
+    //@@author
+    @Override
+    public Set<Tag> getVisibleTags() {
+        return model.getVisibleTags();
+    }
+
+    //@@author claracheong4
+    @Override
+    public BooleanProperty getIsTagsVisible() {
+        return model.getIsTagsVisible();
+    }
+
+    //@@author khoodehui
     @Override
     public StatisticTimeframeSettings getStatisticTimeframeSettings() {
         return model.getStatisticTimeframeSettings();
     }
 
+    //@@author boundtotheearth
     @Override
-    public Set<Tag> getVisibleTags() {
-        return model.getVisibleTags();
+    public StatisticGenerator getStatistic() {
+        return statistic;
     }
 
     @Override
@@ -148,8 +162,4 @@ public class LogicManager implements Logic {
         return model.getCurrentProject();
     }
 
-    @Override
-    public BooleanProperty getIsTagsVisible() {
-        return model.getIsTagsVisible();
-    }
 }

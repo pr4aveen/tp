@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
@@ -22,8 +24,7 @@ public class ClearCommandParser implements Parser<ClearCommand> {
         requireAllNonNull(args, model);
         if (model.getViewMode() == ViewMode.PROJECTS) {
             return new ClearProjectCommand();
-        } else {
-            return new ClearTaskCommand();
         }
+        return new ClearTaskCommand();
     }
 }

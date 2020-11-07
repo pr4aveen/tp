@@ -36,6 +36,11 @@ public class GuiThemeSettings implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(theme);
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
@@ -47,11 +52,6 @@ public class GuiThemeSettings implements Serializable {
         GuiThemeSettings o = (GuiThemeSettings) other;
 
         return theme.equals(o.theme);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(theme);
     }
 
     @Override

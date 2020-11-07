@@ -12,7 +12,7 @@ import java.util.Objects;
 public class StatisticTimeframeSettings implements Serializable {
 
     private static final StatisticTimeframe DEFAULT_TIMEFRAME =
-        new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY);
+            new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY);
 
     private final StatisticTimeframe statTimeframe;
 
@@ -37,6 +37,11 @@ public class StatisticTimeframeSettings implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(statTimeframe);
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
@@ -48,11 +53,6 @@ public class StatisticTimeframeSettings implements Serializable {
         StatisticTimeframeSettings o = (StatisticTimeframeSettings) other;
 
         return statTimeframe.equals(o.statTimeframe);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(statTimeframe);
     }
 
     @Override

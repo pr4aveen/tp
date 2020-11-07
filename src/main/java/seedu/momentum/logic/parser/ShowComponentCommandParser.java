@@ -1,4 +1,5 @@
 //@@author claracheong4
+
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -40,9 +41,8 @@ public class ShowComponentCommandParser implements Parser<ShowComponentCommand> 
 
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
             return new ShowComponentCommand(ComponentType.TAGS);
-        } else {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowComponentCommand.MESSAGE_USAGE));
         }
+        throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowComponentCommand.MESSAGE_USAGE));
     }
 
 }
