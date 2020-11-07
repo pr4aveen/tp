@@ -2,6 +2,8 @@
 
 package seedu.momentum.logic;
 
+import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -35,6 +37,7 @@ public class SettingsUpdateManager {
      * @param appStatistic Statistic generator to change the settings of.
      */
     public static void initSettingsUpdateManager(Ui appUi, StatisticGenerator appStatistic) {
+        requireAllNonNull(appUi, appStatistic);
         ui = appUi;
         statistic = appStatistic;
     }
