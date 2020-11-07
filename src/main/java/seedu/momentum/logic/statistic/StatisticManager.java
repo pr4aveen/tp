@@ -3,8 +3,10 @@ package seedu.momentum.logic.statistic;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
+import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.model.Model;
 
@@ -14,6 +16,7 @@ import seedu.momentum.model.Model;
  * and methods to generate those statistics
  */
 public class StatisticManager implements StatisticGenerator {
+    private static final Logger LOGGER = LogsCenter.getLogger(StatisticManager.class);
 
     private Model model;
 
@@ -29,6 +32,7 @@ public class StatisticManager implements StatisticGenerator {
      * @param model The model containing the data to track.
      */
     public StatisticManager(Model model) {
+        LOGGER.info("Initialized Statistic Manager");
         this.model = model;
         totalTimePerProjectStatistic = new PeriodicTotalTimeStatistic(
             model.getStatisticTimeframeSettings().getStatTimeframe(), ChronoUnit.MINUTES);
@@ -49,6 +53,7 @@ public class StatisticManager implements StatisticGenerator {
 
     @Override
     public void updateStatistics() {
+        LOGGER.info("Updated Statistics");
         for (Statistic statistic : statistics) {
             statistic.calculate(model);
         }
@@ -61,6 +66,7 @@ public class StatisticManager implements StatisticGenerator {
 
     @Override
     public ObservableList<StatisticEntry> getTimePerProjectStatistic() {
+        LOGGER.info("Time Per Project Statistic Retrieved");
         return totalTimePerProjectStatistic.getDisplayList();
     }
 

@@ -347,12 +347,22 @@ public class ModelManager implements Model {
 
     @Override
     public void removeReminder(Project project) {
-        setTrackedItem(project, this.versionedProjectBook.removeReminder(project));
+        Project newProject = this.versionedProjectBook.removeReminder(project);
+        if (currentProject != null && currentProject.isSameAs(project)) {
+            currentProject = newProject;
+            resetUi(viewMode);
+        }
+        rescheduleReminders();
     }
 
     @Override
     public void removeReminder(Project project, Task task) {
-        setTrackedItem(project, this.versionedProjectBook.removeReminder(project, task));
+        Project newProject = this.versionedProjectBook.removeReminder(project);
+        if (currentProject != null && currentProject.isSameAs(project)) {
+            currentProject = newProject;
+            resetUi(viewMode);
+        }
+        rescheduleReminders();
     }
 
     //=========== Timers =============================================================
@@ -398,7 +408,7 @@ public class ModelManager implements Model {
     @Override
     public void commitToHistory() {
         versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible.get(),
-            userPrefs);
+                userPrefs);
     }
 
     @Override

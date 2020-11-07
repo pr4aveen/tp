@@ -8,6 +8,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.reminder.Reminder;
 
@@ -120,6 +121,8 @@ public class TrackedItemCard extends UiPart<Region> {
         if (isExpired) {
             reminderLabel.setStyle(STYLE_TEXT + STYLE_COLOUR_MUTED);
         }
+        reminderLabel.setWrapText(true);
+        reminderLabel.setTextAlignment(TextAlignment.CENTER);
     }
 
     private void setDeadlineStyle(Label deadline) {
@@ -139,6 +142,8 @@ public class TrackedItemCard extends UiPart<Region> {
         }
 
         deadline.setStyle(style);
+        deadline.setWrapText(true);
+        deadline.setTextAlignment(TextAlignment.CENTER);
     }
 
     @Override

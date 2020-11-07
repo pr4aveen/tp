@@ -19,21 +19,21 @@ public class TagListContainsKeywordPredicateTest {
     private static final List<String> NO_MATCHING_KEYWORDS = Arrays.asList("nothing", "matches");
     private static final List<String> ONLY_MATCHES_NAME = Arrays.asList("Benson", "Meier");
     private static final List<String> ONLY_MATCHES_DESCRIPTION = Collections.singletonList("dogs");
+    private static final List<String> ONLY_MATCHES_COMPLETION_STATUS = Collections.singletonList("completed");
+    private static final List<String> FIRST_KEYWORD_LIST = Collections.singletonList("first");
+    private static final List<String> SECOND_KEYWORD_LIST = Arrays.asList("first", "second");
 
     @Test
     public void equals() {
-        List<String> firstPredicateKeywordList = Collections.singletonList("first");
-        List<String> secondPredicateKeywordList = Arrays.asList("first", "second");
-
         TagListContainsKeywordPredicate firstAnyPredicate =
-                new TagListContainsKeywordPredicate(FindType.ANY, firstPredicateKeywordList);
+                new TagListContainsKeywordPredicate(FindType.ANY, FIRST_KEYWORD_LIST);
         TagListContainsKeywordPredicate secondAnyPredicate =
-                new TagListContainsKeywordPredicate(FindType.ANY, secondPredicateKeywordList);
+                new TagListContainsKeywordPredicate(FindType.ANY, SECOND_KEYWORD_LIST);
 
         TagListContainsKeywordPredicate firstAllPredicate =
-                new TagListContainsKeywordPredicate(FindType.ALL, firstPredicateKeywordList);
+                new TagListContainsKeywordPredicate(FindType.ALL, FIRST_KEYWORD_LIST);
         TagListContainsKeywordPredicate secondAllPredicate =
-                new TagListContainsKeywordPredicate(FindType.ALL, secondPredicateKeywordList);
+                new TagListContainsKeywordPredicate(FindType.ALL, SECOND_KEYWORD_LIST);
 
         // same object -> returns true
         assertTrue(firstAnyPredicate.equals(firstAnyPredicate));
@@ -41,10 +41,10 @@ public class TagListContainsKeywordPredicateTest {
 
         // same values -> returns true
         TagListContainsKeywordPredicate firstAnyPredicateCopy =
-                new TagListContainsKeywordPredicate(FindType.ANY, firstPredicateKeywordList);
+                new TagListContainsKeywordPredicate(FindType.ANY, FIRST_KEYWORD_LIST);
         assertTrue(firstAnyPredicate.equals(firstAnyPredicateCopy));
         TagListContainsKeywordPredicate firstAllPredicateCopy =
-                new TagListContainsKeywordPredicate(FindType.ALL, firstPredicateKeywordList);
+                new TagListContainsKeywordPredicate(FindType.ALL, FIRST_KEYWORD_LIST);
         assertTrue(firstAllPredicate.equals(firstAllPredicateCopy));
 
         // different types -> returns false
@@ -62,6 +62,20 @@ public class TagListContainsKeywordPredicateTest {
         // different findType -> return false
         assertFalse(firstAllPredicate.equals(firstAnyPredicate));
         assertFalse(secondAnyPredicate.equals(secondAllPredicate));
+
+        // ContainsKeywordPredicate, same subtype -> returns true
+        ContainsKeywordPredicate thirdPredicate =
+                new TagListContainsKeywordPredicate(FindType.ALL, FIRST_KEYWORD_LIST);
+        ContainsKeywordPredicate fourthPredicate =
+                new TagListContainsKeywordPredicate(FindType.ALL, FIRST_KEYWORD_LIST);
+        assertTrue(thirdPredicate.equals(fourthPredicate));
+
+        // ContainsKeywordPredicate, different subtype -> returns false
+        fourthPredicate = new DescriptionContainsKeywordsPredicate(FindType.ALL, FIRST_KEYWORD_LIST);
+        assertFalse(thirdPredicate.equals(fourthPredicate));
+
+        // ContainsKeywordPredicate, equal to itself -> returns true
+        assertTrue(thirdPredicate.equals(thirdPredicate));
     }
 
     @Test
@@ -99,10 +113,27 @@ public class TagListContainsKeywordPredicateTest {
         // Mixed-case keywords (All)
         allPredicate = new TagListContainsKeywordPredicate(FindType.ALL, MIXED_CASE_KEYWORDS);
         assertTrue(allPredicate.test(BENSON));
+
+        // One keyword (None)
+        TagListContainsKeywordPredicate nonePredicate =
+                new TagListContainsKeywordPredicate(FindType.NONE, SINGLE_KEYWORD);
+        assertFalse(nonePredicate.test(BENSON));
+
+        // Multiple keywords (None)
+        nonePredicate = new TagListContainsKeywordPredicate(FindType.NONE, MULTIPLE_KEYWORDS);
+        assertFalse(nonePredicate.test(BENSON));
+
+        // Only one matching keyword (None)
+        nonePredicate = new TagListContainsKeywordPredicate(FindType.NONE, ONE_MATCHING_KEYWORD);
+        assertFalse(nonePredicate.test(BENSON));
+
+        // Mixed-case keywords (None)
+        nonePredicate = new TagListContainsKeywordPredicate(FindType.NONE, MIXED_CASE_KEYWORDS);
+        assertFalse(nonePredicate.test(BENSON));
     }
 
     @Test
-    public void test_tagListDoesNotContainKeywords_returnsFalse() {
+    public void test_tagListDoesNotContainKeywords() {
         // Non-matching keyword (Any)
         TagListContainsKeywordPredicate anyPredicate =
                 new TagListContainsKeywordPredicate(FindType.ANY, NO_MATCHING_KEYWORDS);
@@ -114,6 +145,10 @@ public class TagListContainsKeywordPredicateTest {
 
         // Keywords match description, but does not match tags (Any)
         anyPredicate = new TagListContainsKeywordPredicate(FindType.ANY, ONLY_MATCHES_DESCRIPTION);
+        assertFalse(anyPredicate.test(BENSON));
+
+        // Keywords match completion status, but does not match tags (Any)
+        anyPredicate = new TagListContainsKeywordPredicate(FindType.ANY, ONLY_MATCHES_COMPLETION_STATUS);
         assertFalse(anyPredicate.test(BENSON));
 
         // Non-matching keyword (All)
@@ -128,5 +163,26 @@ public class TagListContainsKeywordPredicateTest {
         // Keywords match description, but does not match tags (All)
         allPredicate = new TagListContainsKeywordPredicate(FindType.ALL, ONLY_MATCHES_DESCRIPTION);
         assertFalse(allPredicate.test(BENSON));
+
+        // Keywords match completion status, but does not match tags (All)
+        allPredicate = new TagListContainsKeywordPredicate(FindType.ALL, ONLY_MATCHES_COMPLETION_STATUS);
+        assertFalse(allPredicate.test(BENSON));
+
+        // Non-matching keyword (None)
+        TagListContainsKeywordPredicate nonePredicate =
+                new TagListContainsKeywordPredicate(FindType.NONE, NO_MATCHING_KEYWORDS);
+        assertTrue(nonePredicate.test(BENSON));
+
+        // Keywords match name, but does not match tags (None)
+        nonePredicate = new TagListContainsKeywordPredicate(FindType.NONE, ONLY_MATCHES_NAME);
+        assertTrue(nonePredicate.test(BENSON));
+
+        // Keywords match description, but does not match tags (None)
+        nonePredicate = new TagListContainsKeywordPredicate(FindType.NONE, ONLY_MATCHES_DESCRIPTION);
+        assertTrue(nonePredicate.test(BENSON));
+
+        // Keywords match completion status, but does not match tags (None)
+        nonePredicate = new TagListContainsKeywordPredicate(FindType.NONE, ONLY_MATCHES_COMPLETION_STATUS);
+        assertTrue(nonePredicate.test(BENSON));
     }
 }
