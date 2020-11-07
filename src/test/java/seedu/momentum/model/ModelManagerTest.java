@@ -13,7 +13,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +22,7 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.SortType;
 import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.FindType;
+import seedu.momentum.model.project.predicates.MomentumPredicate;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.ProjectBookBuilder;
 import seedu.momentum.testutil.ProjectBuilder;
@@ -167,7 +167,7 @@ public class ModelManagerTest {
         // go to home view
         modelManager.viewProjects();
         modelManager.updateOrder(SortType.CREATED, true);
-        Predicate<TrackedItem> newPredicate = new CompletionStatusPredicate(FindType.ALL, Arrays.asList("incomplete"));
+        MomentumPredicate newPredicate = new CompletionStatusPredicate(FindType.ALL, Arrays.asList("incomplete"));
         modelManager.updatePredicate(newPredicate);
         List<TrackedItem> initialDisplayList = modelManager.getDisplayList();
         modelManager.commitToHistory();

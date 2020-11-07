@@ -15,13 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BinaryOperator;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.AlwaysTruePredicate;
 import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;

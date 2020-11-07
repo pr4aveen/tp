@@ -54,10 +54,15 @@ public abstract class ContainsKeywordPredicate implements MomentumPredicate {
     }
 
     @Override
-    public boolean isSamePredicate(MomentumPredicate other) {
+    public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof ContainsKeywordPredicate // instanceof handles nulls
-                && keywords.equals(((ContainsKeywordPredicate) other).keywords)) // state check
+                || (other instanceof ContainsKeywordPredicate) // instanceof handles nulls
+                && isSamePredicate((MomentumPredicate) other);
+    }
+
+    @Override
+    public boolean isSamePredicate(MomentumPredicate other) {
+        return keywords.equals(((ContainsKeywordPredicate) other).keywords) // state check
                 && findType == ((ContainsKeywordPredicate) other).findType;
     }
 }

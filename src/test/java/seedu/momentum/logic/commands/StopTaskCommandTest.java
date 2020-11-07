@@ -115,9 +115,9 @@ public class StopTaskCommandTest {
         Project stoppedExpectedProject = startedExpectedProject.setTask(startedTrackedItem, stoppedTrackedItem);
         expectedModel.setTrackedItem(startedExpectedProject, stoppedExpectedProject);
         expectedModel.viewTasks(stoppedExpectedProject);
+        showTrackedItemWithName(expectedModel, stoppedTrackedItem.getName());
         expectedModel.commitToHistory();
 
-        showTrackedItemWithName(expectedModel, stoppedTrackedItem.getName());
 
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
         Clock.reset();

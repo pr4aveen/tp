@@ -4,7 +4,6 @@ package seedu.momentum.model;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
 
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
