@@ -1,4 +1,5 @@
 //@@author khoodehui
+
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -19,7 +20,7 @@ public class SetCommandParser implements Parser<SetCommand> {
      * Parses the given {@code String} of arguments in the context of the SetCommand
      * and returns an SetCommand object for execution.
      *
-     * @param args Arguments to parse.
+     * @param args  Arguments to parse.
      * @param model The current model, to provide context for parsing the arguments.
      * @return A new set command with the parsed arguments.
      * @throws ParseException If the user input does not conform the expected format.
@@ -41,7 +42,7 @@ public class SetCommandParser implements Parser<SetCommand> {
 
         if (argMultimap.getValue(SET_STATISTIC_TIMEFRAME).isPresent()) {
             settingsToChange.setStatTimeframe(ParserUtil.parseStatisticTimeframe(
-                argMultimap.getValue(SET_STATISTIC_TIMEFRAME).get()));
+                    argMultimap.getValue(SET_STATISTIC_TIMEFRAME).get()));
         }
 
         if (!settingsToChange.isAnySettingChanged()) {

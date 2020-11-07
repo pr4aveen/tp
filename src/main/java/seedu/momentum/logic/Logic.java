@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic;
 
 import java.nio.file.Path;
@@ -34,6 +36,7 @@ public interface Logic {
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
+    //@@author claracheong4
     /**
      * Returns true if there is no reminder to display, false otherwise.
      *
@@ -48,6 +51,7 @@ public interface Logic {
      */
     StringProperty getReminder();
 
+    //@@author
     /**
      * Returns the ProjectBook.
      *
@@ -70,6 +74,7 @@ public interface Logic {
      */
     Path getProjectBookFilePath();
 
+    //@@author khoodehui
     /**
      * Returns the user prefs' GUI window settings.
      */
@@ -85,11 +90,13 @@ public interface Logic {
      */
     GuiThemeSettings getGuiThemeSettings();
 
+    //@@author
     /**
      * Returns a set of all the tags in the items being displayed.
      */
     Set<Tag> getVisibleTags();
 
+    //@@author claracheong4
     /**
      * Returns an observable boolean value representing whether tags are visible.
      *
@@ -97,11 +104,13 @@ public interface Logic {
      */
     BooleanProperty getIsTagsVisible();
 
+    //@@author khoodehui
     /**
      * Returns the user prefs' statistic timeframe settings.
      */
     StatisticTimeframeSettings getStatisticTimeframeSettings();
 
+    //@@author boundtotheearth
     /**
      * Returns the statistic manager.
      */

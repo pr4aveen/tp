@@ -1,4 +1,5 @@
 //@@author boundtotheearth
+
 package seedu.momentum.logic.statistic;
 
 import static java.util.Objects.requireNonNull;

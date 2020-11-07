@@ -1,4 +1,5 @@
 //@@author
+
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -64,7 +65,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         //@@author pr4aveen
         if (model.getViewMode() == ViewMode.PROJECTS) {
             return new EditProjectCommand(index, editTrackedItemDescriptor);
-        } 
+        }
         return new EditTaskCommand(index, editTrackedItemDescriptor, model.getCurrentProject());
         //@@author
     }
@@ -116,6 +117,7 @@ public class EditCommandParser implements Parser<EditCommand> {
     }
 
     //@@author claracheong4
+
     /**
      * Sets the completion status the edit descriptor after parsing it.
      *
@@ -164,7 +166,6 @@ public class EditCommandParser implements Parser<EditCommand> {
     }
 
     //@@author
-
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>} if {@code tags} is non-empty.
      * If {@code tags} contain only one element which is an empty string, it will be parsed into a

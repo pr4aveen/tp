@@ -1,4 +1,5 @@
 //@@author
+
 package seedu.momentum.logic.parser;
 
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -80,6 +81,20 @@ public class AddCommandParser implements Parser<AddCommand> {
     }
 
     /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given.
+     * {@code ArgumentMultimap}.
+     *
+     * @param argumentMultimap The argument multimap.
+     * @param prefixes         The prefixes.
+     * @return The boolean.
+     */
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+
+    //@@author kkangs0226
+
+    /**
      * Gets the parsed name.
      *
      * @param argMultimap The argument multimap of the addition.
@@ -91,7 +106,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         return ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
     }
 
-    //@@author kkangs0226
+    //@@author claracheong4
 
     /**
      * Gets the parsed description.
@@ -105,8 +120,6 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
         return ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).get());
     }
-
-    //@@author claracheong4
 
     /**
      * Gets the parsed completion status.
@@ -147,6 +160,8 @@ public class AddCommandParser implements Parser<AddCommand> {
                 createdDateWrapper);
     }
 
+    //@@author
+
     /**
      * Gets the parsed reminder.
      *
@@ -158,8 +173,6 @@ public class AddCommandParser implements Parser<AddCommand> {
         return ParserUtil.parseReminder(argMultimap.getValue(PREFIX_REMINDER));
     }
 
-    //@@author
-
     /**
      * Gets the parsed tags.
      *
@@ -169,18 +182,6 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     private Set<Tag> getParsedTags(ArgumentMultimap argMultimap) throws ParseException {
         return ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given.
-     * {@code ArgumentMultimap}.
-     *
-     * @param argumentMultimap The argument multimap.
-     * @param prefixes         The prefixes.
-     * @return The boolean.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
 }
