@@ -1194,33 +1194,6 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `stop x` where x is the greater than the number of tasks.<br>
     Expected: No timer stopped. Invalid index message shown. 
 
-### Statistics tracking
-
-1. No available durations
-
-    1. Prerequisites: There are no durations available for all time frames.
-    
-    1. Test case: `set st/daily`.<br>
-    Expected: Time spent section should indicate that there are no durations in the list.
-    
-    1. Test case: `set st/weekly`.<br>
-    Expected: Time spent section should indicate that there are no durations in the list.
-    
-    1. Test case: `set st/monthly`.<br>
-    Expected: Time spent section should indicate that there are no durations in the list.
-    
-1. Durations available
-
-    1. Prerequisites: There are no durations available for all time frames.
-    
-    1. Test case: `set st/daily`.<br>
-    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
-    
-    1. Test case: `set st/weekly`.<br>
-    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
-    
-    1. Test case: `set st/monthly`.<br>
-    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
 
 ### Undo/Redo
 
@@ -1299,6 +1272,34 @@ testers are expected to do more *exploratory* testing.
     
     1. Test case: `set st/monthly`<br>
     Expected: Statistics panel should display `Monthly Time Spent`
+    
+    
+1. Changing statistics timeframe with no available durations.
+
+    1. Prerequisites: There are no durations available for all time frames.
+    
+    1. Test case: `set st/daily`.<br>
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+    1. Test case: `set st/weekly`.<br>
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+    1. Test case: `set st/monthly`.<br>
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+1. Changing statistics timeframe with available durations.
+
+    1. Prerequisites: There are no durations available for all time frames.
+    
+    1. Test case: `set st/daily`.<br>
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+    
+    1. Test case: `set st/weekly`.<br>
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+    
+    1. Test case: `set st/monthly`.<br>
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+
 
 ### Exit the program
 
