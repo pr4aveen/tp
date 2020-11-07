@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +18,7 @@ import seedu.momentum.model.project.comparators.CreatedDateCompare;
 import seedu.momentum.model.project.comparators.NameCompare;
 import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.FindType;
+import seedu.momentum.model.project.predicates.MomentumPredicate;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class VersionedProjectBookTest {
@@ -28,8 +28,8 @@ public class VersionedProjectBookTest {
     private static final Project AFTER_PROJECT = new ProjectBuilder().withName("AFTER").build();
     private static final ViewMode INIT_VIEWMODE = ViewMode.TASKS;
     private static final ViewMode AFTER_VIEWMODE = ViewMode.PROJECTS;
-    private static final Predicate<TrackedItem> INIT_PREDICATE = Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
-    private static final Predicate<TrackedItem> AFTER_PREDICATE =
+    private static final MomentumPredicate INIT_PREDICATE = Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS;
+    private static final MomentumPredicate AFTER_PREDICATE =
             new CompletionStatusPredicate(FindType.ALL, Arrays.asList("incomplete"));
     private static final Comparator<TrackedItem> INIT_COMPARE = new NameCompare();
     private static final Comparator<TrackedItem> AFTER_COMPARE = new CreatedDateCompare();

@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.predicates.MomentumPredicate;
 
 /**
  * Represents a project book that keeps track of its state, so that it can undo/redo changes.
@@ -35,7 +36,7 @@ public class VersionedProjectBook extends ProjectBook {
     public VersionedProjectBook(ReadOnlyProjectBook projectBook,
                                 ViewMode viewMode,
                                 Project currentProject,
-                                Predicate<TrackedItem> currentPredicate,
+                                MomentumPredicate currentPredicate,
                                 Comparator<TrackedItem> currentComparator,
                                 boolean isTagsVisible,
                                 ReadOnlyUserPrefs userPrefs) {
@@ -57,7 +58,7 @@ public class VersionedProjectBook extends ProjectBook {
      * @param isTagsVisible Whether the tags window in the UI is present.
      * @param userPrefs Current user preferences in the application.
      */
-    public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
+    public void commit(ViewMode viewMode, Project currentProject, MomentumPredicate currentPredicate,
                        Comparator<TrackedItem> currentComparator, boolean isTagsVisible, ReadOnlyUserPrefs userPrefs) {
         int historySize = projectBookStateList.size();
         if (currentStatePointer < historySize - 1) {
@@ -144,7 +145,7 @@ public class VersionedProjectBook extends ProjectBook {
         return getCurrentProjectBookWithUi().getProject();
     }
 
-    public Predicate<TrackedItem> getCurrentPredicate() {
+    public MomentumPredicate getCurrentPredicate() {
         return getCurrentProjectBookWithUi().getPredicate();
     }
 

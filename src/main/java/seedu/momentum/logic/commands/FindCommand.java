@@ -9,11 +9,9 @@ import static seedu.momentum.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.function.Predicate;
-
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.predicates.MomentumPredicate;
 
 /**
  * Finds and lists all items in Momentum that match a defined criteria.
@@ -31,14 +29,14 @@ public class FindCommand extends Command {
             + "[" + PREFIX_TAG + "TAG_KEYWORD [MORE_TAG_KEYWORDS]... ]";
 
     // Defines the criteria to filter items by
-    private final Predicate<TrackedItem> predicate;
+    private final MomentumPredicate predicate;
 
     /**
      * Creates a FindCommand that uses the provided predicate to filter out items.
      *
      * @param predicate A predicate that specifies the criteria used to filter the items.
      */
-    public FindCommand(Predicate<TrackedItem> predicate) {
+    public FindCommand(MomentumPredicate predicate) {
         this.predicate = predicate;
     }
 

@@ -25,6 +25,7 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.FindType;
+import seedu.momentum.model.project.predicates.MomentumPredicate;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.TagListContainsKeywordPredicate;
 
@@ -74,9 +75,9 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @param predicateList List of predicates to be combined.
      * @return A predicate that is the combination of all predicates in the predicate list.
      */
-    private Predicate<TrackedItem> combinePredicates(FindType findType, List<Predicate<TrackedItem>> predicateList) {
+    private MomentumPredicate combinePredicates(FindType findType, List<MomentumPredicate> predicateList) {
         requireAllNonNull(findType, predicateList);
-        BinaryOperator<Predicate<TrackedItem>> operationType;
+        BinaryOperator<MomentumPredicate> operationType;
         switch (findType) {
         case NONE:
             // Find none needs the logical 'and' of individual predicates.

@@ -3,10 +3,10 @@ package seedu.momentum.model;
 
 import java.util.Comparator;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.predicates.MomentumPredicate;
 
 /**
  * Represents a project book with additional information on how the data is displayed to the UI.
@@ -15,7 +15,7 @@ public class ProjectBookWithUi extends ProjectBook {
 
     private final ViewMode viewMode;
     private final Project project;
-    private final Predicate<TrackedItem> predicate;
+    private final MomentumPredicate predicate;
     private final Comparator<TrackedItem> comparator;
     private final boolean isTagsVisible;
     private final ReadOnlyUserPrefs userPrefs;
@@ -32,7 +32,7 @@ public class ProjectBookWithUi extends ProjectBook {
      * @param userPrefs Current user preferences in the application.
      */
     public ProjectBookWithUi(ReadOnlyProjectBook projectBook, ViewMode viewMode, Project project,
-                             Predicate<TrackedItem> predicate, Comparator<TrackedItem> comparator,
+                             MomentumPredicate predicate, Comparator<TrackedItem> comparator,
                              boolean isTagsVisible, ReadOnlyUserPrefs userPrefs) {
         super(projectBook);
         this.viewMode = viewMode;
@@ -51,7 +51,7 @@ public class ProjectBookWithUi extends ProjectBook {
         return project;
     }
 
-    public Predicate<TrackedItem> getPredicate() {
+    public MomentumPredicate getPredicate() {
         return predicate;
     }
 

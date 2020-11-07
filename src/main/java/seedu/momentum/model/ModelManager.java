@@ -35,6 +35,7 @@ import seedu.momentum.model.project.comparators.CreatedDateCompare;
 import seedu.momentum.model.project.comparators.DeadlineCompare;
 import seedu.momentum.model.project.comparators.NameCompare;
 import seedu.momentum.model.project.comparators.SortType;
+import seedu.momentum.model.project.predicates.MomentumPredicate;
 import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.model.tag.Tag;
 
@@ -47,7 +48,7 @@ public class ModelManager implements Model {
     private final VersionedProjectBook versionedProjectBook;
     private final ReminderManager reminderManager;
     private final ObservableList<TrackedItem> runningTimers;
-    private Predicate<TrackedItem> currentPredicate;
+    private MomentumPredicate currentPredicate;
     private SortType currentSortType;
     private boolean isCurrentSortAscending;
     private boolean isCurrentSortByCompletionStatus;
@@ -318,7 +319,7 @@ public class ModelManager implements Model {
 
     //@@author pr4aveen
     @Override
-    public void updatePredicate(Predicate<TrackedItem> predicate) {
+    public void updatePredicate(MomentumPredicate predicate) {
         requireNonNull(predicate);
         currentPredicate = predicate;
         updateDisplayList();
