@@ -1117,10 +1117,10 @@ testers are expected to do more *exploratory* testing.
     Expected: Tasks should be sorted by their created date in descending order.
     
     1. Test case: `sort order/asc type/deadline`<br>
-    Expected: Tasks should be sorted in their deadlines in ascending order. Projects without a deadline will be sent to the bottom.
+    Expected: Tasks should be sorted in their deadlines in ascending order. Projects without a deadline will be sent to the bottom, displayed in alphabetical ascending order.
     
     1. Test case: `sort order/dsc type/deadline`<br>
-    Expected: Tasks should be sorted in their deadlines in descending order. Projects without a deadline will be sent to the bottom.
+    Expected: Tasks should be sorted in their deadlines in descending order. Projects without a deadline will be sent to the bottom, displayed in alphabetical descending order.
 
 1. Persistence of sort
 
@@ -1134,13 +1134,18 @@ testers are expected to do more *exploratory* testing.
     
 1. Sorting by completion status in addition to a given sort order
 
-    1. Prerequisites: There are multiple projects in the list.
+    1. Prerequisites: There are multiple projects in the list. Sort by completion status is disabled.
     
     1. Test case: `sort order/dsc type/created c/`<br>
     Expected: Entries should be sorted by completion status. Entries from each completion status will be sorted by their created date in descending order.
     
-### Setting reminders
+1. Ignoring completion status for a given sort order
 
+    1. Prerequisites: There are multiple projects in the list. Sort by completion status is enabled.
+    
+    1. Test case: `sort order/dsc type/created c/`<br>
+    Expected: Entries should only be sorted by their created date in descending order.
+    
 ### Time tracking
 
 1. Starting Timers for Projects
@@ -1219,7 +1224,56 @@ testers are expected to do more *exploratory* testing.
 
 ### Undo/Redo
 
+1. Undoing a command
+    
+    1. Prerequisites: A command that can be undone has been used.
+    
+    1. Test case: `undo` <br>
+    Expected: Actions of undone command have been reverted.
+    
+1. Redoing a command
+    
+    1. Prerequisites: A command has been undone.
+    
+    1. Test case: `redo` <br>
+    Expected: Actions of undone command have been redone.
+
 ### UI testing
+
+1. Hiding Tag List.
+    
+    1. Prerequisites: Tag list is visible.
+    
+    1. Test case: `show t/` <br>
+    Expected: Tag list should be hidden.
+    
+1. Showing Tag List.
+    
+    1. Prerequisites: Tag list is not visible.
+    
+    1. Test case: `show t/` <br>
+    Expected: Tag list should be shown.
+
+1. Updating tag list after find command.
+    
+    1. Prerequisites: Multiple projects in the list. Tag list is visible.
+    
+    1. Test case: `find n/test` <br>
+    Expected: Only the tags associated with the visible projects are shown.
+
+1. Waiting for a reminder.
+    
+    1. Prerequisites: Reminder has been set.
+    
+    1. Test case: Wait till reminder time <br>
+    Expected: Reminder will be displayed in the UI.
+
+1. Dismissing a reminder.
+    
+    1. Prerequisites: Reminder is displayed in the UI.
+    
+    1. Test case: `dismiss` <br>
+    Expected: The reminder should no longer be visible.
 
 ### Settings
 
