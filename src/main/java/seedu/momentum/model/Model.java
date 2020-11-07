@@ -145,11 +145,6 @@ public interface Model {
     BooleanProperty getIsTagsVisible();
 
     /**
-     * Reschedule all reminders.
-     */
-    void rescheduleReminders();
-
-    /**
      * Reschedule all reminders in project book.
      */
     void rescheduleReminder();

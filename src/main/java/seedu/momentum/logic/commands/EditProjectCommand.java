@@ -56,7 +56,6 @@ public class EditProjectCommand extends EditCommand {
             throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
         }
 
-        model.rescheduleReminders();
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));
     }

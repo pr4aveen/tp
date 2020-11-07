@@ -45,7 +45,6 @@ public class DeleteProjectCommand extends DeleteCommand {
         TrackedItem trackedItemToDelete = lastShownList.get(targetIndex.getZeroBased());
 
         model.deleteTrackedItem(trackedItemToDelete);
-        model.rescheduleReminders();
         model.commitToHistory();
 
         return new CommandResult(String.format(MESSAGE_DELETE_PROJECT_SUCCESS, trackedItemToDelete));

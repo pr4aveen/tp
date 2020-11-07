@@ -320,8 +320,7 @@ public class ModelManager implements Model {
 
     //=========== Reminders =============================================================
 
-    @Override
-    public void rescheduleReminders() {
+    private void rescheduleReminders() {
         reminderManager.rescheduleReminder();
     }
 
