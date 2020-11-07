@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  * Abstract class for all predicates that rely on the FindType. Contains the logic to test
  * predicates based on FindType.
  */
-public abstract class ContainsKeywordPredicate extends MomentumPredicate {
+public abstract class ContainsKeywordPredicate implements MomentumPredicate {
     protected final List<String> keywords;
     protected final FindType findType;
 
@@ -54,7 +54,7 @@ public abstract class ContainsKeywordPredicate extends MomentumPredicate {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean isSamePredicate(MomentumPredicate other) {
         return other == this // short circuit if same object
                 || (other instanceof ContainsKeywordPredicate // instanceof handles nulls
                 && keywords.equals(((ContainsKeywordPredicate) other).keywords)) // state check

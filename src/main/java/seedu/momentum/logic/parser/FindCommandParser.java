@@ -22,6 +22,7 @@ import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.predicates.AlwaysTruePredicate;
 import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.FindType;
@@ -59,7 +60,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         FindType findType = getMatchType(argMultimap); // only parses find type if the argument exists.
-        List<Predicate<TrackedItem>> predicateList = new ArrayList<>(); // list of all predicates that will be applied.
+        List<MomentumPredicate> predicateList = new ArrayList<>(); // list of all predicates that will be applied.
 
         for (Prefix prefix : prefixesToParse) {
             parseArguments(argMultimap, prefix, predicateList, findType);
@@ -82,17 +83,17 @@ public class FindCommandParser implements Parser<FindCommand> {
         case NONE:
             // Find none needs the logical 'and' of individual predicates.
         case ALL:
-            operationType = Predicate::and;
+            operationType = (a, b) -> (MomentumPredicate) a.and(b);
             break;
         case ANY:
             // Find any is the default find type.
             // Fallthrough.
         default:
-            operationType = Predicate::or;
+            operationType = (a, b) -> (MomentumPredicate) a.or(b);
             break;
         }
 
-        return predicateList.stream().reduce(operationType).orElse(x -> true);
+        return predicateList.stream().reduce(operationType).orElseGet(AlwaysTruePredicate::new);
     }
 
     /**
@@ -105,7 +106,7 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @throws ParseException If the syntax is invalid.
      */
     private void parseArguments (ArgumentMultimap argMultimap, Prefix prefix,
-                                 List<Predicate<TrackedItem>> predicateList, FindType findType) throws ParseException {
+                                 List<MomentumPredicate> predicateList, FindType findType) throws ParseException {
 
         requireAllNonNull(argMultimap, predicateList, predicateList, findType);
 

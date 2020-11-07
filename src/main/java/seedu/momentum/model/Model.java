@@ -14,6 +14,7 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.SortType;
+import seedu.momentum.model.project.predicates.AlwaysTruePredicate;
 import seedu.momentum.model.project.predicates.MomentumPredicate;
 import seedu.momentum.model.tag.Tag;
 
@@ -25,7 +26,7 @@ public interface Model {
      * {@code Predicate} that always evaluate to true.
      * Used to show all items.
      */
-    MomentumPredicate PREDICATE_SHOW_ALL_TRACKED_ITEMS = new MomentumPredicate();
+    MomentumPredicate PREDICATE_SHOW_ALL_TRACKED_ITEMS = new AlwaysTruePredicate();
 
     //=========== UserPrefs ==================================================================================
     /**

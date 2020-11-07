@@ -83,7 +83,7 @@ public class ProjectBookWithUi extends ProjectBook {
                 && (Objects.equals(project, o.getProject()))
                 && isTagsVisible == o.isTagsVisible()
                 && userPrefs.equals(o.getUserPrefs())
-                && predicate.equals(o.getPredicate());
+                && predicate.isSamePredicate(o.getPredicate());
 
     }
 }

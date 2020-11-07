@@ -61,11 +61,4 @@ public class CompletionStatusPredicate extends ContainsKeywordPredicate {
         boolean status = trackedItem.getCompletionStatus().isCompleted();
         return testPredicate(MATCH_COMPLETE) == status;
     }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof CompletionStatusPredicate // instanceof handles nulls
-                && super.equals(other)); // state check
-    }
 }
