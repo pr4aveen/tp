@@ -12,6 +12,7 @@ import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
 import java.time.temporal.ChronoUnit;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +24,7 @@ import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.ProjectBuilder;
 import seedu.momentum.testutil.TypicalTimes;
 
@@ -92,7 +94,7 @@ public class StopTaskCommandTest {
         Project parentProject = (Project) model.getDisplayList().get(INDEX_FIRST.getZeroBased());
         model.viewTasks(parentProject);
 
-        showTaskAtIndex(model, INDEX_FIRST);
+        Predicate<TrackedItem> predicate = showTaskAtIndex(model, INDEX_FIRST);
 
         TrackedItem trackedItemToStop = model.getDisplayList().get(INDEX_FIRST.getZeroBased());
         StopCommand stopCommand = new StopTaskCommand(INDEX_FIRST, parentProject);

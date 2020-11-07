@@ -1,3 +1,4 @@
+//@@author kkangs0226
 package seedu.momentum.ui;
 
 import javafx.collections.FXCollections;
@@ -27,7 +28,7 @@ public class PieChartCard extends UiPart<Region> {
     /**
      * Creates a {@code PieChartCard} with the give {@code ObservableList}.
      *
-     * @param statisticList list of statistics to be used for pie chart generation.
+     * @param statisticList List of statistics to be used for pie chart generation.
      */
     public PieChartCard(ObservableList<StatisticEntry> statisticList) {
         super(FXML);
