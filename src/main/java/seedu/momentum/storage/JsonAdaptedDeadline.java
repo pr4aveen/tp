@@ -20,8 +20,8 @@ class JsonAdaptedDeadline {
     /**
      * Constructs a {@code JsonAdaptedDeadline} with the given date and time.
      *
-     * @param date Date to create the JSON object with.
-     * @param time Time to create the JSON object with.
+     * @param date Date of the deadline.
+     * @param time Time of the deadline
      */
     @JsonCreator
     public JsonAdaptedDeadline(@JsonProperty("date") String date,
@@ -33,7 +33,7 @@ class JsonAdaptedDeadline {
     /**
      * Converts a given {@code Deadline} into this class for Jackson use.
      *
-     * @param source Deadline to create the JSON object with.
+     * @param source Deadline object containing the date and time information.
      */
     public JsonAdaptedDeadline(Deadline source) {
         if (!source.isEmpty()) {

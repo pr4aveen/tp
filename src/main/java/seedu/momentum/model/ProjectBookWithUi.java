@@ -75,7 +75,6 @@ public class ProjectBookWithUi extends ProjectBook {
 
         if (!(other instanceof ProjectBookWithUi)) {
             return false;
-
         }
 
         ProjectBookWithUi o = (ProjectBookWithUi) other;
