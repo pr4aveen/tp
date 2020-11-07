@@ -1,3 +1,4 @@
+//@@author claracheong4
 package seedu.momentum.storage;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -18,6 +19,9 @@ class JsonAdaptedDeadline {
 
     /**
      * Constructs a {@code JsonAdaptedDeadline} with the given date and time.
+     *
+     * @param date Date to create the JSON object with.
+     * @param time Time to create the JSON object with.
      */
     @JsonCreator
     public JsonAdaptedDeadline(@JsonProperty("date") String date,
@@ -28,6 +32,8 @@ class JsonAdaptedDeadline {
 
     /**
      * Converts a given {@code Deadline} into this class for Jackson use.
+     *
+     * @param source Deadline to create the JSON object with.
      */
     public JsonAdaptedDeadline(Deadline source) {
         if (!source.isEmpty()) {
@@ -45,8 +51,8 @@ class JsonAdaptedDeadline {
     /**
      * Converts this Jackson-friendly adapted duration object into the model's {@code Deadline} object.
      *
-     * @param createdDateWrapper the created date of the project.
-     * @throws IllegalValueException if there were any data constraints violated in the adapted duration.
+     * @param createdDateWrapper The created date of the project.
+     * @throws IllegalValueException If there were any data constraints violated in the adapted duration.
      */
     public Deadline toModelType(DateWrapper createdDateWrapper) throws IllegalValueException {
         if (this.date == null) {

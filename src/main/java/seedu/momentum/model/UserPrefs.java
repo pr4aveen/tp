@@ -26,7 +26,9 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     public UserPrefs() {}
 
     /**
-     * Creates a {@code UserPrefs} with the prefs in {@code userPrefs}.
+     * Creates a new {@code UserPrefs} with the current prefs in {@code userPrefs}.
+     *
+     * @param userPrefs Copy of the user pref to transfer the settings from.
      */
     public UserPrefs(ReadOnlyUserPrefs userPrefs) {
         this();
@@ -43,6 +45,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         this.projectBookFilePath = projectBookFilePath;
     }
 
+    //@@author khoodehui
     /**
      * Resets the existing data of this {@code UserPrefs} with {@code newUserPrefs}.
      */
@@ -53,11 +56,13 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         setStatisticTimeframeSettings(newUserPrefs.getStatisticTimeframeSettings());
         setProjectBookFilePath(newUserPrefs.getProjectBookFilePath());
     }
+    //@@author
 
     public GuiWindowSettings getGuiWindowSettings() {
         return guiWindowSettings;
     }
 
+    //@@author khoodehui
     public GuiThemeSettings getGuiThemeSettings() {
         return guiThemeSettings;
     }
@@ -65,6 +70,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     public StatisticTimeframeSettings getStatisticTimeframeSettings() {
         return statisticTimeframeSettings;
     }
+    //@@author
 
     public Path getProjectBookFilePath() {
         return projectBookFilePath;
@@ -75,6 +81,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         this.guiWindowSettings = guiWindowSettings;
     }
 
+    //@@author khoodehui
     public void setGuiThemeSettings(GuiThemeSettings guiThemeSettings) {
         requireNonNull(guiThemeSettings);
         this.guiThemeSettings = guiThemeSettings;
@@ -84,17 +91,19 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         requireNonNull(statisticTimeframeSettings);
         this.statisticTimeframeSettings = statisticTimeframeSettings;
     }
+    //@@author
 
     public void setProjectBookFilePath(Path projectBookFilePath) {
         requireNonNull(projectBookFilePath);
         this.projectBookFilePath = projectBookFilePath;
     }
 
+    //@@author khoodehui
     /**
      * Returns a new {@code UserPrefs} updated with the {@code newGuiThemeSetings}.
      *
-     * @param newGuiThemeSettings new theme settings to be applied.
-     * @return the new {@code UserPrefs}.
+     * @param newGuiThemeSettings New theme settings to be applied.
+     * @return The new {@code UserPrefs} with the settings changed.
      */
     public UserPrefs returnChangedGuiThemeSettings(GuiThemeSettings newGuiThemeSettings) {
         requireNonNull(newGuiThemeSettings);
@@ -105,8 +114,8 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     /**
      * Returns a new {@code UserPrefs} updated with the {@code newStatisticTimeframeSetings}.
      *
-     * @param newTimeframeSettings new statistic timeframe settings to be applied.
-     * @return the new {@code UserPrefs}.
+     * @param newTimeframeSettings New statistic timeframe settings to be applied.
+     * @return The new {@code UserPrefs} with the settings changed.
      */
     public UserPrefs returnChangedStatisticsTimeframeSettings(StatisticTimeframeSettings newTimeframeSettings) {
         requireNonNull(newTimeframeSettings);
@@ -117,14 +126,15 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     /**
      * Returns a new {@code UserPrefs} updated with the {@code newProjectBookFilePath}.
      *
-     * @param newProjectBookFilePath new statistic timeframe settings to be applied.
-     * @return the new {@code UserPrefs}.
+     * @param newProjectBookFilePath New file path to be applied.
+     * @return The new {@code UserPrefs} with the settings changed.
      */
     public UserPrefs returnChangedProjectBookFilePath(Path newProjectBookFilePath) {
         requireNonNull(newProjectBookFilePath);
         return new UserPrefs(this.guiWindowSettings, this.guiThemeSettings,
             this.statisticTimeframeSettings, newProjectBookFilePath);
     }
+    //@@author
 
     @Override
     public boolean equals(Object other) {

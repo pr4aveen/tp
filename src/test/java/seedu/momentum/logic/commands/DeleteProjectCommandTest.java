@@ -5,9 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.logic.commands.CommandTestUtil.showProjectAtIndex;
+import static seedu.momentum.logic.commands.CommandTestUtil.showTrackedItemWithName;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
+
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +20,8 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.predicates.FindType;
+import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
@@ -59,7 +64,9 @@ public class DeleteProjectCommandTest {
 
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         expectedModel.deleteTrackedItem(trackedItemToDelete);
-        showNoProject(expectedModel);
+
+        showTrackedItemWithName(expectedModel, trackedItemToDelete.getName());
+
         expectedModel.commitToHistory();
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);

@@ -9,7 +9,7 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 
 /**
- * Unmodifiable view of an project book
+ * Unmodifiable view of an project book.
  */
 public interface ReadOnlyProjectBook {
 

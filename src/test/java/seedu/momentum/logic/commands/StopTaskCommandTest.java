@@ -6,6 +6,7 @@ import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandFailure
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.logic.commands.CommandTestUtil.showProjectAtIndex;
 import static seedu.momentum.logic.commands.CommandTestUtil.showTaskAtIndex;
+import static seedu.momentum.logic.commands.CommandTestUtil.showTrackedItemWithName;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
@@ -116,7 +117,7 @@ public class StopTaskCommandTest {
         expectedModel.viewTasks(stoppedExpectedProject);
         expectedModel.commitToHistory();
 
-        showTaskAtIndex(expectedModel, INDEX_FIRST);
+        showTrackedItemWithName(expectedModel, stoppedTrackedItem.getName());
 
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
         Clock.reset();
