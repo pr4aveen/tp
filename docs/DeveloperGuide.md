@@ -274,6 +274,12 @@ The find command uses predicate chaining to search for projects/tasks based on o
 * `TagListContainsKeywordPredicate` - Searches for projects/tasks based on tags.
 * `CompletionStatusPredicate` - Searches for projects/tasks based on completion status.
 
+Each of these predicate classes extends the `ContainsKeywordPredicate` class. The `ContainsKeywordPredicate` has a `protected testPredicate` method that is used or overridden by the subclasses. This method is used to test predicates based on the `FindType`. 
+
+The following class diagram shows the structure of the aforementioned predicate classes.
+
+![PredicateClassDiagram](images/PredicateClassDiagram.png)
+
 The `FindCommandParser` creates a list of predicates based on the arguments entered into the command. Each predicate takes in a match type, represented by the enumeration `FindType`.
 
 *check if correct representation for non-static*-> `FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem>`. The `filteredTrackedItemsList` is updated to contain all projects and tasks without updating the user interface. After this, `FindCommand` uses used to update the`filteredTrackedItemsList` and the user interface.
@@ -284,7 +290,7 @@ This design was chosen as it built on the existing implementation of the find co
 
 The following sequence diagram shows how the `FindCommandParser`works.
 
-![StatsSequenceDiagram](images/FindCommand.png)
+![FindCommandParserSequenceDiagram](images/FindCommandParserSequenceDiagram.png)
 
 ### \[Proposed\] Undo/redo feature
 
