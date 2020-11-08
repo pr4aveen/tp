@@ -1,3 +1,4 @@
+//@@author
 package seedu.momentum.model;
 
 import static java.util.Objects.requireNonNull;
@@ -66,7 +67,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
         setTrackedProjects(newData.getTrackedItemList());
     }
 
-    //// project-level operations
+    // project-level operations
 
     /**
      * Returns true if a tracked item with the same identity as {@code trcakedItem} exists in the project book.
@@ -104,12 +105,11 @@ public class ProjectBook implements ReadOnlyProjectBook {
         trackedProjects.remove(key);
     }
 
-    //// util methods
+    // util methods
 
     @Override
     public String toString() {
         return trackedProjects.asUnmodifiableObservableList().size() + " projects";
-        // TODO: refine later
     }
 
     @Override
@@ -124,6 +124,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
         return tags;
     }
 
+    //@@author claracheong4
     private void updateExpiredReminders() {
         UniqueItemList<TrackedItem> itemList = new UniqueItemList<>();
         for (TrackedItem item : trackedProjects) {
@@ -135,6 +136,8 @@ public class ProjectBook implements ReadOnlyProjectBook {
 
     /**
      * Reschedule all reminders in the model.
+     *
+     * @param reminderManager The reminderManager associated with the model of the project book.
      */
     public void rescheduleReminder(ReminderManager reminderManager) {
         updateExpiredReminders();
@@ -146,8 +149,8 @@ public class ProjectBook implements ReadOnlyProjectBook {
     /**
      * Remove the reminder of a trackedItem.
      *
-     * @param project project that contains the task with a reminder to be removed.
-     * @return the new project.
+     * @param project Project that contains the task with a reminder to be removed.
+     * @return The new project.
      */
     public Project removeReminder(Project project) {
         Project newProject = project.removeReminder();
@@ -159,9 +162,9 @@ public class ProjectBook implements ReadOnlyProjectBook {
     /**
      * Remove the reminder of a trackedItem.
      *
-     * @param project project that contains the task with a reminder to be removed.
-     * @param task    task with a reminder to be removed.
-     * @return the new project.
+     * @param project Project that contains the task with a reminder to be removed.
+     * @param task    Task with a reminder to be removed.
+     * @return The new project.
      */
     public Project removeReminder(Project project, Task task) {
         Project newProject = project.removeReminder(task);
@@ -169,6 +172,7 @@ public class ProjectBook implements ReadOnlyProjectBook {
         LOGGER.info("Reminder of task of project removed: " + task.getName() + " " + project.getName());
         return newProject;
     }
+    //@@author
 
     public UniqueItemList<TrackedItem> getTrackedProjects() {
         return trackedProjects;

@@ -1,3 +1,4 @@
+//@@author boundtotheearth
 package seedu.momentum.model.timer;
 
 import java.time.temporal.ChronoUnit;
@@ -38,7 +39,9 @@ public class TimerWrapper {
     }
 
     /**
-     * Start the timer.
+     * Starts the timer.
+     *
+     * @return Return a new timerWrapper with the start time set to the current time.
      */
     public TimerWrapper start() {
         assert (!isRunning);
@@ -46,7 +49,9 @@ public class TimerWrapper {
     }
 
     /**
-     * Stop the timer.
+     * Stops the timer.
+     *
+     * @return Return a new timerWrapper with the end time set to the current time.
      */
     public TimerWrapper stop() {
         assert (isRunning);

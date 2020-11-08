@@ -1,3 +1,5 @@
+//@@author khoodehui
+
 package seedu.momentum.commons.core;
 
 import java.io.Serializable;
@@ -22,6 +24,8 @@ public class GuiThemeSettings implements Serializable {
 
     /**
      * Constructs a {@code GuiThemeSettings} with the specified theme.
+     *
+     * @param theme Theme to create the settings object with.
      */
     public GuiThemeSettings(Theme theme) {
         this.theme = theme;
@@ -29,6 +33,11 @@ public class GuiThemeSettings implements Serializable {
 
     public Theme getTheme() {
         return theme;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(theme);
     }
 
     @Override
@@ -43,11 +52,6 @@ public class GuiThemeSettings implements Serializable {
         GuiThemeSettings o = (GuiThemeSettings) other;
 
         return theme.equals(o.theme);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(theme);
     }
 
     @Override

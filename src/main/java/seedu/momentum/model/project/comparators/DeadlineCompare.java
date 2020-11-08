@@ -1,3 +1,4 @@
+//@@author kkangs0226
 package seedu.momentum.model.project.comparators;
 
 import java.util.Comparator;
@@ -14,9 +15,9 @@ public class DeadlineCompare implements Comparator<HashMap<String, Object>> {
     /**
      * Compares deadline of two tracked items.
      *
-     * @param p1 first tracked item to compare.
-     * @param p2 second tracked item to compare.
-     * @return integer values for comparison.
+     * @param p1 First tracked item to compare.
+     * @param p2 Second tracked item to compare.
+     * @return Integer values for comparison.
      */
     public int compare(HashMap<String, Object> p1, HashMap<String, Object> p2) {
         Deadline p1Deadline = (Deadline) p1.get("deadline");

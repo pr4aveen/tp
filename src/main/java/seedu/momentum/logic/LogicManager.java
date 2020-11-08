@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic;
 
 import java.io.IOException;
@@ -42,6 +44,9 @@ public class LogicManager implements Logic {
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
+     *
+     * @param model The model containing the data to be managed.
+     * @param storage The storage object that handles saving and loading the data associated with this instance.
      */
     public LogicManager(Model model, Storage storage) {
         this.model = model;
@@ -70,10 +75,7 @@ public class LogicManager implements Logic {
         return commandResult;
     }
 
-    public StatisticGenerator getStatistic() {
-        return statistic;
-    }
-
+    //@@author claracheong4
     @Override
     public BooleanProperty isReminderEmpty() {
         return model.isReminderEmpty();
@@ -84,6 +86,7 @@ public class LogicManager implements Logic {
         return model.getReminder();
     }
 
+    //@@author
     @Override
     public ReadOnlyProjectBook getProjectBook() {
         return model.getProjectBook();
@@ -104,6 +107,7 @@ public class LogicManager implements Logic {
         return model.getProjectBookFilePath();
     }
 
+    //@@author khoodehui
     @Override
     public GuiWindowSettings getGuiWindowSettings() {
         return model.getGuiWindowSettings();
@@ -119,14 +123,28 @@ public class LogicManager implements Logic {
         return model.getGuiThemeSettings();
     }
 
+    //@@author
+    @Override
+    public Set<Tag> getVisibleTags() {
+        return model.getVisibleTags();
+    }
+
+    //@@author claracheong4
+    @Override
+    public BooleanProperty getIsTagsVisible() {
+        return model.getIsTagsVisible();
+    }
+
+    //@@author khoodehui
     @Override
     public StatisticTimeframeSettings getStatisticTimeframeSettings() {
         return model.getStatisticTimeframeSettings();
     }
 
+    //@@author boundtotheearth
     @Override
-    public Set<Tag> getVisibleTags() {
-        return model.getVisibleTags();
+    public StatisticGenerator getStatistic() {
+        return statistic;
     }
 
     @Override
@@ -144,8 +162,4 @@ public class LogicManager implements Logic {
         return model.getCurrentProject();
     }
 
-    @Override
-    public BooleanProperty getIsTagsVisible() {
-        return model.getIsTagsVisible();
-    }
 }

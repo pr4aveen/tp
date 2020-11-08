@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -18,8 +20,8 @@ public class AddTaskCommand extends AddCommand {
     /**
      * Creates a new AddTaskCommand to add a task to a specified project.
      *
-     * @param task to be added to the project.
-     * @param project to add the task to.
+     * @param task To be added to the project.
+     * @param project To add the task to.
      */
     public AddTaskCommand(Task task, Project project) {
         super(project);
@@ -31,7 +33,7 @@ public class AddTaskCommand extends AddCommand {
      * Adds a task to the project in the provided model.
      *
      * @param model {@code Model} containing the project which the command will add the task to.
-     * @return feedback message of the result of adding for display.
+     * @return Feedback message of the result of adding for display.
      * @throws CommandException If an error occurs when adding the task.
      */
     @Override
@@ -44,7 +46,6 @@ public class AddTaskCommand extends AddCommand {
         Project projectBeforeAdd = project;
         Project projectAfterAdd = project.addTask(taskToAdd);
         model.setTrackedItem(projectBeforeAdd, projectAfterAdd);
-        model.rescheduleReminders();
         model.viewTasks(projectAfterAdd);
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_SUCCESS, TEXT_TASK, taskToAdd));

@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -14,7 +16,7 @@ public class ClearProjectCommand extends ClearCommand {
      * This only happens when the user is viewing all projects.
      *
      * @param model {@code Model} to remove projects from.
-     * @return feedback message of the operation result, for display.
+     * @return Feedback message of the operation result, for display.
      */
     @Override
     public CommandResult execute(Model model) {

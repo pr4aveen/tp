@@ -1,3 +1,4 @@
+//@@author boundtotheearth
 package seedu.momentum.storage;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -20,7 +21,11 @@ class JsonAdaptedTimer {
     private final Boolean isRunning;
 
     /**
-     * Constructs a {@code TimerWrapper} with the given duration details.
+     * Constructs a {@code JsonAdaptedTimer} with the given duration details.
+     *
+     * @param startTime Start time of the timer.
+     * @param stopTime Stop time of the timer.
+     * @param isRunning Whether the timer is running.
      */
     @JsonCreator
     public JsonAdaptedTimer(@JsonProperty("startTime") String startTime,
@@ -32,7 +37,9 @@ class JsonAdaptedTimer {
     }
 
     /**
-     * Converts a given {@code TimerWrapper} into this class for Jackson use.
+     * Converts a given {@code JsonTimerWrapper} into this class for Jackson use.
+     *
+     * @param source TimeWrapper object containing the relevant information.
      */
     public JsonAdaptedTimer(TimerWrapper source) {
         startTime = source.getStartTime().get().format(DateTimeUtil.FORMAT_DATA);
@@ -43,30 +50,16 @@ class JsonAdaptedTimer {
     /**
      * Converts this Jackson-friendly adapted duration object into the model's {@code TimerWrapper} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted timerWrapper.
+     * @return The converted TimerWrapper object.
+     * @throws IllegalValueException If there were any data constraints violated in the adapted timerWrapper.
      */
     public TimerWrapper toModelType() throws IllegalValueException {
-        if (startTime == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    DateTimeWrapper.class.getSimpleName()));
-        }
 
-        if (!DateTimeWrapper.isValid(startTime)) {
-            throw new IllegalValueException(DateTimeWrapper.MESSAGE_CONSTRAINTS);
-        }
+        final DateTimeWrapper modelStartDateTime =
+            JsonToModel.getModelDateTimeWrapper(startTime, MISSING_FIELD_MESSAGE_FORMAT);
 
-        final DateTimeWrapper modelStartDateTime = new DateTimeWrapper(startTime);
-
-        if (stopTime == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    DateTimeWrapper.class.getSimpleName()));
-        }
-
-        if (!DateTimeWrapper.isValid(stopTime)) {
-            throw new IllegalValueException(DateTimeWrapper.MESSAGE_CONSTRAINTS);
-        }
-
-        final DateTimeWrapper modelStopDateTime = new DateTimeWrapper(stopTime);
+        final DateTimeWrapper modelStopDateTime =
+            JsonToModel.getModelDateTimeWrapper(stopTime, MISSING_FIELD_MESSAGE_FORMAT);
 
         if (isRunning == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "isRunning"));

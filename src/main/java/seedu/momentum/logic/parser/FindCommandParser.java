@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.parser;
 
 import static java.util.Objects.requireNonNull;
@@ -27,7 +29,7 @@ import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.TagListContainsKeywordPredicate;
 
 /**
- * Parses input arguments and creates an appropriate FindCommand object
+ * Parses input arguments and creates an appropriate FindCommand object.
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
@@ -39,7 +41,10 @@ public class FindCommandParser implements Parser<FindCommand> {
      * Parses the given {@code String} of arguments in the context of the FindCommand,
      * and returns the corresponding FindCommand object for execution.
      *
-     * @throws ParseException if the user input does not conform the expected format.
+     * @param args Arguments to parse.
+     * @param model The current model, to provide context for parsing the arguments.
+     * @return A new find command with the parsed arguments.
+     * @throws ParseException If the user input does not conform the expected format.
      */
     public FindCommand parse(String args, Model model) throws ParseException {
         requireAllNonNull(args, model);
@@ -65,9 +70,9 @@ public class FindCommandParser implements Parser<FindCommand> {
     /**
      * Combines predicates using predicate chaining.
      *
-     * @param findType find type of the search.
-     * @param predicateList list of predicates to be combined.
-     * @return a predicate that is the combination of all predicates in the predicate list.
+     * @param findType Find type of the search.
+     * @param predicateList List of predicates to be combined.
+     * @return A predicate that is the combination of all predicates in the predicate list.
      */
     private Predicate<TrackedItem> combinePredicates(FindType findType, List<Predicate<TrackedItem>> predicateList) {
         requireAllNonNull(findType, predicateList);
@@ -92,11 +97,11 @@ public class FindCommandParser implements Parser<FindCommand> {
     /**
      * Parses a given prefix and returns a predicate corresponding to that prefix.
      *
-     * @param argMultimap argument multimap used for parsing.
-     * @param prefix prefix that is being parsed.
-     * @param predicateList list of predicates to add result to.
-     * @param findType find type used for the search.
-     * @throws ParseException if the syntax is invalid.
+     * @param argMultimap Argument multimap used for parsing.
+     * @param prefix Prefix that is being parsed.
+     * @param predicateList List of predicates to add result to.
+     * @param findType Find type used for the search.
+     * @throws ParseException If the syntax is invalid.
      */
     private void parseArguments (ArgumentMultimap argMultimap, Prefix prefix,
                                  List<Predicate<TrackedItem>> predicateList, FindType findType) throws ParseException {
@@ -133,9 +138,9 @@ public class FindCommandParser implements Parser<FindCommand> {
     /**
      * Converts a match type argument into a {@code FindType} object.
      *
-     * @param argMultimap argument multimap used for parsing.
+     * @param argMultimap Argument multimap used for parsing.
      * @return FindType enumeration corresponding to the argument.
-     * @throws ParseException if the match type argument is invalid.
+     * @throws ParseException If the match type argument is invalid.
      */
     private FindType getMatchType(ArgumentMultimap argMultimap) throws ParseException {
         requireNonNull(argMultimap);

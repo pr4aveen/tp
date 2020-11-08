@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.commons.core;
 
 import java.awt.Point;
@@ -47,6 +49,10 @@ public class GuiWindowSettings implements Serializable {
         return windowCoordinates != null ? new Point(windowCoordinates) : null;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(windowWidth, windowHeight, windowCoordinates);
+    }
 
     @Override
     public boolean equals(Object other) {
@@ -62,11 +68,6 @@ public class GuiWindowSettings implements Serializable {
         return windowWidth == o.windowWidth
                 && windowHeight == o.windowHeight
                 && Objects.equals(windowCoordinates, o.windowCoordinates);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(windowWidth, windowHeight, windowCoordinates);
     }
 
     @Override

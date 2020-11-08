@@ -33,9 +33,9 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
      * @param deadline           A deadline associated with the project.
      * @param reminder           A reminder associated with the tracked item.
      * @param tags               A set of tags associated to the project.
-     * @param durations          A list of {@code WorkDuration} associated with the project.
+     * @param durations          A list of durations spent working on the project.
      * @param timerWrapper       A timerWrapper associated with the project.
-     * @param taskList           UniqueTrackedListList associated with the project.
+     * @param taskList           UniqueItemList associated with the project.
      */
     public Project(Name name, Description description, CompletionStatus completionStatus,
                    DateWrapper createdDateWrapper, Deadline deadline, Reminder reminder, Set<Tag> tags,
@@ -56,7 +56,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
      * @param deadline           A deadline associated with the project.
      * @param reminder           A reminder associated with the tracked item.
      * @param tags               A set of tags associated to the project.
-     * @param durations          A list of {@code WorkDuration} associated with the project.
+     * @param durations          A list of durations spent working on the project.
      * @param timerWrapper       A timerWrapper associated with the project.
      */
     public Project(Name name, Description description, CompletionStatus completionStatus,
@@ -84,6 +84,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
         taskList = new UniqueItemList<>();
     }
 
+    //@@author boundtotheearth
     /**
      * Returns a copy of this project with its timerWrapper started.
      *
@@ -114,10 +115,11 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
                 newDurations, newTimerWrapper, taskList);
     }
 
+    //@@author kkangs0226
     /**
      * Adds a task in the {@code Project}'s {@code UniqueTrackedItemList}.
      *
-     * @param task task to be added.
+     * @param task Task to be added.
      * @return A copy of this project, but with task added.
      */
     public Project addTask(TrackedItem task) {
@@ -130,19 +132,9 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
     }
 
     /**
-     * Checks whether a task is in the {@code Project}'s {@code UniqueTrackedItemList}.
-     *
-     * @param task task that needs to be checked.
-     */
-    public boolean hasTask(TrackedItem task) {
-        requireNonNull(task);
-        return taskList.contains(task);
-    }
-
-    /**
      * Deletes a task in the {@code Project}'s {@code UniqueTrackedItemList}.
      *
-     * @param task task to be deleted.
+     * @param task Task to be deleted.
      * @return A copy of this project, but with task removed.
      */
     public Project deleteTask(TrackedItem task) {
@@ -151,14 +143,15 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
         UniqueItemList<TrackedItem> newList = taskList.copy();
         newList.remove(task);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
-                tags, durations, timerWrapper, newList);
+            tags, durations, timerWrapper, newList);
     }
 
     /**
      * Edits a task is in the {@code Project}'s {@code UniqueTrackedItemList} and returns new Project.
      *
-     * @param target     task to be replaced.
-     * @param editedTask task to replace the original task with.
+     * @param target     Task to be replaced.
+     * @param editedTask Task to replace the original task with.
+     * @return A new copy of the project with the task replaced.
      */
     public Project setTask(TrackedItem target, TrackedItem editedTask) {
         requireAllNonNull(target, editedTask);
@@ -166,11 +159,28 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
         UniqueItemList<TrackedItem> newList = taskList.copy();
         newList.set(target, editedTask);
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
-                tags, durations, timerWrapper, newList);
+            tags, durations, timerWrapper, newList);
     }
 
+    //@@author pr4aveen
+    /**
+     * Checks whether a task is in the {@code Project}'s {@code UniqueTrackedItemList}.
+     *
+     * @param task Task that needs to be checked.
+     * @return True if the task exists in the project, false otherwise.
+     */
+    public boolean hasTask(TrackedItem task) {
+        requireNonNull(task);
+        return taskList.contains(task);
+    }
+
+
+
+    //@@author boundtotheearth
     /**
      * Removes all tasks belonging to this project.
+     *
+     * @return A new copy of the project with all tasks deleted.
      */
     public Project clearTasks() {
         UniqueItemList<TrackedItem> newList = new UniqueItemList<>();
@@ -178,6 +188,7 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder,
                 tags, durations, timerWrapper, newList);
     }
+    //@@author
 
     public ObservableList<TrackedItem> getTaskList() {
         return taskList.asUnmodifiableObservableList();
@@ -186,6 +197,9 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
     /**
      * Returns true if both tracked item of the same name have at least one other identity field that is the same.
      * This defines a weaker notion of equality between two projects.
+     *
+     * @param otherTrackedItem Item to check against.
+     * @return True if the both tracked items are the same, false otherwise.
      */
     @Override
     public boolean isSameAs(TrackedItem otherTrackedItem) {
@@ -196,8 +210,11 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
         return super.isSameAs(otherTrackedItem);
     }
 
+    //@@author claracheong4
     /**
      * Reschedule all reminders in the task list.
+     *
+     * @param reminderManager The reminder manager associated with the model of the project.
      */
     public void rescheduleReminder(ReminderManager reminderManager) {
         for (TrackedItem task : taskList) {
@@ -214,6 +231,9 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
 
     /**
      * Remove the reminder of a trackedItem.
+     *
+     * @param task The task to remove the reminder from.
+     * @return A new copy of the project with the reminder removed from the task.
      */
     public Project removeReminder(Task task) {
         Task newTask = task.removeReminder();
@@ -236,8 +256,11 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
                 durations, timerWrapper, newTaskList);
     }
 
+    //@@author pr4aveen
     /**
-     * Returns true if the instance is a Task. Returns false otherwise.
+     * Checks whether the instance is a Task.
+     *
+     * @return True if the instance is a Task. Returns false otherwise
      */
     @Override
     public boolean isTask() {
@@ -247,6 +270,9 @@ public class Project extends TrackedItem implements UniqueItem<TrackedItem> {
     /**
      * Returns true if both tracked items have the same identity and data fields.
      * This defines a stronger notion of equality between two tracked items.
+     *
+     * @param other Other object to check against.
+     * @return True if the object is the same as this project, false otherwise.
      */
     @Override
     public boolean equals(Object other) {

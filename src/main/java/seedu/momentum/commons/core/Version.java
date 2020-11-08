@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.commons.core;
 
 import java.util.regex.Matcher;
@@ -32,24 +34,9 @@ public class Version implements Comparable<Version> {
         this.isEarlyAccess = isEarlyAccess;
     }
 
-    public int getMajor() {
-        return major;
-    }
-
-    public int getMinor() {
-        return minor;
-    }
-
-    public int getPatch() {
-        return patch;
-    }
-
-    public boolean isEarlyAccess() {
-        return isEarlyAccess;
-    }
-
     /**
      * Parses a version number string in the format V1.2.3.
+     *
      * @param versionString version number string
      * @return a Version object
      */
@@ -64,7 +51,41 @@ public class Version implements Comparable<Version> {
         return new Version(Integer.parseInt(versionMatcher.group(1)),
                 Integer.parseInt(versionMatcher.group(2)),
                 Integer.parseInt(versionMatcher.group(3)),
-                versionMatcher.group(4) == null ? false : true);
+                versionMatcher.group(4) != null);
+    }
+
+    public int getMajor() {
+        return major;
+    }
+
+    public int getMinor() {
+        return minor;
+    }
+
+    public int getPatch() {
+        return patch;
+    }
+
+    @Override
+    public int hashCode() {
+        String hash = String.format("%03d%03d%03d", major, minor, patch);
+        if (!isEarlyAccess) {
+            hash = "1" + hash;
+        }
+        return Integer.parseInt(hash);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Version)) {
+            return false;
+        }
+        final Version other = (Version) obj;
+
+        return compareTo(other) == 0;
     }
 
     @JsonValue
@@ -92,25 +113,7 @@ public class Version implements Comparable<Version> {
         return 1;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Version)) {
-            return false;
-        }
-        final Version other = (Version) obj;
-
-        return compareTo(other) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        String hash = String.format("%03d%03d%03d", major, minor, patch);
-        if (!isEarlyAccess) {
-            hash = "1" + hash;
-        }
-        return Integer.parseInt(hash);
+    public boolean isEarlyAccess() {
+        return isEarlyAccess;
     }
 }

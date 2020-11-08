@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 
 /**
- * A ui for the status bar that is displayed at the header of the application.
+ * A UI for the status bar that is displayed at the header of the application.
  */
 public class BottomBar extends UiPart<Region> {
 
@@ -24,8 +24,8 @@ public class BottomBar extends UiPart<Region> {
     /**
      * Creates a bottom bar for the project view.
      *
-     * @param totalVisible number of visible projects in the project book.
-     * @param totalItems total number of projects in the project book.
+     * @param totalVisible Number of visible projects in the project book.
+     * @param totalItems Total number of projects in the project book.
      */
     public BottomBar(int totalVisible, int totalItems) {
         super(FXML);
@@ -36,9 +36,9 @@ public class BottomBar extends UiPart<Region> {
     /**
      * Creates a bottom bar for the task view.
      *
-     * @param totalVisible number of visible tasks in the specified project.
-     * @param totalItems total number of tasks in the project book.
-     * @param projectName currently viewed project.
+     * @param totalVisible Number of visible tasks in the specified project.
+     * @param totalItems Total number of tasks in the project book.
+     * @param projectName Currently viewed project.
      */
     public BottomBar(int totalVisible, int totalItems, String projectName) {
         super(FXML);

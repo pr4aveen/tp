@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.logic.statistic;
 
 import java.time.temporal.ChronoUnit;
@@ -13,7 +15,7 @@ import seedu.momentum.model.Model;
 /**
  * Manages all the statistics being tracked in Momentum.
  * This class contains the specifications of statistics being tracked by the app,
- * and methods to generate those statistics
+ * and methods to generate those statistics.
  */
 public class StatisticManager implements StatisticGenerator {
     private static final Logger LOGGER = LogsCenter.getLogger(StatisticManager.class);
@@ -59,10 +61,12 @@ public class StatisticManager implements StatisticGenerator {
         }
     }
 
+    //@@author khoodehui
     @Override
     public void updateStatisticTimeframe(StatisticTimeframe timeframe) {
         totalTimePerProjectStatistic.setTimeframe(timeframe);
     }
+    //@@author
 
     @Override
     public ObservableList<StatisticEntry> getTimePerProjectStatistic() {
