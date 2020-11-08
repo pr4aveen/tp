@@ -274,15 +274,19 @@ The find command uses predicate chaining to search for projects/tasks based on o
 * `TagListContainsKeywordPredicate` - Searches for projects/tasks based on tags.
 * `CompletionStatusPredicate` - Searches for projects/tasks based on completion status.
 
-Each of these predicate classes extends the `ContainsKeywordPredicate` class. The `ContainsKeywordPredicate` has a `testPredicate` method that is used or overridden by the subclasses. This method is used to test predicates based on the `FindType`. 
+Each of these predicate classes extends the `ContainsKeywordPredicate` class which implements the `Predicate` interface. Each of these predicate classes takes in a match type, represented by the enumeration `FindType`.
 
-The following class diagram shows the structure of the aforementioned predicate classes.
+The `ContainsKeywordPredicate` has a `testPredicate` method that is used or overridden by the subclasses. This method is used to test predicates based on the `FindType`. 
+
+The following class diagram shows the structure of the aforementioned classes.
 
 ![PredicateClassDiagram](images/PredicateClassDiagram.png)
 
-The `FindCommandParser` creates a list of predicates based on the arguments entered into the command. Each predicate takes in a match type, represented by the enumeration `FindType`.
+The `FindCommandParser` creates a list of predicates based on the arguments entered into the command. `FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem> predicate`. The `FindCommand` will pass `predicate` into `Model#updatePredicate` to update the `displayList` once executed.
 
-`FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem> predicate`. The `FindCommand` will pass `predicate` into `Model#updatePredicate` to update the `displayList`.
+The following sequence diagram shows how the `FindCommandParser`works. Note that some details have been omitted from the diagram below.
+
+![FindCommandParserSequenceDiagram](images/FindCommandParserSequenceDiagram.png)
 
 The process of creating and chaining predicates varies based on the `FindType` selected. The following activity diagrams show this process for each `FindType`.
 
@@ -290,17 +294,15 @@ The process of creating and chaining predicates varies based on the `FindType` s
 |:---:|:---:|:---:|
 |Find Any|Find All|Find None|
 
-This design was chosen as it built on the existing implementation of the find command, which passed a `NameContainsKeywordPredicate` to the `filteredTrackedItemsList`. This means that minimal changes to other parts of the project were required. 
+Note that `FindType.NONE` uses the logical AND when combining predicates. This is because individual predicates test for a negative match result. These negative results need to be chained together using the logical AND because a negative match requires a project to not match every keyword.
 
-The following sequence diagram shows how the `FindCommandParser`works.
-
-![FindCommandParserSequenceDiagram](images/FindCommandParserSequenceDiagram.png)
+This design was chosen as it built on the existing implementation of the find command, which passed a `NameContainsKeywordPredicate` to the `displayList`. This means that minimal changes to other parts of the project were required. 
 
 #### Rejected implementation: Using a custom predicate class
 
 We considered using a custom predicate class to contain all predicates in a separate `MomentumPrediate` interface.
 
-This implementation was ultimately rejected as it introduced unnecessary complexities with Predicate chaining. The `MomentumPredicate` interface will need to override `Predicate#and` and `Predicate#or` with our custom implmentation. 
+This implementation was ultimately rejected as it introduced unnecessary complexities with Predicate chaining. The `MomentumPredicate` interface will need to override `Predicate#and` and `Predicate#or` with our custom implementation. 
 
 ### \[Proposed\] Undo/redo feature
 
