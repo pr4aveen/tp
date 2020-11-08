@@ -1,3 +1,4 @@
+//@@author claracheong4
 package seedu.momentum.model.project;
 
 import static java.util.Objects.requireNonNull;
@@ -19,13 +20,7 @@ import seedu.momentum.commons.core.TimeWrapper;
  */
 public class Deadline implements Comparable<Deadline> {
 
-    /**
-     * The constant CREATED_DATE_MESSAGE_CONSTRAINT.
-     */
     public static final String CREATED_DATE_MESSAGE_CONSTRAINT = "Date of deadline cannot be earlier than created date";
-    /**
-     * The constant MESSAGE_CONSTRAINTS.
-     */
     public static final String MESSAGE_CONSTRAINTS = DateWrapper.MESSAGE_CONSTRAINTS + "\n"
             + TimeWrapper.MESSAGE_CONSTRAINTS + "\n"
             + CREATED_DATE_MESSAGE_CONSTRAINT;
@@ -74,9 +69,9 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Returns true if the dateWrapper is after or on the created dateWrapper, false otherwise.
      *
-     * @param dateStr     A string to be parsed as a dateWrapper.
+     * @param dateStr            A string to be parsed as a dateWrapper.
      * @param createdDateWrapper A created dateWrapper.
-     * @return the isBeforeCreatedDate boolean.
+     * @return The isBeforeCreatedDate boolean.
      */
     public static boolean isBeforeCreatedDate(String dateStr, DateWrapper createdDateWrapper) {
         DateWrapper dateWrapper = new DateWrapper(dateStr);
@@ -86,7 +81,7 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Returns true if the deadline is empty, false otherwise.
      *
-     * @return the isEmpty boolean.
+     * @return The isEmpty boolean.
      */
     public boolean isEmpty() {
         return this.dateWrapper.isEmpty();
@@ -95,7 +90,7 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Gets dateWrapper of a deadline.
      *
-     * @return the dateWrapper.
+     * @return The dateWrapper.
      * @throws NoSuchElementException If there is no dateWrapper.
      */
     public DateWrapper getDate() throws NoSuchElementException {
@@ -105,7 +100,7 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Returns true if the deadline has a timeWrapper, false otherwise.
      *
-     * @return the hasTime boolean.
+     * @return The hasTime boolean.
      */
     public boolean hasTime() {
         return this.timeWrapper.isPresent();
@@ -114,7 +109,7 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Gets timeWrapper of a deadline.
      *
-     * @return the timeWrapper.
+     * @return The timeWrapper.
      * @throws NoSuchElementException If there is no timeWrapper.
      */
     public TimeWrapper getTime() throws NoSuchElementException {
@@ -124,7 +119,7 @@ public class Deadline implements Comparable<Deadline> {
     /**
      * Gets formatted deadline.
      *
-     * @return the formatted deadline.
+     * @return The formatted deadline.
      */
     public String getFormattedDeadline() {
         return this.dateWrapper.map(DateWrapper::getFormatted).orElse("No deadline set")
@@ -159,6 +154,7 @@ public class Deadline implements Comparable<Deadline> {
         return Objects.hash(this.dateWrapper, this.timeWrapper);
     }
 
+    //@@author kkangs0226
     @Override
     public int compareTo(Deadline other) {
         DateWrapper thisDateWrapper = this.getDate();
@@ -168,16 +164,16 @@ public class Deadline implements Comparable<Deadline> {
             return -1;
         } else if (thisDateWrapper.get().isAfter(otherDateWrapper.get())) {
             return 1;
-        } else {
-            return sameDateCompare(other);
         }
+        return sameDateCompare(other);
     }
+
 
     /**
      * Compares timeWrapper of two deadlines with same dateWrapper.
      *
-     * @param other other deadline.
-     * @return integer to indicate order.
+     * @param other Other deadline.
+     * @return Integer to indicate order.
      */
     private int sameDateCompare(Deadline other) {
         if (!this.hasTime() && other.hasTime()) {
@@ -188,9 +184,8 @@ public class Deadline implements Comparable<Deadline> {
             TimeWrapper thisTimeWrapper = this.getTime();
             TimeWrapper otherTimeWrapper = other.getTime();
             return thisTimeWrapper.compareTo(otherTimeWrapper);
-        } else {
-            return 0;
         }
+        return 0;
     }
-
+    //@@author
 }

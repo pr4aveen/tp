@@ -1,3 +1,4 @@
+//@@author boundtotheearth
 package seedu.momentum.storage;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -20,6 +21,9 @@ class JsonAdaptedWorkDuration {
 
     /**
      * Constructs a {@code JsonAdaptedWorkDuration} with the given duration details.
+     *
+     * @param startTime Start time of the work duration.
+     * @param stopTime Stop time of the work duration.
      */
     @JsonCreator
     public JsonAdaptedWorkDuration(@JsonProperty("startTime") String startTime,
@@ -30,6 +34,8 @@ class JsonAdaptedWorkDuration {
 
     /**
      * Converts a given {@code WorkDuration} into this class for Jackson use.
+     *
+     * @param source WorkDuration object containing the start and stop times.
      */
     public JsonAdaptedWorkDuration(WorkDuration source) {
         startTime = source.getStartTime().get().format(DateTimeUtil.FORMAT_DATA);
@@ -39,30 +45,15 @@ class JsonAdaptedWorkDuration {
     /**
      * Converts this Jackson-friendly adapted duration object into the model's {@code WorkDuration} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted duration.
+     * @return The converted WorkDuration object.
+     * @throws IllegalValueException If there were any data constraints violated in the adapted duration.
      */
     public WorkDuration toModelType() throws IllegalValueException {
-        if (startTime == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    DateTimeWrapper.class.getSimpleName()));
-        }
+        final DateTimeWrapper modelStartDateTime =
+            JsonToModel.getModelDateTimeWrapper(startTime, MISSING_FIELD_MESSAGE_FORMAT);
 
-        if (!DateTimeWrapper.isValid(startTime)) {
-            throw new IllegalValueException(DateTimeWrapper.MESSAGE_CONSTRAINTS);
-        }
-
-        final DateTimeWrapper modelStartDateTime = new DateTimeWrapper(startTime);
-
-        if (stopTime == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    DateTimeWrapper.class.getSimpleName()));
-        }
-
-        if (!DateTimeWrapper.isValid(stopTime)) {
-            throw new IllegalValueException(DateTimeWrapper.MESSAGE_CONSTRAINTS);
-        }
-
-        final DateTimeWrapper modelStopDateTime = new DateTimeWrapper(stopTime);
+        final DateTimeWrapper modelStopDateTime =
+            JsonToModel.getModelDateTimeWrapper(stopTime, MISSING_FIELD_MESSAGE_FORMAT);
 
         return new WorkDuration(modelStartDateTime, modelStopDateTime);
     }

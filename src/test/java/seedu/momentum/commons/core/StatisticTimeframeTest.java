@@ -55,7 +55,7 @@ public class StatisticTimeframeTest {
         assertTrue(DAILY_TIMEFRAME.equals(new StatisticTimeframe(StatisticTimeframe.Timeframe.DAILY)));
 
         // different types -> returns false
-        assertFalse(DAILY_TIMEFRAME.equals("hello"));
+        assertFalse(DAILY_TIMEFRAME.equals(3));
 
         // null -> return false
         assertFalse(DAILY_TIMEFRAME.equals(null));

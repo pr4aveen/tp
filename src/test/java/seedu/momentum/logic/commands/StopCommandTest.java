@@ -90,9 +90,9 @@ public class StopCommandTest {
 
         TrackedItem stoppedTrackedItem = startedTrackedItem.stopTimer();
         expectedModel.setTrackedItem(startedTrackedItem, stoppedTrackedItem);
-        expectedModel.commitToHistory();
-
         showProjectAtIndex(expectedModel, INDEX_FIRST);
+
+        expectedModel.commitToHistory();
 
         assertCommandSuccess(stopCommand, model, expectedMessage, expectedModel);
         Clock.reset();

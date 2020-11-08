@@ -1,3 +1,4 @@
+//@@author khoodehui
 package seedu.momentum.testutil;
 
 import seedu.momentum.commons.core.StatisticTimeframe;
@@ -20,7 +21,9 @@ public class SettingsToChangeBuilder {
     }
 
     /**
-     * Sets the {@code Theme} of the {@code EditTrackedItemDescriptor} that we are building.
+     * Sets the {@code Theme} of the {@code SettingsToChangeBuilder} that we are building.
+     *
+     * @param theme Theme to set to the list of settings.
      */
     public SettingsToChangeBuilder withTheme(String theme) {
         settingsToChange.setTheme(new Theme(theme));
@@ -28,7 +31,9 @@ public class SettingsToChangeBuilder {
     }
 
     /**
-     * Sets the {@code StatisticTimeframe} of the {@code EditTrackedItemDescriptor} that we are building.
+     * Sets the {@code StatisticTimeframe} of the {@code SettingsToChangeBuilder} that we are building.
+     *
+     * @param timeframe Timeframe to set to the list of settings.
      */
     public SettingsToChangeBuilder withStatisticTimeframe(String timeframe) {
         settingsToChange.setStatTimeframe(new StatisticTimeframe(timeframe));

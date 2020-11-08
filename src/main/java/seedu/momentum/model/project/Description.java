@@ -1,10 +1,11 @@
+//@@author kkangs0226
 package seedu.momentum.model.project;
 
 import static java.util.Objects.requireNonNull;
 
 /**
  * Represent a description in Momentum.
- * Guarantees: immutable;
+ * Guarantees: immutable.
  */
 public class Description {
 
@@ -16,7 +17,7 @@ public class Description {
     /**
      * Constructs an {@code Description}.
      *
-     * @param description A description.
+     * @param description The description.
      */
     public Description(String description) {
         requireNonNull(description);

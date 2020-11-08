@@ -1,7 +1,8 @@
+//@@author kkangs0226
 package seedu.momentum.testutil;
 
 import seedu.momentum.logic.commands.SortCommand;
-import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.comparators.SortType;
 
 /**
  * Contains helper {@SortCommand} for testing {@code SortCommand} methods.
