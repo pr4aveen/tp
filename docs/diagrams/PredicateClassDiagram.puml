@@ -41,9 +41,6 @@ Class TagListContainsKeywordPredicate MODEL_COLOR {
     +equals() : boolean
 }
 Class CompletionStatusPredicate MODEL_COLOR {
-    #List<String> : keywords
-    #FindType : findType
-
     #isValid() : boolean
     #testPredicate() : boolean
     +test() : boolean
