@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +35,6 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.SortType;
-import seedu.momentum.model.project.predicates.MomentumPredicate;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
 
@@ -246,7 +246,7 @@ public class AddProjectCommandTest {
         }
 
         @Override
-        public void updatePredicate(MomentumPredicate predicate) {
+        public void updatePredicate(Predicate<TrackedItem> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -364,7 +364,7 @@ public class AddProjectCommandTest {
     private class ModelStubSetModelManager extends ModelStubAcceptingProjectAdded {
         private ViewMode viewMode = ViewMode.PROJECTS;
         private Project currentProject = null;
-        private MomentumPredicate currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
+        private Predicate<TrackedItem> currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
         private Comparator<TrackedItem> currentComparator = null;
         private boolean isTagsVisible = true;
         private UserPrefs userPrefs = new UserPrefs();

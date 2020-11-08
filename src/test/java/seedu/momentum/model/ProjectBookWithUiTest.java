@@ -18,7 +18,6 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.NameCompare;
 import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.FindType;
-import seedu.momentum.model.project.predicates.MomentumPredicate;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class ProjectBookWithUiTest {
@@ -125,7 +124,7 @@ public class ProjectBookWithUiTest {
         assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
 
         // different predicate -> returns false
-        MomentumPredicate completePredicate =
+        Predicate<TrackedItem> completePredicate =
             new CompletionStatusPredicate(FindType.ALL, Arrays.asList(CompletionStatusPredicate.INCOMPLETE_KEYWORD));
         differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
                 otherProject, completePredicate, NAME_COMPARE, true, USER_PREFS);

@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import seedu.momentum.model.project.TrackedItem;
+
 /**
  * Abstract class for all predicates that rely on the FindType. Contains the logic to test
  * predicates based on FindType.
  */
-public abstract class ContainsKeywordPredicate implements MomentumPredicate {
+public abstract class ContainsKeywordPredicate implements Predicate<TrackedItem> {
     protected final List<String> keywords;
     protected final FindType findType;
 
@@ -57,12 +59,7 @@ public abstract class ContainsKeywordPredicate implements MomentumPredicate {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ContainsKeywordPredicate) // instanceof handles nulls
-                && isSamePredicate((MomentumPredicate) other);
-    }
-
-    @Override
-    public boolean isSamePredicate(MomentumPredicate other) {
-        return keywords.equals(((ContainsKeywordPredicate) other).keywords) // state check
+                && keywords.equals(((ContainsKeywordPredicate) other).keywords) // state check
                 && findType == ((ContainsKeywordPredicate) other).findType;
     }
 }

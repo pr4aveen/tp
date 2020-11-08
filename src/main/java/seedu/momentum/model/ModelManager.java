@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +35,6 @@ import seedu.momentum.model.project.comparators.CreatedDateCompare;
 import seedu.momentum.model.project.comparators.DeadlineCompare;
 import seedu.momentum.model.project.comparators.NameCompare;
 import seedu.momentum.model.project.comparators.SortType;
-import seedu.momentum.model.project.predicates.MomentumPredicate;
 import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.model.tag.Tag;
 
@@ -47,7 +47,7 @@ public class ModelManager implements Model {
     private final VersionedProjectBook versionedProjectBook;
     private final ReminderManager reminderManager;
     private final ObservableList<TrackedItem> runningTimers;
-    private MomentumPredicate currentPredicate;
+    private Predicate<TrackedItem> currentPredicate;
     private SortType currentSortType;
     private boolean isCurrentSortAscending;
     private boolean isCurrentSortByCompletionStatus;
@@ -318,7 +318,7 @@ public class ModelManager implements Model {
 
     //@@author pr4aveen
     @Override
-    public void updatePredicate(MomentumPredicate predicate) {
+    public void updatePredicate(Predicate<TrackedItem> predicate) {
         requireNonNull(predicate);
         currentPredicate = predicate;
         updateDisplayList();

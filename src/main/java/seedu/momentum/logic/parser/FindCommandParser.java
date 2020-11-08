@@ -15,16 +15,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BinaryOperator;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import seedu.momentum.logic.commands.FindCommand;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
-import seedu.momentum.model.project.predicates.AlwaysTruePredicate;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.FindType;
-import seedu.momentum.model.project.predicates.MomentumPredicate;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.model.project.predicates.TagListContainsKeywordPredicate;
 
@@ -58,7 +58,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         FindType findType = getMatchType(argMultimap); // only parses find type if the argument exists.
-        List<MomentumPredicate> predicateList = new ArrayList<>(); // list of all predicates that will be applied.
+        List<Predicate<TrackedItem>> predicateList = new ArrayList<>(); // list of all predicates that will be applied.
 
         for (Prefix prefix : prefixesToParse) {
             parseArguments(argMultimap, prefix, predicateList, findType);
@@ -74,24 +74,24 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @param predicateList List of predicates to be combined.
      * @return A predicate that is the combination of all predicates in the predicate list.
      */
-    private MomentumPredicate combinePredicates(FindType findType, List<MomentumPredicate> predicateList) {
+    private Predicate<TrackedItem> combinePredicates(FindType findType, List<Predicate<TrackedItem>> predicateList) {
         requireAllNonNull(findType, predicateList);
-        BinaryOperator<MomentumPredicate> operationType;
+        BinaryOperator<Predicate<TrackedItem>> operationType;
         switch (findType) {
         case NONE:
             // Find none needs the logical 'and' of individual predicates.
         case ALL:
-            operationType = (a, b) -> (MomentumPredicate) a.and(b);
+            operationType = Predicate::and;
             break;
         case ANY:
             // Find any is the default find type.
             // Fallthrough.
         default:
-            operationType = (a, b) -> (MomentumPredicate) a.or(b);
+            operationType = Predicate::or;
             break;
         }
 
-        return predicateList.stream().reduce(operationType).orElseGet(AlwaysTruePredicate::new);
+        return predicateList.stream().reduce(operationType).orElse(x -> true);
     }
 
     /**
@@ -104,7 +104,7 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @throws ParseException If the syntax is invalid.
      */
     private void parseArguments (ArgumentMultimap argMultimap, Prefix prefix,
-                                 List<MomentumPredicate> predicateList, FindType findType) throws ParseException {
+                                 List<Predicate<TrackedItem>> predicateList, FindType findType) throws ParseException {
 
         requireAllNonNull(argMultimap, predicateList, predicateList, findType);
 

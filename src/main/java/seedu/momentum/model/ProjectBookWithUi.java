@@ -3,10 +3,10 @@ package seedu.momentum.model;
 
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.predicates.MomentumPredicate;
 
 /**
  * Represents a project book with additional information on how the data is displayed to the UI.
@@ -15,7 +15,7 @@ public class ProjectBookWithUi extends ProjectBook {
 
     private final ViewMode viewMode;
     private final Project project;
-    private final MomentumPredicate predicate;
+    private final Predicate<TrackedItem> predicate;
     private final Comparator<TrackedItem> comparator;
     private final boolean isTagsVisible;
     private final ReadOnlyUserPrefs userPrefs;
@@ -32,7 +32,7 @@ public class ProjectBookWithUi extends ProjectBook {
      * @param userPrefs Current user preferences in the application.
      */
     public ProjectBookWithUi(ReadOnlyProjectBook projectBook, ViewMode viewMode, Project project,
-                             MomentumPredicate predicate, Comparator<TrackedItem> comparator,
+                             Predicate<TrackedItem> predicate, Comparator<TrackedItem> comparator,
                              boolean isTagsVisible, ReadOnlyUserPrefs userPrefs) {
         super(projectBook);
         this.viewMode = viewMode;
@@ -51,7 +51,7 @@ public class ProjectBookWithUi extends ProjectBook {
         return project;
     }
 
-    public MomentumPredicate getPredicate() {
+    public Predicate<TrackedItem> getPredicate() {
         return predicate;
     }
 
@@ -82,8 +82,6 @@ public class ProjectBookWithUi extends ProjectBook {
                 && viewMode.equals(o.getViewMode())
                 && (Objects.equals(project, o.getProject()))
                 && isTagsVisible == o.isTagsVisible()
-                && userPrefs.equals(o.getUserPrefs())
-                && predicate.isSamePredicate(o.getPredicate());
-
+                && userPrefs.equals(o.getUserPrefs());
     }
 }

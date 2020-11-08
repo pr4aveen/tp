@@ -34,16 +34,9 @@ public class NameContainsKeywordsPredicate extends ContainsKeywordPredicate {
     }
 
     @Override
-    public boolean isSamePredicate(MomentumPredicate other) {
-        return other == this // short circuit if same object
-                || (other instanceof NameContainsKeywordsPredicate) // instanceof handles nulls
-                && super.isSamePredicate(other);
-    }
-
-    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || ((other instanceof NameContainsKeywordsPredicate) // instanceof handles nulls
-                && isSamePredicate((MomentumPredicate) other));
+                && super.equals(other));
     }
 }
