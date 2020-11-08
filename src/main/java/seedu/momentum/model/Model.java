@@ -2,7 +2,6 @@ package seedu.momentum.model;
 
 import java.nio.file.Path;
 import java.util.Set;
-import java.util.function.Predicate;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -15,6 +14,8 @@ import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.SortType;
+import seedu.momentum.model.project.predicates.AlwaysTruePredicate;
+import seedu.momentum.model.project.predicates.MomentumPredicate;
 import seedu.momentum.model.tag.Tag;
 
 /**
@@ -25,7 +26,7 @@ public interface Model {
      * {@code Predicate} that always evaluate to true.
      * Used to show all items.
      */
-    Predicate<TrackedItem> PREDICATE_SHOW_ALL_TRACKED_ITEMS = unused -> true;
+    MomentumPredicate PREDICATE_SHOW_ALL_TRACKED_ITEMS = new AlwaysTruePredicate();
 
     //=========== UserPrefs ==================================================================================
     /**
@@ -212,7 +213,7 @@ public interface Model {
      * @param predicate Predicate to be used on the filtered list.
      * @throws NullPointerException If {@code predicate} is null.
      */
-    void updatePredicate(Predicate<TrackedItem> predicate);
+    void updatePredicate(MomentumPredicate predicate);
 
     //=========== Reminders ==================================================================================
     //@@author claracheong4

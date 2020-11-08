@@ -1,4 +1,4 @@
-package seedu.momentum.model.project;
+package seedu.momentum.model.timer;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,35 +8,12 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.DateTimeWrapper;
-import seedu.momentum.model.timer.WorkDuration;
 import seedu.momentum.testutil.TypicalWorkDuration;
 
 public class WorkDurationTest {
 
     @Test
     public void isSameDuration() {
-        // different phone and email -> returns false
-        //        new ProjectBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).build();
-        //        assertFalse(ALICE.isSameProject(editedAlice));
-
-        // different name -> returns false
-        //        Project editedAlice = editedAlice = new ProjectBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        //        assertFalse(ALICE.isSameProject(editedAlice));
-
-        // same name, same phone, different attributes -> returns true
-        //        editedAlice = new ProjectBuilder(ALICE).withEmail(VALID_EMAIL_BOB)
-        //                .withTags(VALID_TAG_HUSBAND).build();
-        //        assertTrue(ALICE.isSameProject(editedAlice));
-
-        // same name, same email, different attributes -> returns true
-        //        editedAlice = new ProjectBuilder(ALICE).withPhone(VALID_PHONE_BOB)
-        //                .withTags(VALID_TAG_HUSBAND).build();
-        //        assertTrue(ALICE.isSameProject(editedAlice));
-
-        // same name, same phone, same email, different attributes -> returns true
-        //        editedAlice = new ProjectBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
-        //        assertTrue(ALICE.isSameProject(editedAlice));
-
         // same values -> returns true
         WorkDuration durationCopy = new WorkDuration(TypicalWorkDuration.DURATION_ONE_DAY.getStartTime(),
                 TypicalWorkDuration.DURATION_ONE_DAY.getStopTime());

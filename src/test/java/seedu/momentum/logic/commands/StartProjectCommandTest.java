@@ -75,6 +75,7 @@ public class StartProjectCommandTest {
         ModelManager expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         TrackedItem startedTrackedItem = trackedItemToStart.startTimer();
         expectedModel.setTrackedItem(trackedItemToStart, startedTrackedItem);
+        showProjectAtIndex(expectedModel, INDEX_FIRST);
         expectedModel.commitToHistory();
 
         StartCommand startCommand = new StartProjectCommand(INDEX_FIRST);
@@ -82,7 +83,6 @@ public class StartProjectCommandTest {
                 String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST.getOneBased())
                         + startedTrackedItem.getTimer().getStartTime().getFormatted();
 
-        showProjectAtIndex(expectedModel, INDEX_FIRST);
 
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);
         Clock.reset();

@@ -19,7 +19,7 @@ import seedu.momentum.ui.Ui;
  * Class that helps to update application interface when settings change.
  */
 public class SettingsUpdateManager {
-    private static final Logger LOGGER = LogsCenter.getLogger(ModelManager.class);
+    private static final Logger LOGGER = LogsCenter.getLogger(SettingsUpdateManager.class);
 
     private static final String UI_NOT_PRESENT = "Ui not found. Ui changes will not be applied for now.";
     private static final String STAT_NOT_PRESENT = "Statistics not found. Statistics timeframe is not changed for now.";

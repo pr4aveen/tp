@@ -2,6 +2,7 @@ package seedu.momentum.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.momentum.logic.commands.AddProjectCommand.TEXT_PROJECT;
+import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
@@ -19,6 +20,7 @@ import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
+import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.SortType;
 import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.testutil.ProjectBuilder;
@@ -65,13 +67,6 @@ public class AddCommandIntegrationTest {
         assertCommandSuccess(addDanaCommand, model,
                 String.format(AddCommand.MESSAGE_SUCCESS, TEXT_PROJECT, dana), expectedModel);
     }
-
-    //    @Test
-    //    public void execute_duplicateProject_throwsCommandException() {
-    //        TrackedItem trackedItemInList = model.getProjectBook().getTrackedItemList().get(0);
-    //        assertCommandFailure(
-    //            new AddProjectCommand((Project) trackedItemInList), model, AddCommand.MESSAGE_DUPLICATE_ENTRY);
-    //    }
 
     private void testShowReminder(AddCommand addCommand, String expectedReminder, int delay) throws CommandException,
             InterruptedException {

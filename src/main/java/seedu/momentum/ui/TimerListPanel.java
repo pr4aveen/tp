@@ -1,3 +1,4 @@
+//@@author boundtotheearth
 package seedu.momentum.ui;
 
 import javafx.collections.ObservableList;
@@ -18,6 +19,8 @@ public class TimerListPanel extends UiPart<Region> {
 
     /**
      * Creates a {@code TimerListPanel} with the given {@code ObservableList}.
+     *
+     * @param projectList List containing the projects holding the times to display.
      */
     public TimerListPanel(ObservableList<TrackedItem> projectList) {
         super(FXML);
@@ -28,7 +31,7 @@ public class TimerListPanel extends UiPart<Region> {
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code TimerWrapper} using a {@code TimerCard}.
      */
-    class TimerListViewCell extends ListCell<TrackedItem> {
+    private class TimerListViewCell extends ListCell<TrackedItem> {
         @Override
         protected void updateItem(TrackedItem trackedItem, boolean empty) {
             super.updateItem(trackedItem, empty);

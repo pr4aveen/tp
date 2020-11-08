@@ -5,15 +5,14 @@ import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
-
-import seedu.momentum.model.project.TrackedItem;
 
 /**
  * Abstract class for all predicates that rely on the FindType. Contains the logic to test
  * predicates based on FindType.
  */
-public abstract class ContainsKeywordPredicate implements Predicate<TrackedItem> {
+public abstract class ContainsKeywordPredicate implements MomentumPredicate {
     protected final List<String> keywords;
     protected final FindType findType;
 
@@ -50,10 +49,20 @@ public abstract class ContainsKeywordPredicate implements Predicate<TrackedItem>
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(keywords, findType);
+    }
+
+    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof ContainsKeywordPredicate // instanceof handles nulls
-                && keywords.equals(((ContainsKeywordPredicate) other).keywords)) // state check
+                || (other instanceof ContainsKeywordPredicate) // instanceof handles nulls
+                && isSamePredicate((MomentumPredicate) other);
+    }
+
+    @Override
+    public boolean isSamePredicate(MomentumPredicate other) {
+        return keywords.equals(((ContainsKeywordPredicate) other).keywords) // state check
                 && findType == ((ContainsKeywordPredicate) other).findType;
     }
 }
