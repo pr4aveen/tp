@@ -3,8 +3,8 @@
 skinparam arrowThickness 1.1
 skinparam arrowColor LOGIC_COLOR_T4
 
-package Project {
-Class Project MODEL_COLOR {
+package TrackedItem {
+Class TrackedItem MODEL_COLOR {
     name : Name
     description : Description
     deadline : Deadline
@@ -58,11 +58,11 @@ StatisticManager --> "*" Statistic
 Statistic ..> "1..*" StatisticEntry
 XYZStatistic --|> Statistic
 
-Project *-left-> "1" UniqueDurationList
-Project *--> "1" Timer
+TrackedItem *-left-> "1" UniqueDurationList
+TrackedItem *--> "1" Timer
 UniqueDurationList o-up-> "*" WorkDuration
 
-Statistic .left.> Project
+Statistic .left.> TrackedItem
 Statistic .left.> WorkDuration
 
 

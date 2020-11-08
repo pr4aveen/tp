@@ -1,0 +1,16 @@
+@startuml
+start
+:Clock initialized in Normal mode;
+
+:Current Time requested \n by another component;
+
+:Current system time is returned (20:00);
+
+:Exactly 1 min passes;
+
+:Current Time requested \n by another component;
+
+:Current system time is returned (20:01);
+
+stop
+@enduml
