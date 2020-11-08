@@ -18,7 +18,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 ### Architecture
 
-**`Main`** has two classes called [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java). It is responsible for,
+**`Main`** has two classes called [`Main`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/Main.java) and [`MainApp`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/MainApp.java). It is responsible for,
 
 * At app launch: Initializes the components in the correct sequence, and connects them up with each other.
 * At shut down: Shuts down the components and invokes cleanup methods where necessary.
@@ -43,7 +43,7 @@ For example, the `Logic` component (see the class diagram given below) defines i
 
 **How the architecture components interact with each other**
 
-The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1` when in project view.
 
 <img src="images/ArchitectureSequenceDiagram.png" width="574" />
 
@@ -70,7 +70,7 @@ The `UI` component,
 ![Structure of the Logic Component](images/LogicClassDiagram.png)
 
 **API** :
-[`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+[`Logic.java`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/logic/Logic.java)
 
 1. `Logic` uses the `ProjectBookParser` class to parse the user command.
 1. This results in a `Command` object which is executed by the `LogicManager`.
@@ -78,7 +78,7 @@ The `UI` component,
 1. The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 1. In addition, the `CommandResult` object can also instruct the `Ui` to perform certain actions, such as displaying help to the user.
 
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call when in project view. 
 
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
 
@@ -665,7 +665,7 @@ _{More to be added}_
 
     Use case ends.
 
-The use cases for editing a project, adding a task and editing a project is similar to adding a project, except that the error messages differ slightly.
+The use cases for editing a project, adding a task and editing a task is similar to adding a project, except that the error messages differ slightly.
 
 **Use case: Delete a project**
 
@@ -678,11 +678,35 @@ The use cases for editing a project, adding a task and editing a project is simi
 
     Use case ends.
     
+The use cases for deleting a task is similar to deleting a project.
+    
 **Extensions**
 
 * 3a. The given project id is invalid.
   
   * a1. Momentum  shows an error message.
+
+    Use case ends.
+    
+    
+**Use case: Find a project/task in the list**
+
+**MSS**
+
+1.  User requests to filter the projects/tasks displayed based on certain parameters.
+2.  Momemtum filters the list of projects displayed.
+
+**Extensions**
+
+* 2a. There is no project/task that matches the specified parameters.
+  
+  * a1. Momentum shows an empty list.
+
+    Use case ends.
+
+* *a. The arguments are given in an incorrect format.
+  
+  * a1. Momentum shows an error message.
 
     Use case ends.
 
@@ -730,15 +754,21 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
-
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. Dealing with missing data files
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+   1. Delete the existing `projectbook.json` file
+   
+   1. Re-launch the app by double-clicking the jar file.<br>
+      Expected: The project book is initalized with default data.
 
-1. _{ more test cases …​ }_
+1. Dealing with corrupted data files
+
+   1. Corrupt the values inside the existing `projectbook.json` file by changing the name `projects` in to `rojects`
+   
+   1. Re-launch the app by double-clicking the jar file.<br>
+      Expected: The project book is initalized with no data.
 
 ### Add a project
 
