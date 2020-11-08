@@ -432,16 +432,17 @@ If a certain search type is used more than once, the latest entry will be used.
 
 ## Time Tracking
 
-You can track the time you spend working on a project by starting a timer when you start working, and then stopping the timer once you finish.
+You can track the time you spend working on a project or task by starting a timer when you start working, and then
+ stopping the timer once you finish.
 
 Momentum remembers each timer that you start/stop and uses this information to calculate statistics.
 
 ### Starting a Timer for a Project: `start`
 
-Format: `/start PROJECT_ID`
+Format: `/start ID`
 
-* Starts a timer for the project at the specified `PROJECT_ID`.
-* Only 1 timer can be running for a project at any time.
+* Starts a timer for the project or task at the specified `ID`.
+* Only 1 timer can be running for each project or task at any time.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
@@ -450,15 +451,21 @@ Format: `/start PROJECT_ID`
 You can run timers for more than one project concurrently, if you are multi-tasking.
 :::
 
+:::info
+:bulb: **Tip:**
+You can run timers for a project separately from its tasks. This allows you to track the time you spent on the
+ project as a whole, as well as the time spent on each individual task.
+:::
+
 Example: `/start 2`
 
 Result: Starts a timer for the second project in the list.
 
 ### Stopping a Timer for a Project: `stop`
 
-Format: `/stop PROJECT_ID`
+Format: `/stop ID`
 
-* Stops a running timer for the project at the specified `PROJECT_ID`.
+* Stops a running timer for the project or task at the specified `ID`.
 * A timer can only be stopped if there is one already running.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
@@ -466,6 +473,55 @@ Format: `/stop PROJECT_ID`
 Example: `/stop 2`
 
 Result: Stops the timer for the second project in the list.
+
+### Active Timers Panel
+On the left side of the window is the Active TImers Panel. This is where Momentum shows you all the timers that are
+ currently running.
+ 
+//UI IMAGE HERE
+
+This panel will show you the name of the project/task, as well as when the timer was started.
+
+### Time Traacking Example
+Here is an example of how you can use the `start` and `stop` commands to track the time that you spend on a project.
+Suppose that you are going to start working on _________, which is the first item shown below:
+
+//TODO UI IMAGE HERE
+
+You can perform time tracking with the following steps:
+1. To start the timer, type `start 1` into the command box and press `enter`.
+
+//TODO UI IMAGE HERE
+
+1. You should see the following message in the result box, indicating that the timer has been successfully started.
+
+//TODO UI IMAGE HERE
+
+1. You should also see the project's name and start time in the active timers panel:
+
+//TODO UI IMAGE HERE
+
+1. Now that the timer has been successfully started, you can proceed to do your work. You can also choose to close
+ Momentum. The timer will continue to run even when Momentum is closed. Proceed to the next step when you are done
+  with your work.
+  
+1. To stop the timer, type `stop 1` into the command box and press `enter`.
+
+//TODO UI IMAGE HERE
+
+1. You should see the following message in the result box, indicating that the timer has been successfully stopped.
+
+//TODO UI IMAGE HERE
+
+1. You should also see that the project has been removed from the active timers panel:
+
+//TODO UI IMAGE HERE
+
+1. The statistics panel (see [statistics](#statistics)) will also be updated to reflect the time that you have spent
+ working on the
+ project:
+ 
+//TODO UI IMAGE HERE
 
 ## Undo/Redo
 
@@ -500,15 +556,35 @@ Result: Projects are sorted by deadline, then the application is reset to the so
 :::
 
 ## Statistics
+Momentum uses the data collected from your timers (see [time tracking](#time-tracking)) to calculate statistics. These
+ statistics areautomatically generated and updated whenever you make any changes to your projects and tasks, such as
+  when timers for a project /task are started or stopped. 
+ These statistics can be seen in a panel on the left side of the window, as shown here: 
 
-Statistics are automatically generated and updated whenever projects are
-added/deleted/changed, and when timers are started/stopped. They can be seen in the bottom left of the window. You do not need to use any additional commands to update or view statistics.
+//TODO UI IMAGE HERE
+
+The statistics displayed correspond to the projects or tasks currently shown in the list, and will automatically
+ change when the items in the list changes (such as when you find specific projects or sort the list of projects).
+
+//TODO UI IMAGE HERE
+
+You do not need to use any additional commands to update or view the statistics.
+
+### Timeframes
+Momentum only tracks your statistics within a particular timeframe. By default, the timeframe will be set to weekly. 
+You can change the timeframe through the [settings](#settings).
+
+Momentum allows you to track the time spent within these timeframes:
+* Daily
+* Weekly
+* Monthly
 
 Here are the statistics being tracked by Momentum:
 
 ### Time Spent Per Project
 
-This statistic tells you the total amount of time you have spent within a timeframe. By default, the timeframe will be set to weekly. You can change the timeframe through the [settings](#settings).
+This statistic tells you the total amount of time you have spent within the timeframe. For projects, this includes
+ all the time you have spent on each individual task, as well as on the project as a whole.
 
 ## Settings
 
