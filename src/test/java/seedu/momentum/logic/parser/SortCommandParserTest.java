@@ -12,9 +12,9 @@ import static seedu.momentum.logic.commands.CommandTestUtil.VALID_DESCENDING_SOR
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.momentum.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.momentum.testutil.SortCommandUtil.ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS;
-import static seedu.momentum.testutil.SortCommandUtil.CREATED_DATE_ASCENDING_COMMAND;
-import static seedu.momentum.testutil.SortCommandUtil.DEADLINE_ASCENDING_COMMAND_WITH_COMPLETION_STATUS;
+import static seedu.momentum.testutil.SortCommandUtil.ALPHA_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS;
+import static seedu.momentum.testutil.SortCommandUtil.CREATED_DATE_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS;
+import static seedu.momentum.testutil.SortCommandUtil.DEADLINE_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS;
 import static seedu.momentum.testutil.SortCommandUtil.NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND;
 import static seedu.momentum.testutil.SortCommandUtil.NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
@@ -57,21 +57,24 @@ public class SortCommandParserTest {
 
     @Test
     public void parse_missingSortOrder_returnsTypedAscendingSortCommand() {
+
         // Alphabetical type
-        assertParseSuccess(parser, VALID_ALPHA_SORT_TYPE, ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS, model);
+        assertParseSuccess(parser, VALID_ALPHA_SORT_TYPE, ALPHA_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model);
 
         // Deadline type
-        assertParseSuccess(parser, VALID_DEADLINE_SORT_TYPE, DEADLINE_ASCENDING_COMMAND_WITH_COMPLETION_STATUS, model);
+        assertParseSuccess(parser, VALID_DEADLINE_SORT_TYPE,
+                DEADLINE_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model);
 
         // Created date type
-        assertParseSuccess(parser, VALID_CREATED_DATE_SORT_TYPE, CREATED_DATE_ASCENDING_COMMAND, model);
+        assertParseSuccess(parser, VALID_CREATED_DATE_SORT_TYPE,
+                CREATED_DATE_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model);
 
     }
 
     @Test
     public void parse_allFieldsSpecified_returnsSortCommand() {
         String userInput = VALID_ALPHA_SORT_TYPE + VALID_ASCENDING_SORT_ORDER + " " + PREFIX_COMPLETION_STATUS;
-        assertParseSuccess(parser, userInput, ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS, model);
+        assertParseSuccess(parser, userInput, ALPHA_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model);
     }
 
     @Test

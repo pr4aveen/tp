@@ -11,17 +11,26 @@ import static seedu.momentum.logic.commands.SortCommand.OUTPUT_CREATED_TYPE;
 import static seedu.momentum.logic.commands.SortCommand.OUTPUT_DEADLINE_TYPE;
 import static seedu.momentum.logic.commands.SortCommand.OUTPUT_DEFAULT_TYPE;
 import static seedu.momentum.logic.commands.SortCommand.OUTPUT_DESCENDING_ORDER;
-import static seedu.momentum.testutil.SortCommandUtil.ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS;
+import static seedu.momentum.testutil.SortCommandUtil.ALPHA_ASCENDING_COMMAND;
+import static seedu.momentum.testutil.SortCommandUtil.ALPHA_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS;
 import static seedu.momentum.testutil.SortCommandUtil.ALPHA_DESCENDING_COMMAND;
+import static seedu.momentum.testutil.SortCommandUtil.ALPHA_DESCENDING_COMMAND_TOGGLE_COMPLETION_STATUS;
 import static seedu.momentum.testutil.SortCommandUtil.CREATED_DATE_ASCENDING_COMMAND;
-import static seedu.momentum.testutil.SortCommandUtil.CREATED_DATE_DESCENDING_COMMAND_WITH_COMPLETION_STATUS;
-import static seedu.momentum.testutil.SortCommandUtil.DEADLINE_ASCENDING_COMMAND_WITH_COMPLETION_STATUS;
+import static seedu.momentum.testutil.SortCommandUtil.CREATED_DATE_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS;
+import static seedu.momentum.testutil.SortCommandUtil.CREATED_DATE_DESCENDING_COMMAND;
+import static seedu.momentum.testutil.SortCommandUtil.CREATED_DATE_DESCENDING_COMMAND_TOGGLE_COMPLETION_STATUS;
+import static seedu.momentum.testutil.SortCommandUtil.DEADLINE_ASCENDING_COMMAND;
+import static seedu.momentum.testutil.SortCommandUtil.DEADLINE_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS;
 import static seedu.momentum.testutil.SortCommandUtil.DEADLINE_DESCENDING_COMMAND;
+import static seedu.momentum.testutil.SortCommandUtil.DEADLINE_DESCENDING_COMMAND_TOGGLE_COMPLETION_STATUS;
 import static seedu.momentum.testutil.SortCommandUtil.DEFAULT_SORT_COMMAND;
 import static seedu.momentum.testutil.SortCommandUtil.NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND;
+import static seedu.momentum.testutil.SortCommandUtil.NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND_TOGGLE_COMPLETION_STATUS;
 import static seedu.momentum.testutil.SortCommandUtil.NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND;
+import static seedu.momentum.testutil.SortCommandUtil.NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND_TOGGLE_COMPLETION_STATUS;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.model.Model;
@@ -36,131 +45,228 @@ public class SortCommandTest {
 
     private static final String EMPTY_STRING = "";
 
-    private static final Model MODEL = new ModelManager(getTypicalProjectBook(), new UserPrefs());
-    private static final Model EXPECTED_MODEL = new ModelManager(getTypicalProjectBook(), new UserPrefs());
+    private Model model;
+    private Model expectedModel;
+
+    @BeforeEach
+    public void setUp() {
+        expectedModel = new ModelManager(getTypicalProjectBook(), new UserPrefs());
+        model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
+    }
 
     @Test
     public void equals() {
 
         // same object -> returns true
-        assertTrue(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS
-                .equals(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS));
+        assertTrue(ALPHA_ASCENDING_COMMAND.equals(ALPHA_ASCENDING_COMMAND));
 
         // same values -> returns true
-        SortCommand alphaAscending = new SortCommand(SortType.ALPHA, true, false, true);
-        assertTrue(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS.equals(alphaAscending));
+        SortCommand alphaAscending = new SortCommand(SortType.ALPHA, true, false, false);
+        assertTrue(ALPHA_ASCENDING_COMMAND.equals(alphaAscending));
 
         // both default -> returns true
-        // DEFAULT_SORT sort type is set to SortType.ALPHA
-        SortCommand defaultSort = new SortCommand(SortType.ALPHA, true, true, true);
+        // DEFAULT_SORT sort type is set to SortType.ALPHA, ascending order.
+        SortCommand defaultSort = new SortCommand(SortType.ALPHA, true, true, false);
         assertTrue(DEFAULT_SORT_COMMAND.equals(defaultSort));
 
         // one default, one not default
-        assertFalse(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS.equals(DEFAULT_SORT_COMMAND));
+        assertFalse(ALPHA_ASCENDING_COMMAND.equals(DEFAULT_SORT_COMMAND));
 
         // different types -> returns false
-        assertFalse(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS.equals(1));
+        assertFalse(ALPHA_ASCENDING_COMMAND.equals(1));
 
         // null -> returns false
-        assertFalse(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS.equals(null));
+        assertFalse(ALPHA_ASCENDING_COMMAND.equals(null));
 
         // different sort types -> returns false
-        assertFalse(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS
-                .equals(DEADLINE_ASCENDING_COMMAND_WITH_COMPLETION_STATUS));
+        assertFalse(ALPHA_ASCENDING_COMMAND.equals(DEADLINE_ASCENDING_COMMAND));
 
         // different sort orders -> returns false
-        assertFalse(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS
-                .equals(ALPHA_DESCENDING_COMMAND));
+        assertFalse(ALPHA_ASCENDING_COMMAND.equals(ALPHA_DESCENDING_COMMAND));
     }
 
     @Test
     public void execute_defaultSort_sortedInDefaultOrder() {
-        EXPECTED_MODEL.updateOrder(SortType.ALPHA, true, true);
-        EXPECTED_MODEL.commitToHistory();
+        expectedModel.updateOrder(SortType.ALPHA, true, false);
+        expectedModel.commitToHistory();
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DEFAULT_TYPE);
-        assertCommandSuccess(DEFAULT_SORT_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
-        assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
+        assertCommandSuccess(DEFAULT_SORT_COMMAND, model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
 
     @Test
-    public void execute_alphabeticalAscending_sortedInAlphabeticalAscendingOrder() {
-        EXPECTED_MODEL.updateOrder(SortType.ALPHA, true, true);
-        EXPECTED_MODEL.commitToHistory();
+    public void execute_alphabeticalAscending_sortedInAlphabeticalAscendingOrderWithCompletionStatus() {
+        expectedModel.updateOrder(SortType.ALPHA, true, false);
+        expectedModel.commitToHistory();
         String expectedMessage =
                 String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_ASCENDING_ORDER);
-        assertCommandSuccess(ALPHA_ASCENDING_COMMAND_WITH_COMPLETION_STATUS, MODEL, expectedMessage, EXPECTED_MODEL);
-        assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
+        assertCommandSuccess(ALPHA_ASCENDING_COMMAND, model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
 
     @Test
-    public void execute_alphabeticalDescending_sortedInAlphabeticalDescendingOrder() {
-        EXPECTED_MODEL.updateOrder(SortType.ALPHA, false, false);
-        EXPECTED_MODEL.commitToHistory();
+    public void execute_alphabeticalAscendingToggleCompletionStatus_sortedInAlphabeticalAscendingOrder() {
+        expectedModel.updateOrder(SortType.ALPHA, true, true);
+        expectedModel.commitToHistory();
+        String expectedMessage =
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_ASCENDING_ORDER);
+        assertCommandSuccess(ALPHA_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
+    }
+
+    @Test
+    public void execute_alphabeticalDescending_sortedInAlphabeticalDescendingOrderWithCompletionStatus() {
+        expectedModel.updateOrder(SortType.ALPHA, false, false);
+        expectedModel.commitToHistory();
         String expectedMessage =
                 String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_DESCENDING_ORDER);
-        assertCommandSuccess(ALPHA_DESCENDING_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
-        assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
+        assertCommandSuccess(ALPHA_DESCENDING_COMMAND, model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
 
     @Test
-    public void execute_deadlineAscending_sortedInDeadlineAscendingOrder() {
-        EXPECTED_MODEL.updateOrder(SortType.DEADLINE, true, true);
-        EXPECTED_MODEL.commitToHistory();
+    public void execute_alphabeticalDescendingToggleCompletionStatus_sortedInAlphabeticalDescendingOrder() {
+        expectedModel.updateOrder(SortType.ALPHA, false, true);
+        expectedModel.commitToHistory();
+        String expectedMessage =
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_DESCENDING_ORDER);
+        assertCommandSuccess(ALPHA_DESCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
+    }
+
+    @Test
+    public void execute_deadlineAscending_sortedInDeadlineAscendingOrderWithCompletionStatus() {
+        expectedModel.updateOrder(SortType.DEADLINE, true, false);
+        expectedModel.commitToHistory();
         String expectedMessage =
                 String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_ASCENDING_ORDER);
-        assertCommandSuccess(DEADLINE_ASCENDING_COMMAND_WITH_COMPLETION_STATUS, MODEL, expectedMessage, EXPECTED_MODEL);
-        assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
+        assertCommandSuccess(DEADLINE_ASCENDING_COMMAND, model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
 
     @Test
-    public void execute_deadlineDescending_sortedInDeadlineDescendingOrder() {
-        EXPECTED_MODEL.updateOrder(SortType.DEADLINE, false, false);
-        EXPECTED_MODEL.commitToHistory();
+    public void execute_deadlineAscendingToggleCompletionStatus_sortedInDeadlineAscendingOrder() {
+        expectedModel.updateOrder(SortType.DEADLINE, true, true);
+        expectedModel.commitToHistory();
+        String expectedMessage =
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_ASCENDING_ORDER);
+        assertCommandSuccess(
+                DEADLINE_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
+    }
+
+    @Test
+    public void execute_deadlineDescending_sortedInDeadlineDescendingOrderWithCompletionStatus() {
+        expectedModel.updateOrder(SortType.DEADLINE, false, false);
+        expectedModel.commitToHistory();
         String expectedMessage =
                 String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_DESCENDING_ORDER);
-        assertCommandSuccess(DEADLINE_DESCENDING_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
-        assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
+        assertCommandSuccess(
+                DEADLINE_DESCENDING_COMMAND, model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
 
     @Test
-    public void execute_createdDateAscending_sortedInCreatedDateAscendingOrder() {
-        EXPECTED_MODEL.updateOrder(SortType.CREATED, true, false);
-        EXPECTED_MODEL.commitToHistory();
+    public void execute_deadlineDescendingToggleCompletionStatus_sortedInDeadlineDescendingOrder() {
+        expectedModel.updateOrder(SortType.DEADLINE, false, true);
+        expectedModel.commitToHistory();
+        String expectedMessage =
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_DESCENDING_ORDER);
+        assertCommandSuccess(
+                DEADLINE_DESCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
+    }
+
+    @Test
+    public void execute_createdDateAscending_sortedInCreatedDateAscendingOrderWithCompletionStatus() {
+        expectedModel.updateOrder(SortType.CREATED, true, false);
+        expectedModel.commitToHistory();
         String expectedMessage =
                 String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_ASCENDING_ORDER);
-        assertCommandSuccess(CREATED_DATE_ASCENDING_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
-        assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
+        assertCommandSuccess(
+                CREATED_DATE_ASCENDING_COMMAND, model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
 
     @Test
-    public void execute_createdDateDescending_sortedInCreatedDateDescendingOrder() {
-        EXPECTED_MODEL.updateOrder(SortType.CREATED, false, true);
-        EXPECTED_MODEL.commitToHistory();
+    public void execute_createdDateAscendingToggleCompletionStatus_sortedInCreatedDateAscendingOrder() {
+        expectedModel.updateOrder(SortType.CREATED, true, true);
+        expectedModel.commitToHistory();
+        String expectedMessage =
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_ASCENDING_ORDER);
+        assertCommandSuccess(
+                CREATED_DATE_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
+    }
+
+    @Test
+    public void execute_createdDateDescending_sortedInCreatedDateDescendingOrderWithCompletionStatus() {
+        expectedModel.updateOrder(SortType.CREATED, false, false);
+        expectedModel.commitToHistory();
         String expectedMessage =
                 String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_DESCENDING_ORDER);
-        assertCommandSuccess(CREATED_DATE_DESCENDING_COMMAND_WITH_COMPLETION_STATUS,
-                MODEL, expectedMessage, EXPECTED_MODEL);
-        assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
+        assertCommandSuccess(CREATED_DATE_DESCENDING_COMMAND,
+                model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
 
     @Test
-    public void execute_nullSortTypeAscendingNonDefault_sortedInCurrentSortTypeAscendingOrder() {
-        MODEL.updateOrder(SortType.DEADLINE, false, true);
-        EXPECTED_MODEL.updateOrder(SortType.DEADLINE, true, true);
-        EXPECTED_MODEL.commitToHistory();
+    public void execute_createdDateDescendingToggleCompletionStatus_sortedInCreatedDateDescendingOrder() {
+        expectedModel.updateOrder(SortType.CREATED, false, true);
+        expectedModel.commitToHistory();
+        String expectedMessage =
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_DESCENDING_ORDER);
+        assertCommandSuccess(CREATED_DATE_DESCENDING_COMMAND_TOGGLE_COMPLETION_STATUS,
+                model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
+    }
+
+    @Test
+    public void execute_nullSortTypeAscendingWithCompletionStatus_sortedInCurrentSortAscendingWithCompletionStatus() {
+        model.updateOrder(SortType.DEADLINE, false, false);
+        expectedModel.updateOrder(SortType.DEADLINE, true, false);
+        expectedModel.commitToHistory();
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_ASCENDING_ORDER);
-        assertCommandSuccess(NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
-        assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
+        assertCommandSuccess(NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND,
+                model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
 
     @Test
-    public void execute_nullSortTypeDescendingNonDefault_sortedInCurrentSortTypeDescendingOrder() {
-        MODEL.updateOrder(SortType.CREATED, true, true);
-        EXPECTED_MODEL.updateOrder(SortType.CREATED, false, true);
-        EXPECTED_MODEL.commitToHistory();
+    public void execute_nullSortTypeAscendingNonDefaultToggleCompletionStatus_sortedInCurrentSortTypeAscendingOrder() {
+        model.updateOrder(SortType.DEADLINE, false, false);
+        expectedModel.updateOrder(SortType.DEADLINE, true, true);
+        expectedModel.commitToHistory();
+        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_ASCENDING_ORDER);
+        assertCommandSuccess(NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND_TOGGLE_COMPLETION_STATUS,
+                model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
+    }
+
+    @Test
+    public void execute_nullSortTypeDescending_sortedInCurrentSortTypeDescendingOrderWithCompletionStatus() {
+
+        model.updateOrder(SortType.CREATED, true, false);
+        expectedModel.updateOrder(SortType.CREATED, false, false);
+        expectedModel.commitToHistory();
+
         String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DESCENDING_ORDER);
-        assertCommandSuccess(NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND, MODEL, expectedMessage, EXPECTED_MODEL);
-        assertEquals(MODEL.getDisplayList(), EXPECTED_MODEL.getDisplayList());
+        assertCommandSuccess(NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND,
+                model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
+    }
+
+    @Test
+    public void execute_nullSortTypeDescendingToggleCompletionStatus_sortedInCurrentSortTypeDescendingOrder() {
+
+        model.updateOrder(SortType.CREATED, true, false);
+        expectedModel.updateOrder(SortType.CREATED, false, true);
+        expectedModel.commitToHistory();
+
+        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DESCENDING_ORDER);
+        assertCommandSuccess(NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND_TOGGLE_COMPLETION_STATUS,
+                model, expectedMessage, expectedModel);
+        assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
 
 }
