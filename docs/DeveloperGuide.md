@@ -282,9 +282,9 @@ This design was chosen as it built on the existing implementation of the find co
 
 // should i include a disadvantge of this method -- testability of predicate chaining //
 
-The following sequence diagram shows how the find command works.
+The following sequence diagram shows how the `FindCommandParser`works.
 
-// Insert seq diagram here. //
+![StatsSequenceDiagram](images/FindCommand.png)
 
 ### \[Proposed\] Undo/redo feature
 
