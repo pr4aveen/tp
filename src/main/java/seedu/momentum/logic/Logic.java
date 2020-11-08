@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic;
 
 import java.nio.file.Path;
@@ -21,19 +23,20 @@ import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.tag.Tag;
 
 /**
- * API of the Logic component
+ * API of the Logic component.
  */
 public interface Logic {
     /**
      * Executes the command and returns the result.
      *
      * @param commandText The command as entered by the user.
-     * @return the result of the command execution.
+     * @return The result of the command execution.
      * @throws CommandException If an error occurs during command execution.
      * @throws ParseException   If an error occurs during parsing.
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
+    //@@author claracheong4
     /**
      * Returns true if there is no reminder to display, false otherwise.
      *
@@ -48,6 +51,7 @@ public interface Logic {
      */
     StringProperty getReminder();
 
+    //@@author
     /**
      * Returns the ProjectBook.
      *
@@ -70,6 +74,7 @@ public interface Logic {
      */
     Path getProjectBookFilePath();
 
+    //@@author khoodehui
     /**
      * Returns the user prefs' GUI window settings.
      */
@@ -85,11 +90,13 @@ public interface Logic {
      */
     GuiThemeSettings getGuiThemeSettings();
 
+    //@@author
     /**
      * Returns a set of all the tags in the items being displayed.
      */
     Set<Tag> getVisibleTags();
 
+    //@@author claracheong4
     /**
      * Returns an observable boolean value representing whether tags are visible.
      *
@@ -97,18 +104,20 @@ public interface Logic {
      */
     BooleanProperty getIsTagsVisible();
 
+    //@@author khoodehui
     /**
      * Returns the user prefs' statistic timeframe settings.
      */
     StatisticTimeframeSettings getStatisticTimeframeSettings();
 
+    //@@author boundtotheearth
     /**
      * Returns the statistic manager.
      */
     StatisticGenerator getStatistic();
 
     /**
-     * Returns the total number of both visible and invisble items in the current project/task.
+     * Returns the total number of both visible and invisible items in the current project/task.
      */
     int getTotalNumberOfItems();
 

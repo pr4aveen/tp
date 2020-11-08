@@ -42,6 +42,10 @@ package Model{
 Class HiddenModel #FFFFFF
 }
 
+package Storage{
+Class HiddenStorage #FFFFFF
+}
+
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Logic
 
@@ -63,6 +67,7 @@ ArgumentTokenizer .down.> Prefix
 XYZCommand -up-|> Command
 LogicManager .left.> Command : executes >
 
+LogicManager -up-> Storage
 LogicManager --> Model
 Command .up.> Model
 

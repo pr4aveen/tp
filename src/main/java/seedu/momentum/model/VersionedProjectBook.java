@@ -1,3 +1,4 @@
+//@@author kkangs0226
 package seedu.momentum.model;
 
 import java.util.ArrayList;
@@ -22,6 +23,14 @@ public class VersionedProjectBook extends ProjectBook {
 
     /**
      * Constructs a {@code VersionedProjectBook}.
+     *
+     * @param projectBook Project book containing the initial data.
+     * @param viewMode Current view mode.
+     * @param currentProject Current project in the model manager.
+     * @param currentPredicate Current predicate used to filter the list.
+     * @param currentComparator Current comparator used to sort the list.
+     * @param isTagsVisible Whether the tags window in the UI is present.
+     * @param userPrefs Current user preferences in the application.
      */
     public VersionedProjectBook(ReadOnlyProjectBook projectBook,
                                 ViewMode viewMode,
@@ -39,7 +48,14 @@ public class VersionedProjectBook extends ProjectBook {
 
     /**
      * Flushes out versions to be redone after the {@code currentStatePointer} and
-     * commits current {@code VersionedProjectBook} into {@code projectBookStateList}.
+     * commits the current project book data and UI details into {@code projectBookStateList}.
+     *
+     * @param viewMode Current view mode.
+     * @param currentProject Current project being viewed if in task view.
+     * @param currentPredicate Current predicate used to filter the list.
+     * @param currentComparator Current comparator used to sort the list.
+     * @param isTagsVisible Whether the tags window in the UI is present.
+     * @param userPrefs Current user preferences in the application.
      */
     public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
                        Comparator<TrackedItem> currentComparator, boolean isTagsVisible, ReadOnlyUserPrefs userPrefs) {
@@ -91,7 +107,7 @@ public class VersionedProjectBook extends ProjectBook {
     /**
      * Checks if {@code VersionedProjectBook} is able to undo commands.
      *
-     * @return true if {@code VersionedProjectBook} has commands to undo.
+     * @return True if {@code VersionedProjectBook} has commands to undo, false otherwise.
      */
     public boolean canUndoCommand() {
         return currentStatePointer != 0;
@@ -100,7 +116,7 @@ public class VersionedProjectBook extends ProjectBook {
     /**
      * Checks if {@code VersionedProjectBook} is able to redo commands.
      *
-     * @return true if {@code VersionedProjectBook} has commands to redo.
+     * @return True if {@code VersionedProjectBook} has commands to redo, false otherwise.
      */
     public boolean canRedoCommand() {
         int size = projectBookStateList.size();

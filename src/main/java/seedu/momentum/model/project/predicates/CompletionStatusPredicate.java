@@ -1,3 +1,4 @@
+//@@author claracheong4
 package seedu.momentum.model.project.predicates;
 
 import static java.util.Objects.requireNonNull;
@@ -23,7 +24,8 @@ public class CompletionStatusPredicate extends ContainsKeywordPredicate {
     /**
      * Creates a predicate to check whether the {@code CompletionStatus} of a {@code Project} is incomplete.
      *
-     * @param keywords list of keywords to check for matches.
+     * @param findType Enum to indicate the find type to be used for this find command.
+     * @param keywords List of keywords to check for matches.
      */
     public CompletionStatusPredicate(FindType findType, List<String> keywords) {
         super(findType, keywords);

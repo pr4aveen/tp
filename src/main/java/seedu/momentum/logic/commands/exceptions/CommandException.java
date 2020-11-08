@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic.commands.exceptions;
 
 import seedu.momentum.logic.commands.Command;

@@ -1,7 +1,7 @@
 package seedu.momentum.testutil;
 
 import seedu.momentum.logic.commands.SortCommand;
-import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.comparators.SortType;
 
 public class SortCommandUtil {
 

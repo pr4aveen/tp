@@ -1,3 +1,4 @@
+//@@author pr4aveen
 package seedu.momentum.model.project.predicates;
 
 import static java.util.Objects.requireNonNull;
@@ -19,8 +20,8 @@ public class TagListContainsKeywordPredicate extends ContainsKeywordPredicate {
      * Creates a predicate to check whether the {@code Tag} of a {@code Project} contains a
      * certain keyword.
      *
-     * @param findType enum to indicate the find type to be used for this find command.
-     * @param keywords list of keywords to check for matches.
+     * @param findType Enum to indicate the find type to be used for this find command.
+     * @param keywords List of keywords to check for matches.
      */
     public TagListContainsKeywordPredicate(FindType findType, List<String> keywords) {
         super(findType, keywords);
@@ -38,8 +39,8 @@ public class TagListContainsKeywordPredicate extends ContainsKeywordPredicate {
      * Converts a set of {@code Tag} to a string where each entry is followed by a space.
      * This is the format used by {@code StringUtil} methods.
      *
-     * @param tags set of tags.
-     * @return string representation of tags.
+     * @param tags Set of tags.
+     * @return String representation of tags.
      */
     private String buildTagString(Set<Tag> tags) {
         StringBuilder sb = new StringBuilder();

@@ -1,0 +1,47 @@
+@startuml
+!include style.puml
+
+box FindCommandParser  LOGIC_COLOR_T1
+participant ":FindCommandParser" as FindCommandParser LOGIC_COLOR
+participant ":FindType" as FindType LOGIC_COLOR
+participant ":ContainsKeywordPredicate" as ContainsKeywordPredicate LOGIC_COLOR
+end box
+
+[-> FindCommandParser : parse()
+activate FindCommandParser
+
+FindCommandParser -> FindCommandParser : getMatchType(argMultimap)
+activate FindCommandParser
+FindCommandParser -> FindType : valueOf(findTypeArgument)
+activate FindType
+FindType --> FindCommandParser : FindType
+deactivate FindType
+FindCommandParser --> FindCommandParser : FindType
+deactivate FindCommandParser
+
+loop all prefixes to parse
+     FindCommandParser -> FindCommandParser : parseArguments(argMultimap, prefix, predicateList, findType)
+     activate FindCommandParser
+     note right
+     Predicates are only parsed if the parameter was
+     included as an argument to the find command.
+
+     The predicate is returned as the subclass type
+     instead of a ContainsKeywordPredicate
+     end note
+     FindCommandParser -> ContainsKeywordPredicate : ContainsKeywordPredicate()
+     activate ContainsKeywordPredicate
+     ContainsKeywordPredicate --> FindCommandParser
+     deactivate ContainsKeywordPredicate
+     FindCommandParser --> FindCommandParser
+     deactivate FindCommandParser
+end
+
+FindCommandParser -> FindCommandParser : combinePredicates(findType, predicateList)
+activate FindCommandParser
+FindCommandParser --> FindCommandParser : combinedPredicate
+deactivate FindCommandParser
+
+[<- FindCommandParser : FindCommand(combinedPredicate)
+deactivate FindCommandParser
+@enduml

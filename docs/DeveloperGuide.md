@@ -154,25 +154,6 @@ There are also classes with useful utility methods used to handle different type
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### Adding Tasks to Projects
-Since projects and tasks contain very similar fields, we have chosen to implement an abstract class, `TrackedItem` with these fields, and have both `Project` and `Task` extend from it. We then have each `Project` contain a list of `Task` that can be accessed. This is illustrated in the class diagram below:
-
-//Image here//
-
-This allows us to reduce code duplication, and allows us to handle both projects and task in a more general, abstract way. For example, the same `start`/`stop` command classes can be used for both projects and tasks by implementing them using `TrackedItem`. 
-
-#### Alternate Implementation: Projects in Projects
-Instead of have seperate `Project` and `Task` classes, we can model the concept by having each `Project` object contain more `Project` objects, as illustrated in the class diagram below:
-
-//Image here//
-
-We ultimately chose not to use this implementation because we expect `Project` and `Task` to be further differentiated in the future. Our chosen implementation will allow us to modify and extend the functionality of `Project` and `Task` seperately.
-
-#### Alternate Implementation: Using predicates to filter Tasks and Projects
-Another implementation we considered was to add all `Project` and `Task` objects the same `UniqueProjectsList`. The UI will only display projects when it is in the project view and tasks when it is in the tasks view. This will be done by modifying the predicates used on the `filteredTrackedItems` list in `ModelManager`. Other commands such as `Find` will modify the predicate similarly. 
-
-We rejected this implementation as we felt that it would be difficult to write more rigorous tests compared to our chosen implementation. The chosen implementation can reuse a lot of the tests that are already present in the codebase. This was an important consideration for us due to the time constraints we are presented with.
-
 ### Immutability
 `Projects`, `Tasks`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new
  object is created with the new details, and the model is updated with the new object.
@@ -358,17 +339,35 @@ The find command uses predicate chaining to search for projects/tasks based on o
 * `TagListContainsKeywordPredicate` - Searches for projects/tasks based on tags.
 * `CompletionStatusPredicate` - Searches for projects/tasks based on completion status.
 
-The `FindCommandParser` creates a list of predicates based on the arguments entered into the command. Each predicate takes in a match type, represented by the enumeration `FindType`.
+Each of these predicate classes extends the abstract `ContainsKeywordPredicate` class which implements the `Predicate` interface. Each of these predicate classes takes in a match type, represented by the enumeration `FindType`.
 
-*check if correct representation for non-static*-> `FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem>`. The `filteredTrackedItemsList` is updated to contain all projects and tasks without updating the user interface. After this, `FindCommand` uses used to update the`filteredTrackedItemsList` and the user interface.
+The `ContainsKeywordPredicate` has a `testPredicate` method that is used or overridden by the subclasses. This method is used to test predicates based on the `FindType`. 
 
-This design was chosen as it built on the existing implementation of the find command, which passed a `NameContainsKeywordPredicate` to the `filteredTrackedItemsList`. This means that minimal changes to other parts of the project were required. 
+The following class diagram shows the structure of the aforementioned classes.
 
-// should i include a disadvantge of this method -- testability of predicate chaining //
+![PredicateClassDiagram](images/PredicateClassDiagram.png)
 
-The following sequence diagram shows how the find command works.
+The `FindCommandParser` creates a list of predicates based on the arguments entered into the command. `FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem> predicate`. The `FindCommand` will pass `predicate` into `Model#updatePredicate` to update the `displayList` once executed.
 
-// Insert seq diagram here. //
+The following sequence diagram shows how the `FindCommandParser`works. Note that some details have been omitted from the diagram below.
+
+![FindCommandParserSequenceDiagram](images/FindCommandParserSequenceDiagram.png)
+
+The process of creating and chaining predicates varies based on the `FindType` selected. The following activity diagrams show this process for each `FindType`.
+
+| ![FindAny](images/FindAny.png) | ![FindAll](images/FindAll.png) | ![FindNone](images/FindNone.png)|
+|:---:|:---:|:---:|
+|Find Any|Find All|Find None|
+
+Note that `FindType.NONE` uses the logical AND when combining predicates. This is because individual predicates test for a negative match result. These negative results need to be chained together using the logical AND because a negative match requires a project to not match every keyword.
+
+This design was chosen as it built on the existing implementation of the find command, which passed a `NameContainsKeywordPredicate` to the `displayList`. This means that minimal changes to other parts of the project were required. 
+
+#### Rejected implementation: Using a custom predicate class
+
+We considered using a custom predicate class to contain all predicates in a separate `MomentumPrediate` interface.
+
+This implementation was ultimately rejected as it introduced unnecessary complexities with Predicate chaining. The `MomentumPredicate` interface will need to override `Predicate#and` and `Predicate#or` with our custom implementation. 
 
 ### \[Proposed\] Undo/redo feature
 
@@ -471,11 +470,11 @@ Both projects and tasks have many similarities. They share the following fields:
 * Tags
 
 Additionally, both need to work with Momentum's time tracking and statistics features.
-Therefore, it is reasonable to have an abstract `TrackedItem` class that contain the fields and methods shared by
+Therefore, it is reasonable to have an abstract `TrackedItem` class that contains the fields and methods shared by
  both projects and tasks, and have `Project` and `Task` extend from it.
  
-Projects and tasks then have fields and methods for the behaviours unique to each item. Specifically, a project will
-contain a list of tasks, and have methods that that allow it to modify its own list of tasks. This results in the
+Projects and tasks will then have fields and methods for the behaviours unique to each item. Specifically, a project will
+contain a list of tasks, and have methods that allow it to modify its own list of tasks. This results in the
  structure illustrated by the class diagram below:
  
 ![ProjectTaskClassDiagram](images/ProjectTaskClassDiagram.png)
@@ -493,10 +492,10 @@ projects (with their tasks not visible).
 
 //UI IMAGE EXAMPLE HERE?
 
-This is implemented by having a list of tracked items to be shown to the user, `itemList`. This lis is changed to be
+This is implemented by having a list of tracked items to be shown to the user, `itemList`. This list is changed to be
  the project's task list when a `view` command is executed, and changed to the overall project list when a `home
- ` command is executed. The list can then be further sorted (INSERT LINK TO SORT HERE) or filtered (INSERT LINK TO
-  FILTER HERE) as required, to form a separate list, `displayList`, that is provided to the UI components to be
+ ` command is executed. The list can then be further sorted (INSERT LINK TO SORT HERE) or filtered as required using 
+ the [find command](#find-command), to form a separate list, `displayList`, that is provided to the UI components to be
    displayed to the user.
 
 Most of the commands in Momentum thus become context sensitive, behaving differently depending on whether the project
@@ -517,6 +516,24 @@ Drawbacks:
 
 #### Alternative 1: Using Predicates
 
+Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`. Both `Project` and `Task` will both extend `TrackedItem`.
+
+A rough summary of the proposed implementation is as follows:
+* There will be two sets of predicates. The first predicate will be used to check whether an object is a project or a task. The second predicate will be the normal predicate used to filter the list in the find command.
+* Changes in view will modify the first predicate.
+* Using the find command will modify the second predicate.
+* The predicate used to determine the entries shown in the `displayList` is the logical AND of the first and second predicates.
+
+We have identified the following benefits and drawbacks of this implementation.
+
+Benefits:
+* This implementation is much simpler than having to maintain a separate list of `Task` objects for each project. It is likely
+ that existing commands would not have to be changed as much.
+
+Drawbacks:
+* A bi-directional association between projects and tasks will be needed. This is unnecessary as a project is composed of multiple tasks. Tasks do not need to know which project they are a part of. 
+* It might be harder and more time-consuming to write rigorous tests for this implementation.
+
 #### Alternative 2: Projects can contain Projects
 Since projects and tasks are so similar, it may make more sense to treat them as the same object in the first place
 . Therefore, it is possible to model a project's sub-tasks as projects themselves. This results in a structure where
@@ -536,9 +553,6 @@ Drawbacks:
 * We will be unable to differentiate between a project and sub-task, since they are both modeled as the same class
 . This means that project or sub-task specific features cannot be easily implemented without affecting the other.
 * Allowing for deeper nesting of projects may make the application more confusing to use without significant UI changes.
-
-
-
 ---
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -587,15 +601,18 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                        | add and edit a deadline for a project                    |                                                                         |
 | `* * *`  | user                                        | add and edit a reminder for a project                    |                                                                         |
 | `* * *`  | user                                        | delete a project                     | remove entries that I no longer need                                    |
-| `* * *`  | user                                        | find a project by name               | locate details of projects without having to go through the entire list |
-| `* * *`  | user                                        | find a project by completion status               | locate projects that are completed or imcomplete without having to go through the entire list |
+| `* * *`  | user                                        | find a project by name              | locate projects by name without having to go through the entire list |
+| `* * *`  | user                                        | find a project by description               | locate projects by description without having to go through the entire list |
+| `* * *`  | user                                        | find a project by tag               | locate projects by tag without having to go through the entire list |
+| `* * *`  | user                                        | find a project by completion status               | locate projects that are completed or incomplete without having to go through the entire list |
+| `* * *`  | user                                        | find a project by multiple parameters               | locate details of projects without having to go through the entire list |
 | `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
 | `*`      | user with many projects in the project book | sort projects by completion status                | locate an incomplete or complete project easily                                                 |
 | `*`      | user with many projects in the project book | hide and show the tags panel                | focus more on statistics and timers                                                 |
 | `*`      | user with many projects in the project book | dismiss the reminder                | focus more on statistics and timers                                                 |
 | `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
 | `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
-| `* *`    | user | can create tasks within a project | better organize my work
+| `* *`    | user | can create tasks within a project    | better organize my work
 
 _{More to be added}_
 
@@ -684,6 +701,8 @@ _{More to be added}_
 
 * **Command Line Interface(CLI)**: Command Line Interface processes commands in the form of text
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
+* **Project View**: View all projects in the project book.
+* **Task View**: View all tasks that are added to a single project.
 
 ---
 
@@ -710,23 +729,6 @@ testers are expected to do more *exploratory* testing.
 
    1. Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
-
-1. _{ more test cases …​ }_
-
-### Deleting a project
-
-1. Deleting a project while all projects are being shown
-
-   1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
-
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-
-   1. Test case: `delete 0`<br>
-      Expected: No project is deleted. Error details shown in the status message. Status bar remains the same.
-
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
 
@@ -1380,33 +1382,6 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `stop x` where x is the greater than the number of tasks.<br>
     Expected: No timer stopped. Invalid index message shown. 
 
-### Statistics tracking
-
-1. No available durations
-
-    1. Prerequisites: There are no durations available for all time frames.
-    
-    1. Test case: `set st/daily`.<br>
-    Expected: Time spent section should indicate that there are no durations in the list.
-    
-    1. Test case: `set st/weekly`.<br>
-    Expected: Time spent section should indicate that there are no durations in the list.
-    
-    1. Test case: `set st/monthly`.<br>
-    Expected: Time spent section should indicate that there are no durations in the list.
-    
-1. Durations available
-
-    1. Prerequisites: There are no durations available for all time frames.
-    
-    1. Test case: `set st/daily`.<br>
-    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
-    
-    1. Test case: `set st/weekly`.<br>
-    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
-    
-    1. Test case: `set st/monthly`.<br>
-    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
 
 ### Undo/Redo
 
@@ -1485,6 +1460,34 @@ testers are expected to do more *exploratory* testing.
     
     1. Test case: `set st/monthly`<br>
     Expected: Statistics panel should display `Monthly Time Spent`
+    
+    
+1. Changing statistics timeframe with no available durations.
+
+    1. Prerequisites: There are no durations available for all time frames.
+    
+    1. Test case: `set st/daily`.<br>
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+    1. Test case: `set st/weekly`.<br>
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+    1. Test case: `set st/monthly`.<br>
+    Expected: Time spent section should indicate that there are no durations in the list.
+    
+1. Changing statistics timeframe with available durations.
+
+    1. Prerequisites: There are no durations available for all time frames.
+    
+    1. Test case: `set st/daily`.<br>
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+    
+    1. Test case: `set st/weekly`.<br>
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+    
+    1. Test case: `set st/monthly`.<br>
+    Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
+
 
 ### Exit the program
 

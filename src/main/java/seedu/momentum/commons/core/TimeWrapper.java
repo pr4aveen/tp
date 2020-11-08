@@ -1,3 +1,5 @@
+//@@author claracheong4
+
 package seedu.momentum.commons.core;
 
 import static java.util.Objects.requireNonNull;
@@ -36,6 +38,9 @@ public class TimeWrapper implements InstanceWrapper<LocalTime>, Comparable<TimeW
 
     /**
      * Returns true if a given string is a valid time.
+     *
+     * @param test String to be tested.
+     * @return Whether the string is valid.
      */
     public static boolean isValid(String test) {
         try {
@@ -44,6 +49,18 @@ public class TimeWrapper implements InstanceWrapper<LocalTime>, Comparable<TimeW
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.time.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof TimeWrapper // instanceof handles nulls
+                && this.time.equals(((TimeWrapper) other).get())); // state check
     }
 
     @Override
@@ -61,27 +78,15 @@ public class TimeWrapper implements InstanceWrapper<LocalTime>, Comparable<TimeW
         return this.time.toString();
     }
 
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof TimeWrapper // instanceof handles nulls
-                && this.time.equals(((TimeWrapper) other).get())); // state check
-    }
-
-    @Override
-    public int hashCode() {
-        return this.time.hashCode();
-    }
-
+    //@@author kkangs0226
     @Override
     public int compareTo(TimeWrapper other) {
         if (this.get().isBefore(other.get())) {
             return -1;
         } else if (this.get().isAfter(other.get())) {
             return 1;
-        } else {
-            return 0;
         }
+        return 0;
     }
 
 }

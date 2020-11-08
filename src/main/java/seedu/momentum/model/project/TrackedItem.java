@@ -1,3 +1,4 @@
+//@@author pr4aveen
 package seedu.momentum.model.project;
 
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
@@ -49,7 +50,7 @@ public abstract class TrackedItem implements UniqueItem<TrackedItem> {
      * @param deadline           A deadline associated with the tracked item.
      * @param reminder           A reminder associated with the tracked item.
      * @param tags               A set of tags associated to the tracked item.
-     * @param durations          A list of {@code WorkDuration} associated with the tracked item.
+     * @param durations          A list of durations spent working on the tracked item.
      * @param timerWrapper       A timerWrapper associated with the tracked item.
      */
     public TrackedItem(Name name, Description description, CompletionStatus completionStatus,
@@ -68,12 +69,12 @@ public abstract class TrackedItem implements UniqueItem<TrackedItem> {
     }
 
     /**
-     * Constructs a new {@code TrackedItem}
+     * Constructs a new {@code TrackedItem}.
      *
      * @param name               A valid name.
      * @param description        A description of the tracked item.
      * @param completionStatus   A completion status of the tracked item.
-     * @param createdDateWrapper A dateWrapper associated with the creation of the tracked item
+     * @param createdDateWrapper A dateWrapper associated with the creation of the tracked item.
      * @param deadline           A deadline associated with the tracked item.
      * @param reminder           A reminder associated with the tracked item.
      * @param tags               A set of tags associated to the tracked item.
@@ -116,9 +117,11 @@ public abstract class TrackedItem implements UniqueItem<TrackedItem> {
         return reminder;
     }
 
+    //@@author kkangs0226
     /**
      * Gets Deadline and name for {@code DeadLineCompare} comparator.
-     * Returns null if deadline is empty as {@code Comparator.nullsLast} method is used.
+     *
+     * @return Null if deadline is empty as {@code Comparator.nullsLast} method is used.
      */
     public HashMap<String, Object> getNullOrDeadline() {
         if (deadline.isEmpty()) {
@@ -133,31 +136,43 @@ public abstract class TrackedItem implements UniqueItem<TrackedItem> {
         return nameDeadlineMap;
     }
 
+    //@@author pr4aveen
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
+     *
+     * @return The tag set associated with this tracked item.
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
     }
 
+    //@@author boundtotheearth
     /**
      * Returns an unmodifiable view of the durations list.
+     *
+     * @return The list of durations spent working on this tracked item.
      */
     public ObservableList<WorkDuration> getDurationList() {
         return durations.asUnmodifiableObservableList();
     }
 
+    //@@author claracheong4
     /**
      * Remove the reminder of a trackedItem.
+     *
+     * @return A new copy of the tracked item with the reminder removed.
      */
     public abstract TrackedItem removeReminder();
 
     /**
-     * Update the expiry of the reminder.
+     * Updates the expiry of the reminder.
+     *
+     * @return A new copy of the tracked item with the reminder updated.
      */
     public abstract TrackedItem updateExpiredReminder();
 
+    //@@author boundtotheearth
     /**
      * Returns a copy of this tracked item with its timerWrapper started.
      *
@@ -179,14 +194,20 @@ public abstract class TrackedItem implements UniqueItem<TrackedItem> {
 
     /**
      * Checks if the tracked item's timerWrapper is currently running.
+     *
+     * @return True is the tracked item's timerWrapping is running, false otherwise.
      */
     public boolean isRunning() {
         return timerWrapper.isRunning();
     }
 
+    //@@author pr4aveen
     /**
-     * Returns true if both tracked item of the same name have at least one other identity field that is the same.
+     * Checks if two tracked items are the same.
      * This defines a weaker notion of equality between two projects.
+     *
+     * @return True if both tracked item of the same name have at least one other identity field that is the same,
+     * false otherwise.
      */
     public boolean isSameAs(TrackedItem otherTrackedItem) {
         if (otherTrackedItem == this) {
@@ -202,13 +223,18 @@ public abstract class TrackedItem implements UniqueItem<TrackedItem> {
     }
 
     /**
-     * Returns true if the instance is a Task. Returns false otherwise.
+     * Checks whether the instance is a task.
+     *
+     * @return True if the instance is a Task, false otherwise.
      */
     public abstract boolean isTask();
 
     /**
-     * Returns true if both tracked items have the same identity and data fields.
+     * Checks if an object is the same as the instance of the tracked item.
      * This defines a stronger notion of equality between two tracked items.
+     *
+     * @param other Object to check against.
+     * @return True if the object is the same as the instance of the tracked item, false otherwise.
      */
     @Override
     public boolean equals(Object other) {

@@ -11,12 +11,26 @@ import seedu.momentum.commons.core.StatisticTimeframeSettings;
  */
 public interface ReadOnlyUserPrefs {
 
+    /**
+     * Returns the gui window settings of the application.
+     */
     GuiWindowSettings getGuiWindowSettings();
 
+    //@@author khoodehui
+    /**
+     * Returns the gui theme settings of the application.
+     */
     GuiThemeSettings getGuiThemeSettings();
 
+    /**
+     * Returns the statistic timeframe settings of the application.
+     */
     StatisticTimeframeSettings getStatisticTimeframeSettings();
+    //@@author
 
+    /**
+     * Returns the file path of the project book.
+     */
     Path getProjectBookFilePath();
 
 }

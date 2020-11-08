@@ -1,3 +1,4 @@
+//@@author claracheong4
 package seedu.momentum.model.project;
 
 /**
@@ -27,7 +28,7 @@ public class CompletionStatus implements Comparable<CompletionStatus> {
     /**
      * Returns true if the status is completed, false otherwise.
      *
-     * @return isCompleted.
+     * @return The completion status of the object.
      */
     public boolean isCompleted() {
         return this.completionStatus;
@@ -35,9 +36,9 @@ public class CompletionStatus implements Comparable<CompletionStatus> {
 
     /**
      * Returns the reversed completion status.
-     * If the completion status was true, return a completion status with false..
+     * If the completion status was true, return a completion status with false.
      *
-     * @return the reverse completion status
+     * @return The reverse completion status.
      */
     public CompletionStatus reverse() {
         return new CompletionStatus(!this.completionStatus);

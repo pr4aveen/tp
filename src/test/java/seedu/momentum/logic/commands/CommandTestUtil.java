@@ -27,6 +27,7 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.CompletionStatus;
+import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.FindType;
@@ -210,6 +211,19 @@ public class CommandTestUtil {
             new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName)));
 
         assertEquals(1, model.getDisplayList().size());
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only item that shares the same name as
+     * the given {@code trackedItem} in the {@code model}'s project book.
+     *
+     * @param model
+     * @param name
+     */
+    public static void showTrackedItemWithName(Model model, Name name) {
+        final String[] splitName = name.fullName.split("\\s+");
+        model.updatePredicate(
+            new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName)));
     }
 
     /**
