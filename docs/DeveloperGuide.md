@@ -154,25 +154,6 @@ There are also classes with useful utility methods used to handle different type
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### Adding Tasks to Projects
-Since projects and tasks contain very similar fields, we have chosen to implement an abstract class, `TrackedItem` with these fields, and have both `Project` and `Task` extend from it. We then have each `Project` contain a list of `Task` that can be accessed. This is illustrated in the class diagram below:
-
-//Image here//
-
-This allows us to reduce code duplication, and allows us to handle both projects and task in a more general, abstract way. For example, the same `start`/`stop` command classes can be used for both projects and tasks by implementing them using `TrackedItem`. 
-
-#### Alternate Implementation: Projects in Projects
-Instead of have seperate `Project` and `Task` classes, we can model the concept by having each `Project` object contain more `Project` objects, as illustrated in the class diagram below:
-
-//Image here//
-
-We ultimately chose not to use this implementation because we expect `Project` and `Task` to be further differentiated in the future. Our chosen implementation will allow us to modify and extend the functionality of `Project` and `Task` seperately.
-
-#### Alternate Implementation: Using predicates to filter Tasks and Projects
-Another implementation we considered was to add all `Project` and `Task` objects the same `UniqueProjectsList`. The UI will only display projects when it is in the project view and tasks when it is in the tasks view. This will be done by modifying the predicates used on the `filteredTrackedItems` list in `ModelManager`. Other commands such as `Find` will modify the predicate similarly. 
-
-We rejected this implementation as we felt that it would be difficult to write more rigorous tests compared to our chosen implementation. The chosen implementation can reuse a lot of the tests that are already present in the codebase. This was an important consideration for us due to the time constraints we are presented with.
-
 ### Immutability
 `Projects`, `Tasks`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new
  object is created with the new details, and the model is updated with the new object.
@@ -358,7 +339,7 @@ The find command uses predicate chaining to search for projects/tasks based on o
 * `TagListContainsKeywordPredicate` - Searches for projects/tasks based on tags.
 * `CompletionStatusPredicate` - Searches for projects/tasks based on completion status.
 
-Each of these predicate classes extends the `ContainsKeywordPredicate` class which implements the `Predicate` interface. Each of these predicate classes takes in a match type, represented by the enumeration `FindType`.
+Each of these predicate classes extends the abstract `ContainsKeywordPredicate` class which implements the `Predicate` interface. Each of these predicate classes takes in a match type, represented by the enumeration `FindType`.
 
 The `ContainsKeywordPredicate` has a `testPredicate` method that is used or overridden by the subclasses. This method is used to test predicates based on the `FindType`. 
 
@@ -489,11 +470,11 @@ Both projects and tasks have many similarities. They share the following fields:
 * Tags
 
 Additionally, both need to work with Momentum's time tracking and statistics features.
-Therefore, it is reasonable to have an abstract `TrackedItem` class that contain the fields and methods shared by
+Therefore, it is reasonable to have an abstract `TrackedItem` class that contains the fields and methods shared by
  both projects and tasks, and have `Project` and `Task` extend from it.
  
-Projects and tasks then have fields and methods for the behaviours unique to each item. Specifically, a project will
-contain a list of tasks, and have methods that that allow it to modify its own list of tasks. This results in the
+Projects and tasks will then have fields and methods for the behaviours unique to each item. Specifically, a project will
+contain a list of tasks, and have methods that allow it to modify its own list of tasks. This results in the
  structure illustrated by the class diagram below:
  
 ![ProjectTaskClassDiagram](images/ProjectTaskClassDiagram.png)
@@ -511,7 +492,7 @@ projects (with their tasks not visible).
 
 //UI IMAGE EXAMPLE HERE?
 
-This is implemented by having a list of tracked items to be shown to the user, `itemList`. This lis is changed to be
+This is implemented by having a list of tracked items to be shown to the user, `itemList`. This list is changed to be
  the project's task list when a `view` command is executed, and changed to the overall project list when a `home
  ` command is executed. The list can then be further sorted (INSERT LINK TO SORT HERE) or filtered (INSERT LINK TO
   FILTER HERE) as required, to form a separate list, `displayList`, that is provided to the UI components to be
@@ -535,6 +516,18 @@ Drawbacks:
 
 #### Alternative 1: Using Predicates
 
+Another implementation we considered was to add all `Project` and `Task` objects the same `UniqueItemsList`. The UI will only display projects when it is in the project view and tasks when it is in the tasks view. This will be done by modifying the predicates used on the `displayList` in `ModelManager`. Other commands such as `Find` will modify the predicate similarly. 
+
+We have identified the following benefits and drawbacks of this implementation.
+
+Benefits:
+* This implementation is much simpler than having to maintain a separate list of `Task` objects for each project. It is likely
+ that existing commands would not have to be changed as much.
+
+Drawbacks:
+* A bi-directional association between projects and tasks will be needed. This is unnecessary as a project is composed of multiple tasks. Tasks do not need to know which project they are a part of.
+* It might be harder and more time consuming to write rigorous tests for this implementation.
+
 #### Alternative 2: Projects can contain Projects
 Since projects and tasks are so similar, it may make more sense to treat them as the same object in the first place
 . Therefore, it is possible to model a project's sub-tasks as projects themselves. This results in a structure where
@@ -554,9 +547,6 @@ Drawbacks:
 * We will be unable to differentiate between a project and sub-task, since they are both modeled as the same class
 . This means that project or sub-task specific features cannot be easily implemented without affecting the other.
 * Allowing for deeper nesting of projects may make the application more confusing to use without significant UI changes.
-
-
-
 ---
 
 ## **Documentation, logging, testing, configuration, dev-ops**
