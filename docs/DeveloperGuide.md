@@ -109,16 +109,44 @@ The `Model`,
 
 ![Structure of the Storage Component](images/StorageClassDiagram.png)
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/storage/Storage.java)
 
 The `Storage` component,
 
 * can save `UserPref` objects in json format and read it back.
-* can save the project book data in json format and read it back.
+* can save `JsonAdaptedProject` objects in `JsonSerializableProjectBook` in json format and read it back.
+
+The `JsonAdaptedTask` component contains fields of a `Task` in json format:
+
+* name in `String` format
+* description in `String` format
+* completionStatus in `boolean` format
+* createdDate in `String` format
+* deadline in `String` format
+* reminder in `String` format
+* tagged in `List<JsonAdaptedTag>` format
+* durations in `List<JsonAdaptedWorkDuration>` format
+* timer in `JsonAdaptedTimer` format
+
+In addition to the fields in `JsonAdaptedTask` component, `JsonAdaptedProject` contains a taskList in `List<JsonAdaptedTask>` format.
 
 ### Common classes
 
-Classes used by multiple components are in the `seedu.momentum.commons` package.
+Classes used by multiple components are in the `seedu.momentum.commons` package. These classes contain methods or data
+ used by various components and serve as a single source of such methods and data.
+ 
+Notable classes in this package include:
+
+* `Clock`: Acts as a consistent, single source of the 'current time' within the application
+* `DateWrapper`, `TimeWrapper`, `DateTimeWrapper`: Represents dates and times within Momentum, with utility methods
+ to calculate the dates and times required by various parts of the application.
+* `UniqueItem`, `UniqueItemList`: Represents a list of unique items that are compared using a specially defined
+ identity instead of the standard `equals()` method.
+* `GuiThemeSettings`, `GuiWIndowSettings`: Manages the GUI settings that can be changed by the user.
+* `StatisticTimeFrame`, `StatisticTimeFrameSettings`: Manages the statistics settings that can be changed by the user.
+
+There are also classes with useful utility methods used to handle different types of data, such as dates, times
+, strings, json and files.
 
 ---
 
@@ -164,20 +192,21 @@ In this case, since the project's timer is being changed, new `TimerWrapper`, `W
 We chose to implement projects this way as immutability makes these classes more easily testable.
 
 ### Timers and Durations
-The time tracking features in Momentum are implemented using `TimerWrapper` and `WorkDuration` objects. The below diagram
- illustrates the relevant classes that work together to produce statistics
+The time tracking features in Momentum are implemented using `TimerWrapper` and `WorkDuration` objects.
+The below diagram illustrates these classes are used in Momentum.
  
- ![StopTimerSequenceDiagram](images/TimerDurationClassDiagram.png)
+ ![TimerDurationClassDiagram](images/TimerDurationClassDiagram.png)
 
+Each project/task has a `TimerWrapper` that represents a timer that can track the time spent on that project. The timer 
+can be started and stopped by the user using the `start`/`stop` commands. 
 
-Each project has a `TimerWrapper` that can be started and stopped by the user (using the `start`/`stop` commands). The timer
- does not run actively (counting each second/millisecond), instead it records the time when it was started, and the time
-  when it was stopped. 
- 
-This implementation was chosen because it allows Momentum's timers to continue running even when the application is
-closed, bye saving the timer's start/stop times together with project data. We chose to give each `Project` its own
- timer as that allows Momentum to support running multiple timers concurrently, one for each project, for users that
-  want to multi-task.
+The timer does not run actively (counting each second/millisecond), instead it records the time when it was
+ started, and the time when it was stopped.  This implementation was chosen because it allows Momentum's timers to
+  continue running even when the application is
+closed, by saving the timer's start/stop times together with project/task data. 
+
+We chose to give each project and task its own timer as that allows Momentum to support running multiple timers
+ concurrently, one for each project /task, for users that want to multi-task.
 
 A `WorkDuration` represents a period of time that the user spent working on a project. Each `Project` contains a list
  of `WorkDuration` that represents each time the each the user starts and stops the timer for the project.
@@ -186,75 +215,123 @@ We chose to do this implementation to allow for flexibility in calculating stati
 
 ### Deadlines
 
+#### Implementing the Deadline class
+
 The deadline of a project and tasks is implemented using `DateWrapper` and `TimeWrapper`. The `dateWrapper` and `timeWrapper` is stored as `Optional<DateWrapper>` and `Optional<TimeWrapper>`in the `Deadline` class.
-Since both date and time is optional in the class, a deadline is empty when both `dateWrapper` and `timeWrapper` is empty. An empty deadline can be created easily without `Project` needing to know whether it has a deadline. This design was chosen due to the ease of implementation. Another reason is because no dummy data will be required. 
+Since both date and time is optional in the class, a deadline is empty when both `dateWrapper` and `timeWrapper` is empty. An empty deadline can be created easily without `Project` needing to know whether it has a deadline. This design was chosen due to the ease of implementation. Another reason is because no dummy data will be required.
+
+#### Alternative Implementation of Deadline class
 
 An alternative design is to store date and time in a `DateTimeWrapper` with dummy date and time if the date or time is not present as `LocalDateTime` requires both date and time. However, extra checks will have to be done to differentiate between dummy and actual data.
 
+#### Parsing a Deadline
+
 The date and time of a deadline of a project is parsed separately. This design is chosen as date and time is stored separately and the format of date and time can be more flexible.
+
+#### Alternative Way to Parse Deadline
 
 An alternative design is to parse both date and time together. This is harder to implement as date and time is stored separately in deadline. This design would also restrict the format of the date and time.
 
+#### Constraints of a Deadline
+
 The deadline also has a constraint that is has to be on or after the created date. This constraint has been added so that more meaningful statistics can be generated.
 
-As a result, the deadline has to be aware of the created date when created. The constructor of `Deadline` accepts a created date. For `EditCommand`, a descriptor containing edited fields is created directly from parsing the user input in `EditCommandParser`, hence the created date is unknown. A dummy date using `LocalDate.EPOCH` is passed into the constructor of `Deadline` in `EditCommandParser` to allow creation of the deadline. The check that deadline has to be on or after the created date is done in `EditCommand` after the creation date of the project to be edited is known.
+As a result, the deadline has to be aware of the created date when created. The constructor of `Deadline` accepts a created date.
+
+For `EditCommand`, a descriptor of type `editTrackedItemDescriptor` containing edited fields is created directly from parsing the user input in `EditCommandParser`, hence the created date is unknown. A dummy date using `LocalDate.EPOCH` is passed into the constructor of `Deadline` in `EditCommandParser` to allow creation of the deadline. The check that deadline has to be on or after the created date is done in `EditCommand#getUpdatedDeadline(trackedItemToEdit, editTrackedItemDescriptor, createdDateWrapper` after the creation date of the project to be edited is known.
+
+![Interactions Inside the Logic Component for the Edit Project Command with Deadline](images/EditDeadlineSequenceDiagram.png)
 
 ### Reminders
 
-The reminder of a task is implemented using `ReminderManager` and `Reminder`. The date and time of a reminder is stored in `Reminder`. `ReminderManager` schedules the reminder using `Timer` and runs the reminder using `ThreadWrapper`. 
+#### Scheduling Reminders
+
+The reminder of a task is implemented using `ReminderManager` and `Reminder`. The date and time of a reminder is stored in `Reminder`. `ReminderManager` schedules the reminder using `Timer` and runs the reminder using `ThreadWrapper`.
+
+![Structure of the Model Component for Reminders](images/ReminderClassDiagram.png)
+
+#### Alternative Implementation of Scheduling Reminders
 
 An alternative would be to schedule and run the reminder in `Reminder` class directly. This design was not chosen as that `Reminder` would have to contain references to both `Model` and `ProjectBook`, which is undesired.
 
-`ThreadWrapper` is a utility class which runs runnables using `Platform.runLater` when running the javaFX application, but switches to running the runnables directly when performing automated tests.
+#### Managing the Scheduling of Reminders
 
-An alternative would be to use `Platform.runLater` only to run the reminder. However, automated tests cannot directly run the reminder as it does not support `Platform`. This design was chosen to enable the reminder to be run directly.
+`ReminderManager` contains a reference to a `Model` so that the projects and tasks can be iterated through callback methods and the reminders of the projects can be modified.
+To schedule reminders, several callback functions such as  is used to iterate through the project book in the model. Firstly, `ModelManager#rescheduleReminders()` calls `ReminderManager#rescheduleReminder()`, which calls
+`Model#rescheduleReminder()` to iterate through the project book through `ProjectBook#rescheduleReminder(ReminderManager reminderManager)`.
+The method call will then call methods such as `ReminderManager#rescheduleReminder(Project project)` and `Project#rescheduleReminder(ReminderManager reminderManager)` to reschedule the reminders.
 
-`ReminderManager` contains a reference to a `Model` so that the projects and tasks can be iterated through callback methods and the reminders of the projects can be modified. `ReminderManager` makes use of several callback functions such as `rescheduleReminder(ReminderManager reminderManager)` to iterate through the project, which in turns calls `rescheduleReminder(Project project)` in `ReminderManager`.
+![Schedule Reminder Sequence Diagram](images/ScheduleReminderSequenceDiagram.png)
 
 `ReminderManager` has an inner class `ReminderTimerTask` which implements `TimerTask` that is used to schedule a reminder with `Timer`. This design was chosen as `ReminderTimerTask` references non-static methods of `ReminderMananger` as well as `Model`, which is also referenced in `ReminderManager`.
 
+#### Alternative Way of Scheduling of Reminders
+
 An alternative implementation is to implement `ReminderTimerTask` as a separate class. With this implementation, `ReminderTimerTask` will have to contain extra references such as `ReminderManager` and `Model`.
 
-The result of the reminder is stored as a `StringProperty` and retrieved from the `Model` so that a listener can be used in `MainWindow` to detect changes and update the GUI acccordingly. This design was chosen due to the ease of implementation. 
+#### Running Reminders
+
+At the date and time scheduled, the reminder will be run.
+In the process of running the reminders, the UI will show the reminder and it will be removed.
+
+![Run Task Reminder Sequence Diagram](images/RunTaskReminderSequenceDiagram.png)
+
+The result of the reminder is stored as a `StringProperty` and retrieved from the `Model` so that a listener can be used in `MainWindow` to detect changes and update the GUI acccordingly. This design was chosen due to the ease of implementation.
 
 `BooleanProperty` is also stored to keep track of whether there are any reminders so that `MainWindow` can detect whether there are reminders and hide or show the reminder panel accordingly. This design was also chosen due to the ease of implementation.
 
-Whenever a project is added, edited or removed, the reminders needs to be adjusted accordingly. The chosen implementations is to reschedule all the reminders. 
+`ThreadWrapper` is a utility class which runs runnables in `ReminderManager.ReminderTimerTask#run()` using `Platform.runLater` when running the javaFX application, but switches to running the runnables directly when performing automated tests.
+
+#### Alternative Way to Run Reminders
+
+An alternative would be to use `Platform.runLater` only to run the reminder. However, automated tests cannot directly run the reminder as it does not support `Platform`. This design was chosen to enable the reminder to be run directly.
+
+#### Rescheduling Reminders
+
+Whenever a project is added, edited or removed, the reminders needs to be adjusted accordingly. The chosen implementations is to reschedule all the reminders.
+
+#### Alternative Way to Reschedule Reminders
 
 An alternative would be to only reschedule projects that are affected by the change. This design was not chosen as it is more complicated and would increase the coupling between `ReminderManager` and other related classes.
 
-
 ### Statistics
-Statistics in Momentum are implemented using a Command design pattern, similar to how Commands are implemented. A
- `StatisticManager` contains all the `Statistic` objects and is responsible for updating each `Statistic` whenever
-  the model is changed.
+Statistics in Momentum are implemented using a Command design pattern, similar to how Commands are implemented. Each
+ statistic tracked by Momentum is represented by a `Statistic` object, and a `StatisticManager` contains all the 
+ statistics and is responsible for updating them whenever the model is changed.
   
- Each `Statistic` exposes a `calculate(Model model)` method that is called by the `StatisticManager` to calculate or
+ Each statistic exposes a `calculate(Model model)` method that is called by the `StatisticManager` to calculate or
   update the data with the information in the model. The method contains instructions on how that particular
    statistic is calculated. 
    
 For example, the `PeriodicTotalTimeStatistic` calculates the amount of time the user
 spends on each project for some period of time, and is calculated by looking at each project in the model and
- summing up all the `WorkDuration` for the given period.
+ summing up all the durations spent working on the project for the given timeframe.
  
 The statistics data is stored in each `Statistic` object as one or more `StatisticEntry` objects. A `StatisticEntry
 ` represents a unit statistics data, which contains a `label` describing the data and the data's `value`.
  
-Here is a sequence diagram to demonstrate how the statistics for time spent per project (weekly) is calculated and
+Below is a sequence diagram to demonstrate how the statistics for time spent per project (weekly) is calculated and
  how the data is retrieved.
 
 ![StatsSequenceDiagram](images/StatsSequenceDiagram.png)
 
+Momentum currently supports calculating statistics within the following timeframes:
+* **Daily**: The period between midnight of the previous day, to the current time.
+* **Weekly**: The period between midnight of the monday of that week, to the current time.
+* **Monthly**: The period between midnight of the 1st day of the month, to the current time.
+
+The timeframe used to calculate statistics can be set by the user. (//TODO LINK TO STATISTICS HERE)
+
 ### Managing Time
-Time is managed by a `Clock` class. This class has 3 modes that allow for it to perform different functions:
+The `Clock` class acts as a consistent, single source of the 'current time' within the application, and provides the
+ option to manually set and control the current time for testing purposes. Objects that need to know the current time
+  must obtain it from `Clock`.
+  
+The `Clock` class has 3 modes that allow for it to perform different functions:
 1. Normal: The normal system time is returned.
 2. Fixed: The same, preset time is always returned. Used for testing purposes.
 3. Manual: The passage of time can be manually controlled, such as fast-forwarding and rewinding time by specific
  amounts. Used for testing purposes.
- 
-The `Clock` class acts as a consistent, single course of the 'current time' within the application, and provides the
- option to manually set and control the current time for testing purposes. Objects that need to know the current time
-  must obtain it from `Clock`.
  
 This implementation was chosen because it allows all time-related features to be more easily testable.
 
@@ -265,6 +342,13 @@ This implementation was considered but ultimately rejected as it introduced seve
   similar methods, since time would always progress by a small amount between each call
  * It is difficult to test features that require the passage of time, such as the `start` and `stop` commands as we
   would need to actually wait an amount of time during the tests.
+  
+Below are some activity diagrams to illustrate the process of obtaining the current time from `Clock` in the various
+ modes:
+
+| ![](images/ClockActivityDiagram1.png) | ![](images/ClockActivityDiagram2.png) | ![](images/ClockActivityDiagram3.png)|
+|:---:|:---:|:---:|
+|Normal|Fixed|Manual|
 
 ### Find Command
 The find command uses predicate chaining to search for projects/tasks based on one or more parameters. A predicate is created for each type of search parameter (name, description, tags, completion status). There are four predicates classes defined for this purpose.
@@ -388,6 +472,91 @@ _{more aspects and alternatives to be added}_
 
 _{Explain here how the data archiving feature will be implemented}_
 
+### Adding Tasks to Projects
+In Momentum, each project can contain a list of tasks. These can use used to represent various sub-tasks that the
+user needs to do as part of the project. This section will explain how this is implemented, and some alternative
+ implementations that we have considered.
+ 
+#### Chosen Implementation:
+Both projects and tasks have many similarities. They share the following fields:
+
+* Name
+* Description
+* Completion Status
+* Reminder
+* Deadline
+* Created Date
+* Tags
+
+Additionally, both need to work with Momentum's time tracking and statistics features.
+Therefore, it is reasonable to have an abstract `TrackedItem` class that contain the fields and methods shared by
+ both projects and tasks, and have `Project` and `Task` extend from it.
+ 
+Projects and tasks then have fields and methods for the behaviours unique to each item. Specifically, a project will
+contain a list of tasks, and have methods that that allow it to modify its own list of tasks. This results in the
+ structure illustrated by the class diagram below:
+ 
+![ProjectTaskClassDiagram](images/ProjectTaskClassDiagram.png)
+
+This allows us to take advantage of polymorphism to ensure that every command will work with both projects and tasks
+, without having to provide separate implementations for each.
+ 
+Below is an object diagram to illustrate and example of the structure of some projects and tasks being tracked by
+ Momentum:
+
+![ProjectTaskObjectDiagram](images/ProjectTaskObjectDiagram.png)
+
+The `view` and `home` commands allow users to navigate between viewing a single project's tasks, and a view of all
+projects (with their tasks not visible).
+
+//UI IMAGE EXAMPLE HERE?
+
+This is implemented by having a list of tracked items to be shown to the user, `itemList`. This lis is changed to be
+ the project's task list when a `view` command is executed, and changed to the overall project list when a `home
+ ` command is executed. The list can then be further sorted (INSERT LINK TO SORT HERE) or filtered (INSERT LINK TO
+  FILTER HERE) as required, to form a separate list, `displayList`, that is provided to the UI components to be
+   displayed to the user.
+
+Most of the commands in Momentum thus become context sensitive, behaving differently depending on whether the project
+ list is being viewed, or a task list if being viewed. For example, the `add` command would add a project if the user
+  is viewing the project list, but if the user is viewing a specific project's task list, it will add a task to that
+   project instead.
+
+We have identified the following benefits and drawbacks of this implementation.
+
+Benefits:
+* Having a `TrackedItem` parent class gives us the opportunity to easily extend Momentum to track other things beyond
+ projects and tasks, while also making it easier to integrate new items with existing commands.
+* Having a clear difference between `Project` and `Task` classes allows us to further differentiate projects and
+ tasks in the future. Additional task or project specific features can be easily added without affecting the other.
+Drawbacks:
+* Some type casting is required for certain operations on projects and tasks, especially for testing purposes. While
+ this is not neccessarily a bad thing, it may make the code less readable and harder to follow.
+
+#### Alternative 1: Using Predicates
+
+#### Alternative 2: Projects can contain Projects
+Since projects and tasks are so similar, it may make more sense to treat them as the same object in the first place
+. Therefore, it is possible to model a project's sub-tasks as projects themselves. This results in a structure where
+ each project can contain a list of other projects, as illustrated below:
+ 
+![ProjectInProjectClassDiagram](images/ProjectInProjectClassDiagram.png)
+
+We have identified the following benefits and drawbacks of this implementation.
+
+Benefits:
+* This implementation is much simpler than having to maintain seperate `Project` and `Task` classes. It is likely
+ that existing commands would not have to be changed as much.
+* Projects and contain not just sub-tasks, but sub-sub-tasks, sub-sub-sub-tasks, etc, allowing for deeper nesting of
+ projects. This may be useful for users to manage more complex project structures.
+
+Drawbacks:
+* We will be unable to differentiate between a project and sub-task, since they are both modeled as the same class
+. This means that project or sub-task specific features cannot be easily implemented without affecting the other.
+* Allowing for deeper nesting of projects may make the application more confusing to use without significant UI changes.
+
+
+
 ---
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -441,6 +610,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
 | `*`      | user with many projects in the project book | sort projects by completion status                | locate an incomplete or complete project easily                                                 |
 | `*`      | user with many projects in the project book | hide and show the tags panel                | focus more on statistics and timers                                                 |
+| `*`      | user with many projects in the project book | dismiss the reminder                | focus more on statistics and timers                                                 |
 | `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
 | `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
 | `* *`    | user | can create tasks within a project | better organize my work
@@ -459,8 +629,6 @@ _{More to be added}_
 2.  Momemtum starts the timer for the project.
 3.  User requests to end a timer for a specific project in the list.
 4.  Momemtum ends the timer for the project.
-(For all use cases below, the **System** is the `ProjectBook` and the **Actor** is the `user`, unless specified
- otherwise).
 
 **Extensions**
 
@@ -482,17 +650,35 @@ _{More to be added}_
 
     Use case ends.
 
+**Use case: Add a project**
+
+**MSS**
+
+1. User requests to add a project with a name, a description, a deadline, a completion status, a reminder and a tag.
+2. Momentum shows a command result and updates the project list shown to reflect the addition.
+3. At the date and time of the reminder specified, the reminder panel will show the name of the project and remove the reminder of the project.
+
+**Extensions**
+
+* 2a. Momentum detects an error in the user input or a duplicate project in the project list.
+  
+  * a1. Momentum shows an error message.
+
+    Use case ends.
+
+The use cases for editing a project, adding a task and editing a project is similar to adding a project, except that the error messages differ slightly.
+
 **Use case: Delete a project**
 
 **MSS**
 
-1.  User requests to list projects
-2.  ProjectBook shows a list of projects
-3.  User requests to delete a specific project in the list
-4.  ProjectBook deletes the project
+1.  User requests to list projects.
+2.  Momentum shows a list of projects.
+3.  User requests to delete a specific project in the list.
+4.  Momentum deletes the project.
 
     Use case ends.
-
+    
 **Extensions**
 
 * 3a. The given project id is invalid.
