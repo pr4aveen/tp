@@ -1,7 +1,7 @@
 @startuml
 !include style.puml
 
-box What should i name this  LOGIC_COLOR_T1
+box FindCommandParser  LOGIC_COLOR_T1
 participant ":FindCommandParser" as FindCommandParser LOGIC_COLOR
 participant ":FindType" as FindType LOGIC_COLOR
 participant ":ContainsKeywordPredicate" as ContainsKeywordPredicate LOGIC_COLOR
