@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.momentum.commons.core.DateWrapper;
-import seedu.momentum.commons.core.TimeWrapper;
 import seedu.momentum.commons.exceptions.IllegalValueException;
 import seedu.momentum.model.project.Deadline;
 
@@ -55,21 +54,7 @@ class JsonAdaptedDeadline {
      * @throws IllegalValueException If there were any data constraints violated in the adapted duration.
      */
     public Deadline toModelType(DateWrapper createdDateWrapper) throws IllegalValueException {
-        if (this.date == null) {
-            return new Deadline();
-        }
-        if (!DateWrapper.isValid(date)) {
-            throw new IllegalValueException(DateWrapper.MESSAGE_CONSTRAINTS);
-        }
-
-        if (this.time == null) {
-            return new Deadline(date, createdDateWrapper);
-        }
-        if (!TimeWrapper.isValid(time)) {
-            throw new IllegalValueException(TimeWrapper.MESSAGE_CONSTRAINTS);
-        }
-
-        return new Deadline(date, time, createdDateWrapper);
+        return JsonToModel.getModelDeadline(date, time, createdDateWrapper);
     }
 
 }

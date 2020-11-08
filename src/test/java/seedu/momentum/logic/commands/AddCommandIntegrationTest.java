@@ -81,6 +81,7 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_addProjectCommand_showReminder() throws CommandException, InterruptedException {
+        Clock.reset();
         String dateTimeStr = Clock.now().plus(200, ChronoUnit.MILLIS).toString();
         Project project = new ProjectBuilder().withName("daesdaef").withReminder(dateTimeStr).build();
 
@@ -91,8 +92,7 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_addTaskCommand_showReminder() throws CommandException, InterruptedException {
-        ThreadWrapper.setIsRunningOnPlatform(false);
-
+        Clock.reset();
         String dateTimeStr = Clock.now().plus(1500, ChronoUnit.MILLIS).toString();
         Project parentProject = ALICE;
         Task task = new TaskBuilder().withName("daesdaef").withReminder(dateTimeStr).build();
