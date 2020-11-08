@@ -56,9 +56,10 @@ BottomBar ---|> UiPart
 HelpWindow -down-|> UiPart
 ReminderDisplay -----|> UiPart
 TimerListPanel -----|> UiPart
-StatListPanel ----|> UiPart
+StatListPanel -----|> UiPart
 TagsDisplay -----|> UiPart
 
+BottomBar ..> Model
 ReminderDisplay ..> Model
 TrackedItemCard ..> Model
 TagsDisplay ..> Model
