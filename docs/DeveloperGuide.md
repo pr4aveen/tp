@@ -601,15 +601,18 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                        | add and edit a deadline for a project                    |                                                                         |
 | `* * *`  | user                                        | add and edit a reminder for a project                    |                                                                         |
 | `* * *`  | user                                        | delete a project                     | remove entries that I no longer need                                    |
-| `* * *`  | user                                        | find a project by name               | locate details of projects without having to go through the entire list |
-| `* * *`  | user                                        | find a project by completion status               | locate projects that are completed or imcomplete without having to go through the entire list |
+| `* * *`  | user                                        | find a project by name              | locate projects by name without having to go through the entire list |
+| `* * *`  | user                                        | find a project by description               | locate projects by description without having to go through the entire list |
+| `* * *`  | user                                        | find a project by tag               | locate projects by tag without having to go through the entire list |
+| `* * *`  | user                                        | find a project by completion status               | locate projects that are completed or incomplete without having to go through the entire list |
+| `* * *`  | user                                        | find a project by multiple parameters               | locate details of projects without having to go through the entire list |
 | `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
 | `*`      | user with many projects in the project book | sort projects by completion status                | locate an incomplete or complete project easily                                                 |
 | `*`      | user with many projects in the project book | hide and show the tags panel                | focus more on statistics and timers                                                 |
 | `*`      | user with many projects in the project book | dismiss the reminder                | focus more on statistics and timers                                                 |
 | `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
 | `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
-| `* *`    | user | can create tasks within a project | better organize my work
+| `* *`    | user | can create tasks within a project    | better organize my work
 
 _{More to be added}_
 
@@ -698,6 +701,8 @@ _{More to be added}_
 
 * **Command Line Interface(CLI)**: Command Line Interface processes commands in the form of text
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
+* **Project View**: View all projects in the project book.
+* **Task View**: View all tasks that are added to a single project.
 
 ---
 
@@ -724,23 +729,6 @@ testers are expected to do more *exploratory* testing.
 
    1. Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
-
-1. _{ more test cases …​ }_
-
-### Deleting a project
-
-1. Deleting a project while all projects are being shown
-
-   1. Prerequisites: List all projects using the `list` command. Multiple projects in the list.
-
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-
-   1. Test case: `delete 0`<br>
-      Expected: No project is deleted. Error details shown in the status message. Status bar remains the same.
-
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
 
