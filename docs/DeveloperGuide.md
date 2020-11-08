@@ -358,7 +358,7 @@ Settings are saved by updating `GuiThemeSettings` and/or `StatisticTimeframeSett
 
 Model manager will call on `UserPrefs#returnChangedGuiThemeSettings` or `UserPrefs#returnChangedStatisticTimeframeSettings` when updating the settings. Notice that the two methods will return a new `UserPrefs`. This design is chosen so as to support `Undo/Redo`, where versions can be placed on the different instances of `UserPrefs`.
 
-### Settings Update Manager
+#### Settings Update Manager
 `SettingsUpdateManager` is a class that assists in updating the application instance with the new settings when there are changes made to `UserPrefs`. 
 
 Currently, the user adjustable settings are the GUI theme and the timeframe of the statistics shown. Hence, `SettingsUpdateManager` takes in a `Ui`, and a `StatisticGenerator` as class attributes in order to update them. 
