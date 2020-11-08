@@ -478,7 +478,7 @@ Result: Stops the timer for the second project in the list.
 On the left side of the window is the Active TImers Panel. This is where Momentum shows you all the timers that are
  currently running.
  
-//UI IMAGE HERE
+![ActiveTimersUI](images/ActiveTimersUI.png)
 
 This panel will show you the name of the project/task, as well as when the timer was started.
 
@@ -486,20 +486,20 @@ This panel will show you the name of the project/task, as well as when the timer
 Here is an example of how you can use the `start` and `stop` commands to track the time that you spend on a project.
 Suppose that you are going to start working on _________, which is the first item shown below:
 
-//TODO UI IMAGE HERE
+![TimerExample1](images/TimerExample1.png)
 
 You can perform time tracking with the following steps:
 1. To start the timer, type `start 1` into the command box and press `enter`.
 
-//TODO UI IMAGE HERE
+![TimerExample2](images/TimerExample2.png)
 
 1. You should see the following message in the result box, indicating that the timer has been successfully started.
 
-//TODO UI IMAGE HERE
+![TimerExample3](images/TimerExample3.png)
 
 1. You should also see the project's name and start time in the active timers panel:
 
-//TODO UI IMAGE HERE
+![TimerExample4](images/TimerExample4.png)
 
 1. Now that the timer has been successfully started, you can proceed to do your work. You can also choose to close
  Momentum. The timer will continue to run even when Momentum is closed. Proceed to the next step when you are done
@@ -507,21 +507,21 @@ You can perform time tracking with the following steps:
   
 1. To stop the timer, type `stop 1` into the command box and press `enter`.
 
-//TODO UI IMAGE HERE
+![TimerExample5](images/TimerExample5.png)
 
 1. You should see the following message in the result box, indicating that the timer has been successfully stopped.
 
-//TODO UI IMAGE HERE
+![TimerExample6](images/TimerExample6.png)
 
 1. You should also see that the project has been removed from the active timers panel:
 
-//TODO UI IMAGE HERE
+![TimerExample7](images/TimerExample7.png)
 
 1. The statistics panel (see [statistics](#statistics)) will also be updated to reflect the time that you have spent
  working on the
  project:
  
-//TODO UI IMAGE HERE
+![TimerExample8](images/TimerExample8.png)
 
 ## Undo/Redo
 
@@ -561,12 +561,12 @@ Momentum uses the data collected from your timers (see [time tracking](#time-tra
   when timers for a project /task are started or stopped. 
  These statistics can be seen in a panel on the left side of the window, as shown here: 
 
-//TODO UI IMAGE HERE
+![StatisticsUI1](images/StatsUI1.png)]
 
 The statistics displayed correspond to the projects or tasks currently shown in the list, and will automatically
  change when the items in the list changes (such as when you find specific projects or sort the list of projects).
 
-//TODO UI IMAGE HERE
+![StatisticsUI2](images/StatsUI2.png)
 
 You do not need to use any additional commands to update or view the statistics.
 
