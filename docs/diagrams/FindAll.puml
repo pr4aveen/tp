@@ -1,0 +1,9 @@
+@startuml
+(*)  --> "FindType all selected"
+--> New predicate created
+--> "Individual predicate will test whether
+all keywords match the tracked item"
+--> Individual predicates combined using logical AND
+--> Combined predicate created
+-->(*)
+@enduml

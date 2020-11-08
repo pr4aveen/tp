@@ -274,7 +274,7 @@ The find command uses predicate chaining to search for projects/tasks based on o
 * `TagListContainsKeywordPredicate` - Searches for projects/tasks based on tags.
 * `CompletionStatusPredicate` - Searches for projects/tasks based on completion status.
 
-Each of these predicate classes extends the `ContainsKeywordPredicate` class. The `ContainsKeywordPredicate` has a `protected testPredicate` method that is used or overridden by the subclasses. This method is used to test predicates based on the `FindType`. 
+Each of these predicate classes extends the `ContainsKeywordPredicate` class. The `ContainsKeywordPredicate` has a `testPredicate` method that is used or overridden by the subclasses. This method is used to test predicates based on the `FindType`. 
 
 The following class diagram shows the structure of the aforementioned predicate classes.
 
@@ -282,15 +282,25 @@ The following class diagram shows the structure of the aforementioned predicate 
 
 The `FindCommandParser` creates a list of predicates based on the arguments entered into the command. Each predicate takes in a match type, represented by the enumeration `FindType`.
 
-*check if correct representation for non-static*-> `FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem>`. The `filteredTrackedItemsList` is updated to contain all projects and tasks without updating the user interface. After this, `FindCommand` uses used to update the`filteredTrackedItemsList` and the user interface.
+`FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem> predicate`. The `FindCommand` will pass `predicate` into `Model#updatePredicate` to update the `displayList`.
+
+The process of creating and chaining predicates varies based on the `FindType` selected. The following activity diagrams show this process for each `FindType`.
+
+| ![FindAny](images/FindAny.png) | ![FindAll](images/FindAll.png) | ![FindNone](images/FindNone.png)|
+|:---:|:---:|:---:|
+|Find Any|Find All|Find None|
 
 This design was chosen as it built on the existing implementation of the find command, which passed a `NameContainsKeywordPredicate` to the `filteredTrackedItemsList`. This means that minimal changes to other parts of the project were required. 
-
-// should i include a disadvantge of this method -- testability of predicate chaining //
 
 The following sequence diagram shows how the `FindCommandParser`works.
 
 ![FindCommandParserSequenceDiagram](images/FindCommandParserSequenceDiagram.png)
+
+#### Rejected implementation: Using a custom predicate class
+
+We considered using a custom predicate class to contain all predicates in a separate `MomentumPrediate` interface.
+
+This implementation was ultimately rejected as it introduced unnecessary complexities with Predicate chaining. The `MomentumPredicate` interface will need to override `Predicate#and` and `Predicate#or` with our custom implmentation. 
 
 ### \[Proposed\] Undo/redo feature
 

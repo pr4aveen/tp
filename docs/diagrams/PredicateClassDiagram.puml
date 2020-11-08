@@ -5,19 +5,25 @@ skinparam arrowThickness 1.1
 skinparam arrowColor LOGIC_COLOR_T4
 
 
-Interface Predicate<TrackedItem> <<Interface>> LOGIC_COLOR {
+Interface Predicate<TrackedItem><<Interface>> USER_COLOR {
     +test() : boolean
     +and() : Predicate<TrackedItem>
     +or() : Predicate<TrackedItem>
 }
 
 package Predicates {
-Class ContainsKeywordPredicate MODEL_COLOR {
+abstract class ContainsKeywordPredicate MODEL_COLOR {
     #List<String> : keywords
     #FindType : findType
 
     #testPredicate() : boolean
     +equals() : boolean
+}
+
+enum FindType<<Enumeration>> MODEL_COLOR{
+    ANY
+    ALL
+    NONE
 }
 
 Class NameContainsKeywordPredicate MODEL_COLOR {
