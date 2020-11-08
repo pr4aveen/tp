@@ -494,8 +494,8 @@ projects (with their tasks not visible).
 
 This is implemented by having a list of tracked items to be shown to the user, `itemList`. This list is changed to be
  the project's task list when a `view` command is executed, and changed to the overall project list when a `home
- ` command is executed. The list can then be further sorted (INSERT LINK TO SORT HERE) or filtered (INSERT LINK TO
-  FILTER HERE) as required, to form a separate list, `displayList`, that is provided to the UI components to be
+ ` command is executed. The list can then be further sorted (INSERT LINK TO SORT HERE) or filtered as required using 
+ the [find command](#find-command), to form a separate list, `displayList`, that is provided to the UI components to be
    displayed to the user.
 
 Most of the commands in Momentum thus become context sensitive, behaving differently depending on whether the project
@@ -516,7 +516,13 @@ Drawbacks:
 
 #### Alternative 1: Using Predicates
 
-Another implementation we considered was to add all `Project` and `Task` objects the same `UniqueItemsList`. The UI will only display projects when it is in the project view and tasks when it is in the tasks view. This will be done by modifying the predicates used on the `displayList` in `ModelManager`. Other commands such as `Find` will modify the predicate similarly. 
+Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`. Both `Project` and `Task` will both extend `TrackedItem`.
+
+A rough summary of the proposed implementation is as follows:
+* There will be two sets of predicates. The first predicate will be used to check whether an object is a project or a task. The second predicate will be the normal predicate used to filter the list in the find command.
+* Changes in view will modify the first predicate.
+* Using the find command will modify the second predicate.
+* The predicate used to determine the entries shown in the `displayList` is the logical AND of the first and second predicates.
 
 We have identified the following benefits and drawbacks of this implementation.
 
@@ -525,8 +531,8 @@ Benefits:
  that existing commands would not have to be changed as much.
 
 Drawbacks:
-* A bi-directional association between projects and tasks will be needed. This is unnecessary as a project is composed of multiple tasks. Tasks do not need to know which project they are a part of.
-* It might be harder and more time consuming to write rigorous tests for this implementation.
+* A bi-directional association between projects and tasks will be needed. This is unnecessary as a project is composed of multiple tasks. Tasks do not need to know which project they are a part of. 
+* It might be harder and more time-consuming to write rigorous tests for this implementation.
 
 #### Alternative 2: Projects can contain Projects
 Since projects and tasks are so similar, it may make more sense to treat them as the same object in the first place
