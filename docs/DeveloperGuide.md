@@ -56,7 +56,7 @@ The sections below give more details of each component.
 **API** :
 [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `ProjectListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `TrackedItemListPanel`, `BottomBar` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
 
@@ -340,6 +340,30 @@ This design was chosen as it built on the existing implementation of the find co
 The following sequence diagram shows how the find command works.
 
 // Insert seq diagram here. //
+
+### Settings
+Currently, the settings which can be adjusted by the user using a command are the GUI theme and the timeframe of the statistics shown. 
+
+#### Set Command
+The command works by first creating and filling up a `SettingsToChange` object with the settings given by the user, and then identifying what will be changed, then calling necessary methods in `Model` such as `setGuiThemeSettings` or `setStatisticTimeframeSettings`.
+
+The settings changed by the user will also reflect immediately in the application. This is handled by [`SettingsUpdateManager`](#settings-update-manager), which is called during the execution of the command.
+
+The following sequence diagram shows how the set command works.
+![SetCommandSequenceDiagram](images/SetCommandSequenceDiagram.png)
+
+#### Updating User Prefs
+Settings are saved by updating `GuiThemeSettings` and/or `StatisticTimeframeSettings` in `UserPrefs` in the application model. All class attributes in `UserPrefs` are serializable, so that all settings in `UserPrefs` can be saved in `preferences.json` when the user exits the application. Below is the class diagram of `UserPrefs`.
+![UserPrefsClassDiagram](images/UserPrefsClassDiagram.png)
+
+Model manager will call on `UserPrefs#returnChangedGuiThemeSettings` or `UserPrefs#returnChangedStatisticTimeframeSettings` when updating the settings. Notice that the two methods will return a new `UserPrefs`. This design is chosen so as to support `Undo/Redo`, where versions can be placed on the different instances of `UserPrefs`.
+
+### Settings Update Manager
+`SettingsUpdateManager` is a class that assists in updating the application instance with the new settings when there are changes made to `UserPrefs`. 
+
+Currently, the user adjustable settings are the GUI theme and the timeframe of the statistics shown. Hence, `SettingsUpdateManager` takes in a `Ui`, and a `StatisticGenerator` as class attributes in order to update them. 
+
+`SettingsUpdateManager#updateTheme` and `SettingsUpdateManager#updateStatisticTimeFrame` are designed to handle null cases of `Ui` and `StatisticGenerator` so as to make testing more convenient. This is because there are methods being tested that will indirectly call the above methods. Allowing `Ui` and `StatisticGenerator` to be null will allow them to not be instantiated in the tests.
 
 ### \[Proposed\] Undo/redo feature
 
