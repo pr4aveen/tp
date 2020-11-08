@@ -11,7 +11,6 @@ import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.commons.core.StatisticTimeframe;
 import seedu.momentum.commons.core.Theme;
 import seedu.momentum.logic.statistic.StatisticGenerator;
-import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.ReadOnlyUserPrefs;
 import seedu.momentum.ui.Ui;
 

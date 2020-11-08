@@ -82,7 +82,8 @@ public class CommandTestUtil {
             + " " + PREFIX_COMPLETION_STATUS;
     public static final String VALID_DEADLINE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_DEADLINE_TYPE
             + " " + PREFIX_COMPLETION_STATUS;
-    public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_CREATED_TYPE;
+    public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_CREATED_TYPE
+            + " " + PREFIX_COMPLETION_STATUS;
 
     public static final String INVALID_THEME = "transparent";
     public static final String INVALID_STATISTIC_TIMEFRAME = "yearly";

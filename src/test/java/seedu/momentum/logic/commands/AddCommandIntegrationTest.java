@@ -2,7 +2,6 @@ package seedu.momentum.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.momentum.logic.commands.AddProjectCommand.TEXT_PROJECT;
-import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
@@ -20,7 +19,6 @@ import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
-import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.SortType;
 import seedu.momentum.model.reminder.ReminderManager;
 import seedu.momentum.testutil.ProjectBuilder;

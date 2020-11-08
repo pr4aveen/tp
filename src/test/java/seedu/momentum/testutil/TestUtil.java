@@ -6,10 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import seedu.momentum.commons.core.index.Index;
-import seedu.momentum.model.Model;
-import seedu.momentum.model.project.TrackedItem;
-
 /**
  * A utility class for test cases.
  */

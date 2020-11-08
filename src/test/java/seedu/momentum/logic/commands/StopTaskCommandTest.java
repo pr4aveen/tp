@@ -24,7 +24,6 @@ import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 import seedu.momentum.testutil.ProjectBuilder;
 import seedu.momentum.testutil.TypicalTimes;
 
