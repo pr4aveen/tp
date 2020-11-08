@@ -88,11 +88,6 @@ public class SortCommandParserTest {
     }
 
     @Test
-    public void parse_nonEmptyPreambleNoArguments_success() {
-
-    }
-
-    @Test
     public void parse_nonEmptyPreamble_failure() {
 
         // Non-empty preamble without sort type and sort order
