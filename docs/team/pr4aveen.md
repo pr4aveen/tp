@@ -31,7 +31,7 @@ Given below are my contributions to the project.
   * Created GitHub organization and repository
   * Refactored the code base at the start to remove code that wasn't necessary for us to morph our product.
   * Miscellaneous GitHub related set-up (product website, protected GitHub branch, set up tests, etc.)
-  * Managed release `v1.3`
+  * Managed release `v1.2`
   * Updated Developer Guide to include Manual Testing steps.
 
 * **Enhancements to existing features**:
