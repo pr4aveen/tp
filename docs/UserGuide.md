@@ -540,6 +540,13 @@ If a certain search type is used more than once, the latest entry will be used.
 
 </div>
 
+<div markdown="block" class="alert alert-info">
+
+:bulb: **Tip:**
+The projects/tasks in Momentum will no longer be filtered after the `Add`, `View` or `Home` Commands are used.
+They will continue to be filtered after the `Edit` and `Delete` Commands are used.
+</div>
+
 ### Time Tracking
 
 You can track the time you spend working on a project or task by starting a timer when you start working, and then
