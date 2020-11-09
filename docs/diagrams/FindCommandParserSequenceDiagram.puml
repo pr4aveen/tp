@@ -3,8 +3,10 @@
 
 box FindCommandParser  LOGIC_COLOR_T1
 participant ":FindCommandParser" as FindCommandParser LOGIC_COLOR
-participant ":FindType" as FindType LOGIC_COLOR
-participant ":ContainsKeywordPredicate" as ContainsKeywordPredicate LOGIC_COLOR
+participant "n:NameContains\nKeywordPredicate" as NameContainsKeywordPredicate LOGIC_COLOR
+participant "d:DescriptionContains\nKeywordPredicate" as DescriptionContainsKeywordPredicate LOGIC_COLOR
+participant "t:TagListContains\nKeywordPredicate" as TagListContainsKeywordPredicate LOGIC_COLOR
+participant "c:CompletionStatus\nPredicate" as CompletionStatusPredicate LOGIC_COLOR
 end box
 
 [-> FindCommandParser : parse()
@@ -12,30 +14,45 @@ activate FindCommandParser
 
 FindCommandParser -> FindCommandParser : getMatchType(argMultimap)
 activate FindCommandParser
-FindCommandParser -> FindType : valueOf(findTypeArgument)
-activate FindType
-FindType --> FindCommandParser : FindType
-deactivate FindType
-FindCommandParser --> FindCommandParser : FindType
+FindCommandParser --> FindCommandParser : findType
 deactivate FindCommandParser
 
-loop all prefixes to parse
-     FindCommandParser -> FindCommandParser : parseArguments(argMultimap, prefix, predicateList, findType)
-     activate FindCommandParser
-     note right
-     Predicates are only parsed if the parameter was
-     included as an argument to the find command.
+'FindCommandParser -> FindCommandParser : parseArguments(argMultimap, prefix, predicateList, findType)
+'activate FindCommandParser
 
-     The predicate is returned as the subclass type
-     instead of a ContainsKeywordPredicate
-     end note
-     FindCommandParser -> ContainsKeywordPredicate : ContainsKeywordPredicate()
-     activate ContainsKeywordPredicate
-     ContainsKeywordPredicate --> FindCommandParser
-     deactivate ContainsKeywordPredicate
-     FindCommandParser --> FindCommandParser
-     deactivate FindCommandParser
-end
+opt containsNamePrefix
+create NameContainsKeywordPredicate
+FindCommandParser -> NameContainsKeywordPredicate : NameContainsKeywordPredicate()
+activate NameContainsKeywordPredicate
+NameContainsKeywordPredicate --> FindCommandParser : n
+deactivate NameContainsKeywordPredicate
+end opt
+
+opt containsDescriptionPrefix
+create DescriptionContainsKeywordPredicate
+FindCommandParser -> DescriptionContainsKeywordPredicate : DescriptionContainsKeywordPredicate()
+activate DescriptionContainsKeywordPredicate
+DescriptionContainsKeywordPredicate --> FindCommandParser : d
+deactivate DescriptionContainsKeywordPredicate
+end opt
+
+opt containsTagPrefix
+create TagListContainsKeywordPredicate
+FindCommandParser -> TagListContainsKeywordPredicate : TagListContainsKeywordPredicate()
+activate TagListContainsKeywordPredicate
+TagListContainsKeywordPredicate --> FindCommandParser : t
+deactivate TagListContainsKeywordPredicate
+end opt
+
+opt containsCompletionStatusPrefix
+create CompletionStatusPredicate
+FindCommandParser -> CompletionStatusPredicate : CompletionStatusPredicate()
+activate CompletionStatusPredicate
+CompletionStatusPredicate --> FindCommandParser : c
+deactivate CompletionStatusPredicate
+end opt
+
+'deactivate FindCommandParser
 
 FindCommandParser -> FindCommandParser : combinePredicates(findType, predicateList)
 activate FindCommandParser
@@ -44,4 +61,5 @@ deactivate FindCommandParser
 
 [<- FindCommandParser : FindCommand(combinedPredicate)
 deactivate FindCommandParser
+destroy FindCommandParser
 @enduml
