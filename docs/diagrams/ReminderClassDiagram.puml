@@ -7,8 +7,8 @@ skinparam classBackgroundColor MODEL_COLOR
 package Project {
     class "{abstract}\nTrackedItem" as TrackedItem {
         {field} reminder: Reminder
-        {abstract} {method} removeReminder() : TrackedItem
-        {abstract} {method} updatedExpiredReminder() : TrackedItem
+        {method} removeReminder() : TrackedItem { abstract }
+        {method} updatedExpiredReminder() : TrackedItem { abstract }
     }
     class Project {
         {method} rescheduleReminder(reminderManager: ReminderManager) : void
