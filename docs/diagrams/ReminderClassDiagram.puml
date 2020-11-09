@@ -6,83 +6,69 @@ skinparam classBackgroundColor MODEL_COLOR
 
 package Project {
     abstract class TrackedItem {
-        # {field} name: Name
-        # {field} description: Description
-        # {field} completionStatus: CompletionStatus
-        # {field} createdDate: DateWrapper
-        # {field} deadline: Deadline
-        # {field} reminder: Reminder
-        # {field} tagged: Set<Tag>
-        # {field} durations: UniqueItemList<WorkDuration>
-        # {field} timer: TimerWrapper
-        + {abstract} {method} removeReminder() : TrackedItem
-        + {abstract} {method} updatedExpiredReminder() : TrackedItem
+        {field} reminder: Reminder
+        {abstract} {method} removeReminder() : TrackedItem
+        {abstract} {method} updatedExpiredReminder() : TrackedItem
     }
     class Project {
-        - {field} taskList: UniqueItemList<TrackedItem>
-        + {method} removeReminder() : Project
-        + {method} updatedExpiredReminder() : Project
-        + {method} rescheduleReminder(reminderManager: ReminderManager) : void
-        + {method} removeReminder(task: Task) : Project
+        {method} rescheduleReminder(reminderManager: ReminderManager) : void
+        {method} removeReminder(task: Task) : Project
     }
-    class Task {
-        + {method} removeReminder() : Task
-        + {method} updatedExpiredReminder() : Task
-    }
+    class Task {}
 }
 
 package Reminder {
     class Reminder {
-        - {field} dateTimeWrapper : Optional<DateTimeWrapper>
-        - {field} expired : boolean
-        + {static} {method} isValid(dateTimeStr: String) : boolean
-        + {method} canSchedule() : boolean
-        + {method} remove() : Reminder
-        + {method} updateExpired() : Reminder
+        {field} dateTimeWrapper : Optional<DateTimeWrapper>
+        {field} expired : boolean
+        {static} {method} isValid(dateTimeStr: String) : boolean
+        {method} canSchedule() : boolean
+        {method} remove() : Reminder
+        {method} updateExpired() : Reminder
     }
     class ReminderManager {
-        - {field} model : Model
-        - {field} timer : Timer
-        - {field} currReminder : StringProperty
-        + {method} rescheduleReminder() : void
-        + {method} rescheduleReminder(project: Project) : void
-        + {method} rescheduleReminder(project: Project, task: Task) : void
-        + {method} updateCurrReminder(project: Project) : void
-        + {method} updateCurrReminder(project: Project, task: Task) : void
-        + {method} isReminderEmpty() : boolean
-        + {method} removeReminder() : void
-        + {method} getReminder() : StringProperty
+        {field} model : Model
+        {field} timer : Timer
+        {field} currReminder : StringProperty
+        {method} rescheduleReminder() : void
+        {method} rescheduleReminder(project: Project) : void
+        {method} rescheduleReminder(project: Project, task: Task) : void
+        {method} updateCurrReminder(project: Project) : void
+        {method} updateCurrReminder(project: Project, task: Task) : void
+        {method} isReminderEmpty() : boolean
+        {method} removeReminder() : void
+        {method} getReminder() : StringProperty
     }
 }
 
 class ProjectBook {
-    + {method} rescheduleReminder() : void
-    + {method} removeReminder(project: Project) : Project
-    + {method} removeReminder(project: Project, task: Task) : Project
+    {method} rescheduleReminder() : void
+    {method} removeReminder(project: Project) : Project
+    {method} removeReminder(project: Project, task: Task) : Project
 }
 
 interface Model <<interface>> {
-    + {method} rescheduleReminder() : void
-    + {method} removeReminder(project: Project) : Project
-    + {method} removeReminder(project: Project, task: Task) : Project
-    + {method} isReminderEmpty() : boolean
-    + {method} removeReminderShown() : void
-    + {method} getReminder() : StringProperty
+    {method} rescheduleReminder() : void
+    {method} removeReminder(project: Project) : Project
+    {method} removeReminder(project: Project, task: Task) : Project
+    {method} isReminderEmpty() : boolean
+    {method} removeReminderShown() : void
+    {method} getReminder() : StringProperty
 }
 
 class ModelManager {
-    - {method} rescheduleReminders() : void
+    {method} rescheduleReminders() : void
 }
 
-TrackedItem <|--- Project
-TrackedItem <|--- Task
-Project *-- "*" Task
+TrackedItem <|--Project
+TrackedItem <|--Task
+Project *-"*" Task
 
 ModelManager ..|> Model
-ProjectBook "1" --* ModelManager : < manages
+ProjectBook "1" -left-* ModelManager : < manages
 ReminderManager "1" --* ModelManager : < manages
 
-TrackedItem "*" --* ProjectBook
+TrackedItem "*" -right-* ProjectBook
 Reminder "0..1" --* TrackedItem
 
 @enduml

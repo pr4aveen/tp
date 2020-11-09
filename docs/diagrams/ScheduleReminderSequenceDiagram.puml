@@ -17,56 +17,61 @@ ModelManager -> ReminderManager : rescheduleReminder()
 ReminderManager -> ReminderManager : resetTimer()
 return
 
-ReminderManager -> ModelManager : rescheduleReminder
+ReminderManager -> ModelManager : rescheduleReminder()
 
 ModelManager -> ProjectBook : rescheduleReminder(reminderManager)
 
-ProjectBook -> ProjectBook : updateExpiredReminders()
+ref over Task, Project, ProjectBook : updateExpiredReminders
 
-loop [until no projects]
-    ProjectBook -> Project : updateExpiredReminder()
+' ProjectBook -> ProjectBook : updateExpiredReminders()
 
-loop [until not tasks]
-Project -> Task : updateExpiredReminder()
-return task
-end
-return project
-end
+' loop [until no projects]
+'     ProjectBook -> Project : updateExpiredReminder()
 
-ProjectBook -> ProjectBook : setItems(trackedProjects)
-return
-return
+' loop [until not tasks]
+' Project -> Task : updateExpiredReminder()
+' return task
+' end
+' return project
+' end
 
-loop [until no projects]
-    ProjectBook -> ReminderManager : rescheduleReminder(project)
+' ProjectBook -> ProjectBook : setItems(trackedProjects)
+' return
+' return
 
-group opt [canSchedule]
-ReminderManager -> ReminderManager : scheduleReminder(project)
+group loop [until no projects]
+ref over Project, ProjectBook, ReminderTimerTask, ReminderManager, ModelManager : rescheduleReminder(project)
 
-create ReminderTimerTask
-ReminderManager -> ReminderTimerTask
-return
-return
-end
+'     ProjectBook -> ReminderManager : rescheduleReminder(project)
 
-loop [until no tasks]
-ReminderManager -> Project : rescheduleReminder(reminderManager)
+' group opt [canSchedule]
+' ReminderManager -> ReminderManager : scheduleReminder(project)
 
-Project -> ReminderManager : rescheduleReminder(project, task)
+' create ReminderTimerTask
+' ReminderManager -> ReminderTimerTask
+' return
+' return
+' end
 
-group opt [canSchedule]
-ReminderManager -> ReminderManager : scheduleReminder(project, task)
+' loop [until no tasks]
+' ReminderManager -> Project : rescheduleReminder(reminderManager)
 
-create ReminderTimerTask
-ReminderManager -> ReminderTimerTask
-return
-return
-end
+' Project -> ReminderManager : rescheduleReminder(project, task)
 
-return
-return
-end
-return
+' group opt [canSchedule]
+' ReminderManager -> ReminderManager : scheduleReminder(project, task)
+
+' create ReminderTimerTask
+' ReminderManager -> ReminderTimerTask
+' return
+' return
+' end
+
+' return
+' return
+' end
+
+' return
 end
 return
 return
