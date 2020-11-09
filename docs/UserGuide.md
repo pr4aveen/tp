@@ -743,7 +743,7 @@ Result: Projects are sorted by deadline, then the application is reset to the so
 The following walkthrough shows how a user can start a timer for a project, then undo the command.
 
 1. Key in command `sort type/deadline` in the command window.
-![Redo 1](Redo1.png)
+![Redo 1](images/Redo1.png)
 2. The result box will display a message to indicate that the command has been executed successfully. Projects have been sorted in ascending deadline order (Completion Status: On).
 ![Redo 2](images/Redo2.png)
 3. Key in command `undo` in the command window.
