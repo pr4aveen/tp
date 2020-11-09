@@ -85,6 +85,7 @@ The active timers, statistics, tags and reminders panels can be resized to displ
  draging their edges.
 
  ### User Interface Theme
+
  The GUI Momentum also comes with two themes, light and dark. These themes are shown below:
  ![GUI Themes](images/GUIThemeDiagram.png)
 You can adjust the themes to your preference, by changing it in the application settings. (see [Settings](#settings))
@@ -139,11 +140,11 @@ SS   | Second  | `03`
 
 **Valid**: `15:08:02`
 
-**Invalid**: `15:8:2` (Wrong number of digits.)
+**Invalid**: `15:8:2` Wrong number of digits.
 
-**Invalid**: `8:15:2` (Wrong order of hour, minute and second.)
+**Invalid**: `8:15:2` Wrong order of hour, minute and second.
 
-**Invalid**: `03:08:02PM` (Only 24 hour time is accepted.)
+**Invalid**: `03:08:02PM` Only 24 hour time is accepted.
 
 ### Combining Date and Time
 
@@ -151,7 +152,7 @@ You may also have to enter both dates and times together. When entered together,
 
 **Valid**: `2020-08-02T15:08:02`
 
-**Invalid**: `15:08:02T2020-08-02` (Wrong order of date and time.)
+**Invalid**: `15:08:02T2020-08-02` Wrong order of date and time.
 
 ## Features<a name="2-Features"></a>
 
@@ -217,7 +218,7 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [
   * The format for time of the deadline is HH:MM:SS in 24 hour format, refer to [Time Terms](#Time-Terms) for more information on HH, MM and SS.
   * The date of the deadline cannot be earlier than the creation date of the project.
 * `[r/REMINDER_DATE_TIME]`
-  * Both date and time is compulsory for a reminder.
+  * Both date and time are compulsory for a reminder.
   * The format for date and time of the reminder is YYYY-MM-DDTHH:MM:SS, refer to [Date and Time Terms](#Date-and-Time-Terms) for more information on YYYY, MM, DD, HH, MM, and SS.
   * The date and time of the reminder needs to be later than the current time, refer to [Reminders](#reminders) section for more details on reminders.
 * `[t/TAG]`
@@ -258,7 +259,7 @@ Format: `edit ID [n/NAME] [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TI
 * Existing values will be updated to the input values.
 * You can remove a description, deadline or reminder by typing `d/` or `dd/` or `r/` without specifying anything after it.
 
-* ID
+* `ID`
   * The id refers to the id number shown in the displayed list.
   * The id **must be a positive integer** 1, 2, 3, …​
 * `n/NAME`
@@ -302,13 +303,13 @@ Deletes a project or task in the list.
 
 Format: `delete ID`
 
-* Deletes the project at the specified `ID`.
-* The id refers to the id number shown in the displayed project list.
+* Deletes the project or task at the specified `ID`.
+* The id refers to the id number shown in the displayed list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
 Example: `delete 2`
 
-Result: Deletes the second project in the list.
+Result: Deletes the second project or task in the list.
 
 #### View All Projects : `list`
 
@@ -356,9 +357,9 @@ Example:
 
 The following are 3 projects in the project book.
 
-Project 1. Name: `Ant Hole`, Deadline: `2020-02-02`, Created Date: `2000-02-02`
-Project 2. Name: `Brunch`, Deadline: `2010-01-01`, Created Date: `2002-09-09`
-Project 3. Name: `Create Logo` , Deadline: `2040-04-04`, Created Date: `2001-01-01`
+1. Project 1. Name: `Ant Hole`, Deadline: `2020-02-02`, Created Date: `2000-02-02`
+1. Project 2. Name: `Brunch`, Deadline: `2010-01-01`, Created Date: `2002-09-09`
+1. Project 3. Name: `Create Logo` , Deadline: `2040-04-04`, Created Date: `2001-01-01`
 
 **Sorting by Default order**
 
@@ -450,9 +451,9 @@ Searches for projects or tasks in the project book based on certain parameters.
 Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...] [c/COMPLETION_STATUS]`
 
 * There are three values for the `match` parameter.
-    * `match/all` shows an entry only if **all** of the parameters provided in the user's input matches the user's input.
-    * `match/any` shows an entry as long as **any** of the parameters provided in the user's input matches the user's input.
-    * `match/none` shows an entry only if **none** of the parameters provided in the user's input matches the user's input.
+    * `match/all` shows an entry only if **all** of the parameters provided in the user's input matches the entry.
+    * `match/any` shows an entry as long as **any** of the parameters provided in the user's input matches the entry.
+    * `match/none` shows an entry only if **none** of the parameters provided in the user's input matches the entry.
 
 <div markdown="block" class="alert alert-info">
 
@@ -511,7 +512,7 @@ The following walkthrough shows how a user can use the find command to search fo
 <div markdown="block" class="alert alert-info">
 
 :bulb: **Tip:**
-Searches for tags require a full match whilst searches partial matches are sufficient for searches by name and description.
+Searching by tags require a full match, whilst partial matches are sufficient for searches by name and description.
 
 </div>
 
@@ -586,7 +587,7 @@ Momentum remembers each timer that you start/stop and uses this information to c
 
 ##### Starting a Timer for a Project: `start`
 
-Format: `/start ID`
+Format: `start ID`
 
 * Starts a timer for the project or task at the specified `ID`.
 * Only 1 timer can be running for each project or task at any time.
@@ -608,20 +609,20 @@ You can run timers for a project separately from its tasks. This allows you to t
 
 </div>
 
-Example: `/start 2`
+Example: `start 2`
 
 Result: Starts a timer for the second project or task in the display list.
 
 ##### Stopping a Timer for a Project: `stop`
 
-Format: `/stop ID`
+Format: `stop ID`
 
 * Stops a running timer for the project or task at the specified `ID`.
 * A timer can only be stopped if there is one already running.
 * The id refers to the id number shown in the displayed list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
-Example: `/stop 2`
+Example: `stop 2`
 
 Result: Stops the timer for the second project or task in the display list.
 
@@ -648,31 +649,31 @@ You can perform time tracking with the following steps:
 
 ![TimerExample2](images/TimerExample2.png)
 
-1. You should see the following message in the result box, indicating that the timer has been successfully started.
+2. You should see the following message in the result box, indicating that the timer has been successfully started.
 
 ![TimerExample3](images/TimerExample3.png)
 
-1. You should also see the project's name and start time in the active timers panel:
+3. You should also see the project's name and start time in the active timers panel:
 
 ![TimerExample4](images/TimerExample4.png)
 
-1. Now that the timer has been successfully started, you can proceed to do your work. You can also choose to close
+4. Now that the timer has been successfully started, you can proceed to do your work. You can also choose to close
  Momentum. The timer will continue to run even when Momentum is closed. Proceed to the next step when you are done
   with your work.
 
-1. To stop the timer, type `stop 1` into the command box and press `enter`.
+5. To stop the timer, type `stop 1` into the command box and press `enter`.
 
 ![TimerExample5](images/TimerExample5.png)
 
-1. You should see the following message in the result box, indicating that the timer has been successfully stopped.
+6. You should see the following message in the result box, indicating that the timer has been successfully stopped.
 
 ![TimerExample6](images/TimerExample6.png)
 
-1. You should also see that the project has been removed from the active timers panel:
+7. You should also see that the project has been removed from the active timers panel:
 
 ![TimerExample7](images/TimerExample7.png)
 
-1. The statistics panel (see [statistics](#statistics)) will also be updated to reflect the time that you have spent
+8. The statistics panel (see [statistics](#statistics)) will also be updated to reflect the time that you have spent
  working on the
  project:
 
@@ -752,7 +753,7 @@ The following walkthrough shows how a user can start a timer for a project, then
 :bulb: **Tip:**
 
 * Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.
-* Redo command only works if there the previous command is `undo`.
+* Redo command only works if the previous command is `undo`.
 
 </div>
 
@@ -830,9 +831,9 @@ Result: Sets a dark theme to the GUI and changes the statistics pane to show the
 When viewing all projects, this command deletes all the projects in Momentum, including their tasks.
 
 When viewing a specific project's tasks, this command will delete all the tasks in the project. The project will itself will not be deleted.
-Removes all projects and tasks in Momentum.
 
 <div markdown="block" class="alert alert-danger">
+
 :warning: **Warning**
 This command will also delete the saved data for the projects or tasks. You can undo this operation while Momentum remains open. However, you will not be able to undo this if once you close Momentum.
 
@@ -915,14 +916,13 @@ Result: Exits the program.
 
 --------------------------------------------------------------------------------------------------------------------
 
---------------------------------------------------------------------------------------------------------------------
-
 ## Glossary
 
 * **Command Line Interface(CLI)**: Command Line Interface processes commands in the form of text
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
 * **Project View**: View all projects in the project book.
 * **Task View**: View all tasks that are added to a single project.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command Summary
