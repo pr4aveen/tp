@@ -17,17 +17,17 @@ Given below are my contributions to the project. Code I have written can be foun
   * **Highlights**: The implementation requires a good understanding on how the application handles user preferences and how the data is being stored and read. In addition, careful design considerations have to be made as well to ensure that the overall OOP integrity of the code base is maintained.
 
 * **Enhancements to existing features**: Redesigned the GUI of the application. [#45](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/45) [#58](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/58)
-  * Changes made: Redesigned the layout of the GUI, as well as come up with 2 attractive colour schemes for it.
-  * Justification: Redesigning the GUI layout is necessary in order for it to be able to display all the information that we want our users to see. In addition, we believe that an attractive GUI will offer a great user experience, which can attract new users as well as ensure existing users will want to continue using the application.
-  * Highlights: This enhancement was challenging as it required an in-depth analysis of how the program interacts with the GUI, as well as an in-depth understanding of how JavaFX works. Much effort was also put into styling the GUI, with the different stylesheets entirely written from scratch. A good understanding of JavaFX CSS was required as well.
+  * **Changes made**: Redesigned the layout of the GUI, as well as come up with 2 attractive colour schemes for it.
+  * **Justification**: Redesigning the GUI layout is necessary in order for it to be able to display all the information that we want our users to see. In addition, we believe that an attractive GUI will offer a great user experience, which can attract new users as well as ensure existing users will want to continue using the application.
+  * **Highlights**: This enhancement was challenging as it required an in-depth analysis of how the program interacts with the GUI, as well as an in-depth understanding of how JavaFX works. Much effort was also put into styling the GUI, with the different stylesheets entirely written from scratch. A good understanding of JavaFX CSS was required as well.
 
 * **Enhancements to existing features**: Assisted in the implementation of undo and redo for settings commands. [#230](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/230)
-  * Changes made: Built up on the undo and redo feature done by a teammate to allow settings commands to be undone and redone as well.
-  * Justification: As the application is primarily CLI based, and allowing the user revert settings using a quick undo or redo command will be beneficial as well.
+  * **Changes made**: Built up on the undo and redo feature done by a teammate to allow settings commands to be undone and redone as well.
+  * **Justification**: As the application is primarily CLI based, and allowing the user revert settings using a quick undo or redo command will be beneficial as well.
 
 * **Enhancements to existing features**: Enhanced statistics feature to allow for different timeframes for statistic calculation. [#119](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/119)
-  * Changes made: Originally, the application can only calculate weekly statistics. I modified it so that daily and monthly statistics can be calculated as well.
-  * Justification: Allowing different timeframes of statistics to be calculated gives the user more insight to how they are spending their time.
+  * **Changes made**: Originally, the application can only calculate weekly statistics. I modified it so that daily and monthly statistics can be calculated as well.
+  * **Justification**: Allowing different timeframes of statistics to be calculated gives the user more insight to how they are spending their time.
 
 * **Project management**:
   * Managed releases `v1.3.trial` - `v1.3` (2 releases) on GitHub
