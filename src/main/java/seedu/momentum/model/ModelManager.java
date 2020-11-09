@@ -189,6 +189,7 @@ public class ModelManager implements Model {
         versionedProjectBook.removeTrackedItem(target);
         updatePredicate(currentPredicate);
         rescheduleReminders();
+        LOGGER.info(String.format("Deleted tracked item %s", target));
     }
 
     @Override
@@ -197,6 +198,7 @@ public class ModelManager implements Model {
         rescheduleReminders();
         updateOrder(currentSortType, isCurrentSortAscending);
         updatePredicate(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
+        LOGGER.info(String.format("Added tracked item %s", trackedItem));
     }
 
     @Override
@@ -210,6 +212,7 @@ public class ModelManager implements Model {
         }
         rescheduleReminders();
         updateOrder(currentSortType, isCurrentSortAscending);
+        LOGGER.info(String.format("Changed tracked item %s to %s", target, editedTrackedItem));
     }
 
     //@@author boundtotheearth
@@ -322,6 +325,7 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         currentPredicate = predicate;
         updateDisplayList();
+        LOGGER.info("Predicate updated.");
     }
 
     //@@author boundtotheearth

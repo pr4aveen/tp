@@ -13,6 +13,7 @@ import java.util.function.Predicate;
 
 import seedu.momentum.commons.core.Messages;
 import seedu.momentum.model.Model;
+import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.TrackedItem;
 
 /**
@@ -53,8 +54,10 @@ public class FindCommand extends Command {
         requireNonNull(model);
         model.updatePredicate(predicate);
         model.commitToHistory();
-        return new CommandResult(
-                String.format(Messages.MESSAGE_PROJECTS_LISTED_OVERVIEW, model.getDisplayList().size()));
+        String resultMessage = model.getViewMode() == ViewMode.PROJECTS
+                ? Messages.MESSAGE_PROJECTS_LISTED_OVERVIEW
+                : Messages.MESSAGE_TASKS_LISTED_OVERVIEW;
+        return new CommandResult(String.format(resultMessage, model.getDisplayList().size()));
     }
 
     @Override

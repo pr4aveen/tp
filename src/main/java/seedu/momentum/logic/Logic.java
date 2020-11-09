@@ -117,14 +117,15 @@ public interface Logic {
     StatisticGenerator getStatistic();
 
     /**
-     * Returns the total number of both visible and invisible items in the current project/task.
-     */
-    int getTotalNumberOfItems();
-
-    /**
      * Returns the current view mode.
      */
     ViewMode getViewMode();
+
+    //@@author pr4aveen
+    /**
+     * Returns the total number of both visible and invisible items in the current project/task.
+     */
+    int getTotalNumberOfItems();
 
     /**
      * Returns the project that is currently displayed if the application is in the task view.
