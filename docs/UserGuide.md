@@ -92,6 +92,12 @@ Momentum uses a GUI (Graphical User Interface) to collect input from you, and di
 The active timers, statistics, tags and reminders panels can be resized to display more information by clicking and
  draging their edges.
 
+ ### User Interface Theme
+ The GUI Momentum also comes with two themes, light and dark. These themes are shown below:
+ ![GUI Themes](images/GUIThemeDiagram.png)
+You can adjust the themes to your preference, by changing it in the application settings. (see [Settings](#settings))
+ 
+
 ## Command Format
 
 Below is an explanation of the formatting used to show commands:
@@ -682,31 +688,31 @@ The statistics are displayed in 2 different formats:
 2. **Table**: Shows the exact (in minutes) amount of time spent on each project. Useful for calculations.
 
 ## Settings
-
-You can adjust various settings in Momentum, which for now includes:
-
+You can adjust various settings in Momentum, which includes:
 * GUI Theme
-* Statistic Timeframe
+* Statistics Timeframe
 
 Format: `set [th/THEME] [st/TIMEFRAME]`
-
 * At least one of the optional fields must be provided.
-* There are two GUI themes available, light and dark.
-
-
-The commands to apply them are:
-
+* There are two GUI themes available, light and dark. The commands to apply them are:
   * `th/light`
   * `th/dark`
-
 * There are three available timeframes for statistics, daily, weekly and monthly. The commands to apply them are:
 
   * `st/daily`
   * `st/weekly`
   * `st/monthly`
 
-Example: `set th/dark st/daily`
+Example: `set th/light st/monthly`
 Result: Sets a dark theme to the GUI and changes the statistics pane to show the time spent on projects within the day.
+
+### Walkthrough of Changing Application Settings
+1. In order to set the GUI theme to light and the statistic timeframe to daily, enter `set th/light th/monthly` in the command box and press the `Enter` key to execute it.
+ ![Settings Walkthrough Step 1](images/SettingsDiagram1.png)
+2. The result box will display a message to indicate that the command has been executed successfully: `Settings updated`.
+ ![Settings Walkthrough Step 2](images/SettingsDiagram2.png)  
+3. The GUI theme has now been set to the light theme, and information in the statistics panel has been updated.
+ ![Settings Walkthrough Step 3](images/SettingsDiagram3.png) 
 
 ## Clear All Projects/Tasks : `clear`
 
