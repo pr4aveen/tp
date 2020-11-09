@@ -1,9 +1,0 @@
-@startuml
-(*)  --> "FindType ANY selected"
---> New predicate created
---> "Individual predicate will test whether
-ANY keyword matches the tracked item"
---> Individual predicates combined using logical OR
---> Combined predicate created
--->(*)
-@enduml
