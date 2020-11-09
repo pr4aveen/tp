@@ -566,7 +566,7 @@ On the left side of the window is the Active TImers Panel. This is where Momentu
 
 This panel will show you the name of the project/task, as well as when the timer was started.
 
-### Time Traacking Example
+### Time Tracking Example
 Here is an example of how you can use the `start` and `stop` commands to track the time that you spend on a project.
 Suppose that you are going to start working on _________, which is the first item shown below:
 
@@ -641,7 +641,7 @@ Result: Projects are sorted by deadline, then the application is reset to the so
 
 ## Statistics
 Momentum uses the data collected from your timers (see [time tracking](#time-tracking)) to calculate statistics. These
- statistics areautomatically generated and updated whenever you make any changes to your projects and tasks, such as
+ statistics are automatically generated and updated whenever you make any changes to your projects and tasks, such as
   when timers for a project /task are started or stopped. 
  These statistics can be seen in a panel on the left side of the window, as shown here: 
 
@@ -687,7 +687,10 @@ You can adjust various settings in Momentum, which for now includes:
 Format: `set [th/THEME] [st/TIMEFRAME]`
 
 * At least one of the optional fields must be provided.
-* There are two GUI themes available, light and dark. The commands to apply them are:
+* There are two GUI themes available, light and dark.
+
+
+The commands to apply them are:
 
   * `th/light`
   * `th/dark`
