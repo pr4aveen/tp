@@ -1,4 +1,4 @@
-package seedu.momentum.model.project;
+package seedu.momentum.model.timer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.commons.exceptions.DuplicateItemException;
 import seedu.momentum.commons.exceptions.ItemNotFoundException;
-import seedu.momentum.model.timer.WorkDuration;
 import seedu.momentum.testutil.TypicalWorkDuration;
 
 public class UniqueDurationListTest {

@@ -6,20 +6,16 @@ import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_PROJECT_DISPL
 import static seedu.momentum.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.momentum.logic.commands.CommandTestUtil.DESCRIPTION_DESC_AMY;
 import static seedu.momentum.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.momentum.logic.parser.CliSyntax.PREFIX_REMINDER;
 import static seedu.momentum.testutil.Assert.assertThrows;
 import static seedu.momentum.testutil.TypicalProjects.AMY;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import seedu.momentum.commons.core.Clock;
-import seedu.momentum.commons.core.ThreadWrapper;
 import seedu.momentum.logic.commands.AddCommand;
 import seedu.momentum.logic.commands.CommandResult;
 import seedu.momentum.logic.commands.ListCommand;
@@ -27,7 +23,6 @@ import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
-import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ReadOnlyProjectBook;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.Project;
@@ -94,21 +89,6 @@ public class LogicManagerTest {
         expectedModel.commitToHistory();
         String expectedMessage = LogicManager.FILE_OPS_ERROR_MESSAGE + DUMMY_IO_EXCEPTION;
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
-    }
-
-    private void triggerReminder() throws CommandException, ParseException {
-        ThreadWrapper.setIsRunningOnPlatform(false);
-
-        Model actualModel = new ModelManager(new ProjectBook(), new UserPrefs());
-        JsonProjectBookStorage projectBookStorage =
-                new JsonProjectBookStorage(temporaryFolder.resolve("projectBook.json"));
-        JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
-        StorageManager storage = new StorageManager(projectBookStorage, userPrefsStorage);
-        logic = new LogicManager(actualModel, storage);
-
-        String dateTimeStr = Clock.now().plus(200, ChronoUnit.MILLIS).toString();
-        String addCommand = AddCommand.COMMAND_WORD + " " + NAME_DESC_AMY + " " + PREFIX_REMINDER + dateTimeStr;
-        logic.execute(addCommand);
     }
 
     @Test

@@ -75,7 +75,6 @@ public class ProjectBookWithUi extends ProjectBook {
 
         if (!(other instanceof ProjectBookWithUi)) {
             return false;
-
         }
 
         ProjectBookWithUi o = (ProjectBookWithUi) other;
@@ -83,8 +82,6 @@ public class ProjectBookWithUi extends ProjectBook {
                 && viewMode.equals(o.getViewMode())
                 && (Objects.equals(project, o.getProject()))
                 && isTagsVisible == o.isTagsVisible()
-                && userPrefs.equals(o.getUserPrefs())
-                && predicate.equals(o.getPredicate());
-
+                && userPrefs.equals(o.getUserPrefs());
     }
 }

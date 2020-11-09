@@ -28,13 +28,6 @@ public class JsonSerializableProjectBookTest {
         assertEquals(projectBookFromFile, typicalProjectsProjectBook);
     }
 
-    //    @Test
-    //    public void toModelType_invalidProjectFile_throwsIllegalValueException() throws Exception {
-    //        JsonSerializableProjectBook dataFromFile = JsonUtil.readJsonFile(INVALID_PROJECT_FILE,
-    //                JsonSerializableProjectBook.class).get();
-    //        assertThrows(IllegalValueException.class, dataFromFile::toModelType);
-    //    }
-
     @Test
     public void toModelType_duplicateProjects_throwsIllegalValueException() throws Exception {
         JsonSerializableProjectBook dataFromFile = JsonUtil.readJsonFile(DUPLICATE_PROJECT_FILE,

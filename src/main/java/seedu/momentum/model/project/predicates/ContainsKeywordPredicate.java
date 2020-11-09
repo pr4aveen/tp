@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import seedu.momentum.model.project.TrackedItem;
@@ -50,10 +51,15 @@ public abstract class ContainsKeywordPredicate implements Predicate<TrackedItem>
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(keywords, findType);
+    }
+
+    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof ContainsKeywordPredicate // instanceof handles nulls
-                && keywords.equals(((ContainsKeywordPredicate) other).keywords)) // state check
+                || (other instanceof ContainsKeywordPredicate) // instanceof handles nulls
+                && keywords.equals(((ContainsKeywordPredicate) other).keywords) // state check
                 && findType == ((ContainsKeywordPredicate) other).findType;
     }
 }

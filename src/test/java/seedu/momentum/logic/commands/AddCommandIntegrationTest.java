@@ -66,13 +66,6 @@ public class AddCommandIntegrationTest {
                 String.format(AddCommand.MESSAGE_SUCCESS, TEXT_PROJECT, dana), expectedModel);
     }
 
-    //    @Test
-    //    public void execute_duplicateProject_throwsCommandException() {
-    //        TrackedItem trackedItemInList = model.getProjectBook().getTrackedItemList().get(0);
-    //        assertCommandFailure(
-    //            new AddProjectCommand((Project) trackedItemInList), model, AddCommand.MESSAGE_DUPLICATE_ENTRY);
-    //    }
-
     private void testShowReminder(AddCommand addCommand, String expectedReminder, int delay) throws CommandException,
             InterruptedException {
         ThreadWrapper.setIsRunningOnPlatform(false);
@@ -86,26 +79,26 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_addProjectCommand_showReminder() throws CommandException, InterruptedException {
+        Clock.reset();
         String dateTimeStr = Clock.now().plus(200, ChronoUnit.MILLIS).toString();
         Project project = new ProjectBuilder().withName("daesdaef").withReminder(dateTimeStr).build();
 
         AddCommand actualCommand = new AddProjectCommand(project);
         String expectedReminder = String.format(ReminderManager.PROJECT_REMINDER, project.getName());
-        testShowReminder(actualCommand, expectedReminder, 400);
+        testShowReminder(actualCommand, expectedReminder, 1000);
     }
 
     @Test
     public void execute_addTaskCommand_showReminder() throws CommandException, InterruptedException {
-        ThreadWrapper.setIsRunningOnPlatform(false);
-
-        String dateTimeStr = Clock.now().plus(500, ChronoUnit.MILLIS).toString();
+        Clock.reset();
+        String dateTimeStr = Clock.now().plus(1500, ChronoUnit.MILLIS).toString();
         Project parentProject = ALICE;
         Task task = new TaskBuilder().withName("daesdaef").withReminder(dateTimeStr).build();
 
         AddCommand actualCommand = new AddTaskCommand(task, parentProject);
 
         String expectedReminder = String.format(ReminderManager.TASK_REMINDER, parentProject.getName(), task.getName());
-        testShowReminder(actualCommand, expectedReminder, 1000);
+        testShowReminder(actualCommand, expectedReminder, 3000);
     }
 
 }

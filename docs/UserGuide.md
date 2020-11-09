@@ -265,7 +265,7 @@ Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
 
 * The projects can be sorted by incomplete then completed.
     * This is the default sort.
-    * Add `c/` to disable this and sort without taking into account of completion status.
+    * Run `sort c/` to toggle the default completion status sort.
    
 <div markdown="block" class="alert alert-primary">
 

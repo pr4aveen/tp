@@ -36,7 +36,7 @@ public class NameContainsKeywordsPredicate extends ContainsKeywordPredicate {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof NameContainsKeywordsPredicate // instanceof handles nulls
-                && super.equals(other)); // state check
+                || ((other instanceof NameContainsKeywordsPredicate) // instanceof handles nulls
+                && super.equals(other));
     }
 }

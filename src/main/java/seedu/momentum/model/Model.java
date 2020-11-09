@@ -25,9 +25,10 @@ public interface Model {
      * {@code Predicate} that always evaluate to true.
      * Used to show all items.
      */
-    Predicate<TrackedItem> PREDICATE_SHOW_ALL_TRACKED_ITEMS = unused -> true;
+    Predicate<TrackedItem> PREDICATE_SHOW_ALL_TRACKED_ITEMS = x -> true;
 
     //=========== UserPrefs ==================================================================================
+
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      *
@@ -53,6 +54,7 @@ public interface Model {
     void setGuiWindowSettings(GuiWindowSettings guiWindowSettings);
 
     //@@author khoodehui
+
     /**
      * Returns the user prefs' GUI theme settings.
      */
@@ -92,6 +94,7 @@ public interface Model {
 
     //=========== ProjectBook ================================================================================
     //@@author kkangs0226
+
     /**
      * Replaces the versioned project book data with the new data in {@code versionedProjectBook}.
      *
@@ -106,6 +109,7 @@ public interface Model {
     ReadOnlyProjectBook getProjectBook();
 
     //@@author pr4aveen
+
     /**
      * Returns the project that the user is currently viewing.
      */
@@ -142,12 +146,13 @@ public interface Model {
      * The tracked item identity of {@code editedTrackedItem} must not be the same as another existing tracked item in
      * the project book.
      *
-     * @param target Old tracked item to be replaced.
+     * @param target            Old tracked item to be replaced.
      * @param editedTrackedItem New tracked item to replace the old item with.
      */
     void setTrackedItem(TrackedItem target, TrackedItem editedTrackedItem);
 
     //@@author boundtotheearth
+
     /**
      * Updates the display list to show all projects.
      */
@@ -169,18 +174,21 @@ public interface Model {
     ViewMode getViewMode();
 
     //@@author pr4aveen
+
     /**
      * Returns the total number of both visible and invisible items in the current display list.
      */
     int getTotalNumberOfItems();
 
     //=========== Tags =======================================================================================
+
     /**
      * Returns a set of all the tags that are associated with the projects/tasks on the currently visible display list.
      */
     Set<Tag> getVisibleTags();
 
     //@@author claracheong4
+
     /**
      * Hide the tags window in the Ui if shown, shows the tags window when hidden.
      */
@@ -195,6 +203,7 @@ public interface Model {
 
     //=========== Filtered Project List Accessors ============================================================
     //@@author boundtotheearth
+
     /**
      * Returns an unmodifiable view of the list of items to display.
      */
@@ -206,6 +215,7 @@ public interface Model {
     ObjectProperty<ObservableList<TrackedItem>> getObservableDisplayList();
 
     //@@author pr4aveen
+
     /**
      * Updates the filter of the display list to filter by the given {@code predicate}.
      *
@@ -216,6 +226,7 @@ public interface Model {
 
     //=========== Reminders ==================================================================================
     //@@author claracheong4
+
     /**
      * Reschedule all reminders in project book.
      */
@@ -257,6 +268,7 @@ public interface Model {
 
     //=========== Timers =====================================================================================
     //@@author boundtotheearth
+
     /**
      * Returns a list of TrackedItem whose timers are running.
      */
@@ -269,13 +281,14 @@ public interface Model {
 
     //=========== Undo/Redo ==================================================================================
     //@@author kkangs0226
+
     /**
      * Returns true if model is able to undo command, false otherwise.
      */
     boolean canUndoCommand();
 
     /**
-     /**
+     * /**
      * Returns true if model is able to redo undone command, false otherwise.
      */
     boolean canRedoCommand();
@@ -301,11 +314,12 @@ public interface Model {
     void resetUi(ViewMode viewMode);
 
     //=========== Sorting ====================================================================================
+
     /**
      * Orders the display list in a way given by the {@code sortType}.
      *
-     * @param sortType The type of sorting to be used on the displayed list.
-     * @param isAscending Whether the list should be sorted in ascending order based on the given type.
+     * @param sortType                     The type of sorting to be used on the displayed list.
+     * @param isAscending                  Whether the list should be sorted in ascending order based on the given type.
      * @param changeSortByCompletionStatus Whether sort by completion status should be toggled.
      * @throws NullPointerException If {@code sortType} is null.
      */
@@ -314,9 +328,11 @@ public interface Model {
     /**
      * Orders the display list in a way given by the {@code sortType}.
      *
-     * @param sortType The type of sorting to be used on the displayed list.
+     * @param sortType    The type of sorting to be used on the displayed list.
      * @param isAscending Whether the list should be sorted in ascending order based on the given type.
      * @throws NullPointerException If {@code sortType} is null.
      */
     void updateOrder(SortType sortType, boolean isAscending);
+
+    boolean getIsCurrentSortByCompletionStatus();
 }
