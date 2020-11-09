@@ -17,9 +17,6 @@ activate FindCommandParser
 FindCommandParser --> FindCommandParser : findType
 deactivate FindCommandParser
 
-'FindCommandParser -> FindCommandParser : parseArguments(argMultimap, prefix, predicateList, findType)
-'activate FindCommandParser
-
 opt containsNamePrefix
 create NameContainsKeywordPredicate
 FindCommandParser -> NameContainsKeywordPredicate : NameContainsKeywordPredicate()
@@ -51,8 +48,6 @@ activate CompletionStatusPredicate
 CompletionStatusPredicate --> FindCommandParser : c
 deactivate CompletionStatusPredicate
 end opt
-
-'deactivate FindCommandParser
 
 FindCommandParser -> FindCommandParser : combinePredicates(findType, predicateList)
 activate FindCommandParser
