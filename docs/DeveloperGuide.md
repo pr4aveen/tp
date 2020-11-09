@@ -697,7 +697,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is the `Momentum` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Start and End a Timer**
+#### **Use case: Start and End a Timer**
 
 **MSS**
 
@@ -726,7 +726,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: Add a project**
+####**Use case: Add a project**
 
 **MSS**
 
@@ -746,7 +746,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 The use cases for editing a project, adding a task and editing a task is similar to adding a project, except that the error messages differ slightly.
 
-**Use case: Delete a project**
+####**Use case: Delete a project**
 
 **MSS**
 
@@ -770,7 +770,7 @@ The use cases for deleting a task is similar to deleting a project.
     Use case ends.
 
 
-**Use case: Find a project/task in the list**
+####**Use case: Find a project/task in the list**
 
 **MSS**
 
@@ -791,7 +791,7 @@ The use cases for deleting a task is similar to deleting a project.
 
     Use case ends.
     
-**Use case: View a project's tasks**
+####**Use case: View a project's tasks**
 
 **MSS**
 
