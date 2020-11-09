@@ -481,6 +481,14 @@ Note that `FindType.NONE` uses the logical AND when combining predicates. This i
 
 This design was chosen as it built on the existing implementation of the find command, which passed a `NameContainsKeywordPredicate` to the `displayList`. This means that minimal changes to other parts of the project were required.
 
+#### Behaviour of Find Command
+
+The filter used by the Find Command will be reset after the `Add` Command is used. It will however persist after using the `Edit` Command and `Delete` Command.
+
+The list will not be filtered after using the `View` or `Home` Commands.
+
+We chose this behaviour as we felt that it presents users with the best experience. 
+
 #### Alternative implementation: Using a custom predicate class
 
 We considered using a custom predicate class to contain all predicates in a separate `MomentumPrediate` interface.
