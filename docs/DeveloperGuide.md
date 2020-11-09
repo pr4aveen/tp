@@ -461,7 +461,7 @@ The following sequence diagram shows how the `FindCommandParser`works. Note that
 
 The process of creating and chaining predicates varies based on the `FindType` selected. The following activity diagrams show this process for the various `FindType`s.
 
-| ![CombinePredicatesActivityDiagram](images/CombinePredicatesActivityDiagram.puml)
+| ![CombinePredicatesActivityDiagram](images/CombinePredicatesActivityDiagram.png)
 
 Note that `FindType.NONE` uses the logical AND when combining predicates. This is because individual predicates test for a negative match result. These negative results need to be chained together using the logical AND because a negative match requires a project to not match every keyword.
 
