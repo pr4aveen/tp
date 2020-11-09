@@ -159,7 +159,8 @@ Notable classes in this package include:
 * `Clock`: Acts as a consistent, single source of the 'current time' within the application
 * `DateWrapper`, `TimeWrapper`, `DateTimeWrapper`: Represents dates and times within Momentum, with utility methods to calculate the dates and times required by various parts of the application.
 * `UniqueItem`, `UniqueItemList`: Represents a list of unique items that are compared using a specially defined identity instead of the standard `equals()` method.
-* `GuiThemeSettings`, `GuiWindowSettings`: Manages the GUI settings that can be changed by the user.
+* `GuiWindowSettings`: Manages the GUI window size and position settings.
+* `GuiThemeSettings`: Manages the GUI theme settings that can be changed by the user.
 * `StatisticTimeFrame`, `StatisticTimeFrameSettings`: Manages the statistics settings that can be changed by the user.
 
 There are also classes with useful utility methods used to handle different types of data, such as dates, times, strings, json and files.
