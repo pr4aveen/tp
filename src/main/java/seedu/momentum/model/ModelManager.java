@@ -435,7 +435,7 @@ public class ModelManager implements Model {
         assert canUndoCommand();
         versionedProjectBook.undo();
 
-        // extract view mode details from ProjectBook version after undo
+        // extract details from ProjectBook version after undo (previous state of project book)
         viewMode = versionedProjectBook.getCurrentViewMode();
         currentProject = versionedProjectBook.getCurrentProject();
         currentPredicate = versionedProjectBook.getCurrentPredicate();
@@ -453,7 +453,7 @@ public class ModelManager implements Model {
         assert canRedoCommand();
         versionedProjectBook.redo();
 
-        // extract both timer related and ViewMode details from ProjectBook version after redo
+        // extract details from ProjectBook version after redo ("next" state of project book)
         viewMode = versionedProjectBook.getCurrentViewMode();
         currentProject = versionedProjectBook.getCurrentProject();
         currentPredicate = versionedProjectBook.getCurrentPredicate();
@@ -545,16 +545,26 @@ public class ModelManager implements Model {
         return comparator;
     }
 
+    /**
+     * Produces comparator that orders the list of tracked items based on whether the sort is in ascending order.
+     *
+     * @param comparator Comparator to be used for sorting of projects/tasks
+     * @param isAscending Order of sort specified by user.
+     * @return Comparator that is either itself if ascending or reversed if sort is to be in descending order.
+     */
     private Comparator<TrackedItem> factorIsAscending(Comparator<TrackedItem> comparator, boolean isAscending) {
+        requireAllNonNull(isAscending, comparator);
         return isAscending ? comparator : comparator.reversed();
     }
 
     private Comparator<HashMap<String, Object>> factorIsAscendingHashMap(Comparator<HashMap<String, Object>> comparator,
                                                                          boolean isAscending) {
+        requireAllNonNull(isAscending, comparator);
         return isAscending ? comparator : comparator.reversed();
     }
     /**
-     * Sets the order of list of tracked items by alphabetical order, ascending or descending based on user input.
+     * Produces comparator that sets the order of list of tracked items by alphabetical order, ascending or descending
+     * based on user input.
      *
      * @param isAscending Order of sort specified by user.
      */
@@ -565,7 +575,8 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Sets the order of list of tracked items by deadline order, ascending or descending based on user input.
+     * Produces comparator that sets the order of list of tracked items by deadline order, ascending
+     * or descending based on user input.
      *
      * @param isAscending Order of sort specified by user.
      */
@@ -582,7 +593,8 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Sets the order of list of tracked items by created date order, ascending or descending based on user input.
+     * Produces comparator that sets the order of list of tracked items by created date order, ascending or descending
+     * based on user input.
      *
      * @param isAscending Order of sort specified by user.
      */
@@ -593,7 +605,7 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Sets the order of the list of tracked items to current sort type with specified order
+     * Produces comparator that sets the order of the list of tracked items to current sort type with specified order
      * if sort type has not been specified by user.
      *
      * @param isAscending                Order of sort specified by user.

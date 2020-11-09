@@ -1,11 +1,16 @@
 //@@author kkangs0226
 package seedu.momentum.model;
 
+import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import seedu.momentum.commons.core.LogsCenter;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 
@@ -13,6 +18,8 @@ import seedu.momentum.model.project.TrackedItem;
  * Represents a project book that keeps track of its state, so that it can undo/redo changes.
  */
 public class VersionedProjectBook extends ProjectBook {
+
+    private static final Logger LOGGER = LogsCenter.getLogger(ModelManager.class);
 
     private static final String UNDO = "undo";
     private static final String REDO = "redo";
@@ -61,6 +68,9 @@ public class VersionedProjectBook extends ProjectBook {
     public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
                        Comparator<TrackedItem> currentComparator, boolean isTagsVisible, ReadOnlyUserPrefs userPrefs,
                        boolean isCurrentSortByCompletionStatus) {
+
+        requireAllNonNull(viewMode, currentPredicate, currentComparator, userPrefs);
+        LOGGER.log(Level.INFO, "Project book committed to history");
         int historySize = projectBookStateList.size();
         if (currentStatePointer < historySize - 1) {
             flushRedoVersions();
@@ -85,12 +95,15 @@ public class VersionedProjectBook extends ProjectBook {
      */
     public void redo() {
         assert canRedoCommand();
+        LOGGER.log(Level.INFO, "Undone command has been redone.");
         shiftPointer(REDO);
         ReadOnlyProjectBook redoVersion = projectBookStateList.get(currentStatePointer);
         resetData(redoVersion);
     }
 
     private void shiftPointer(String command) {
+        assert command.equals(REDO) || command.equals(COMMIT) || command.equals(UNDO);
+
         if (command.equals(REDO) || command.equals(COMMIT)) {
             currentStatePointer++;
         } else {
@@ -99,6 +112,7 @@ public class VersionedProjectBook extends ProjectBook {
     }
 
     private void flushRedoVersions() {
+        LOGGER.log(Level.INFO, "History has been flushed.");
         int historySize = projectBookStateList.size();
         int nextPointer = currentStatePointer + 1;
         for (int i = nextPointer; i < historySize; i++) {

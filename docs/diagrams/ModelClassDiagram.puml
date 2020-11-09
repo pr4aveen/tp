@@ -1,99 +1,55 @@
 @startuml
-!include style.puml
+!include detailed_style.puml
 skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
 Package Model <<Rectangle>> {
-Interface ReadOnlyProjectBook <<Interface>>
-Interface Model <<Interface>>
-Interface ObservableList <<Interface>>
+Class "<<interface>>\nReadOnlyProjectBook" as ReadOnlyProjectBook
+Class  "<<interface>>\nModel" as Model
+Class ModelManager {
+displayList : ObjectProperty<ObservableList<TrackedItem>>
+}
+Class  "<<interface>>\nObservableList" as ObservableList
 Class VersionedProjectBook
 Class ProjectBook
 Class ReadOnlyProjectBook
-Class Model
-Class ModelManager {
-- currentSortType : SortType = SortType.ALPHA
-- isCurrentSortAscending : boolean = true
-- isCurrentSortByCompletionStatus : boolean = true
-- isTagsVisible : BooleanProperty
-- viewMode : ViewMode = ViewMode.PROJECTS
-- currentComparator : Comparator<TrackedItem>
-- currentPredicate : Predicate<TrackedItem>
-- displayList : ObjectProperty<ObservableList<TrackedItem>>
-}
 Class UserPrefs
 Class ReadOnlyUserPrefs
-Class UniqueItem
-Class UniqueItemList
 Class "UniqueItemList<WorkDuration>"
-Class TrackedItem
 
 Package Project {
-Class Project {
-- name : Name
-- description : Description
-- completionStatus : CompletionStatus
-- createdDateWrapper : DateWrapper
-- deadline : Deadline
-- reminder : Reminder
-- tags : Set<Tag>
-- timerWrapper : TimerWrapper
-}
 Class "UniqueItemList<TrackedItem>"
+Class "{abstract}\nTrackedItem" as TrackedItem
+Class Project
+Class Task
 }
 
-Package Task {
-Class "UniqueItemList<Task>"
-
-Class Task {
-- name : Name
-- description : Description
-- completionStatus: CompletionStatus
-- createdDateWrapper : DateWrapper
-- deadline : Deadline
-- reminder : Reminder
-- tags : Set<Tag>
-- timerWrapper : TimerWrapper
-}
-
-}
 }
 
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Model
 
 VersionedProjectBook --|> ProjectBook
-ProjectBook .up.|> ReadOnlyProjectBook
+ProjectBook .right.|> ReadOnlyProjectBook
 
 ModelManager .up.|> Model
 Model .right.> ObservableList
-ModelManager o--> "1" VersionedProjectBook
-ModelManager o-left-> "1" UserPrefs
-UserPrefs .up.|> ReadOnlyUserPrefs
+ModelManager *--> "1" VersionedProjectBook
+ModelManager -right-> "1" UserPrefs
+UserPrefs .right.|> ReadOnlyUserPrefs
 
 ProjectBook *--> "1" "UniqueItemList<TrackedItem>"
-"UniqueItemList<TrackedItem>" o--> "*" Project
-Project .up.|> UniqueItem
+"UniqueItemList<TrackedItem>" --> "*" Project
 Project --|> TrackedItem
-Project *--> "UniqueItemList<Task>"
-Project *--> "UniqueItemList<WorkDuration>" : durations
+Project *--> "*" Task
+Task -left-|> TrackedItem
+Project *-right-> "UniqueItemList<WorkDuration>" : durations
+Task *-right-> "UniqueItemList<WorkDuration>" : durations
 
 
-"UniqueItemList<Task>" o--> "*" Task
-Task .up.|> UniqueItem
-Task --|> TrackedItem
-Task *--> "UniqueItemList<WorkDuration>" : durations
-
-"UniqueItemList<WorkDuration>" --|> UniqueItemList
-"UniqueItemList<TrackedItem>" --|> UniqueItemList
-"UniqueItemList<Task>" --|> UniqueItemList
-
+ModelManager -->"*" Project : observable list of projects\n with active timers
 ModelManager -->"*" Project : observable list
 ModelManager -->"1" Project : current project
-ModelManager -->"*" Project : observable list of projects with active timers
 
-show ModelManager attributes
-show Project attributes
-show Task attributes
 @enduml

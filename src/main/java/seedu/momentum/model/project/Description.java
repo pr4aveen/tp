@@ -4,7 +4,7 @@ package seedu.momentum.model.project;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Represent a description in Momentum.
+ * Represent a description of a {@code TrackedItem}in Momentum.
  * Guarantees: immutable.
  */
 public class Description {

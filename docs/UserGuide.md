@@ -7,6 +7,7 @@ Momentum is a **desktop app** that **helps freelancers track time spent on diffe
 
 It is designed for people that prefer typing, so that frequent tasks can be done faster by typing in commands.
 
+* Table of Contents
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
@@ -337,12 +338,11 @@ Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
   * `order/dsc` will sort the list of projects in descending order.
 
 * The projects can be sorted by incomplete then completed.
-  * This is the default sort.
-  * Add `c/` to reverse the previously set default.
-  * If the sort grouped the incomplete and complete projects, `c/` will make the sort not consider the completion status of the projects.
-  * Similarly, if the sorting did not group the projects by completion status, `c/` will make the sort consider the completion status of the projects.
-
-<div markdown="block" class="alert alert-info">
+    * This is the default sort, and is also the "dominant sort" that will ensure that all incomplete projects/tasks will be ordered before complete projects/tasks when completion status order is on.
+    Within incomplete and complete projects/tasks, they will be ordered by specified order (alphabetical/deadline/created date, ascending/descending).
+    * Run `sort c/` to toggle the default completion status sort.
+   
+<div markdown="block" class="alert alert-primary">
 
 :bulb: **Tip:**
 
@@ -368,7 +368,31 @@ Format: `sort`
 
 * Sorts projects in alphabetical, ascending order
 
-Result: [Project 1, Project 2, Project 3]
+The following walkthrough shows how a user can sort projects in Momentum by specifying only the sort order. 
+
+1. Key in command `sort` in the command window.
+![Default Sort Step 1](images/DefaultSort1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+![Default Sort Step 2](images/DefaultSort2.png)
+3. All projects are ordered in default ascending alphabetical order with incomplete tasks showing up at the top of the list.
+![Default Sort Step 3](images/DefaultSort3.png)
+
+##### Sorting With Completion Status Toggle 
+
+* Toggles the completion status order i.e. if the completion status order is "on" with incomplete projects/tasks showing up at the top of the list, the completion status order is turned "off", which sorts the projects/tasks in the specified order without regard for its completion status. 
+
+Format: `sort c/`
+
+This toggles the completion status order and then sorts projects in default alphabetical, ascending order.
+
+The following walkthrough shows how a user can sort projects in Momentum by toggling the completion status order. 
+
+1. Key in command `sort c/` in the command window.
+![Toggle Completion Status Step 1](images/ToggleCompletionStatus1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+![Toggle Completion Status Step 2](images/ToggleCompletionStatus2.png)
+3. All projects are ordered in default ascending alphabetical order without regard for completion status.
+![Toggle Completion Status Step 3](images/ToggleCompletionStatus3.png)
 
 ###### Sorting With Only Type Specified
 
@@ -377,41 +401,49 @@ Format: `sort type/SORT_TYPE`
 * Sorts projects in a specified order
 * Since order is not specified, default order is ascending
 
-Example: `sort type/alpha`
-Result: [Project 1, Project 2, Project 3]
-
 Example: `sort type/deadline`
-Result: [Project 2, Project 1, Project 3]
 
-Example: `sort type/created`
-Result: [Project 1, Project 3, Project 2]
+The following walkthrough shows how a user can sort projects in Momentum by specifying only the sort type. 
+
+1. Key in command `sort type/deadline` in the command window.
+![Deadline Sort 1](images/DeadlineSort1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+![Deadline Sort 2](images/DeadlineSort2.png)
+3. All projects are ordered in ascending deadline order.
+![Deadline Sort 3](images/DeadlineSort3.png)
 
 ##### Sorting With Only Order Specified
 
 Format: `sort order/SORT_ORDER`
 
-* Sorts projects in current project order.
+* Sorts projects in specified sort order, according to current sort type.
 * If there is no existing project order (when the application restarts), order will be alphabetical by default.
 
-Example: `sort order/dsc` (After application restarts for the first time)
-Result: [Project 3, Project 2, Project 1]
+Example: `sort order/dsc`
 
-Example `sort order/asc` (Current sort type is Deadline)
-Result: [Project 2, Project 1, Project 3]
+The following walkthrough shows how a user can sort projects in Momentum by specifying only the sort order. 
+
+1. Key in command `sort order/dsc` in the command window.
+![Deadline Sort Descending 1](images/DeadlineDescending1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+![Deadline Sort Descending 2](images/DeadlineDescending2.png)
+3. All projects are ordered in descending deadline order (Projects were ordered by deadline previously).
+![Deadline Sort Descending 3](images/DeadlineDescending3.png)
 
 ##### Sorting With Both Type and Order Specified
 
 * Sorts projects in specified type and order.
-* Projects that cannot be ordered in a certain type will be ordered alphabetically.
-
-Example: `sort type/alpha order/dsc`
-Result: [Project 3, Project 2, Project 1]
-
-Example: `sort type/deadline order/asc`
-Result: [Project 2, Project 1, Project 3]
 
 Example: `sort type/created order/dsc`
-Result: [Project 2, Project 3, Project 1]
+
+The following walkthrough shows how a user can sort projects in Momentum by specifying both sort type and order. 
+
+1. Key in command `sort type/created order/dsc` in the command window.
+![Created Descending 1](images/CreatedDescending1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+![Created Descending 2](images/CreatedDescending2.png)
+3. All projects are ordered in descending created date order.
+![Created Descending 3](images/CreatedDescending3.png)
 
 ##### Filtering Projects: `find`
 
@@ -677,6 +709,19 @@ Example: `start 1`, `undo`
 
 Result: Timer for project/task at index 1 is started, then stopped and removed after undo is executed.
 
+The following walkthrough shows how a user can start a timer for a project, then undo the command.
+
+1. Key in command `start 1` in the command window.
+![Undo 1](Undo1.png)
+2. The result box will display a message to indicate that the command has been executed successfully, and the timer for that project will appear at the side panel.
+![Undo 2](images/Undo2.png)
+3. Key in command `undo` in the command window.
+![Undo 3](images/Undo3.png)
+4. The result box will display a message to indicate that the command has been undone successfully.
+![Undo 4](images/Undo4.png)
+5. The timer has been removed from the project. Timer is no longer running.
+![Undo 5](images/Undo5.png)
+
 ### Redoing the Previous Command: `redo`
 
 The redo command redoes previously undone command and resets the application to the state before the previous undo command.
@@ -688,6 +733,24 @@ Example: `sort type/deadline`, `undo`, `redo`
 Result: Projects are sorted by deadline, then the application is reset to the sorting order before sort command was executed, then reset back to sort by deadline after redo command.
 
 <div markdown="block" class="alert alert-info">
+The following walkthrough shows how a user can start a timer for a project, then undo the command.
+
+1. Key in command `sort type/deadline` in the command window.
+![Redo 1](Redo1.png)
+2. The result box will display a message to indicate that the command has been executed successfully. Projects have been sorted in ascending deadline order (Completion Status: On). 
+![Redo 2](images/Redo2.png)
+3. Key in command `undo` in the command window.
+![Redo 3](images/Redo3.png)
+4. The result box will display a message to indicate that the command has been undone successfully. Projects have been reverted to their original order before the last sort command was executed.
+![Redo 4](images/Redo4.png)
+5. Key in command `redo` in the command window.
+![Redo 5](images/Redo5.png)
+6. The result box will display a message to indicate that the command has been redone successfully.
+![Redo 6](images/Redo6.png)
+7. Projects are again sorted in ascending deadline order (Completion Status: On).
+![Redo 7](images/Redo7.png)
+
+<div markdown="block" class="alert alert-primary">
 
 :bulb: **Tip:**
 
@@ -876,10 +939,12 @@ Action | Format | Example
 **Delete a project/task** | `delete ID` | `delete 3`
 **Find a project/task** | `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...]  [c/]`  | `find match/any n/Momentum d/new t/normal`
 **Show all projects/tasks (after find)** | `list` | `list`
+**Sort projects/tasks** | `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]` | `sort type/deadline order/dsc c/`
 **Start Timer** | `start ID` | `start 2`
 **Stop Timer** | `stop ID` | `stop 2`
-**Undo/redo** | `undo` | `redo`
 **Dismissing a Reminder** | `dismiss` | `dismiss`
 **Showing and Hiding SideBar Components** | `show t/` | `show t/`
+**Undo** | `undo` | `undo`
+**Redo** | `redo` | `redo`
 **Settings** | `set [th/THEME] [st/TIMEFRAME]` | `set th/dark st/daily`
 **Exit** | `exit` | `exit`

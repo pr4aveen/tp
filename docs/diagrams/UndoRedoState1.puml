@@ -8,7 +8,7 @@ title After command "delete 2"
 package States <<rectangle>> {
     class State1 as "__pb0:ProjectBookWithUi__"
     class State2 as "__pb1:ProjectBookWithUi__"
-    class State3 as "__p2:ProjectBookWithUi__"
+    class State3 as "__pb2:ProjectBookWithUi__"
 }
 
 State1 -[hidden]right-> State2
