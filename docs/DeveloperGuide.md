@@ -56,7 +56,7 @@ The sections below give more details of each component.
 **API** :
 [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `ProjectListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `TrackedItemListPanel`, `BottomBar` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
 
@@ -118,12 +118,26 @@ The `Model`:
 
 ![Structure of the Storage Component](images/StorageClassDiagram.png)
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/storage/Storage.java)
 
 The `Storage` component,
 
 * can save `UserPref` objects in json format and read it back.
-* can save the project book data in json format and read it back.
+* can save `JsonAdaptedProject` objects in `JsonSerializableProjectBook` in json format and read it back.
+
+The `JsonAdaptedTask` component contains fields of a `Task` in json format:
+
+* name in `String` format
+* description in `String` format
+* completionStatus in `boolean` format
+* createdDate in `String` format
+* deadline in `String` format
+* reminder in `String` format
+* tagged in `List<JsonAdaptedTag>` format
+* durations in `List<JsonAdaptedWorkDuration>` format
+* timer in `JsonAdaptedTimer` format
+
+In addition to the fields in `JsonAdaptedTask` component, `JsonAdaptedProject` contains a taskList in `List<JsonAdaptedTask>` format.
 
 ### Common classes
 
@@ -195,43 +209,84 @@ We chose to do this implementation to allow for flexibility in calculating stati
 
 ### Deadlines
 
+#### Implementing the Deadline class
+
 The deadline of a project and tasks is implemented using `DateWrapper` and `TimeWrapper`. The `dateWrapper` and `timeWrapper` is stored as `Optional<DateWrapper>` and `Optional<TimeWrapper>`in the `Deadline` class.
-Since both date and time is optional in the class, a deadline is empty when both `dateWrapper` and `timeWrapper` is empty. An empty deadline can be created easily without `Project` needing to know whether it has a deadline. This design was chosen due to the ease of implementation. Another reason is because no dummy data will be required. 
+Since both date and time is optional in the class, a deadline is empty when both `dateWrapper` and `timeWrapper` is empty. An empty deadline can be created easily without `Project` needing to know whether it has a deadline. This design was chosen due to the ease of implementation. Another reason is because no dummy data will be required.
+
+#### Alternative Implementation of Deadline class
 
 An alternative design is to store date and time in a `DateTimeWrapper` with dummy date and time if the date or time is not present as `LocalDateTime` requires both date and time. However, extra checks will have to be done to differentiate between dummy and actual data.
 
+#### Parsing a Deadline
+
 The date and time of a deadline of a project is parsed separately. This design is chosen as date and time is stored separately and the format of date and time can be more flexible.
+
+#### Alternative Way to Parse Deadline
 
 An alternative design is to parse both date and time together. This is harder to implement as date and time is stored separately in deadline. This design would also restrict the format of the date and time.
 
+#### Constraints of a Deadline
+
 The deadline also has a constraint that is has to be on or after the created date. This constraint has been added so that more meaningful statistics can be generated.
 
-As a result, the deadline has to be aware of the created date when created. The constructor of `Deadline` accepts a created date. For `EditCommand`, a descriptor containing edited fields is created directly from parsing the user input in `EditCommandParser`, hence the created date is unknown. A dummy date using `LocalDate.EPOCH` is passed into the constructor of `Deadline` in `EditCommandParser` to allow creation of the deadline. The check that deadline has to be on or after the created date is done in `EditCommand` after the creation date of the project to be edited is known.
+As a result, the deadline has to be aware of the created date when created. The constructor of `Deadline` accepts a created date.
+
+For `EditCommand`, a descriptor of type `editTrackedItemDescriptor` containing edited fields is created directly from parsing the user input in `EditCommandParser`, hence the created date is unknown. A dummy date using `LocalDate.EPOCH` is passed into the constructor of `Deadline` in `EditCommandParser` to allow creation of the deadline. The check that deadline has to be on or after the created date is done in `EditCommand#getUpdatedDeadline(trackedItemToEdit, editTrackedItemDescriptor, createdDateWrapper` after the creation date of the project to be edited is known.
+
+![Interactions Inside the Logic Component for the Edit Project Command with Deadline](images/EditDeadlineSequenceDiagram.png)
 
 ### Reminders
 
-The reminder of a task is implemented using `ReminderManager` and `Reminder`. The date and time of a reminder is stored in `Reminder`. `ReminderManager` schedules the reminder using `Timer` and runs the reminder using `ThreadWrapper`. 
+#### Scheduling Reminders
+
+The reminder of a task is implemented using `ReminderManager` and `Reminder`. The date and time of a reminder is stored in `Reminder`. `ReminderManager` schedules the reminder using `Timer` and runs the reminder using `ThreadWrapper`.
+
+![Structure of the Model Component for Reminders](images/ReminderClassDiagram.png)
+
+#### Alternative Implementation of Scheduling Reminders
 
 An alternative would be to schedule and run the reminder in `Reminder` class directly. This design was not chosen as that `Reminder` would have to contain references to both `Model` and `ProjectBook`, which is undesired.
 
-`ThreadWrapper` is a utility class which runs runnables using `Platform.runLater` when running the javaFX application, but switches to running the runnables directly when performing automated tests.
+#### Managing the Scheduling of Reminders
 
-An alternative would be to use `Platform.runLater` only to run the reminder. However, automated tests cannot directly run the reminder as it does not support `Platform`. This design was chosen to enable the reminder to be run directly.
+`ReminderManager` contains a reference to a `Model` so that the projects and tasks can be iterated through callback methods and the reminders of the projects can be modified.
+To schedule reminders, several callback functions such as  is used to iterate through the project book in the model. Firstly, `ModelManager#rescheduleReminders()` calls `ReminderManager#rescheduleReminder()`, which calls
+`Model#rescheduleReminder()` to iterate through the project book through `ProjectBook#rescheduleReminder(ReminderManager reminderManager)`.
+The method call will then call methods such as `ReminderManager#rescheduleReminder(Project project)` and `Project#rescheduleReminder(ReminderManager reminderManager)` to reschedule the reminders.
 
-`ReminderManager` contains a reference to a `Model` so that the projects and tasks can be iterated through callback methods and the reminders of the projects can be modified. `ReminderManager` makes use of several callback functions such as `rescheduleReminder(ReminderManager reminderManager)` to iterate through the project, which in turns calls `rescheduleReminder(Project project)` in `ReminderManager`.
+![Schedule Reminder Sequence Diagram](images/ScheduleReminderSequenceDiagram.png)
 
 `ReminderManager` has an inner class `ReminderTimerTask` which implements `TimerTask` that is used to schedule a reminder with `Timer`. This design was chosen as `ReminderTimerTask` references non-static methods of `ReminderMananger` as well as `Model`, which is also referenced in `ReminderManager`.
 
+#### Alternative Way of Scheduling of Reminders
+
 An alternative implementation is to implement `ReminderTimerTask` as a separate class. With this implementation, `ReminderTimerTask` will have to contain extra references such as `ReminderManager` and `Model`.
 
-The result of the reminder is stored as a `StringProperty` and retrieved from the `Model` so that a listener can be used in `MainWindow` to detect changes and update the GUI acccordingly. This design was chosen due to the ease of implementation. 
+#### Running Reminders
+
+At the date and time scheduled, the reminder will be run.
+In the process of running the reminders, the UI will show the reminder and it will be removed.
+
+![Run Task Reminder Sequence Diagram](images/RunTaskReminderSequenceDiagram.png)
+
+The result of the reminder is stored as a `StringProperty` and retrieved from the `Model` so that a listener can be used in `MainWindow` to detect changes and update the GUI acccordingly. This design was chosen due to the ease of implementation.
 
 `BooleanProperty` is also stored to keep track of whether there are any reminders so that `MainWindow` can detect whether there are reminders and hide or show the reminder panel accordingly. This design was also chosen due to the ease of implementation.
 
-Whenever a project is added, edited or removed, the reminders needs to be adjusted accordingly. The chosen implementations is to reschedule all the reminders. 
+`ThreadWrapper` is a utility class which runs runnables in `ReminderManager.ReminderTimerTask#run()` using `Platform.runLater` when running the javaFX application, but switches to running the runnables directly when performing automated tests.
+
+#### Alternative Way to Run Reminders
+
+An alternative would be to use `Platform.runLater` only to run the reminder. However, automated tests cannot directly run the reminder as it does not support `Platform`. This design was chosen to enable the reminder to be run directly.
+
+#### Rescheduling Reminders
+
+Whenever a project is added, edited or removed, the reminders needs to be adjusted accordingly. The chosen implementations is to reschedule all the reminders.
+
+#### Alternative Way to Reschedule Reminders
 
 An alternative would be to only reschedule projects that are affected by the change. This design was not chosen as it is more complicated and would increase the coupling between `ReminderManager` and other related classes.
-
 
 ### Statistics
 Statistics in Momentum are implemented using a Command design pattern, similar to how Commands are implemented. A
@@ -294,6 +349,30 @@ This design was chosen as it built on the existing implementation of the find co
 The following sequence diagram shows how the find command works.
 
 // Insert seq diagram here. //
+
+### Settings
+Currently, the settings which can be adjusted by the user using a command are the GUI theme and the timeframe of the statistics shown. 
+
+#### Set Command
+The command works by first creating and filling up a `SettingsToChange` object with the settings given by the user, and then identifying what will be changed, then calling necessary methods in `Model` such as `setGuiThemeSettings` or `setStatisticTimeframeSettings`.
+
+The settings changed by the user will also reflect immediately in the application. This is handled by [`SettingsUpdateManager`](#settings-update-manager), which is called during the execution of the command.
+
+The following sequence diagram shows how the set command works.
+![SetCommandSequenceDiagram](images/SetCommandSequenceDiagram.png)
+
+#### Updating User Prefs
+Settings are saved by updating `GuiThemeSettings` and/or `StatisticTimeframeSettings` in `UserPrefs` in the application model. All class attributes in `UserPrefs` are serializable, so that all settings in `UserPrefs` can be saved in `preferences.json` when the user exits the application. Below is the class diagram of `UserPrefs`.
+![UserPrefsClassDiagram](images/UserPrefsClassDiagram.png)
+
+Model manager will call on `UserPrefs#returnChangedGuiThemeSettings` or `UserPrefs#returnChangedStatisticTimeframeSettings` when updating the settings. Notice that the two methods will return a new `UserPrefs`. This design is chosen so as to support `Undo/Redo`, where versions can be placed on the different instances of `UserPrefs`.
+
+#### Settings Update Manager
+`SettingsUpdateManager` is a class that assists in updating the application instance with the new settings when there are changes made to `UserPrefs`. 
+
+Currently, the user adjustable settings are the GUI theme and the timeframe of the statistics shown. Hence, `SettingsUpdateManager` takes in a `Ui`, and a `StatisticGenerator` as class attributes in order to update them. 
+
+`SettingsUpdateManager#updateTheme` and `SettingsUpdateManager#updateStatisticTimeFrame` are designed to handle null cases of `Ui` and `StatisticGenerator` so as to make testing more convenient. This is because there are methods being tested that will indirectly call the above methods. Allowing `Ui` and `StatisticGenerator` to be null will allow them to not be instantiated in the tests.
 
 ### \[Proposed\] Undo/redo feature
 
@@ -432,6 +511,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
 | `*`      | user with many projects in the project book | sort projects by completion status                | locate an incomplete or complete project easily                                                 |
 | `*`      | user with many projects in the project book | hide and show the tags panel                | focus more on statistics and timers                                                 |
+| `*`      | user with many projects in the project book | dismiss the reminder                | focus more on statistics and timers                                                 |
 | `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
 | `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
 | `* *`    | user | can create tasks within a project | better organize my work
@@ -450,8 +530,6 @@ _{More to be added}_
 2.  Momemtum starts the timer for the project.
 3.  User requests to end a timer for a specific project in the list.
 4.  Momemtum ends the timer for the project.
-(For all use cases below, the **System** is the `ProjectBook` and the **Actor** is the `user`, unless specified
- otherwise).
 
 **Extensions**
 
@@ -473,17 +551,35 @@ _{More to be added}_
 
     Use case ends.
 
+**Use case: Add a project**
+
+**MSS**
+
+1. User requests to add a project with a name, a description, a deadline, a completion status, a reminder and a tag.
+2. Momentum shows a command result and updates the project list shown to reflect the addition.
+3. At the date and time of the reminder specified, the reminder panel will show the name of the project and remove the reminder of the project.
+
+**Extensions**
+
+* 2a. Momentum detects an error in the user input or a duplicate project in the project list.
+  
+  * a1. Momentum shows an error message.
+
+    Use case ends.
+
+The use cases for editing a project, adding a task and editing a project is similar to adding a project, except that the error messages differ slightly.
+
 **Use case: Delete a project**
 
 **MSS**
 
-1.  User requests to list projects
-2.  ProjectBook shows a list of projects
-3.  User requests to delete a specific project in the list
-4.  ProjectBook deletes the project
+1.  User requests to list projects.
+2.  Momentum shows a list of projects.
+3.  User requests to delete a specific project in the list.
+4.  Momentum deletes the project.
 
     Use case ends.
-
+    
 **Extensions**
 
 * 3a. The given project id is invalid.

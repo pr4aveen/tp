@@ -1,0 +1,66 @@
+@startuml
+!include detailed_style.puml
+autoactivate on
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":ProjectBookParser" as ProjectBookParser LOGIC_COLOR
+participant ":EditCommandParser" as EditCommandParser LOGIC_COLOR
+participant "editCommand:EditProjectCommand" as EditProjectCommand LOGIC_COLOR
+participant "commandResult:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "model:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("edit 1 dd/2030-11-11")
+
+LogicManager -> ProjectBookParser : parseCommand("edit 1 dd/2030-11-11", model)
+
+create EditCommandParser
+ProjectBookParser -> EditCommandParser
+return
+
+ProjectBookParser -> EditCommandParser : parse("1 dd/2030-11-11", model)
+
+create EditProjectCommand
+EditCommandParser -> EditProjectCommand
+
+return editCommand
+
+return editCommand
+destroy EditCommandParser
+
+return editCommand
+destroy ProjectBookParser
+
+LogicManager -> EditProjectCommand : execute()
+
+EditProjectCommand -> Model : getDisplayList()
+return lastShownList
+
+EditProjectCommand -> EditProjectCommand : createEditedTrackedItem(trackedItemToEdit, editTrackedItemDescriptor, model)
+
+EditProjectCommand -> EditProjectCommand : getUpdatedDeadline(trackedItemToEdit, editTrackedItemDescriptor, createdDateWrapper)
+return updatedDeadline
+
+return editedTrackedItem
+
+EditProjectCommand -> Model : setTrackedItem(trackedItemToEdit, editedTrackedItem)
+return
+
+EditProjectCommand -> Model : commitToHistory()
+return
+
+create CommandResult
+EditProjectCommand -> CommandResult
+
+return commandResult
+
+destroy EditProjectCommand
+
+return commandResult
+
+[<--LogicManager : commandResult
+@enduml
