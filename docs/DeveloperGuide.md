@@ -15,14 +15,19 @@ It is designed for people that prefer typing, so that frequent tasks can be done
 
 This developer guide provides information about the architecture and implementation of Momentum. It gives developers interested in developing Momentum a good start in knowing how the application works, without going too much into the lower level details. It also provides information for testers on how to test the product.
 
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Some things to take note of in this guide:**<br>
+* When a notation like `Foo#bar` is used (e.g. "The method `Foo#bar` is called...") it refers too the `bar` method from the `Foo` class.
+* Method references made in this document will only include arguments if relevant to what is being explained.
+
+</div>
+
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 ---
-
-// TODO: add intro, and add common notations(#, args are included only when relevant)
-
 
 ## **Design**
 
