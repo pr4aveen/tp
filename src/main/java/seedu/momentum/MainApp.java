@@ -1,3 +1,4 @@
+//@@author
 package seedu.momentum;
 
 import java.io.File;
@@ -76,7 +77,9 @@ public class MainApp extends Application {
 
         ui = new UiManager(logic);
 
+        //@@author khoodehui
         SettingsUpdateManager.initSettingsUpdateManager(ui, logic.getStatistic());
+        //@@author
     }
 
     /**

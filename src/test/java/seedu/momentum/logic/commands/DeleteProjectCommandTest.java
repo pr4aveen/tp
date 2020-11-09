@@ -10,8 +10,6 @@ import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
 
-import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.Messages;
@@ -20,8 +18,6 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ModelManager;
 import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.predicates.FindType;
-import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
@@ -105,14 +101,5 @@ public class DeleteProjectCommandTest {
 
         // different project -> returns false
         assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
-    }
-
-    /**
-     * Updates {@code model}'s filtered list to show no one.
-     */
-    private void showNoProject(Model model) {
-        model.updatePredicate(p -> false);
-
-        assertTrue(model.getDisplayList().isEmpty());
     }
 }

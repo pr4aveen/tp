@@ -25,7 +25,7 @@ public interface Model {
      * {@code Predicate} that always evaluate to true.
      * Used to show all items.
      */
-    Predicate<TrackedItem> PREDICATE_SHOW_ALL_TRACKED_ITEMS = unused -> true;
+    Predicate<TrackedItem> PREDICATE_SHOW_ALL_TRACKED_ITEMS = x -> true;
 
     //=========== UserPrefs ==================================================================================
     /**

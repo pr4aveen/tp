@@ -54,8 +54,7 @@ public class TagListContainsKeywordPredicate extends ContainsKeywordPredicate {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof TagListContainsKeywordPredicate // instanceof handles nulls
-                && super.equals(other)); // state check
+                || ((other instanceof TagListContainsKeywordPredicate) // instanceof handles nulls
+                && super.equals(other));
     }
-
 }

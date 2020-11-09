@@ -36,12 +36,13 @@ import seedu.momentum.testutil.TaskBuilder;
 import seedu.momentum.testutil.TypicalTimes;
 
 /**
- * Contains unit tests for {@code UndoCommand}.
+ * Contains unit tests for {@code RedoCommand}.
  */
-public class UndoCommandTest {
+public class RedoCommandTest {
 
     private static final Index INDEX_TEST_PROJECT = Index.fromZeroBased(4);
     private static final UndoCommand UNDO_COMMAND = new UndoCommand();
+    private static final RedoCommand REDO_COMMAND = new RedoCommand();
 
     private Model expectedModel;
     private Model model;
@@ -66,117 +67,110 @@ public class UndoCommandTest {
     }
 
     @Test
-    public void execute_noCommandHistoryToUndo_throwsCommandException() {
+    public void execute_noCommandHistoryToRedo_throwsCommandException() {
         Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
 
-        assertCommandFailure(UNDO_COMMAND, model, UndoCommand.MESSAGE_CANNOT_UNDO);
-    }
-
-    /**
-     * help command is not committed in history log and cannot be undone.
-     * since redo is only applicable to undone commands, there is no redo test for help command.
-     */
-    @Test
-    public void execute_undoHelpCommand_throwsCommandException() {
-
-        Model model = new ModelManager(getTypicalProjectBook(), new UserPrefs());
-        HelpCommand helpCommand = new HelpCommand();
-
-        helpCommand.execute(model);
-        helpCommand.execute(expectedModel);
-
-        assertCommandFailure(UNDO_COMMAND, model, UndoCommand.MESSAGE_CANNOT_UNDO);
+        assertCommandFailure(REDO_COMMAND, model, RedoCommand.MESSAGE_CANNOT_REDO);
     }
 
     @Test
-    public void execute_undoAddCommand_success() {
+    public void execute_redoAddCommand_success() {
 
-        // undo the adding of a new project
+        // redo the adding of a new project
         Project testProjectTwo = new ProjectBuilder().withName("TEST TWO").build();
         AddCommand addProjectCommand = new AddProjectCommand(testProjectTwo);
 
         try {
             addProjectCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             addProjectCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
 
-        // undo the adding of a new task
+        // redo the adding of a new task
         Task testTaskTwo = new TaskBuilder().withName("TEST TWO").build();
         AddCommand addTaskCommand = new AddTaskCommand(testTaskTwo, testProjectTwo);
 
         try {
-            addProjectCommand.execute(model);
             addTaskCommand.execute(model);
-            addProjectCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(model);
             addTaskCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoClearCommand_success() {
+    public void execute_redoClearCommand_success() {
 
-        // undo the clearing of projects
+        // redo the clearing of projects
         ClearProjectCommand clearProjectCommand = new ClearProjectCommand();
 
         try {
             clearProjectCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             clearProjectCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
 
-        // undo the clearing of tasks within a project
+        // redo the clearing of tasks within a project
         ClearTaskCommand clearTaskCommand = new ClearTaskCommand();
 
-        model.viewTasks(testProjectWithTask);
-        expectedModel.viewTasks(testProjectWithTask);
-
         try {
+            UNDO_COMMAND.execute(model);
+            model.viewTasks(testProjectWithTask);
+            UNDO_COMMAND.execute(expectedModel);
+            expectedModel.viewTasks(testProjectWithTask);
             clearTaskCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             clearTaskCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoDeleteCommand_success() {
+    public void execute_redoDeleteCommand_success() {
 
-        // undo the deleting of projects
+        // redo the deleting of projects
         DeleteProjectCommand deleteProjectCommand = new DeleteProjectCommand(INDEX_FIRST);
 
         try {
             deleteProjectCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             deleteProjectCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
 
-        // undo the deleting of tasks within a project
+        // redo the deleting of tasks within a project
         DeleteTaskCommand deleteTaskCommand = new DeleteTaskCommand(INDEX_FIRST, testProjectWithTask);
 
         model.viewTasks(testProjectWithTask);
@@ -184,18 +178,20 @@ public class UndoCommandTest {
 
         try {
             deleteTaskCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             deleteTaskCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoDismissCommand_success() {
+    public void execute_redoDismissCommand_success() {
         Clock.reset();
         ThreadWrapper.setIsRunningOnPlatform(false);
 
@@ -213,11 +209,13 @@ public class UndoCommandTest {
             Thread threadModel = new Thread(() -> {
                 try {
                     dismissCommand.execute(model);
+                    UNDO_COMMAND.execute(model);
                     dismissCommand.execute(expectedModel);
+                    UNDO_COMMAND.execute(expectedModel);
 
-                    expectedModel.undoCommand();
+                    expectedModel.redoCommand();
 
-                    assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+                    assertCommandSuccess(REDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
                 } catch (CommandException e) {
                     throw new AssertionError("This should not throw an exception.");
                 }
@@ -231,9 +229,9 @@ public class UndoCommandTest {
     }
 
     @Test
-    public void execute_undoEditCommand_success() {
+    public void execute_redoEditCommand_success() {
 
-        // undo the editing of projects
+        // redo the editing of a project
         Project editedProject = new ProjectBuilder(model.getDisplayList().get(0))
                 .withCompletionStatus(CompletionStatus.COMPLETED).build();
         EditCommand.EditTrackedItemDescriptor descriptor = new EditTrackedItemDescriptorBuilder(editedProject).build();
@@ -241,16 +239,18 @@ public class UndoCommandTest {
 
         try {
             editProjectCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             editProjectCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
 
-        // undo the editing of tasks within a project
+        // redo the editing of tasks within a project
         TaskBuilder taskBuilder = new TaskBuilder(testTask);
         Task editedTask = taskBuilder.withName("TEST EDIT").build();
         descriptor = new EditTrackedItemDescriptorBuilder(editedTask).build();
@@ -261,18 +261,20 @@ public class UndoCommandTest {
 
         try {
             editTaskCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             editTaskCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoFindCommand_success() {
+    public void execute_redoFindCommand_success() {
 
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(FindType.ANY,
                 Arrays.asList("TEST".split(FIND_ARGUMENT_DELIMITER)));
@@ -280,18 +282,20 @@ public class UndoCommandTest {
 
         try {
             findCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             findCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoHomeCommand_success() {
+    public void execute_redoHomeCommand_success() {
 
         HomeCommand homeCommand = new HomeCommand();
 
@@ -300,18 +304,20 @@ public class UndoCommandTest {
 
         try {
             homeCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             homeCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoListCommand_success() {
+    public void execute_redoListCommand_success() {
 
         ListCommand listCommand = new ListCommand();
 
@@ -320,35 +326,39 @@ public class UndoCommandTest {
 
         try {
             listCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             listCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoProjectViewCommand_success() {
+    public void execute_redoProjectViewCommand_success() {
 
         ProjectViewCommand projectViewCommand = new ProjectViewCommand(INDEX_FIRST);
 
         try {
             projectViewCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             projectViewCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoSetCommand_success() {
+    public void execute_redoSetCommand_success() {
 
         SetCommand.SettingsToChange settingsToChange = new SettingsToChangeBuilder().withTheme(VALID_THEME_LIGHT)
                 .withStatisticTimeframe(VALID_STATISTIC_TIMEFRAME_DAILY).build();
@@ -356,69 +366,77 @@ public class UndoCommandTest {
 
         try {
             setCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             setCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoShowComponentCommand_success() {
+    public void execute_redoShowComponentCommand_success() {
 
         ShowComponentCommand showComponentCommand =
                 new ShowComponentCommand(ShowComponentCommandParser.ComponentType.TAGS);
 
         try {
             showComponentCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             showComponentCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoSortComponentCommand_success() {
+    public void execute_redoSortComponentCommand_success() {
 
         SortCommand sortCommand = ALPHA_DESCENDING_COMMAND_TOGGLE_COMPLETION_STATUS;
 
         try {
             sortCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             sortCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoStartCommand_success() {
+    public void execute_redoStartCommand_success() {
 
-        // undo starting of timer for project
+        // redo starting of timer for project
         StartProjectCommand startProjectCommand = new StartProjectCommand(INDEX_FIRST);
 
         try {
             startProjectCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             startProjectCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
 
-        // undo starting of timer for task in a project
+        // redo starting of timer for task in a project
         StartTaskCommand startTaskCommand = new StartTaskCommand(INDEX_FIRST, testProjectWithTask);
 
         model.viewTasks(testProjectWithTask);
@@ -426,20 +444,22 @@ public class UndoCommandTest {
 
         try {
             startTaskCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             startTaskCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
-    public void execute_undoStopCommand_success() {
+    public void execute_redoStopCommand_success() {
 
-        // undo stopping of timer for project
+        // redo stopping of timer for project
         Clock.initManual(TypicalTimes.DAY);
         Project testProjectAfterTimerIsStarted = testProjectWithTask.startTimer();
         StopProjectCommand stopProjectCommand = new StopProjectCommand(INDEX_TEST_PROJECT);
@@ -453,41 +473,46 @@ public class UndoCommandTest {
 
         try {
             stopProjectCommand.execute(model);
+            UNDO_COMMAND.execute(model);
             stopProjectCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
         Clock.reset();
 
-        // undo stopping of timer for task in a project
+        // redo stopping of timer for task in a project
         Clock.initManual(TypicalTimes.DAY);
         Task testTaskAfterTimerIsStarted = testTask.startTimer();
         Project projectAfterTimerForTaskIsStarted = testProjectWithTask.setTask(testTask, testTaskAfterTimerIsStarted);
         StopTaskCommand stopTaskCommand = new StopTaskCommand(INDEX_FIRST, projectAfterTimerForTaskIsStarted);
 
-        model.setTrackedItem(testProjectWithTask, projectAfterTimerForTaskIsStarted);
-        model.viewTasks(projectAfterTimerForTaskIsStarted);
-        model.commitToHistory();
-        expectedModel.setTrackedItem(testProjectWithTask, projectAfterTimerForTaskIsStarted);
-        expectedModel.viewTasks(projectAfterTimerForTaskIsStarted);
-        expectedModel.commitToHistory();
-
         Clock.advance(1, ChronoUnit.HOURS);
 
         try {
+            UNDO_COMMAND.execute(model);
+            model.setTrackedItem(testProjectWithTask, projectAfterTimerForTaskIsStarted);
+            model.viewTasks(projectAfterTimerForTaskIsStarted);
+            model.commitToHistory();
             stopTaskCommand.execute(model);
+            UNDO_COMMAND.execute(model);
+            UNDO_COMMAND.execute(expectedModel);
+            expectedModel.setTrackedItem(testProjectWithTask, projectAfterTimerForTaskIsStarted);
+            expectedModel.viewTasks(projectAfterTimerForTaskIsStarted);
+            expectedModel.commitToHistory();
             stopTaskCommand.execute(expectedModel);
+            UNDO_COMMAND.execute(expectedModel);
         } catch (Exception e) {
             throw new AssertionError("This should not throw an exception.");
         }
 
-        expectedModel.undoCommand();
+        expectedModel.redoCommand();
 
-        assertCommandSuccess(UNDO_COMMAND, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(REDO_COMMAND, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
         Clock.reset();
     }
 

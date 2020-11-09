@@ -1,3 +1,4 @@
+//@@author claracheong4
 package seedu.momentum.testutil;
 
 import static seedu.momentum.logic.parser.CliSyntax.PREFIX_COMPLETION_STATUS;
@@ -82,6 +83,9 @@ public class ProjectUtil {
 
     /**
      * Returns an add command string for adding the {@code project}.
+     *
+     * @param project Project to build the command around.
+     * @return The command built.
      */
     public static String getAddCommand(Project project) {
         return AddCommand.COMMAND_WORD + " " + getProjectDetails(project);
@@ -89,6 +93,9 @@ public class ProjectUtil {
 
     /**
      * Returns the part of command string for the given {@code project}'s details.
+     *
+     * @param project Project to get the details from to construct the user input of the command.
+     * @return The built user input of the command.
      */
     public static String getProjectDetails(Project project) {
         StringBuilder sb = new StringBuilder();
@@ -112,6 +119,9 @@ public class ProjectUtil {
 
     /**
      * Returns the part of command string for the given {@code EditTrackedItemDescriptor}'s details.
+     *
+     * @param descriptor The descriptor containing the details to build to user input of the command.
+     * @return The built user input of the command.
      */
     public static String getEditProjectDescriptorDetails(EditCommand.EditTrackedItemDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();

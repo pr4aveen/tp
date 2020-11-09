@@ -24,6 +24,7 @@ public class DismissCommandTest {
 
     @Test
     public void execute_dismiss_successful() throws CommandException, InterruptedException {
+        Clock.reset();
         ThreadWrapper.setIsRunningOnPlatform(false);
 
         // trigger a reminder
