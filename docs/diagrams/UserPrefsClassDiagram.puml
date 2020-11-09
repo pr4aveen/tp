@@ -1,0 +1,41 @@
+@startuml
+!include detailed_style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+package Commons {
+    class GuiThemeSettings {
+        {field} theme: Theme
+    }
+
+    class StatisticTimeframeSettings {
+        {field} statTimeframe : StatisticTimeframe
+    }
+}
+
+class "<<interface>>\nSerializable" as Serializable
+GuiThemeSettings ..|> Serializable
+StatisticTimeframeSettings ..|>Serializable
+
+package Model {
+    class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
+    class UserPrefs {
+        {method} returnChangedGuiThemeSettings(newGuiThemeSettings : GuiThemeSettings) : UserPrefs
+        {method} returnChangedStatisticTimeframeSettings(newTimeframeSettings : StatisticTimeframeSettings) : UserPrefs
+    }
+}
+
+UserPrefs ..|> ReadOnlyUserPrefs
+UserPrefs ---> GuiThemeSettings
+UserPrefs ---> StatisticTimeframeSettings
+
+package Storage {
+    class JsonUserPrefsStorage {
+        {method} saveUserPrefs(userPrefs : ReadOnlyUserPrefs)
+    }
+}
+
+JsonUserPrefsStorage ..> UserPrefs
+
+@enduml

@@ -6,9 +6,9 @@ skinparam ClassBorderColor #000000
 title After command "undo"
 
 package States <<rectangle>> {
-    class State1 as "__ab0:ProjectBook__"
-    class State2 as "__ab1:ProjectBook__"
-    class State3 as "__ab2:ProjectBook__"
+    class State1 as "__pb0:ProjectBookWithUi__"
+    class State2 as "__pb1:ProjectBookWithUi__"
+    class State3 as "__p2:ProjectBookWithUi__"
 }
 
 State1 -[hidden]right-> State2

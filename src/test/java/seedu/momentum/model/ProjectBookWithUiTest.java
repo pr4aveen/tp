@@ -28,7 +28,7 @@ public class ProjectBookWithUiTest {
 
     private static final ProjectBookWithUi PROJECT_BOOK_WITH_UI =
             new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS, VALID_PROJECT,
-                    Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS);
+                    Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS, true);
 
     @Test
     public void constructor() {
@@ -73,7 +73,7 @@ public class ProjectBookWithUiTest {
     public void isTagsVisible_returnsFalse() {
         ProjectBookWithUi projectBookTagsInvisible =
                 new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS, VALID_PROJECT,
-                        Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, false, USER_PREFS);
+                        Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, false, USER_PREFS, true);
         assertEquals(false, projectBookTagsInvisible.isTagsVisible());
     }
 
@@ -81,6 +81,14 @@ public class ProjectBookWithUiTest {
     public void getUserPrefs_returnsUserPref() {
         ReadOnlyUserPrefs userPrefs = PROJECT_BOOK_WITH_UI.getUserPrefs();
         assertEquals(userPrefs, USER_PREFS);
+    }
+
+    @Test
+    public void isCurrentSortByCompletionStatus_returnsFalse() {
+        ProjectBookWithUi projectBookTagsInvisible =
+                new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS, VALID_PROJECT,
+                        Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS, false);
+        assertEquals(false, projectBookTagsInvisible.isCurrentSortByCompletionStatus());
     }
 
     @Test
@@ -96,45 +104,50 @@ public class ProjectBookWithUiTest {
 
         //same viewMode, project, predicate, comparator -> return true
         ProjectBookWithUi sameProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-                VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS);
+                VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS, true);
         assertTrue(PROJECT_BOOK_WITH_UI.equals(sameProjectbookWithUi));
 
         //same viewMode, both projects null, same predicate, same comparator -> return true
         ProjectBookWithUi nullProjectBookWithUi =
                 new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS, null,
-                        Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS);
+                        Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS, true);
         sameProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-                null, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS);
+                null, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS, true);
         assertTrue(nullProjectBookWithUi.equals(sameProjectbookWithUi));
 
         // different viewMode -> return false
         ProjectBookWithUi differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.PROJECTS,
-                VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS);
+                VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS, true);
         assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
 
         // different project -> returns false
         Project otherProject = new ProjectBuilder().withName("OTHER").build();
         differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-                otherProject, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS);
+                otherProject, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, USER_PREFS, true);
         assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
 
         // different tags visibility -> returns false
         differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-                VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, false, USER_PREFS);
+                VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, false, USER_PREFS, true);
         assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
 
         // different predicate -> returns false
         Predicate<TrackedItem> completePredicate =
             new CompletionStatusPredicate(FindType.ALL, Arrays.asList(CompletionStatusPredicate.INCOMPLETE_KEYWORD));
         differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-                otherProject, completePredicate, NAME_COMPARE, true, USER_PREFS);
+                otherProject, completePredicate, NAME_COMPARE, true, USER_PREFS, true);
         assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
 
         // different user prefs -> returns false
         ReadOnlyUserPrefs otherUserPrefs =
             new UserPrefs().returnChangedGuiThemeSettings(new GuiThemeSettings(new Theme(Theme.ThemeType.LIGHT)));
         differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-            VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, otherUserPrefs);
+            VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, otherUserPrefs, true);
+        assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
+
+        // different sort by completion status -> returns false
+        differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
+                VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, true, otherUserPrefs, false);
         assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
     }
 }

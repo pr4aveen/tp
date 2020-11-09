@@ -1,24 +1,46 @@
 @startuml
-!include style.puml
+!include detailed_style.puml
 skinparam arrowThickness 1.1
 skinparam arrowColor STORAGE_COLOR
 skinparam classBackgroundColor STORAGE_COLOR
 
-Interface Storage <<Interface>>
-Interface UserPrefsStorage <<Interface>>
-Interface ProjectBookStorage <<Interface>>
+class "<<interface>>\nStorage" as Storage
+class "<<interface>>\nUserPrefsStorage" as UserPrefsStorage
+class "<<interface>>\nProjectBookStorage" as ProjectBookStorage
 
-Class StorageManager
-Class JsonUserPrefsStorage
-Class JsonProjectBookStorage
+class StorageManager
+class JsonUserPrefsStorage
+class JsonProjectBookStorage
+class JsonAdaptedProject {
+    {field} name: String
+    {field} description: String
+    {field} completionStatus: boolean
+    {field} createdDate: String
+    {field} deadline: JsonAdaptedDeadline
+    {field} reminder: String
+    {field} tagged: List<JsonAdaptedTag>
+    {field} durations: List<JsonAdaptedWorkDuration>
+    {field} timer: JsonAdaptedTimer
+}
+class JsonAdaptedTask {
+    {field} name: String
+    {field} description: String
+    {field} completionStatus: boolean
+    {field} createdDate: String
+    {field} deadline: JsonAdaptedDeadline
+    {field} reminder: String
+    {field} tagged: List<JsonAdaptedTag>
+    {field} durations: List<JsonAdaptedWorkDuration>
+}
 
-StorageManager .left.|> Storage
-StorageManager o-right-> UserPrefsStorage
-StorageManager o--> ProjectBookStorage
+StorageManager ..|> Storage
+StorageManager *--> UserPrefsStorage
+StorageManager *--> ProjectBookStorage
 
-JsonUserPrefsStorage .left.|> UserPrefsStorage
-JsonProjectBookStorage .left.|> ProjectBookStorage
-JsonProjectBookStorage .down.> JsonSerializableProjectBookStorage
-JsonSerializableProjectBookStorage .right.> JsonSerializablePerson
-JsonSerializablePerson .right.> JsonAdaptedTag
+JsonUserPrefsStorage ..|> UserPrefsStorage
+JsonProjectBookStorage ..|> ProjectBookStorage
+JsonProjectBookStorage ..> JsonSerializableProjectBook
+JsonSerializableProjectBook ..> "*" JsonAdaptedProject
+JsonAdaptedProject "1" *-right-> "*" JsonAdaptedTask
+
 @enduml

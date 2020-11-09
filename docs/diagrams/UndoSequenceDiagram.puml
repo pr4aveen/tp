@@ -24,13 +24,13 @@ activate UndoCommand
 UndoCommand --> ProjectBookParser
 deactivate UndoCommand
 
-ProjectBookParser --> LogicManager : u
+ProjectBookParser --> LogicManager
 deactivate ProjectBookParser
 
 LogicManager -> UndoCommand : execute()
 activate UndoCommand
 
-UndoCommand -> Model : undoProjectBook()
+UndoCommand -> Model : undoCommand()
 activate Model
 
 Model -> VersionedProjectBook : undo()

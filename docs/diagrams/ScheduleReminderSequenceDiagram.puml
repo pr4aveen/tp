@@ -1,0 +1,81 @@
+@startuml
+!include detailed_style.puml
+autoactivate on
+
+box Model MODEL_COLOR_T1
+participant "task:Task" as Task MODEL_COLOR
+participant "project:Project" as Project MODEL_COLOR
+participant ":ProjectBook" as ProjectBook MODEL_COLOR
+participant ":ReminderTimerTask" as ReminderTimerTask MODEL_COLOR
+participant "reminderManager:ReminderManager" as ReminderManager MODEL_COLOR
+participant ":ModelManager" as ModelManager MODEL_COLOR
+end box
+
+[-> ModelManager : rescheduleReminders()
+ModelManager -> ReminderManager : rescheduleReminder()
+
+ReminderManager -> ReminderManager : resetTimer()
+return
+
+ReminderManager -> ModelManager : rescheduleReminder()
+
+ModelManager -> ProjectBook : rescheduleReminder(reminderManager)
+
+ref over Task, Project, ProjectBook : updateExpiredReminders
+
+' ProjectBook -> ProjectBook : updateExpiredReminders()
+
+' loop [until no projects]
+'     ProjectBook -> Project : updateExpiredReminder()
+
+' loop [until not tasks]
+' Project -> Task : updateExpiredReminder()
+' return task
+' end
+' return project
+' end
+
+' ProjectBook -> ProjectBook : setItems(trackedProjects)
+' return
+' return
+
+group loop [until no projects]
+ref over Project, ProjectBook, ReminderTimerTask, ReminderManager, ModelManager : rescheduleReminder(project)
+
+'     ProjectBook -> ReminderManager : rescheduleReminder(project)
+
+' group opt [canSchedule]
+' ReminderManager -> ReminderManager : scheduleReminder(project)
+
+' create ReminderTimerTask
+' ReminderManager -> ReminderTimerTask
+' return
+' return
+' end
+
+' loop [until no tasks]
+' ReminderManager -> Project : rescheduleReminder(reminderManager)
+
+' Project -> ReminderManager : rescheduleReminder(project, task)
+
+' group opt [canSchedule]
+' ReminderManager -> ReminderManager : scheduleReminder(project, task)
+
+' create ReminderTimerTask
+' ReminderManager -> ReminderTimerTask
+' return
+' return
+' end
+
+' return
+' return
+' end
+
+' return
+end
+return
+return
+return
+
+[<--ModelManager
+@enduml

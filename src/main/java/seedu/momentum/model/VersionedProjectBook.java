@@ -38,11 +38,12 @@ public class VersionedProjectBook extends ProjectBook {
                                 Predicate<TrackedItem> currentPredicate,
                                 Comparator<TrackedItem> currentComparator,
                                 boolean isTagsVisible,
-                                ReadOnlyUserPrefs userPrefs) {
+                                ReadOnlyUserPrefs userPrefs,
+                                boolean isCurrentSortByCompletionStatus) {
         super(projectBook);
         this.projectBookStateList = new ArrayList<>();
-        projectBookStateList.add(new ProjectBookWithUi(projectBook, viewMode,
-                currentProject, currentPredicate, currentComparator, isTagsVisible, userPrefs));
+        projectBookStateList.add(new ProjectBookWithUi(projectBook, viewMode, currentProject, currentPredicate,
+                currentComparator, isTagsVisible, userPrefs, isCurrentSortByCompletionStatus));
         currentStatePointer = 0;
     }
 
@@ -58,13 +59,14 @@ public class VersionedProjectBook extends ProjectBook {
      * @param userPrefs Current user preferences in the application.
      */
     public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
-                       Comparator<TrackedItem> currentComparator, boolean isTagsVisible, ReadOnlyUserPrefs userPrefs) {
+                       Comparator<TrackedItem> currentComparator, boolean isTagsVisible, ReadOnlyUserPrefs userPrefs,
+                       boolean isCurrentSortByCompletionStatus) {
         int historySize = projectBookStateList.size();
         if (currentStatePointer < historySize - 1) {
             flushRedoVersions();
         }
-        projectBookStateList.add(new ProjectBookWithUi(this, viewMode,
-                currentProject, currentPredicate, currentComparator, isTagsVisible, userPrefs));
+        projectBookStateList.add(new ProjectBookWithUi(this, viewMode, currentProject, currentPredicate,
+                currentComparator, isTagsVisible, userPrefs, isCurrentSortByCompletionStatus));
         shiftPointer(COMMIT);
     }
 
@@ -158,6 +160,10 @@ public class VersionedProjectBook extends ProjectBook {
 
     public ReadOnlyUserPrefs getUserPrefs() {
         return getCurrentProjectBookWithUi().getUserPrefs();
+    }
+
+    public boolean isCurrentSortByCompletion() {
+        return getCurrentProjectBookWithUi().isCurrentSortByCompletionStatus();
     }
 
     @Override

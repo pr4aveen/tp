@@ -22,7 +22,6 @@ import java.util.List;
 
 import seedu.momentum.commons.core.index.Index;
 import seedu.momentum.logic.commands.exceptions.CommandException;
-import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ViewMode;
@@ -96,15 +95,15 @@ public class CommandTestUtil {
     public static final String THEME_DESC_DARK = " " + SET_THEME + VALID_THEME_DARK;
     public static final String THEME_DESC_LIGHT = " " + SET_THEME + VALID_THEME_LIGHT;
     public static final String STATISTIC_TIMEFRAME_DESC_DAILY = " " + SET_STATISTIC_TIMEFRAME
-        + VALID_STATISTIC_TIMEFRAME_DAILY;
+            + VALID_STATISTIC_TIMEFRAME_DAILY;
     public static final String STATISTIC_TIMEFRAME_DESC_WEEKLY = " " + SET_STATISTIC_TIMEFRAME
-        + VALID_STATISTIC_TIMEFRAME_WEEKLY;
+            + VALID_STATISTIC_TIMEFRAME_WEEKLY;
     public static final String STATISTIC_TIMEFRAME_DESC_MONTHLY = " " + SET_STATISTIC_TIMEFRAME
-        + VALID_STATISTIC_TIMEFRAME_MONTHLY;
+            + VALID_STATISTIC_TIMEFRAME_MONTHLY;
 
     public static final String INVALID_THEME_DESC = " " + SET_THEME + INVALID_THEME;
     public static final String INVALID_STATISTIC_TIMEFRAME_DESC = " " + SET_STATISTIC_TIMEFRAME
-        + INVALID_STATISTIC_TIMEFRAME;
+            + INVALID_STATISTIC_TIMEFRAME;
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
@@ -132,12 +131,12 @@ public class CommandTestUtil {
 
     static {
         SETTINGS_ONE = new SettingsToChangeBuilder().withTheme(VALID_THEME_DARK)
-            .withStatisticTimeframe(VALID_STATISTIC_TIMEFRAME_MONTHLY)
-            .build();
+                .withStatisticTimeframe(VALID_STATISTIC_TIMEFRAME_MONTHLY)
+                .build();
 
         SETTINGS_TWO = new SettingsToChangeBuilder().withTheme(VALID_THEME_LIGHT)
-            .withStatisticTimeframe(VALID_STATISTIC_TIMEFRAME_DAILY)
-            .build();
+                .withStatisticTimeframe(VALID_STATISTIC_TIMEFRAME_DAILY)
+                .build();
     }
 
     /**
@@ -151,7 +150,7 @@ public class CommandTestUtil {
             CommandResult result = command.execute(actualModel);
             assertEquals(expectedCommandResult, result);
             assertTrue(expectedModel.equals(actualModel));
-        } catch (ParseException | CommandException ce) {
+        } catch (CommandException ce) {
             throw new AssertionError("Execution of command should not fail.", ce);
         }
     }
@@ -184,11 +183,12 @@ public class CommandTestUtil {
     }
 
     //@@author pr4aveen
+
     /**
      * Show all projects that share the same name as the project at the given {@code targetIndex} in the
      * {@code model}'s project book.
      *
-     * @param model Model to test with.
+     * @param model       Model to test with.
      * @param targetIndex Index of the project to show.
      * @return The predicate used to find all projects with the given name.
      */
@@ -199,7 +199,7 @@ public class CommandTestUtil {
         TrackedItem trackedItem = model.getDisplayList().get(targetIndex.getZeroBased());
         final String[] splitName = trackedItem.getName().fullName.split("\\s+");
         NameContainsKeywordsPredicate predicate =
-            new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName));
+                new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName));
         model.updatePredicate(predicate);
 
         assertEquals(1, model.getDisplayList().size());
@@ -211,18 +211,18 @@ public class CommandTestUtil {
      * the given {@code trackedItem} in the {@code model}'s project book.
      *
      * @param model Model to test with.
-     * @param name Name of the project to show.
+     * @param name  Name of the project to show.
      */
     public static void showTrackedItemWithName(Model model, Name name) {
         final String[] splitName = name.fullName.split("\\s+");
         model.updatePredicate(
-            new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName)));
+                new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName)));
     }
 
     /**
      * Returns the project at the given {@code targetIndex} in the {@code model}'s project book.
      *
-     * @param model Model to test with.
+     * @param model       Model to test with.
      * @param targetIndex Index of the target project.
      * @return The obtained project at the specified index.
      */
@@ -237,7 +237,7 @@ public class CommandTestUtil {
      * Show all tasks that share the same name as the project at the given {@code targetIndex} in the
      * {@code model}'s project book.
      *
-     * @param model Model to test with.
+     * @param model       Model to test with.
      * @param targetIndex Index of the target task.
      * @return The predicate used to find all tasks with the given name.
      */
@@ -248,7 +248,7 @@ public class CommandTestUtil {
         TrackedItem trackedItem = model.getDisplayList().get(targetIndex.getZeroBased());
         final String[] splitName = trackedItem.getName().fullName.split("\\s+");
         NameContainsKeywordsPredicate predicate =
-            new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName));
+                new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName));
 
         model.updatePredicate(predicate);
         assertEquals(1, model.getDisplayList().size());

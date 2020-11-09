@@ -1,0 +1,65 @@
+@startuml
+!include style.puml
+
+box FindCommandParser  LOGIC_COLOR_T1
+participant ":FindCommandParser" as FindCommandParser LOGIC_COLOR
+participant "n:NameContains\nKeywordPredicate" as NameContainsKeywordPredicate LOGIC_COLOR
+participant "d:DescriptionContains\nKeywordPredicate" as DescriptionContainsKeywordPredicate LOGIC_COLOR
+participant "t:TagListContains\nKeywordPredicate" as TagListContainsKeywordPredicate LOGIC_COLOR
+participant "c:CompletionStatus\nPredicate" as CompletionStatusPredicate LOGIC_COLOR
+end box
+
+[-> FindCommandParser : parse()
+activate FindCommandParser
+
+FindCommandParser -> FindCommandParser : getMatchType(argMultimap)
+activate FindCommandParser
+FindCommandParser --> FindCommandParser : findType
+deactivate FindCommandParser
+
+'FindCommandParser -> FindCommandParser : parseArguments(argMultimap, prefix, predicateList, findType)
+'activate FindCommandParser
+
+opt containsNamePrefix
+create NameContainsKeywordPredicate
+FindCommandParser -> NameContainsKeywordPredicate : NameContainsKeywordPredicate()
+activate NameContainsKeywordPredicate
+NameContainsKeywordPredicate --> FindCommandParser : n
+deactivate NameContainsKeywordPredicate
+end opt
+
+opt containsDescriptionPrefix
+create DescriptionContainsKeywordPredicate
+FindCommandParser -> DescriptionContainsKeywordPredicate : DescriptionContainsKeywordPredicate()
+activate DescriptionContainsKeywordPredicate
+DescriptionContainsKeywordPredicate --> FindCommandParser : d
+deactivate DescriptionContainsKeywordPredicate
+end opt
+
+opt containsTagPrefix
+create TagListContainsKeywordPredicate
+FindCommandParser -> TagListContainsKeywordPredicate : TagListContainsKeywordPredicate()
+activate TagListContainsKeywordPredicate
+TagListContainsKeywordPredicate --> FindCommandParser : t
+deactivate TagListContainsKeywordPredicate
+end opt
+
+opt containsCompletionStatusPrefix
+create CompletionStatusPredicate
+FindCommandParser -> CompletionStatusPredicate : CompletionStatusPredicate()
+activate CompletionStatusPredicate
+CompletionStatusPredicate --> FindCommandParser : c
+deactivate CompletionStatusPredicate
+end opt
+
+'deactivate FindCommandParser
+
+FindCommandParser -> FindCommandParser : combinePredicates(findType, predicateList)
+activate FindCommandParser
+FindCommandParser --> FindCommandParser : combinedPredicate
+deactivate FindCommandParser
+
+[<- FindCommandParser : FindCommand(combinedPredicate)
+deactivate FindCommandParser
+destroy FindCommandParser
+@enduml

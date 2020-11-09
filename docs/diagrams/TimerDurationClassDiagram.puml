@@ -3,13 +3,8 @@
 skinparam arrowThickness 1.1
 skinparam arrowColor LOGIC_COLOR_T4
 
-package Project {
-Class Project MODEL_COLOR {
-    name : Name
-    description : Description
-    deadline : Deadline
-    createdDateWrapper : DateWrapper
-    tags : Set<Tag>
+package TrackedItem {
+Class TrackedItem MODEL_COLOR {
     startTimer() : Project
     stopTimer() : Project
     isRunning() : boolean
@@ -17,12 +12,11 @@ Class Project MODEL_COLOR {
 Class Timer MODEL_COLOR {
     startDateTime : DateTimeWrapper
     stopDateTime : DateTimeWrapper
-    isRUnning : boolean
+    isRunning : boolean
     start() : void
     stop() : void
     getTimeBetween(ChronoUnit unit) : long
 }
-Class UniqueDurationList MODEL_COLOR
 Class WorkDuration MODEL_COLOR {
     startDateTime : DateTimeWrapper
     stopDateTime : DateTimeWrapper
@@ -33,7 +27,7 @@ Class WorkDuration MODEL_COLOR {
 
 package Logic {
 
-Interface StatisticGenerator <<Interface>> LOGIC_COLOR {
+Class StatisticGenerator <<Interface>> LOGIC_COLOR {
     updateStatistics() : void
 }
 Class StatisticManager LOGIC_COLOR {
@@ -58,11 +52,11 @@ StatisticManager --> "*" Statistic
 Statistic ..> "1..*" StatisticEntry
 XYZStatistic --|> Statistic
 
-Project *-left-> "1" UniqueDurationList
-Project *--> "1" Timer
-UniqueDurationList o-up-> "*" WorkDuration
+TrackedItem *-down-> "*" WorkDuration
+TrackedItem *-left-> "1" Timer
+WorkDuration -[hidden]left-> Timer
 
-Statistic .left.> Project
+Statistic .left.> TrackedItem
 Statistic .left.> WorkDuration
 
 

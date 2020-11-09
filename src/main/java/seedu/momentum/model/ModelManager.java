@@ -80,7 +80,7 @@ public class ModelManager implements Model {
         this.currentComparator = getComparatorNullType(true, this.isCurrentSortByCompletionStatus);
 
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
-                currentComparator, isTagsVisible.get(), userPrefs);
+                currentComparator, isTagsVisible.get(), userPrefs, isCurrentSortByCompletionStatus);
         this.reminderManager = new ReminderManager(this);
         this.itemList = this.versionedProjectBook.getTrackedItemList();
         this.displayList = new SimpleObjectProperty<>(this.itemList);
@@ -189,6 +189,7 @@ public class ModelManager implements Model {
         versionedProjectBook.removeTrackedItem(target);
         updatePredicate(currentPredicate);
         rescheduleReminders();
+        LOGGER.info(String.format("Deleted tracked item %s", target));
     }
 
     @Override
@@ -197,6 +198,7 @@ public class ModelManager implements Model {
         rescheduleReminders();
         updateOrder(currentSortType, isCurrentSortAscending);
         updatePredicate(PREDICATE_SHOW_ALL_TRACKED_ITEMS);
+        LOGGER.info(String.format("Added tracked item %s", trackedItem));
     }
 
     @Override
@@ -210,6 +212,7 @@ public class ModelManager implements Model {
         }
         rescheduleReminders();
         updateOrder(currentSortType, isCurrentSortAscending);
+        LOGGER.info(String.format("Changed tracked item %s to %s", target, editedTrackedItem));
     }
 
     //@@author boundtotheearth
@@ -322,6 +325,7 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         currentPredicate = predicate;
         updateDisplayList();
+        LOGGER.info("Predicate updated.");
     }
 
     //@@author boundtotheearth
@@ -422,7 +426,7 @@ public class ModelManager implements Model {
     @Override
     public void commitToHistory() {
         versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible.get(),
-                userPrefs);
+                userPrefs, isCurrentSortByCompletionStatus);
     }
 
     @Override
@@ -436,6 +440,7 @@ public class ModelManager implements Model {
         currentProject = versionedProjectBook.getCurrentProject();
         currentPredicate = versionedProjectBook.getCurrentPredicate();
         currentComparator = versionedProjectBook.getCurrentComparator();
+        isCurrentSortByCompletionStatus = versionedProjectBook.isCurrentSortByCompletion();
 
         resetUi(viewMode);
 
@@ -453,6 +458,7 @@ public class ModelManager implements Model {
         currentProject = versionedProjectBook.getCurrentProject();
         currentPredicate = versionedProjectBook.getCurrentPredicate();
         currentComparator = versionedProjectBook.getCurrentComparator();
+        isCurrentSortByCompletionStatus = versionedProjectBook.isCurrentSortByCompletion();
 
         resetUi(viewMode);
 
@@ -494,6 +500,11 @@ public class ModelManager implements Model {
     @Override
     public void updateOrder(SortType sortType, boolean isAscending) {
         updateOrder(sortType, isAscending, false);
+    }
+
+    @Override
+    public boolean getIsCurrentSortByCompletionStatus() {
+        return isCurrentSortByCompletionStatus;
     }
 
 
@@ -592,6 +603,7 @@ public class ModelManager implements Model {
     private Comparator<TrackedItem> getComparatorNullType(boolean isAscending, boolean isSortedByCompletionStatus) {
         return getComparator(currentSortType, isAscending, isSortedByCompletionStatus);
     }
+    //@@author
 
     @Override
     public boolean equals(Object obj) {

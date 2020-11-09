@@ -5,16 +5,23 @@ skinparam arrowColor UI_COLOR_T4
 skinparam classBackgroundColor UI_COLOR
 
 package UI <<Rectangle>>{
-Interface Ui <<Interface>>
+Class "<<interface>>\nUi" as Ui
 Class "{abstract}\nUiPart" as UiPart
 Class UiManager
 Class MainWindow
 Class HelpWindow
 Class ResultDisplay
-Class PersonListPanel
-Class PersonCard
-Class StatusBarFooter
+Class TrackedItemListPanel
+Class TrackedItemCard
+Class BottomBar
 Class CommandBox
+Class ReminderDisplay
+Class TimerListPanel
+Class StatListPanel
+Class TagsDisplay
+Class StatCard
+Class TimerCard
+Class PieChartCard
 }
 
 package Model <<Rectangle>> {
@@ -33,28 +40,47 @@ UiManager -down-> MainWindow
 MainWindow --> HelpWindow
 MainWindow *-down-> CommandBox
 MainWindow *-down-> ResultDisplay
-MainWindow *-down-> PersonListPanel
-MainWindow *-down-> StatusBarFooter
+MainWindow *-down-> TrackedItemListPanel
+MainWindow *-down-> BottomBar
+MainWindow *-down-> ReminderDisplay
+MainWindow *-down-> TimerListPanel
+MainWindow *-down-> StatListPanel
+MainWindow *-down-> TagsDisplay
 
-PersonListPanel -down-> PersonCard
+TrackedItemListPanel -down--> TrackedItemCard
+StatListPanel ---> StatCard
+StatListPanel ---> PieChartCard
+TimerListPanel ---> TimerCard
 
 MainWindow -left-|> UiPart
 
-ResultDisplay --|> UiPart
-CommandBox --|> UiPart
-PersonListPanel --|> UiPart
-PersonCard --|> UiPart
-StatusBarFooter --|> UiPart
+ResultDisplay ---|> UiPart
+CommandBox ---|> UiPart
+TrackedItemListPanel ---|> UiPart
+TrackedItemCard ---|> UiPart
+BottomBar ---|> UiPart
 HelpWindow -down-|> UiPart
+ReminderDisplay -----|> UiPart
+TimerListPanel -----|> UiPart
+StatListPanel -----|> UiPart
+TagsDisplay -|> UiPart
+TimerCard -----|> UiPart
+StatCard -----|> UiPart
+PieChartCard -----|> UiPart
 
-PersonCard ..> Model
 UiManager -right-> Logic
 MainWindow -left-> Logic
 
-PersonListPanel -[hidden]left- HelpWindow
+TrackedItemCard ..> Model
+TimerCard ..> Model
+PieChartCard ..> Model
+
+StatCard ..>Logic
+
+TrackedItemListPanel -[hidden]left- HelpWindow
 HelpWindow -[hidden]left- CommandBox
 CommandBox -[hidden]left- ResultDisplay
-ResultDisplay -[hidden]left- StatusBarFooter
+ResultDisplay -[hidden]left- BottomBar
 
 MainWindow -[hidden]-|> UiPart
 @enduml
