@@ -11,7 +11,6 @@ object "Website Design : Project" as WebsiteProject {
     description = "Design new website"
     deadline = 2020-11-10T20:00:00
 }
-note right: This project has no tasks
 
 object "Do Mockups : Task" as MockupsTask {
     description = "Draw some mockups"

@@ -1,6 +1,6 @@
 @startuml
 start
-:Clock initialized in Fixed mode\nwith a fixed time 20:00;
+:Clock initialized in FIXED mode\nwith a fixed time 20:00;
 
 :Current Time requested \n by another component;
 

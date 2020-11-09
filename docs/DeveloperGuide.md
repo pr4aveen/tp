@@ -168,6 +168,94 @@ There are also classes with useful utility methods used to handle different type
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Adding Tasks to Projects
+
+In Momentum, each project can contain a list of tasks. These can use used to represent various sub-tasks that the user needs to do as part of the project. This section will explain how this is implemented, and some alternative implementations that we have considered.
+
+#### Chosen Implementation: Separate Task and Project
+
+Both projects and tasks have many similarities. They share the following fields:
+
+* Name
+* Description
+* Completion Status
+* Reminder
+* Deadline
+* Created Date
+* Tags
+
+Additionally, both need to work with Momentum's time tracking and statistics features.
+Therefore, it is reasonable to have an abstract `TrackedItem` class that contains the fields and methods shared by both projects and tasks, and have `Project` and `Task` extend from it.
+
+Projects and tasks will then have fields and methods for the behaviours unique to each item. Specifically, a project will contain a list of tasks, and have methods that allow it to modify its own list of tasks. This results in the  structure illustrated by the class diagram below:
+
+![ProjectTaskClassDiagram](images/ProjectTaskClassDiagram.png)
+
+This allows us to take advantage of polymorphism to ensure that every command will work with both projects and tasks, without having to provide separate implementations for each.
+
+Below is an object diagram to illustrate an example of the structure of some projects and tasks being tracked by Momentum:
+
+![ProjectTaskObjectDiagram](images/ProjectTaskObjectDiagram.png)
+
+The `view` and `home` commands allow users to navigate between viewing a single project's tasks, and a view of all projects (with their tasks not visible).
+
+This is implemented by having a list of tracked items to be shown to the user, `itemList`. This list is changed to be the project's task list when a `view` command is executed, and changed to the overall project list when a `home` command is executed. The list can then be further sorted using the [sort command](#sort-command) or filtered using the [find command](#find-command), to form a separate list, `displayList`, that is provided to the UI components to be   displayed to the user.
+
+Most of the commands in Momentum thus become context sensitive, behaving differently depending on whether the project list is being viewed, or a task list if being viewed. For example, the `add` command would add a project if the user  is viewing the project list, but if the user is viewing a specific project's task list, it will add a task to that project instead.
+
+We have identified the following benefits and drawbacks of this implementation.
+
+Benefits:
+
+* Having a `TrackedItem` parent class gives us the opportunity to easily extend Momentum to track other things beyond projects and tasks, while also making it easier to integrate new items with existing commands.
+* Having a clear difference between `Project` and `Task` classes allows us to further differentiate projects and tasks in the future. Additional task or project specific features can be easily added without affecting the other.
+
+Drawbacks:
+
+* Some type casting is required for certain operations on projects and tasks, especially for testing purposes. While this is not neccessarily a bad thing, it may make the code less readable and harder to follow.
+
+#### Alternative 1: Using Predicates
+
+//TODO: add explanation
+
+Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`. Both `Project` and `Task` will extend `TrackedItem`.
+
+A rough summary of the proposed implementation is as follows:
+
+* There will be two predicates. The first predicate will be used to check whether an object is a project or a task. The second predicate will be the normal predicate used to filter the list in the find command.
+* Changes in view will modify the first predicate.
+* Using the find command will modify the second predicate.
+* The predicate used to determine the entries shown in the `displayList` is the logical AND of the first and second predicates.
+
+We have identified the following benefits and drawbacks of this implementation.
+
+Benefits:
+
+* This implementation is much simpler than having to maintain a separate list of `Task` objects for each project. It is likely that existing commands would not have to be changed as much.
+
+Drawbacks:
+
+* A bi-directional association between projects and tasks will be needed. This is unnecessary as a project is composed of multiple tasks. Tasks do not need to know which project they are a part of.
+* It might be harder and more time-consuming to write rigorous tests for this implementation.
+
+#### Alternative 2: Projects can contain Projects
+
+Since projects and tasks are so similar, it may make more sense to treat them as the same object in the first place. Therefore, it is possible to model a project's sub-tasks as projects themselves. This results in a structure where each project can contain a list of other projects, as illustrated below:
+
+![ProjectInProjectClassDiagram](images/ProjectInProjectClassDiagram.png)
+
+We have identified the following benefits and drawbacks of this implementation.
+
+Benefits:
+
+* This implementation is much simpler than having to maintain seperate `Project` and `Task` classes. It is likely that existing commands would not have to be changed as much.
+* Projects can contain not just sub-projects, but sub-sub-projects, sub-sub-sub-projects, etc, allowing for deeper nesting of projects. This may be useful for users to manage more complex project structures.
+
+Drawbacks:
+
+* We will be unable to differentiate between a project and sub-project, since they are both modeled as the same class. This means that project or sub-project specific features cannot be easily implemented without affecting the other.
+* Allowing for deeper nesting of projects may make the application more confusing to use without significant UI changes.
+
 ### Immutability
 `Projects`, `Tasks`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new object is created with the new details, and the model is updated with the new object.
 
@@ -185,12 +273,9 @@ We chose to implement projects this way as immutability makes these classes more
 
 ### Timers and Durations
 
-//TODO: add intro
+Momentum allows users to track the time that they spend on each project and task. Time tracking is done by starting and stopping a timer using the `start` and `stop` commands. The period of time that the user spends is then stored as a `WorkDuration` object.
 
-The time tracking features in Momentum are implemented using `TimerWrapper` and `WorkDuration` objects.
-The below diagram illustrates these classes are used in Momentum.
-
-//TODO: Add durations to trackeditem, remove caps u in isRunning, change unique duration list, update trackeditem related stuff
+The below diagram illustrates the structure of the classes used for timetracking, and how they are used to calculate [statistics](#statistics).
 
  ![TimerDurationClassDiagram](images/TimerDurationClassDiagram.png)
 
@@ -304,8 +389,8 @@ Whenever a project or task is added, edited or removed, the reminders needs to b
 An alternative would be to only reschedule projects or tasks that are affected by the change. This design was not chosen as it is more complicated and would increase the coupling between `ReminderManager` and other related classes.
 
 ### Statistics
-
-Statistics in Momentum are implemented using the Command design pattern, similar to how Commands are implemented. Each statistic tracked by Momentum is represented by a `Statistic` object, and a `StatisticManager` contains all the statistics and is responsible for updating them whenever the model is changed.
+Momentum calculates statistics using the time tracking data collected from [timers and durations](#timers-and-durations).
+These statistics are implemented using the command design pattern, similar to how Commands are implemented. Each statistic tracked by Momentum is represented by a `Statistic` object, and a `StatisticManager` contains all the statistics and is responsible for updating them whenever the model is changed.
 
 Each statistic exposes a `calculate(Model model)` method that is called by the `StatisticManager` to calculate or update the data with the information in the model. The method contains instructions on how that particular statistic is calculated.
 
@@ -350,8 +435,6 @@ Below are some activity diagrams to illustrate the process of obtaining the curr
 | ![](images/ClockActivityDiagram1.png) | ![](images/ClockActivityDiagram2.png) | ![](images/ClockActivityDiagram3.png)|
 |:---:|:---:|:---:|
 |Normal|Fixed|Manual|
-
-//TODO: capitalise Normal, ...
 
 ### Find Command
 The find command uses predicate chaining to search for projects/tasks based on one or more parameters. A predicate is created for each type of search parameter (name, description, tags, completion status). There are four predicates classes defined for this purpose.
@@ -551,98 +634,6 @@ This was a candidate for implementation but ultimately rejected due to the follo
 
 * This would be more prone to bugs due to the compulsory implementation of reversal of every command.
 
-//TODO: move this section to the top of implementations
-
-### Adding Tasks to Projects
-
-In Momentum, each project can contain a list of tasks. These can use used to represent various sub-tasks that the user needs to do as part of the project. This section will explain how this is implemented, and some alternative implementations that we have considered.
-
-#### Chosen Implementation: Separate Task and Project
-
-Both projects and tasks have many similarities. They share the following fields:
-
-* Name
-* Description
-* Completion Status
-* Reminder
-* Deadline
-* Created Date
-* Tags
-
-Additionally, both need to work with Momentum's time tracking and statistics features.
-Therefore, it is reasonable to have an abstract `TrackedItem` class that contains the fields and methods shared by both projects and tasks, and have `Project` and `Task` extend from it.
-
-Projects and tasks will then have fields and methods for the behaviours unique to each item. Specifically, a project will contain a list of tasks, and have methods that allow it to modify its own list of tasks. This results in the  structure illustrated by the class diagram below:
-
-//TODO: remove aggregation
-
-![ProjectTaskClassDiagram](images/ProjectTaskClassDiagram.png)
-
-This allows us to take advantage of polymorphism to ensure that every command will work with both projects and tasks, without having to provide separate implementations for each.
-
-Below is an object diagram to illustrate an example of the structure of some projects and tasks being tracked by Momentum:
-
-![ProjectTaskObjectDiagram](images/ProjectTaskObjectDiagram.png)
-
-The `view` and `home` commands allow users to navigate between viewing a single project's tasks, and a view of all projects (with their tasks not visible).
-
-This is implemented by having a list of tracked items to be shown to the user, `itemList`. This list is changed to be the project's task list when a `view` command is executed, and changed to the overall project list when a `home` command is executed. The list can then be further sorted using the [sort command](#sort-command) or filtered using the [find command](#find-command), to form a separate list, `displayList`, that is provided to the UI components to be   displayed to the user.
-
-Most of the commands in Momentum thus become context sensitive, behaving differently depending on whether the project list is being viewed, or a task list if being viewed. For example, the `add` command would add a project if the user  is viewing the project list, but if the user is viewing a specific project's task list, it will add a task to that project instead.
-
-We have identified the following benefits and drawbacks of this implementation.
-
-Benefits:
-
-* Having a `TrackedItem` parent class gives us the opportunity to easily extend Momentum to track other things beyond projects and tasks, while also making it easier to integrate new items with existing commands.
-* Having a clear difference between `Project` and `Task` classes allows us to further differentiate projects and tasks in the future. Additional task or project specific features can be easily added without affecting the other.
-
-Drawbacks:
-
-* Some type casting is required for certain operations on projects and tasks, especially for testing purposes. While this is not neccessarily a bad thing, it may make the code less readable and harder to follow.
-
-#### Alternative 1: Using Predicates
-
-//TODO: add explanation
-
-Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`. Both `Project` and `Task` will extend `TrackedItem`.
-
-A rough summary of the proposed implementation is as follows:
-
-* There will be two predicates. The first predicate will be used to check whether an object is a project or a task. The second predicate will be the normal predicate used to filter the list in the find command.
-* Changes in view will modify the first predicate.
-* Using the find command will modify the second predicate.
-* The predicate used to determine the entries shown in the `displayList` is the logical AND of the first and second predicates.
-
-We have identified the following benefits and drawbacks of this implementation.
-
-Benefits:
-
-* This implementation is much simpler than having to maintain a separate list of `Task` objects for each project. It is likely that existing commands would not have to be changed as much.
-
-Drawbacks:
-
-* A bi-directional association between projects and tasks will be needed. This is unnecessary as a project is composed of multiple tasks. Tasks do not need to know which project they are a part of.
-* It might be harder and more time-consuming to write rigorous tests for this implementation.
-
-#### Alternative 2: Projects can contain Projects
-
-Since projects and tasks are so similar, it may make more sense to treat them as the same object in the first place. Therefore, it is possible to model a project's sub-tasks as projects themselves. This results in a structure where each project can contain a list of other projects, as illustrated below:
-
-![ProjectInProjectClassDiagram](images/ProjectInProjectClassDiagram.png)
-
-We have identified the following benefits and drawbacks of this implementation.
-
-Benefits:
-
-* This implementation is much simpler than having to maintain seperate `Project` and `Task` classes. It is likely that existing commands would not have to be changed as much.
-* Projects can contain not just sub-projects, but sub-sub-projects, sub-sub-sub-projects, etc, allowing for deeper nesting of projects. This may be useful for users to manage more complex project structures.
-
-Drawbacks:
-
-* We will be unable to differentiate between a project and sub-project, since they are both modeled as the same class. This means that project or sub-project specific features cannot be easily implemented without affecting the other.
-* Allowing for deeper nesting of projects may make the application more confusing to use without significant UI changes.
-
 ---
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -683,26 +674,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | Priority | As a …​                                     | I want to …​                         | So that I can…​                                                         |
 | -------- | ------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------- |
 | `* * *`  | new user                                    | see usage instructions               | refer to instructions when I forget how to use the App                  |
-| `* * *`  | user                                        | add a new project                    |                                                                         |
-| `* * *`  | user                                        | view the project creation date                    |
-| `* * *`  | user                                        | view the project completion status                    |  |
-| `* * *`  | user                                        | add and edit a deadline for a project                    |                                                                         |
-| `* * *`  | user                                        | add and edit a reminder for a project                    |                                                                         |
-| `* * *`  | user                                        | delete a project                     | remove entries that I no longer need                                    |
-| `* * *`  | user                                        | find a project by name              | locate projects by name without having to go through the entire list |
-| `* * *`  | user                                        | find a project by description               | locate projects by description without having to go through the entire list |
-| `* * *`  | user                                        | find a project by tag               | locate projects by tag without having to go through the entire list |
-| `* * *`  | user                                        | find a project by completion status               | locate projects that are completed or incomplete without having to go through the entire list |
-| `* * *`  | user                                        | find a project by multiple parameters               | locate details of projects without having to go through the entire list |
-| `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
-| `*`      | user with many projects in the project book | sort projects by completion status                | locate an incomplete or complete project easily                                                 |
-| `*`      | user with many projects in the project book | hide and show the tags panel                | focus more on statistics and timers                                                 |
-| `*`      | user with many projects in the project book | dismiss the reminder                | focus more on statistics and timers                                                 |
-| `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
-| `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
-| `* *`    | user | can create tasks within a project    | better organize my work
-
-_{More to be added}_
+| `* * *`  | user                                        | add a new project/task                    |                                                                    |
+| `* * *`  | user                                        | view the project/task's creation date                    | know when I started tracking that project/task      |
+| `* * *`  | user                                        | view the project/task's completion status                    | check if I have completed a project/task        |
+| `* * *`  | user                                        | add and edit a deadline for a project/task                    | know when I need to finish the project/task    |
+| `* * *`  | user                                        | add and edit a reminder for a project/task                    | remind myself to do important projects/tasks   |
+| `* * *`  | user                                        | delete a project/task                     | remove entries that I no longer need                                    |
+| `* * *`  | user                                        | find a project/task by name              | locate projects/task by name without having to go through the entire list     |
+| `* * *`  | user                                        | find a project/task by description               | locate projects/tasks by description without having to go through the entire list |
+| `* * *`  | user                                        | find a project/task by tag               | locate projects/tasks by tag without having to go through the entire list |
+| `* * *`  | user                                        | find a project/task by completion status               | locate projects/tasks that are completed or incomplete without having to go through the entire list |
+| `* * *`  | user                                        | find a project/task by multiple parameters               | locate details of projects/tasks without having to go through the entire list |
+| `*`      | user with many projects in Momentum         | sort projects/tasks by name                | locate a project/task easily                                                 |
+| `*`      | user with many projects in Momentum         | sort projects/tasks by completion status                | locate an incomplete or complete project/task easily                                                 |
+| `*`      | user with many projects in Momentum         | hide and show the tags panel                | focus more on statistics and timers                                                 |
+| `*`      | user with many projects in Momentum         | dismiss the reminder                | focus more on statistics and timers                                                 |
+| `* *`    | new user                                    | start and stop a timer for a project/task | track the time I spent on the project/task                                   |
+| `* *`    | user                                        | see the amount of time I spend on each project/task | gain insights on how I am using my time |
+| `* *`    | user                                        | can create tasks within a project    | better organize my work
 
 ### Use cases
 
@@ -801,17 +790,28 @@ The use cases for deleting a task is similar to deleting a project.
   * a1. Momentum shows an error message.
 
     Use case ends.
+    
+**Use case: View a project's tasks**
 
-_{More to be added}_
+**MSS**
+
+1. User requrests to view the tasks belonging to a project.
+2. Momentum shows a list of tasks belonging to the project.
+
+**Extensions**
+
+* *a. The arguments are given in an incorrect format.
+
+  * a1. Momentum shows an error message.
+
+    Use case ends.
+
 
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
 2.  Should be able to hold up to 1000 projects without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.
-
-_{More to be added}_
 
 ### Glossary
 
