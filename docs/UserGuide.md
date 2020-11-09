@@ -7,6 +7,7 @@ Momentum is a **desktop app** that **helps freelancers track time spent on diffe
 
 It is designed for people that prefer typing, so that frequent tasks can be done faster by typing in commands.
 
+* Table of Contents
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
