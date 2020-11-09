@@ -3,7 +3,6 @@
 package seedu.momentum.logic.commands;
 
 import seedu.momentum.logic.commands.exceptions.CommandException;
-import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 
 /**
