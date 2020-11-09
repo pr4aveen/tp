@@ -1,3 +1,4 @@
+//@@author boundtotheearth
 package seedu.momentum.model.timer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
