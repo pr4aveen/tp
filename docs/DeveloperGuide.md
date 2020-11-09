@@ -213,7 +213,6 @@ An alternative design is to parse both date and time together. This is harder to
 The deadline also has a constraint that is has to be on or after the created date. This constraint has been added so that more meaningful statistics can be generated.
 
 As a result, the deadline has to be aware of the created date when created. The constructor of `Deadline` accepts a created date. For `EditCommand`, a descriptor containing edited fields is created directly from parsing the user input in `EditCommandParser`, hence the created date is unknown. A dummy date using `LocalDate.EPOCH` is passed into the constructor of `Deadline` in `EditCommandParser` to allow creation of the deadline. The check that deadline has to be on or after the created date is done in `EditCommand` after the creation date of the project to be edited is known.
-
 ### Reminders
 
 The reminder of a task is implemented using `ReminderManager` and `Reminder`. The date and time of a reminder is stored in `Reminder`. `ReminderManager` schedules the reminder using `Timer` and runs the reminder using `ThreadWrapper`. 

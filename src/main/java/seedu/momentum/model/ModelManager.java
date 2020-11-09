@@ -496,6 +496,11 @@ public class ModelManager implements Model {
         updateOrder(sortType, isAscending, false);
     }
 
+    @Override
+    public boolean getIsCurrentSortByCompletionStatus() {
+        return isCurrentSortByCompletionStatus;
+    }
+
 
     /**
      * Sets the order of the list of tracked items according to given {@code sortType} and {@code isAscending}.
