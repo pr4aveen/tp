@@ -939,9 +939,11 @@ Action | Format | Example
 **Sort projects/tasks** | `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]` | `sort type/deadline order/dsc c/`
 **Start Timer** | `start ID` | `start 2`
 **Stop Timer** | `stop ID` | `stop 2`
+**Settings** | `set [th/THEME] [st/TIMEFRAME]` | `set th/dark st/daily`
+**Clear** | `clear` | `clear`
 **Dismissing a Reminder** | `dismiss` | `dismiss`
 **Showing and Hiding SideBar Components** | `show t/` | `show t/`
 **Undo** | `undo` | `undo`
 **Redo** | `redo` | `redo`
-**Settings** | `set [th/THEME] [st/TIMEFRAME]` | `set th/dark st/daily`
+**Help** | `help` | `help`
 **Exit** | `exit` | `exit`
