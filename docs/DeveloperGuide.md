@@ -15,14 +15,19 @@ It is designed for people that prefer typing, so that frequent tasks can be done
 
 This developer guide provides information about the architecture and implementation of Momentum. It gives developers interested in developing Momentum a good start in knowing how the application works, without going too much into the lower level details. It also provides information for testers on how to test the product.
 
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Some things to take note of in this guide:**<br>
+* When a notation like `Foo#bar` is used (e.g. "The method `Foo#bar` is called...") it refers too the `bar` method from the `Foo` class.
+* Method references made in this document will only include arguments if relevant to what is being explained.
+
+</div>
+
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 ---
-
-// TODO: add intro, and add common notations(#, args are included only when relevant)
-
 
 ## **Design**
 
@@ -154,7 +159,8 @@ Notable classes in this package include:
 * `Clock`: Acts as a consistent, single source of the 'current time' within the application
 * `DateWrapper`, `TimeWrapper`, `DateTimeWrapper`: Represents dates and times within Momentum, with utility methods to calculate the dates and times required by various parts of the application.
 * `UniqueItem`, `UniqueItemList`: Represents a list of unique items that are compared using a specially defined identity instead of the standard `equals()` method.
-* `GuiThemeSettings`, `GuiWindowSettings`: Manages the GUI settings that can be changed by the user.
+* `GuiWindowSettings`: Manages the GUI window size and position settings.
+* `GuiThemeSettings`: Manages the GUI theme settings that can be changed by the user.
 * `StatisticTimeFrame`, `StatisticTimeFrameSettings`: Manages the statistics settings that can be changed by the user.
 
 There are also classes with useful utility methods used to handle different types of data, such as dates, times, strings, json and files.
@@ -440,6 +446,8 @@ Below are some activity diagrams to illustrate the process of obtaining the curr
 
 Momentum allows users to search for projects and tasks using the find command. Users can search for projects/tasks based on their name, description, tag and completion status. A FindType is included to determine whether any, all or none of the parameters need to match a project/task for it to be displayed.
 
+#### Find Command Implementation
+
 A predicate is created for each type of search parameter (name, description, tags, completion status). There are four predicates classes defined for this purpose.
 
 * `NameContainsKeywordPredicate` - Searches for projects/tasks based on name.
@@ -453,17 +461,15 @@ The `ContainsKeywordPredicate` has a `testPredicate` method that is used or over
 
 The following class diagram shows the structure of the aforementioned classes.
 
-//TODO: remove visibilities, remove findtype field, add association to findtype class instead, remove equals, include explanation for findtype
-
 ![PredicateClassDiagram](images/PredicateClassDiagram.png)
 
 The `FindCommandParser` creates a list of predicates based on the arguments entered by the user. `FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem> predicate`. The `FindCommand` will pass `predicate` into `Model#updatePredicate` to update the `displayList` once executed.
 
 The following sequence diagram shows how the `FindCommandParser`works. Note that some details have been omitted from the diagram below for clarity.
 
-//TODO: remove valueOf method call, change FindType return to findType, use a specific e.g.
-
 ![FindCommandParserSequenceDiagram](images/FindCommandParserSequenceDiagram.png)
+
+#### Chaining Predicates based on Find Type
 
 The process of creating and chaining predicates varies based on the `FindType` selected. The following activity diagrams show this process for each `FindType`.
 
@@ -474,6 +480,14 @@ The process of creating and chaining predicates varies based on the `FindType` s
 Note that `FindType.NONE` uses the logical AND when combining predicates. This is because individual predicates test for a negative match result. These negative results need to be chained together using the logical AND because a negative match requires a project to not match every keyword.
 
 This design was chosen as it built on the existing implementation of the find command, which passed a `NameContainsKeywordPredicate` to the `displayList`. This means that minimal changes to other parts of the project were required.
+
+#### Behaviour of Find Command
+
+The filter used on the `displayList` by the Find Command will be reset after the `Add` Command is used. It will however persist after using the `Edit` Command and `Delete` Command.
+
+The list will not be filtered after using the `View` or `Home` Commands.
+
+We chose this behaviour as we felt that it presents users with the best experience. 
 
 #### Alternative implementation: Using a custom predicate class
 

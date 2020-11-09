@@ -14,15 +14,15 @@ Class Predicate USER_COLOR {
 
 package Predicates {
 
-Class "{abstract}\nContainsKeywordPredicate" as ContainsKeywordPredicate
+Class "{abstract}\nContainsKeywordPredicate" as ContainsKeywordPredicate {
+    testPredicate() : boolean { abstract }
+    equals() : boolean { abstract }
+}
 enum "<<enumeration>>\nFindType" as FindType
 
 Class ContainsKeywordPredicate MODEL_COLOR {
     keywords : List<String>
     findType : FindType
-
-    testPredicate() : boolean
-    equals() : boolean
 }
 
 enum FindType MODEL_COLOR{
