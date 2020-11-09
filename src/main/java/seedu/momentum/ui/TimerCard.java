@@ -1,3 +1,4 @@
+//@@author boundtotheearth
 package seedu.momentum.ui;
 
 import javafx.fxml.FXML;
@@ -22,6 +23,8 @@ public class TimerCard extends UiPart<Region> {
 
     /**
      * Creates a {@code TimerCard} with the given {@code projectEntry} to display.
+     *
+     * @param trackedItemEntry TrackedItem containing the time to display in the card.
      */
     public TimerCard(TrackedItem trackedItemEntry) {
         super(FXML);

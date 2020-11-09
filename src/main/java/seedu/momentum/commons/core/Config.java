@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.commons.core;
 
 import java.nio.file.Path;
@@ -33,6 +35,11 @@ public class Config {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(logLevel, userPrefsFilePath);
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
@@ -45,11 +52,6 @@ public class Config {
 
         return Objects.equals(logLevel, o.logLevel)
                 && Objects.equals(userPrefsFilePath, o.userPrefsFilePath);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(logLevel, userPrefsFilePath);
     }
 
     @Override

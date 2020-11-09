@@ -1,3 +1,4 @@
+//@@author claracheong4
 package seedu.momentum.model.util;
 
 import java.util.Arrays;
@@ -24,13 +25,13 @@ import seedu.momentum.model.timer.WorkDuration;
 public class SampleDataUtil {
     public static Project[] getSampleProjects() {
         return new Project[] {
-            new Project(new Name("Flver art commision"),
+            new Project(new Name("Fiverr art commission"),
                     new Description(""),
                     new CompletionStatus(),
                     new DateWrapper("2019-10-04"),
                     new Deadline("2020-10-04", new DateWrapper("2019-10-04")),
                     new Reminder("2022-06-22T01:01:21"),
-                    getTagSet("flverr", "artcomm")),
+                    getTagSet("fiverr", "artcomm")),
             new Project(new Name("XYZ startup web UI design"),
                     new Description(""),
                     new CompletionStatus().reverse(),
@@ -68,9 +69,10 @@ public class SampleDataUtil {
                     getTagSet("brainstorming"))
         };
     }
+    //@@author
 
     /**
-     * Returns a ProjectBook containing all the sample data.
+     * Returns a ReadOnlyProjectBook containing all the sample data.
      */
     public static ReadOnlyProjectBook getSampleProjectBook() {
         ProjectBook sampleProjectBook = new ProjectBook();
@@ -89,8 +91,9 @@ public class SampleDataUtil {
             .collect(Collectors.toSet());
     }
 
+    //@@author boundtotheearth
     /**
-     * Returns a UniqueDurationList containing the list of strings given.
+     * Returns a UniqueItemList containing the list of strings given.
      */
     public static UniqueItemList<WorkDuration> getDurationList(WorkDuration... durations) {
         UniqueItemList<WorkDuration> durationList = new UniqueItemList<>();
@@ -99,7 +102,7 @@ public class SampleDataUtil {
     }
 
     /**
-     * Returns a UniqueitemList containing the list of tasks given.
+     * Returns a UniqueItemList containing the list of tasks given.
      */
     public static UniqueItemList<TrackedItem> getTaskList(TrackedItem... tasks) {
         UniqueItemList<TrackedItem> taskList = new UniqueItemList<>();

@@ -13,7 +13,7 @@ import seedu.momentum.MainApp;
 public class Theme {
 
     public static final String MESSAGE_CONSTRAINTS =
-        "Theme should either be 'light' or 'dark'.";
+            "Theme should either be 'light' or 'dark'.";
 
     private static final String THEME_LIGHT = "/view/MomentumLight.css";
     private static final String THEME_DARK = "/view/MomentumDark.css";
@@ -28,7 +28,9 @@ public class Theme {
 
     /**
      * Constructs a {@code Theme} with the specified theme type.
+     * <p>
      *
+     * @param themeType a valid theme type.
      * @param themeType A valid theme type.
      */
     public Theme(ThemeType themeType) {
@@ -37,29 +39,15 @@ public class Theme {
 
     /**
      * Constructs a {@code Theme} with the specified theme type expressed as a String.
-     *
+     * <p>
+
+     * @param themeType a valid theme type.
      * @param themeType A valid theme type.
      */
     public Theme(String themeType) {
         requireNonNull(themeType);
         checkArgument(isValid(themeType), MESSAGE_CONSTRAINTS);
         this.themeType = ThemeType.valueOf(themeType.toUpperCase());
-    }
-
-    /**
-     * Fetches the filepath of the CSS stylesheet corresponding to the current theme.
-     *
-     * @return The filepath of the stylesheet as a String.
-     */
-    public String getStylesheet() {
-        assert(themeType == ThemeType.LIGHT || themeType == ThemeType.DARK);
-
-        String stylesheetName =
-            themeType == ThemeType.LIGHT
-            ? THEME_LIGHT
-            : THEME_DARK;
-
-        return MainApp.class.getResource(stylesheetName).toString();
     }
 
     /**
@@ -77,9 +65,25 @@ public class Theme {
         return true;
     }
 
+    /**
+     * Fetches the filepath of the CSS stylesheet corresponding to the current theme.
+     *
+     * @return The filepath of the stylesheet as a String.
+     */
+    public String getStylesheet() {
+        assert (themeType == ThemeType.LIGHT || themeType == ThemeType.DARK);
+
+        String stylesheetName =
+                themeType == ThemeType.LIGHT
+                        ? THEME_LIGHT
+                        : THEME_DARK;
+
+        return MainApp.class.getResource(stylesheetName).toString();
+    }
+
     @Override
-    public String toString() {
-        return this.themeType.toString();
+    public int hashCode() {
+        return this.themeType.hashCode();
     }
 
     @Override
@@ -98,8 +102,8 @@ public class Theme {
     }
 
     @Override
-    public int hashCode() {
-        return this.themeType.hashCode();
+    public String toString() {
+        return this.themeType.toString();
     }
 
 

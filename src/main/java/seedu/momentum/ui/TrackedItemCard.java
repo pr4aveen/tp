@@ -1,3 +1,4 @@
+//@@author khoodehui
 package seedu.momentum.ui;
 
 import java.util.Comparator;
@@ -58,6 +59,9 @@ public class TrackedItemCard extends UiPart<Region> {
 
     /**
      * Creates a {@code ProjectCard} with the given {@code Project} and index to display.
+     *
+     * @param trackedItem TrackedItem containing the information to display in this card.
+     * @param displayedIndex The index of the card in the ListView of the application UI.
      */
     public TrackedItemCard(TrackedItem trackedItem, int displayedIndex) {
         super(FXML);
@@ -102,6 +106,7 @@ public class TrackedItemCard extends UiPart<Region> {
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
 
+    //@@author claracheong4
     private void setCompletionStatusStyle(Label completionStatus) {
         String style = STYLE_TEXT;
 
@@ -125,6 +130,7 @@ public class TrackedItemCard extends UiPart<Region> {
         reminderLabel.setTextAlignment(TextAlignment.CENTER);
     }
 
+    //@@author khoodehui
     private void setDeadlineStyle(Label deadline) {
         String style = STYLE_TEXT;
 

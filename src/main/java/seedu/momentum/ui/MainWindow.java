@@ -32,7 +32,7 @@ public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
 
-    private final Logger logger = LogsCenter.getLogger(getClass());
+    private static final Logger LOGGER = LogsCenter.getLogger(MainWindow.class);
 
     private Theme theme;
 
@@ -82,6 +82,9 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
+     *
+     * @param primaryStage Primary stage of the application.
+     * @param logic Logic associated with the application instance.
      */
     public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
@@ -110,6 +113,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Sets the accelerator of a MenuItem.
      *
+     * @param menuItem The item in the menu bar to associate an accelerator to.
      * @param keyCombination the KeyCombination value of the accelerator
      */
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
@@ -138,8 +142,9 @@ public class MainWindow extends UiPart<Stage> {
         });
     }
 
+    //@@author khoodehui
     /**
-     * Fills up all the placeholders of this window.
+     * Fills up all the placeholders of the window.
      */
     void fillInnerParts() {
         initCommandBox();
@@ -167,19 +172,20 @@ public class MainWindow extends UiPart<Stage> {
         projectListPanelPlaceholder.getChildren().add(trackedItemListPanel.getRoot());
     }
 
+    //@@author claracheong4
     private void initReminderDisplayAndPlaceholder() {
         reminderDisplay = new ReminderDisplay(logic.isReminderEmpty().get(), logic.getReminder().get());
         reminderDisplayPlaceholder.getChildren().add(reminderDisplay.getRoot());
     }
 
     private void hideReminder() {
-        logger.info("hide reminder");
+        LOGGER.info("hide reminder");
         reminderDisplayPlaceholder.setVisible(false);
         reminderDisplayPlaceholder.setMaxHeight(0);
     }
 
     private void showReminder() {
-        logger.info("show reminder");
+        LOGGER.info("show reminder");
         reminderDisplayPlaceholder.setVisible(true);
         reminderDisplayPlaceholder.setMaxHeight(Region.USE_COMPUTED_SIZE);
     }
@@ -218,17 +224,18 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private void hideTags() {
-        logger.info("hide tags");
+        LOGGER.info("hide tags");
         infoDisplayPlaceholder.setVisible(false);
         infoDisplayPlaceholder.setMaxHeight(0);
     }
 
     private void showTags() {
-        logger.info("show tags");
+        LOGGER.info("show tags");
         infoDisplayPlaceholder.setVisible(true);
-        infoDisplayPlaceholder.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        infoDisplayPlaceholder.setMaxHeight(primaryStage.getHeight());
     }
 
+    //@@author khoodehui
     private void initTagDisplay() {
         tagsDisplay = new TagsDisplay(logic.getVisibleTags());
         infoDisplayPlaceholder.getChildren().add(tagsDisplay.getRoot());
@@ -256,11 +263,13 @@ public class MainWindow extends UiPart<Stage> {
         statListPanelPlaceholder.getChildren().add(statListPanel.getRoot());
     }
 
+    //@@author boundtotheearth
     private void initTimerList() {
         timerListPanel = new TimerListPanel(logic.getRunningTimers());
         timerListPanelPlaceholder.getChildren().add(timerListPanel.getRoot());
     }
 
+    //@@author pr4aveen
     private void initBottomBar() {
         bottomBar = new BottomBar(logic.getTotalNumberOfItems(), logic.getObservableDisplayList().get().size());
         bottomBarPlaceholder.getChildren().add(bottomBar.getRoot());
@@ -283,6 +292,7 @@ public class MainWindow extends UiPart<Stage> {
             bottomBarPlaceholder.getChildren().add(newBottomBar.getRoot());
         });
     }
+    //@@author
 
     /**
      * Sets the default size based on {@code guiWindowSettings}.
@@ -296,8 +306,11 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
+    //@@author khoodehui
     /**
      * Sets the default theme based on {@code guiThemeSetting}.
+     *
+     * @param guiThemeSettings Settings object containing the theme information.
      */
     private void setDefaultTheme(GuiThemeSettings guiThemeSettings) {
         this.theme = guiThemeSettings.getTheme();
@@ -306,6 +319,8 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Updates the application theme with a {@code newTheme}.
+     *
+     * @param newTheme The theme to update the application UI to.
      */
     public void updateTheme(Theme newTheme) {
         primaryStage.getScene().getStylesheets().remove(this.theme.getStylesheet());
@@ -315,6 +330,8 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Updates the statistic list.
+     *
+     * @param newStatisticTimeframe The timeframe to update the displayed statistics to.
      */
     public void updateStatList(StatisticTimeframe newStatisticTimeframe) {
         StatListPanel newStatList = new StatListPanel(logic.getStatistic().getTimePerProjectStatistic(),
@@ -322,6 +339,7 @@ public class MainWindow extends UiPart<Stage> {
         statListPanelPlaceholder.getChildren().clear();
         statListPanelPlaceholder.getChildren().add(newStatList.getRoot());
     }
+    //@@author
 
     /**
      * Opens the help window or focuses on it if it's already opened.
@@ -363,7 +381,7 @@ public class MainWindow extends UiPart<Stage> {
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
             CommandResult commandResult = logic.execute(commandText);
-            logger.info("Result: " + commandResult.getFeedbackToUser());
+            LOGGER.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             if (commandResult.isShowHelp()) {
@@ -376,7 +394,7 @@ public class MainWindow extends UiPart<Stage> {
 
             return commandResult;
         } catch (CommandException | ParseException e) {
-            logger.info("Invalid command: " + commandText);
+            LOGGER.info("Invalid command: " + commandText);
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
         }

@@ -32,9 +32,9 @@ import seedu.momentum.model.UserPrefs;
 import seedu.momentum.model.VersionedProjectBook;
 import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.comparators.SortType;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
 

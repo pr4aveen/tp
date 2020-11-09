@@ -8,7 +8,7 @@ import static seedu.momentum.logic.parser.CliSyntax.SORT_ORDER;
 import static seedu.momentum.logic.parser.CliSyntax.SORT_TYPE;
 
 import seedu.momentum.model.Model;
-import seedu.momentum.model.project.SortType;
+import seedu.momentum.model.project.comparators.SortType;
 
 /**
  * Sorts the projects displayed in a particular order.

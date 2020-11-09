@@ -22,9 +22,9 @@ public class LogsCenter {
     private static final int MAX_FILE_SIZE_IN_BYTES = (int) (Math.pow(2, 20) * 5); // 5MB
     private static final String LOG_FILE = "projectbook.log";
     private static Level currentLogLevel = Level.INFO;
-    private static final Logger LOGGER = LogsCenter.getLogger(LogsCenter.class);
     private static FileHandler fileHandler;
     private static ConsoleHandler consoleHandler;
+    private static final Logger LOGGER = LogsCenter.getLogger(LogsCenter.class);
 
     /**
      * Initializes with a custom log level (specified in the {@code config} object)
@@ -35,6 +35,16 @@ public class LogsCenter {
     public static void init(Config config) {
         currentLogLevel = config.getLogLevel();
         LOGGER.info("currentLogLevel: " + currentLogLevel);
+    }
+
+    /**
+     * Creates a Logger for the given class name.
+     */
+    public static <T> Logger getLogger(Class<T> clazz) {
+        if (clazz == null) {
+            return Logger.getLogger("");
+        }
+        return getLogger(clazz.getSimpleName());
     }
 
     /**
@@ -52,13 +62,11 @@ public class LogsCenter {
     }
 
     /**
-     * Creates a Logger for the given class name.
+     * Remove all the handlers from {@code logger}.
      */
-    public static <T> Logger getLogger(Class<T> clazz) {
-        if (clazz == null) {
-            return Logger.getLogger("");
-        }
-        return getLogger(clazz.getSimpleName());
+    private static void removeHandlers(Logger logger) {
+        Arrays.stream(logger.getHandlers())
+                .forEach(logger::removeHandler);
     }
 
     /**
@@ -70,14 +78,6 @@ public class LogsCenter {
             consoleHandler = createConsoleHandler();
         }
         logger.addHandler(consoleHandler);
-    }
-
-    /**
-     * Remove all the handlers from {@code logger}.
-     */
-    private static void removeHandlers(Logger logger) {
-        Arrays.stream(logger.getHandlers())
-                .forEach(logger::removeHandler);
     }
 
     /**
@@ -95,6 +95,12 @@ public class LogsCenter {
         }
     }
 
+    private static ConsoleHandler createConsoleHandler() {
+        ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setLevel(currentLogLevel);
+        return consoleHandler;
+    }
+
     /**
      * Creates a {@code FileHandler} for the log file.
      *
@@ -105,11 +111,5 @@ public class LogsCenter {
         fileHandler.setFormatter(new SimpleFormatter());
         fileHandler.setLevel(currentLogLevel);
         return fileHandler;
-    }
-
-    private static ConsoleHandler createConsoleHandler() {
-        ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(currentLogLevel);
-        return consoleHandler;
     }
 }

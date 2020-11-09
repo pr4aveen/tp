@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic.parser;
 
 /**
@@ -9,14 +11,6 @@ public class Prefix {
 
     public Prefix(String prefix) {
         this.prefix = prefix;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public String toString() {
-        return getPrefix();
     }
 
     @Override
@@ -35,5 +29,13 @@ public class Prefix {
 
         Prefix otherPrefix = (Prefix) obj;
         return otherPrefix.getPrefix().equals(getPrefix());
+    }
+
+    public String toString() {
+        return getPrefix();
+    }
+
+    public String getPrefix() {
+        return prefix;
     }
 }

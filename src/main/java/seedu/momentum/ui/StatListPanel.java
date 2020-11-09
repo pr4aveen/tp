@@ -1,3 +1,4 @@
+//@@author khoodehui
 package seedu.momentum.ui;
 
 import javafx.collections.ListChangeListener;
@@ -30,6 +31,9 @@ public class StatListPanel extends UiPart<Region> {
 
     /**
      * Creates a {@code StatListPanel} with the given {@code ObservableList}.
+     *
+     * @param statisticList The list of statistics used to fill up the statistics list in the application UI.
+     * @param timeframe Timeframe to set the statistics to.
      */
     public StatListPanel(ObservableList<StatisticEntry> statisticList, StatisticTimeframe timeframe) {
         super(FXML);
@@ -39,6 +43,7 @@ public class StatListPanel extends UiPart<Region> {
         initPieChart(statisticList);
     }
 
+    //@@author kkangs0226
     private void initPieChart(ObservableList<StatisticEntry> statisticList) {
         statisticList.addListener((ListChangeListener<? super StatisticEntry>) c -> updatePieChart(statisticList));
         pieChartCard = new PieChartCard(statisticList);
@@ -51,10 +56,11 @@ public class StatListPanel extends UiPart<Region> {
         pieChartPlaceHolder.getChildren().add(newPieChartCard.getRoot());
     }
 
+    //@@author khoodehui
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code StatisticEntry} using a {@code StatisticCard}.
      */
-    class StatListViewCell extends ListCell<StatisticEntry> {
+    private class StatListViewCell extends ListCell<StatisticEntry> {
         @Override
         protected void updateItem(StatisticEntry statisticEntry, boolean empty) {
             super.updateItem(statisticEntry, empty);
