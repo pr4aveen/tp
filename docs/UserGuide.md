@@ -425,9 +425,9 @@ Searches for projects or tasks in the project book based on certain parameters.
 Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...] [c/COMPLETION_STATUS]`
 
 * There are three values for the `match` parameter.
-* `match/all` shows an entry only if **all** of the parameters provided in the user's input matches the user's input.
-* `match/any` shows an entry as long as **any** of the parameters provided in the user's input matches the user's input.
-* `match/none` shows an entry only if **none** of the parameters provided in the user's input matches the user's input.
+    * `match/all` shows an entry only if **all** of the parameters provided in the user's input matches the user's input.
+    * `match/any` shows an entry as long as **any** of the parameters provided in the user's input matches the user's input.
+    * `match/none` shows an entry only if **none** of the parameters provided in the user's input matches the user's input.
 
 <div markdown="block" class="alert alert-info">
 
@@ -514,12 +514,17 @@ The following walkthrough shows how a user can use the find command to search fo
 3. All projects that are completed will be shown.
 ![Find by Completion Step 3](images/FindByCompletion3.png)
 
-###### Searching for Multiple Parameters
+###### Searching with Multiple Parameters
 
- //TODO: fix bolding
-Example:
+You can search for projects/tasks with multiple keywords for names, descriptions and tags in a single search.
 
-If there are 3 projects in the project book:
+A match type can also be specified as mentioned at the [start of this section](#filtering-projects). 
+
+Please look at the examples below to get a better understanding of how you can make searches with multiple commands.
+
+Examples:
+
+Let's say that you have the following projects in Momentum:
 
 1. Name: `Create Logo` , Description: `Make logo for startup XYZ`, Tags: `Design`
 2. Name: `Write Song`, Description: `80s rock music, three minutes`, Tags: `Music`
@@ -527,10 +532,10 @@ If there are 3 projects in the project book:
 
 * `find match/any n/song article d/startup t/design` will return all three projects. This is because project 1 contains the keyword `startup` in its description and the tag `design`, project 2 contains the keyword `song` in its name and project 3 contains the keyword `article` in its name.
 * `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** the `startup` in its description and the tag `design`.
-* `find match/none n/song article d/startup t/design` will not return any project as there is no project that **does not** contain `song` and `article` in its name, `startup` in its description and the tag `design`.
+* `find match/none n/song article d/startup t/design` will not return any project as there is no project that **does not** contain `song` and `article` in its name, `startup` in its description and the tag `design`. 
 * `find match/any n/write d/rock` will return projects 2 and 3. This is because project 2 contains `write` in its name and `rock` in its description. Project 3 also contains the word `write` in its name.
-* `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name and `rock` in its description.
-* `find match/none n/write d/rock` will return projects 1. This is because only project 1 does not contain `write` in its name and `rock` in its descriptions.
+* `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name **and** `rock` in its description.
+* `find match/none n/write d/rock` will return projects 1. This is because only project 1 **does not** contain `write` in its name and `rock` in its descriptions.
 
 <div markdown="block" class="alert alert-info">
 
