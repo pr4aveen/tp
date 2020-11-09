@@ -92,34 +92,18 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 
 ![Structure of the Model Component](images/ModelClassDiagram.png)
 
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
-
-//TODO: remove the stores part for private fields, remove task package, show trackeditem abstract class, task in project package
+**API** : [`Model.java`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/model/Model.java)
 
 The `Model`:
-
-* Stores a `UserPref` object that represents the user’s preferences.
-* Stores a `VersionedProjectBook` object that contains Momentum's data.
-* Stores a `ReminderManager` object that schedules and removes reminders.
-* Stores the following attributes for sorting of `ObservableList<TrackedItems>`:
-
-    * `SortType` object that defines the sort type imposed on the `ObservableList<TrackedItems>`.
-    * `boolean` object that defines whether the `ObservableList<TrackedItems>` of total projects and tasks is sorted by ascending order.
-    * `boolan` object that defines whether the `ObservableList<TrackedItems>` of total projects and tasks is sorted by completion status.
-
-* Stores a `ViewMode` object that represents the current view mode of Momentum (Task view or Project view).
-* Stores a `Project` object that represents the current project Momentum is viewing if user is in Task view within a project.
-* Stores a `boolean` object that defines whether the tags display is visible to the users.
 * Exposes an unmodifiable `ObjectProperty<ObservableList<TrackedItem>>` that stores the projects or tasks that are currently displayed to the user.
 * Exposes an unmodifiable `ObservableList<TrackedItems>` that stores projects or tasks that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * Exposes an unmodifiable `ObservableList<TrackedItems>` that stores the total projects or tasks with running timers that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 
 Packages in the `Model`: //TODO: add all other packages and rewrite the project and task section.
-
-* The `project` package contains classes representing a `Project` and a `Task`. All relevant clas
-
 * The `project` package contains classes representing a `Project` and `Task` that can be added by a user under a project, such that a project can have a list of tasks.
-Both `Project` and `Task` extend `TrackedItem` and implement `UniqueItem` interface.
+Both `Project` and `Task` extend `TrackedItem`.
+* A `Project` can store multiple `Task` objects.
+* The `project` package also contains `UniqueItemList<TrackedItem>` which is a list of unique projects, or a list of unique tasks.
 
 ### Storage component
 
@@ -432,7 +416,23 @@ Currently, the user adjustable settings are the GUI theme and the timeframe of t
 
 ### Sort Command
 
-The sort command uses comparators to order the list of projects/tasks.
+Momentum allows users to sort their list of projects/tasks using sort command. The following sort types and orders are available:
+
+Sort Type
+ * `SortType.ALPHA`: sort the list of projects/tasks in alphabetical order.
+ * `SortType.DEADLINE`: sort the list of projects/tasks according to their deadlines.
+ * `SortType.CREATED`: sort the list of projects/tasks according to their date of creation.
+ * `SortType.NULL`: sort type not specified by user, sort the list of projects/tasks according to the current sort type.
+ 
+ Sort Order
+ * Ascending order
+ * Descending order
+ 
+ Sort By Completion Status
+ * On: First sort by placing projects/tasks with incomplete status at the top of the list then sorting by specified sort type and order
+ * Off: Sort projects/tasks by specified sort type and order without regard for completion status.
+
+The comparators below facilitate the ordering of the list of projects/tasks.
 
 // TODO: include intro, explain sort types, activity diagram
 
@@ -443,15 +443,19 @@ The sort command uses comparators to order the list of projects/tasks.
 
 #### Design Details
 
-* The `SortCommandParser` passes sort values (Sort type, whether it is in ascending order, whether the default ordering of completion status) to the `ModelManager`.
-* The comparators are then generated according to these values and sort order is imposed on the list of projects/tasks based on the comparator. `ModelManager` stores the information of the latest sort order imposed so that the sort order can be maintained.
+* The `SortCommandParser` parses user input and passes sort values (Sort type, whether it is in ascending order, whether the default ordering of completion status) to the `ModelManager`.
+* The comparators are then generated according to these values in `ModelmMnager` and sort order is imposed on the list of projects/tasks based on the comparator. `ModelManager` stores the information of the latest sort order imposed so that the sort order can be maintained.
 
 * All comparators extend the class `Comparator<TrackedItem>` except `DeadlineCompare`, which extends the class `Comparator<HashMap<String, Object>>`.
 
   * This is because for all other attributes such as name, completion status and created date, it is guaranteed that every TaskItem will have a non-null value, however it is possible that a project or a task has no deadline.
-  * Therefore, I decided to use `Comparator.nullsLast` to place the project/tasks with no deadlines at the end of the list if the list is to be sorted by deadline. Those with deadlines will then be compared by passing in their deadline and name details to a `HashMap` which is then compared using `DeadlineCompare`.
+  * Therefore, `Comparator.nullsLast` was used to place the project/tasks with no deadlines at the end of the list if the list is to be sorted by deadline. Those with deadlines will then be compared by passing in their deadline and name details to a `HashMap` which is then compared using `DeadlineCompare`, while those without deadlines will be sorted in alphabetical order using `NameCompare`.
 
-//TODO: change I
+#### Alternative Implementation: Using `Comparable<TrackedItem>`
+This implementation was initially considered at the start before developing the sort feature further to include different sort types and sort orders. 
+However, this was not as appropriate for usage due to the following reasons:
+* Making `TrackedItem` extend Comparable<TrackedItem>` would not allow for advanced, multi-level sort feature that we have now as it would only be sorted in one particular order.
+* In the case of deadline, some tasks/projects do not have them, and it would not be possible to sort projects/tasks using Comparable<TrackedItem>. 
 
 ### Undo/Redo feature
 
@@ -489,9 +493,6 @@ Step 3. The user executes `add n/Design Webpage for XYZ​` to add a new project
 <div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> If a command fails its execution, `Model#commitProjectBook()` is not called. Project book state will not be saved into the `projectBookStateList`.
 
 </div>
-
-
-//TODO: change projectbook names pb
 
 Step 4. If user wants undo that action due to some errors in the information, they can do so by executing the `undo` command. The `undo` command calls `Model#undoCommand()`, which resets the current project book with the data from the previous project book state. This is done after `currentStatePointer` is shifted once to the left.
 
@@ -687,15 +688,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                        | view the project creation date                    |
 | `* * *`  | user                                        | view the project completion status                    |  |
 | `* * *`  | user                                        | add and edit a deadline for a project                    |                                                                         |
-| `* * *`  | user                                        | add and edit a reminder for a project                    |                                                                         |
+| `* * *`  | user                                        | add and edit a reminder for a project                    |
+| `* * *`  | user                                        | undo a wrong command                    | revert unwanted changes                                                                        |
+| `* * *`  | user                                        | redo a undone command                    | revert unwanted changes               |
 | `* * *`  | user                                        | delete a project                     | remove entries that I no longer need                                    |
 | `* * *`  | user                                        | find a project by name              | locate projects by name without having to go through the entire list |
 | `* * *`  | user                                        | find a project by description               | locate projects by description without having to go through the entire list |
 | `* * *`  | user                                        | find a project by tag               | locate projects by tag without having to go through the entire list |
 | `* * *`  | user                                        | find a project by completion status               | locate projects that are completed or incomplete without having to go through the entire list |
 | `* * *`  | user                                        | find a project by multiple parameters               | locate details of projects without having to go through the entire list |
-| `*`      | user with many projects in the project book | sort projects by name                | locate a project easily                                                 |
-| `*`      | user with many projects in the project book | sort projects by completion status                | locate an incomplete or complete project easily                                                 |
+| `*`      | user with many projects in the project book | sort projects by name                | locate a project easily
+| `**`      | user with many projects in the project book | sort projects by deadline                | prioritise urgent projects/tasks                 
+| `*`      | user with many projects in the project book | sort projects by created date                | view their history of projects/tasks        |
+| `**`      | user with many projects in the project book | sort projects by completion status                | locate an incomplete or complete project easily                                                 |
 | `*`      | user with many projects in the project book | hide and show the tags panel                | focus more on statistics and timers                                                 |
 | `*`      | user with many projects in the project book | dismiss the reminder                | focus more on statistics and timers                                                 |
 | `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |

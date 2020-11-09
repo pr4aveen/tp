@@ -488,6 +488,8 @@ Format: `undo`
 
 Example: `start 1`, `undo`
 
+Result: Timer for project/task at index 1 is started, then stopped and removed after undo is executed.
+
 The following walkthrough shows how a user can start a timer for a project, then undo the command.
 
 1. Key in command `start 1` in the command window.
@@ -507,6 +509,8 @@ The redo command redoes previously undone command and resets the application to 
 Format: `redo`
 
 Example: `sort type/deadline`, `undo`, `redo`
+
+Result: Projects are sorted by deadline, then the application is reset to the sorting order before sort command was executed, then reset back to sort by deadline after redo command.
 
 The following walkthrough shows how a user can start a timer for a project, then undo the command.
 
@@ -528,8 +532,8 @@ The following walkthrough shows how a user can start a timer for a project, then
 <div markdown="block" class="alert alert-primary">
 
 :bulb: **Tip:**<br>
-* Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.<br>
-* Redo command only works if there the previous command is `undo`.<br>
+* Undo/redo feature does not work on `help` command which does not change the state of the application.<br>
+* Redo command only works if the previous command is `undo`.<br>
 
 </div>
 
@@ -632,10 +636,12 @@ Action | Format | Example
 **Edit existing project/task** | `edit ID n/NAME [d/DESCRIPTION] [c/]  [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`| `edit 3 n/NewMomentum d/NewDescription dl/2020-12-07 r/2020-12-07T01:21:21 t/normal`
 **Delete a project/task** | `delete ID` | `delete 3`
 **Find a project/task** | `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...]  [c/]`  | `find match/any n/Momentum d/new t/normal`
+**Sort projects/tasks** | `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]` | `sort type/deadline order/dsc c/`
 **Show All projects/tasks** | `list` | `list`
 **Start Timer** | `start ID` | `start 2`
 **Stop Timer** | `stop ID` | `stop 2`
-**Undo/redo** | `undo` | `redo`
+**Undo** | `undo` | `undo`
+**Redo** | `redo` | `redo`
 **Show and Hide Sidebar Components** | `show [r/]` | `show r/`
 **Settings** | `set [th/THEME] [st/TIMEFRAME]` | `set th/dark st/daily`
 **Exit** | `exit` | `exit`

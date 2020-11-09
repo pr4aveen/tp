@@ -10,7 +10,7 @@ Collection <|-- AbstractCollection
 
 Collection <|- List
 AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
+AbstractList <|-- ArrayLista
 
 class ArrayList {
 Object[] elementData

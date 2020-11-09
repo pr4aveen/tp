@@ -34,6 +34,7 @@ import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.Task;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.comparators.NameCompare;
 import seedu.momentum.model.project.comparators.SortType;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBuilder;
@@ -370,7 +371,7 @@ public class AddProjectCommandTest {
         private ViewMode viewMode = ViewMode.PROJECTS;
         private Project currentProject = null;
         private Predicate<TrackedItem> currentPredicate = PREDICATE_SHOW_ALL_TRACKED_ITEMS;
-        private Comparator<TrackedItem> currentComparator = null;
+        private Comparator<TrackedItem> currentComparator = new NameCompare();
         private boolean isTagsVisible = true;
         private UserPrefs userPrefs = new UserPrefs();
         private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(new ProjectBook(),

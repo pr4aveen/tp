@@ -5,12 +5,12 @@ skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
 Package Model <<Rectangle>> {
-Interface ReadOnlyProjectBook <<Interface>>
-Interface Model <<Interface>>
+Class "<<interface>>\nReadOnlyProjectBook" as ReadOnlyProjectBook
+Class  "<<interface>>\nModel" as Model
 Class ModelManager {
 displayList : ObjectProperty<ObservableList<TrackedItem>>
 }
-Interface ObservableList <<Interface>>
+Class  "<<interface>>\nObservableList" as ObservableList
 Class VersionedProjectBook
 Class ProjectBook
 Class ReadOnlyProjectBook
@@ -20,7 +20,7 @@ Class "UniqueItemList<WorkDuration>"
 
 Package Project {
 Class "UniqueItemList<TrackedItem>"
-Class TrackedItem
+Class "{abstract}\nTrackedItem" as TrackedItem
 Class Project
 Class Task
 }
