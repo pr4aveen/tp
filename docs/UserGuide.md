@@ -12,28 +12,6 @@ It is designed for people that prefer typing, so that frequent tasks can be done
 
 --------------------------------------------------------------------------------------------------------------------
 
-<!-- # Table of contents
-[1. Quick Start](#quick-start)
-[2. Navigating the User Guide]
-    [2.1  UI Overview]
-    [2.2  Command Format]
-    [2.3  Date and Time Formats]
-[3. Features](#3-Features)
-    [3.1 Projects and Tasks] add/edit/delete/clear/list/view/home
-    [3.2  Finding Projects and Tasks]
-    [3.3  Sorting Projects and Tasks]
-    [3.4 Time Tracking]
-    [3.5  Reminders]
-    [3.6  Undo/Redo]
-    [3.7 Statistics](#statistics)
-    [3.8 Settings](#settings)
-    [3.9 Show and Hide SideBar Components : show](#show)
-    [3.10 Exiting the Program : exit](exit)
-[4. FAQ](#Faq)
-[5. Glossary](#Glossary)
-[6. Command Summary](#command-summary)
- -->
-
 ## Quick Start<a name="quick-start"></a>
 
 1. Ensure you have Java `11` or above installed in your computer.
@@ -148,11 +126,11 @@ SS   | Second  | `03`
 
 **Valid**: `15:08:02`
 
-**Invalid**: `15:8:2` (Wrong number of digits.)
+**Invalid**: `15:8:2` Wrong number of digits.
 
-**Invalid**: `8:15:2` (Wrong order of hour, minute and second.)
+**Invalid**: `8:15:2` Wrong order of hour, minute and second.
 
-**Invalid**: `03:08:02PM` (Only 24 hour time is accepted.)
+**Invalid**: `03:08:02PM` Only 24 hour time is accepted.
 
 ### Combining Date and Time
 
@@ -160,11 +138,13 @@ You may also have to enter both dates and times together. When entered together,
 
 **Valid**: `2020-08-02T15:08:02`
 
-**Invalid**: `15:08:02T2020-08-02` (Wrong order of date and time.)
+**Invalid**: `15:08:02T2020-08-02` Wrong order of date and time.
 
 ## Features<a name="2-Features"></a>
 
 ### Projects and Tasks<a name="3-Projects-and-Tasks"></a>
+
+Done by: Farrell Nah Jun Hao
 
 You can add projects into Momentum to be tracked. Each project has the following information:
 
@@ -191,12 +171,16 @@ Please refer to each command for these differences.
 
 #### View Projects: `home`<a name="#31-View-Projects-home"></a>
 
+Done by: Farrell Nah Jun Hao
+
 View all the projects being tracked by Momentum.
 This is the default view when Momentum is first opened.
 
 Format: `home`
 
 #### Viewing a Project's Tasks: `view`<a name="#32-Viewing-a-Project's-Tasks-view"></a>
+
+Done by: Farrell Nah Jun Hao
 
 View the tasks for a project.
 
@@ -208,6 +192,8 @@ Format: `view ID`
 Example: `view 1`
 
 #### Creating a Project/Task: `add`
+
+Done by: Balasubramaniam Praveen
 
 When looking at projects, this command will create a new project. When looking at the tasks in a project, this command will create a new task for the project.
 
@@ -259,6 +245,8 @@ Result: Creates a project named "Momentum" with a description "CS2103T Team Proj
 
 #### Editing a Project/Task: `edit`
 
+Done by Balasubramaniam Praveen
+
 Edits a project or task that was been previously created.
 
 Format: `edit ID [n/NAME] [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`
@@ -307,6 +295,8 @@ Result: Updates the project with id 3. The name will be changed to "NewMomentum"
 
 #### Deleting a Project/Task: `delete`
 
+Done by Farrell Nah Jun Hao
+
 Deletes a project or task in the list.
 
 Format: `delete ID`
@@ -323,6 +313,8 @@ Result: Deletes the second project in the list.
 
 ##### View All Projects : `list`
 
+Done by Farrell Nah Jun Hao
+
 When viewing projects, this command shows a list of all projects in Momentum.
 
 When viewing a project's tasks, this command shows a list of all the tasks for the project.
@@ -332,6 +324,8 @@ Note that this command is different from the `home` command. When viewing a proj
 Format: `list`
 
 ##### Sort Projects : `sort`
+
+Done by Kang Su Min
 
 Sorts the list of displayed projects or tasks in the application.
 
@@ -455,6 +449,8 @@ The following walkthrough shows how a user can sort projects in Momentum by spec
 ![Created Descending 3](images/CreatedDescending3.png)
 
 ##### Filtering Projects: `find`
+
+Done by Balasubramaniam Praveen
 
 Searches for projects or tasks in the project book based on certain parameters.
 
@@ -590,6 +586,8 @@ They will continue to be filtered after the `Edit` and `Delete` Commands are use
 
 ### Time Tracking
 
+Done by Farrell Nah Jun Hao
+
 You can track the time you spend working on a project or task by starting a timer when you start working, and then
  stopping the timer once you finish.
 
@@ -691,6 +689,8 @@ You can perform time tracking with the following steps:
 
 ## Reminders
 
+Done by Cheong Ying Yi Clara
+
 * A reminder will be shown in the reminder panel of the sidebar at the date and time specified.
 * The reminder will be removed after it is shown in the sidebar.
 * If a reminder was missed, it will be greyed out.
@@ -705,6 +705,8 @@ If there are multiple reminders set at the same date and time, only one of the r
 </div>
 
 ## Undo/Redo
+
+Done By Kang Su Min
 
 Undo command undoes previous commmand and redo command redoes previously undone command.
 
@@ -770,6 +772,8 @@ The following walkthrough shows how a user can start a timer for a project, then
 
 ## Statistics
 
+Done by Farrell Nah Jun Hao
+
 Momentum uses the data collected from your timers (see [time tracking](#time-tracking)) to calculate statistics. These
  statistics are automatically generated and updated whenever you make any changes to your projects and tasks, such as
   when timers for a project/task are started or stopped.
@@ -811,6 +815,8 @@ The statistics are displayed in 2 different formats:
 2. **Table**: Shows the exact (in minutes) amount of time spent on each project. Useful for calculations.
 
 ## Settings
+
+Done by Khoo De Hui
 You can adjust various settings in Momentum, which includes:
 * GUI Theme
 * Statistics Timeframe
@@ -839,6 +845,8 @@ Result: Sets a dark theme to the GUI and changes the statistics pane to show the
 
 ## Clear All Projects/Tasks : `clear`
 
+Done by Farrell Nah Jun Hao
+
 When viewing all projects, this command deletes all the projects in Momentum, including their tasks.
 
 When viewing a specific project's tasks, this command will delete all the tasks in the project. The project will itself will not be deleted.
@@ -853,6 +861,8 @@ This command will also delete the saved data for the projects or tasks. You can 
 Format: `clear`
 
 ## Dismissing a Reminder : `dismiss`
+
+Done by Cheong Ying Yi Clara
 
 Format: `dismiss`
 
@@ -880,6 +890,8 @@ This walkthrough is a followup of [Walkthrough of Creating a Project](#walkthrou
 ![Walkthrough of Dismissing a Reminder Step 3](images/DismissDiagram3.png)
 
 ## Showing and Hiding SideBar Components : `show`
+
+Done by Cheong Ying Yi Clara
 
 You can hide or show the tags panel of the sidebar.
 
