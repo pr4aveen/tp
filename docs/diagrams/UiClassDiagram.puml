@@ -5,7 +5,7 @@ skinparam arrowColor UI_COLOR_T4
 skinparam classBackgroundColor UI_COLOR
 
 package UI <<Rectangle>>{
-Interface Ui <<Interface>>
+Class "<<interface>>\nUi" as Ui
 Class "{abstract}\nUiPart" as UiPart
 Class UiManager
 Class MainWindow
@@ -19,6 +19,9 @@ Class ReminderDisplay
 Class TimerListPanel
 Class StatListPanel
 Class TagsDisplay
+Class StatCard
+Class TimerCard
+Class PieChartCard
 }
 
 package Model <<Rectangle>> {
@@ -45,6 +48,9 @@ MainWindow *-down-> StatListPanel
 MainWindow *-down-> TagsDisplay
 
 TrackedItemListPanel -down--> TrackedItemCard
+StatListPanel ---> StatCard
+StatListPanel ---> PieChartCard
+TimerListPanel ---> TimerCard
 
 MainWindow -left-|> UiPart
 
@@ -57,17 +63,19 @@ HelpWindow -down-|> UiPart
 ReminderDisplay -----|> UiPart
 TimerListPanel -----|> UiPart
 StatListPanel -----|> UiPart
-TagsDisplay -----|> UiPart
-
-BottomBar ..> Model
-ReminderDisplay ..> Model
-TrackedItemCard ..> Model
-TagsDisplay ..> Model
-StatListPanel ..> Model
-TimerListPanel ..> Model
+TagsDisplay -|> UiPart
+TimerCard -----|> UiPart
+StatCard -----|> UiPart
+PieChartCard -----|> UiPart
 
 UiManager -right-> Logic
 MainWindow -left-> Logic
+
+TrackedItemCard ..> Model
+TimerCard ..> Model
+PieChartCard ..> Model
+
+StatCard ..>Logic
 
 TrackedItemListPanel -[hidden]left- HelpWindow
 HelpWindow -[hidden]left- CommandBox
