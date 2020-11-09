@@ -446,6 +446,8 @@ Below are some activity diagrams to illustrate the process of obtaining the curr
 
 Momentum allows users to search for projects and tasks using the find command. Users can search for projects/tasks based on their name, description, tag and completion status. A FindType is included to determine whether any, all or none of the parameters need to match a project/task for it to be displayed.
 
+#### Find Command Implementation
+
 A predicate is created for each type of search parameter (name, description, tags, completion status). There are four predicates classes defined for this purpose.
 
 * `NameContainsKeywordPredicate` - Searches for projects/tasks based on name.
@@ -459,17 +461,15 @@ The `ContainsKeywordPredicate` has a `testPredicate` method that is used or over
 
 The following class diagram shows the structure of the aforementioned classes.
 
-//TODO: remove visibilities, remove findtype field, add association to findtype class instead, remove equals, include explanation for findtype
-
 ![PredicateClassDiagram](images/PredicateClassDiagram.png)
 
 The `FindCommandParser` creates a list of predicates based on the arguments entered by the user. `FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem> predicate`. The `FindCommand` will pass `predicate` into `Model#updatePredicate` to update the `displayList` once executed.
 
 The following sequence diagram shows how the `FindCommandParser`works. Note that some details have been omitted from the diagram below for clarity.
 
-//TODO: remove valueOf method call, change FindType return to findType, use a specific e.g.
-
 ![FindCommandParserSequenceDiagram](images/FindCommandParserSequenceDiagram.png)
+
+#### Chaining Predicates based on Find Type
 
 The process of creating and chaining predicates varies based on the `FindType` selected. The following activity diagrams show this process for each `FindType`.
 
