@@ -3,7 +3,6 @@
 package seedu.momentum.logic.commands;
 
 import seedu.momentum.logic.commands.exceptions.CommandException;
-import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 
 /**
@@ -17,6 +16,6 @@ public abstract class Command {
      * @return Feedback message of the operation result for display.
      * @throws CommandException If an error occurs during command execution.
      */
-    public abstract CommandResult execute(Model model) throws CommandException, ParseException;
+    public abstract CommandResult execute(Model model) throws CommandException;
 
 }

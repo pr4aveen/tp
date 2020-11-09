@@ -5,11 +5,6 @@ skinparam arrowColor LOGIC_COLOR_T4
 
 package TrackedItem {
 Class TrackedItem MODEL_COLOR {
-    name : Name
-    description : Description
-    deadline : Deadline
-    createdDateWrapper : DateWrapper
-    tags : Set<Tag>
     startTimer() : Project
     stopTimer() : Project
     isRunning() : boolean
@@ -17,12 +12,11 @@ Class TrackedItem MODEL_COLOR {
 Class Timer MODEL_COLOR {
     startDateTime : DateTimeWrapper
     stopDateTime : DateTimeWrapper
-    isRUnning : boolean
+    isRunning : boolean
     start() : void
     stop() : void
     getTimeBetween(ChronoUnit unit) : long
 }
-Class UniqueDurationList MODEL_COLOR
 Class WorkDuration MODEL_COLOR {
     startDateTime : DateTimeWrapper
     stopDateTime : DateTimeWrapper
@@ -33,7 +27,7 @@ Class WorkDuration MODEL_COLOR {
 
 package Logic {
 
-Interface StatisticGenerator <<Interface>> LOGIC_COLOR {
+Class StatisticGenerator <<Interface>> LOGIC_COLOR {
     updateStatistics() : void
 }
 Class StatisticManager LOGIC_COLOR {
@@ -58,9 +52,9 @@ StatisticManager --> "*" Statistic
 Statistic ..> "1..*" StatisticEntry
 XYZStatistic --|> Statistic
 
-TrackedItem *-left-> "1" UniqueDurationList
-TrackedItem *--> "1" Timer
-UniqueDurationList o-up-> "*" WorkDuration
+TrackedItem *-down-> "*" WorkDuration
+TrackedItem *-left-> "1" Timer
+WorkDuration -[hidden]left-> Timer
 
 Statistic .left.> TrackedItem
 Statistic .left.> WorkDuration

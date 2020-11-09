@@ -374,13 +374,15 @@ public class AddProjectCommandTest {
         private Comparator<TrackedItem> currentComparator = new NameCompare();
         private boolean isTagsVisible = true;
         private UserPrefs userPrefs = new UserPrefs();
+        private boolean isCurrentSortByCompletionStatus = true;
         private final VersionedProjectBook versionedProjectBook = new VersionedProjectBook(new ProjectBook(),
-                viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible, userPrefs);
+                viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible, userPrefs,
+                isCurrentSortByCompletionStatus);
 
         @Override
         public void commitToHistory() {
             versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible,
-                    userPrefs);
+                    userPrefs, isCurrentSortByCompletionStatus);
         }
     }
 }

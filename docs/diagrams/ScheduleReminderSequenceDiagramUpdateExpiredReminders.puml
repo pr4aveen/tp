@@ -1,0 +1,28 @@
+@startuml
+!include detailed_style.puml
+autoactivate on
+
+box Model MODEL_COLOR_T1
+participant "task:Task" as Task MODEL_COLOR
+participant "project:Project" as Project MODEL_COLOR
+participant ":ProjectBook" as ProjectBook MODEL_COLOR
+end box
+
+mainframe sd updateExpiredReminders
+ProjectBook -> ProjectBook : updateExpiredReminders()
+
+group loop [until no projects]
+    ProjectBook -> Project : updateExpiredReminder()
+
+group loop [until not tasks]
+Project -> Task : updateExpiredReminder()
+return task
+end
+return project
+end
+
+ProjectBook -> ProjectBook : setItems(trackedProjects)
+return
+return
+
+@enduml

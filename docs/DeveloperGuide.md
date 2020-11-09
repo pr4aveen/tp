@@ -8,14 +8,26 @@ title: Developer Guide
 
 ---
 
+## **Introduction**
+Momentum is a desktop app that helps freelancers track time spent on different projects and gain insights on how their time is spent.
+
+It is designed for people that prefer typing, so that frequent tasks can be done faster by typing in commands.
+
+This developer guide provides information about the architecture and implementation of Momentum. It gives developers interested in developing Momentum a good start in knowing how the application works, without going too much into the lower level details. It also provides information for testers on how to test the product.
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Some things to take note of in this guide:**<br>
+* When a notation like `Foo#bar` is used (e.g. "The method `Foo#bar` is called...") it refers too the `bar` method from the `Foo` class.
+* Method references made in this document will only include arguments if relevant to what is being explained.
+
+</div>
+
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 ---
-
-// TODO: add intro, and add common notations(#, args are included only when relevant)
-
 
 ## **Design**
 
@@ -66,7 +78,8 @@ The `UI` component uses JavaFx UI framework. The layout of these UI parts are de
 The `UI` component,
 
 * Executes user commands using the `Logic` component.
-* Listens for changes to `Model` data so that the UI can be updated with the modified data.
+* Various UI parts such as `TrackedItemCard`, `TimerCard`, `PieChartCard` listen for changes to `Model` data so that they can be updated with the modified data.
+* `MainWindow` has an association to `Logic` as it will call on `Logic` to fetch certain data for the some of the UI parts such as `StatCard`.
 
 ### Logic component
 
@@ -116,19 +129,8 @@ The `Storage` component,
 * can save `UserPref` objects in json format and read it back.
 * can save `JsonAdaptedProject` objects in `JsonSerializableProjectBook` in json format and read it back.
 
-The `JsonAdaptedTask` component contains fields of a `Task` in json format:
-
-* `name` in `String` format
-* `description` in `String` format
-* `completionStatus` in `boolean` format
-* `createdDate` in `String` format
-* `deadline` in `String` format
-* `reminder` in `String` format
-* `tagged` in `List<JsonAdaptedTag>` format
-* `durations` in `List<JsonAdaptedWorkDuration>` format
-* `timer` in `JsonAdaptedTimer` format
-
-In addition to the fields in `JsonAdaptedTask` component, `JsonAdaptedProject` contains a taskList in `List<JsonAdaptedTask>` format.
+The `JsonAdaptedProject` class contains the same fields as the `JsonAdaptedTask` class.
+In addition to the fields in `JsonAdaptedTask` component, `JsonAdaptedProject` also contains a taskList in `List<JsonAdaptedTask>` format, as show in the class diagram above.
 
 ### Common classes
 
@@ -141,7 +143,8 @@ Notable classes in this package include:
 * `Clock`: Acts as a consistent, single source of the 'current time' within the application
 * `DateWrapper`, `TimeWrapper`, `DateTimeWrapper`: Represents dates and times within Momentum, with utility methods to calculate the dates and times required by various parts of the application.
 * `UniqueItem`, `UniqueItemList`: Represents a list of unique items that are compared using a specially defined identity instead of the standard `equals()` method.
-* `GuiThemeSettings`, `GuiWindowSettings`: Manages the GUI settings that can be changed by the user.
+* `GuiWindowSettings`: Manages the GUI window size and position settings.
+* `GuiThemeSettings`: Manages the GUI theme settings that can be changed by the user.
 * `StatisticTimeFrame`, `StatisticTimeFrameSettings`: Manages the statistics settings that can be changed by the user.
 
 There are also classes with useful utility methods used to handle different types of data, such as dates, times, strings, json and files.
@@ -152,10 +155,102 @@ There are also classes with useful utility methods used to handle different type
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Adding Tasks to Projects
+
+In Momentum, each project can contain a list of tasks. These can use used to represent various sub-tasks that the user needs to do as part of the project. This section will explain how this is implemented, and some alternative implementations that we have considered.
+
+#### Chosen Implementation: Separate Task and Project
+
+Both projects and tasks have many similarities. They share the following fields:
+
+* Name
+* Description
+* Completion Status
+* Reminder
+* Deadline
+* Created Date
+* Tags
+
+Additionally, both need to work with Momentum's time tracking and statistics features.
+Therefore, it is reasonable to have an abstract `TrackedItem` class that contains the fields and methods shared by both projects and tasks, and have `Project` and `Task` extend from it.
+
+Projects and tasks will then have fields and methods for the behaviours unique to each item. Specifically, a project will contain a list of tasks, and have methods that allow it to modify its own list of tasks. This results in the  structure illustrated by the class diagram below:
+
+![ProjectTaskClassDiagram](images/ProjectTaskClassDiagram.png)
+
+This allows us to take advantage of polymorphism to ensure that every command will work with both projects and tasks, without having to provide separate implementations for each.
+
+Below is an object diagram to illustrate an example of the structure of some projects and tasks being tracked by Momentum:
+
+![ProjectTaskObjectDiagram](images/ProjectTaskObjectDiagram.png)
+
+The `view` and `home` commands allow users to navigate between viewing a single project's tasks, and a view of all projects (with their tasks not visible).
+
+This is implemented by having a list of tracked items to be shown to the user, `itemList`. This list is changed to be the project's task list when a `view` command is executed, and changed to the overall project list when a `home` command is executed. The list can then be further sorted using the [sort command](#sort-command) or filtered using the [find command](#find-command), to form a separate list, `displayList`, that is provided to the UI components to be   displayed to the user.
+
+Most of the commands in Momentum thus become context sensitive, behaving differently depending on whether the project list is being viewed, or a task list if being viewed. For example, the `add` command would add a project if the user  is viewing the project list, but if the user is viewing a specific project's task list, it will add a task to that project instead.
+
+We have identified the following benefits and drawbacks of this implementation.
+
+Benefits:
+
+* Having a `TrackedItem` parent class gives us the opportunity to easily extend Momentum to track other things beyond projects and tasks, while also making it easier to integrate new items with existing commands.
+* Having a clear difference between `Project` and `Task` classes allows us to further differentiate projects and tasks in the future. Additional task or project specific features can be easily added without affecting the other.
+
+Drawbacks:
+
+* Some type casting is required for certain operations on projects and tasks, especially for testing purposes. While this is not neccessarily a bad thing, it may make the code less readable and harder to follow.
+
+#### Alternative 1: Using Predicates
+
+Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`.
+
+This implementation shares some similarities with our chosen implementation. Both `Project` and `Task` will extend an abstract `TrackedItem` class.
+
+However, it differs in the way the `displayList` is updated.
+
+A rough summary of the proposed implementation is as follows:
+
+* There will be two predicates. The first predicate will be used to check whether an object is a project or a task. The second predicate will be the normal predicate used to filter the list in the find command.
+* Changes in view will modify the first predicate.
+* Using the find command will modify the second predicate.
+* The predicate used to determine the entries shown in the `displayList` is the logical AND of the first and second predicates.
+
+We have identified the following benefits and drawbacks of this implementation.
+
+Benefits:
+
+* This implementation is much simpler than having to maintain a separate list of `Task` objects for each project. It is likely that existing commands would not have to be changed as much.
+
+Drawbacks:
+
+* A bi-directional association between projects and tasks will be needed. This is unnecessary as a project is composed of multiple tasks. Tasks do not need to know which project they are a part of.
+* It might be harder and more time-consuming to write rigorous tests for this implementation.
+
+#### Alternative 2: Projects can contain Projects
+
+Since projects and tasks are so similar, it may make more sense to treat them as the same object in the first place. Therefore, it is possible to model a project's sub-tasks as projects themselves. This results in a structure where each project can contain a list of other projects, as illustrated below:
+
+![ProjectInProjectClassDiagram](images/ProjectInProjectClassDiagram.png)
+
+We have identified the following benefits and drawbacks of this implementation.
+
+Benefits:
+
+* This implementation is much simpler than having to maintain separate `Project` and `Task` classes. It is likely that existing commands would not have to be changed as much.
+* Projects can contain not just sub-projects, but sub-sub-projects, sub-sub-sub-projects, etc, allowing for deeper nesting of projects. This may be useful for users to manage more complex project structures.
+
+Drawbacks:
+
+* We will be unable to differentiate between a project and sub-project, since they are both modeled as the same class. This means that project or sub-project specific features cannot be easily implemented without affecting the other.
+* Allowing for deeper nesting of projects may make the application more confusing to use without significant UI changes.
+
 ### Immutability
+
 `Projects`, `Tasks`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new object is created with the new details, and the model is updated with the new object.
 
 Notable examples include:
+
 * Starting/Stopping a Timer: A new object is created with the updated timer state and durations,
 * Editing a Project: A new object is created with the new project's details, with the same timer and durations recorded.
 
@@ -169,12 +264,9 @@ We chose to implement projects this way as immutability makes these classes more
 
 ### Timers and Durations
 
-//TODO: add intro
+Momentum allows users to track the time that they spend on each project and task. Time tracking is done by starting and stopping a timer using the `start` and `stop` commands. The period of time that the user spends is then stored as a `WorkDuration` object.
 
-The time tracking features in Momentum are implemented using `TimerWrapper` and `WorkDuration` objects.
-The below diagram illustrates these classes are used in Momentum.
-
-//TODO: Add durations to trackeditem, remove caps u in isRunning, change unique duration list, update trackeditem related stuff
+The below diagram illustrates the structure of the classes used for timetracking, and how they are used to calculate [statistics](#statistics).
 
  ![TimerDurationClassDiagram](images/TimerDurationClassDiagram.png)
 
@@ -197,7 +289,7 @@ The deadline of a project and tasks is implemented using `DateWrapper` and `Time
 
 Since both date and time is optional in the class, a deadline is empty when both `dateWrapper` and `timeWrapper` is empty. An empty deadline can be created easily without `TrackedItem` needing to know whether it has a deadline. This design was chosen due to the ease of implementation. Another reason is because no dummy data will be required.
 
-#### Alternative Implementation of Deadline Class
+#### Alternative Implementation: Store Date and Time using `DateTimeWrapper`
 
 An alternative design is to store date and time in a `DateTimeWrapper` with dummy date and time if the date or time is not present as `LocalDateTime` requires both date and time. However, extra checks will have to be done to differentiate between dummy and actual data.
 
@@ -205,7 +297,7 @@ An alternative design is to store date and time in a `DateTimeWrapper` with dumm
 
 The date and time of a deadline of a project or task is parsed separately using different prefixes. This design is chosen as date and time is stored separately and the format of date and time can be more flexible.
 
-#### Alternative Way of Parsing a Deadline
+#### Alternative Implementation: Parsing Date and Time Together
 
 An alternative design is to parse both date and time together. This is harder to implement as date and time is stored separately in deadline. This design would also restrict the format of the date and time.
 
@@ -215,81 +307,78 @@ The deadline has to be on or after the created date. This is checked when the `D
 
 For `EditCommand`, a descriptor of type `editTrackedItemDescriptor` containing edited fields is created directly from parsing the user input in `EditCommandParser`, hence the created date is unknown. A dummy date using `LocalDate.EPOCH` is passed into the constructor of `Deadline` in `EditCommandParser` to allow creation of the deadline. The check that deadline has to be on or after the created date is done in the `getUpdatedDeadline` method of `EditCommand` class after the created date of the project to be edited is known.
 
-// TODO: remove LogicManager, EditCommandParser, ProjectBookParser from the diagram, show only the execute part
-
 ![Interactions Inside the Logic Component for the Edit Project Command with Deadline](images/EditDeadlineSequenceDiagram.png)
 
 ### Reminders
 
-Users can add reminders to be notified on particular projects or tasks.
+Users can add reminders to be notified on particular projects or tasks at the date and time specified.
 
-//TODO: explanation of reminder
+Reminders are stored in a project or task. The reminder run and shows the name of the project or task in the reminder panel of the sidebar at the date and time while the application is opened. Reminders are removed after a reminder is runned at the specified date and time.
+
+If application is not open at the date and time of the reminder or if there are multiple reminders scheduled at the same date and time, the reminder will be marked as missed. Details on how the reminder will be marked as missed is in the [Scheduling of Reminders](#scheduling-of-reminders) section.
 
 #### Organisation of Reminder Related Classes
 
-The reminder of a project or task is implemented using `ReminderManager` and `Reminder`. The date and time of a reminder is stored in `Reminder`. `ReminderManager` schedules the reminder using `Timer` and runs the reminder using `ThreadWrapper`.
+The reminder is stored as a `Reminder` class in a project or task. The date and time of a reminder is stored in `Reminder`.
+
+`ReminderManager` schedules the reminder using the `schedule` method of the `Timer` class and runs the reminder using the `run` method of the `ThreadWrapper` class.
 
 The diagram below shows the structure of the classes related to the `reminder` package.
 
-//TODO: explain diagrams, remove private methods and fields, visibility stuff, try to make model not italicised, remove methods from project and task that is in trackedItem, remove taskList
-
 ![Structure of the Model Component for Reminders](images/ReminderClassDiagram.png)
 
-#### Alternative Implementation of Organisation of Reminder Related Classes
+More details on the implementation of `ReminderManager` is given in the [Scheduling of Reminders](#scheduling-of-reminders) section.
+
+#### Alternative Implementation: Manage Reminders using `Reminder` Class
 
 An alternative would be to schedule and run the reminder in `Reminder` class directly. This design was not chosen as that `Reminder` would have to contain references to both `Model` and `ProjectBook`, which is undesired as the projects and tasks in the `ProjectBook` will have to be modified.
+
+#### Rescheduling Reminders
+
+Whenever a project or task is added, edited or removed, the reminders needs to be adjusted accordingly. The chosen implementation is to reschedule all the reminders. This is done through `Model#rescheduleReminders` which is further explained in the [Scheduling of Reminders](#scheduling-of-reminders) section.
+
+#### Alternative Implementation: Reschedule Reminders of Projects or Tasks Changed
+
+An alternative would be to only reschedule projects or tasks that are affected by the change. This design was not chosen as it is more complicated and would increase the coupling between `ReminderManager` and other related classes.
 
 #### Scheduling of Reminders
 
 `ReminderManager` contains a reference to a `Model` so that the projects and tasks can be iterated through callback methods and the reminders of the projects can be modified.
-To schedule reminders, several callback functions are used to iterate through the project book in the model. Firstly, `ModelManager#rescheduleReminders()` calls `ReminderManager#rescheduleReminder()`, which calls
-`Model#rescheduleReminder()` to iterate through the project book through `ProjectBook#rescheduleReminder(ReminderManager reminderManager)`.
-The method call will then call methods such as `ReminderManager#rescheduleReminder(Project project)` and `Project#rescheduleReminder(ReminderManager reminderManager)` to reschedule the reminders.
+
+To schedule reminders, several callback functions are used to iterate through the project book in the model. The entry point is in `ModelManager` where `rescheduleReminders` can be called.
+This method calls `ReminderManager#rescheduleReminder` so that the `timer` in `ReminderManager` can be reseted before the reminders are actually scheduled.
+
+After resetting the `timer`, reminders are rescheduled by calling
+`Model#rescheduleReminder`. This method iterates through the project book through `ProjectBook#rescheduleReminder` to modify the projects and tasks. In this method, the expiration of the reminders will be updated through `ProjectBook#updateExpiredReminders` before the reminder of each project and task is rescheduled as shown in the diagram below.
 
 ![Schedule Reminder Sequence Diagram](images/ScheduleReminderSequenceDiagram.png)
 
-//TODO: explain resetTimer part, make the conditions in loop [], extract two small diagrams, extra() for reminder reminderManager call to rescheduleReminder, link diff parts tgt
+![Update Expired Reminders Sequence Diagram](images/ScheduleReminderSequenceDiagramUpdateExpiredReminders.png)
 
-`ReminderManager` has an inner class `ReminderTimerTask` which implements `TimerTask` that is used to schedule a reminder with `Timer`. This design was chosen as `ReminderTimerTask` references non-static methods of `ReminderMananger` as well as `Model`, which is also referenced in `ReminderManager`.
+![Reschedule Reminder of a Project Sequence Diagram](images/ScheduleReminderSequenceDiagramRescheduleReminderProject.png)
 
-#### Alternative Way of Scheduling of Reminders
+`ReminderManager` has an inner class `ReminderTimerTask` which implements `TimerTask` that is used to schedule a reminder with `Timer`. This design was chosen as `ReminderTimerTask` references non-static methods of `ReminderMananger` as well as `Model`, which is also referenced in `ReminderManager`. More details on how the reminders are runned using `ReminderTimerTask` is given in the [Running Reminders](#running-reminders) section
+
+#### Alternative Implementation: Implement `ReminderTimerTask` as a Separate Class
 
 An alternative implementation is to implement `ReminderTimerTask` as a separate class. With this implementation, `ReminderTimerTask` will have to contain extra references such as `ReminderManager` and `Model`.
 
 #### Running Reminders
 
 At the date and time scheduled, the reminder will be run.
-In the process of running the reminders, the UI will show the reminder and it will be removed.
 
-//TODO: put task, project and projectbook to the right of modelmanager
+In the process of running the reminders, the UI will show the reminder and it will be removed.
 
 ![Run Task Reminder Sequence Diagram](images/RunTaskReminderSequenceDiagram.png)
 
-The result of the reminder is stored as a `StringProperty` and retrieved from the `Model` so that a listener can be used in `MainWindow` to observe the `StringProperty` so that changes can be detected and the GUI can be updated acccordingly.
+The result of the reminder is stored as a `StringProperty` in `ReminderManager`and retrieved from the `Model` so that a listener can be used in `MainWindow` to observe the `StringProperty` so that changes can be detected and the GUI can be updated acccordingly.
 
-`BooleanProperty` is also stored to keep track of whether there are any reminders so that `MainWindow` can detect whether there are reminders and hide or show the reminder panel accordingly. This design was also chosen due to the ease of implementation.
-
-///TODO: remove specific details from explanations
-
-`ThreadWrapper` is a utility class which runs runnables in `ReminderManager.ReminderTimerTask#run()` using `Platform.runLater` when running the javaFX application, but switches to running the runnables directly when performing automated tests.
-
-#### Alternative Way to Run Reminders
-
-An alternative would be to use `Platform.runLater` only to run the reminder. However, automated tests cannot directly run the reminder as it does not support `Platform`. This design was chosen to enable the reminder to be run directly.
-
-//TODO: combine this section with the 1st section
-
-#### Rescheduling Reminders
-
-Whenever a project or task is added, edited or removed, the reminders needs to be adjusted accordingly. The chosen implementation is to reschedule all the reminders.
-
-#### Alternative Way to Reschedule Reminders
-
-An alternative would be to only reschedule projects or tasks that are affected by the change. This design was not chosen as it is more complicated and would increase the coupling between `ReminderManager` and other related classes.
+A `BooleanProperty` is also stored in `ReminderManager` to keep track of whether there are any reminders so that `MainWindow` can detect whether there are reminders and hide or show the reminder panel accordingly. This design was also chosen due to the ease of implementation.
 
 ### Statistics
 
-Statistics in Momentum are implemented using the Command design pattern, similar to how Commands are implemented. Each statistic tracked by Momentum is represented by a `Statistic` object, and a `StatisticManager` contains all the statistics and is responsible for updating them whenever the model is changed.
+Momentum calculates statistics using the time tracking data collected from [timers and durations](#timers-and-durations).
+These statistics are implemented using the command design pattern, similar to how Commands are implemented. Each statistic tracked by Momentum is represented by a `Statistic` object, and a `StatisticManager` contains all the statistics and is responsible for updating them whenever the model is changed.
 
 Each statistic exposes a `calculate(Model model)` method that is called by the `StatisticManager` to calculate or update the data with the information in the model. The method contains instructions on how that particular statistic is calculated.
 
@@ -338,7 +427,12 @@ Below are some activity diagrams to illustrate the process of obtaining the curr
 //TODO: capitalise Normal, ...
 
 ### Find Command
-The find command uses predicate chaining to search for projects/tasks based on one or more parameters. A predicate is created for each type of search parameter (name, description, tags, completion status). There are four predicates classes defined for this purpose.
+
+Momentum allows users to search for projects and tasks using the find command. Users can search for projects/tasks based on their name, description, tag and completion status. A FindType is included to determine whether any, all or none of the parameters need to match a project/task for it to be displayed.
+
+#### Find Command Implementation
+
+A predicate is created for each type of search parameter (name, description, tags, completion status). There are four predicates classes defined for this purpose.
 
 * `NameContainsKeywordPredicate` - Searches for projects/tasks based on name.
 * `DescriptionContainsKeywordPredicate` - Searches for projects/tasks based on description.
@@ -351,17 +445,15 @@ The `ContainsKeywordPredicate` has a `testPredicate` method that is used or over
 
 The following class diagram shows the structure of the aforementioned classes.
 
-//TODO: remove visibilities, remove findtype field, add association to findtype class instead, remove equals, include explanation for findtype
-
 ![PredicateClassDiagram](images/PredicateClassDiagram.png)
 
 The `FindCommandParser` creates a list of predicates based on the arguments entered by the user. `FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem> predicate`. The `FindCommand` will pass `predicate` into `Model#updatePredicate` to update the `displayList` once executed.
 
-The following sequence diagram shows how the `FindCommandParser`works. Note that some details have been omitted from the diagram below.
-
-//TODO: remove valueOf method call, change FindType return to findType, use a specific e.g.
+The following sequence diagram shows how the `FindCommandParser`works. Note that some details have been omitted from the diagram below for clarity.
 
 ![FindCommandParserSequenceDiagram](images/FindCommandParserSequenceDiagram.png)
+
+#### Chaining Predicates based on Find Type
 
 The process of creating and chaining predicates varies based on the `FindType` selected. The following activity diagrams show this process for each `FindType`.
 
@@ -372,6 +464,14 @@ The process of creating and chaining predicates varies based on the `FindType` s
 Note that `FindType.NONE` uses the logical AND when combining predicates. This is because individual predicates test for a negative match result. These negative results need to be chained together using the logical AND because a negative match requires a project to not match every keyword.
 
 This design was chosen as it built on the existing implementation of the find command, which passed a `NameContainsKeywordPredicate` to the `displayList`. This means that minimal changes to other parts of the project were required.
+
+#### Behaviour of Find Command
+
+The filter used on the `displayList` by the Find Command will be reset after the `Add` Command is used. It will however persist after using the `Edit` Command and `Delete` Command.
+
+The list will not be filtered after using the `View` or `Home` Commands.
+
+We chose this behaviour as we felt that it presents users with the best experience. 
 
 #### Alternative implementation: Using a custom predicate class
 
@@ -392,27 +492,38 @@ The settings changed by the user will also reflect immediately in the applicatio
 The following sequence diagram shows how the set command works.
 ![SetCommandSequenceDiagram](images/SetCommandSequenceDiagram.png)
 
-// TODO: remove the parsing part
+#### Updating and Saving User Prefs
 
-#### Updating User Prefs
+Settings are saved by updating `GuiThemeSettings` and/or `StatisticTimeframeSettings` in `UserPrefs` in the application model. All class attributes in `UserPrefs` are serializable, so that all settings in `UserPrefs` can be saved in `preferences.json` when the user exits the application. Serialization is done using `JsonUserPrefsStorage#saveUserPrefs`.
 
-Settings are saved by updating `GuiThemeSettings` and/or `StatisticTimeframeSettings` in `UserPrefs` in the application model. All class attributes in `UserPrefs` are serializable, so that all settings in `UserPrefs` can be saved in `preferences.json` when the user exits the application. Below is the class diagram of `UserPrefs`.
+Below is the class diagram of `UserPrefs`.
 
 ![UserPrefsClassDiagram](images/UserPrefsClassDiagram.png)
 
-//TODO: change the aggregation, add association to storage, remove visibilities
-
-Model manager will call on `UserPrefs#returnChangedGuiThemeSettings` or `UserPrefs#returnChangedStatisticTimeframeSettings` when updating the settings. Notice that the two methods will return a new `UserPrefs`. This design is chosen so as to support `Undo/Redo`, where versions can be placed on the different instances of `UserPrefs`.
-
-//TODO: think of an alternative implementation
+Model manager will call on `UserPrefs#returnChangedGuiThemeSettings` or `UserPrefs#returnChangedStatisticTimeframeSettings` when updating the settings. Notice that the two methods will return a new `UserPrefs`. This design is chosen so as to support [`Undo/Redo`](#undoredo-feature), where versions can be placed on the different instances of `UserPrefs`.
 
 #### Settings Update Manager
 
 `SettingsUpdateManager` is a class that assists in updating the application instance with the new settings when there are changes made to `UserPrefs`.
 
-Currently, the user adjustable settings are the GUI theme and the timeframe of the statistics shown. Hence, `SettingsUpdateManager` takes in a `Ui`, and a `StatisticGenerator` as class attributes in order to update them.
+Currently, the user adjustable settings are the GUI theme and the timeframe of the statistics shown. Hence, `SettingsUpdateManager` takes in a `Ui`, and a `StatisticGenerator` as attributes in order to update them.
 
-`SettingsUpdateManager#updateTheme` and `SettingsUpdateManager#updateStatisticTimeFrame` are designed to handle null cases of `Ui` and `StatisticGenerator` so as to make testing more convenient. This is because there are methods being tested that will indirectly call the above methods. Allowing `Ui` and `StatisticGenerator` to be null will allow them to not be instantiated in the tests.
+`SettingsUpdateManager#updateTheme` and `SettingsUpdateManager#updateStatisticTimeFrame` are designed to handle null cases of `Ui` and `StatisticGenerator` so as to make testing more convenient. This is because there are methods being tested that will indirectly call the above methods. Allowing `Ui` and `StatisticGenerator` to be null will enable them to not be instantiated in the tests.
+
+It is also worth noting that all attributes and methods in `SettingUpdateManager` are class-level instead of instance-level. This design was chosen so as to allow minimal changes to the code base. However, one con of this design will be that the attributes and methods can be set or called from anywhere in the code.
+
+#### Alternative Implementation of `SettingsUpdateManager`
+
+An alternative implemention of `SettingsUpdateManager` is to convert all of the class-level attributes and methods to become instance-level. While this can address the con mentioned above, having to pass an instantiated `SettingsUpdateManager` object around now will require some undesirable changes to be made. Below describe the possible ways to pass a `SettingsUpdateManager` object around and it's undesired effects.
+
+* Include `SettingsUpdateManager` as an attribute in `ModelManager`:
+  * As `Model` is only meant to hold data of the app, putting `SettingUpdateManager` in `ModelManager` is not ideal.
+* Include `SettingsUpdateManager` as an attribute in `LogicManager`:
+  * With the current code design, in order for `SetCommand` to be able to use `SettingsUpdateManager`, it is required that `SettingsUpdateManager` is passed in as an argument in `SetCommand#execute` when the method is called by `LogicManager`. This will require changes to be made to the abstract `Command` superclass' `execute` method, and is also an undesirable design as all commands will now be aware of `SettingsUpdateManager` when `SetCommand` is the only command using it.
+
+#### Alternative implementation of Settings Feature
+
+An alternative way to implement the settings feature is to not make the settings reflect immediately. Instead, the user will have to restart the application for the settings to take effect. While it will be much easier to implement since it will only require updating `UserPrefs`, it will not provide a good user experience.
 
 ### Sort Command
 
@@ -552,98 +663,6 @@ This was a candidate for implementation but ultimately rejected due to the follo
 
 * This would be more prone to bugs due to the compulsory implementation of reversal of every command.
 
-//TODO: move this section to the top of implementations
-
-### Adding Tasks to Projects
-
-In Momentum, each project can contain a list of tasks. These can use used to represent various sub-tasks that the user needs to do as part of the project. This section will explain how this is implemented, and some alternative implementations that we have considered.
-
-#### Chosen Implementation: Separate Task and Project
-
-Both projects and tasks have many similarities. They share the following fields:
-
-* Name
-* Description
-* Completion Status
-* Reminder
-* Deadline
-* Created Date
-* Tags
-
-Additionally, both need to work with Momentum's time tracking and statistics features.
-Therefore, it is reasonable to have an abstract `TrackedItem` class that contains the fields and methods shared by both projects and tasks, and have `Project` and `Task` extend from it.
-
-Projects and tasks will then have fields and methods for the behaviours unique to each item. Specifically, a project will contain a list of tasks, and have methods that allow it to modify its own list of tasks. This results in the  structure illustrated by the class diagram below:
-
-//TODO: remove aggregation
-
-![ProjectTaskClassDiagram](images/ProjectTaskClassDiagram.png)
-
-This allows us to take advantage of polymorphism to ensure that every command will work with both projects and tasks, without having to provide separate implementations for each.
-
-Below is an object diagram to illustrate an example of the structure of some projects and tasks being tracked by Momentum:
-
-![ProjectTaskObjectDiagram](images/ProjectTaskObjectDiagram.png)
-
-The `view` and `home` commands allow users to navigate between viewing a single project's tasks, and a view of all projects (with their tasks not visible).
-
-This is implemented by having a list of tracked items to be shown to the user, `itemList`. This list is changed to be the project's task list when a `view` command is executed, and changed to the overall project list when a `home` command is executed. The list can then be further sorted using the [sort command](#sort-command) or filtered using the [find command](#find-command), to form a separate list, `displayList`, that is provided to the UI components to be   displayed to the user.
-
-Most of the commands in Momentum thus become context sensitive, behaving differently depending on whether the project list is being viewed, or a task list if being viewed. For example, the `add` command would add a project if the user  is viewing the project list, but if the user is viewing a specific project's task list, it will add a task to that project instead.
-
-We have identified the following benefits and drawbacks of this implementation.
-
-Benefits:
-
-* Having a `TrackedItem` parent class gives us the opportunity to easily extend Momentum to track other things beyond projects and tasks, while also making it easier to integrate new items with existing commands.
-* Having a clear difference between `Project` and `Task` classes allows us to further differentiate projects and tasks in the future. Additional task or project specific features can be easily added without affecting the other.
-
-Drawbacks:
-
-* Some type casting is required for certain operations on projects and tasks, especially for testing purposes. While this is not neccessarily a bad thing, it may make the code less readable and harder to follow.
-
-#### Alternative 1: Using Predicates
-
-//TODO: add explanation
-
-Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`. Both `Project` and `Task` will extend `TrackedItem`.
-
-A rough summary of the proposed implementation is as follows:
-
-* There will be two predicates. The first predicate will be used to check whether an object is a project or a task. The second predicate will be the normal predicate used to filter the list in the find command.
-* Changes in view will modify the first predicate.
-* Using the find command will modify the second predicate.
-* The predicate used to determine the entries shown in the `displayList` is the logical AND of the first and second predicates.
-
-We have identified the following benefits and drawbacks of this implementation.
-
-Benefits:
-
-* This implementation is much simpler than having to maintain a separate list of `Task` objects for each project. It is likely that existing commands would not have to be changed as much.
-
-Drawbacks:
-
-* A bi-directional association between projects and tasks will be needed. This is unnecessary as a project is composed of multiple tasks. Tasks do not need to know which project they are a part of.
-* It might be harder and more time-consuming to write rigorous tests for this implementation.
-
-#### Alternative 2: Projects can contain Projects
-
-Since projects and tasks are so similar, it may make more sense to treat them as the same object in the first place. Therefore, it is possible to model a project's sub-tasks as projects themselves. This results in a structure where each project can contain a list of other projects, as illustrated below:
-
-![ProjectInProjectClassDiagram](images/ProjectInProjectClassDiagram.png)
-
-We have identified the following benefits and drawbacks of this implementation.
-
-Benefits:
-
-* This implementation is much simpler than having to maintain seperate `Project` and `Task` classes. It is likely that existing commands would not have to be changed as much.
-* Projects can contain not just sub-projects, but sub-sub-projects, sub-sub-sub-projects, etc, allowing for deeper nesting of projects. This may be useful for users to manage more complex project structures.
-
-Drawbacks:
-
-* We will be unable to differentiate between a project and sub-project, since they are both modeled as the same class. This means that project or sub-project specific features cannot be easily implemented without affecting the other.
-* Allowing for deeper nesting of projects may make the application more confusing to use without significant UI changes.
-
 ---
 
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -671,10 +690,14 @@ Drawbacks:
 
 * Time tracking app
   * Dashboard view for freelancer to get an overview of all projects.
-  * Multiple groups to represent different categories to help in grouping of tasks such as freelance projects.
-  * Predefined groups that are commonly used for freelancers, such as projects and self-learning/improvement.
-  * Timer to track the duration of a task or Indicate start time and end time for a task, so that the user can price their rates and charge clients more accurately.
+  * Projects can contain multiple tasks to facilitate effective tracking of projects.
+  * Use tags to organise tasks and projects for commonly used categories.
+  * Timer to track the duration of a task or project, so that the user can price their rates and charge clients more accurately.
+  * Deadline and completion status to track the status of a task or project.
   * Reminder for a project (only when application is open).
+  * Perform highly customised searches for projects and tasks.
+  * Quickly organise projects and tasks based on different parameters.
+  * Attractive GUI with customisable themes for better user experience.
   * Interesting/creative views for visualizing the data.
 
 ### User stories
@@ -684,6 +707,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | Priority | As a …​                                     | I want to …​                         | So that I can…​                                                         |
 | -------- | ------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------- |
 | `* * *`  | new user                                    | see usage instructions               | refer to instructions when I forget how to use the App                  |
+| `* * *`  | user                                        | add a new project/task                    |                                                                    |
+| `* * *`  | user                                        | view the project/task's creation date                    | know when I started tracking that project/task      |
+| `* * *`  | user                                        | view the project/task's completion status                    | check if I have completed a project/task        |
+| `* * *`  | user                                        | add and edit a deadline for a project/task                    | know when I need to finish the project/task    |
+| `* * *`  | user                                        | add and edit a reminder for a project/task                    | remind myself to do important projects/tasks   |
+| `* * *`  | user                                        | delete a project/task                     | remove entries that I no longer need                                    |
+| `* * *`  | user                                        | find a project/task by name              | locate projects/task by name without having to go through the entire list     |
+| `* * *`  | user                                        | find a project/task by description               | locate projects/tasks by description without having to go through the entire list |
+| `* * *`  | user                                        | find a project/task by tag               | locate projects/tasks by tag without having to go through the entire list |
+| `* * *`  | user                                        | find a project/task by completion status               | locate projects/tasks that are completed or incomplete without having to go through the entire list |
+| `* * *`  | user                                        | find a project/task by multiple parameters               | locate details of projects/tasks without having to go through the entire list |
+| `*`      | user with many projects in Momentum         | sort projects/tasks by name                | locate a project/task easily                                                 |
+| `*`      | user with many projects in Momentum         | sort projects/tasks by completion status                | locate an incomplete or complete project/task easily                                                 |
+| `*`      | user with many projects in Momentum         | hide and show the tags panel                | focus more on statistics and timers                                                 |
+| `*`      | user with many projects in Momentum         | dismiss the reminder                | focus more on statistics and timers                                                 |
+| `* *`    | new user                                    | start and stop a timer for a project/task | track the time I spent on the project/task                                   |
+| `* *`    | user                                        | see the amount of time I spend on each project/task | gain insights on how I am using my time |
+| `* *`    | user                                        | can create tasks within a project    | better organize my work
 | `* * *`  | user                                        | add a new project                    |                                                                         |
 | `* * *`  | user                                        | view the project creation date                    |
 | `* * *`  | user                                        | view the project completion status                    |  |
@@ -707,13 +748,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
 | `* *`    | user | can create tasks within a project    | better organize my work
 
-_{More to be added}_
-
 ### Use cases
 
 (For all use cases below, the **System** is the `Momentum` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Start and End a Timer**
+#### **Use case: Start and End a Timer**
 
 **MSS**
 
@@ -742,13 +781,14 @@ _{More to be added}_
 
     Use case ends.
 
-**Use case: Add a project**
+#### **Use case: Add a project**
 
 **MSS**
 
 1. User requests to add a project with a name, a description, a deadline, a completion status, a reminder and a tag.
 2. Momentum shows a command result and updates the project list shown to reflect the addition.
-3. At the date and time of the reminder specified, the reminder panel will show the name of the project and remove the reminder of the project.
+3. Momentum shows the name of the project in the reminder panel and remove the reminder of the project at the date and time of the reminder specified.
+4. User requests to <u>[dismiss the reminder](#use-case-dismiss-a-reminder)</u>.
 
 //TODO: make 3 a use case for reminder and dismiss
 
@@ -758,24 +798,42 @@ _{More to be added}_
 
   * a1. Momentum shows an error message.
 
-    Use case ends.
+  Use case ends.
 
 The use cases for editing a project, adding a task and editing a task is similar to adding a project, except that the error messages differ slightly.
 
-**Use case: Delete a project**
+#### **Use case: Dismiss a Reminder**
+
+1. User requests to dismiss a reminder.
+2. Momentum hides the reminder panel.
+
+**Extensions**
+
+* 1a. Momentum detects an error as there is no reminder to dismiss.
+
+  * a1. Momentum shows an error message.
+
+  Use case ends.
+
+#### **Use case: Hide the Tags Panel**
+
+1. User requests to hide the tags panel.
+2. Momentum hides the tags panel.
+
+  Use case ends.
+
+#### **Use case: Delete a project**
 
 **MSS**
 
-1.  User requests to list projects.
-2.  Momentum shows a list of projects.
-3.  User requests to delete a specific project in the list.
-4.  Momentum deletes the project.
+1. User requests to list projects.
+2. Momentum shows a list of projects.
+3. User requests to delete a specific project in the list.
+4. Momentum deletes the project.
 
     Use case ends.
 
 The use cases for deleting a task is similar to deleting a project.
-
-//TODO: add use cases
 
 **Extensions**
 
@@ -785,8 +843,7 @@ The use cases for deleting a task is similar to deleting a project.
 
     Use case ends.
 
-
-**Use case: Find a project/task in the list**
+#### **Use case: Find a project/task in the list**
 
 **MSS**
 
@@ -807,16 +864,26 @@ The use cases for deleting a task is similar to deleting a project.
 
     Use case ends.
 
-_{More to be added}_
+#### **Use case: View a project's tasks**
+
+**MSS**
+
+1. User requrests to view the tasks belonging to a project.
+2. Momentum shows a list of tasks belonging to the project.
+
+**Extensions**
+
+* *a. The arguments are given in an incorrect format.
+
+  * a1. Momentum shows an error message.
+
+    Use case ends.
 
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
 2.  Should be able to hold up to 1000 projects without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.
-
-_{More to be added}_
 
 ### Glossary
 
@@ -832,7 +899,7 @@ _{More to be added}_
 Given below are instructions to test the app manually.
 
 <div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> These instructions only provide a starting point for testers to work on;
-testers are expected to do more *exploratory* testing.
+testers are expected to do more <strong>exploratory</strong> testing.
 
 </div>
 
@@ -842,20 +909,21 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file
+      Expected: Shows the GUI with a set of sample projects and tasks.
 
-1. Saving window preferences
+2. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+   2. Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
 
 ### Saving data
 
 1. Dealing with missing data files
 
-   1. Delete the existing `projectbook.json` file
+   1. Delete the existing `projectbook.json` file in the `data` directory
 
    1. Re-launch the app by double-clicking the jar file.<br>
       Expected: The project book is initalized with default data.
@@ -1508,7 +1576,6 @@ testers are expected to do more *exploratory* testing.
 
     1. Test case: `stop x` where x is the greater than the number of tasks.<br>
     Expected: No timer stopped. Invalid index message shown.
-
 
 ### Undo/Redo
 

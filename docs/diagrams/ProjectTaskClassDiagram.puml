@@ -18,7 +18,7 @@ Class "UniqueItemList<TrackedItem>"
 
 
 ProjectBook *--> "1" "UniqueItemList<TrackedItem>"
-"UniqueItemList<TrackedItem>" o--> "*" TrackedItem
+"UniqueItemList<TrackedItem>" --> "*" TrackedItem
 
 Project -up-|> TrackedItem
 Task -up-|> TrackedItem
