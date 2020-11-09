@@ -74,21 +74,23 @@ Refer to the [Features](#features) below for details of each command.
 Momentum uses a GUI (Graphical User Interface) to collect input from you, and display information to you. Different
  parts of this GUI perform different functions, as explained below:
 
-![OverviewUI](images/OverviewUI.png)
+![OverviewUI](images/OverviewUI2.png)
 
 1. **Command Box**: THe place where you enter in your commands.
 2. **Results Box**: Displays information about the result of executing the commands that you enter.
 3. **Display List**: Displays a list of projects or tasks.
-4. **Active Timers Panel**: Displays all the timers that are currently running. 
+4. **Reminders Panel**: This is where reminders will appear. The panel will only be present when there are reminders
+ that have not yet been dismissed.
+5. **Active Timers Panel**: Displays all the timers that are currently running. 
 (see [Active Timers Panel](#active-timers-panel))
-5. **Statistics Panel**: Displays the statistics data calculated by Momentum. 
+6. **Statistics Panel**: Displays the statistics data calculated by Momentum. 
 (see [Statistics](#statistics))
-6. **Tags Panel**: Displays a collection of all the tags visible in the display list.
-7. **Bottom Bar**: Displays contextual information about what you are viewing, such as the specific project that you
+7. **Tags Panel**: Displays a collection of all the tags visible in the display list.
+8. **Bottom Bar**: Displays contextual information about what you are viewing, such as the specific project that you
  are viewing, and the number of items in the display list hidden due to finding or sorting commands.
  
-The active timers, statistics, and tags panels can be resized to display more information by clicking and draging their
- edges.
+The active timers, statistics, tags and reminders panels can be resized to display more information by clicking and
+ draging their edges.
 
 ## Command Format
 
