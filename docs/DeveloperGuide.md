@@ -1693,13 +1693,14 @@ This also required us to make most commands context sensitive, so that they can 
 
 The time tracking and statistics features involved working with dates and times, which also increased the complexity of the application. 
 The feature involved introducing the `WorkDuration` and `Statistic` entities, and additional code to manage and operate on them.
-The UI was alo improved to display timers and statistics in a visually pleasing yet comprehensible way. Testing time related features was also difficult, but the team overcame this by allowing for manual control of time using the `Clock` class.
+The UI was also improved to display timers and statistics in a visually pleasing yet comprehensible way. Testing time
+related features was also difficult, but the team overcame this by allowing for manual control of time using the `Clock` class.
 
 #### Reminders 
 
 The implementation of reminders was particularly difficult since required the use of threads to schedule and run tasks at different times. 
 In addition, the way threads are run in JavaFX applications are different form normal Java applications, since the JavaFX application itself runs on threads. 
-This made it difficult to test the reminder functions. Hence we had to use other methods to switch between running on the javaFX platform and running it normally, to allow for testing.
+This made it difficult to test the reminder functions. Hence we had to use other methods to switch between running on the JavaFX platform and running it normally, to allow for testing.
 
 #### Sorting
 
@@ -1717,7 +1718,7 @@ We have also made significant enhancements to the following existing AB3 feature
 #### Find
 The team improved upon the existing AB3 find features to allow for more flexibility. 
 Users can not only find based on name, but also other parameters like description and tags. 
-Users can also math any, all or none of the provided parameters, as opposed to AB3 where only matching all was available. 
+Users can also match any, all or none of the provided parameters, as opposed to AB3 where only matching all was available. 
 The implementation involved an almost complete change in the way find was handled. Predicate chaining was utilized to handle all the possible find types. 
 Additional code was written to handle the parsing of the user's commands to these predicates. The difficulty was compounded by the fact that it had to allow for undo/redo.
 
