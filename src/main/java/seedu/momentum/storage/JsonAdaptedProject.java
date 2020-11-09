@@ -1,3 +1,4 @@
+//@@author
 package seedu.momentum.storage;
 
 import java.util.ArrayList;
@@ -31,6 +32,17 @@ class JsonAdaptedProject {
 
     /**
      * Constructs a {@code JsonAdaptedProject} with the given project details.
+     *
+     * @param name               A valid name.
+     * @param description        A description of the project.
+     * @param completionStatus   A completion status of the project.
+     * @param createdDate        A dateWrapper associated with the creation of the project.
+     * @param deadline           A deadline associated with the project.
+     * @param reminder           A reminder associated with the tracked item.
+     * @param tagged             A set of tags associated to the project.
+     * @param durations          A list of durations spent working on the project.
+     * @param timer              A timerWrapper associated with the project.
+     * @param taskList           UniqueItemList associated with the project.
      */
     @JsonCreator
     public JsonAdaptedProject(@JsonProperty("name") String name,
@@ -61,6 +73,19 @@ class JsonAdaptedProject {
         }
     }
 
+    /**
+     * Constructs a {@code JsonAdaptedProject} with the given
+     *
+     * @param name               A valid name.
+     * @param description        A description of the project.
+     * @param completionStatus   A completion status of the project.
+     * @param createdDate        A dateWrapper associated with the creation of the project.
+     * @param deadline           A deadline associated with the project.
+     * @param reminder           A reminder associated with the tracked item.
+     * @param tagged             A set of tags associated to the project.
+     * @param durations          A list of durations spent working on the project.
+     * @param timer              A timerWrapper associated with the project.
+     */
     public JsonAdaptedProject(String name,
                               String description,
                               boolean completionStatus,
@@ -87,6 +112,8 @@ class JsonAdaptedProject {
 
     /**
      * Converts a given {@code TrackedItem} into this class for Jackson use.
+     *
+     * @param source Project object containing the relevant information.
      */
     public JsonAdaptedProject(Project source) {
         name = source.getName().fullName;
@@ -110,7 +137,7 @@ class JsonAdaptedProject {
     /**
      * Converts this Jackson-friendly adapted project object into the model's {@code TrackedItem} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted tracked item.
+     * @throws IllegalValueException If there were any data constraints violated in the adapted tracked item.
      */
     public Project toModelType() throws IllegalValueException {
         final DateWrapper modelCreatedDateWrapper = JsonToModel.getModelCreatedDate(createdDate);

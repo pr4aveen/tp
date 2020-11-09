@@ -1,3 +1,4 @@
+//@@author kkangs0226
 package seedu.momentum.testutil;
 
 import static seedu.momentum.testutil.TypicalProjects.ALICE;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.project.TrackedItem;
 
 public class TypicalProjectsOrders {
@@ -147,58 +147,6 @@ public class TypicalProjectsOrders {
                 FIONA,
                 BENSON,
                 ALICE));
-    }
-
-    public static List<TrackedItem> getOrderedProjectBookByReminderAscendingCompleted() {
-        return new ArrayList<>(Arrays.asList(
-                ALICE,
-                DANIEL,
-                ELLE,
-                FIONA,
-                GEORGE,
-                BENSON,
-                CARL));
-    }
-
-    public static List<TrackedItem> getOrderedProjectBookByReminderAscending() {
-        return new ArrayList<>(Arrays.asList(
-                GEORGE,
-                BENSON,
-                ALICE,
-                CARL,
-                DANIEL,
-                ELLE,
-                FIONA));
-    }
-
-    public static List<TrackedItem> getOrderedProjectBookByReminderDescendingCompleted() {
-        return new ArrayList<>(Arrays.asList(
-                FIONA,
-                ELLE,
-                DANIEL,
-                ALICE,
-                CARL,
-                BENSON,
-                GEORGE));
-    }
-
-    public static List<TrackedItem> getOrderedProjectBookByReminderDescending() {
-        return new ArrayList<>(Arrays.asList(
-                FIONA,
-                ELLE,
-                DANIEL,
-                CARL,
-                ALICE,
-                BENSON,
-                GEORGE));
-    }
-
-    public static UniqueItemList<TrackedItem> getUniqueProjectList(List<TrackedItem> trackedItems) {
-        UniqueItemList<TrackedItem> uniqueTrackedItemList = new UniqueItemList<>();
-        for (TrackedItem p : trackedItems) {
-            uniqueTrackedItemList.add(p);
-        }
-        return uniqueTrackedItemList;
     }
 
 }

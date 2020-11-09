@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.commons.core;
 
 import java.time.LocalDateTime;
@@ -13,7 +15,7 @@ public class Clock {
     /**
      * Gets the current time according to the state of the clock.
      *
-     * @return System time if normal, A fixed time if fixed, and The set time if manual.
+     * @return System time if normal, a fixed time if fixed, and the set time if manual.
      */
     public static DateTimeWrapper now() {
         if (clockState == ClockState.NORMAL) {
@@ -47,20 +49,21 @@ public class Clock {
      * Advances the clock's time.
      *
      * @param amount Amount to advance by.
-     * @param units Units of time to advance by.
+     * @param units  Units of time to advance by.
      */
     public static void advance(long amount, ChronoUnit units) {
-        assert(clockState == ClockState.MANUAL);
+        assert (clockState == ClockState.MANUAL);
         currentDateTime = currentDateTime.plus(amount, units);
     }
 
-    /** Reverses the clock's time.
+    /**
+     * Reverses the clock's time.
      *
      * @param amount Amount to advance by.
-     * @param units Units of time to advance by.
+     * @param units  Units of time to advance by.
      */
     public static void reverse(long amount, ChronoUnit units) {
-        assert(clockState == ClockState.MANUAL);
+        assert (clockState == ClockState.MANUAL);
         currentDateTime = currentDateTime.minus(amount, units);
     }
 
@@ -78,7 +81,7 @@ public class Clock {
      * Manual: The clock's time can be manually adjusted.
      * Normal: The clock's time follows system time.
      */
-    public enum ClockState {
+    private enum ClockState {
         FIXED,
         MANUAL,
         NORMAL

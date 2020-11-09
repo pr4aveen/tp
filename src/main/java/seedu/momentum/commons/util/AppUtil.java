@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.commons.util;
 
 import static java.util.Objects.requireNonNull;

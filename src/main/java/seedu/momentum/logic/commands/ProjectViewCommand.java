@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -37,11 +39,11 @@ public class ProjectViewCommand extends Command {
     }
 
     /**
-     * Updates teh model to display all tasks belonging to the project.
+     * Updates the model to display all tasks belonging to the project.
      *
      * @param model {@code Model} containing the project.
-     * @return feedback message of displaying result, for display.
-     * @throws CommandException If an error occurs during update process.
+     * @return Feedback message of displaying result, for display.
+     * @throws CommandException If the specified item is not a project or not in the list.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {

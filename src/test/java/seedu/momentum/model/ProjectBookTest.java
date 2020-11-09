@@ -20,9 +20,9 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.momentum.commons.exceptions.DuplicateItemException;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
-import seedu.momentum.model.project.exceptions.DuplicateItemException;
 import seedu.momentum.model.tag.Tag;
 import seedu.momentum.testutil.ProjectBookBuilder;
 import seedu.momentum.testutil.ProjectBuilder;

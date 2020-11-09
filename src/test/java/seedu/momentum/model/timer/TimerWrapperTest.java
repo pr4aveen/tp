@@ -1,4 +1,4 @@
-package seedu.momentum.model.project;
+package seedu.momentum.model.timer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.Clock;
-import seedu.momentum.model.timer.TimerWrapper;
 import seedu.momentum.testutil.TypicalTimes;
 
 public class TimerWrapperTest {

@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
@@ -61,7 +63,7 @@ public abstract class EditCommand extends Command {
     /**
      * Create a EditCommand that edits an item.
      *
-     * @param index                     of the item in the model to edit.
+     * @param index                     Of the item in the model to edit.
      * @param editTrackedItemDescriptor The new details of the item.
      */
     public EditCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor) {
@@ -74,59 +76,45 @@ public abstract class EditCommand extends Command {
      * Edits an item in the provided model.
      *
      * @param model {@code Model} containing the item to edit.
-     * @return feedback message of editing result, for display.
+     * @return Feedback message of editing result, for display.
      * @throws CommandException If an error occurs during editing process.
      */
     @Override
     public abstract CommandResult execute(Model model) throws CommandException;
 
+    //@@author
+
     /**
      * Creates and returns a {@code Project} or {@code Task} with the details of {@code trackedItemToEdit}
      * edited with {@code editTrackedItemDescriptor}.
      *
-     * @param trackedItemToEdit The original item to edit.
+     * @param trackedItemToEdit         The original item to edit.
      * @param editTrackedItemDescriptor The new details of the item.
-     * @param model Provides context under which the item is being edited.
+     * @param model                     Provides context under which the item is being edited.
      */
     protected static TrackedItem createEditedTrackedItem(TrackedItem trackedItemToEdit,
-                                                       EditTrackedItemDescriptor editTrackedItemDescriptor,
-                                                       Model model) throws CommandException {
-        // Name
-        Name updatedName = editTrackedItemDescriptor.getName().orElse(trackedItemToEdit.getName());
+                                                         EditTrackedItemDescriptor editTrackedItemDescriptor,
+                                                         Model model) throws CommandException {
+        Name updatedName = getUpdatedName(trackedItemToEdit, editTrackedItemDescriptor);
 
-        // Description
-        Description updatedDescription =
-                editTrackedItemDescriptor.getDescription().orElse(trackedItemToEdit.getDescription());
+        //@@author kkangs0226
+        Description updatedDescription = getUpdatedDescription(trackedItemToEdit, editTrackedItemDescriptor);
 
-        // Completion Status
-        CompletionStatus updatedCompletionStatus = trackedItemToEdit.getCompletionStatus();
-        if (editTrackedItemDescriptor.getCompletionStatus().isPresent()) {
-            updatedCompletionStatus = updatedCompletionStatus.reverse();
-        }
-
-        // Created Date
+        //@@author claracheong4
+        CompletionStatus updatedCompletionStatus = getUpdatedCompletionStatus(trackedItemToEdit,
+                editTrackedItemDescriptor);
         DateWrapper createdDateWrapper = trackedItemToEdit.getCreatedDate();
+        Deadline updatedDeadline = getUpdatedDeadline(trackedItemToEdit, editTrackedItemDescriptor, createdDateWrapper);
+        Reminder updatedReminder = getUpdatedReminder(trackedItemToEdit, editTrackedItemDescriptor);
 
-        // Deadline
-        Deadline updatedDeadline = editTrackedItemDescriptor.getDeadline().orElse(trackedItemToEdit.getDeadline());
-        if (editTrackedItemDescriptor.getDeadline().isPresent()
-                && !editTrackedItemDescriptor.getDeadline().get().isEmpty()
-                && Deadline.isBeforeCreatedDate(updatedDeadline.getDate().toString(), createdDateWrapper)) {
-            // deadline is before created date
-            // created date wrapped by LocalDate.EPOCH by default
-            throw new CommandException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
-        }
+        //@@author
+        Set<Tag> updatedTags = getUpdatedTags(trackedItemToEdit, editTrackedItemDescriptor);
 
-        // Reminder
-        Reminder updatedReminder = editTrackedItemDescriptor.getReminder().orElse(trackedItemToEdit.getReminder());
-
-        // Tags
-        Set<Tag> updatedTags = editTrackedItemDescriptor.getTags().orElse(trackedItemToEdit.getTags());
-
-        // WorkDurations
+        //@@author boundtotheearth
         UniqueItemList<WorkDuration> durationList = new UniqueItemList<>();
         durationList.setItems(trackedItemToEdit.getDurationList());
 
+        //@@author pr4aveen
         // Return Project or Task depending on view mode
         if (model.getViewMode() == ViewMode.PROJECTS) {
             Project projectToEdit = (Project) trackedItemToEdit;
@@ -136,10 +124,101 @@ public abstract class EditCommand extends Command {
             return new Project(updatedName, updatedDescription, updatedCompletionStatus, createdDateWrapper,
                     updatedDeadline, updatedReminder, updatedTags, durationList, trackedItemToEdit.getTimer(),
                     taskList);
-        } else {
-            return new Task(updatedName, updatedDescription, updatedCompletionStatus, createdDateWrapper,
-                    updatedDeadline, updatedReminder, updatedTags, durationList, trackedItemToEdit.getTimer());
         }
+        return new Task(updatedName, updatedDescription, updatedCompletionStatus, createdDateWrapper,
+                updatedDeadline, updatedReminder, updatedTags, durationList, trackedItemToEdit.getTimer());
+    }
+
+    //@@author
+    /**
+     * Gets the updated name.
+     *
+     * @param trackedItemToEdit         The tracked item to edit.
+     * @param editTrackedItemDescriptor The descriptor of that contains the edits of the tracked item.
+     * @return The updated name.
+     */
+    protected static Name getUpdatedName(TrackedItem trackedItemToEdit,
+                                         EditTrackedItemDescriptor editTrackedItemDescriptor) {
+        return editTrackedItemDescriptor.getName().orElse(trackedItemToEdit.getName());
+    }
+
+    //@@author kkangs0226
+    /**
+     * Gets the updated description.
+     *
+     * @param trackedItemToEdit         The tracked item to edit.
+     * @param editTrackedItemDescriptor The descriptor of that contains the edits of the tracked item.
+     * @return The updated description.
+     */
+    protected static Description getUpdatedDescription(TrackedItem trackedItemToEdit,
+                                                       EditTrackedItemDescriptor editTrackedItemDescriptor) {
+        return editTrackedItemDescriptor.getDescription().orElse(trackedItemToEdit.getDescription());
+    }
+
+    //@@author claracheong4
+    /**
+     * Gets the updated completion status.
+     *
+     * @param trackedItemToEdit         The tracked item to edit.
+     * @param editTrackedItemDescriptor The descriptor of that contains the edits of the tracked item.
+     * @return The updated completion status.
+     */
+    protected static CompletionStatus getUpdatedCompletionStatus(TrackedItem trackedItemToEdit,
+                                                                 EditTrackedItemDescriptor editTrackedItemDescriptor) {
+        CompletionStatus updatedCompletionStatus = trackedItemToEdit.getCompletionStatus();
+        if (editTrackedItemDescriptor.getCompletionStatus().isPresent()) {
+            return updatedCompletionStatus.reverse();
+        }
+        return updatedCompletionStatus;
+    }
+
+    /**
+     * Gets the updated deadline.
+     *
+     * @param trackedItemToEdit         The tracked item to edit.
+     * @param editTrackedItemDescriptor The descriptor of that contains the edits of the tracked item.
+     * @param createdDateWrapper        The created date wrapper.
+     * @return The updated deadline.
+     * @throws CommandException If the deadline cannot be edited.
+     */
+    protected static Deadline getUpdatedDeadline(TrackedItem trackedItemToEdit,
+                                                 EditTrackedItemDescriptor editTrackedItemDescriptor,
+                                                 DateWrapper createdDateWrapper) throws CommandException {
+        Optional<Deadline> editedDeadline = editTrackedItemDescriptor.getDeadline();
+        Deadline updatedDeadline = editedDeadline.orElse(trackedItemToEdit.getDeadline());
+        // deadline is before created date
+        // created date wrapped by LocalDate.EPOCH by default
+        if (editedDeadline.isPresent()
+                && !editedDeadline.get().isEmpty()
+                && Deadline.isBeforeCreatedDate(updatedDeadline.getDate().toString(), createdDateWrapper)) {
+            throw new CommandException(Deadline.CREATED_DATE_MESSAGE_CONSTRAINT); // show message constraints
+        }
+        return updatedDeadline;
+    }
+
+    /**
+     * Gets the updated reminder.
+     *
+     * @param trackedItemToEdit         The tracked item to edit.
+     * @param editTrackedItemDescriptor The descriptor of that contains the edits of the tracked item.
+     * @return The updated reminder.
+     */
+    protected static Reminder getUpdatedReminder(TrackedItem trackedItemToEdit,
+                                                 EditTrackedItemDescriptor editTrackedItemDescriptor) {
+        return editTrackedItemDescriptor.getReminder().orElse(trackedItemToEdit.getReminder());
+    }
+
+    //@@author
+    /**
+     * Gets the updated tags.
+     *
+     * @param trackedItemToEdit         The tracked item to edit.
+     * @param editTrackedItemDescriptor The descriptor of that contains the edits of the tracked item.
+     * @return The updated tags.
+     */
+    protected static Set<Tag> getUpdatedTags(TrackedItem trackedItemToEdit,
+                                             EditTrackedItemDescriptor editTrackedItemDescriptor) {
+        return editTrackedItemDescriptor.getTags().orElse(trackedItemToEdit.getTags());
     }
 
     @Override
@@ -203,6 +282,7 @@ public abstract class EditCommand extends Command {
             return Optional.ofNullable(name);
         }
 
+        //@@author kkangs0226
         public void setDescription(Description description) {
             this.description = description;
         }
@@ -211,6 +291,7 @@ public abstract class EditCommand extends Command {
             return Optional.ofNullable(description);
         }
 
+        //@@author claracheong4
         public void setCompletionStatus(CompletionStatus completionStatus) {
             this.completionStatus = completionStatus;
         }
@@ -234,6 +315,8 @@ public abstract class EditCommand extends Command {
         public Optional<Reminder> getReminder() {
             return Optional.ofNullable(reminder);
         }
+
+        //@@author
 
         /**
          * Sets {@code tags} to this object's {@code tags}.

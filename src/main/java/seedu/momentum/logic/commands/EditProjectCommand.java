@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -18,8 +20,8 @@ public class EditProjectCommand extends EditCommand {
     /**
      * Create an EditProjectCommand that edits a project.
      *
-     * @param index                     of the project in the model to edit.
-     * @param editTrackedItemDescriptor details to edit the project with.
+     * @param index                     Of the project in the model to edit.
+     * @param editTrackedItemDescriptor Details to edit the project with.
      */
     public EditProjectCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor) {
         super(index, editTrackedItemDescriptor);
@@ -29,7 +31,7 @@ public class EditProjectCommand extends EditCommand {
      * Edits a project in the provided model.
      *
      * @param model {@code Model} containing the project to edit.
-     * @return feedback message of editing result, for display.
+     * @return Feedback message of editing result, for display.
      * @throws CommandException If an error occurs during editing process.
      */
     @Override
@@ -54,7 +56,6 @@ public class EditProjectCommand extends EditCommand {
             throw new CommandException(MESSAGE_DUPLICATE_PROJECT);
         }
 
-        model.rescheduleReminders();
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_EDIT_PROJECT_SUCCESS, editedTrackedItem));
     }

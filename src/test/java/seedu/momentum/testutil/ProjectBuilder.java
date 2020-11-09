@@ -59,6 +59,8 @@ public class ProjectBuilder {
 
     /**
      * Initializes the ProjectBuilder with the data of {@code projectToCopy}.
+     *
+     * @param trackedItemToCopy TrackedItem containing the details to build the project.
      */
     public ProjectBuilder(TrackedItem trackedItemToCopy) {
         name = trackedItemToCopy.getName();
@@ -81,6 +83,9 @@ public class ProjectBuilder {
 
     /**
      * Sets the {@code Name} of the {@code Project} that we are building.
+     *
+     * @param name Name to set to the project.
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withName(String name) {
         this.name = new Name(name);
@@ -89,6 +94,9 @@ public class ProjectBuilder {
 
     /**
      * Sets the {@code Description} of the {@code Project} that we are building.
+     *
+     * @param description Description to set to the project.
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withDescription(String description) {
         this.description = new Description(description);
@@ -97,6 +105,9 @@ public class ProjectBuilder {
 
     /**
      * Sets the {@code CompletionStatus} of the {@code Project} that we are building.
+     *
+     * @param completionStatus Completion status to set to the project.
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withCompletionStatus(CompletionStatus completionStatus) {
         this.completionStatus = completionStatus;
@@ -105,6 +116,8 @@ public class ProjectBuilder {
 
     /**
      * Sets the {@code Description} of the {@code Project} that we are building to an empty string.
+     *
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withEmptyDescription() {
         this.description = Description.EMPTY_DESCRIPTION;
@@ -113,6 +126,8 @@ public class ProjectBuilder {
 
     /**
      * Sets the {@code createdDateWrapper} of the {@code Project} that we are building with current date.
+     *
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withCurrentCreatedDate() {
         this.createdDateWrapper = Clock.now().getDateWrapper();
@@ -121,6 +136,9 @@ public class ProjectBuilder {
 
     /**
      * Sets the {@code CreatedDate} of the {@code Project} that we are building.
+     *
+     * @param createdDate Created date of the project to set.
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withCreatedDate(String createdDate) {
         this.createdDateWrapper = new DateWrapper(createdDate);
@@ -129,6 +147,8 @@ public class ProjectBuilder {
 
     /**
      * Sets the {@code Deadline} of the {@code Project} that we are building with an empty deadline.
+     *
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withEmptyDeadline() {
         this.deadline = new Deadline();
@@ -137,6 +157,10 @@ public class ProjectBuilder {
 
     /**
      * Sets the {@code Deadline} of the {@code Project} that we are building.
+     *
+     * @param date Date of the deadline to set to the project.
+     * @param createdDate Created date of the project to set.
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withDeadline(String date, String createdDate) {
         this.deadline = new Deadline(date, new DateWrapper(createdDate));
@@ -145,6 +169,11 @@ public class ProjectBuilder {
 
     /**
      * Sets the {@code Deadline} of the {@code Project} that we are building.
+     *
+     * @param date Date of the deadline to set to the project.
+     * @param time Time of the deadline to set to the project.
+     * @param createdDate Created date of the project to set.
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withDeadline(String date, String time, String createdDate) {
         this.deadline = new Deadline(date, time, new DateWrapper(createdDate));
@@ -153,6 +182,8 @@ public class ProjectBuilder {
 
     /**
      * Sets the {@code Reminder} of the {@code Project} that we are building with an empty reminder.
+     *
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withEmptyReminder() {
         this.reminder = new Reminder();
@@ -160,7 +191,10 @@ public class ProjectBuilder {
     }
 
     /**
-     * Sets the {@code Reminder} of the {@code Project} that we are building.
+     * Parses the {@code dateTime} into a {@code Reminder} and set it to the {@code Project} that we are building.
+     *
+     * @param dateTime Date and time of the reminder to set to the project.
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withReminder(String dateTime) {
         this.reminder = new Reminder(dateTime);
@@ -169,6 +203,9 @@ public class ProjectBuilder {
 
     /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Project} that we are building.
+     *
+     * @param tags Tags to set to the project.
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withTags(String... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
@@ -176,8 +213,10 @@ public class ProjectBuilder {
     }
 
     /**
-     * Parses the {@code durations} into a {@code UniqueDurationList} and set it to the {@code Project} that we
-     * are building.
+     * Sets the {@code WorkDuration} of the {@code Project} that we are building.
+     *
+     * @param durations List of duration spent to set to the project.
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withDurations(WorkDuration... durations) {
         this.durations = SampleDataUtil.getDurationList(durations);
@@ -185,8 +224,10 @@ public class ProjectBuilder {
     }
 
     /**
-     * Parses the {@code timerWrapper} into a {@code TimerWrapper} and set it to the {@code Project} that we
-     * are building.
+     * Sets the {@code TimerWrapper} of the {@code Project} that we are building.
+     *
+     * @param timerWrapper Timer to set to the project.
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withTimer(TimerWrapper timerWrapper) {
         this.timerWrapper = timerWrapper;
@@ -194,8 +235,10 @@ public class ProjectBuilder {
     }
 
     /**
-     * Parses the {@code tasks} into a {@code UniqueItemList<TrackedItem>} and set it to the {@code Project} that we
-     * are building.
+     * Sets the task list of the {@code Project} that we are building.
+     *
+     * @param tasks Tasks to set to the project.
+     * @return A new copy of ProjectBuilder containing the new information.
      */
     public ProjectBuilder withTasks(Task... tasks) {
         this.taskList = SampleDataUtil.getTaskList(tasks);
@@ -203,7 +246,9 @@ public class ProjectBuilder {
     }
 
     /**
-     * Builds a {@code Project}.
+     * Builds a {@code Project} containing the information provided.
+     *
+     * @return The Project object with the information.
      */
     public Project build() {
         return new Project(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,

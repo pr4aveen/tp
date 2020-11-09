@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.logic.commands;
 
 import seedu.momentum.model.Model;
@@ -15,7 +17,7 @@ public class HomeCommand extends Command {
      * Updates the model to show all projects.
      *
      * @param model {@code Model} containing the projects.
-     * @return feedback message of the result, for display.
+     * @return Feedback message of the result, for display.
      */
     @Override
     public CommandResult execute(Model model) {

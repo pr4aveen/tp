@@ -1,3 +1,4 @@
+//@@author pr4aveen
 package seedu.momentum.model.project.predicates;
 
 /**
@@ -6,5 +7,5 @@ package seedu.momentum.model.project.predicates;
 public enum FindType {
     ANY,
     ALL,
-    NONE,
+    NONE
 }

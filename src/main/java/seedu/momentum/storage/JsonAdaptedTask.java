@@ -1,3 +1,4 @@
+//@@author boundtotheearth
 package seedu.momentum.storage;
 
 import java.util.ArrayList;
@@ -30,7 +31,17 @@ class JsonAdaptedTask {
     private final JsonAdaptedTimer timer;
 
     /**
-     * Constructs a {@code Task} with the given details.
+     * Constructs a {@code JsonAdaptedTask}.
+     *
+     * @param name               A valid name.
+     * @param description        A description of the project.
+     * @param completionStatus   A completion status of the project.
+     * @param createdDate        A dateWrapper associated with the creation of the project.
+     * @param deadline           A deadline associated with the project.
+     * @param reminder           A reminder associated with the tracked item.
+     * @param tagged             A set of tags associated to the project.
+     * @param durations          A list of durations spent working on the project.
+     * @param timer              A timerWrapper associated with the project.
      */
     @JsonCreator
     public JsonAdaptedTask(@JsonProperty("name") String name,
@@ -59,6 +70,8 @@ class JsonAdaptedTask {
 
     /**
      * Converts a given {@code Task} into this class for Jackson use.
+     *
+     * @param source TrackedItem containing the relevant information.
      */
     public JsonAdaptedTask(TrackedItem source) {
         name = source.getName().fullName;
@@ -79,7 +92,8 @@ class JsonAdaptedTask {
     /**
      * Converts this Jackson-friendly adapted task object into the model's {@code Task} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted task.
+     * @return The converted Task object.
+     * @throws IllegalValueException If there were any data constraints violated in the adapted task.
      */
     public Task toModelType() throws IllegalValueException {
         final DateWrapper modelCreatedDateWrapper = JsonToModel.getModelCreatedDate(createdDate);

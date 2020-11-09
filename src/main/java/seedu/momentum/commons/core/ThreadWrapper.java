@@ -1,3 +1,5 @@
+//@@author claracheong4
+
 package seedu.momentum.commons.core;
 
 import javafx.application.Platform;
@@ -13,7 +15,7 @@ public class ThreadWrapper {
     /**
      * Sets the is running on platform boolean.
      *
-     * @param onPlatform true if it is running on platform.
+     * @param onPlatform True if it is running on platform.
      */
     public static void setIsRunningOnPlatform(boolean onPlatform) {
         isRunningOnPlatform = onPlatform;
@@ -22,7 +24,7 @@ public class ThreadWrapper {
     /**
      * Run a runnable.
      *
-     * @param runnable the runnable.
+     * @param runnable The runnable.
      */
     public static void run(Runnable runnable) {
         if (isRunningOnPlatform) {
