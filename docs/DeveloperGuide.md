@@ -216,9 +216,11 @@ Drawbacks:
 
 #### Alternative 1: Using Predicates
 
-//TODO: add explanation
+Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`. 
 
-Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`. Both `Project` and `Task` will extend `TrackedItem`.
+This implementation shares some similarities with our chosen implementation. Both `Project` and `Task` will extend an abstract `TrackedItem` class.
+
+However, it differs in the way the `displayList` is updated.
 
 A rough summary of the proposed implementation is as follows:
 
@@ -248,7 +250,7 @@ We have identified the following benefits and drawbacks of this implementation.
 
 Benefits:
 
-* This implementation is much simpler than having to maintain seperate `Project` and `Task` classes. It is likely that existing commands would not have to be changed as much.
+* This implementation is much simpler than having to maintain separate `Project` and `Task` classes. It is likely that existing commands would not have to be changed as much.
 * Projects can contain not just sub-projects, but sub-sub-projects, sub-sub-sub-projects, etc, allowing for deeper nesting of projects. This may be useful for users to manage more complex project structures.
 
 Drawbacks:
