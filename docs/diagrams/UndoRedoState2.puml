@@ -3,12 +3,12 @@
 skinparam ClassFontColor #000000
 skinparam ClassBorderColor #000000
 
-title After command "add n/Design Webpage for XYZ"
+title After command "add n/Design Webpage for Cocoapods"
 
 package States <<rectangle>> {
     class State1 as "__pb0:ProjectBookWithUi__"
     class State2 as "__pb1:ProjectBookWithUi__"
-    class State3 as "__p2:ProjectBookWithUi__"
+    class State3 as "__pb2:ProjectBookWithUi__"
 }
 
 State1 -[hidden]right-> State2

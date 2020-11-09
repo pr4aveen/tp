@@ -1,6 +1,8 @@
 //@@author kkangs0226
 package seedu.momentum.model.project.comparators;
 
+import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.Comparator;
 
 import seedu.momentum.commons.core.DateWrapper;
@@ -19,6 +21,8 @@ public class CreatedDateCompare implements Comparator<TrackedItem> {
      * @return Integer values for comparison.
      */
     public int compare(TrackedItem t1, TrackedItem t2) {
+
+        requireAllNonNull(t1, t2);
 
         DateWrapper p1DateWrapper = t1.getCreatedDate();
         DateWrapper p2DateWrapper = t2.getCreatedDate();
