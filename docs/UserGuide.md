@@ -91,13 +91,13 @@ Momentum uses a GUI (Graphical User Interface) to get input from you, and displa
 7. **Tags Panel**: Displays a collection of all the tags visible in the display list.
 8. **Bottom Bar**: Displays contextual information about what you are viewing, such as the specific project that you are viewing, and the number of items in the display list hidden due to finding or sorting commands.
 
-The active timers, statistics, tags and reminders panels can be resized to display more information by clicking and dragging their edges.
+The active timers, statistics, tags and reminders panels can be resized to display more information by clicking and draging their edges.
 
 ### User Interface Theme
 
 The GUI Momentum also comes with two themes, light and dark. These themes are shown below:
 ![GUI Themes](images/GUIThemeDiagram.png)
-You can adjust the themes to your preference using the set command. (see [Settings](#settings))
+You can adjust the themes to your preference, by changing it in the application settings. (see [Settings](#settings))
 
 ## Command Format
 
@@ -130,11 +130,11 @@ Term  | Meaning | Example
 
 **Valid**: `2020-08-02`
 
-**Invalid**: `2-8-20` (Wrong number of digits.)
+**Invalid**: `2-8-20` Wrong number of digits.
 
-**Invalid**: `02-08-20` (Wrong order of year, month and date.)
+**Invalid**: `02-08-20` Wrong order of year, month and date.
 
-**Invalid**: `2nd August 2020` (You cannot use text to enter dates.)
+**Invalid**: `2nd August 2020` You cannot use text to enter dates.
 
 ### Time Terms
 
@@ -745,7 +745,7 @@ Result: Projects are sorted by deadline, then the application is reset to the so
 The following walkthrough shows how a user can start a timer for a project, then undo the command.
 
 1. Key in command `sort type/deadline` in the command window.
-![Redo 1](Redo1.png)
+![Redo 1](images/Redo1.png)
 2. The result box will display a message to indicate that the command has been executed successfully. Projects have been sorted in ascending deadline order (Completion Status: On).
 ![Redo 2](images/Redo2.png)
 3. Key in command `undo` in the command window.
