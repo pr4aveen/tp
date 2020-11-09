@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<HBox fx:id="trackedItemCardPane" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.0" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane HBox.hgrow="ALWAYS">
+        <columnConstraints>
+          <ColumnConstraints percentWidth="70.0" />
+          <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="100.0" />
+        </rowConstraints>
+         <children>
+            <VBox alignment="CENTER_LEFT" spacing="4.0" styleClass="projectCardContentBox">
+               <children>
+                  <HBox>
+                     <children>
+                        <Text fx:id="id" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="1.">
+                           <HBox.margin>
+                              <Insets top="1.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Label fx:id="name" text="\$name" wrapText="true" />
+                        <Label fx:id="reminderStatus" text="\$reminderStatus" wrapText="true" />
+                        <Label fx:id="completionStatus" text="\$completionStatus" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="description">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <FlowPane fx:id="tags">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></FlowPane>
+                  <HBox fx:id="createdDate" />
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <opaqueInsets>
+                  <Insets bottom="16.0" top="16.0" />
+               </opaqueInsets>
+            </VBox>
+            <Separator orientation="VERTICAL" GridPane.columnIndex="1" />
+            <VBox alignment="CENTER" spacing="4.0" styleClass="projectCardContentBox" GridPane.columnIndex="1">
+               <children>
+                  <HBox fx:id="reminder" alignment="CENTER" />
+                  <HBox fx:id="deadline" alignment="CENTER">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+   </children>
+</HBox>

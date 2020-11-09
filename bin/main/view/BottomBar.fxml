@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<HBox minHeight="28.0" prefHeight="28.0" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="viewDisplay" styleClass="bottom-bar-item">
+         <padding>
+            <Insets left="8.0" />
+         </padding>
+      </Label>
+      <Region HBox.hgrow="ALWAYS" />
+      <Label fx:id="countDisplay" styleClass="bottom-bar-item">
+         <padding>
+            <Insets right="8.0" />
+         </padding>
+      </Label>
+   </children>
+</HBox>

@@ -232,7 +232,7 @@ public class MainWindow extends UiPart<Stage> {
     private void showTags() {
         LOGGER.info("show tags");
         infoDisplayPlaceholder.setVisible(true);
-        infoDisplayPlaceholder.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        infoDisplayPlaceholder.setMaxHeight(primaryStage.getHeight());
     }
 
     //@@author khoodehui
