@@ -235,14 +235,24 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 
 :::danger
 :warning: **Warning**
-If there are multiple reminders set at the same date and time, only one of the reminders will appear in the reminder panel. Other reminders will be missed.
+If there are multiple reminders set at the same date and time, only one of the reminders will appear in the reminder component. Other reminders will be missed.
 :::
 
-Example: `add n/Momentum d/CS2103T Team Project dd/2020-12-07 dt/11:01:12 r/2020-12-07T11:01:12 t/impt`
+Example: `add n/Momentum d/CS2103T Team Project dd/2021-12-07 dt/11:01:12 r/2021-12-07T11:01:12 t/impt`
 
 Result: Creates a project named “Momentum” with a description “CS2103T Team Project”, a tag "impt", deadline date "2020-10-07" with deadline time "11:01:12" and reminder "2020-10-07T11:01:12".
 
-#### Adding a Project Walkthrough
+#### Walkthrough of Creating a Project
+
+1. Type `add n/Momentum d/CS2103T Team Project c/ dd/2021-12-07 dt/11:01:12 r/2021-12-07T11:01:12 t/impt` in the command box, and press the `Enter` key to execute it.
+![Walkthrough of Creating a Project Diagram Step 1](images/AddProjectDiagram1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+   `New Project added: Momentum Description: CS2103T Team Project Completion Status: ✔ Created Date: 2020-11-08 Deadline: 2021-12-0711:01:12 Reminder: 7 Dec 2020, 11:01:12 AM Tags: [impt]`
+![Walkthrough of Creating a Project Diagram Step 2](images/AddProjectDiagram2.png)
+3. A project will be added to the project list as shown below.
+![Walkthrough of Creating a Project Diagram Step 3](images/AddProjectDiagram3.png)
+4. On 7 December 2021, at 11:01:12, the reminder component will be shown and the reminder of the project will be removed.
+![Walkthrough of Creating a Project Diagram Step 4](images/AddProjectDiagram4.png)
 
 ### 3.4 Editing a Project/Task: `edit`
 
@@ -266,9 +276,19 @@ Format: `edit ID [n/NAME] [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TI
 * When editing tags, the existing tags of the project will be removed i.e adding of tags is not cumulative.
 * You can remove all the project’s tags by typing `t/` without specifying any tags after it.
 
-Example: `edit 3 n/NewMomentum d/NewDescription dd/2020-12-07 t/normal`
+Example: `edit 3 n/NewMomentum d/NewDescription dd/2021-12-07 t/normal`
 
-Result: Updates the project with id 3. The name will be changed to “NewMomentum”, the description will be changed to “NewDescription”, all the tags will be removed and a tag named normal is added, and the deadline will be changed to "2020-12-07".
+Result: Updates the project with id 3. The name will be changed to “NewMomentum”, the description will be changed to “NewDescription”, all the tags will be removed and a tag named normal is added, and the deadline will be changed to "2021-12-07".
+
+#### Walkthrough of Editing a Task
+
+1. In task view, type `edit 3 n/NewMomentum d/NewDescription dd/2021-12-07 r/ t/normal` in the command box, and press the `Enter` key to execute it.
+![Walkthrough of Editing a Task Diagram Step 1](images/EditTaskDiagram1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+   `Edited Project: NewMomentum Description: NewDescription Completion Status: ✘ Created Date: 2019-01-04 Deadline: 2021-12-07 Reminder: No reminder set Tags: [normal]`
+![Walkthrough of Editing a Task Diagram Step 2](images/EditTaskDiagram2.png)
+3. A task will be added to the task list as shown below.
+![Walkthrough of Editing a Task Diagram Step 3](images/EditTaskDiagram3.png)
 
 ### 3.5 Deleting a Project/Task: `delete`
 
@@ -648,7 +668,7 @@ This will remove **everything** in Momentum, including all saved data.
 
 Format: `clear`
 
-## Dismiss a Reminder : `dismiss`
+## Dismissing a Reminder : `dismiss`
 
 Format: `dismiss`
 
@@ -658,7 +678,7 @@ Result: Hides the reminder component of the sidebar.
 
 :::danger
 :warning: **Warning**
-A reminder that has been dismissed cannot be shown again in the reminder panel.
+A reminder that has been dismissed cannot be shown again in the reminder component.
 :::
 
 :::info
@@ -666,26 +686,38 @@ A reminder that has been dismissed cannot be shown again in the reminder panel.
 Undo a dismissal to show an expired reminder in the project.
 :::
 
-## Show and Hide SideBar Components : `show`
+### Walkthrough of Dismissing a Reminder
 
-You can hide or show compoenents in the sidebar.
+This walkthrough is a followup of [Walkthrough of Creating a Project](#walkthrough-of-creating-a-project).
 
-The sidebar has three components:
+1. After the reminder component is shown, type `dismiss` in the command box, and press the `Enter` key to execute it.
+![Walkthrough of Dismissing a Reminder Step 1](images/DismissDiagram1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+   `Reminder dismissed.`
+![Walkthrough of Dismissing a Reminder Step 2](images/DismissDiagram2.png)
+3. The reminder component is now hidden.
+![Walkthrough of Dismissing a Reminder Step 3](images/DismissDiagram3.png)
 
-* Tags
-* Timers
-* Time Spent
+## Showing and Hiding SideBar Components : `show`
 
-Currently, only the Tags component is supported.
+You can hide or show the tags component of the sidebar.
 
-Format: `show [t/]`
+Format: `show t/`
 
-* At least one of the optional fields must be provided.
 * `t/` would hide the tags if the tags component was shown.
 * `t/` would show the tags if the tags component was hidden.
 
-Example: `show t/`
-Result: Hides the Tags component of the sidebar.
+Result: Shows or Hides the Tags component of the sidebar.
+
+### Walkthrough of Hiding Tags
+
+1. Type `show t/` in the command box, and press the `Enter` key to execute it.
+![Walkthrough of Hiding Tags Step 1](images/ShowDiagram1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+   `Tags is removed from the sidebar.`
+![Walkthrough of Hiding Tags Step 2](images/ShowDiagram2.png)
+3. The tags component is now hidden.
+![Walkthrough of Hiding Tags Step 3](images/ShowDiagram3.png)
 
 ## Exiting the Program : `exit`
 
@@ -722,15 +754,15 @@ Action | Format | Example
 --------|-------|-----------
 **View tasks in a project**| `view ID` |`view 3`
 **View all projects**| `home` | `home`
-**Create new project/task** | `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]​`|  `project n/Momentum d/CS2103T Team Project dd/2020-12-07 t/impt`
-**Edit existing project/task** | `edit ID n/NAME [d/DESCRIPTION] [c/]  [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`| `edit 3 n/NewMomentum d/NewDescription dl/2020-12-07 r/2020-12-07T01:21:21 t/normal`
+**Creating a Project/Task** | `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]​`|  `project n/Momentum d/CS2103T Team Project dd/2021-12-07 t/impt`
+**Editing a Project/Task** | `edit ID n/NAME [d/DESCRIPTION] [c/]  [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`| `edit 3 n/NewMomentum d/NewDescription dl/2021-12-07 r/2021-12-07T01:21:21 t/normal`
 **Delete a project/task** | `delete ID` | `delete 3`
 **Find a project/task** | `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...]  [c/]`  | `find match/any n/Momentum d/new t/normal`
 **Show All projects/tasks** | `list` | `list`
 **Start Timer** | `start ID` | `start 2`
 **Stop Timer** | `stop ID` | `stop 2`
 **Undo/redo** | `undo` | `redo`
-**Dismiss** | `dismiss` | `dismiss`
-**Show and Hide Sidebar Components** | `show [t/] [r/]` | `show r/`
+**Dismissing a Reminder** | `dismiss` | `dismiss`
+**Showing and Hiding SideBar Components** | `show t/` | `show t/`
 **Settings** | `set [th/THEME] [st/TIMEFRAME]` | `set th/dark st/daily`
 **Exit** | `exit` | `exit`
