@@ -131,11 +131,11 @@ Term  | Meaning | Example
 
 **Valid**: `2020-08-02`
 
-**Invalid**: `2-8-20` (Wrong number of digits.)
+**Invalid**: `2-8-20` Wrong number of digits.
 
-**Invalid**: `02-08-20` (Wrong order of year, month and date.)
+**Invalid**: `02-08-20` Wrong order of year, month and date.
 
-**Invalid**: `2nd August 2020` (You cannot use text to enter dates.)
+**Invalid**: `2nd August 2020` You cannot use text to enter dates.
 
 ### Time Terms
 
