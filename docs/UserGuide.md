@@ -70,6 +70,26 @@ Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
+## User Interface Overview
+Momentum uses a GUI (Graphical User Interface) to collect input from you, and display information to you. Different
+ parts of this GUI perform different functions, as explained below:
+
+![OverviewUI](images/OverviewUI.png)
+
+1. **Command Box**: THe place where you enter in your commands.
+2. **Results Box**: Displays information about the result of executing the commands that you enter.
+3. **Display List**: Displays a list of projects or tasks.
+4. **Active Timers Panel**: Displays all the timers that are currently running. 
+(see [Active Timers Panel](#active-timers-panel))
+5. **Statistics Panel**: Displays the statistics data calculated by Momentum. 
+(see [Statistics](#statistics))
+6. **Tags Panel**: Displays a collection of all the tags visible in the display list.
+7. **Bottom Bar**: Displays contextual information about what you are viewing, such as the specific project that you
+ are viewing, and the number of items in the display list hidden due to finding or sorting commands.
+ 
+The active timers, statistics, and tags panels can be resized to display more information by clicking and draging their
+ edges.
+
 ## Command Format
 
 Below is an explanation of the formatting used to show commands:
@@ -586,6 +606,13 @@ Here are the statistics being tracked by Momentum:
 This statistic tells you the total amount of time you have spent within the timeframe. For projects, this includes
  all the time you have spent on each individual task, as well as on the project as a whole.
 
+![StatsUISplit](images/StatsUISplit.png)
+
+The statistics are displayed in 2 different formats:
+1. **Pie Chart**: Shows the relative time spent on each project. Useful for comparing different projects. Projects
+ and tasks with less time spent on them may not be shown.
+2. **Table**: Shows the exact (in minutes) amount of time spent on each project. Useful for calculations.
+
 ## Settings
 
 You can adjust various settings in Momentum, which for now includes:
@@ -703,6 +730,7 @@ Action | Format | Example
 **Start Timer** | `start ID` | `start 2`
 **Stop Timer** | `stop ID` | `stop 2`
 **Undo/redo** | `undo` | `redo`
+**Dismiss** | `dismiss` | `dismiss`
 **Show and Hide Sidebar Components** | `show [t/] [r/]` | `show r/`
 **Settings** | `set [th/THEME] [st/TIMEFRAME]` | `set th/dark st/daily`
 **Exit** | `exit` | `exit`
