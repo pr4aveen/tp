@@ -10,6 +10,8 @@ Momentum is a project management application targeted at freelancers to help the
 
 Given below are my contributions to the project.
 
+* **Code contributed**: [RepoSense link](https://nus-cs2103-ay2021s1.github.io/tp-dashboard/#breakdown=true&search=boundtotheearth)
+
 * **New Feature**: Added time tracking to projects and tasks: `start` and `stop` commands. 
 [\#19](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/19), 
 [\#76](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/76)
@@ -54,8 +56,6 @@ Given below are my contributions to the project.
     * This was important as the project needed to handle lists of multiple objects. Created a new UniqueXList to
      handle each project would have resulted in a lot of code duplication, and is difficult to extend to more objects.
 
-* **Code contributed**: [RepoSense link](https://nus-cs2103-ay2021s1.github.io/tp-dashboard/#breakdown=true&search=boundtotheearth)
-
 * **Enhancements to existing features**:
   * Changed the way sample data is loaded if no existing data was available. Allow the application to load from a
    json file instead of having to build sample data through code. [\#135](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/135)
@@ -63,14 +63,17 @@ Given below are my contributions to the project.
 
 * **Documentation**:
   * User Guide:
-    * Added documentation for the features `start`, `stop`, `home`, `view` and statistics. [\#79](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/79)
-    * Added additional examples for the "Date and Time Terms" section to better explain the format requirements
-    . [\#128](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/128)
-  * Developer Guide: [\#79](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/79)
+  [\#79](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/79), [\#128](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/128), [\#284](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/284)
+    * Added the UI Overview section.
+    * Added documentation for the features `start`, `stop`, `home`, `view` and statistics.
+    * Added additional examples for the "Date and Time Terms" section to better explain the format requirements.
+  * Developer Guide: 
+  [\#79](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/79), [\#285](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/285)
     * Updated class diagrams to reflect the additional classes used for time tracking and statistics
     * Added implementation details of the time tracking and statistics features.
     * Created a sequence diagram to illustrate how statistics are calculated.
     * Created a class diagram to illustrate the classes involved in the time tracking process and how they interact.
+    * Created an activity diagram to illustrate how `Clock` provides the current time in the application.
     * Added user cases and user stories for time tracking features.
     
 * **Community**:
