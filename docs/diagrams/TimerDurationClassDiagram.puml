@@ -27,7 +27,7 @@ Class WorkDuration MODEL_COLOR {
 
 package Logic {
 
-Class StatisticGenerator <<Interface>> LOGIC_COLOR {
+Class "<<Interface>>\nStatisticGenerator" as StatisticGenerator LOGIC_COLOR {
     updateStatistics() : void
 }
 Class StatisticManager LOGIC_COLOR {

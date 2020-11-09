@@ -14,7 +14,7 @@ ProjectBook -> ProjectBook : updateExpiredReminders()
 group loop [until no projects]
     ProjectBook -> Project : updateExpiredReminder()
 
-group loop [until not tasks]
+group loop [until no tasks]
 Project -> Task : updateExpiredReminder()
 return task
 end

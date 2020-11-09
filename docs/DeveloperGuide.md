@@ -9,6 +9,7 @@ title: Developer Guide
 ---
 
 ## **Introduction**
+
 Momentum is a desktop app that helps freelancers track time spent on different projects and gain insights on how their time is spent.
 
 It is designed for people that prefer typing, so that frequent tasks can be done faster by typing in commands.
@@ -18,12 +19,14 @@ This developer guide provides information about the architecture and implementat
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Some things to take note of in this guide:**<br>
+
 * When a notation like `Foo#bar` is used (e.g. "The method `Foo#bar` is called...") it refers too the `bar` method from the `Foo` class.
 * Method references made in this document will only include arguments if relevant to what is being explained.
+* The lifeline for sequence diagrams should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
 </div>
 
-## **Setting up, getting started**
+## **Setting Up, Getting Started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
@@ -64,16 +67,16 @@ The _Sequence Diagram_ below shows how the components interact with each other f
 
 The sections below give more details of each component.
 
-### UI component
+### UI Component
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
 **API** :
-[`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+[`Ui.java`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/ui/Ui.java)
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `TrackedItemListPanel`, `BottomBar` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
-The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -81,7 +84,7 @@ The `UI` component,
 * Various UI parts such as `TrackedItemCard`, `TimerCard`, `PieChartCard` listen for changes to `Model` data so that they can be updated with the modified data.
 * `MainWindow` has an association to `Logic` as it will call on `Logic` to fetch certain data for the some of the UI parts such as `StatCard`.
 
-### Logic component
+### Logic Component
 
 ![Structure of the Logic Component](images/LogicClassDiagram.png)
 
@@ -98,27 +101,26 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
 
-<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-</div>
-
-### Model component
+### Model Component
 
 ![Structure of the Model Component](images/ModelClassDiagram.png)
 
 **API** : [`Model.java`](https://github.com/AY2021S1-CS2103T-T10-1/tp/blob/master/src/main/java/seedu/momentum/model/Model.java)
 
 The `Model`:
+
 * Exposes an unmodifiable `ObjectProperty<ObservableList<TrackedItem>>` that stores the projects or tasks that are currently displayed to the user.
 * Exposes an unmodifiable `ObservableList<TrackedItems>` that stores projects or tasks that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * Exposes an unmodifiable `ObservableList<TrackedItems>` that stores the total projects or tasks with running timers that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 
-Packages in the `Model`: //TODO: add all other packages and rewrite the project and task section.
+Packages in the `Model`:
+
 * The `project` package contains classes representing a `Project` and `Task` that can be added by a user under a project, such that a project can have a list of tasks.
 Both `Project` and `Task` extend `TrackedItem`.
 * A `Project` can store multiple `Task` objects.
 * The `project` package also contains `UniqueItemList<TrackedItem>` which is a list of unique projects, or a list of unique tasks.
 
-### Storage component
+### Storage Component
 
 ![Structure of the Storage Component](images/StorageClassDiagram.png)
 
@@ -132,9 +134,7 @@ The `Storage` component,
 The `JsonAdaptedProject` class contains the same fields as the `JsonAdaptedTask` class.
 In addition to the fields in `JsonAdaptedTask` component, `JsonAdaptedProject` also contains a taskList in `List<JsonAdaptedTask>` format, as show in the class diagram above.
 
-### Common classes
-
-//TODO: change GUI window settings description
+### Common Classes
 
 Classes used by multiple components are in the `seedu.momentum.commons` package. These classes contain methods or data used by various components and serve as a single source of such methods and data.
 
@@ -157,9 +157,13 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Adding Tasks to Projects
 
+Done by Balasubramaniam Praveen
+
 In Momentum, each project can contain a list of tasks. These can use used to represent various sub-tasks that the user needs to do as part of the project. This section will explain how this is implemented, and some alternative implementations that we have considered.
 
 #### Chosen Implementation: Separate Task and Project
+
+Done by Farrell Nah Jun Hao
 
 Both projects and tasks have many similarities. They share the following fields:
 
@@ -171,7 +175,7 @@ Both projects and tasks have many similarities. They share the following fields:
 * Created Date
 * Tags
 
-Additionally, both need to work with Momentum's time tracking and statistics features.
+Additionally, both projects and tasks need to work with Momentum's time tracking and statistics features.
 Therefore, it is reasonable to have an abstract `TrackedItem` class that contains the fields and methods shared by both projects and tasks, and have `Project` and `Task` extend from it.
 
 Projects and tasks will then have fields and methods for the behaviours unique to each item. Specifically, a project will contain a list of tasks, and have methods that allow it to modify its own list of tasks. This results in the  structure illustrated by the class diagram below:
@@ -201,7 +205,9 @@ Drawbacks:
 
 * Some type casting is required for certain operations on projects and tasks, especially for testing purposes. While this is not neccessarily a bad thing, it may make the code less readable and harder to follow.
 
-#### Alternative 1: Using Predicates
+#### Alternative Implemention: Using Predicates
+
+Done by Balasubramaniam Praveen
 
 Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`.
 
@@ -227,7 +233,9 @@ Drawbacks:
 * A bi-directional association between projects and tasks will be needed. This is unnecessary as a project is composed of multiple tasks. Tasks do not need to know which project they are a part of.
 * It might be harder and more time-consuming to write rigorous tests for this implementation.
 
-#### Alternative 2: Projects can contain Projects
+#### Alternative Implementation: Projects can contain Projects
+
+Done by Balasubramaniam Praveen
 
 Since projects and tasks are so similar, it may make more sense to treat them as the same object in the first place. Therefore, it is possible to model a project's sub-tasks as projects themselves. This results in a structure where each project can contain a list of other projects, as illustrated below:
 
@@ -247,11 +255,13 @@ Drawbacks:
 
 ### Immutability
 
+Done by Farrell Nah Jun Hao
+
 `Projects`, `Tasks`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new object is created with the new details, and the model is updated with the new object.
 
 Notable examples include:
 
-* Starting/Stopping a Timer: A new object is created with the updated timer state and durations,
+* Starting/Stopping a Timer: A new object is created with the updated timer state and durations.
 * Editing a Project: A new object is created with the new project's details, with the same timer and durations recorded.
 
 Below is an example of what happens when a project's timer is stopped:
@@ -263,6 +273,8 @@ In this case, since the project's timer is being changed, new `TimerWrapper`, `W
 We chose to implement projects this way as immutability makes these classes more easily testable, and also to support [undo and redo commands](#undoredo-feature).
 
 ### Timers and Durations
+
+Done by Farrell Nah Jun Hao
 
 Momentum allows users to track the time that they spend on each project and task. Time tracking is done by starting and stopping a timer using the `start` and `stop` commands. The period of time that the user spends is then stored as a `WorkDuration` object.
 
@@ -283,7 +295,9 @@ We chose to do this implementation to allow for flexibility in calculating stati
 
 ### Deadlines
 
-#### Implementation of Deadline class
+Done by Cheong Ying Yi Clara
+
+#### Implementation of Deadline Class
 
 The deadline of a project and tasks is implemented using `DateWrapper` and `TimeWrapper`. The `dateWrapper` and `timeWrapper` is stored as `Optional<DateWrapper>` and `Optional<TimeWrapper>` in the `Deadline` class.
 
@@ -310,6 +324,8 @@ For `EditCommand`, a descriptor of type `editTrackedItemDescriptor` containing e
 ![Interactions Inside the Logic Component for the Edit Project Command with Deadline](images/EditDeadlineSequenceDiagram.png)
 
 ### Reminders
+
+Done by Cheong Ying Yi Clara
 
 Users can add reminders to be notified on particular projects or tasks at the date and time specified.
 
@@ -377,6 +393,8 @@ A `BooleanProperty` is also stored in `ReminderManager` to keep track of whether
 
 ### Statistics
 
+Done by Farrell Nah Jun Hao
+
 Momentum calculates statistics using the time tracking data collected from [timers and durations](#timers-and-durations).
 These statistics are implemented using the command design pattern, similar to how Commands are implemented. Each statistic tracked by Momentum is represented by a `Statistic` object, and a `StatisticManager` contains all the statistics and is responsible for updating them whenever the model is changed.
 
@@ -401,6 +419,9 @@ Momentum currently supports calculating statistics within the following timefram
 The timeframe used to calculate statistics can be [set by the user](#settings).
 
 ### Managing Time
+
+Done by Farrell Nah Jun Hao
+
 The `Clock` class acts as a consistent, single source of the current time within the application, and provides the  option to manually set and control the current time for testing purposes. Objects that need to know the current time must obtain it from `Clock`.
 
 The `Clock` class has 3 modes that allow for it to perform different functions:
@@ -424,20 +445,20 @@ Below are some activity diagrams to illustrate the process of obtaining the curr
 |:---:|:---:|:---:|
 |Normal|Fixed|Manual|
 
-//TODO: capitalise Normal, ...
-
 ### Find Command
 
 Momentum allows users to search for projects and tasks using the find command. Users can search for projects/tasks based on their name, description, tag and completion status. A FindType is included to determine whether any, all or none of the parameters need to match a project/task for it to be displayed.
 
 #### Find Command Implementation
 
+Done by Balasubramaniam Praveen
+
 A predicate is created for each type of search parameter (name, description, tags, completion status). There are four predicates classes defined for this purpose.
 
-* `NameContainsKeywordPredicate` - Searches for projects/tasks based on name.
-* `DescriptionContainsKeywordPredicate` - Searches for projects/tasks based on description.
-* `TagListContainsKeywordPredicate` - Searches for projects/tasks based on tags.
-* `CompletionStatusPredicate` - Searches for projects/tasks based on completion status.
+* `NameContainsKeywordPredicate` - Filters for projects/tasks based on name.
+* `DescriptionContainsKeywordPredicate` - Filters for projects/tasks based on description.
+* `TagListContainsKeywordPredicate` - Filters for projects/tasks based on tags.
+* `CompletionStatusPredicate` - Filters for projects/tasks based on completion status.
 
 Each of these predicate classes extends the abstract `ContainsKeywordPredicate` class which implements the `Predicate` interface. Each of these predicate classes takes in a match type, represented by the enumeration `FindType`.
 
@@ -457,7 +478,7 @@ The following sequence diagram shows how the `FindCommandParser`works. Note that
 
 The process of creating and chaining predicates varies based on the `FindType` selected. The following activity diagrams show this process for the various `FindType`s.
 
-| ![CombinePredicatesActivityDiagram](images/CombinePredicatesActivityDiagram.puml)
+| ![CombinePredicatesActivityDiagram](images/CombinePredicatesActivityDiagram.png)
 
 Note that `FindType.NONE` uses the logical AND when combining predicates. This is because individual predicates test for a negative match result. These negative results need to be chained together using the logical AND because a negative match requires a project to not match every keyword.
 
@@ -469,15 +490,17 @@ The filter used on the `displayList` by the Find Command will be reset after the
 
 The list will not be filtered after using the `View` or `Home` Commands.
 
-We chose this behaviour as we felt that it presents users with the best experience. 
+This implementation is chosen as we felt that it presents users with the best experience.
 
-#### Alternative implementation: Using a custom predicate class
+#### Alternative Implementation: Using a Custom Predicate Class
 
-We considered using a custom predicate class to contain all predicates in a separate `MomentumPrediate` interface.
+A custom predicate class is used to contain all predicates in a separate `MomentumPrediate` interface.
 
 This implementation was ultimately rejected as it introduced unnecessary complexities with Predicate chaining. The `MomentumPredicate` interface will need to override `Predicate#and` and `Predicate#or` with our custom implementation.
 
 ### Settings
+
+Done by Khoo De Hui
 
 Currently, Momentum allows the GUI theme and the statistics timeframe to be adjusted by the user. This is done using the set command.
 
@@ -519,31 +542,34 @@ An alternative implemention of `SettingsUpdateManager` is to convert all of the 
 * Include `SettingsUpdateManager` as an attribute in `LogicManager`:
   * With the current code design, in order for `SetCommand` to be able to use `SettingsUpdateManager`, it is required that `SettingsUpdateManager` is passed in as an argument in `SetCommand#execute` when the method is called by `LogicManager`. This will require changes to be made to the abstract `Command` superclass' `execute` method, and is also an undesirable design as all commands will now be aware of `SettingsUpdateManager` when `SetCommand` is the only command using it.
 
-#### Alternative implementation of Settings Feature
+#### Alternative Implementation of Settings Feature
 
 An alternative way to implement the settings feature is to not make the settings reflect immediately. Instead, the user will have to restart the application for the settings to take effect. While it will be much easier to implement since it will only require updating `UserPrefs`, it will not provide a good user experience.
 
 ### Sort Command
 
+Done by Kang Su Min
+
 Momentum allows users to sort their list of projects/tasks using sort command. The following sort types and orders are available:
 
 Sort Type
+
  * `SortType.ALPHA`: sort the list of projects/tasks in alphabetical order.
  * `SortType.DEADLINE`: sort the list of projects/tasks according to their deadlines.
  * `SortType.CREATED`: sort the list of projects/tasks according to their date of creation.
  * `SortType.NULL`: sort type not specified by user, sort the list of projects/tasks according to the current sort type.
- 
+
  Sort Order
+
  * Ascending order
  * Descending order
- 
+
  Sort By Completion Status
+
  * On: First sort by placing projects/tasks with incomplete status at the top of the list then sorting by specified sort type and order
  * Off: Sort projects/tasks by specified sort type and order without regard for completion status.
 
 The comparators below facilitate the ordering of the list of projects/tasks.
-
-// TODO: include intro, explain sort types, activity diagram
 
 * `CompletionStatusCompare` - Comparator that compares the completion status of two tasks. This is a comparator that imposed a sort order on top of other comparators, which means that all incomplete projects/tasks are shown at the top of the list ordered in the specified orders, and all complete projects/tasks are shown at the bottom, also ordered in the specified order. This sort order is imposed by default, and can be toggled on and off.
 * `CreatedDateCompare` - Comparator that compares the created date of two tasks, then the alphabetical names of two tasks if created dates are the same.
@@ -553,30 +579,33 @@ The comparators below facilitate the ordering of the list of projects/tasks.
 #### Design Details
 
 * The `SortCommandParser` parses user input and passes sort values (Sort type, whether it is in ascending order, whether the default ordering of completion status) to the `ModelManager`.
-* The comparators are then generated according to these values in `ModelmMnager` and sort order is imposed on the list of projects/tasks based on the comparator. `ModelManager` stores the information of the latest sort order imposed so that the sort order can be maintained.
+* The comparators are then generated according to these values in `ModelManager` and sort order is imposed on the list of projects/tasks based on the comparator. `ModelManager` stores the information of the latest sort order imposed so that the sort order can be maintained.
 
 * All comparators extend the class `Comparator<TrackedItem>` except `DeadlineCompare`, which extends the class `Comparator<HashMap<String, Object>>`.
+  * This is because for all other attributes such as name, completion status and created date, it is guaranteed that every `TrackedItem` will have a non-null value, however it is possible that a project or a task has no deadline.
+  * Therefore, `Comparator#nullsLast` was used to place the project/tasks with no deadlines at the end of the list if the list is to be sorted by deadline. Those with deadlines will then be compared by passing in their deadline and name details to a `HashMap` which is then compared using `DeadlineCompare`, while those without deadlines will be sorted in alphabetical order using `NameCompare`.
 
-  * This is because for all other attributes such as name, completion status and created date, it is guaranteed that every TaskItem will have a non-null value, however it is possible that a project or a task has no deadline.
-  * Therefore, `Comparator.nullsLast` was used to place the project/tasks with no deadlines at the end of the list if the list is to be sorted by deadline. Those with deadlines will then be compared by passing in their deadline and name details to a `HashMap` which is then compared using `DeadlineCompare`, while those without deadlines will be sorted in alphabetical order using `NameCompare`.
+#### Alternative Implementation: Making `TrackedItem` extend `Comparable`
 
-#### Alternative Implementation: Using `Comparable<TrackedItem>`
-This implementation was initially considered at the start before developing the sort feature further to include different sort types and sort orders. 
+This implementation was initially considered at the start before developing the sort feature further to include different sort types and sort orders.
 However, this was not as appropriate for usage due to the following reasons:
-* Making `TrackedItem` extend Comparable<TrackedItem>` would not allow for advanced, multi-level sort feature that we have now as it would only be sorted in one particular order.
-* In the case of deadline, some tasks/projects do not have them, and it would not be possible to sort projects/tasks using Comparable<TrackedItem>. 
 
-### Undo/Redo feature
+* Making `TrackedItem` extend `Comparable<TrackedItem>` would not allow for advanced, multi-level sort feature that we have now as it would only be sorted in one particular order.
+* In the case of deadline, some tasks/projects do not have them, and it would not be possible to sort projects/tasks using `Comparable<TrackedItem>`.
+
+### Undo/Redo Feature
+
+Done by Kang Su Min
 
 The undo/redo command allows users to step through their history log of Momentum, such that they can undo commands they have excecuted wrongly, or redo commands that they have previously undone.
 
 #### Chosen Implementation
 
 The undo/redo implementation is as such:
+
  * Create a `VersionedProjectBook` which extends `ProjectBook` with an undo/redo history log
  * The history of `VersionedProjectBook` is stored as a `projectBookStateList` containing versions of `ProjectBookWithUi` and a `currentStatePointer`. Users are able to go back to a particular point in their history log by shiting the `currentStatePointer`.
     * The need for an additional class `ProjectBookWithUi` comes from the need to store UI details that need to be reset in `ModelManager` class in addition to the resetting of `ProjectBook` data done by undo/redo within `VersionedProjectBook` class.
-
  The `VersionedProjectBook` implements the following operations to facilitate the storing and traversing of history:
 
 * `VersionedProjectBook#commit()` — Saves the current project book state in its `projectBookStateList` as a `ProjectBookWithUi` object.
@@ -619,12 +648,6 @@ The following sequence diagram shows how the undo operation works:
 
 ![UndoSequenceDiagram](images/UndoSequenceDiagram.png)
 
-<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-</div>
-
-//TODO: add this alert to other parts
-
 The `redo` command does the opposite — it calls `Model#redoCommand()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and resets the current project book with the data from the next project book state.
 
 <div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> If the `currentStatePointer` is at index `projectBookStateList.size() - 1`, meaning there is no history to move forward to (undo has not been executed), then the `redo` command will throw an exception that informs user that there is no command to redo. This is done after checking that there is no history to move forward to using `Model#canRedoCommand()`
@@ -647,7 +670,7 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 ![CommitActivityDiagram](images/CommitActivityDiagram.png)
 
-#### Alternative Implementation: Saving commands instead of entire project book
+#### Alternative Implementation: Saving Commands Instead of Entire Project Book
 
 This would allow users to go back in history through a reversal of command once a command is undone.
 
@@ -704,6 +727,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a …​                                     | I want to …​                         | So that I can…​                                                         |
 | -------- | ------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------- |
+| `*`      | user with many projects in Momentum         | sort projects/tasks by name                | locate a project/task easily                                                 |
+| `*`      | user with many projects in Momentum         | sort projects/tasks by completion status                | locate an incomplete or complete project/task easily                                                 |
+| `*`      | user with many projects in Momentum         | hide and show the tags panel                | focus more on statistics and timers                                                 |
+| `*`      | user with many projects in Momentum         | dismiss the reminder                | focus more on statistics and timers                                                 |
+| `*`      | user with many projects in the project book | sort projects by name                | locate a project easily
+| `*`      | user with many projects in the project book | sort projects by created date                | view their history of projects/tasks
+| `*`      | user with many projects in the project book | hide and show the tags panel                | focus more on statistics and timers                                                 |
+| `*`      | user with many projects in the project book | dismiss the reminder                | focus more on statistics and timers                                                 |
+| `* *`    | new user                                    | start and stop a timer for a project/task | track the time I spent on the project/task                                   |
+| `* *`    | user                                        | see the amount of time I spend on each project/task | gain insights on how I am using my time |
+| `* *`    | user                                        | can create tasks within a project    | better organize my work
+| `* *`      | user | can change the way the UI looks  | have the application more personalised to me
+| `* *`      | user | can adjust the timeframe of the statistics shown | gain even better insights on how I am using my time in different timeframes
+| `* *`      | user with many projects in the project book | sort projects by deadline                | prioritise urgent projects/tasks
+| `* *`      | user with many projects in the project book | sort projects by completion status                | locate an incomplete or complete project easily
+| `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
+| `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
+| `* *`    | user | can create tasks within a project    | better organize my work
 | `* * *`  | new user                                    | see usage instructions               | refer to instructions when I forget how to use the App                  |
 | `* * *`  | user                                        | add a new project/task                    |                                                                    |
 | `* * *`  | user                                        | view the project/task's creation date                    | know when I started tracking that project/task      |
@@ -716,13 +757,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                        | find a project/task by tag               | locate projects/tasks by tag without having to go through the entire list |
 | `* * *`  | user                                        | find a project/task by completion status               | locate projects/tasks that are completed or incomplete without having to go through the entire list |
 | `* * *`  | user                                        | find a project/task by multiple parameters               | locate details of projects/tasks without having to go through the entire list |
-| `*`      | user with many projects in Momentum         | sort projects/tasks by name                | locate a project/task easily                                                 |
-| `*`      | user with many projects in Momentum         | sort projects/tasks by completion status                | locate an incomplete or complete project/task easily                                                 |
-| `*`      | user with many projects in Momentum         | hide and show the tags panel                | focus more on statistics and timers                                                 |
-| `*`      | user with many projects in Momentum         | dismiss the reminder                | focus more on statistics and timers                                                 |
-| `* *`    | new user                                    | start and stop a timer for a project/task | track the time I spent on the project/task                                   |
-| `* *`    | user                                        | see the amount of time I spend on each project/task | gain insights on how I am using my time |
-| `* *`    | user                                        | can create tasks within a project    | better organize my work
 | `* * *`  | user                                        | add a new project                    |                                                                         |
 | `* * *`  | user                                        | view the project creation date                    |
 | `* * *`  | user                                        | view the project completion status                    |  |
@@ -735,22 +769,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                        | find a project by description               | locate projects by description without having to go through the entire list |
 | `* * *`  | user                                        | find a project by tag               | locate projects by tag without having to go through the entire list |
 | `* * *`  | user                                        | find a project by completion status               | locate projects that are completed or incomplete without having to go through the entire list |
-| `* * *`  | user                                        | find a project by multiple parameters               | locate details of projects without having to go through the entire list |
-| `*`      | user with many projects in the project book | sort projects by name                | locate a project easily
-| `**`      | user with many projects in the project book | sort projects by deadline                | prioritise urgent projects/tasks                 
-| `*`      | user with many projects in the project book | sort projects by created date                | view their history of projects/tasks        |
-| `**`      | user with many projects in the project book | sort projects by completion status                | locate an incomplete or complete project easily                                                 |
-| `*`      | user with many projects in the project book | hide and show the tags panel                | focus more on statistics and timers                                                 |
-| `*`      | user with many projects in the project book | dismiss the reminder                | focus more on statistics and timers                                                 |
-| `* *`    | new user                                    | start and stop a timer for a project | track the time I spent on the project                                   |
-| `* *`    | user                                        | see the amount of time I spend on each project | gain insights on how I am using my time |
-| `* *`    | user | can create tasks within a project    | better organize my work
+| `* * *`  | user                                        | find a project by multiple parameters               | locate details of projects without having to go through the entire list
 
 ### Use cases
 
 (For all use cases below, the **System** is the `Momentum` and the **Actor** is the `user`, unless specified otherwise)
 
-#### **Use case: Start and End a Timer**
+#### **Use Case: Start and End a Timer**
 
 **MSS**
 
@@ -779,16 +804,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-#### **Use case: Add a project**
+#### **Use Case: Add a Project**
 
 **MSS**
 
 1. User requests to add a project with a name, a description, a deadline, a completion status, a reminder and a tag.
 2. Momentum shows a command result and updates the project list shown to reflect the addition.
 3. Momentum shows the name of the project in the reminder panel and remove the reminder of the project at the date and time of the reminder specified.
-4. User requests to <u>[dismiss the reminder](#use-case-dismiss-a-reminder)</u>.
-
-//TODO: make 3 a use case for reminder and dismiss
+4. User requests to <u>[dismiss the reminder](#use-case-dismiss-a-reminder)</u>
 
 **Extensions**
 
@@ -800,7 +823,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 The use cases for editing a project, adding a task and editing a task is similar to adding a project, except that the error messages differ slightly.
 
-#### **Use case: Dismiss a Reminder**
+#### **Use Case: Dismiss a Reminder**
 
 1. User requests to dismiss a reminder.
 2. Momentum hides the reminder panel.
@@ -813,14 +836,14 @@ The use cases for editing a project, adding a task and editing a task is similar
 
   Use case ends.
 
-#### **Use case: Hide the Tags Panel**
+#### **Use Case: Hide the Tags Panel**
 
 1. User requests to hide the tags panel.
 2. Momentum hides the tags panel.
 
   Use case ends.
 
-#### **Use case: Delete a project**
+#### **Use Case: Delete a Project**
 
 **MSS**
 
@@ -841,7 +864,7 @@ The use cases for deleting a task is similar to deleting a project.
 
     Use case ends.
 
-#### **Use case: Find a project/task in the list**
+#### **Use Case: Find a Project/Task in the List**
 
 **MSS**
 
@@ -862,11 +885,11 @@ The use cases for deleting a task is similar to deleting a project.
 
     Use case ends.
 
-#### **Use case: View a project's tasks**
+#### **Use Case: View a Project's Tasks**
 
 **MSS**
 
-1. User requrests to view the tasks belonging to a project.
+1. User requests to view the tasks belonging to a project.
 2. Momentum shows a list of tasks belonging to the project.
 
 **Extensions**
@@ -876,6 +899,62 @@ The use cases for deleting a task is similar to deleting a project.
   * a1. Momentum shows an error message.
 
     Use case ends.
+
+#### **Use Case: Changing Application Settings**
+
+**MSS**
+
+1. User requests to change theme settings.
+2. Momentum updates the user preferences.
+3. Momentum reflects the changes in the application GUI.
+4. User requests to change statistic timeframe settings.
+5. Momentum updates the user preferences.
+6. Momentum reflects the changes in the application GUI.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The given theme is invalid.
+
+  * 1a1. Momentum shows an error message.
+
+    Use case ends
+* 4a. The given timeframe is invalid.
+
+  * 4a1. Momentum shows an error message.
+
+    Use case ends.
+
+#### **Use Case: Undo a Command**
+
+**MSS**
+
+ 1. User requests to undo the command.
+ 2. User previously executed a certain undoable command in Momentum.
+ 3. Momentum undoes the command and reverts back to its previous state before the command was executed.
+
+**Extensions**
+
+ * 2a. User did not previously execute an undoable command and there is no history to undo command.
+    * 2a1. Momentum shows an error message.
+
+Use case ends.
+
+#### **Use Case: Redo a Command**
+
+**MSS**
+
+ 1. User requests to redo the command.
+ 1. User previously executed undo command.
+ 1. Momentum redoes the command and reverts back to the state before the undo was executed.
+
+**Extensions**
+
+ * 2a. User did not previously execute undo command and there is no history to redo command.
+    * 2a1. Momentum shows an error message.
+
+Use case ends.
 
 ### Non-Functional Requirements
 
@@ -894,6 +973,8 @@ The use cases for deleting a task is similar to deleting a project.
 
 ## **Appendix: Instructions for manual testing**
 
+Done by Balasubramaniam Praveen
+
 Given below are instructions to test the app manually.
 
 <div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> These instructions only provide a starting point for testers to work on;
@@ -901,7 +982,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
 
 </div>
 
-### Launch and shutdown
+### Launch and Shutdown
 
 1. Initial launch
 
@@ -917,7 +998,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
    2. Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
 
-### Saving data
+### Saving Data
 
 1. Dealing with missing data files
 
@@ -933,7 +1014,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
    1. Re-launch the app by double-clicking the jar file.<br>
       Expected: The project book is initalized with no data.
 
-### Add a project
+### Add a Project
 
 1. Adding a project while all projects are shown.
 
@@ -1004,7 +1085,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
     1. Test case: `add n/project7 r/x` where `x` is a time earlier that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
     Expected: A new project will not be created. Invalid reminder date and time message shown in the status message.
 
-### Edit a project
+### Edit a Project
 
 1. Editing a project while all projects are shown.
 
@@ -1075,7 +1156,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
     1. Test case: `edit x r/y` where `x` is the index of a project in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
     Expected: The project at index `x` will not be edited. Invalid reminder date and time message shown in the status message.
 
-### Delete a project
+### Delete a Project
 
 1. Deleting a project while all projects are shown.
 
@@ -1116,7 +1197,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
     1. Test case: `delete x`, where x is greater than the number of projects<br>
     Expected: No project will be deleted. Invalid index message shown.
 
-### Clear all projects
+### Clear All Projects
 
 1. Clearing projects when all projects are shown.
 
@@ -1132,7 +1213,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
     1. Test case: `clear`<br>
     Expected: All projects and tasks in the project book will be deleted.
 
-### Add a task
+### Add a Task
 
 1. Adding a task while all tasks are shown.
 
@@ -1203,7 +1284,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
     1. Test case: `add n/task7 r/x` where `x` is a time earlier that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
     Expected: A new task will not be created. Invalid reminder date and time message shown in the status message.
 
-### Edit a task
+### Edit a Task
 
 1. Editing a task while all tasks are shown.
 
@@ -1274,7 +1355,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
     1. Test case: `edit x r/y` where `x` is the index of a task in the list and `y` is a time later that the current time in the `YYYY-MM-DDTHH:MM:SS` format.<br>
     Expected: The task at index `x` will not be edited. Invalid reminder date and time message shown in the status message.
 
-### Delete a task
+### Delete a Task
 
 1. Deleting a task while all tasks are shown.
 
@@ -1315,7 +1396,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
     1. Test case: `delete x`, where x is greater than the number of tasks<br>
     Expected: No task will be deleted. Invalid index message shown.
 
-### Clear all tasks
+### Clear All Tasks
 
 1. Clearing tasks when all tasks are shown.
 
@@ -1353,7 +1434,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
     1. Test case: `home`<br>
     Expected: All projects should be displayed. Viewing all projects message will be shown.
 
-### Finding tasks
+### Finding Tasks
 
 1. Finding projects that match a single search parameter that only contains one value.
 
@@ -1457,7 +1538,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
         1. Both `desc` and `ription` in their descriptions.
         1. Both tags`tagA` and `tagB`
 
-### Sorting tasks
+### Sorting Tasks
 
 1. Sorting projects by different parameters.
 
@@ -1527,7 +1608,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
     1. Test case: `sort order/dsc type/created c/`<br>
     Expected: Entries should only be sorted by their created date in descending order.
 
-### Time tracking
+### Time Tracking
 
 1. Starting Timers for Projects
 
@@ -1591,7 +1672,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
     1. Test case: `redo` <br>
     Expected: Actions of undone command have been redone.
 
-### UI testing
+### UI Testing
 
 1. Hiding Tag List.
 
@@ -1680,7 +1761,7 @@ testers are expected to do more <strong>exploratory</strong> testing.
     1. Test case: `set st/monthly`.<br>
     Expected: Time spent section should display a pie chart, and a table that shows all durations associated with a project/task.
 
-### Exit the program
+### Exit the Program
 
 1. Exit a program using the exit command.
 
