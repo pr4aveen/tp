@@ -1,0 +1,26 @@
+@startuml
+skinparam linetype polyline
+skinparam linetype ortho
+
+(*)  --> "Check FindType"
+If "[FindType is FindType.ALL]" then
+--> "Create new predicate with FindType.ALL"
+--> "Individual predicate will test whether
+     ALL keywords match the tracked item"
+--> "Individual predicates combined using logical AND"
+--> "Combined predicate created"
+else
+if "                      [FindType is FindType.ANY]"
+--> "Create new predicate with FindType.NONE"
+--> "Individual predicate will test whether
+     NONE of the keywords match the tracked item"
+-left-> "Individual predicates combined using logical AND"
+else
+--> "Create new predicate with FindType.ANY"
+--> "Individual predicate will test whether
+     ANY keyword matches the tracked item"
+--> "Individual predicates combined using logical OR"
+-left-> "Combined predicate created"
+Endif
+-->(*)
+@enduml

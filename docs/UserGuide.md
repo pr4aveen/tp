@@ -34,7 +34,7 @@ It is designed for people that prefer typing, so that frequent tasks can be done
 [6. Command Summary](#command-summary)
  -->
 
-## 1. Quick Start<a name="quick-start"></a>
+## Quick Start<a name="quick-start"></a>
 
 1. Ensure you have Java `11` or above installed in your computer.
 
@@ -162,9 +162,9 @@ You may also have to enter both dates and times together. When entered together,
 
 **Invalid**: `15:08:02T2020-08-02` (Wrong order of date and time.)
 
-## 2. Features<a name="2-Features"></a>
+## Features<a name="2-Features"></a>
 
-### 3. Projects and Tasks<a name="3-Projects-and-Tasks"></a>
+### Projects and Tasks<a name="3-Projects-and-Tasks"></a>
 
 You can add projects into Momentum to be tracked. Each project has the following information:
 
@@ -189,14 +189,14 @@ Please refer to each command for these differences.
 
 </div>
 
-#### 3.1 View Projects: `home`<a name="#31-View-Projects-home"></a>
+#### View Projects: `home`<a name="#31-View-Projects-home"></a>
 
 View all the projects being tracked by Momentum.
 This is the default view when Momentum is first opened.
 
 Format: `home`
 
-#### 3.2 Viewing a Project's Tasks: `view`<a name="#32-Viewing-a-Project's-Tasks-view"></a>
+#### Viewing a Project's Tasks: `view`<a name="#32-Viewing-a-Project's-Tasks-view"></a>
 
 View the tasks for a project.
 
@@ -207,7 +207,7 @@ Format: `view ID`
 
 Example: `view 1`
 
-#### 3.3 Creating a Project/Task: `add`
+#### Creating a Project/Task: `add`
 
 When looking at projects, this command will create a new project. When looking at the tasks in a project, this command will create a new task for the project.
 
@@ -257,7 +257,7 @@ Result: Creates a project named "Momentum" with a description "CS2103T Team Proj
 4. On 7 December 2021, at 11:01:12, the reminder panel will be shown and the reminder of the project will be removed.
 ![Walkthrough of Creating a Project Diagram Step 4](images/AddProjectDiagram4.png)
 
-#### 3.4 Editing a Project/Task: `edit`
+#### Editing a Project/Task: `edit`
 
 Edits a project or task that was been previously created.
 
@@ -305,7 +305,7 @@ Result: Updates the project with id 3. The name will be changed to "NewMomentum"
 3. A task will be updated as shown below.
 ![Walkthrough of Editing a Task Diagram Step 3](images/EditTaskDiagram3.png)
 
-#### 3.5 Deleting a Project/Task: `delete`
+#### Deleting a Project/Task: `delete`
 
 Deletes a project or task in the list.
 
@@ -319,9 +319,9 @@ Example: `delete 2`
 
 Result: Deletes the second project in the list.
 
-#### 3.6 Project/Task Organisation
+#### Project/Task Organisation
 
-##### 3.6.1 View All Projects : `list`
+##### View All Projects : `list`
 
 When viewing projects, this command shows a list of all projects in Momentum.
 
@@ -331,7 +331,7 @@ Note that this command is different from the `home` command. When viewing a proj
 
 Format: `list`
 
-##### 3.6.2 Sort Projects : `sort`
+##### Sort Projects : `sort`
 
 Sorts the list of displayed projects or tasks in the application.
 
@@ -371,7 +371,7 @@ Project 1. Name: `Ant Hole`, Deadline: `2020-02-02`, Created Date: `2000-02-02`
 Project 2. Name: `Brunch`, Deadline: `2010-01-01`, Created Date: `2002-09-09`
 Project 3. Name: `Create Logo` , Deadline: `2040-04-04`, Created Date: `2001-01-01`
 
-**3.6.2.3 Sorting by Default order**
+**Sorting by Default order**
 
 Format: `sort`
 
