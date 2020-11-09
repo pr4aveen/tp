@@ -8,6 +8,13 @@ title: Developer Guide
 
 ---
 
+## **Introduction**
+Momentum is a desktop app that helps freelancers track time spent on different projects and gain insights on how their time is spent.
+
+It is designed for people that prefer typing, so that frequent tasks can be done faster by typing in commands.
+
+This developer guide provides information about the architecture and implementation of Momentum. It gives developers interested in developing Momentum a good start in knowing how the application works, without going too much into the lower level details. It also provides information for testers on how to test the product.
+
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
@@ -66,7 +73,8 @@ The `UI` component uses JavaFx UI framework. The layout of these UI parts are de
 The `UI` component,
 
 * Executes user commands using the `Logic` component.
-* Listens for changes to `Model` data so that the UI can be updated with the modified data.
+* Various UI parts such as `TrackedItemCard`, `TimerCard`, `PieChartCard` listen for changes to `Model` data so that they can be updated with the modified data.
+* `MainWindow` has an association to `Logic` as it will call on `Logic` to fetch certain data for the some of the UI parts such as `StatCard`.
 
 ### Logic component
 
@@ -216,9 +224,11 @@ Drawbacks:
 
 #### Alternative 1: Using Predicates
 
-//TODO: add explanation
+Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`. 
 
-Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`. Both `Project` and `Task` will extend `TrackedItem`.
+This implementation shares some similarities with our chosen implementation. Both `Project` and `Task` will extend an abstract `TrackedItem` class.
+
+However, it differs in the way the `displayList` is updated.
 
 A rough summary of the proposed implementation is as follows:
 
@@ -248,7 +258,7 @@ We have identified the following benefits and drawbacks of this implementation.
 
 Benefits:
 
-* This implementation is much simpler than having to maintain seperate `Project` and `Task` classes. It is likely that existing commands would not have to be changed as much.
+* This implementation is much simpler than having to maintain separate `Project` and `Task` classes. It is likely that existing commands would not have to be changed as much.
 * Projects can contain not just sub-projects, but sub-sub-projects, sub-sub-sub-projects, etc, allowing for deeper nesting of projects. This may be useful for users to manage more complex project structures.
 
 Drawbacks:
@@ -510,27 +520,36 @@ The settings changed by the user will also reflect immediately in the applicatio
 The following sequence diagram shows how the set command works.
 ![SetCommandSequenceDiagram](images/SetCommandSequenceDiagram.png)
 
-// TODO: remove the parsing part
+#### Updating and Saving User Prefs
 
-#### Updating User Prefs
+Settings are saved by updating `GuiThemeSettings` and/or `StatisticTimeframeSettings` in `UserPrefs` in the application model. All class attributes in `UserPrefs` are serializable, so that all settings in `UserPrefs` can be saved in `preferences.json` when the user exits the application. Serialization is done using `JsonUserPrefsStorage#saveUserPrefs`.
 
-Settings are saved by updating `GuiThemeSettings` and/or `StatisticTimeframeSettings` in `UserPrefs` in the application model. All class attributes in `UserPrefs` are serializable, so that all settings in `UserPrefs` can be saved in `preferences.json` when the user exits the application. Below is the class diagram of `UserPrefs`.
+Below is the class diagram of `UserPrefs`.
 
 ![UserPrefsClassDiagram](images/UserPrefsClassDiagram.png)
 
-//TODO: change the aggregation, add association to storage, remove visibilities
-
-Model manager will call on `UserPrefs#returnChangedGuiThemeSettings` or `UserPrefs#returnChangedStatisticTimeframeSettings` when updating the settings. Notice that the two methods will return a new `UserPrefs`. This design is chosen so as to support `Undo/Redo`, where versions can be placed on the different instances of `UserPrefs`.
-
-//TODO: think of an alternative implementation
+Model manager will call on `UserPrefs#returnChangedGuiThemeSettings` or `UserPrefs#returnChangedStatisticTimeframeSettings` when updating the settings. Notice that the two methods will return a new `UserPrefs`. This design is chosen so as to support [`Undo/Redo`](#undoredo-feature), where versions can be placed on the different instances of `UserPrefs`.
 
 #### Settings Update Manager
 
 `SettingsUpdateManager` is a class that assists in updating the application instance with the new settings when there are changes made to `UserPrefs`.
 
-Currently, the user adjustable settings are the GUI theme and the timeframe of the statistics shown. Hence, `SettingsUpdateManager` takes in a `Ui`, and a `StatisticGenerator` as class attributes in order to update them.
+Currently, the user adjustable settings are the GUI theme and the timeframe of the statistics shown. Hence, `SettingsUpdateManager` takes in a `Ui`, and a `StatisticGenerator` as attributes in order to update them.
 
-`SettingsUpdateManager#updateTheme` and `SettingsUpdateManager#updateStatisticTimeFrame` are designed to handle null cases of `Ui` and `StatisticGenerator` so as to make testing more convenient. This is because there are methods being tested that will indirectly call the above methods. Allowing `Ui` and `StatisticGenerator` to be null will allow them to not be instantiated in the tests.
+`SettingsUpdateManager#updateTheme` and `SettingsUpdateManager#updateStatisticTimeFrame` are designed to handle null cases of `Ui` and `StatisticGenerator` so as to make testing more convenient. This is because there are methods being tested that will indirectly call the above methods. Allowing `Ui` and `StatisticGenerator` to be null will enable them to not be instantiated in the tests.
+
+It is also worth noting that all attributes and methods in `SettingUpdateManager` are class-level instead of instance-level. This design was chosen so as to allow minimal changes to the code base. However, one con of this design will be that the attributes and methods can be set or called from anywhere in the code. 
+
+##### Alternative Implementation of `SettingsUpdateManager`
+An alternative implemention of `SettingsUpdateManager` is to convert all of the class-level attributes and methods to become instance-level. While this can address the con mentioned above, having to pass an instantiated `SettingsUpdateManager` object around now will require some undesirable changes to be made. Below describe the possible ways to pass a `SettingsUpdateManager` object around and it's undesired effects.
+
+* Include `SettingsUpdateManager` as an attribute in `ModelManager`:
+  * As `Model` is only meant to hold data of the app, putting `SettingUpdateManager` in `ModelManager` is not ideal.
+* Include `SettingsUpdateManager` as an attribute in `LogicManager`:
+  * With the current code design, in order for `SetCommand` to be able to use `SettingsUpdateManager`, it is required that `SettingsUpdateManager` is passed in as an argument in `SetCommand#execute` when the method is called by `LogicManager`. This will require changes to be made to the abstract `Command` superclass' `execute` method, and is also an undesirable design as all commands will now be aware of `SettingsUpdateManager` when `SetCommand` is the only command using it.
+
+#### Alternative implementation of Settings Feature
+An alternative way to implement the settings feature is to not make the settings reflect immediately. Instead, the user will have to restart the application for the settings to take effect. While it will be much easier to implement since it will only require updating `UserPrefs`, it will not provide a good user experience.
 
 ### Sort Command
 

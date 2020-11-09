@@ -2,12 +2,10 @@
 !include style.puml
 
 box Logic LOGIC_COLOR_T1
-participant ":SetCommand" as LogicManager LOGIC_COLOR
-participant ":ProjectBookParser" as ProjectBookParser LOGIC_COLOR
 participant ":SetCommandParser" as SetCommandParser LOGIC_COLOR
 participant "stc:SettingsToChange" as SettingsToChange LOGIC_COLOR
 participant "s:SetCommand" as SetCommand LOGIC_COLOR
-participant ":CommandResult" as CommandResult LOGIC_COLOR
+participant "res:CommandResult" as CommandResult LOGIC_COLOR
 participant ":SettingsUpdateManager" as SettingsUpdateManager LOGIC_COLOR
 end box
 
@@ -15,20 +13,8 @@ box Model MODEL_COLOR_T1
 participant ":Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute("set th/dark")
-activate LogicManager
 
-LogicManager -> ProjectBookParser : parseCommand("set th/dark")
-activate ProjectBookParser
-
-create SetCommandParser
-ProjectBookParser -> SetCommandParser
-activate SetCommandParser
-
-SetCommandParser --> ProjectBookParser
-deactivate SetCommandParser
-
-ProjectBookParser -> SetCommandParser : parse("th\dark")
+[-> SetCommandParser : parse("th\dark")
 activate SetCommandParser
 
 create SettingsToChange
@@ -51,16 +37,10 @@ activate SetCommand
 SetCommand --> SetCommandParser : s
 deactivate SetCommand
 
-SetCommandParser --> ProjectBookParser : s
+[<-- SetCommandParser : s
 deactivate SetCommandParser
-'Hidden arrow to position the destroy marker below the end of the activation bar.
-SetCommandParser -[hidden]-> ProjectBookParser
-destroy SetCommandParser
 
-ProjectBookParser --> LogicManager : s
-deactivate ProjectBookParser
-
-LogicManager -> SetCommand : execute()
+[-> SetCommand : execute()
 activate SetCommand
 
 SetCommand -> Model : setGuiThemeSettings
@@ -79,12 +59,10 @@ create CommandResult
 SetCommand -> CommandResult
 activate CommandResult
 
-CommandResult --> SetCommand : result
+CommandResult --> SetCommand : res
 deactivate CommandResult
 
-SetCommand --> LogicManager : result
+[<-- SetCommand: res
 deactivate SetCommand
 
-[<--LogicManager
-deactivate LogicManager
 @enduml
