@@ -83,6 +83,12 @@ Momentum uses a GUI (Graphical User Interface) to collect input from you, and di
 The active timers, statistics, tags and reminders panels can be resized to display more information by clicking and
  draging their edges.
 
+ ### User Interface Theme
+ The GUI Momentum also comes with two themes, light and dark. These themes are shown below:
+ ![GUI Themes](images/GUIThemeDiagram.png)
+You can adjust the themes to your preference, by changing it in the application settings. (see [Settings](#settings))
+ 
+
 ## Command Format
 
 Below is an explanation of the formatting used to show commands:
@@ -166,12 +172,12 @@ Each project can also contain several tasks, each with the same information as a
 
 When you first open Momentum, you will see all the projects being tracked in Momentum. You can then view the tasks for each project seperately.
 
-:::info
+<div markdown="block" class="alert alert-info">
 
 **:information_source: Most commands in Momentum will do different things depending on whether you are viewing projects or tasks.**<br>
 Please refer to each command for these differences.
 
-:::
+</div>
 
 #### 3.1 View Projects: `home`<a name="#31-View-Projects-home"></a>
 
@@ -216,14 +222,15 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [
 * `[t/TAG]`
   * Similar to names, tags can contain alphanumeric characters (a-Z, 0-9) and spaces.
 
-:::info
+<div markdown="block" class="alert alert-info">
+
 :bulb: **Tip:**
 
 * Projects and tasks can have any number of tags (including 0).
 * A project can have an empty description.
 * `T` separates the date and time in a reminder.
 
-:::
+</div>
 
 Example: `add n/Momentum d/CS2103T Team Project dd/2021-12-07 dt/11:01:12 r/2021-12-07T11:01:12 t/impt`
 
@@ -335,7 +342,8 @@ Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
   * If the sort grouped the incomplete and complete projects, `c/` will make the sort not consider the completion status of the projects.
   * Similarly, if the sorting did not group the projects by completion status, `c/` will make the sort consider the completion status of the projects.
 
-:::info
+<div markdown="block" class="alert alert-info">
+
 :bulb: **Tip:**
 
 * `type/alpha` and `order/asc` will be used as default if both sort type and order are not specified (i.e. command is `sort`)
@@ -344,7 +352,7 @@ Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
 * For `sort type/deadline`, projects without deadlines will be ordered alphabetically after the ordered list of projects with deadlines.
 * For both `sort type/deadline` and `sort type/created`, projects with same deadline or same created date will be sorted alphabetically.
 
-:::
+</div>
 
 Example:
 
@@ -412,24 +420,30 @@ Searches for projects or tasks in the project book based on certain parameters.
 Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...] [c/COMPLETION_STATUS]`
 
 * There are three values for the `match` parameter.
-* `match/all` shows an entry only if **all** of the parameters provided in the user's input matches the user's input.
-* `match/any` shows an entry as long as **any** of the parameters provided in the user's input matches the user's input.
-* `match/none` shows an entry only if **none** of the parameters provided in the user's input matches the user's input.
+    * `match/all` shows an entry only if **all** of the parameters provided in the user's input matches the user's input.
+    * `match/any` shows an entry as long as **any** of the parameters provided in the user's input matches the user's input.
+    * `match/none` shows an entry only if **none** of the parameters provided in the user's input matches the user's input.
 
-:::info
+<div markdown="block" class="alert alert-info">
+
 :bulb: **Tip:**
 You can only search for projects in the project view and tasks in the tasks view
-:::
 
-:::info
+</div>
+
+<div markdown="block" class="alert alert-info">
+
 :bulb: **Tip:**
 `match/any` will be used if the `match` type is not specified.
-:::
 
-:::info
+</div>
+
+<div markdown="block" class="alert alert-info">
+
 :bulb: **Tip:**
 Search parameters are not case sensitive.
-:::
+
+</div>
 
 ###### Searching by Name
 
@@ -464,10 +478,12 @@ The following walkthrough shows how a user can use the find command to search fo
 * The `t/` command checks whether a project has a certain tag. There can be multiple tags added to this command. For example, `t/freelance errands` will check for the projects that contain the tags `freelance` or `errands`.
 * Searching by tags will require a full word match unlike searching by name or description. This means that searching for the tag `free` will not find a project with the tag `freelance`.
 
-:::info
+<div markdown="block" class="alert alert-info">
+
 :bulb: **Tip:**
 Searches for tags require a full match whilst searches partial matches are sufficient for searches by name and description.
-:::
+
+</div>
 
 The following walkthrough shows how a user can use the find command to search for projects with the tag `webdesign`.
 
@@ -493,12 +509,17 @@ The following walkthrough shows how a user can use the find command to search fo
 3. All projects that are completed will be shown.
 ![Find by Completion Step 3](images/FindByCompletion3.png)
 
-###### Searching for Multiple Parameters
+###### Searching with Multiple Parameters
 
- //TODO: fix bolding
-Example:
+You can search for projects/tasks with multiple keywords for names, descriptions and tags in a single search.
 
-If there are 3 projects in the project book:
+A match type can also be specified as mentioned at the [start of this section](#filtering-projects). 
+
+Please look at the examples below to get a better understanding of how you can make searches with multiple commands.
+
+Examples:
+
+Let's say that you have the following projects in Momentum:
 
 1. Name: `Create Logo` , Description: `Make logo for startup XYZ`, Tags: `Design`
 2. Name: `Write Song`, Description: `80s rock music, three minutes`, Tags: `Music`
@@ -506,16 +527,18 @@ If there are 3 projects in the project book:
 
 * `find match/any n/song article d/startup t/design` will return all three projects. This is because project 1 contains the keyword `startup` in its description and the tag `design`, project 2 contains the keyword `song` in its name and project 3 contains the keyword `article` in its name.
 * `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** the `startup` in its description and the tag `design`.
-* `find match/none n/song article d/startup t/design` will not return any project as there is no project that **does not** contain `song` and `article` in its name, `startup` in its description and the tag `design`.
+* `find match/none n/song article d/startup t/design` will not return any project as there is no project that **does not** contain `song` and `article` in its name, `startup` in its description and the tag `design`. 
 * `find match/any n/write d/rock` will return projects 2 and 3. This is because project 2 contains `write` in its name and `rock` in its description. Project 3 also contains the word `write` in its name.
-* `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name and `rock` in its description.
-* `find match/none n/write d/rock` will return projects 1. This is because only project 1 does not contain `write` in its name and `rock` in its descriptions.
+* `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name **and** `rock` in its description.
+* `find match/none n/write d/rock` will return projects 1. This is because only project 1 **does not** contain `write` in its name and `rock` in its descriptions.
 
-:::info
+<div markdown="block" class="alert alert-info">
+
 :bulb: **Tip:**
 If a certain search type is used more than once, the latest entry will be used.
 `find n/a n/b n/c` will only search for projects/task that contain`c` in their name.
-:::
+
+</div>
 
 ### Time Tracking
 
@@ -533,16 +556,20 @@ Format: `/start ID`
 * The id refers to the id number shown in the displayed list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
-:::info
+<div markdown="block" class="alert alert-info">
+
 :bulb: **Tip:**
 You can run timers for more than one project or task concurrently, if you are multi-tasking.
-:::
 
-:::info
+</div>
+
+<div markdown="block" class="alert alert-info">
+
 :bulb: **Tip:**
 You can run timers for a project separately from its tasks. This allows you to track the time you spent on the
  project as a whole, as well as the time spent on each individual task.
-:::
+
+</div>
 
 Example: `/start 2`
 
@@ -622,10 +649,12 @@ You can perform time tracking with the following steps:
 * Refer to [Walkthrough of Creating a Project](#walkthrough-of-creating-a-project) for more details on how a reminder will be shown.
 * Refer to [Walkthrough of Dismissing a Reminder](#walkthrough-of-dismissing-a-reminder) for more details on hoe to dismiss a reminder.
 
-:::danger
+<div markdown="block" class="alert alert-danger">
+
 :warning: **Warning**
 If there are multiple reminders set at the same date and time, only one of the reminders will appear in the reminder panel. Other reminders will be missed.
-:::
+
+</div>
 
 ## Undo/Redo
 
@@ -651,13 +680,14 @@ Example: `sort type/deadline`, `undo`, `redo`
 
 Result: Projects are sorted by deadline, then the application is reset to the sorting order before sort command was executed, then reset back to sort by deadline after redo command.
 
-:::info
+<div markdown="block" class="alert alert-info">
+
 :bulb: **Tip:**
 
 * Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.
 * Redo command only works if there the previous command is `undo`.
 
-:::
+</div>
 
 ## Statistics
 
@@ -702,28 +732,31 @@ The statistics are displayed in 2 different formats:
 2. **Table**: Shows the exact (in minutes) amount of time spent on each project. Useful for calculations.
 
 ## Settings
-
-You can adjust various settings in Momentum, which for now includes:
-
+You can adjust various settings in Momentum, which includes:
 * GUI Theme
-* Statistic Timeframe
+* Statistics Timeframe
 
 Format: `set [th/THEME] [st/TIMEFRAME]`
-
 * At least one of the optional fields must be provided.
 * There are two GUI themes available, light and dark. The commands to apply them are:
-
   * `th/light`
   * `th/dark`
-
 * There are three available timeframes for statistics, daily, weekly and monthly. The commands to apply them are:
 
   * `st/daily`
   * `st/weekly`
   * `st/monthly`
 
-Example: `set th/dark st/daily`
+Example: `set th/light st/monthly`  
 Result: Sets a dark theme to the GUI and changes the statistics pane to show the time spent on projects within the day.
+
+### Walkthrough of Changing Application Settings
+1. In order to set the GUI theme to light and the statistic timeframe to daily, enter `set th/light th/monthly` in the command box and press the `Enter` key to execute it.
+ ![Settings Walkthrough Step 1](images/SettingsDiagram1.png)
+2. The result box will display a message to indicate that the command has been executed successfully: `Settings updated`.
+ ![Settings Walkthrough Step 2](images/SettingsDiagram2.png)  
+3. The GUI theme has now been set to the light theme, and information in the statistics panel has been updated.
+ ![Settings Walkthrough Step 3](images/SettingsDiagram3.png) 
 
 ## Clear All Projects/Tasks : `clear`
 
@@ -732,10 +765,11 @@ When viewing all projects, this command deletes all the projects in Momentum, in
 When viewing a specific project's tasks, this command will delete all the tasks in the project. The project will itself will not be deleted.
 Removes all projects and tasks in Momentum.
 
-:::danger
+<div markdown="block" class="alert alert-danger">
 :warning: **Warning**
 This command will also delete the saved data for the projects or tasks. You can undo this operation while Momentum remains open. However, you will not be able to undo this if once you close Momentum.
-:::
+
+</div>
 
 Format: `clear`
 
@@ -747,11 +781,13 @@ Format: `dismiss`
 
 Result: Hides the reminder panel of the sidebar.
 
-:::danger
+<div markdown="block" class="alert alert-danger">
+
 :warning: **Warning**
 A reminder that has been dismissed cannot be shown again in the reminder panel.
 Undo a dismissal to show an expired reminder in the project.
-:::
+
+</div>
 
 ### Walkthrough of Dismissing a Reminder
 
