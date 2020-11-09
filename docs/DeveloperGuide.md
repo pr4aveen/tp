@@ -1682,28 +1682,47 @@ achievements of the project.
 ### New Features
 The following new features were implemented on top of AB3:
 
-* **Tasks**: While AB3 only managed 1 entity type (Persons), Momentum handles 2 entity types (Projects and Tasks). Additionally, the 2 entities are related, where each project can contain any number of tasks, which further increases the complexity.
+#### Tasks
+
+While AB3 only managed 1 entity type (Persons), Momentum handles 2 entity types (Projects and Tasks). 
+Additionally, the 2 entities are related, where each project can contain any number of tasks, which further increases the complexity.
 Implementing this feature required major changes to all parts of the code base, as tasks needed to integrate well with both existing and new features. 
 This also required us to make most commands context sensitive, so that they can handle different behaviours for Projects and Tasks, which required changes to the way commands are parsed and executed.
-* **Time Tracking and Statistics**: The time tracking and statistics features involved working with dates and times, which also increased the complexity of the application. 
+
+#### Time Tracking and Statistics
+
+The time tracking and statistics features involved working with dates and times, which also increased the complexity of the application. 
 The feature involved introducing the `WorkDuration` and `Statistic` entities, and additional code to manage and operate on them.
 The UI was alo improved to display timers and statistics in a visually pleasing yet comprehensible way. Testing time related features was also difficult, but the team overcame this by allowing for manual control of time using the `Clock` class.
-* **Reminders**: The implementation of reminders was particularly difficult since required the use of threads to schedule and run tasks at different times. 
+
+#### Reminders 
+
+The implementation of reminders was particularly difficult since required the use of threads to schedule and run tasks at different times. 
 In addition, the way threads are run in JavaFX applications are different form normal Java applications, since the JavaFX application itself runs on threads. 
 This made it difficult to test the reminder functions. Hence we had to use other methods to switch between running on the javaFX platform and running it normally, to allow for testing.
-* **Sorting**: While the team could have implemented a simple alphabetical sort, the team went an extra mile to implement sorting for other parameters (deadline, created date, completion status, etc) as well. 
+
+#### Sorting
+
+While the team could have implemented a simple alphabetical sort, the team went an extra mile to implement sorting for other parameters (deadline, created date, completion status, etc) as well. 
 The team also allowed for both ascending and descending sort. The implementation's complexity was further compounded by the fact that sort needed to work with undo/redo.
-* **Undo/Redo**: While AB3 provided a proposed implementation of an undo/redo feature, many changes had to be made to accomodate the new features and improvements introduced in Momentum. 
+
+#### Undo/Redo
+
+While AB3 provided a proposed implementation of an undo/redo feature, many changes had to be made to accomodate the new features and improvements introduced in Momentum. 
 This meant that there were many additional considerations to be made, espcially with undoing and redoing UI related components.
 
 ### Enhancements to existing features
 We have also made significant enhancements to the following existing AB3 features:
 
-* **Find**: The team improved upon the existing AB3 find features to allow for more flexibility. 
+#### Find
+The team improved upon the existing AB3 find features to allow for more flexibility. 
 Users can not only find based on name, but also other parameters like description and tags. 
-Users can also  The implementation involved an almost complete change in the way find was handled. chaining was utilized to handle all the possible find types. 
+Users can also math any, all or none of the provided parameters, as opposed to AB3 where only matching all was available. 
+The implementation involved an almost complete change in the way find was handled. Predicate chaining was utilized to handle all the possible find types. 
 Additional code was written to handle the parsing of the user's commands to these predicates. The difficulty was compounded by the fact that it had to allow for undo/redo.
-* **User Interface**: The team conducted an overhaul of the AB3 UI.  Since the new features implemented required much more data to be displayed to the user, it was challenging to design the UI in a way that allowed all the information to be shown while still being asthetically pleasing and user friendly. 
+
+#### User Interface
+The team conducted an overhaul of the AB3 UI. Since the new features implemented required much more data to be displayed to the user, it was challenging to design the UI in a way that allowed all the information to be shown while still being asthetically pleasing and user friendly. 
 We added some customizability in the form of a light and dark theme. Most of the fxml code for existing UI elements were changed. Each theme also required new css stylesheets. Additional commands such as the `set`, `show` and `dismiss` commands were implemented to allow the user to change UI elements.
 
 
