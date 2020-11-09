@@ -12,7 +12,7 @@ activate StatisticManager
 
 StatisticManager -> PeriodicTotalTimeStatistic : calculate()
 activate PeriodicTotalTimeStatistic
-loop all projects
+loop all trackedItems
      PeriodicTotalTimeStatistic -> PeriodicTotalTimeStatistic : calculateTimeSpent()
      activate PeriodicTotalTimeStatistic
      PeriodicTotalTimeStatistic --> PeriodicTotalTimeStatistic

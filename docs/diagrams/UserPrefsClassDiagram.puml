@@ -6,27 +6,36 @@ skinparam classBackgroundColor MODEL_COLOR
 
 package Commons {
     class GuiThemeSettings {
-        - {field} theme: Theme
+        {field} theme: Theme
     }
 
     class StatisticTimeframeSettings {
-        - {field} statTimeframe : StatisticTimeframe
+        {field} statTimeframe : StatisticTimeframe
     }
 }
 
-package Model {
-    class UserPrefs {
-        + {method} returnChangedGuiThemeSettings(newGuiThemeSettings : GuiThemeSettings) : UserPrefs
-        + {method} returnChangedStatisticTimeframeSettings(newTimeframeSettings : StatisticTimeframeSettings) : UserPrefs
-    }
-}
-
-interface Serializable <<interface>>
-
-GuiThemeSettings .up.|> Serializable
+class "<<interface>>\nSerializable" as Serializable
+GuiThemeSettings ..|> Serializable
 StatisticTimeframeSettings ..|>Serializable
 
-GuiThemeSettings --o UserPrefs
-StatisticTimeframeSettings --o UserPrefs
+package Model {
+    class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
+    class UserPrefs {
+        {method} returnChangedGuiThemeSettings(newGuiThemeSettings : GuiThemeSettings) : UserPrefs
+        {method} returnChangedStatisticTimeframeSettings(newTimeframeSettings : StatisticTimeframeSettings) : UserPrefs
+    }
+}
+
+UserPrefs ..|> ReadOnlyUserPrefs
+UserPrefs ---> GuiThemeSettings
+UserPrefs ---> StatisticTimeframeSettings
+
+package Storage {
+    class JsonUserPrefsStorage {
+        {method} saveUserPrefs(userPrefs : ReadOnlyUserPrefs)
+    }
+}
+
+JsonUserPrefsStorage ..> UserPrefs
 
 @enduml

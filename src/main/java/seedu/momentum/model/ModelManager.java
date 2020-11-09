@@ -502,6 +502,11 @@ public class ModelManager implements Model {
         updateOrder(sortType, isAscending, false);
     }
 
+    @Override
+    public boolean getIsCurrentSortByCompletionStatus() {
+        return isCurrentSortByCompletionStatus;
+    }
+
 
     /**
      * Sets the order of the list of tracked items according to given {@code sortType} and {@code isAscending}.
@@ -598,6 +603,7 @@ public class ModelManager implements Model {
     private Comparator<TrackedItem> getComparatorNullType(boolean isAscending, boolean isSortedByCompletionStatus) {
         return getComparator(currentSortType, isAscending, isSortedByCompletionStatus);
     }
+    //@@author
 
     @Override
     public boolean equals(Object obj) {

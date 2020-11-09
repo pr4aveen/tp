@@ -1,0 +1,32 @@
+@startuml
+!include detailed_style.puml
+
+object "Blog Design : Project" as BlogProject {
+    description =  "Design new blog"
+    tags = {"Blog", "Design"}
+}
+note left: This project has 2 tasks
+
+object "Website Design : Project" as WebsiteProject {
+    description = "Design new website"
+    deadline = 2020-11-10T20:00:00
+}
+
+object "Do Mockups : Task" as MockupsTask {
+    description = "Draw some mockups"
+    tags = {"Mockups", "Urgent"}
+    Deadline = 2020-11-09
+}
+object "Testing : Task" as TestingTask {
+    description = "Do some testing"
+}
+
+object ":ProjectBook" as ProjectBook
+note top: 2 projects being tracked
+
+ProjectBook --> BlogProject
+ProjectBook --> WebsiteProject
+
+BlogProject --> MockupsTask
+BlogProject --> TestingTask
+@enduml

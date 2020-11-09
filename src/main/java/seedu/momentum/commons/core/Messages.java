@@ -17,3 +17,4 @@ public class Messages {
 
     public static final String MESSAGE_TEXT_PROJECT = "Project";
 }
+

@@ -1,0 +1,27 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+Package Model <<Rectangle>>{
+Class ProjectBook
+
+Package Project {
+Class "{abstract}\nTrackedItem" as TrackedItem
+Class Project
+Class Task
+Class "UniqueItemList<TrackedItem>"
+}
+
+}
+
+
+ProjectBook *--> "1" "UniqueItemList<TrackedItem>"
+"UniqueItemList<TrackedItem>" --> "*" TrackedItem
+
+Project -up-|> TrackedItem
+Task -up-|> TrackedItem
+Project *-up-> "1" "UniqueItemList<TrackedItem>" : has
+
+@enduml
