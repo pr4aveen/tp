@@ -79,7 +79,7 @@ public class ModelManager implements Model {
         this.currentComparator = getComparatorNullType(true, this.isCurrentSortByCompletionStatus);
 
         this.versionedProjectBook = new VersionedProjectBook(projectBook, viewMode, currentProject, currentPredicate,
-                currentComparator, isTagsVisible.get(), userPrefs);
+                currentComparator, isTagsVisible.get(), userPrefs, isCurrentSortByCompletionStatus);
         this.reminderManager = new ReminderManager(this);
         this.itemList = this.versionedProjectBook.getTrackedItemList();
         this.displayList = new SimpleObjectProperty<>(this.itemList);
@@ -408,7 +408,7 @@ public class ModelManager implements Model {
     @Override
     public void commitToHistory() {
         versionedProjectBook.commit(viewMode, currentProject, currentPredicate, currentComparator, isTagsVisible.get(),
-                userPrefs);
+                userPrefs, isCurrentSortByCompletionStatus);
     }
 
     @Override
@@ -422,6 +422,7 @@ public class ModelManager implements Model {
         currentProject = versionedProjectBook.getCurrentProject();
         currentPredicate = versionedProjectBook.getCurrentPredicate();
         currentComparator = versionedProjectBook.getCurrentComparator();
+        isCurrentSortByCompletionStatus = versionedProjectBook.isCurrentSortByCompletion();
 
         resetUi(viewMode);
 
@@ -439,6 +440,7 @@ public class ModelManager implements Model {
         currentProject = versionedProjectBook.getCurrentProject();
         currentPredicate = versionedProjectBook.getCurrentPredicate();
         currentComparator = versionedProjectBook.getCurrentComparator();
+        isCurrentSortByCompletionStatus = versionedProjectBook.isCurrentSortByCompletion();
 
         resetUi(viewMode);
 

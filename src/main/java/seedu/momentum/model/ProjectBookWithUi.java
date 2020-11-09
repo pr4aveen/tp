@@ -17,13 +17,15 @@ public class ProjectBookWithUi extends ProjectBook {
     private final Comparator<TrackedItem> comparator;
     private final boolean isTagsVisible;
     private final ReadOnlyUserPrefs userPrefs;
+    private final boolean isCurrentSortByCompletionStatus;
 
     /**
      * Constructs a {@code ProjectBookWithUi}
      */
     public ProjectBookWithUi(ReadOnlyProjectBook projectBook, ViewMode viewMode, Project project,
                              Predicate<TrackedItem> predicate, Comparator<TrackedItem> comparator,
-                             boolean isTagsVisible, ReadOnlyUserPrefs userPrefs) {
+                             boolean isTagsVisible, ReadOnlyUserPrefs userPrefs,
+                             boolean isCurrentSortByCompletionStatus) {
         super(projectBook);
         this.viewMode = viewMode;
         this.project = project;
@@ -31,6 +33,7 @@ public class ProjectBookWithUi extends ProjectBook {
         this.comparator = comparator;
         this.isTagsVisible = isTagsVisible;
         this.userPrefs = userPrefs;
+        this.isCurrentSortByCompletionStatus = isCurrentSortByCompletionStatus;
     }
 
     public ViewMode getViewMode() {
@@ -57,6 +60,10 @@ public class ProjectBookWithUi extends ProjectBook {
         return userPrefs;
     }
 
+    public boolean isCurrentSortByCompletionStatus() {
+        return isCurrentSortByCompletionStatus;
+    }
+
     @Override
     public boolean equals(Object other) {
         return super.equals(other) && (other == this // short circuit if same object
@@ -65,7 +72,8 @@ public class ProjectBookWithUi extends ProjectBook {
                 && ((project == null && ((ProjectBookWithUi) other).getProject() == null)
                 || (project.equals(((ProjectBookWithUi) other).getProject())))
                 && isTagsVisible == ((ProjectBookWithUi) other).isTagsVisible()))
-                && userPrefs.equals(((ProjectBookWithUi) other).getUserPrefs());
+                && userPrefs.equals(((ProjectBookWithUi) other).getUserPrefs())
+                && isCurrentSortByCompletionStatus == ((ProjectBookWithUi) other).isCurrentSortByCompletionStatus();
         //&& predicate.equals(((ProjectBookWithUi) other).getPredicate())));
 
     }
