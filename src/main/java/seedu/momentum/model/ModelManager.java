@@ -329,7 +329,7 @@ public class ModelManager implements Model {
     }
 
     //@@author boundtotheearth
-    private void p  pp  p   p   pp  p1=-2304985() {
+    private void updateDisplayList() {
         displayList.setValue(new SortedList<>(new FilteredList<>(itemList, currentPredicate), currentComparator));
     }
 
