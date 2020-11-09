@@ -106,7 +106,6 @@ public class EditCommandParser implements Parser<EditCommand> {
      *
      * @param argMultimap               The argument multimap of the edition.
      * @param editTrackedItemDescriptor The descriptor of the tracked item edited.
-     * @throws ParseException If the description cannot be parsed.
      */
     private void setDescriptionForEdit(ArgumentMultimap argMultimap,
                                        EditCommand.EditTrackedItemDescriptor editTrackedItemDescriptor) {

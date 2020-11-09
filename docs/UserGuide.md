@@ -74,21 +74,23 @@ Refer to the [Features](#features) below for details of each command.
 Momentum uses a GUI (Graphical User Interface) to collect input from you, and display information to you. Different
  parts of this GUI perform different functions, as explained below:
 
-![OverviewUI](images/OverviewUI.png)
+![OverviewUI](images/OverviewUI2.png)
 
 1. **Command Box**: THe place where you enter in your commands.
 2. **Results Box**: Displays information about the result of executing the commands that you enter.
 3. **Display List**: Displays a list of projects or tasks.
-4. **Active Timers Panel**: Displays all the timers that are currently running. 
+4. **Reminders Panel**: This is where reminders will appear. The panel will only be present when there are reminders
+ that have not yet been dismissed.
+5. **Active Timers Panel**: Displays all the timers that are currently running. 
 (see [Active Timers Panel](#active-timers-panel))
-5. **Statistics Panel**: Displays the statistics data calculated by Momentum. 
+6. **Statistics Panel**: Displays the statistics data calculated by Momentum. 
 (see [Statistics](#statistics))
-6. **Tags Panel**: Displays a collection of all the tags visible in the display list.
-7. **Bottom Bar**: Displays contextual information about what you are viewing, such as the specific project that you
+7. **Tags Panel**: Displays a collection of all the tags visible in the display list.
+8. **Bottom Bar**: Displays contextual information about what you are viewing, such as the specific project that you
  are viewing, and the number of items in the display list hidden due to finding or sorting commands.
  
-The active timers, statistics, and tags panels can be resized to display more information by clicking and draging their
- edges.
+The active timers, statistics, tags and reminders panels can be resized to display more information by clicking and
+ draging their edges.
 
 ## Command Format
 
@@ -501,17 +503,19 @@ If there are 3 projects in the project book:
 
 1. Name: `Create Logo` , Description: `Make logo for startup XYZ`, Tags: `Design`
 2. Name: `Write Song`, Description: `80s rock music, three minutes`, Tags: `Music`
-3. Name: `Write Article`, Description: `Write and article about why Momentum is the best app out there`, Tags: `Press` and `Writing`
+3. Name: `Write Article`, Description: `Write an article about why Momentum is the best app out there`, Tags: `Press` and `Writing`
 
 * `find match/any n/song article d/startup t/design` will return all three projects. This is because project 1 contains the keyword `startup` in its description and the tag `design`, project 2 contains the keyword `song` in its name and project 3 contains the keyword `article` in its name.
 * `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** the `startup` in its description and the tag `design`.
+* `find match/none n/song article d/startup t/design` will not return any project as there is no project that **does not** contain `song` and `article` in its name, `startup` in its description and the tag `design`. 
 * `find match/any n/write d/rock` will return projects 2 and 3. This is because project 2 contains `write` in its name and `rock` in its description. Project 3 also contains the word `write` in its name.
 * `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name and `rock` in its description.
+* `find match/none n/write d/rock` will return projects 1. This is because only project 1 does not contain `write` in its name and `rock` in its descriptions.
 
 :::info
 :bulb: **Tip:**
 If a certain search type is used more than once, the latest entry will be used.
-`find n/a n/b n/c` will only search for projets/task that contain`c` in their name.
+`find n/a n/b n/c` will only search for projects/task that contain`c` in their name.
 :::
 
 ## Time Tracking
