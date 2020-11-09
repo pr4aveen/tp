@@ -1,6 +1,6 @@
 @startuml
 start
-:Clock initialized in Normal mode;
+:Clock initialized in NORMAL mode;
 
 :Current Time requested \n by another component;
 
