@@ -68,7 +68,6 @@ public class VersionedProjectBook extends ProjectBook {
     public void commit(ViewMode viewMode, Project currentProject, Predicate<TrackedItem> currentPredicate,
                        Comparator<TrackedItem> currentComparator, boolean isTagsVisible, ReadOnlyUserPrefs userPrefs,
                        boolean isCurrentSortByCompletionStatus) {
-                       Comparator<TrackedItem> currentComparator, boolean isTagsVisible, ReadOnlyUserPrefs userPrefs) {
 
         requireAllNonNull(viewMode, currentPredicate, currentComparator, userPrefs);
         LOGGER.log(Level.INFO, "Project book committed to history");
