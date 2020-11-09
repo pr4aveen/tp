@@ -71,6 +71,7 @@ Refer to the [Features](#features) below for details of each command.
 --------------------------------------------------------------------------------------------------------------------
 
 ## User Interface Overview
+
 Momentum uses a GUI (Graphical User Interface) to collect input from you, and display information to you. Different
  parts of this GUI perform different functions, as explained below:
 
@@ -79,16 +80,14 @@ Momentum uses a GUI (Graphical User Interface) to collect input from you, and di
 1. **Command Box**: THe place where you enter in your commands.
 2. **Results Box**: Displays information about the result of executing the commands that you enter.
 3. **Display List**: Displays a list of projects or tasks.
-4. **Reminders Panel**: This is where reminders will appear. The panel will only be present when there are reminders
- that have not yet been dismissed.
-5. **Active Timers Panel**: Displays all the timers that are currently running. 
+4. **Reminders Panel**: This is where reminders will appear. The panel will only be present when there are reminders that have not yet been dismissed.
+5. **Active Timers Panel**: Displays all the timers that are currently running.
 (see [Active Timers Panel](#active-timers-panel))
-6. **Statistics Panel**: Displays the statistics data calculated by Momentum. 
+6. **Statistics Panel**: Displays the statistics data calculated by Momentum.
 (see [Statistics](#statistics))
 7. **Tags Panel**: Displays a collection of all the tags visible in the display list.
-8. **Bottom Bar**: Displays contextual information about what you are viewing, such as the specific project that you
- are viewing, and the number of items in the display list hidden due to finding or sorting commands.
- 
+8. **Bottom Bar**: Displays contextual information about what you are viewing, such as the specific project that you are viewing, and the number of items in the display list hidden due to finding or sorting commands.
+
 The active timers, statistics, tags and reminders panels can be resized to display more information by clicking and
  draging their edges.
 
@@ -210,9 +209,9 @@ Example: `view 1`
 
 ### 3.3 Creating a Project/Task: `add`
 
-When looking at projects, this command will create a new project. When looking at the tasks in a project, thsi command will create a new task for the project.
+When looking at projects, this command will create a new project. When looking at the tasks in a project, this command will create a new task for the project.
 
-Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [r/REMINDER_DATE_TIME] [t/TAG]`
+Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`
 
 * The project is incomplete by default, adding `c/` will set the completion status to complete.
 * The format for date of the deadline is YYYY-MM-DD, refer to [Date Terms](#Date-Terms) for more information on YYYY, MM and DD.
@@ -220,7 +219,7 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 * The date of the deadline cannot be earlier than the creation date of the project.
 * Both date and time is compulsory for a reminder.
 * The format for date and time of the reminder is YYYY-MM-DDTHH:MM:SS, refer to [Date and Time Terms](#Date-and-Time-Terms) for more information on YYYY, MM, DD, HH, MM, and SS.
-* The date and time of the reminder needs to be later than the current time.
+* The date and time of the reminder needs to be later than the current time, refer to [Reminders](#reminders) section for more details on reminders.
 
 :::info
 :bulb: **Tip:**
@@ -229,15 +228,7 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 * A deadline of a project can include time, but a deadline cannot only contain time.
 * A project can have an empty description.
 * `T` separates the date and time in a reminder.
-* A reminder will be shown in the Reminder component of the sidebar at the date and time specified.
-* The reminder will be removed after it is shown in the sidebar.
-* If a reminder was missied, it will be greyed out.
 
-:::
-
-:::danger
-:warning: **Warning**
-If there are multiple reminders set at the same date and time, only one of the reminders will appear in the reminder component. Other reminders will be missed.
 :::
 
 Example: `add n/Momentum d/CS2103T Team Project dd/2021-12-07 dt/11:01:12 r/2021-12-07T11:01:12 t/impt`
@@ -253,7 +244,7 @@ Result: Creates a project named “Momentum” with a description “CS2103T Tea
 ![Walkthrough of Creating a Project Diagram Step 2](images/AddProjectDiagram2.png)
 3. A project will be added to the project list as shown below.
 ![Walkthrough of Creating a Project Diagram Step 3](images/AddProjectDiagram3.png)
-4. On 7 December 2021, at 11:01:12, the reminder component will be shown and the reminder of the project will be removed.
+4. On 7 December 2021, at 11:01:12, the reminder panel will be shown and the reminder of the project will be removed.
 ![Walkthrough of Creating a Project Diagram Step 4](images/AddProjectDiagram4.png)
 
 ### 3.4 Editing a Project/Task: `edit`
@@ -444,7 +435,7 @@ The following walkthrough shows how a user can use the find command to search fo
 ![Find by Name Step 1](images/FindByName1.png)
 2. The result box will display a message to indicate that the command has been executed successfully:
 ![Find by Name Step 2](images/FindByName2.png)
-3. All projects that contain `ad` in their name will be shown. 
+3. All projects that contain `ad` in their name will be shown.
 ![Find by Name Step 3](images/FindByName3.png)
 
 ##### Searching by Description
@@ -458,7 +449,7 @@ The following walkthrough shows how a user can use the find command to search fo
 ![Find by Description Step 1](images/FindByDescription1.png)
 2. The result box will display a message to indicate that the command has been executed successfully:
 ![Find by Description Step 2](images/FindByDescription2.png)
-3. All projects that contain `ad` in their description will be shown. 
+3. All projects that contain `ad` in their description will be shown.
 ![Find by Description Step 3](images/FindByDescription3.png)
 
 ##### Searching by Tag
@@ -477,7 +468,7 @@ The following walkthrough shows how a user can use the find command to search fo
 ![Find by Tag Step 1](images/FindByTag1.png)
 2. The result box will display a message to indicate that the command has been executed successfully:
 ![Find by Tag Step 2](images/FindByTag2.png)
-3. All projects that contain the tag `webdesign` will be shown. 
+3. All projects that contain the tag `webdesign` will be shown.
 ![Find by Tag Step 3](images/FindByTag3.png)
 
 ##### Searching by Completion Status
@@ -492,11 +483,11 @@ The following walkthrough shows how a user can use the find command to search fo
 ![Find by Completion Step 1](images/FindByCompletion1.png)
 2. The result box will display a message to indicate that the command has been executed successfully:
 ![Find by Completion Step 2](images/FindByCompletion2.png)
-3. All projects that are completed will be shown. 
+3. All projects that are completed will be shown.
 ![Find by Completion Step 3](images/FindByCompletion3.png)
 
 ##### Searching for Multiple Parameters
- 
+
 Example:
 
 If there are 3 projects in the project book:
@@ -507,7 +498,7 @@ If there are 3 projects in the project book:
 
 * `find match/any n/song article d/startup t/design` will return all three projects. This is because project 1 contains the keyword `startup` in its description and the tag `design`, project 2 contains the keyword `song` in its name and project 3 contains the keyword `article` in its name.
 * `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** the `startup` in its description and the tag `design`.
-* `find match/none n/song article d/startup t/design` will not return any project as there is no project that **does not** contain `song` and `article` in its name, `startup` in its description and the tag `design`. 
+* `find match/none n/song article d/startup t/design` will not return any project as there is no project that **does not** contain `song` and `article` in its name, `startup` in its description and the tag `design`.
 * `find match/any n/write d/rock` will return projects 2 and 3. This is because project 2 contains `write` in its name and `rock` in its description. Project 3 also contains the word `write` in its name.
 * `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name and `rock` in its description.
 * `find match/none n/write d/rock` will return projects 1. This is because only project 1 does not contain `write` in its name and `rock` in its descriptions.
@@ -563,14 +554,16 @@ Example: `/stop 2`
 Result: Stops the timer for the second project in the list.
 
 ### Active Timers Panel
+
 On the left side of the window is the Active TImers Panel. This is where Momentum shows you all the timers that are
  currently running.
- 
+
 ![ActiveTimersUI](images/ActiveTimersUI.png)
 
 This panel will show you the name of the project/task, as well as when the timer was started.
 
 ### Time Traacking Example
+
 Here is an example of how you can use the `start` and `stop` commands to track the time that you spend on a project.
 Suppose that you are going to start working on _________, which is the first item shown below:
 
@@ -592,7 +585,7 @@ You can perform time tracking with the following steps:
 1. Now that the timer has been successfully started, you can proceed to do your work. You can also choose to close
  Momentum. The timer will continue to run even when Momentum is closed. Proceed to the next step when you are done
   with your work.
-  
+
 1. To stop the timer, type `stop 1` into the command box and press `enter`.
 
 ![TimerExample5](images/TimerExample5.png)
@@ -608,8 +601,20 @@ You can perform time tracking with the following steps:
 1. The statistics panel (see [statistics](#statistics)) will also be updated to reflect the time that you have spent
  working on the
  project:
- 
+
 ![TimerExample8](images/TimerExample8.png)
+
+## Reminders
+
+* A reminder will be shown in the reminder panel of the sidebar at the date and time specified.
+* The reminder will be removed after it is shown in the sidebar.
+* If a reminder was missed, it will be greyed out.
+* Refer to [Walkthrough of Creating a Project](#walkthrough-of-creating-a-project) for more details on how a reminder will be shown.
+
+:::danger
+:warning: **Warning**
+If there are multiple reminders set at the same date and time, only one of the reminders will appear in the reminder panel. Other reminders will be missed.
+:::
 
 ## Undo/Redo
 
@@ -644,10 +649,11 @@ Result: Projects are sorted by deadline, then the application is reset to the so
 :::
 
 ## Statistics
+
 Momentum uses the data collected from your timers (see [time tracking](#time-tracking)) to calculate statistics. These
  statistics areautomatically generated and updated whenever you make any changes to your projects and tasks, such as
-  when timers for a project /task are started or stopped. 
- These statistics can be seen in a panel on the left side of the window, as shown here: 
+  when timers for a project /task are started or stopped.
+ These statistics can be seen in a panel on the left side of the window, as shown here:
 
 ![StatisticsUI1](images/StatsUI1.png)]
 
@@ -659,7 +665,8 @@ The statistics displayed correspond to the projects or tasks currently shown in 
 You do not need to use any additional commands to update or view the statistics.
 
 ### Timeframes
-Momentum only tracks your statistics within a particular timeframe. By default, the timeframe will be set to weekly. 
+
+Momentum only tracks your statistics within a particular timeframe. By default, the timeframe will be set to weekly.
 You can change the timeframe through the [settings](#settings).
 
 Momentum allows you to track the time spent within these timeframes:
@@ -720,17 +727,13 @@ Format: `clear`
 
 Format: `dismiss`
 
-* If the reminder component of the sidebar is not visible, it cannot be dismissed.
+* If the reminder panel of the sidebar is not visible, it cannot be dismissed.
 
-Result: Hides the reminder component of the sidebar.
+Result: Hides the reminder panel of the sidebar.
 
 :::danger
 :warning: **Warning**
-A reminder that has been dismissed cannot be shown again in the reminder component.
-:::
-
-:::info
-:bulb: **Tip:**
+A reminder that has been dismissed cannot be shown again in the reminder panel.
 Undo a dismissal to show an expired reminder in the project.
 :::
 
@@ -738,24 +741,23 @@ Undo a dismissal to show an expired reminder in the project.
 
 This walkthrough is a followup of [Walkthrough of Creating a Project](#walkthrough-of-creating-a-project).
 
-1. After the reminder component is shown, type `dismiss` in the command box, and press the `Enter` key to execute it.
+1. After the reminder panel is shown, type `dismiss` in the command box, and press the `Enter` key to execute it.
 ![Walkthrough of Dismissing a Reminder Step 1](images/DismissDiagram1.png)
-2. The result box will display a message to indicate that the command has been executed successfully:
-   `Reminder dismissed.`
+1. The result box will display a message to indicate that the command has been executed successfully.
 ![Walkthrough of Dismissing a Reminder Step 2](images/DismissDiagram2.png)
-3. The reminder component is now hidden.
+1. The reminder panel is now hidden.
 ![Walkthrough of Dismissing a Reminder Step 3](images/DismissDiagram3.png)
 
 ## Showing and Hiding SideBar Components : `show`
 
-You can hide or show the tags component of the sidebar.
+You can hide or show the tags panel of the sidebar.
 
 Format: `show t/`
 
-* `t/` would hide the tags if the tags component was shown.
-* `t/` would show the tags if the tags component was hidden.
+* `t/` would hide the tags if the tags panel was shown.
+* `t/` would show the tags if the tags panel was hidden.
 
-Result: Shows or Hides the Tags component of the sidebar.
+Result: Shows or Hides the tags panel of the sidebar.
 
 ### Walkthrough of Hiding Tags
 
@@ -764,7 +766,7 @@ Result: Shows or Hides the Tags component of the sidebar.
 2. The result box will display a message to indicate that the command has been executed successfully:
    `Tags is removed from the sidebar.`
 ![Walkthrough of Hiding Tags Step 2](images/ShowDiagram2.png)
-3. The tags component is now hidden.
+3. The tags panel is now hidden.
 ![Walkthrough of Hiding Tags Step 3](images/ShowDiagram3.png)
 
 ## Exiting the Program : `exit`
@@ -803,7 +805,7 @@ Action | Format | Example
 **View tasks in a project**| `view ID` |`view 3`
 **View all projects**| `home` | `home`
 **Creating a Project/Task** | `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]​`|  `project n/Momentum d/CS2103T Team Project dd/2021-12-07 t/impt`
-**Editing a Project/Task** | `edit ID n/NAME [d/DESCRIPTION] [c/]  [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`| `edit 3 n/NewMomentum d/NewDescription dl/2021-12-07 r/2021-12-07T01:21:21 t/normal`
+**Editing a Project/Task** | `edit ID [n/NAME] [d/DESCRIPTION] [c/]  [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`| `edit 3 n/NewMomentum d/NewDescription dl/2021-12-07 r/2021-12-07T01:21:21 t/normal`
 **Delete a project/task** | `delete ID` | `delete 3`
 **Find a project/task** | `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...]  [c/]`  | `find match/any n/Momentum d/new t/normal`
 **Show All projects/tasks** | `list` | `list`
