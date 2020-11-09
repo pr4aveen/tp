@@ -7,6 +7,8 @@ import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess
 import static seedu.momentum.logic.commands.SortCommand.MESSAGE_SORT_SUCCESS;
 import static seedu.momentum.logic.commands.SortCommand.OUTPUT_ALPHA_TYPE;
 import static seedu.momentum.logic.commands.SortCommand.OUTPUT_ASCENDING_ORDER;
+import static seedu.momentum.logic.commands.SortCommand.OUTPUT_COMPLETION_STATUS_OFF;
+import static seedu.momentum.logic.commands.SortCommand.OUTPUT_COMPLETION_STATUS_ON;
 import static seedu.momentum.logic.commands.SortCommand.OUTPUT_CREATED_TYPE;
 import static seedu.momentum.logic.commands.SortCommand.OUTPUT_DEADLINE_TYPE;
 import static seedu.momentum.logic.commands.SortCommand.OUTPUT_DEFAULT_TYPE;
@@ -89,7 +91,8 @@ public class SortCommandTest {
     public void execute_defaultSort_sortedInDefaultOrder() {
         expectedModel.updateOrder(SortType.ALPHA, true, false);
         expectedModel.commitToHistory();
-        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DEFAULT_TYPE);
+        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DEFAULT_TYPE,
+                OUTPUT_COMPLETION_STATUS_ON);
         assertCommandSuccess(DEFAULT_SORT_COMMAND, model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
@@ -99,7 +102,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.ALPHA, true, false);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_ASCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_ASCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_ON);
         assertCommandSuccess(ALPHA_ASCENDING_COMMAND, model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
@@ -109,7 +113,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.ALPHA, true, true);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_ASCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_ASCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_OFF);
         assertCommandSuccess(ALPHA_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
@@ -119,7 +124,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.ALPHA, false, false);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_DESCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_DESCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_ON);
         assertCommandSuccess(ALPHA_DESCENDING_COMMAND, model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
@@ -129,7 +135,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.ALPHA, false, true);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_DESCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_ALPHA_TYPE, OUTPUT_DESCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_OFF);
         assertCommandSuccess(ALPHA_DESCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
@@ -139,7 +146,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.DEADLINE, true, false);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_ASCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_ASCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_ON);
         assertCommandSuccess(DEADLINE_ASCENDING_COMMAND, model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
     }
@@ -149,7 +157,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.DEADLINE, true, true);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_ASCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_ASCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_OFF);
         assertCommandSuccess(
                 DEADLINE_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
@@ -160,7 +169,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.DEADLINE, false, false);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_DESCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_DESCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_ON);
         assertCommandSuccess(
                 DEADLINE_DESCENDING_COMMAND, model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
@@ -171,7 +181,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.DEADLINE, false, true);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_DESCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_DEADLINE_TYPE, OUTPUT_DESCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_OFF);
         assertCommandSuccess(
                 DEADLINE_DESCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
@@ -182,7 +193,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.CREATED, true, false);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_ASCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_ASCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_ON);
         assertCommandSuccess(
                 CREATED_DATE_ASCENDING_COMMAND, model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
@@ -193,7 +205,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.CREATED, true, true);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_ASCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_ASCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_OFF);
         assertCommandSuccess(
                 CREATED_DATE_ASCENDING_COMMAND_TOGGLE_COMPLETION_STATUS, model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
@@ -204,7 +217,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.CREATED, false, false);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_DESCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_DESCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_ON);
         assertCommandSuccess(CREATED_DATE_DESCENDING_COMMAND,
                 model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
@@ -215,7 +229,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.CREATED, false, true);
         expectedModel.commitToHistory();
         String expectedMessage =
-                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_DESCENDING_ORDER);
+                String.format(MESSAGE_SORT_SUCCESS, OUTPUT_CREATED_TYPE, OUTPUT_DESCENDING_ORDER,
+                        OUTPUT_COMPLETION_STATUS_OFF);
         assertCommandSuccess(CREATED_DATE_DESCENDING_COMMAND_TOGGLE_COMPLETION_STATUS,
                 model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
@@ -226,7 +241,8 @@ public class SortCommandTest {
         model.updateOrder(SortType.DEADLINE, false, false);
         expectedModel.updateOrder(SortType.DEADLINE, true, false);
         expectedModel.commitToHistory();
-        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_ASCENDING_ORDER);
+        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_ASCENDING_ORDER,
+                OUTPUT_COMPLETION_STATUS_ON);
         assertCommandSuccess(NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND,
                 model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
@@ -237,7 +253,8 @@ public class SortCommandTest {
         model.updateOrder(SortType.DEADLINE, false, false);
         expectedModel.updateOrder(SortType.DEADLINE, true, true);
         expectedModel.commitToHistory();
-        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_ASCENDING_ORDER);
+        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_ASCENDING_ORDER,
+                OUTPUT_COMPLETION_STATUS_OFF);
         assertCommandSuccess(NULL_SORT_TYPE_ASCENDING_NON_DEFAULT_COMMAND_TOGGLE_COMPLETION_STATUS,
                 model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
@@ -250,7 +267,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.CREATED, false, false);
         expectedModel.commitToHistory();
 
-        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DESCENDING_ORDER);
+        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DESCENDING_ORDER,
+                OUTPUT_COMPLETION_STATUS_ON);
         assertCommandSuccess(NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND,
                 model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());
@@ -263,7 +281,8 @@ public class SortCommandTest {
         expectedModel.updateOrder(SortType.CREATED, false, true);
         expectedModel.commitToHistory();
 
-        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DESCENDING_ORDER);
+        String expectedMessage = String.format(MESSAGE_SORT_SUCCESS, EMPTY_STRING, OUTPUT_DESCENDING_ORDER,
+                OUTPUT_COMPLETION_STATUS_OFF);
         assertCommandSuccess(NULL_SORT_TYPE_DESCENDING_NON_DEFAULT_COMMAND_TOGGLE_COMPLETION_STATUS,
                 model, expectedMessage, expectedModel);
         assertEquals(model.getDisplayList(), expectedModel.getDisplayList());

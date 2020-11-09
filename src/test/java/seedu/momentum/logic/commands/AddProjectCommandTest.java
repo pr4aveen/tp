@@ -191,6 +191,11 @@ public class AddProjectCommandTest {
         }
 
         @Override
+        public boolean getIsCurrentSortByCompletionStatus() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<TrackedItem> getRunningTimers() {
             throw new AssertionError("This method should not be called.");
         }

@@ -27,6 +27,8 @@ public class SortCommand extends Command {
     public static final String OUTPUT_DEFAULT_TYPE = "default alphabetical, ascending";
     public static final String OUTPUT_ASCENDING_ORDER = "ascending";
     public static final String OUTPUT_DESCENDING_ORDER = "descending";
+    public static final String OUTPUT_COMPLETION_STATUS_ON = "On";
+    public static final String OUTPUT_COMPLETION_STATUS_OFF = "Off";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " "
             + "[" + SORT_TYPE + "SORT_TYPE ] "
@@ -39,7 +41,7 @@ public class SortCommand extends Command {
             + "Ascending: asc; Descending: dsc. \n"
             + "Example: " + COMMAND_WORD + " " + SORT_TYPE + "alpha " + SORT_ORDER + "asc";
 
-    public static final String MESSAGE_SORT_SUCCESS = "Sorted in %1$s%2$s order";
+    public static final String MESSAGE_SORT_SUCCESS = "Sorted in %1$s%2$s order.\nCompletion status sort: %3$s";
 
     private SortType sortType;
     private final boolean isAscending;
@@ -76,6 +78,7 @@ public class SortCommand extends Command {
         String type = "";
         String order = isDefault ? OUTPUT_DEFAULT_TYPE : isAscending
                 ? OUTPUT_ASCENDING_ORDER : OUTPUT_DESCENDING_ORDER;
+        String completion;
 
         switch (sortType) {
         case ALPHA:
@@ -97,7 +100,8 @@ public class SortCommand extends Command {
 
         model.updateOrder(sortType, isAscending, changeSortByCompletionStatus);
         model.commitToHistory();
-        return new CommandResult(String.format(MESSAGE_SORT_SUCCESS, type, order));
+        completion = model.getIsCurrentSortByCompletionStatus() ? "On" : "Off";
+        return new CommandResult(String.format(MESSAGE_SORT_SUCCESS, type, order, completion));
     }
 
     @Override

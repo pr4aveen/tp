@@ -108,6 +108,12 @@ The `Model`:
 * Exposes an unmodifiable `ObservableList<TrackedItems>` that stores the total projects or tasks with running timers that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * Does not depend on any of the other three components.
 
+Packages in the `Model`:
+
+* The Project package contains classes representing a `Project` that can be added by a user.
+* The Task package contains classes representing a `Task` that can be added by a user under a project, such that a project can have a list of tasks.
+Both `Project` and `Task` extend `TrackedItem` and implement `UniqueItem` interface. 
+
 <div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `ProjectBook`, which `Project` references. This allows `ProjectBook` to only require one `Tag` object per unique `Tag`, instead of each `Project` needing their own `Tag` object.<br>
 
 ![BetterModelClassDiagram](images/BetterModelClassDiagram.png)
@@ -323,6 +329,10 @@ The `Clock` class has 3 modes that allow for it to perform different functions:
 3. Manual: The passage of time can be manually controlled, such as fast-forwarding and rewinding time by specific
  amounts. Used for testing purposes.
  
+The `Clock` class acts as a consistent, single course of the 'current time' within the application, and provides the
+ option to manually set and control the current time for testing purposes. Objects that need to know the current time
+  must obtain it from `Clock`.
+ 
 This implementation was chosen because it allows all time-related features to be more easily testable.
 
 #### Rejected Implementation: Using `LocalDateTime.now()` directly
@@ -402,42 +412,68 @@ Currently, the user adjustable settings are the GUI theme and the timeframe of t
 
 `SettingsUpdateManager#updateTheme` and `SettingsUpdateManager#updateStatisticTimeFrame` are designed to handle null cases of `Ui` and `StatisticGenerator` so as to make testing more convenient. This is because there are methods being tested that will indirectly call the above methods. Allowing `Ui` and `StatisticGenerator` to be null will allow them to not be instantiated in the tests.
 
-### \[Proposed\] Undo/redo feature
+### Sort Command
+The sort command uses comparators to order the list of projects/tasks. 
+
+* `CompletionStatusCompare` - Comparator that compares the completion status of two tasks. This is a comparator that imposed a sort order on top of other comparators, which means that all incomplete projects/tasks are shown at the top of the list ordered in the specified orders, and all complete projects/tasks are shown at the bottom, also ordered in the specified order. This sort order is imposed by default, and can be toggled on and off. 
+* `CreatedDateCompare` - Comparator that compares the created date of two tasks, then the alphabetical names of two tasks if created dates are the same.
+* `NameCompare` - Comparator that compares the alphabetical names of two tasks.
+* `DeadlineCompare` - Comparator that compares the deadlines of two tasks, then the alphabetical names of two tasks if deadlines are the same.
+
+#### Design Details
+* The `SortCommandParser` passes sort values (Sort type, whether it is in ascending order, whether the default ordering of completion status) to the `ModelManager`.
+* The comparators are then generated according to these values and sort order is imposed on the list of projects/tasks based on the comparator. `ModelManager` stores the information of the latest sort order imposed so that the sort order can be maintained.
+
+* All comparators extend the class `Comparator<TrackedItem>` except `DeadlineCompare`, which extends the class `Comparator<HashMap<String, Object>>`.
+    * This is because for all other attributes such as name, completion status and created date, it is guaranteed that every TaskItem will have a non-null value, however it is possible that a project or a task has no deadline. 
+    * Therefore, I decided to use `Comparator.nullsLast` to place the project/tasks with no deadlines at the end of the list if the list is to be sorted by deadline. Those with deadlines will then be compared by passing in their deadline and name details to a `HashMap` which is then compared using `DeadlineCompare`.
+
+### Undo/redo feature
+
+The undo/redo command allows users to step through their history log of Momentum, such that they can undo commands they have excecuted wrongly, or redo commands that they have previously undone.
 
 #### Proposed Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedProjectBook`. It extends `ProjectBook` with an undo/redo history, stored internally as an `projectBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The proposed undo/redo implementation is as such:
+ * Create a `VersionedProjectBook` which extends `ProjectBook` with an undo/redo history log
+ * The history of `VersionedProjectBook` is stored as a `projectBookStateList` containing versions of `ProjectBookWithUi` and a `currentStatePointer`. Users are able to go back to a particular point in their history log by shiting the `currentStatePointer`.
+    * The need for an additional class `ProjectBookWithUi` comes from the need to store UI details that need to be reset in `ModelManager` class in addition to the resetting of `ProjectBook` data done by undo/redo within `VersionedProjectBook` class.
+ 
+ The `VersionedProjectBook` implements the following operations to facilitate the storing and traversing of history:
 
-* `VersionedProjectBook#commit()` — Saves the current project book state in its history.
-* `VersionedProjectBook#undo()` — Restores the previous project book state from its history.
-* `VersionedProjectBook#redo()` — Restores a previously undone project book state from its history.
+* `VersionedProjectBook#commit()` — Saves the current project book state in its `projectBookStateList` as a `ProjectBookWithUi` object.
+* `VersionedProjectBook#undo()` — Resets the project book data with data from the previous project book state in its history.
+* `VersionedProjectBook#redo()` — Resets the project book data with data from a previously undone project book state in its history.
 
-These operations are exposed in the `Model` interface as `Model#commitProjectBook()`, `Model#undoProjectBook()` and `Model#redoProjectBook()` respectively.
+The above operations are exposed in the `Model` interface as `Model#commitToHistory()`, `Model#undoCommand()` and `Model#redoCommand()` respectively.
 
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
+An example usage scenario has been provided below to demonstrate the undo/redo mechanism.
 
-Step 1. The user launches the application for the first time. The `VersionedProjectBook` will be initialized with the initial project book state, and the `currentStatePointer` pointing to that single project book state.
+Step 1. The user launches the application for the first time. The `VersionedProjectBook` is initialized with the initial project book state, and the state is added to the `projectBookStateList` with the `currentStatePointer` pointing to that state.
 
 ![UndoRedoState0](images/UndoRedoState0.png)
 
-Step 2. The user executes `delete 5` command to delete the 5th project in the project book. The `delete` command calls `Model#commitProjectBook()`, causing the modified state of the project book after the `delete 5` command executes to be saved in the `projectBookStateList`, and the `currentStatePointer` is shifted to the newly inserted project book state.
+Step 2. The user executes `delete 2` command to delete the 2nd project in the project book. The `delete` command calls `Model#commitToHistory`, which adds the new state of the project book after the execution of `delete 2` command as `ProjectBookWithUi` in the `projectBookStateList`. After every new command (excluding undo, redo, and help), the `currentStatePointer` is shifted to the most recent project book state.
 
 ![UndoRedoState1](images/UndoRedoState1.png)
 
-Step 3. The user executes `add n/David …​` to add a new project. The `add` command also calls `Model#commitProjectBook()`, causing another modified project book state to be saved into the `projectBookStateList`.
+Step 3. The user executes `add n/Design Webpage for XYZ …​` to add a new project. The `add` command also calls `Model#commitProjectBook()`, which similarly adds the new state of the project book after the execution of `add n/Design Webpage for XYZ …​` command as `ProjectBookWithUi` in the `projectBookStateList`.
 
 ![UndoRedoState2](images/UndoRedoState2.png)
 
-<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> If a command fails its execution, it will not call `Model#commitProjectBook()`, so the project book state will not be saved into the `projectBookStateList`.
+<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> If a command fails its execution, `Model#commitProjectBook()` is not called. Project book state will not be saved into the `projectBookStateList`.
 
 </div>
 
-Step 4. The user now decides that adding the project was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoProjectBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous project book state, and restores the project book to that state.
+Step 4. If user wants undo that action due to some errors in the information, they can do so by executing the `undo` command. The `undo` command calls `Model#undoCommand()`, which resets the current project book with the data from the previous project book state. This is done after `currentStatePointer` is shifted once to the left.
 
 ![UndoRedoState3](images/UndoRedoState3.png)
 
-<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> If the `currentStatePointer` is at index 0, pointing to the initial ProjectBook state, then there are no previous ProjectBook states to restore. The `undo` command uses `Model#canUndoProjectBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
+<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> If the `currentStatePointer` is at index 0, meaning there is no history to traverse back in time, then the `undo` command will throw an exception that informs user that there is no command to undo. This is done after checking that there is no history to go back to using `Model#canUndoCommand()`.
+
+</div>
+
+<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> Help command is the only command that does not call `Model#commitProjectBook()` as this command will not cause any project book changes in terms of data or UI. 
 
 </div>
 
@@ -449,38 +485,37 @@ The following sequence diagram shows how the undo operation works:
 
 </div>
 
-The `redo` command does the opposite — it calls `Model#redoProjectBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the project book to that state.
+The `redo` command does the opposite — it calls `Model#redoCommand()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and resets the current project book with the data from the next project book state.
 
-<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> If the `currentStatePointer` is at index `projectBookStateList.size() - 1`, pointing to the latest project book state, then there are no undone ProjectBook states to restore. The `redo` command uses `Model#canRedoProjectBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> If the `currentStatePointer` is at index `projectBookStateList.size() - 1`, meaning there is no history to move forward to (undo has not been executed), then the `redo` command will throw an exception that informs user that there is no command to redo. This is done after checking that there is no history to move forward to using `Model#canRedoCommand()`
 
 </div>
 
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the project book, such as `list`, will usually not call `Model#commitProjectBook()`, `Model#undoProjectBook()` or `Model#redoProjectBook()`. Thus, the `projectBookStateList` remains unchanged.
+Step 5. If the user changes their mind and decides that the error is minor and wish to redo the previously undone command, they can do so by executing the `redo` command. The `redo` command calls `Model#redoCommand()`, which resets the current project book with the data from the next project book state. This is done after `currentStatePointer` is shifted once to the right.
 
-![UndoRedoState4](images/UndoRedoState4.png)
+![UndoRedoState5](images/UndoRedoState4.png)
 
-Step 6. The user executes `clear`, which calls `Model#commitProjectBook()`. Since the `currentStatePointer` is not pointing at the end of the `projectBookStateList`, all project book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
+Step 6. If the user changes their mind once again and decides to go with undo, they can do so by executing the `undo` command again. 
 
 ![UndoRedoState5](images/UndoRedoState5.png)
 
-The following activity diagram summarizes what happens when a user executes a new command:
+Step 7. The user executes `clear`, which calls `Model#commitProjectBook()`. Because the `currentStatePointer` is not the most recent state in `projectBookStateList`, all project book states after the `currentStatePointer` will be flushed. This is to maintain a single history of states based on executed commands.
+
+![UndoRedoState5](images/UndoRedoState6.png)
+
+The following activity diagram summarizes what happens when a user executes a new command (that is not undo, redo, or help):
 
 ![CommitActivityDiagram](images/CommitActivityDiagram.png)
 
-#### Design consideration:
+#### Rejected Implementation: Saving commands instead of entire project book
+This would allow users to go back in history through a reversal of command once a command is undone. 
+Becuase this stores a history of commands and versions of the entire project book, it takes up less memory in users' devices and as a result would have performance gains,
 
-##### Aspect: How undo & redo executes
-
-* **Alternative 1 (current choice):** Saves the entire project book.
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
-
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the project being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
-
-_{more aspects and alternatives to be added}_
+This was a candidate for implementation but ultimately rejected due to the following concerns:
+ * It is difficult to implement the reversal of every command.
+    * We have added many new features and commands, hence it would take time to implement the reversal of each command. It would be wiser to spend the time on improving our existing features.
+    * There is added complexity to the reversal of some features such as reminders as  (CLARA HELP)
+ * This would be more prone to bugs due to the compulsory implementation of reversal of every command.
 
 ### \[Proposed\] Data archiving
 
