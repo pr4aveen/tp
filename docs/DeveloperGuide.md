@@ -4,7 +4,7 @@ title: Developer Guide
 ---
 
 * Table of Contents
-  [toc]
+  {:toc}
 
 ---
 
@@ -106,19 +106,13 @@ The `Model`:
 * Exposes an unmodifiable `ObjectProperty<ObservableList<TrackedItem>>` that stores the projects or tasks that are currently displayed to the user.
 * Exposes an unmodifiable `ObservableList<TrackedItems>` that stores projects or tasks that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * Exposes an unmodifiable `ObservableList<TrackedItems>` that stores the total projects or tasks with running timers that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* Does not depend on any of the other three components.
 
-Packages in the `Model`:
+Packages in the `Model`: //TODO: add all other packages and rewrite the project and task section.
 
-* The Project package contains classes representing a `Project` that can be added by a user.
-* The Task package contains classes representing a `Task` that can be added by a user under a project, such that a project can have a list of tasks.
+* The `project` package contains classes representing a `Project` and a `Task`. All relevant clas
+
+* The `project` package contains classes representing a `Project` and `Task` that can be added by a user under a project, such that a project can have a list of tasks.
 Both `Project` and `Task` extend `TrackedItem` and implement `UniqueItem` interface. 
-
-<div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `ProjectBook`, which `Project` references. This allows `ProjectBook` to only require one `Tag` object per unique `Tag`, instead of each `Project` needing their own `Tag` object.<br>
-
-![BetterModelClassDiagram](images/BetterModelClassDiagram.png)
-
-</div>
 
 ### Storage component
 
@@ -133,8 +127,10 @@ The `Storage` component,
 
 The `JsonAdaptedTask` component contains fields of a `Task` in json format:
 
-* name in `String` format
-* description in `String` format
+//TODO: put parameter names in `` 
+
+* `name` in `String` format
+* `description` in `String` format
 * completionStatus in `boolean` format
 * createdDate in `String` format
 * deadline in `String` format
@@ -157,7 +153,7 @@ Notable classes in this package include:
  to calculate the dates and times required by various parts of the application.
 * `UniqueItem`, `UniqueItemList`: Represents a list of unique items that are compared using a specially defined
  identity instead of the standard `equals()` method.
-* `GuiThemeSettings`, `GuiWIndowSettings`: Manages the GUI settings that can be changed by the user.
+* `GuiThemeSettings`, `GuiWindowSettings`: Manages the GUI settings that can be changed by the user.
 * `StatisticTimeFrame`, `StatisticTimeFrameSettings`: Manages the statistics settings that can be changed by the user.
 
 There are also classes with useful utility methods used to handle different types of data, such as dates, times
