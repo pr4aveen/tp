@@ -5,7 +5,7 @@ skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
 package Project {
-    abstract class TrackedItem {
+    class "{abstract}\nTrackedItem" as TrackedItem {
         {field} reminder: Reminder
         {abstract} {method} removeReminder() : TrackedItem
         {abstract} {method} updatedExpiredReminder() : TrackedItem
@@ -47,7 +47,7 @@ class ProjectBook {
     {method} removeReminder(project: Project, task: Task) : Project
 }
 
-interface Model <<interface>> {
+class "<<interface>>\nModel" as Model {
     {method} rescheduleReminder() : void
     {method} removeReminder(project: Project) : Project
     {method} removeReminder(project: Project, task: Task) : Project
