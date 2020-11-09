@@ -7,6 +7,8 @@ Momentum is a **desktop app** that **helps freelancers track time spent on diffe
 
 It is designed for people that prefer typing, so that frequent tasks can be done faster by typing in commands.
 
+//TODO: Remove this for the time being
+
 *include purpose of the document* e.g. this user guide contains all the commands you need to be able to use the product effectively
 
 *terminology used*
@@ -17,24 +19,23 @@ It is designed for people that prefer typing, so that frequent tasks can be done
 
 <!-- # Table of contents
 [1. Quick Start](#quick-start)
-    [2. Features](#2-Features)
-[3. Projects and Tasks](#3-Projects-and-Tasks)
-    [3.1. View Projects: home](#31-View-Projects-home)
-&nbsp;&nbsp;&nbsp;&nbsp; [3.2. Viewing a Project’s Tasks: view](#view)
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3.3. Creating a Project/Task: add](#add)
-    [3.4. Editing a Project/Task: edit](#edit)
-    [3.5. Deleting a Project/Task: delete](#delete)
-    [3.6. Project/Task Organisation](#organisation)
-    [3.7. Time Tracking](#time-tracking)
-    [3.8. Undo/Redo](#undoredo)
-    [3.9. Statistics](#statistics)
-    [3.10. Settings](#settings)
-    [3.11. Clear All Projects/Tasks: clear](#clear)
-    [3.12. Show and Hide SideBar Components : show](#show)
-    [3.13. Exiting the Program : exit](exit)
+[2. Navigating the User Guide]
+    [2.1  UI Overview]
+    [2.2  Command Format]
+    [2.3  Date and Time Formats]
+[3. Features](#3-Features)
+    [3.1 Projects and Tasks] add/edit/delete/clear/list/view/home
+    [3.2  Finding Projects and Tasks]
+    [3.3  Sorting Projects and Tasks]
+    [3.4 Time Tracking] 
+    [3.5  Reminders]
+    [3.6  Undo/Redo]
+    [3.7 Statistics](#statistics)
+    [3.8 Settings](#settings)
+    [3.9 Show and Hide SideBar Components : show](#show)
+    [3.10 Exiting the Program : exit](exit)
 [4. FAQ](#Faq)
 [5. Glossary](#Glossary)
-    [5.1. Date and Time Terms](#datetime)
 [6. Command Summary](#command-summary)
  -->
 
@@ -62,21 +63,19 @@ It is designed for people that prefer typing, so that frequent tasks can be done
 
    * **`sort`**`type/deadline order/asc` : Sorts the list of projects by deadline in ascending order.
 
-   * **`undo`** : Undoes the previous command (Sort command is revoked).
-
    * **`exit`** : Exits the app.
 
-Refer to the [Features](#features) below for details of each command.
+Refer to the [Features](#features) below for a more comprehensive set of features available in Momentum.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## User Interface Overview
-Momentum uses a GUI (Graphical User Interface) to collect input from you, and display information to you. Different
- parts of this GUI perform different functions, as explained below:
+
+Momentum uses a GUI (Graphical User Interface) to collect input from you, and display information to you. Different parts of this GUI perform different functions, as explained below:
 
 ![OverviewUI](images/OverviewUI2.png)
 
-1. **Command Box**: THe place where you enter in your commands.
+1. **Command Box**: The place where you enter in your commands.
 2. **Results Box**: Displays information about the result of executing the commands that you enter.
 3. **Display List**: Displays a list of projects or tasks.
 4. **Reminders Panel**: This is where reminders will appear. The panel will only be present when there are reminders
@@ -122,7 +121,7 @@ Term  | Meaning | Example
 `DD`  | Day     | 09
 
 **Valid**: 2020-08-02
-
+//TODO: put dates in code form
 **Invalid**: 2-8-20 Wrong number of digits.
 
 **Invalid**: 02-08-20 Wrong order of year, month and date.
@@ -210,7 +209,7 @@ Example: `view 1`
 
 ### 3.3 Creating a Project/Task: `add`
 
-When looking at projects, this command will create a new project. When looking at the tasks in a project, thsi command will create a new task for the project.
+When looking at projects, this command will create a new project. When looking at the tasks in a project, this command will create a new task for the project.
 
 Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [r/REMINDER_DATE_TIME] [t/TAG]`
 
@@ -221,6 +220,15 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE] [dt/DEADLINE_TIME] [
 * Both date and time is compulsory for a reminder.
 * The format for date and time of the reminder is YYYY-MM-DDTHH:MM:SS, refer to [Date and Time Terms](#Date-and-Time-Terms) for more information on YYYY, MM, DD, HH, MM, and SS.
 * The date and time of the reminder needs to be later than the current time.
+
+//sample
+//TODO: do this
+Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`
+
+* `n/NAME`
+    * Name can contain alphanumeric characters (a-Z, 0-9) and spaces.
+* `[d/DESCRIPTION]`
+    * There is no restriction imposed on descriptions.
 
 :::info
 :bulb: **Tip:**
@@ -248,8 +256,7 @@ Result: Creates a project named “Momentum” with a description “CS2103T Tea
 
 1. Type `add n/Momentum d/CS2103T Team Project c/ dd/2021-12-07 dt/11:01:12 r/2021-12-07T11:01:12 t/impt` in the command box, and press the `Enter` key to execute it.
 ![Walkthrough of Creating a Project Diagram Step 1](images/AddProjectDiagram1.png)
-2. The result box will display a message to indicate that the command has been executed successfully:
-   `New Project added: Momentum Description: CS2103T Team Project Completion Status: ✔ Created Date: 2020-11-08 Deadline: 2021-12-0711:01:12 Reminder: 7 Dec 2020, 11:01:12 AM Tags: [impt]`
+2. The result box will display a message to indicate that the command has been executed successfully.
 ![Walkthrough of Creating a Project Diagram Step 2](images/AddProjectDiagram2.png)
 3. A project will be added to the project list as shown below.
 ![Walkthrough of Creating a Project Diagram Step 3](images/AddProjectDiagram3.png)
@@ -260,7 +267,7 @@ Result: Creates a project named “Momentum” with a description “CS2103T Tea
 
 Edits a project or task that was been previously created.
 
-Format: `edit ID [n/NAME] [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [t/TAG]`
+Format: `edit ID [n/NAME] [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`
 
 * The id refers to the id number shown in the displayed list.
 * The id **must be a positive integer** 1, 2, 3, …​
@@ -274,7 +281,7 @@ Format: `edit ID [n/NAME] [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TI
 * The date and time of the reminder needs to be later than the current time.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* Removing a description or deadline by typing `d/` or `dd/` without specifying anything after it.
+* You can remove a description, deadline or reminder by typing `d/` or `dd/` or `r/` without specifying anything after it.
 * When editing tags, the existing tags of the project will be removed i.e adding of tags is not cumulative.
 * You can remove all the project’s tags by typing `t/` without specifying any tags after it.
 
@@ -286,10 +293,9 @@ Result: Updates the project with id 3. The name will be changed to “NewMomentu
 
 1. In task view, type `edit 3 n/NewMomentum d/NewDescription dd/2021-12-07 r/ t/normal` in the command box, and press the `Enter` key to execute it.
 ![Walkthrough of Editing a Task Diagram Step 1](images/EditTaskDiagram1.png)
-2. The result box will display a message to indicate that the command has been executed successfully:
-   `Edited Project: NewMomentum Description: NewDescription Completion Status: ✘ Created Date: 2019-01-04 Deadline: 2021-12-07 Reminder: No reminder set Tags: [normal]`
+2. The result box will display a message to indicate that the command has been executed successfully.
 ![Walkthrough of Editing a Task Diagram Step 2](images/EditTaskDiagram2.png)
-3. A task will be added to the task list as shown below.
+3. A task will be updated as shown below.
 ![Walkthrough of Editing a Task Diagram Step 3](images/EditTaskDiagram3.png)
 
 ### 3.5 Deleting a Project/Task: `delete`
@@ -298,7 +304,7 @@ Deletes a project or task in the list.
 
 Format: `delete ID`
 
-* Deletes the project at the specified `PROJECT_ID`.
+* Deletes the project at the specified `ID`.
 * The id refers to the id number shown in the displayed project list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
@@ -309,7 +315,7 @@ Result: Deletes the second project in the list.
 ### 3.6 Project/Task Organisation
 
 #### 3.6.1 View All Projects : `list`
-
+//TODO: mention that list is different from home (explain)
 When viewing projects, this command shows a list of all projects in Momentum.
 
 When viewing a project's tasks, this command shows a list of all the tasks for the project.
@@ -413,7 +419,7 @@ Searches for projects or tasks in the project book based on certain parameters.
 
 Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...] [c/COMPLETION_STATUS]`
 
-* There are three values for the `match` command.
+* There are three values for the `match` parameter.
 * `match/all` shows an entry only if **all** of the parameters provided in the user's input matches the user's input.
 * `match/any` shows an entry as long as **any** of the parameters provided in the user's input matches the user's input.
 * `match/none` shows an entry only if **none** of the parameters provided in the user's input matches the user's input.
@@ -452,13 +458,13 @@ The following walkthrough shows how a user can use the find command to search fo
 * The `d/` command checks whether a project has a certain description. There can be multiple descriptions added to this command. For example, `d/sunday october` will check for the projects that contain `sunday` or `october` in their description.
 * Searching by description only requires a partial match, similar to searching by name.
 
-The following walkthrough shows how a user can use the find command to search for projects with the `ad` in their description.
+The following walkthrough shows how a user can use the find command to search for projects with the `discussion` in their description.
 
-1. Key in the command `find n/ad` in the command window.
+1. Key in the command `find d/discussion` in the command window.
 ![Find by Description Step 1](images/FindByDescription1.png)
 2. The result box will display a message to indicate that the command has been executed successfully:
 ![Find by Description Step 2](images/FindByDescription2.png)
-3. All projects that contain `ad` in their description will be shown. 
+3. All projects that contain `discussion` in their description will be shown. 
 ![Find by Description Step 3](images/FindByDescription3.png)
 
 ##### Searching by Tag
@@ -496,7 +502,7 @@ The following walkthrough shows how a user can use the find command to search fo
 ![Find by Completion Step 3](images/FindByCompletion3.png)
 
 ##### Searching for Multiple Parameters
- 
+ //TODO: fix bolding
 Example:
 
 If there are 3 projects in the project book:
@@ -526,7 +532,7 @@ You can track the time you spend working on a project or task by starting a time
 Momentum remembers each timer that you start/stop and uses this information to calculate statistics.
 
 ### Starting a Timer for a Project: `start`
-
+//TODO: Change project to project or task
 Format: `/start ID`
 
 * Starts a timer for the project or task at the specified `ID`.
@@ -536,7 +542,7 @@ Format: `/start ID`
 
 :::info
 :bulb: **Tip:**
-You can run timers for more than one project concurrently, if you are multi-tasking.
+You can run timers for more than one project or task concurrently, if you are multi-tasking.
 :::
 
 :::info
@@ -547,7 +553,7 @@ You can run timers for a project separately from its tasks. This allows you to t
 
 Example: `/start 2`
 
-Result: Starts a timer for the second project in the list.
+Result: Starts a timer for the second project or task in the list.
 
 ### Stopping a Timer for a Project: `stop`
 
@@ -560,17 +566,18 @@ Format: `/stop ID`
 
 Example: `/stop 2`
 
-Result: Stops the timer for the second project in the list.
+Result: Stops the timer for the second project or task in the list.
 
 ### Active Timers Panel
-On the left side of the window is the Active TImers Panel. This is where Momentum shows you all the timers that are
+On the left side of the window is the Active Timers Panel. This is where Momentum shows you all the timers that are
  currently running.
  
 ![ActiveTimersUI](images/ActiveTimersUI.png)
 
 This panel will show you the name of the project/task, as well as when the timer was started.
 
-### Time Traacking Example
+### Time Tracking Example 
+//TODO: _______ and numbering
 Here is an example of how you can use the `start` and `stop` commands to track the time that you spend on a project.
 Suppose that you are going to start working on _________, which is the first item shown below:
 
@@ -645,11 +652,11 @@ Result: Projects are sorted by deadline, then the application is reset to the so
 
 ## Statistics
 Momentum uses the data collected from your timers (see [time tracking](#time-tracking)) to calculate statistics. These
- statistics areautomatically generated and updated whenever you make any changes to your projects and tasks, such as
-  when timers for a project /task are started or stopped. 
+ statistics are automatically generated and updated whenever you make any changes to your projects and tasks, such as
+  when timers for a project/task are started or stopped. 
  These statistics can be seen in a panel on the left side of the window, as shown here: 
 
-![StatisticsUI1](images/StatsUI1.png)]
+![StatisticsUI1](images/StatsUI1.png)
 
 The statistics displayed correspond to the projects or tasks currently shown in the list, and will automatically
  change when the items in the list changes (such as when you find specific projects or sort the list of projects).
@@ -677,7 +684,7 @@ This statistic tells you the total amount of time you have spent within the time
 ![StatsUISplit](images/StatsUISplit.png)
 
 The statistics are displayed in 2 different formats:
-1. **Pie Chart**: Shows the relative time spent on each project. Useful for comparing different projects. Projects
+1. **Pie Chart**: Shows the relative time spent on each project. Useful for comparing different projects and tasks. Projects
  and tasks with less time spent on them may not be shown.
 2. **Table**: Shows the exact (in minutes) amount of time spent on each project. Useful for calculations.
 
@@ -708,7 +715,7 @@ Result: Sets a dark theme to the GUI and changes the statistics pane to show the
 ## Clear All Projects/Tasks : `clear`
 
 Removes all projects and tasks in Momentum.
-
+//TODO: change this to match current implementation
 :::danger
 :warning: **Warning**
 This will remove **everything** in Momentum, including all saved data.
@@ -723,7 +730,7 @@ Format: `dismiss`
 * If the reminder component of the sidebar is not visible, it cannot be dismissed.
 
 Result: Hides the reminder component of the sidebar.
-
+//TODO: merge tips?
 :::danger
 :warning: **Warning**
 A reminder that has been dismissed cannot be shown again in the reminder component.
@@ -748,11 +755,13 @@ This walkthrough is a followup of [Walkthrough of Creating a Project](#walkthrou
 
 ## Showing and Hiding SideBar Components : `show`
 
-You can hide or show the tags component of the sidebar.
+//TODO: replace tags componenet with panel
+
+You can hide or show the tags panel of the sidebar.
 
 Format: `show t/`
 
-* `t/` would hide the tags if the tags component was shown.
+* `t/` would hide the tags if the tags panel was shown.
 * `t/` would show the tags if the tags component was hidden.
 
 Result: Shows or Hides the Tags component of the sidebar.
@@ -789,7 +798,7 @@ Result: Exits the program.
 --------------------------------------------------------------------------------------------------------------------
 
 ## Glossary
-
+//TODO copy paste dg glossary
 Term | Meaning
 -----|--------
 GUI  | Stands for Graphical User Inferface. It is the interface of the application which you would interact with.
