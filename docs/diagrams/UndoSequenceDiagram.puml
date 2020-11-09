@@ -21,10 +21,10 @@ create UndoCommand
 ProjectBookParser -> UndoCommand
 activate UndoCommand
 
-UndoCommand --> ProjectBookParser
+UndoCommand --> ProjectBookParser : u
 deactivate UndoCommand
 
-ProjectBookParser --> LogicManager
+ProjectBookParser --> LogicManager : u
 deactivate ProjectBookParser
 
 LogicManager -> UndoCommand : execute()

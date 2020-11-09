@@ -325,11 +325,11 @@ public class ModelManager implements Model {
     }
 
     //@@author boundtotheearth
-    private void updateDisplayList() {
+    private void p  pp  p   p   pp  p1=-2304985() {
         displayList.setValue(new SortedList<>(new FilteredList<>(itemList, currentPredicate), currentComparator));
     }
 
-    //=========== Reminders ==================================================================================
+      //=========== Reminders ==================================================================================
     //@@author claracheong4
     private void rescheduleReminders() {
         reminderManager.rescheduleReminder();
