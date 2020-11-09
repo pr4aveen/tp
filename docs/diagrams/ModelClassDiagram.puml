@@ -36,8 +36,8 @@ ProjectBook .right.|> ReadOnlyProjectBook
 ModelManager .up.|> Model
 Model .right.> ObservableList
 ModelManager o--> "1" VersionedProjectBook
-ModelManager o-left-> "1" UserPrefs
-UserPrefs .left.|> ReadOnlyUserPrefs
+ModelManager o-right-> "1" UserPrefs
+UserPrefs .right.|> ReadOnlyUserPrefs
 
 ProjectBook *--> "1" "UniqueItemList<TrackedItem>"
 "UniqueItemList<TrackedItem>" o--> "*" Project
@@ -48,8 +48,8 @@ Project *-right-> "UniqueItemList<WorkDuration>" : durations
 Task *-right-> "UniqueItemList<WorkDuration>" : durations
 
 
-ModelManager -->"1" Project : current project
-ModelManager -->"*" Project : observable list
 ModelManager -->"*" Project : observable list of projects\n with active timers
+ModelManager -->"*" Project : observable list
+ModelManager -->"1" Project : current project
 
 @enduml
