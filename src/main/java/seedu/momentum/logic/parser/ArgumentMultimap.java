@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic.parser;
 
 import java.util.ArrayList;
@@ -15,7 +17,9 @@ import java.util.Optional;
  */
 public class ArgumentMultimap {
 
-    /** Prefixes mapped to their respective arguments**/
+    /**
+     * Prefixes mapped to their respective arguments
+     **/
     private final Map<Prefix, List<String>> argMultimap = new HashMap<>();
 
     /**
@@ -29,15 +33,6 @@ public class ArgumentMultimap {
         List<String> argValues = getAllValues(prefix);
         argValues.add(argValue);
         argMultimap.put(prefix, argValues);
-    }
-
-    /**
-     * Returns the last value of {@code prefix}.
-     * If the prefix does not exist or has no values, this will return an Optional.empty.
-     */
-    public Optional<String> getValue(Prefix prefix) {
-        List<String> values = getAllValues(prefix);
-        return values.isEmpty() ? Optional.empty() : Optional.of(values.get(values.size() - 1));
     }
 
     /**
@@ -57,5 +52,14 @@ public class ArgumentMultimap {
      */
     public String getPreamble() {
         return getValue(new Prefix("")).orElse("");
+    }
+
+    /**
+     * Returns the last value of {@code prefix}.
+     * If the prefix does not exist or has no values, this will return an Optional.empty.
+     */
+    public Optional<String> getValue(Prefix prefix) {
+        List<String> values = getAllValues(prefix);
+        return values.isEmpty() ? Optional.empty() : Optional.of(values.get(values.size() - 1));
     }
 }

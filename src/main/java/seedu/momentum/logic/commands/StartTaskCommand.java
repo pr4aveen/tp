@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -34,7 +36,7 @@ public class StartTaskCommand extends StartCommand {
      * Starts the timer for the task in the provided model.
      *
      * @param model {@code Model} containing the task whose timer to start.
-     * @return feedback message of timer result, for display.
+     * @return Feedback message of timer result, for display.
      * @throws CommandException If an error occurs when starting the timer.
      */
     @Override
@@ -57,7 +59,6 @@ public class StartTaskCommand extends StartCommand {
         Project newProject = parentProject.setTask(trackedItemToStart, newTrackedItem);
         model.setTrackedItem(parentProject, newProject);
 
-        model.rescheduleReminders();
         model.commitToHistory();
 
         return new CommandResult(String.format(MESSAGE_START_TIMER_SUCCESS, targetIndex.getOneBased())

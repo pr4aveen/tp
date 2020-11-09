@@ -19,8 +19,8 @@ import org.junit.jupiter.api.Test;
 
 import seedu.momentum.commons.core.GuiWindowSettings;
 import seedu.momentum.model.project.Project;
-import seedu.momentum.model.project.SortType;
 import seedu.momentum.model.project.TrackedItem;
+import seedu.momentum.model.project.comparators.SortType;
 import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
 import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.model.project.predicates.NameContainsKeywordsPredicate;

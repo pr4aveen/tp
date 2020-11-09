@@ -1,8 +1,10 @@
+//@@author pr4aveen
 package seedu.momentum.testutil;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.momentum.commons.core.Clock;
 import seedu.momentum.commons.core.DateWrapper;
 import seedu.momentum.commons.core.UniqueItemList;
 import seedu.momentum.model.project.CompletionStatus;
@@ -55,6 +57,8 @@ public class TaskBuilder {
 
     /**
      * Initializes the TaskBuilder with the data of {@code taskToCopy}.
+     *
+     * @param taskToCopy TrackedItem containing the details to build the task.
      */
     public TaskBuilder(TrackedItem taskToCopy) {
         name = taskToCopy.getName();
@@ -73,6 +77,9 @@ public class TaskBuilder {
 
     /**
      * Sets the {@code Name} of the {@code Task} that we are building.
+     *
+     * @param name Name to set to the task.
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withName(String name) {
         this.name = new Name(name);
@@ -81,6 +88,9 @@ public class TaskBuilder {
 
     /**
      * Sets the {@code Description} of the {@code Task} that we are building.
+     *
+     * @param description Description to set to the task.
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withDescription(String description) {
         this.description = new Description(description);
@@ -89,6 +99,9 @@ public class TaskBuilder {
 
     /**
      * Sets the {@code CompletionStatus} of the {@code Task} that we are building.
+     *
+     * @param completionStatus Completion status to set to the task.
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withCompletionStatus(CompletionStatus completionStatus) {
         this.completionStatus = completionStatus;
@@ -97,6 +110,8 @@ public class TaskBuilder {
 
     /**
      * Sets the {@code Description} of the {@code Task} that we are building to an empty string.
+     *
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withEmptyDescription() {
         this.description = Description.EMPTY_DESCRIPTION;
@@ -105,14 +120,19 @@ public class TaskBuilder {
 
     /**
      * Sets the {@code createdDateWrapper} of the {@code Task} that we are building with current date.
+     *
+     * @return A new copy of TaskBuilder containing the new information.
      */
-    public TaskBuilder withCurrentCreatedDate(String createdDate) {
-        this.createdDateWrapper = new DateWrapper(createdDate);
+    public TaskBuilder withCurrentCreatedDate() {
+        this.createdDateWrapper = Clock.now().getDateWrapper();
         return this;
     }
 
     /**
      * Sets the {@code CreatedDate} of the {@code Task} that we are building.
+     *
+     * @param createdDate Created date of the task to set.
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withCreatedDate(String createdDate) {
         this.createdDateWrapper = new DateWrapper(createdDate);
@@ -121,6 +141,8 @@ public class TaskBuilder {
 
     /**
      * Sets the {@code Deadline} of the {@code Task} that we are building with an empty deadline.
+     *
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withEmptyDeadline() {
         this.deadline = new Deadline();
@@ -129,6 +151,10 @@ public class TaskBuilder {
 
     /**
      * Sets the {@code Deadline} of the {@code Task} that we are building.
+     *
+     * @param date Date of the deadline to set to the task.
+     * @param createdDate Created date of the task to set.
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withDeadline(String date, String createdDate) {
         this.deadline = new Deadline(date, new DateWrapper(createdDate));
@@ -137,6 +163,11 @@ public class TaskBuilder {
 
     /**
      * Sets the {@code Deadline} of the {@code Task} that we are building.
+     *
+     * @param date Date of the deadline to set to the task.
+     * @param time Time of the deadline to set to the task.
+     * @param createdDate Created date of the task to set.
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withDeadline(String date, String time, String createdDate) {
         this.deadline = new Deadline(date, time, new DateWrapper(createdDate));
@@ -145,6 +176,8 @@ public class TaskBuilder {
 
     /**
      * Sets the {@code Reminder} of the {@code Task} that we are building with an empty reminder.
+     *
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withEmptyReminder() {
         this.reminder = new Reminder();
@@ -153,6 +186,9 @@ public class TaskBuilder {
 
     /**
      * Sets the {@code Reminder} of the {@code Task} that we are building.
+     *
+     * @param dateTime Date and time of the reminder to set to the task.
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withReminder(String dateTime) {
         this.reminder = new Reminder(dateTime);
@@ -161,6 +197,9 @@ public class TaskBuilder {
 
     /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Task} that we are building.
+     *
+     * @param tags Tags to set to the task.
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withTags(String... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
@@ -170,6 +209,9 @@ public class TaskBuilder {
     /**
      * Parses the {@code durations} into a {@code UniqueDurationList} and set it to the {@code Task} that we
      * are building.
+     *
+     * @param durations List of duration spent to set to the task.
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withDurations(WorkDuration... durations) {
         this.durations = SampleDataUtil.getDurationList(durations);
@@ -179,6 +221,9 @@ public class TaskBuilder {
     /**
      * Parses the {@code timerWrapper} into a {@code TimerWrapper} and set it to the {@code Task} that we
      * are building.
+     *
+     * @param timerWrapper Timer to set to the task.
+     * @return A new copy of TaskBuilder containing the new information.
      */
     public TaskBuilder withTimer(TimerWrapper timerWrapper) {
         this.timerWrapper = timerWrapper;
@@ -187,6 +232,8 @@ public class TaskBuilder {
 
     /**
      * Builds a {@code Task}.
+     *
+     * @return The Task object with the information.
      */
     public Task build() {
         return new Task(name, description, completionStatus, createdDateWrapper, deadline, reminder, tags, durations,

@@ -1,3 +1,4 @@
+//@@author khoodehui
 package seedu.momentum.ui;
 
 import javafx.beans.property.ObjectProperty;
@@ -20,6 +21,8 @@ public class TrackedItemListPanel extends UiPart<Region> {
 
     /**
      * Creates a {@code ProjectListPanel} with the given {@code ObservableList}.
+     *
+     * @param trackedItemList List of tracked items to populate the ListView of the application UI.
      */
     public TrackedItemListPanel(ObjectProperty<ObservableList<TrackedItem>> trackedItemList) {
         super(FXML);
@@ -36,7 +39,7 @@ public class TrackedItemListPanel extends UiPart<Region> {
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code Project} using a {@code ProjectCard}.
      */
-    class TrackedItemViewCell extends ListCell<TrackedItem> {
+    private class TrackedItemViewCell extends ListCell<TrackedItem> {
         @Override
         protected void updateItem(TrackedItem trackedItem, boolean empty) {
             super.updateItem(trackedItem, empty);

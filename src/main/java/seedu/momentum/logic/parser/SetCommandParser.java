@@ -1,7 +1,9 @@
+//@@author khoodehui
+
 package seedu.momentum.logic.parser;
 
-import static java.util.Objects.requireNonNull;
 import static seedu.momentum.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.momentum.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.momentum.logic.parser.CliSyntax.SET_STATISTIC_TIMEFRAME;
 import static seedu.momentum.logic.parser.CliSyntax.SET_THEME;
 
@@ -10,7 +12,7 @@ import seedu.momentum.logic.parser.exceptions.ParseException;
 import seedu.momentum.model.Model;
 
 /**
- * Parses input arguments and creates a new SetCommandParser object
+ * Parses input arguments and creates a new SetCommandParser object.
  */
 public class SetCommandParser implements Parser<SetCommand> {
 
@@ -18,12 +20,14 @@ public class SetCommandParser implements Parser<SetCommand> {
      * Parses the given {@code String} of arguments in the context of the SetCommand
      * and returns an SetCommand object for execution.
      *
-     * @param model the current model.
-     * @throws ParseException if the user input does not conform the expected format.
+     * @param args  Arguments to parse.
+     * @param model The current model, to provide context for parsing the arguments.
+     * @return A new set command with the parsed arguments.
+     * @throws ParseException If the user input does not conform the expected format.
      */
     @Override
     public SetCommand parse(String args, Model model) throws ParseException {
-        requireNonNull(args);
+        requireAllNonNull(args, model);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, SET_THEME, SET_STATISTIC_TIMEFRAME);
 
         if (!argMultimap.getPreamble().isEmpty()) {
@@ -38,7 +42,7 @@ public class SetCommandParser implements Parser<SetCommand> {
 
         if (argMultimap.getValue(SET_STATISTIC_TIMEFRAME).isPresent()) {
             settingsToChange.setStatTimeframe(ParserUtil.parseStatisticTimeframe(
-                argMultimap.getValue(SET_STATISTIC_TIMEFRAME).get()));
+                    argMultimap.getValue(SET_STATISTIC_TIMEFRAME).get()));
         }
 
         if (!settingsToChange.isAnySettingChanged()) {

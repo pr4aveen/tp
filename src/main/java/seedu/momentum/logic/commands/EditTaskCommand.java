@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -21,8 +23,8 @@ public class EditTaskCommand extends EditCommand {
     /**
      * Create a EditTaskCommand that edits a task.
      *
-     * @param index                     of the task in the project to edit.
-     * @param editTrackedItemDescriptor details to edit the project with.
+     * @param index                     Of the task in the project to edit.
+     * @param editTrackedItemDescriptor Details to edit the project with.
      * @param parentProject             The parent project of the task to edit.
      */
     public EditTaskCommand(Index index, EditTrackedItemDescriptor editTrackedItemDescriptor, Project parentProject) {
@@ -35,7 +37,7 @@ public class EditTaskCommand extends EditCommand {
      * Edits the task in the project in the provided model.
      *
      * @param model {@code Model} containing the task to edit.
-     * @return feedback message of editing result, for display.
+     * @return Feedback message of editing result, for display.
      * @throws CommandException If an error occurs during editing process.
      */
     @Override
@@ -62,7 +64,6 @@ public class EditTaskCommand extends EditCommand {
             throw new CommandException(MESSAGE_DUPLICATE_TASK);
         }
 
-        model.rescheduleReminders();
         model.commitToHistory();
         return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS, editedTrackedItem));
     }

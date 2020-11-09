@@ -1,3 +1,4 @@
+//@@author pr4aveen
 package seedu.momentum.testutil;
 
 import seedu.momentum.model.project.CompletionStatus;
@@ -7,8 +8,6 @@ import seedu.momentum.model.project.Task;
  * A utility class containing a list of {@code Task} objects to be used in tests.
  */
 public class TypicalTasks {
-
-    // Projects
 
     public static final Task THOMAS = new TaskBuilder().withName("Thomas Jefferson")
             .withDescription("Likes coding")
@@ -52,41 +51,6 @@ public class TypicalTasks {
             .withReminder("2021-12-05T02:45:23")
             .build();
 
-    // Manually added
-    //    public static final Task SAMUEL = new TaskBuilder().withName("Samuel Matthew")
-    //            .build();
-    //    public static final Task RACHEL = new TaskBuilder().withName("Rachel Smith")
-    //            .build();
-
-    // Manually added - Tasks's details found in {@code CommandTestUtil}
-    //    public static final Task AMY = new ProjectBuilder().withName(VALID_NAME_AMY)
-    //            .withDescription(VALID_DESCRIPTION_AMY)
-    //            .withCreatedDate(VALID_CREATED_DATE_AMY)
-    //            .withDeadline(VALID_DEADLINE_DATE_AMY, VALID_DEADLINE_TIME_AMY, VALID_CREATED_DATE_AMY)
-    //            .withReminder(VALID_REMINDER_AMY)
-    //            .withTags(VALID_TAG_FRIEND).build();
-    //    public static final Project BOB = new ProjectBuilder().withName(VALID_NAME_BOB)
-    //            .withDescription(VALID_DESCRIPTION_BOB)
-    //            .withCompletionStatus(VALID_COMPLETION_STATUS_BOB)
-    //            .withCreatedDate(VALID_CREATED_DATE_BOB)
-    //            .withDeadline(VALID_DEADLINE_DATE_BOB, VALID_CREATED_DATE_BOB)
-    //            .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-
     private TypicalTasks() {
-    } // prevents instantiation
-
-    //    /**
-    //     * Returns an {@code ProjectBook} with all the typical projects.
-    //     */
-    //    public static ProjectBook getTypicalProjectBook() {
-    //        ProjectBook projectBook = new ProjectBook();
-    //        for (Project project : getTypicalProjects()) {
-    //            projectBook.addTrackedItem(project);
-    //        }
-    //        return projectBook;
-    //    }
-    //
-    //    public static List<Project> getTypicalProjects() {
-    //        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
-    //    }
+    }
 }

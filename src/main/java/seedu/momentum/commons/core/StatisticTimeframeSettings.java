@@ -1,3 +1,5 @@
+//@@author khoodehui
+
 package seedu.momentum.commons.core;
 
 import java.io.Serializable;
@@ -10,7 +12,7 @@ import java.util.Objects;
 public class StatisticTimeframeSettings implements Serializable {
 
     private static final StatisticTimeframe DEFAULT_TIMEFRAME =
-        new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY);
+            new StatisticTimeframe(StatisticTimeframe.Timeframe.WEEKLY);
 
     private final StatisticTimeframe statTimeframe;
 
@@ -23,6 +25,8 @@ public class StatisticTimeframeSettings implements Serializable {
 
     /**
      * Constructs a {@code StatisticTimeframeSettings} with the specified timeframe.
+     *
+     * @param statTimeframe Timeframe to create the settings object.
      */
     public StatisticTimeframeSettings(StatisticTimeframe statTimeframe) {
         this.statTimeframe = statTimeframe;
@@ -30,6 +34,11 @@ public class StatisticTimeframeSettings implements Serializable {
 
     public StatisticTimeframe getStatTimeframe() {
         return statTimeframe;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(statTimeframe);
     }
 
     @Override
@@ -44,11 +53,6 @@ public class StatisticTimeframeSettings implements Serializable {
         StatisticTimeframeSettings o = (StatisticTimeframeSettings) other;
 
         return statTimeframe.equals(o.statTimeframe);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(statTimeframe);
     }
 
     @Override

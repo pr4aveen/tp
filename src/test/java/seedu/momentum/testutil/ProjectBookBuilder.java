@@ -1,3 +1,4 @@
+//@@author
 package seedu.momentum.testutil;
 
 import seedu.momentum.model.ProjectBook;
@@ -14,10 +15,6 @@ public class ProjectBookBuilder {
 
     public ProjectBookBuilder() {
         projectBook = new ProjectBook();
-    }
-
-    public ProjectBookBuilder(ProjectBook projectBook) {
-        this.projectBook = projectBook;
     }
 
     /**

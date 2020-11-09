@@ -1,6 +1,8 @@
+//@@author kkangs0226
 package seedu.momentum.model;
 
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import seedu.momentum.model.project.Project;
@@ -19,7 +21,15 @@ public class ProjectBookWithUi extends ProjectBook {
     private final ReadOnlyUserPrefs userPrefs;
 
     /**
-     * Constructs a {@code ProjectBookWithUi}
+     * Constructs a {@code ProjectBookWithUi}.
+     *
+     * @param projectBook Project book containing the initial data.
+     * @param viewMode Current view mode.
+     * @param project Current project in the model manager.
+     * @param predicate Current predicate used to filter the list.
+     * @param comparator Current comparator used to sort the list.
+     * @param isTagsVisible Whether the tags window in the UI is present.
+     * @param userPrefs Current user preferences in the application.
      */
     public ProjectBookWithUi(ReadOnlyProjectBook projectBook, ViewMode viewMode, Project project,
                              Predicate<TrackedItem> predicate, Comparator<TrackedItem> comparator,
@@ -59,14 +69,19 @@ public class ProjectBookWithUi extends ProjectBook {
 
     @Override
     public boolean equals(Object other) {
-        return super.equals(other) && (other == this // short circuit if same object
-                || (other instanceof ProjectBookWithUi // instanceof handles nulls
-                && viewMode.equals(((ProjectBookWithUi) other).getViewMode())
-                && ((project == null && ((ProjectBookWithUi) other).getProject() == null)
-                || (project.equals(((ProjectBookWithUi) other).getProject())))
-                && isTagsVisible == ((ProjectBookWithUi) other).isTagsVisible()))
-                && userPrefs.equals(((ProjectBookWithUi) other).getUserPrefs());
-        //&& predicate.equals(((ProjectBookWithUi) other).getPredicate())));
+        if (other == this) {
+            return true;
+        }
 
+        if (!(other instanceof ProjectBookWithUi)) {
+            return false;
+        }
+
+        ProjectBookWithUi o = (ProjectBookWithUi) other;
+        return super.equals(other)
+                && viewMode.equals(o.getViewMode())
+                && (Objects.equals(project, o.getProject()))
+                && isTagsVisible == o.isTagsVisible()
+                && userPrefs.equals(o.getUserPrefs());
     }
 }

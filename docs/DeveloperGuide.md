@@ -91,13 +91,22 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
 
-The `Model`,
+The `Model`:
 
-* stores a `UserPref` object that represents the user’s preferences.
-* stores the project book data.
-* stores a `ReminderManager` object the schedules and remove reminders.
-* exposes an unmodifiable `ObservableList<Project>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* does not depend on any of the other three components.
+* Stores a `UserPref` object that represents the user’s preferences.
+* Stores a `VersionedProjectBook` object that contains Momentum's data.
+* Stores a `ReminderManager` object that schedules and removes reminders.
+* Stores the following attributes for sorting of `ObservableList<TrackedItems>`:
+    * `SortType` object that defines the sort type imposed on the `ObservableList<TrackedItems>`.
+    * `boolean` object that defines whether the `ObservableList<TrackedItems>` of total projects and tasks is sorted by ascending order.
+    * `boolan` object that defines whether the `ObservableList<TrackedItems>` of total projects and tasks is sorted by completion status.
+* Stores a `ViewMode` object that represents the current view mode of Momentum (Task view or Project view).
+* Stores a `Project` object that represents the current project Momentum is viewing if user is in Task view within a project.
+* Stores a `boolean` object that defines whether the tags display is visible to the users.
+* Exposes an unmodifiable `ObjectProperty<ObservableList<TrackedItem>>` that stores the projects or tasks that are currently displayed to the user.
+* Exposes an unmodifiable `ObservableList<TrackedItems>` that stores projects or tasks that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* Exposes an unmodifiable `ObservableList<TrackedItems>` that stores the total projects or tasks with running timers that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* Does not depend on any of the other three components.
 
 <div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `ProjectBook`, which `Project` references. This allows `ProjectBook` to only require one `Tag` object per unique `Tag`, instead of each `Project` needing their own `Tag` object.<br>
 
