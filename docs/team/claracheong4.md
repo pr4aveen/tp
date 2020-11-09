@@ -41,10 +41,11 @@ Given below are my contributions to the project.
   * Highlights:
     * Listeners and properties are used to ensure that the GUI updates when a show command is executed.
 
-* **Code contributed**: [RepoSense link](https://nus-cs2103-ay2021s1.github.io/tp-dashboard/#breakdown=true&search=claracheong4)
+* **Code contributed**: [RepoSense link](https://nus-cs2103-ay2021s1.github.io/tp-dashboard/#breakdown=true&search=claracheong4&sort=groupTitle&sortWithin=title&since=2020-08-14&until=2020-11-09&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other&tabOpen=true&tabType=authorship&tabAuthor=claracheong4&tabRepo=AY2021S1-CS2103T-T10-1%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code~other)
 
 * **Enhancements to existing features**:
   * Rename addressbook to momentum. [\#12](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/12)
+  * Added a `JsontoModel` class to convert json fields to fields in model for classes in the `storage` module. [\#90](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/90)
   * Updated dummy data. [\#127](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/127)
   * Wrote additional tests to increase coverage. [\#205](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/205) [\#208](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/208)
   * Bug Fixes:
@@ -54,18 +55,21 @@ Given below are my contributions to the project.
 
 * **Documentation**:
   * User Guide:
-    * Added command summary.
+    * Added command summary. [\#13](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/13)
     * Added documentation for the features timer(`start`, `end`) and tags. [\#13](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/13)
     * Added documentation for created date, deadline, completion status and reminder.
-    * Added documentation for show and dismiss command.
-    * Added documentation for date and time terms.
-    * Update sort and find command documentation related to completion status.
+    * Added documentation for show and dismiss command. [\#265](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/265)
+    * Added documentation for date and time terms. [\#265](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/265)
+    * Added walkthroughs for add project, edit task, dismiss reminder and hide tags. [\#269](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/269)
+    * Update sort and find command documentation related to completion status. [\#265](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/265)
   * Developer Guide:
+    * Update Storage section of Architecture, updated the uml diagram and explanation. [\#263](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/263)
+    * Added design considerations for deadline and reminder as well as related UML diagrams. [\#263](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/263)
     * Added user story for timer feature. [\#15](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/15).
-    * Added user stories for created date, deadline, completion status, reminder and show command.
+    * Added user stories for created date, deadline, completion status, reminder, dismiss and show command.
     * Added use case for timer(`start`, `end`) feature. [\#15](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/15).
+    * Added use case for adding a project. [\#263](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/263)
     * Added glossary for CLI. [\#15](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/15).
-    * Added design considerations for deadline and reminder.
 
 * **Community**:
   * PRs reviewed (with non-trivial review comments):
