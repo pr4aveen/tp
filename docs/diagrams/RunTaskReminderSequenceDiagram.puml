@@ -1,0 +1,43 @@
+@startuml
+!include detailed_style.puml
+autoactivate on
+
+box Model MODEL_COLOR_T1
+
+participant "task:Task" as Task MODEL_COLOR
+participant "project:Project" as Project MODEL_COLOR
+participant ":ProjectBook" as ProjectBook MODEL_COLOR
+participant ":ReminderTimerTask" as ReminderTimerTask MODEL_COLOR
+participant "reminderManager:ReminderManager" as ReminderManager MODEL_COLOR
+participant ":ModelManager" as ModelManager MODEL_COLOR
+end box
+
+[-> ReminderTimerTask : run()
+
+ReminderTimerTask -> ReminderManager : updateCurrReminder(project, task)
+return
+
+ReminderTimerTask -> ModelManager : removeReminder(project, task)
+
+ModelManager -> ProjectBook : removeReminder(project, task)
+
+ProjectBook -> Project : removeReminder(task)
+
+Project -> Task : removeReminder()
+return newTask
+
+Project -> Project : set(task, newTask)
+return
+return newProject
+
+ProjectBook -> ProjectBook : set(project, newProject)
+return
+
+return newProject
+
+return
+
+[<--ReminderTimerTask
+destroy ReminderTimerTask
+
+@enduml
