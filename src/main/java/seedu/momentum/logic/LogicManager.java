@@ -148,13 +148,15 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public int getTotalNumberOfItems() {
-        return model.getTotalNumberOfItems();
-    }
-
-    @Override
     public ViewMode getViewMode() {
         return model.getViewMode();
+    }
+
+    //@@author pr4aveen
+
+    @Override
+    public int getTotalNumberOfItems() {
+        return model.getTotalNumberOfItems();
     }
 
     @Override
