@@ -592,6 +592,7 @@ public class ModelManager implements Model {
     private Comparator<TrackedItem> getComparatorNullType(boolean isAscending, boolean isSortedByCompletionStatus) {
         return getComparator(currentSortType, isAscending, isSortedByCompletionStatus);
     }
+    //@@author
 
     @Override
     public boolean equals(Object obj) {
