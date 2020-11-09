@@ -12,25 +12,25 @@ class StorageManager
 class JsonUserPrefsStorage
 class JsonProjectBookStorage
 class JsonAdaptedProject {
-    - {field} name: String
-    - {field} description: String
-    - {field} completionStatus: boolean
-    - {field} createdDate: String
-    - {field} deadline: JsonAdaptedDeadline
-    - {field} reminder: String
-    - {field} tagged: List<JsonAdaptedTag>
-    - {field} durations: List<JsonAdaptedWorkDuration>
-    - {field} timer: JsonAdaptedTimer
+    {field} name: String
+    {field} description: String
+    {field} completionStatus: boolean
+    {field} createdDate: String
+    {field} deadline: JsonAdaptedDeadline
+    {field} reminder: String
+    {field} tagged: List<JsonAdaptedTag>
+    {field} durations: List<JsonAdaptedWorkDuration>
+    {field} timer: JsonAdaptedTimer
 }
 class JsonAdaptedTask {
-    - {field} name: String
-    - {field} description: String
-    - {field} completionStatus: boolean
-    - {field} createdDate: String
-    - {field} deadline: JsonAdaptedDeadline
-    - {field} reminder: String
-    - {field} tagged: List<JsonAdaptedTag>
-    - {field} durations: List<JsonAdaptedWorkDuration>
+    {field} name: String
+    {field} description: String
+    {field} completionStatus: boolean
+    {field} createdDate: String
+    {field} deadline: JsonAdaptedDeadline
+    {field} reminder: String
+    {field} tagged: List<JsonAdaptedTag>
+    {field} durations: List<JsonAdaptedWorkDuration>
 }
 
 StorageManager ..|> Storage
