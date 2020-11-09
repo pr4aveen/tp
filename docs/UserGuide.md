@@ -503,17 +503,19 @@ If there are 3 projects in the project book:
 
 1. Name: `Create Logo` , Description: `Make logo for startup XYZ`, Tags: `Design`
 2. Name: `Write Song`, Description: `80s rock music, three minutes`, Tags: `Music`
-3. Name: `Write Article`, Description: `Write and article about why Momentum is the best app out there`, Tags: `Press` and `Writing`
+3. Name: `Write Article`, Description: `Write an article about why Momentum is the best app out there`, Tags: `Press` and `Writing`
 
 * `find match/any n/song article d/startup t/design` will return all three projects. This is because project 1 contains the keyword `startup` in its description and the tag `design`, project 2 contains the keyword `song` in its name and project 3 contains the keyword `article` in its name.
 * `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** the `startup` in its description and the tag `design`.
+* `find match/none n/song article d/startup t/design` will not return any project as there is no project that **does not** contain `song` and `article` in its name, `startup` in its description and the tag `design`. 
 * `find match/any n/write d/rock` will return projects 2 and 3. This is because project 2 contains `write` in its name and `rock` in its description. Project 3 also contains the word `write` in its name.
 * `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name and `rock` in its description.
+* `find match/none n/write d/rock` will return projects 1. This is because only project 1 does not contain `write` in its name and `rock` in its descriptions.
 
 :::info
 :bulb: **Tip:**
 If a certain search type is used more than once, the latest entry will be used.
-`find n/a n/b n/c` will only search for projets/task that contain`c` in their name.
+`find n/a n/b n/c` will only search for projects/task that contain`c` in their name.
 :::
 
 ## Time Tracking
