@@ -1,0 +1,90 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":SetCommand" as LogicManager LOGIC_COLOR
+participant ":ProjectBookParser" as ProjectBookParser LOGIC_COLOR
+participant ":SetCommandParser" as SetCommandParser LOGIC_COLOR
+participant "stc:SettingsToChange" as SettingsToChange LOGIC_COLOR
+participant "s:SetCommand" as SetCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+participant ":SettingsUpdateManager" as SettingsUpdateManager LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("set th/dark")
+activate LogicManager
+
+LogicManager -> ProjectBookParser : parseCommand("set th/dark")
+activate ProjectBookParser
+
+create SetCommandParser
+ProjectBookParser -> SetCommandParser
+activate SetCommandParser
+
+SetCommandParser --> ProjectBookParser
+deactivate SetCommandParser
+
+ProjectBookParser -> SetCommandParser : parse("th\dark")
+activate SetCommandParser
+
+create SettingsToChange
+SetCommandParser -> SettingsToChange
+activate SettingsToChange
+
+SettingsToChange -> SettingsToChange : setTheme
+activate SettingsToChange
+
+SettingsToChange --> SettingsToChange
+deactivate SettingsToChange
+
+SettingsToChange --> SetCommandParser : stc
+deactivate SettingsToChange
+
+create SetCommand
+SetCommandParser -> SetCommand : new SetCommand(stc)
+activate SetCommand
+
+SetCommand --> SetCommandParser : s
+deactivate SetCommand
+
+SetCommandParser --> ProjectBookParser : s
+deactivate SetCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+SetCommandParser -[hidden]-> ProjectBookParser
+destroy SetCommandParser
+
+ProjectBookParser --> LogicManager : s
+deactivate ProjectBookParser
+
+LogicManager -> SetCommand : execute()
+activate SetCommand
+
+SetCommand -> Model : setGuiThemeSettings
+activate Model
+
+Model --> SetCommand
+deactivate Model
+
+SetCommand -> SettingsUpdateManager : updateTheme
+activate SettingsUpdateManager
+
+SettingsUpdateManager --> SetCommand
+deactivate SettingsUpdateManager
+
+create CommandResult
+SetCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> SetCommand : result
+deactivate CommandResult
+
+SetCommand --> LogicManager : result
+deactivate SetCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

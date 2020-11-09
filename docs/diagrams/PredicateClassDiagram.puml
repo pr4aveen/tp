@@ -1,0 +1,59 @@
+@startuml
+
+!include detailed_style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
+
+Interface Predicate<TrackedItem><<Interface>> USER_COLOR {
+    +test() : boolean
+    +and() : Predicate<TrackedItem>
+    +or() : Predicate<TrackedItem>
+}
+
+package Predicates {
+
+Class "{abstract}\nContainsKeywordPredicate" as ContainsKeywordPredicate
+
+Class ContainsKeywordPredicate MODEL_COLOR {
+    #List<String> : keywords
+    #FindType : findType
+
+    #testPredicate() : boolean
+    +equals() : boolean
+}
+
+enum FindType<<Enumeration>> MODEL_COLOR{
+    ANY
+    ALL
+    NONE
+}
+
+Class NameContainsKeywordPredicate MODEL_COLOR {
+    +test() : boolean
+    +equals() : boolean
+}
+
+Class DescriptionContainsKeywordPredicate MODEL_COLOR {
+    +test() : boolean
+    +equals() : boolean
+}
+
+Class TagListContainsKeywordPredicate MODEL_COLOR {
+    +test() : boolean
+    +equals() : boolean
+}
+Class CompletionStatusPredicate MODEL_COLOR {
+    #isValid() : boolean
+    #testPredicate() : boolean
+    +test() : boolean
+    +equals() : boolean
+}
+}
+
+NameContainsKeywordPredicate -up-|> ContainsKeywordPredicate
+DescriptionContainsKeywordPredicate -up-|> ContainsKeywordPredicate
+TagListContainsKeywordPredicate -up-|> ContainsKeywordPredicate
+CompletionStatusPredicate -up-|> ContainsKeywordPredicate
+ContainsKeywordPredicate ..up.|> Predicate
+
+@enduml

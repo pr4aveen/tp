@@ -5,7 +5,7 @@ box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":ProjectBookParser" as ProjectBookParser LOGIC_COLOR
 participant ":DeleteCommandParser" as DeleteCommandParser LOGIC_COLOR
-participant "d:DeleteCommand" as DeleteCommand LOGIC_COLOR
+participant "d:DeleteProjectCommand" as DeleteProjectCommand LOGIC_COLOR
 participant ":CommandResult" as CommandResult LOGIC_COLOR
 end box
 
@@ -29,12 +29,12 @@ deactivate DeleteCommandParser
 ProjectBookParser -> DeleteCommandParser : parse("1")
 activate DeleteCommandParser
 
-create DeleteCommand
-DeleteCommandParser -> DeleteCommand
-activate DeleteCommand
+create DeleteProjectCommand
+DeleteCommandParser -> DeleteProjectCommand
+activate DeleteProjectCommand
 
-DeleteCommand --> DeleteCommandParser : d
-deactivate DeleteCommand
+DeleteProjectCommand --> DeleteCommandParser : d
+deactivate DeleteProjectCommand
 
 DeleteCommandParser --> ProjectBookParser : d
 deactivate DeleteCommandParser
@@ -45,24 +45,31 @@ destroy DeleteCommandParser
 ProjectBookParser --> LogicManager : d
 deactivate ProjectBookParser
 
-LogicManager -> DeleteCommand : execute()
-activate DeleteCommand
+LogicManager -> DeleteProjectCommand : execute()
+activate DeleteProjectCommand
 
-DeleteCommand -> Model : deletePerson(1)
+DeleteProjectCommand -> Model : deleteTrackedItem(trackedItemToDelete)
 activate Model
 
-Model --> DeleteCommand
+Model --> DeleteProjectCommand
 deactivate Model
 
+DeleteProjectCommand -> Model : commitToHistory()
+activate Model
+
+Model --> DeleteProjectCommand
+deactivate Model
+
+
 create CommandResult
-DeleteCommand -> CommandResult
+DeleteProjectCommand -> CommandResult
 activate CommandResult
 
-CommandResult --> DeleteCommand
+CommandResult --> DeleteProjectCommand
 deactivate CommandResult
 
-DeleteCommand --> LogicManager : result
-deactivate DeleteCommand
+DeleteProjectCommand --> LogicManager : result
+deactivate DeleteProjectCommand
 
 [<--LogicManager
 deactivate LogicManager
