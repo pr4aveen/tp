@@ -1,3 +1,4 @@
+//@@author khoodehui
 package seedu.momentum.ui;
 
 import javafx.fxml.FXML;
@@ -23,6 +24,8 @@ public class StatCard extends UiPart<Region> {
 
     /**
      * Creates a {@code StatCard} with the given {@code statisticEntry} to display.
+     *
+     * @param statisticEntry The statistic entry containing the information to populate the card.
      */
     public StatCard(StatisticEntry statisticEntry) {
         super(FXML);

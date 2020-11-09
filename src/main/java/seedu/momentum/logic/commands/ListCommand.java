@@ -1,3 +1,5 @@
+//@@author
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -17,14 +19,13 @@ public class ListCommand extends Command {
 
     public static final String MESSAGE_SUCCESS_TASKS = "Listed all tasks belonging to %s";
 
-
     /**
      * Lists all items.
      * All projects are listed if the model is in project view.
      * All tasks of a project are listed if the model is in task view.
      *
      * @param model {@code Model} containing the items.
-     * @return feedback message of the result, for display.
+     * @return Feedback message of the result, for display.
      */
     @Override
     public CommandResult execute(Model model) {
@@ -33,9 +34,8 @@ public class ListCommand extends Command {
         model.commitToHistory();
         if (model.getViewMode() == ViewMode.PROJECTS) {
             return new CommandResult(MESSAGE_SUCCESS_PROJECTS);
-        } else {
-            String projectName = model.getCurrentProject().getName().fullName;
-            return new CommandResult(String.format(MESSAGE_SUCCESS_TASKS, projectName));
         }
+        String projectName = model.getCurrentProject().getName().fullName;
+        return new CommandResult(String.format(MESSAGE_SUCCESS_TASKS, projectName));
     }
 }

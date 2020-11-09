@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.momentum.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.momentum.logic.commands.CommandTestUtil.showProjectAtIndex;
+import static seedu.momentum.logic.commands.CommandTestUtil.showTrackedItemWithName;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_FIRST;
 import static seedu.momentum.testutil.TypicalIndexes.INDEX_SECOND;
 import static seedu.momentum.testutil.TypicalProjects.getTypicalProjectBook;
@@ -59,7 +60,9 @@ public class DeleteProjectCommandTest {
 
         Model expectedModel = new ModelManager(model.getProjectBook(), new UserPrefs());
         expectedModel.deleteTrackedItem(trackedItemToDelete);
-        showNoProject(expectedModel);
+
+        showTrackedItemWithName(expectedModel, trackedItemToDelete.getName());
+
         expectedModel.commitToHistory();
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
@@ -98,14 +101,5 @@ public class DeleteProjectCommandTest {
 
         // different project -> returns false
         assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
-    }
-
-    /**
-     * Updates {@code model}'s filtered list to show no one.
-     */
-    private void showNoProject(Model model) {
-        model.updatePredicate(p -> false);
-
-        assertTrue(model.getDisplayList().isEmpty());
     }
 }

@@ -1,3 +1,5 @@
+//@@author boundtotheearth
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -24,7 +26,7 @@ public class StopTaskCommand extends StopCommand {
      * Creates a StopTaskCommand that stops the timer for the task.
      *
      * @param targetIndex The index of the task to stop.
-     * @param parentProject The parent Project of the task.
+     * @param parentProject The parent project of the task.
      */
     public StopTaskCommand(Index targetIndex, Project parentProject) {
         super(targetIndex);
@@ -36,7 +38,7 @@ public class StopTaskCommand extends StopCommand {
      * Stops the timer for the task in the provided model.
      *
      * @param model {@code Model} containing the task whose timer to stop.
-     * @return feedback message of timer result, for display.
+     * @return Feedback message of timer result, for display.
      * @throws CommandException If an error occurs when stopping the timer, or if a timer is already running.
      */
     @Override
@@ -62,7 +64,6 @@ public class StopTaskCommand extends StopCommand {
         Project newProject = parentProject.setTask(trackedItemToStop, newTrackedItem);
         model.setTrackedItem(parentProject, newProject);
 
-        model.rescheduleReminders();
         model.commitToHistory();
 
         return new CommandResult(String.format(MESSAGE_STOP_TIMER_SUCCESS, targetIndex.getOneBased(),

@@ -1,8 +1,9 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import seedu.momentum.logic.commands.exceptions.CommandException;
 import seedu.momentum.model.Model;
 import seedu.momentum.model.project.Project;
 
@@ -15,8 +16,7 @@ public class ClearTaskCommand extends ClearCommand {
      * This only happens when the user is viewing a specific project's tasks.
      *
      * @param model {@code Model} which the command should operate on.
-     * @return feedback message of the operation result, for display.
-     * @throws CommandException If an error occurs during command execution.
+     * @return Feedback message of the operation result, for display.
      */
     @Override
     public CommandResult execute(Model model) {

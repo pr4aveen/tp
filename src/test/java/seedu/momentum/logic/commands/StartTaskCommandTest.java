@@ -96,6 +96,8 @@ public class StartTaskCommandTest {
         Project newProject = expectedProject.setTask(trackedItemToStart, startedTrackedItem);
         expectedModel.setTrackedItem(expectedProject, newProject);
         expectedModel.viewTasks(newProject);
+        showTaskAtIndex(expectedModel, INDEX_FIRST);
+
         expectedModel.commitToHistory();
 
         StartCommand startCommand = new StartTaskCommand(INDEX_FIRST, parentProject);
@@ -103,7 +105,6 @@ public class StartTaskCommandTest {
                 String.format(StartCommand.MESSAGE_START_TIMER_SUCCESS, INDEX_FIRST.getOneBased())
                         + startedTrackedItem.getTimer().getStartTime().getFormatted();
 
-        showTaskAtIndex(expectedModel, INDEX_FIRST);
 
         assertCommandSuccess(startCommand, model, expectedMessage, expectedModel);
         Clock.reset();

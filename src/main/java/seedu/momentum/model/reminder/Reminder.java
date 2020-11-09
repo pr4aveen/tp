@@ -1,3 +1,4 @@
+//@@author claracheong4
 package seedu.momentum.model.reminder;
 
 import static java.util.Objects.requireNonNull;
@@ -16,18 +17,13 @@ import seedu.momentum.commons.exceptions.IllegalValueException;
 
 /**
  * Represents a Project's reminder in the project book.
- * Guarantees: immutable; is valid
+ * Guarantees: immutable; is valid.
  */
 public class Reminder {
 
-    /**
-     * The constant REMINDER_MESSAGE_CONSTRAINTS.
-     */
     public static final String REMINDER_MESSAGE_CONSTRAINTS =
             "Date and time of reminder cannot be earlier than current time";
-    /**
-     * The constant MESSAGE_CONSTRAINTS.
-     */
+
     public static final String MESSAGE_CONSTRAINTS = DateTimeWrapper.MESSAGE_CONSTRAINTS + "\n"
             + REMINDER_MESSAGE_CONSTRAINTS;
 
@@ -63,10 +59,10 @@ public class Reminder {
     }
 
     /**
-     * Returns true if the dateTimeWrapper is after current date and time, false otherwise.
+     * Checks if a dateTimeWrapper is valid.
      *
      * @param dateTimeStr A string to be parsed as a dateTimeWrapper.
-     * @return the isValid boolean.
+     * @return True if the dateTimeWrapper is after current date and time, false otherwise..
      */
     public static boolean isValid(String dateTimeStr) {
         DateTimeWrapper dateTimeWrapper = new DateTimeWrapper(dateTimeStr);
@@ -76,8 +72,8 @@ public class Reminder {
     /**
      * Recreate a reminder from a dateTimeStr.
      *
-     * @param dateTimeStr the date time str.
-     * @return the reminder created.
+     * @param dateTimeStr The date time str.
+     * @return The new reminder created with the dateTimeStr.
      * @throws IllegalValueException If the reminder is invalid.
      */
     public static Reminder recreateReminder(String dateTimeStr) throws IllegalValueException {
@@ -102,27 +98,27 @@ public class Reminder {
     }
 
     /**
-     * Returns true if the reminder is expired, false otherwise.
+     * Checks if a reminder is expired.
      *
-     * @return the isExpired boolean
+     * @return True if the reminder is expired, false otherwise.
      */
     public boolean isExpired() {
         return this.expired;
     }
 
     /**
-     * Returns true if the reminder is empty, false otherwise.
+     * Checks if a reminder is empty.
      *
-     * @return the isEmpty boolean.
+     * @return True if the reminder is empty, false otherwise.
      */
     public boolean isEmpty() {
         return this.dateTimeWrapper.isEmpty();
     }
 
     /**
-     * Returns true if the reminder can be scheduled, false otherwise.
+     * Checks if a reminder can be scheduled.
      *
-     * @return the canSchedule boolean
+     * @return True if the reminder can be scheduled, false otherwise.
      */
     public boolean canSchedule() {
         return !isEmpty() && !isExpired() && !checkExpiry(this.dateTimeWrapper.get());
@@ -131,7 +127,7 @@ public class Reminder {
     /**
      * Gets dateTimeWrapper of a reminder.
      *
-     * @return the dateTimeWrapper.
+     * @return The dateTimeWrapper of the reminder instance.
      * @throws NoSuchElementException If there is no dateTimeWrapper.
      */
     public DateTimeWrapper getDateTimeWrapper() throws NoSuchElementException {
@@ -141,7 +137,7 @@ public class Reminder {
     /**
      * Remove the reminder.
      *
-     * @return the new reminder.
+     * @return A new reminder with no dateTimeWrapper specified.
      */
     public Reminder remove() {
         return new Reminder();
@@ -150,7 +146,7 @@ public class Reminder {
     /**
      * Returns an expired reminder if expired, else returns the same reminder.
      *
-     * @return the new reminder.
+     * @return The updated reminder.
      */
     public Reminder updateExpired() {
         return new Reminder(this.dateTimeWrapper, !canSchedule());
@@ -159,7 +155,7 @@ public class Reminder {
     /**
      * Convert the dateTime in reminder to a date object.
      *
-     * @return the date object.
+     * @return The converted date object.
      */
     public Date toDate() {
         return Date.from(toInstant());
@@ -168,7 +164,7 @@ public class Reminder {
     /**
      * Gets status of the reminder.
      *
-     * @return the status of the reminder.
+     * @return The status of the reminder.
      */
     public String getStatus() {
         return isEmpty() ? "" : REMINDER_ICON;
@@ -177,7 +173,7 @@ public class Reminder {
     /**
      * Gets formatted reminder.
      *
-     * @return the formatted reminder.
+     * @return The formatted reminder.
      */
     public String getFormattedReminder() {
         return this.dateTimeWrapper.map(dateTime -> dateTime.getFormatted()

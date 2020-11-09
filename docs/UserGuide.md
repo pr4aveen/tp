@@ -413,9 +413,10 @@ Searches for projects or tasks in the project book based on certain parameters.
 
 Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...] [c/COMPLETION_STATUS]`
 
-* There are two values for the `match` command.
-* `match/all` requires **all** parameters to match their respective entries in the project for it to be shown.
-* `match/any` shows the project as long as any parameter matches the user's input.
+* There are three values for the `match` command.
+* `match/all` shows an entry only if **all** of the parameters provided in the user's input matches the user's input.
+* `match/any` shows an entry as long as **any** of the parameters provided in the user's input matches the user's input.
+* `match/none` shows an entry only if **none** of the parameters provided in the user's input matches the user's input.
 
 :::info
 :bulb: **Tip:**
@@ -427,6 +428,75 @@ You can only search for projects in the project view and tasks in the tasks view
 `match/any` will be used if the `match` type is not specified.
 :::
 
+:::info
+:bulb: **Tip:**
+Search parameters are not case sensitive.
+:::
+
+##### Searching by Name
+
+* The `n/` command checks whether a project has a certain name. There can be multiple names added to this command. For example, `n/car window` will check for the projects that contain `car` or `window` in their names.
+* Searching by name only requires a partial match. This means that a project with the name `carpet` and `car` can potentially be the result of searching for the term `car`.
+
+The following walkthrough shows how a user can use the find command to search for projects with the `ad` in their names.
+
+1. Key in the command `find n/ad` in the command window.
+![Find by Name Step 1](images/FindByName1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+![Find by Name Step 2](images/FindByName2.png)
+3. All projects that contain `ad` in their name will be shown. 
+![Find by Name Step 3](images/FindByName3.png)
+
+##### Searching by Description
+
+* The `d/` command checks whether a project has a certain description. There can be multiple descriptions added to this command. For example, `d/sunday october` will check for the projects that contain `sunday` or `october` in their description.
+* Searching by description only requires a partial match, similar to searching by name.
+
+The following walkthrough shows how a user can use the find command to search for projects with the `ad` in their description.
+
+1. Key in the command `find n/ad` in the command window.
+![Find by Description Step 1](images/FindByDescription1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+![Find by Description Step 2](images/FindByDescription2.png)
+3. All projects that contain `ad` in their description will be shown. 
+![Find by Description Step 3](images/FindByDescription3.png)
+
+##### Searching by Tag
+
+* The `t/` command checks whether a project has a certain tag. There can be multiple tags added to this command. For example, `t/freelance errands` will check for the projects that contain the tags `freelance` or `errands`.
+* Searching by tags will require a full word match unlike searching by name or description. This means that searching for the tag `free` will not find a project with the tag `freelance`.
+
+:::info
+:bulb: **Tip:**
+Searches for tags require a full match whilst searches partial matches are sufficient for searches by name and description.
+:::
+
+The following walkthrough shows how a user can use the find command to search for projects with the tag `webdesign`.
+
+1. Key in the command `find t/webdesign` in the command window.
+![Find by Tag Step 1](images/FindByTag1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+![Find by Tag Step 2](images/FindByTag2.png)
+3. All projects that contain the tag `webdesign` will be shown. 
+![Find by Tag Step 3](images/FindByTag3.png)
+
+##### Searching by Completion Status
+
+* There are keywords, completed and incomplete for`c/KEYWORD`. Other keywords are not accepted.
+* The `c/` command checks whether a project is completed. For example, `c/completed` will check for the projects that are completed.
+* When `c/` is not specified, both complete and incomplete projects will be shown.
+
+The following walkthrough shows how a user can use the find command to search for projects that have been completed.
+
+1. Key in the command `find c/completed` in the command window.
+![Find by Completion Step 1](images/FindByCompletion1.png)
+2. The result box will display a message to indicate that the command has been executed successfully:
+![Find by Completion Step 2](images/FindByCompletion2.png)
+3. All projects that are completed will be shown. 
+![Find by Completion Step 3](images/FindByCompletion3.png)
+
+##### Searching for Multiple Parameters
+ 
 Example:
 
 If there are 3 projects in the project book:
@@ -439,32 +509,6 @@ If there are 3 projects in the project book:
 * `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** the `startup` in its description and the tag `design`.
 * `find match/any n/write d/rock` will return projects 2 and 3. This is because project 2 contains `write` in its name and `rock` in its description. Project 3 also contains the word `write` in its name.
 * `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name and `rock` in its description.
-
-##### Searching by Name:
-
-* The `n/` command checks whether a project has a certain name. There can be multiple names added to this command. For example, `n/car window` will check for the projects that contain `car` or `window` in their names.
-* Searching by name only requires a partial match. This means that a project with the name `carpet` and `car` can potentially be the result of searching for the term `car`.
-
-##### Searching by Description:
-
-* The `d/` command hecks whether a project has a certain description. There can be multiple descriptions added to this command. For example, `d/sunday october` will check for the projects that contain `sunday` or `october` in their description.
-* Searching by description only requires a partial match, similar to searching by name.
-
-##### Searching by Tag:
-
-* The `t/` command checks whether a project has a certain tag. There can be multiple tags added to this command. For example, `t/freelance errands` will check for the projects that contain the tags `freelance` or `errands`.
-* Searching by tags will require a full word match unlike searching by name or description. This means that searching for the tag `free` will not find a project with the tag `freelance`.
-
-:::info
-:bulb: **Tip:**
-Searches for tags require a full match whilst searches partial matches are sufficient for searches by name and description.
-:::
-
-#### Searching by Completion Status:
-
-* There are keywords, completed and incomplete for`c/KEYWORD`. Other keywords are not accepted.
-* The `c/` command checks whether a project is completed. For example, `c/completed` will check for the projects that are completed.
-* When `c/` is not specified, both complete and incomplete projects will be shown.
 
 :::info
 :bulb: **Tip:**

@@ -1,3 +1,5 @@
+//@@author pr4aveen
+
 package seedu.momentum.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -36,7 +38,7 @@ public abstract class AddCommand extends Command {
     protected Project project;
 
     /**
-     * Creates an AddCommand to add the specified {@code Project}
+     * Creates an AddCommand to add the specified {@code Project}.
      *
      * @param project The project to add.
      */
@@ -49,7 +51,7 @@ public abstract class AddCommand extends Command {
      * Adds an item to the provided model.
      *
      * @param model {@code Model} which the command will add the item to.
-     * @return feedback message of the result of adding, for display.
+     * @return Feedback message of the result of adding, for display.
      * @throws CommandException If an error occurs when adding the item.
      */
     @Override

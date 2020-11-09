@@ -117,13 +117,4 @@ public class DeleteTaskCommandTest {
         // different task -> returns false
         assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
     }
-
-    /**
-     * Updates {@code model}'s filtered list to show no one.
-     */
-    private void showNoTask(Model model) {
-        model.updatePredicate(p -> false);
-
-        assertTrue(model.getDisplayList().isEmpty());
-    }
 }

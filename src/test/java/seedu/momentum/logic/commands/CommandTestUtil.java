@@ -27,6 +27,7 @@ import seedu.momentum.model.Model;
 import seedu.momentum.model.ProjectBook;
 import seedu.momentum.model.ViewMode;
 import seedu.momentum.model.project.CompletionStatus;
+import seedu.momentum.model.project.Name;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.predicates.FindType;
@@ -81,7 +82,8 @@ public class CommandTestUtil {
             + " " + PREFIX_COMPLETION_STATUS;
     public static final String VALID_DEADLINE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_DEADLINE_TYPE
             + " " + PREFIX_COMPLETION_STATUS;
-    public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_CREATED_TYPE;
+    public static final String VALID_CREATED_DATE_SORT_TYPE = " " + SORT_TYPE + SortCommand.INPUT_CREATED_TYPE
+            + " " + PREFIX_COMPLETION_STATUS;
 
     public static final String INVALID_THEME = "transparent";
     public static final String INVALID_STATISTIC_TIMEFRAME = "yearly";
@@ -154,21 +156,6 @@ public class CommandTestUtil {
         }
     }
 
-    //    /**
-    //     * Executes the given {@code command}, confirms that <br>
-    //     * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
-    //     */
-    //    public static void assertUndoCommandSuccess(Command command, Model actualModel,
-    //                                                String expectedMessage) {
-    //        try {
-    //            CommandResult result = command.execute(actualModel);
-    //            CommandResult expectedCommandResult = new CommandResult(expectedMessage);
-    //            assertEquals(result, expectedCommandResult);
-    //        } catch (ParseException | CommandException ce) {
-    //            throw new AssertionError("Execution of command should not fail.", ce);
-    //        }
-    //    }
-
     /**
      * Convenience wrapper to {@link #assertCommandSuccess(Command, Model, CommandResult, Model)}
      * that takes a string {@code expectedMessage}.
@@ -196,24 +183,48 @@ public class CommandTestUtil {
         assertEquals(expectedFilteredList, actualModel.getDisplayList());
     }
 
+    //@@author pr4aveen
     /**
-     * Updates {@code model}'s filtered list to show only the project at the given {@code targetIndex} in the
+     * Show all projects that share the same name as the project at the given {@code targetIndex} in the
      * {@code model}'s project book.
+     *
+     * @param model Model to test with.
+     * @param targetIndex Index of the project to show.
+     * @return The predicate used to find all projects with the given name.
      */
-    public static void showProjectAtIndex(Model model, Index targetIndex) {
+    public static NameContainsKeywordsPredicate showProjectAtIndex(Model model, Index targetIndex) {
         assertTrue(targetIndex.getZeroBased() < model.getDisplayList().size());
         assertSame(model.getViewMode(), ViewMode.PROJECTS);
 
         TrackedItem trackedItem = model.getDisplayList().get(targetIndex.getZeroBased());
         final String[] splitName = trackedItem.getName().fullName.split("\\s+");
-        model.updatePredicate(
-            new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName)));
+        NameContainsKeywordsPredicate predicate =
+            new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName));
+        model.updatePredicate(predicate);
 
         assertEquals(1, model.getDisplayList().size());
+        return predicate;
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only item that shares the same name as
+     * the given {@code trackedItem} in the {@code model}'s project book.
+     *
+     * @param model Model to test with.
+     * @param name Name of the project to show.
+     */
+    public static void showTrackedItemWithName(Model model, Name name) {
+        final String[] splitName = name.fullName.split("\\s+");
+        model.updatePredicate(
+            new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName)));
     }
 
     /**
      * Returns the project at the given {@code targetIndex} in the {@code model}'s project book.
+     *
+     * @param model Model to test with.
+     * @param targetIndex Index of the target project.
+     * @return The obtained project at the specified index.
      */
     public static Project getProjectAtIndex(Model model, Index targetIndex) {
         assertTrue(targetIndex.getZeroBased() < model.getDisplayList().size());
@@ -223,18 +234,25 @@ public class CommandTestUtil {
     }
 
     /**
-     * Updates {@code model}'s filtered list to show only the task at the given {@code targetIndex} in the
+     * Show all tasks that share the same name as the project at the given {@code targetIndex} in the
      * {@code model}'s project book.
+     *
+     * @param model Model to test with.
+     * @param targetIndex Index of the target task.
+     * @return The predicate used to find all tasks with the given name.
      */
-    public static void showTaskAtIndex(Model model, Index targetIndex) {
+    public static NameContainsKeywordsPredicate showTaskAtIndex(Model model, Index targetIndex) {
         assertTrue(targetIndex.getZeroBased() < model.getDisplayList().size());
         assertSame(model.getViewMode(), ViewMode.TASKS);
 
         TrackedItem trackedItem = model.getDisplayList().get(targetIndex.getZeroBased());
         final String[] splitName = trackedItem.getName().fullName.split("\\s+");
-        model.updatePredicate(
-                new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName)));
-        assertEquals(1, model.getDisplayList().size());
-    }
+        NameContainsKeywordsPredicate predicate =
+            new NameContainsKeywordsPredicate(FindType.ALL, Arrays.asList(splitName));
 
+        model.updatePredicate(predicate);
+        assertEquals(1, model.getDisplayList().size());
+
+        return predicate;
+    }
 }

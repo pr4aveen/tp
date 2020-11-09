@@ -5,7 +5,7 @@ import static seedu.momentum.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a name in Momentum.
- * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}.
  */
 public class Name implements Comparable<Name> {
     public static final String MESSAGE_CONSTRAINTS =

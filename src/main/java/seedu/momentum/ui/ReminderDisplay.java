@@ -1,3 +1,4 @@
+//@@author claracheong4
 package seedu.momentum.ui;
 
 import javafx.fxml.FXML;
@@ -22,8 +23,8 @@ public class ReminderDisplay extends UiPart<Region> {
     /**
      * Creates a {@code ReminderDisplay}.
      *
-     * @param isEmpty     true if the reminder is empty.
-     * @param reminderStr string representation of the reminder.
+     * @param isEmpty     True if the reminder is empty.
+     * @param reminderStr String representation of the reminder.
      */
     public ReminderDisplay(boolean isEmpty, String reminderStr) {
         super(FXML);

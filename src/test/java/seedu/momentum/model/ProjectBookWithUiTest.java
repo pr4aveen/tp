@@ -1,9 +1,11 @@
+//@@author kkangs0226
 package seedu.momentum.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
@@ -14,6 +16,8 @@ import seedu.momentum.commons.core.Theme;
 import seedu.momentum.model.project.Project;
 import seedu.momentum.model.project.TrackedItem;
 import seedu.momentum.model.project.comparators.NameCompare;
+import seedu.momentum.model.project.predicates.CompletionStatusPredicate;
+import seedu.momentum.model.project.predicates.FindType;
 import seedu.momentum.testutil.ProjectBuilder;
 
 public class ProjectBookWithUiTest {
@@ -119,11 +123,12 @@ public class ProjectBookWithUiTest {
                 VALID_PROJECT, Model.PREDICATE_SHOW_ALL_TRACKED_ITEMS, NAME_COMPARE, false, USER_PREFS);
         assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
 
-        //        // different predicate -> returns false
-        //        Predicate<TrackedItem> completePredicate = new CompletionStatusPredicate(Arrays.asList("incomplete"));
-        //        differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
-        //                otherProject, completePredicate, nameCompare);
-        //        assertFalse(projectBookWithUi.equals(differentProjectbookWithUi));
+        // different predicate -> returns false
+        Predicate<TrackedItem> completePredicate =
+            new CompletionStatusPredicate(FindType.ALL, Arrays.asList(CompletionStatusPredicate.INCOMPLETE_KEYWORD));
+        differentProjectbookWithUi = new ProjectBookWithUi(new ProjectBook(), ViewMode.TASKS,
+                otherProject, completePredicate, NAME_COMPARE, true, USER_PREFS);
+        assertFalse(PROJECT_BOOK_WITH_UI.equals(differentProjectbookWithUi));
 
         // different user prefs -> returns false
         ReadOnlyUserPrefs otherUserPrefs =
