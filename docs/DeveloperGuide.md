@@ -298,7 +298,7 @@ The deadline of a project and tasks is implemented using `DateWrapper` and `Time
 
 Since both date and time is optional in the class, a deadline is empty when both `dateWrapper` and `timeWrapper` is empty. An empty deadline can be created easily without `TrackedItem` needing to know whether it has a deadline. This design was chosen due to the ease of implementation. Another reason is because no dummy data will be required.
 
-#### Alternative Implementation of Deadline Class
+#### Alternative Implementation: Store Date and Time using `DateTimeWrapper`
 
 An alternative design is to store date and time in a `DateTimeWrapper` with dummy date and time if the date or time is not present as `LocalDateTime` requires both date and time. However, extra checks will have to be done to differentiate between dummy and actual data.
 
@@ -306,7 +306,7 @@ An alternative design is to store date and time in a `DateTimeWrapper` with dumm
 
 The date and time of a deadline of a project or task is parsed separately using different prefixes. This design is chosen as date and time is stored separately and the format of date and time can be more flexible.
 
-#### Alternative Way of Parsing a Deadline
+#### Alternative Implementation: Parsing Date and Time Together
 
 An alternative design is to parse both date and time together. This is harder to implement as date and time is stored separately in deadline. This design would also restrict the format of the date and time.
 
@@ -316,67 +316,79 @@ The deadline has to be on or after the created date. This is checked when the `D
 
 For `EditCommand`, a descriptor of type `editTrackedItemDescriptor` containing edited fields is created directly from parsing the user input in `EditCommandParser`, hence the created date is unknown. A dummy date using `LocalDate.EPOCH` is passed into the constructor of `Deadline` in `EditCommandParser` to allow creation of the deadline. The check that deadline has to be on or after the created date is done in the `getUpdatedDeadline` method of `EditCommand` class after the created date of the project to be edited is known.
 
-// TODO: remove LogicManager, EditCommandParser, ProjectBookParser from the diagram, show only the execute part
-
 ![Interactions Inside the Logic Component for the Edit Project Command with Deadline](images/EditDeadlineSequenceDiagram.png)
 
 ### Reminders
 
-Users can add reminders to be notified on particular projects or tasks.
+Users can add reminders to be notified on particular projects or tasks at the date and time specified.
 
-//TODO: explanation of reminder
+Reminders are stored in a project or task. The runs and shows the name of the project or task in the reminder panel of the sidebar at the date and time while the application is opened. Reminders are removed after a reminder is runned at the specified date and time.
+
+If application is not open at the date and time of the reminder or if there are multiple reminders scheduled at the same date and time, the reminder will be marked as missed. The `updateExpiredReminders` method in `ProjectBook` helps to update the missed reminders before rescheduling all the reminders.
 
 #### Organisation of Reminder Related Classes
 
-The reminder of a project or task is implemented using `ReminderManager` and `Reminder`. The date and time of a reminder is stored in `Reminder`. `ReminderManager` schedules the reminder using `Timer` and runs the reminder using `ThreadWrapper`.
+The reminder is stored as a `Reminder` class in a project or task. The date and time of a reminder is stored in `Reminder`.
+
+`ReminderManager` schedules the reminder using the `schedule` method of the `Timer` class and runs the reminder using the `run` method of the `ThreadWrapper` class.
 
 The diagram below shows the structure of the classes related to the `reminder` package.
 
-//TODO: explain diagrams, remove private methods and fields, visibility stuff, try to make model not italicised, remove methods from project and task that is in trackedItem, remove taskList
+//TODO: explain diagrams, try to make model not italicised
 
 ![Structure of the Model Component for Reminders](images/ReminderClassDiagram.png)
 
-#### Alternative Implementation of Organisation of Reminder Related Classes
+More details on the implementation of `ReminderManager` is given in the [Scheduling of Reminders](#scheduling-of-reminders) section.
+
+#### Alternative Implementation: Manage Reminders using `Reminder` Class
 
 An alternative would be to schedule and run the reminder in `Reminder` class directly. This design was not chosen as that `Reminder` would have to contain references to both `Model` and `ProjectBook`, which is undesired as the projects and tasks in the `ProjectBook` will have to be modified.
+
+#### Rescheduling Reminders
+
+Whenever a project or task is added, edited or removed, the reminders needs to be adjusted accordingly. The chosen implementation is to reschedule all the reminders. This is done through `Model#rescheduleReminders` which is further explained in the [Scheduling of Reminders](#scheduling-of-reminders) section.
+
+#### Alternative Implementation: Reschedule Reminders of Projects or Tasks Changed
+
+An alternative would be to only reschedule projects or tasks that are affected by the change. This design was not chosen as it is more complicated and would increase the coupling between `ReminderManager` and other related classes.
 
 #### Scheduling of Reminders
 
 `ReminderManager` contains a reference to a `Model` so that the projects and tasks can be iterated through callback methods and the reminders of the projects can be modified.
-To schedule reminders, several callback functions are used to iterate through the project book in the model. Firstly, `ModelManager#rescheduleReminders()` calls `ReminderManager#rescheduleReminder()`, which calls
-`Model#rescheduleReminder()` to iterate through the project book through `ProjectBook#rescheduleReminder(ReminderManager reminderManager)`.
-The method call will then call methods such as `ReminderManager#rescheduleReminder(Project project)` and `Project#rescheduleReminder(ReminderManager reminderManager)` to reschedule the reminders.
+
+To schedule reminders, several callback functions are used to iterate through the project book in the model. The entry point is in `ModelManager` where `rescheduleReminders` can be called.
+This method calls `ReminderManager#rescheduleReminder` so that the `timer` in `ReminderManager` can be resetted before the reminders are actually scheduled.
+
+After resetting the `timer`, reminders are rescheduled by calling
+`Model#rescheduleReminder`, which iterates through the project book through `ProjectBook#rescheduleReminder` and modifies the reminders. In this method, the expiration of the reminders will be updated through `ProjectBook#updateExpiredReminders`before the reminder of each project and task is rescheduled as shown in the diagram below.
 
 ![Schedule Reminder Sequence Diagram](images/ScheduleReminderSequenceDiagram.png)
 
-//TODO: explain resetTimer part, make the conditions in loop [], extract two small diagrams, extra() for reminder reminderManager call to rescheduleReminder, link diff parts tgt
+![Update Expired Reminders Sequence Diagram](images/ScheduleReminderSequenceDiagramUpdateExpiredReminders.png)
 
-`ReminderManager` has an inner class `ReminderTimerTask` which implements `TimerTask` that is used to schedule a reminder with `Timer`. This design was chosen as `ReminderTimerTask` references non-static methods of `ReminderMananger` as well as `Model`, which is also referenced in `ReminderManager`.
+![Reschedule Reminder of a Project Sequence Diagram](images/ScheduleReminderSequenceDiagramRescheduleReminderProject.png)
 
-#### Alternative Way of Scheduling of Reminders
+`ReminderManager` has an inner class `ReminderTimerTask` which implements `TimerTask` that is used to schedule a reminder with `Timer`. This design was chosen as `ReminderTimerTask` references non-static methods of `ReminderMananger` as well as `Model`, which is also referenced in `ReminderManager`. More details on how the reminders are runned using `ReminderTimerTask` is given in the [Running Reminders](#running-reminders) section
+
+#### Alternative Implementation: Implement `ReminderTimerTask` as a Separate Class
 
 An alternative implementation is to implement `ReminderTimerTask` as a separate class. With this implementation, `ReminderTimerTask` will have to contain extra references such as `ReminderManager` and `Model`.
 
 #### Running Reminders
 
 At the date and time scheduled, the reminder will be run.
+
 In the process of running the reminders, the UI will show the reminder and it will be removed.
 
 //TODO: put task, project and projectbook to the right of modelmanager
 
 ![Run Task Reminder Sequence Diagram](images/RunTaskReminderSequenceDiagram.png)
 
-The result of the reminder is stored as a `StringProperty` and retrieved from the `Model` so that a listener can be used in `MainWindow` to observe the `StringProperty` so that changes can be detected and the GUI can be updated acccordingly.
+The result of the reminder is stored as a `StringProperty` in `ReminderManager`and retrieved from the `Model` so that a listener can be used in `MainWindow` to observe the `StringProperty` so that changes can be detected and the GUI can be updated acccordingly.
 
-`BooleanProperty` is also stored to keep track of whether there are any reminders so that `MainWindow` can detect whether there are reminders and hide or show the reminder panel accordingly. This design was also chosen due to the ease of implementation.
+A `BooleanProperty` is also stored in `ReminderManager` to keep track of whether there are any reminders so that `MainWindow` can detect whether there are reminders and hide or show the reminder panel accordingly. This design was also chosen due to the ease of implementation.
 
-///TODO: remove specific details from explanations
-
-`ThreadWrapper` is a utility class which runs runnables in `ReminderManager.ReminderTimerTask#run()` using `Platform.runLater` when running the javaFX application, but switches to running the runnables directly when performing automated tests.
-
-#### Alternative Way to Run Reminders
-
-An alternative would be to use `Platform.runLater` only to run the reminder. However, automated tests cannot directly run the reminder as it does not support `Platform`. This design was chosen to enable the reminder to be run directly.
+### Statistics
 
 //TODO: combine this section with the 1st section
 
@@ -384,11 +396,13 @@ An alternative would be to use `Platform.runLater` only to run the reminder. How
 
 Whenever a project or task is added, edited or removed, the reminders needs to be adjusted accordingly. The chosen implementation is to reschedule all the reminders.
 
-#### Alternative Way to Reschedule Reminders
+For example, the `PeriodicTotalTimeStatistic` calculates the amount of time the user
+spends on each project within a specified [timeframe](#timeframes), and is calculated by looking at each project in the model and summing up all the durations spent working on the project for the given timeframe.
 
 An alternative would be to only reschedule projects or tasks that are affected by the change. This design was not chosen as it is more complicated and would increase the coupling between `ReminderManager` and other related classes.
 
 ### Statistics
+
 Momentum calculates statistics using the time tracking data collected from [timers and durations](#timers-and-durations).
 These statistics are implemented using the command design pattern, similar to how Commands are implemented. Each statistic tracked by Momentum is represented by a `Statistic` object, and a `StatisticManager` contains all the statistics and is responsible for updating them whenever the model is changed.
 
@@ -436,6 +450,8 @@ Below are some activity diagrams to illustrate the process of obtaining the curr
 |:---:|:---:|:---:|
 |Normal|Fixed|Manual|
 
+//TODO: capitalise Normal, ...
+
 ### Find Command
 
 Momentum allows uses to search for tasks using the find command. Users can search for projects/tasks based on their name, description, tag and completion status. A FindType is included to determine whether any, all or none of the parameters need to match a project/task for it to be displayed.
@@ -453,11 +469,15 @@ The `ContainsKeywordPredicate` has a `testPredicate` method that is used or over
 
 The following class diagram shows the structure of the aforementioned classes.
 
+//TODO: remove visibilities, remove findtype field, add association to findtype class instead, remove equals, include explanation for findtype
+
 ![PredicateClassDiagram](images/PredicateClassDiagram.png)
 
 The `FindCommandParser` creates a list of predicates based on the arguments entered by the user. `FindCommandParser#combinePredicates` is then used to chain these predicates using the `Predicate#or` or `Predicate#and` methods depending on the `FindType` selected. This returns a `Predicate<TrackedItem> predicate`. The `FindCommand` will pass `predicate` into `Model#updatePredicate` to update the `displayList` once executed.
 
 The following sequence diagram shows how the `FindCommandParser`works. Note that some details have been omitted from the diagram below for clarity.
+
+//TODO: remove valueOf method call, change FindType return to findType, use a specific e.g.
 
 ![FindCommandParserSequenceDiagram](images/FindCommandParserSequenceDiagram.png)
 
@@ -731,7 +751,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1. User requests to add a project with a name, a description, a deadline, a completion status, a reminder and a tag.
 2. Momentum shows a command result and updates the project list shown to reflect the addition.
-3. At the date and time of the reminder specified, the reminder panel will show the name of the project and remove the reminder of the project.
+3. Momentum shows the name of the project in the reminder panel and remove the reminder of the project at the date and time of the reminder specified.
+4. User requests to <u>[dismiss the reminder](#use-case-dismiss-a-reminder)</u>.
 
 //TODO: make 3 a use case for reminder and dismiss
 
@@ -741,18 +762,32 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
   * a1. Momentum shows an error message.
 
-    Use case ends.
+  Use case ends.
 
 The use cases for editing a project, adding a task and editing a task is similar to adding a project, except that the error messages differ slightly.
 
-####**Use case: Delete a project**
+#### **Use case: Dismiss a Reminder**
+
+1. User requests to dismiss a reminder.
+2. Momentum hides the reminder panel.
+
+  Use case ends.
+
+#### **Use case: Hide the Tags Panel**
+
+1. User requests to hide the tags panel.
+2. Momentum hides the tags panel.
+
+  Use case ends.
+
+#### **Use case: Delete a project**
 
 **MSS**
 
-1.  User requests to list projects.
-2.  Momentum shows a list of projects.
-3.  User requests to delete a specific project in the list.
-4.  Momentum deletes the project.
+1. User requests to list projects.
+2. Momentum shows a list of projects.
+3. User requests to delete a specific project in the list.
+4. Momentum deletes the project.
 
     Use case ends.
 
@@ -767,7 +802,6 @@ The use cases for deleting a task is similar to deleting a project.
   * a1. Momentum  shows an error message.
 
     Use case ends.
-
 
 ####**Use case: Find a project/task in the list**
 
@@ -789,7 +823,7 @@ The use cases for deleting a task is similar to deleting a project.
   * a1. Momentum shows an error message.
 
     Use case ends.
-    
+
 ####**Use case: View a project's tasks**
 
 **MSS**
