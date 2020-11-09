@@ -16,15 +16,11 @@ Given below are my contributions to the project.
 [\#19](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/19), 
 [\#76](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/76)
   * What it does: Allows users to track the amount of time spent on a project through the `start` and `stop` commands.
-  * Justification: This is a core feature of the product. Time tracking allows users to collect data on how they are
-   spending their time.
-  * Highlights:
-    * This enhancement requires the addition and management of an additional `WorkDuration` data class for
-    projects and tasks. 
-    * Additional considerations were required to allow for multiple concurrent timers, and for timers to continue
-     running while the application is closed.
-    * It was challenging to implement this in a way that allows meaningful statistics to be
-    calculated from the data.
+  * Justification: This is a core feature of the product. Time tracking allows users to collect data on how they
+   are spending their time.
+  * Highlights: This enhancement requires the addition and management of an additional `WorkDuration` data class for
+    projects and tasks. Additional considerations were required to allow for multiple concurrent timers, and for
+    timers to continue running while the application is closed.
 
 * **New Feature**: Added statistics tracking. [\#40](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/40), 
 [\#49](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/49)
@@ -32,22 +28,19 @@ Given below are my contributions to the project.
      spends on each project and task over a predefined period of time (e.g. daily, weekly, monthly)
     * Justification: The statistics processes and presents the time tracking data in a way that is useful for the
      user, allowing them to draw insights into how they are using their time.
-    * Highlights: 
-        * Calculating and displaying statistics dynamically requires 
-        * New UI elements had to be added to display the statistics. 
-        * The statistics tracking was implemented in a way that allows for new types of statistics to be easily added
-         in the future.
+    * Highlights: Calculating and displaying statistics dynamically requires new UI elements had to be added to
+     display the statistics. The statistics tracking was implemented in a way that allows for new types of statistics to be easily added
+     in the future.
          
 * **New Feature**: Added Navigation between projects and tasks: `home` and `view` commands 
 [\#83](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/83)
     * What it does: Commands that allow users change between viewing projects, and tasks belonging to a project.
     * Justification: This is a key part of the tasks feature, the rest of which was implemented by another team
      member, allowing users to view the tasks that they have added.
-    * Highlights: 
-        * This enhancement affects existing commands and commands to be added in the future. It also heavily affects
-         the way the Model class worksby introducing a state that needs to be managed.
-        * Collaborated closely with another team member (Praveen) to integrate the changes with existing commands as
-         it required a lot of code changes across the repository.
+    * Highlights: This enhancement affects existing commands and commands to be added in the future. It also heavily affects
+      the way the Model class worksby introducing a state that needs to be managed. Collaborated closely with
+      another team member (Praveen) to integrate the changes with existing commands as it required a lot of code
+      changes across the repository.
         
 * **Code Refactor**: Converted an existing class into a generic class to reduce code duplication and allow for more
  flexibility.[\#197](https://github.com/AY2021S1-CS2103T-T10-1/tp/pull/197)
@@ -74,7 +67,6 @@ Given below are my contributions to the project.
     * Created a sequence diagram to illustrate how statistics are calculated.
     * Created a class diagram to illustrate the classes involved in the time tracking process and how they interact.
     * Created an activity diagram to illustrate how `Clock` provides the current time in the application.
-    * Added user cases and user stories for time tracking features.
     
 * **Community**:
   * PRs reviewed (with non-trivial review comments):
