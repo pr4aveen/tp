@@ -90,7 +90,7 @@ public class ReminderManager {
      *
      * @param project The project to schedule a reminder in.
      */
-    public void scheduleReminder(Project project) {
+    private void scheduleReminder(Project project) {
         if (project.getReminder().canSchedule()) {
             LOGGER.info("reminder scheduled for " + project);
             TimerTask timerTask = new ReminderTimerTask(project);
@@ -104,7 +104,7 @@ public class ReminderManager {
      * @param project The project containing the task to have a reminder scheduled in.
      * @param task    The task to schedule a reminder in.
      */
-    public void scheduleReminder(Project project, Task task) {
+    private void scheduleReminder(Project project, Task task) {
         if (task.getReminder().canSchedule()) {
             LOGGER.info("reminder scheduled for " + task + " in " + project);
             TimerTask timerTask = new ReminderTimerTask(task, project);
