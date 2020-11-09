@@ -118,6 +118,9 @@ public class StringUtil {
             output += String.format("%d min", minutes);
         }
 
+        if (output.isEmpty()) {
+            output = "0 min";
+        }
         return output;
     }
 }
