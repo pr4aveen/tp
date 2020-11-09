@@ -28,9 +28,7 @@ public class Theme {
 
     /**
      * Constructs a {@code Theme} with the specified theme type.
-     * <p>
      *
-     * @param themeType a valid theme type.
      * @param themeType A valid theme type.
      */
     public Theme(ThemeType themeType) {
@@ -39,9 +37,7 @@ public class Theme {
 
     /**
      * Constructs a {@code Theme} with the specified theme type expressed as a String.
-     * <p>
-
-     * @param themeType a valid theme type.
+     *
      * @param themeType A valid theme type.
      */
     public Theme(String themeType) {
