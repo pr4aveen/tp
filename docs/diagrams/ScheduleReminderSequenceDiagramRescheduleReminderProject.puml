@@ -10,8 +10,7 @@ participant "reminderManager:ReminderManager" as ReminderManager MODEL_COLOR
 participant ":ModelManager" as ModelManager MODEL_COLOR
 end box
 
-mainframe sd
-title rescheduleReminder(project)
+mainframe sd rescheduleReminder(project)
 ProjectBook -> ReminderManager : rescheduleReminder(project)
 
 group opt [canSchedule]

@@ -140,19 +140,8 @@ The `Storage` component,
 * can save `UserPref` objects in json format and read it back.
 * can save `JsonAdaptedProject` objects in `JsonSerializableProjectBook` in json format and read it back.
 
-The `JsonAdaptedTask` component contains fields of a `Task` in json format:
-
-* `name` in `String` format
-* `description` in `String` format
-* `completionStatus` in `boolean` format
-* `createdDate` in `String` format
-* `deadline` in `String` format
-* `reminder` in `String` format
-* `tagged` in `List<JsonAdaptedTag>` format
-* `durations` in `List<JsonAdaptedWorkDuration>` format
-* `timer` in `JsonAdaptedTimer` format
-
-In addition to the fields in `JsonAdaptedTask` component, `JsonAdaptedProject` contains a taskList in `List<JsonAdaptedTask>` format.
+The `JsonAdaptedProject` class contains the same fields as the `JsonAdaptedTask` class.
+In addition to the fields in `JsonAdaptedTask` component, `JsonAdaptedProject` also contains a taskList in `List<JsonAdaptedTask>` format, as show in the class diagram above.
 
 ### Common classes
 
@@ -224,7 +213,7 @@ Drawbacks:
 
 #### Alternative 1: Using Predicates
 
-Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`. 
+Another implementation we considered was to add all `Project` and `Task` objects to the same `UniqueItemsList`.
 
 This implementation shares some similarities with our chosen implementation. Both `Project` and `Task` will extend an abstract `TrackedItem` class.
 
@@ -267,9 +256,11 @@ Drawbacks:
 * Allowing for deeper nesting of projects may make the application more confusing to use without significant UI changes.
 
 ### Immutability
+
 `Projects`, `Tasks`, `Timers`, and `WorkDurations` are immutable. This means that anytime a project's details are changed, a new object is created with the new details, and the model is updated with the new object.
 
 Notable examples include:
+
 * Starting/Stopping a Timer: A new object is created with the updated timer state and durations,
 * Editing a Project: A new object is created with the new project's details, with the same timer and durations recorded.
 
@@ -332,9 +323,9 @@ For `EditCommand`, a descriptor of type `editTrackedItemDescriptor` containing e
 
 Users can add reminders to be notified on particular projects or tasks at the date and time specified.
 
-Reminders are stored in a project or task. The runs and shows the name of the project or task in the reminder panel of the sidebar at the date and time while the application is opened. Reminders are removed after a reminder is runned at the specified date and time.
+Reminders are stored in a project or task. The reminder run and shows the name of the project or task in the reminder panel of the sidebar at the date and time while the application is opened. Reminders are removed after a reminder is runned at the specified date and time.
 
-If application is not open at the date and time of the reminder or if there are multiple reminders scheduled at the same date and time, the reminder will be marked as missed. The `updateExpiredReminders` method in `ProjectBook` helps to update the missed reminders before rescheduling all the reminders.
+If application is not open at the date and time of the reminder or if there are multiple reminders scheduled at the same date and time, the reminder will be marked as missed. Details on how the reminder will be marked as missed is in the [Scheduling of Reminders](#scheduling-of-reminders) section.
 
 #### Organisation of Reminder Related Classes
 
@@ -343,8 +334,6 @@ The reminder is stored as a `Reminder` class in a project or task. The date and 
 `ReminderManager` schedules the reminder using the `schedule` method of the `Timer` class and runs the reminder using the `run` method of the `ThreadWrapper` class.
 
 The diagram below shows the structure of the classes related to the `reminder` package.
-
-//TODO: explain diagrams, try to make model not italicised
 
 ![Structure of the Model Component for Reminders](images/ReminderClassDiagram.png)
 
@@ -367,10 +356,10 @@ An alternative would be to only reschedule projects or tasks that are affected b
 `ReminderManager` contains a reference to a `Model` so that the projects and tasks can be iterated through callback methods and the reminders of the projects can be modified.
 
 To schedule reminders, several callback functions are used to iterate through the project book in the model. The entry point is in `ModelManager` where `rescheduleReminders` can be called.
-This method calls `ReminderManager#rescheduleReminder` so that the `timer` in `ReminderManager` can be resetted before the reminders are actually scheduled.
+This method calls `ReminderManager#rescheduleReminder` so that the `timer` in `ReminderManager` can be reseted before the reminders are actually scheduled.
 
 After resetting the `timer`, reminders are rescheduled by calling
-`Model#rescheduleReminder`, which iterates through the project book through `ProjectBook#rescheduleReminder` and modifies the reminders. In this method, the expiration of the reminders will be updated through `ProjectBook#updateExpiredReminders`before the reminder of each project and task is rescheduled as shown in the diagram below.
+`Model#rescheduleReminder`. This method iterates through the project book through `ProjectBook#rescheduleReminder` to modify the projects and tasks. In this method, the expiration of the reminders will be updated through `ProjectBook#updateExpiredReminders` before the reminder of each project and task is rescheduled as shown in the diagram below.
 
 ![Schedule Reminder Sequence Diagram](images/ScheduleReminderSequenceDiagram.png)
 
@@ -390,26 +379,11 @@ At the date and time scheduled, the reminder will be run.
 
 In the process of running the reminders, the UI will show the reminder and it will be removed.
 
-//TODO: put task, project and projectbook to the right of modelmanager
-
 ![Run Task Reminder Sequence Diagram](images/RunTaskReminderSequenceDiagram.png)
 
 The result of the reminder is stored as a `StringProperty` in `ReminderManager`and retrieved from the `Model` so that a listener can be used in `MainWindow` to observe the `StringProperty` so that changes can be detected and the GUI can be updated acccordingly.
 
 A `BooleanProperty` is also stored in `ReminderManager` to keep track of whether there are any reminders so that `MainWindow` can detect whether there are reminders and hide or show the reminder panel accordingly. This design was also chosen due to the ease of implementation.
-
-### Statistics
-
-//TODO: combine this section with the 1st section
-
-#### Rescheduling Reminders
-
-Whenever a project or task is added, edited or removed, the reminders needs to be adjusted accordingly. The chosen implementation is to reschedule all the reminders.
-
-For example, the `PeriodicTotalTimeStatistic` calculates the amount of time the user
-spends on each project within a specified [timeframe](#timeframes), and is calculated by looking at each project in the model and summing up all the durations spent working on the project for the given timeframe.
-
-An alternative would be to only reschedule projects or tasks that are affected by the change. This design was not chosen as it is more complicated and would increase the coupling between `ReminderManager` and other related classes.
 
 ### Statistics
 
@@ -464,7 +438,7 @@ Below are some activity diagrams to illustrate the process of obtaining the curr
 
 ### Find Command
 
-Momentum allows uses to search for tasks using the find command. Users can search for projects/tasks based on their name, description, tag and completion status. A FindType is included to determine whether any, all or none of the parameters need to match a project/task for it to be displayed.
+Momentum allows users to search for projects and tasks using the find command. Users can search for projects/tasks based on their name, description, tag and completion status. A FindType is included to determine whether any, all or none of the parameters need to match a project/task for it to be displayed.
 
 A predicate is created for each type of search parameter (name, description, tags, completion status). There are four predicates classes defined for this purpose.
 
@@ -538,9 +512,10 @@ Currently, the user adjustable settings are the GUI theme and the timeframe of t
 
 `SettingsUpdateManager#updateTheme` and `SettingsUpdateManager#updateStatisticTimeFrame` are designed to handle null cases of `Ui` and `StatisticGenerator` so as to make testing more convenient. This is because there are methods being tested that will indirectly call the above methods. Allowing `Ui` and `StatisticGenerator` to be null will enable them to not be instantiated in the tests.
 
-It is also worth noting that all attributes and methods in `SettingUpdateManager` are class-level instead of instance-level. This design was chosen so as to allow minimal changes to the code base. However, one con of this design will be that the attributes and methods can be set or called from anywhere in the code. 
+It is also worth noting that all attributes and methods in `SettingUpdateManager` are class-level instead of instance-level. This design was chosen so as to allow minimal changes to the code base. However, one con of this design will be that the attributes and methods can be set or called from anywhere in the code.
 
-##### Alternative Implementation of `SettingsUpdateManager`
+#### Alternative Implementation of `SettingsUpdateManager`
+
 An alternative implemention of `SettingsUpdateManager` is to convert all of the class-level attributes and methods to become instance-level. While this can address the con mentioned above, having to pass an instantiated `SettingsUpdateManager` object around now will require some undesirable changes to be made. Below describe the possible ways to pass a `SettingsUpdateManager` object around and it's undesired effects.
 
 * Include `SettingsUpdateManager` as an attribute in `ModelManager`:
@@ -549,6 +524,7 @@ An alternative implemention of `SettingsUpdateManager` is to convert all of the 
   * With the current code design, in order for `SetCommand` to be able to use `SettingsUpdateManager`, it is required that `SettingsUpdateManager` is passed in as an argument in `SetCommand#execute` when the method is called by `LogicManager`. This will require changes to be made to the abstract `Command` superclass' `execute` method, and is also an undesirable design as all commands will now be aware of `SettingsUpdateManager` when `SetCommand` is the only command using it.
 
 #### Alternative implementation of Settings Feature
+
 An alternative way to implement the settings feature is to not make the settings reflect immediately. Instead, the user will have to restart the application for the settings to take effect. While it will be much easier to implement since it will only require updating `UserPrefs`, it will not provide a good user experience.
 
 ### Sort Command
@@ -699,10 +675,14 @@ This was a candidate for implementation but ultimately rejected due to the follo
 
 * Time tracking app
   * Dashboard view for freelancer to get an overview of all projects.
-  * Multiple groups to represent different categories to help in grouping of tasks such as freelance projects.
-  * Predefined groups that are commonly used for freelancers, such as projects and self-learning/improvement.
-  * Timer to track the duration of a task or Indicate start time and end time for a task, so that the user can price their rates and charge clients more accurately.
+  * Projects can contain multiple tasks to facilitate effective tracking of projects.
+  * Use tags to organise tasks and projects for commonly used categories.
+  * Timer to track the duration of a task or project, so that the user can price their rates and charge clients more accurately.
+  * Deadline and completion status to track the status of a task or project.
   * Reminder for a project (only when application is open).
+  * Perform highly customised searches for projects and tasks.
+  * Quickly organise projects and tasks based on different parameters.
+  * Attractive GUI with customisable themes for better user experience.
   * Interesting/creative views for visualizing the data.
 
 ### User stories
@@ -764,7 +744,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-####**Use case: Add a project**
+#### **Use case: Add a project**
 
 **MSS**
 
@@ -790,6 +770,12 @@ The use cases for editing a project, adding a task and editing a task is similar
 1. User requests to dismiss a reminder.
 2. Momentum hides the reminder panel.
 
+**Extensions**
+
+* 1a. Momentum detects an error as there is no reminder to dismiss.
+
+  * a1. Momentum shows an error message.
+
   Use case ends.
 
 #### **Use case: Hide the Tags Panel**
@@ -812,8 +798,6 @@ The use cases for editing a project, adding a task and editing a task is similar
 
 The use cases for deleting a task is similar to deleting a project.
 
-//TODO: add use cases
-
 **Extensions**
 
 * 3a. The given project id is invalid.
@@ -822,7 +806,7 @@ The use cases for deleting a task is similar to deleting a project.
 
     Use case ends.
 
-####**Use case: Find a project/task in the list**
+#### **Use case: Find a project/task in the list**
 
 **MSS**
 
@@ -843,7 +827,7 @@ The use cases for deleting a task is similar to deleting a project.
 
     Use case ends.
 
-####**Use case: View a project's tasks**
+#### **Use case: View a project's tasks**
 
 **MSS**
 
@@ -857,7 +841,6 @@ The use cases for deleting a task is similar to deleting a project.
   * a1. Momentum shows an error message.
 
     Use case ends.
-
 
 ### Non-Functional Requirements
 
@@ -879,7 +862,7 @@ The use cases for deleting a task is similar to deleting a project.
 Given below are instructions to test the app manually.
 
 <div markdown="span" class="alert alert-info">:information_source: <strong>Note:</strong> These instructions only provide a starting point for testers to work on;
-testers are expected to do more *exploratory* testing.
+testers are expected to do more <strong>exploratory</strong> testing.
 
 </div>
 
@@ -889,20 +872,21 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file
+      Expected: Shows the GUI with a set of sample projects and tasks.
 
-1. Saving window preferences
+2. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+   2. Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
 
 ### Saving data
 
 1. Dealing with missing data files
 
-   1. Delete the existing `projectbook.json` file
+   1. Delete the existing `projectbook.json` file in the `data` directory
 
    1. Re-launch the app by double-clicking the jar file.<br>
       Expected: The project book is initalized with default data.
@@ -1555,7 +1539,6 @@ testers are expected to do more *exploratory* testing.
 
     1. Test case: `stop x` where x is the greater than the number of tasks.<br>
     Expected: No timer stopped. Invalid index message shown.
-
 
 ### Undo/Redo
 
