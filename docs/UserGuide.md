@@ -753,7 +753,7 @@ Result: Sets a dark theme to the GUI and changes the statistics pane to show the
 ### Walkthrough of Changing Application Settings
 1. In order to set the GUI theme to light and the statistic timeframe to daily, enter `set th/light th/monthly` in the command box and press the `Enter` key to execute it.
  ![Settings Walkthrough Step 1](images/SettingsDiagram1.png)
-2. The result box will display a message to indicate that the command has been executed successfully: `Settings updated`.
+2. The result box will display a message to indicate that the command has been executed successfully.
  ![Settings Walkthrough Step 2](images/SettingsDiagram2.png)  
 3. The GUI theme has now been set to the light theme, and information in the statistics panel has been updated.
  ![Settings Walkthrough Step 3](images/SettingsDiagram3.png) 
