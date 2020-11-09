@@ -483,7 +483,7 @@ This design was chosen as it built on the existing implementation of the find co
 
 #### Behaviour of Find Command
 
-The filter used by the Find Command will be reset after the `Add` Command is used. It will however persist after using the `Edit` Command and `Delete` Command.
+The filter used on the `displayList` by the Find Command will be reset after the `Add` Command is used. It will however persist after using the `Edit` Command and `Delete` Command.
 
 The list will not be filtered after using the `View` or `Home` Commands.
 
