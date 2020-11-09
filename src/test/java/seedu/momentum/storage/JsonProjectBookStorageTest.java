@@ -50,17 +50,6 @@ public class JsonProjectBookStorageTest {
         assertThrows(DataConversionException.class, () -> readProjectBook("notJsonFormatProjectBook.json"));
     }
 
-    //    @Test
-    //    public void readProjectBook_invalidProjectProjectBook_throwDataConversionException() {
-    //        assertThrows(DataConversionException.class, () -> readProjectBook("invalidProjectProjectBook.json"));
-    //    }
-    //
-    //    @Test
-    //    public void readProjectBook_invalidAndValidProjectProjectBook_throwDataConversionException() {
-    //        assertThrows(DataConversionException.class,
-    //              () -> readProjectBook("invalidAndValidProjectProjectBook.json"));
-    //    }
-
     @Test
     public void readAndSaveProjectBook_allInOrder_success() throws Exception {
         Path filePath = testFolder.resolve("TempProjectBook.json");

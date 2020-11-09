@@ -7,12 +7,6 @@ Momentum is a **desktop app** that **helps freelancers track time spent on diffe
 
 It is designed for people that prefer typing, so that frequent tasks can be done faster by typing in commands.
 
-//TODO: Remove this for the time being
-
-*include purpose of the document* e.g. this user guide contains all the commands you need to be able to use the product effectively
-
-*terminology used*
-
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
@@ -120,17 +114,17 @@ Dates should be entered in the order `YYYY-MM-DD`
 
 Term  | Meaning | Example
 ----- |-------- | -------
-`YYYY`| Year    | 2020
-`MM`  | Month   | 02
-`DD`  | Day     | 09
+`YYYY`| Year    | `2020`
+`MM`  | Month   | `02`
+`DD`  | Day     | `09`
 
-**Valid**: 2020-08-02
-//TODO: put dates in code form
-**Invalid**: 2-8-20 Wrong number of digits.
+**Valid**: `2020-08-02`
 
-**Invalid**: 02-08-20 Wrong order of year, month and date.
+**Invalid**: `2-8-20` Wrong number of digits.
 
-**Invalid**: 2nd August 2020 You cannot use text to enter dates.
+**Invalid**: `02-08-20` Wrong order of year, month and date.
+
+**Invalid**: `2nd August 2020` You cannot use text to enter dates.
 
 ### Time Terms
 
@@ -138,25 +132,25 @@ Times should be entered in 24 hour format, in the order `HH:MM:SS`
 
 Term | Meaning | Example
 -----|-------- | -------
-HH   | Hour    | 16
-MM   | Minute  | 52
-SS   | Second  | 03
+HH   | Hour    | `16`
+MM   | Minute  | `52`
+SS   | Second  | `03`
 
-**Valid**: 15:08:02
+**Valid**: `15:08:02`
 
-**Invalid**: 15:8:2 (Wrong number of digits.)
+**Invalid**: `15:8:2` (Wrong number of digits.)
 
-**Invalid**: 8:15:2 (Wrong order of hour, minute and second.)
+**Invalid**: `8:15:2` (Wrong order of hour, minute and second.)
 
-**Invalid**: 03:08:02PM (Only 24 hour time is accepted.)
+**Invalid**: `03:08:02PM` (Only 24 hour time is accepted.)
 
 ### Combining Date and Time
 
 You may also have to enter both dates and times together. When entered together, dates and times should be entered in the order `YYYY-MM-DDTHH:MM:SS`. The letter `T` separates the date and time.
 
-**Valid**: 2020-08-02T15:08:02
+**Valid**: `2020-08-02T15:08:02`
 
-**Invalid**: 15:08:02T2020-08-02 (Wrong order of date and time.)
+**Invalid**: `15:08:02T2020-08-02` (Wrong order of date and time.)
 
 ## 2. Features<a name="2-Features"></a>
 
@@ -319,10 +313,11 @@ Result: Deletes the second project in the list.
 
 ##### 3.6.1 View All Projects : `list`
 
-//TODO: mention that list is different from home (explain)
 When viewing projects, this command shows a list of all projects in Momentum.
 
 When viewing a project's tasks, this command shows a list of all the tasks for the project.
+
+Note that this command is different from the `home` command. When viewing a project's tasks, the `home` command will change the view to show all the projects being tracked by Momentum. However, the `list` will only show all the tasks for the project.
 
 Format: `list`
 
@@ -561,12 +556,11 @@ Momentum remembers each timer that you start/stop and uses this information to c
 
 #### Starting a Timer for a Project: `start`
 
-//TODO: Change project to project or task
 Format: `/start ID`
 
 * Starts a timer for the project or task at the specified `ID`.
 * Only 1 timer can be running for each project or task at any time.
-* The id refers to the id number shown in the displayed project list.
+* The id refers to the id number shown in the displayed list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
 <div markdown="block" class="alert alert-info">
@@ -586,7 +580,7 @@ You can run timers for a project separately from its tasks. This allows you to t
 
 Example: `/start 2`
 
-Result: Starts a timer for the second project or task in the list.
+Result: Starts a timer for the second project or task in the display list.
 
 #### Stopping a Timer for a Project: `stop`
 
@@ -594,12 +588,12 @@ Format: `/stop ID`
 
 * Stops a running timer for the project or task at the specified `ID`.
 * A timer can only be stopped if there is one already running.
-* The id refers to the id number shown in the displayed project list.
+* The id refers to the id number shown in the displayed list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
 Example: `/stop 2`
 
-Result: Stops the timer for the second project or task in the list.
+Result: Stops the timer for the second project or task in the display list.
 
 #### Active Timers Panel
 
@@ -612,9 +606,9 @@ This panel will show you the name of the project/task, as well as when the timer
 
 #### Time Tracking Example
 
-//TODO: _______ and numbering
 Here is an example of how you can use the `start` and `stop` commands to track the time that you spend on a project.
-Suppose that you are going to start working on _________, which is the first item shown below:
+Suppose that you are going to start working on the project "Alpharad Youtube Endcard", which is the first item shown
+ below:
 
 ![TimerExample1](images/TimerExample1.png)
 
@@ -766,19 +760,21 @@ Result: Sets a dark theme to the GUI and changes the statistics pane to show the
 ### Walkthrough of Changing Application Settings
 1. In order to set the GUI theme to light and the statistic timeframe to daily, enter `set th/light th/monthly` in the command box and press the `Enter` key to execute it.
  ![Settings Walkthrough Step 1](images/SettingsDiagram1.png)
-2. The result box will display a message to indicate that the command has been executed successfully: `Settings updated`.
+2. The result box will display a message to indicate that the command has been executed successfully.
  ![Settings Walkthrough Step 2](images/SettingsDiagram2.png)  
 3. The GUI theme has now been set to the light theme, and information in the statistics panel has been updated.
  ![Settings Walkthrough Step 3](images/SettingsDiagram3.png) 
 
 ## Clear All Projects/Tasks : `clear`
 
-Removes all projects and tasks in Momentum.
-//TODO: change this to match current implementation
-<div markdown="block" class="alert alert-danger">
+When viewing all projects, this command deletes all the projects in Momentum, including their tasks.
 
+When viewing a specific project's tasks, this command will delete all the tasks in the project. The project will itself will not be deleted.
+Removes all projects and tasks in Momentum.
+
+<div markdown="block" class="alert alert-danger">
 :warning: **Warning**
-This will remove **everything** in Momentum, including all saved data.
+This command will also delete the saved data for the projects or tasks. You can undo this operation while Momentum remains open. However, you will not be able to undo this if once you close Momentum.
 
 </div>
 
@@ -863,11 +859,10 @@ Result: Exits the program.
 
 ## Glossary
 
-//TODO copy paste dg glossary
-Term | Meaning
------|--------
-GUI  | Stands for Graphical User Inferface. It is the interface of the application which you would interact with.
-
+* **Command Line Interface(CLI)**: Command Line Interface processes commands in the form of text
+* **Mainstream OS**: Windows, Linux, Unix, OS-X
+* **Project View**: View all projects in the project book.
+* **Task View**: View all tasks that are added to a single project.
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command Summary
