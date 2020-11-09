@@ -1,6 +1,6 @@
 @startuml
 start
-:Clock initialized in Manual mode\nwith initial time 20:00;
+:Clock initialized in MANUAL mode\nwith initial time 20:00;
 
 :Current Time requested \n by another component;
 
