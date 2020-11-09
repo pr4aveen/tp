@@ -20,13 +20,13 @@ package Project {
     }
     class Project {
         - {field} taskList: UniqueItemList<TrackedItem>
-        + {method} removeReminder() : Project 
+        + {method} removeReminder() : Project
         + {method} updatedExpiredReminder() : Project
         + {method} rescheduleReminder(reminderManager: ReminderManager) : void
         + {method} removeReminder(task: Task) : Project
     }
     class Task {
-        + {method} removeReminder() : Task 
+        + {method} removeReminder() : Task
         + {method} updatedExpiredReminder() : Task
     }
 }
@@ -43,7 +43,7 @@ package Reminder {
     class ReminderManager {
         - {field} model : Model
         - {field} timer : Timer
-        - {field} currReminder : StringProperty    
+        - {field} currReminder : StringProperty
         + {method} rescheduleReminder() : void
         + {method} rescheduleReminder(project: Project) : void
         + {method} rescheduleReminder(project: Project, task: Task) : void
@@ -57,14 +57,14 @@ package Reminder {
 
 class ProjectBook {
     + {method} rescheduleReminder() : void
-    + {method} removeReminder(project: Project) : Project 
-    + {method} removeReminder(project: Project, task: Task) : Project 
+    + {method} removeReminder(project: Project) : Project
+    + {method} removeReminder(project: Project, task: Task) : Project
 }
 
 interface Model <<interface>> {
     + {method} rescheduleReminder() : void
-    + {method} removeReminder(project: Project) : Project 
-    + {method} removeReminder(project: Project, task: Task) : Project 
+    + {method} removeReminder(project: Project) : Project
+    + {method} removeReminder(project: Project, task: Task) : Project
     + {method} isReminderEmpty() : boolean
     + {method} removeReminderShown() : void
     + {method} getReminder() : StringProperty
