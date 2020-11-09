@@ -46,6 +46,7 @@ It is designed for people that prefer typing, so that frequent tasks can be done
    ![Ui](images/Ui.png)
 
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+
    Some example commands you can try:
 
    * **`add`**`n/Momentum d/CS2103T Team Project` : Adds a project named `Momentum` to the Project Book.
@@ -81,13 +82,12 @@ Momentum uses a GUI (Graphical User Interface) to collect input from you, and di
 7. **Tags Panel**: Displays a collection of all the tags visible in the display list.
 8. **Bottom Bar**: Displays contextual information about what you are viewing, such as the specific project that you are viewing, and the number of items in the display list hidden due to finding or sorting commands.
 
-The active timers, statistics, tags and reminders panels can be resized to display more information by clicking and
- draging their edges.
+The active timers, statistics, tags and reminders panels can be resized to display more information by clicking and draging their edges.
 
- ### User Interface Theme
+### User Interface Theme
 
- The GUI Momentum also comes with two themes, light and dark. These themes are shown below:
- ![GUI Themes](images/GUIThemeDiagram.png)
+The GUI Momentum also comes with two themes, light and dark. These themes are shown below:
+![GUI Themes](images/GUIThemeDiagram.png)
 You can adjust the themes to your preference, by changing it in the application settings. (see [Settings](#settings))
  
 
@@ -544,7 +544,7 @@ The following walkthrough shows how a user can use the find command to search fo
 
 You can search for projects/tasks with multiple keywords for names, descriptions and tags in a single search.
 
-A match type can also be specified as mentioned at the [start of this section](#filtering-projects). 
+A match type can also be specified as mentioned at the start of this section. 
 
 Please look at the examples below to get a better understanding of how you can make searches with multiple commands.
 
@@ -557,7 +557,7 @@ Let's say that you have the following projects in Momentum:
 3. Name: `Write Article`, Description: `Write an article about why Momentum is the best app out there`, Tags: `Press` and `Writing`
 
 * `find match/any n/song article d/startup t/design` will return all three projects. This is because project 1 contains the keyword `startup` in its description and the tag `design`, project 2 contains the keyword `song` in its name and project 3 contains the keyword `article` in its name.
-* `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** the `startup` in its description and the tag `design`.
+* `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** `startup` in its description and the tag `design`.
 * `find match/none n/song article d/startup t/design` will not return any project as there is no project that **does not** contain `song` and `article` in its name, `startup` in its description and the tag `design`. 
 * `find match/any n/write d/rock` will return projects 2 and 3. This is because project 2 contains `write` in its name and `rock` in its description. Project 3 also contains the word `write` in its name.
 * `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name **and** `rock` in its description.
