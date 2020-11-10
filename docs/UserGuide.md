@@ -27,27 +27,27 @@ It is designed for people that prefer typing, so that frequent tasks can be done
    
    Some example commands you can try:
 
-   * **`view`**`1` : View the tasks of project at index 1.
+   * `view 1` : View the tasks of project at index 1.
 
-   * **`home`** : Go to home.
+   * `home` : Go to home.
 
-   * **`add`**`n/Momentum d/CS2103T Team Project` : Add a project named `Momentum` to the Project Book in project view. Add a task named `Momentum` to the project in task view.
+   * `add n/Momentum d/CS2103T Team Project` : Add a project named `Momentum` to the Project Book in project view. Add a task named `Momentum` to the project in task view.
 
-   * **`edit`**`3 n/NewMomentum d/newDescription` : Update the 3rd project/task in the current list. The name will be changed to "NewMomentum" and the description will be changed to "NewDescription".
+   * `edit 3 n/NewMomentum d/newDescription` : Update the 3rd project/task in the current list. The name will be changed to "NewMomentum" and the description will be changed to "NewDescription".
 
-   * **`delete`**`3` : Delete the 3rd project/task shown in the current list.
+   * `delete 3` : Delete the 3rd project/task shown in the current list.
 
-   * **`find`**`n/NewMomentum` : Find a project/task that has `NewMomentum` in its name.
+   * `find n/NewMomentum` : Find a project/task that has `NewMomentum` in its name.
 
-   * **`list`** : List all projects or tasks based on the current view mode.
+   * `list` : List all projects or tasks based on the current view mode.
 
-   * **`sort`**`type/deadline order/asc` : Sort the list of projects/tasks by deadline in ascending order.
+   * `sort type/deadline order/asc` : Sort the list of projects/tasks by deadline in ascending order.
 
-   * **`start`**`1` : Start the timer of project/task at index 1.
+   * `start 1` : Start the timer of project/task at index 1.
 
-   * **`stop`**`1` : Stop the timer of project/task at index 1.
+   * `stop 1` : Stop the timer of project/task at index 1.
 
-   * **`exit`** : Exit the app.
+   * `exit` : Exit the app.
 
 Refer to the [Features](#features) below for a more comprehensive set of features available in Momentum.
 
