@@ -23,7 +23,8 @@ It is designed for people that prefer typing, so that frequent tasks can be done
 4. Double-click the file to start Momentum. The GUI similar to below should appear in a few seconds. <br>
    ![Ui](images/Ui.png)
 
-5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press `Enter` to execute it. e.g. typing **`help`** and pressing `Enter` will open the help window.<br>
+   
    Some example commands you can try:
 
    * **`view`**`1` : View the tasks of project at index 1.
@@ -193,7 +194,7 @@ Example: `view 1`
 
 #### Creating a Project/Task: `add`
 
-Done by: Balasubramaniam Praveen
+Done by: Cheong Ying Yi Clara
 
 When looking at projects, this command will create a new project. When looking at the tasks in a project, this command will create a new task for the project.
 
@@ -208,11 +209,13 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [
 * `[dd/DEADLINE_DATE [dt/DEADLINE_TIME]]`
   * The `dt\DEADLINE_TIME` is part of the the prefix `dd/`, and is optional.
   * A deadline cannot contain only the time field, but a deadline can contain only the date field.
-  * The format for date of the deadline is YYYY-MM-DD, refer to [Date Terms](#Date-Terms) for more information on YYYY, MM and DD.
-  * The format for time of the deadline is HH:MM:SS in 24 hour format, refer to [Time Terms](#Time-Terms) for more information on HH, MM and SS.
+  * The format for date of the deadline is YYYY-MM-DD, refer to [Date Terms](#date-terms) for more information on
+   YYYY, MM and DD.
+  * The format for time of the deadline is HH:MM:SS in 24 hour format, refer to [Time Terms](#time-terms) for more
+   information on HH, MM and SS.
   * The date of the deadline cannot be earlier than the creation date of the project.
 * `[r/REMINDER_DATE_TIME]`
-  * Both date and time is compulsory for a reminder.
+  * Both date and time are compulsory for a reminder.
   * The format for date and time of the reminder is YYYY-MM-DDTHH:MM:SS, refer to [Date and Time Terms](#Date-and-Time-Terms) for more information on YYYY, MM, DD, HH, MM, and SS.
   * The date and time of the reminder needs to be later than the current time, refer to [Reminders](#reminders) section for more details on reminders.
 * `[t/TAG]`
@@ -245,7 +248,7 @@ Result: Creates a project named "Momentum" with a description "CS2103T Team Proj
 
 #### Editing a Project/Task: `edit`
 
-Done by Balasubramaniam Praveen
+Done by Cheong Ying Yi Clara
 
 Edits a project or task that was been previously created.
 
@@ -255,7 +258,7 @@ Format: `edit ID [n/NAME] [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TI
 * Existing values will be updated to the input values.
 * You can remove a description, deadline or reminder by typing `d/` or `dd/` or `r/` without specifying anything after it.
 
-* ID
+* `ID`
   * The id refers to the id number shown in the displayed list.
   * The id **must be a positive integer** 1, 2, 3, …​
 * `n/NAME`
@@ -268,8 +271,10 @@ Format: `edit ID [n/NAME] [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TI
   * The `dt\DEADLINE_TIME` is part of the the prefix `dd/`, and is optional.
   * A deadline cannot be edited with only the time field, but a deadline can be edited with only the date field.
   * The deadline will be replaced with an edit.
-  * The format for date of the deadline is YYYY-MM-DD, refer to [Date Terms](#Date-Terms) for more information on YYYY, MM and DD.
-  * The format for time of the deadline is HH:MM:SS in 24 hour format, refer to [Time Terms](#Time-Terms) for more information on HH, MM and SS.
+  * The format for date of the deadline is YYYY-MM-DD, refer to [Date Terms](#date-terms) for more information on
+   YYYY, MM and DD.
+  * The format for time of the deadline is HH:MM:SS in 24 hour format, refer to [Time Terms](#time-terms) for more
+   information on HH, MM and SS.
   * The date of the deadline cannot be earlier than the creation date of the project.
 * `[r/REMINDER_DATE_TIME]`
   * Both date and time is compulsory for a reminder.
@@ -302,16 +307,14 @@ Deletes a project or task in the list.
 Format: `delete ID`
 
 * Deletes the project at the specified `ID`.
-* The id refers to the id number shown in the displayed project list.
+* The id refers to the id number shown in the displayed list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
 Example: `delete 2`
 
-Result: Deletes the second project in the list.
+Result: Deletes the second project or task in the list.
 
-#### Project/Task Organisation
-
-##### View All Projects : `list`
+#### View All Projects : `list`
 
 Done by Farrell Nah Jun Hao
 
@@ -323,7 +326,7 @@ Note that this command is different from the `home` command. When viewing a proj
 
 Format: `list`
 
-##### Sort Projects : `sort`
+#### Sort Projects : `sort`
 
 Done by Kang Su Min
 
@@ -357,15 +360,7 @@ Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
 
 </div>
 
-Example:
-
-The following are 3 projects in the project book.
-
-Project 1. Name: `Ant Hole`, Deadline: `2020-02-02`, Created Date: `2000-02-02`
-Project 2. Name: `Brunch`, Deadline: `2010-01-01`, Created Date: `2002-09-09`
-Project 3. Name: `Create Logo` , Deadline: `2040-04-04`, Created Date: `2001-01-01`
-
-**Sorting by Default order**
+**Sorting by Default Order**
 
 Format: `sort`
 
@@ -397,7 +392,7 @@ The following walkthrough shows how a user can sort projects in Momentum by togg
 3. All projects are ordered in default ascending alphabetical order without regard for completion status.
 ![Toggle Completion Status Step 3](images/ToggleCompletionStatus3.png)
 
-###### Sorting With Only Type Specified
+##### Sorting With Only Type Specified
 
 Format: `sort type/SORT_TYPE`
 
@@ -448,7 +443,7 @@ The following walkthrough shows how a user can sort projects in Momentum by spec
 3. All projects are ordered in descending created date order.
 ![Created Descending 3](images/CreatedDescending3.png)
 
-##### Filtering Projects: `find`
+#### Filtering Projects: `find`
 
 Done by Balasubramaniam Praveen
 
@@ -457,9 +452,9 @@ Searches for projects or tasks in the project book based on certain parameters.
 Format: `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...] [c/COMPLETION_STATUS]`
 
 * There are three values for the `match` parameter.
-    * `match/all` shows an entry only if **all** of the parameters provided in the user's input matches the user's input.
-    * `match/any` shows an entry as long as **any** of the parameters provided in the user's input matches the user's input.
-    * `match/none` shows an entry only if **none** of the parameters provided in the user's input matches the user's input.
+    * `match/all` shows an entry only if **all** of the parameters provided in the user's input matches the entry.
+    * `match/any` shows an entry as long as **any** of the parameters provided in the user's input matches the entry.
+    * `match/none` shows an entry only if **none** of the parameters provided in the user's input matches the entry.
 
 <div markdown="block" class="alert alert-info">
 
@@ -482,7 +477,7 @@ Search parameters are not case sensitive.
 
 </div>
 
-###### Searching by Name
+##### Searching by Name
 
 * The `n/` command checks whether a project has a certain name. There can be multiple names added to this command. For example, `n/car window` will check for the projects that contain `car` or `window` in their names.
 * Searching by name only requires a partial match. This means that a project with the name `carpet` and `car` can potentially be the result of searching for the term `car`.
@@ -496,7 +491,7 @@ The following walkthrough shows how a user can use the find command to search fo
 3. All projects that contain `ad` in their name will be shown.
 ![Find by Name Step 3](images/FindByName3.png)
 
-###### Searching by Description
+##### Searching by Description
 
 * The `d/` command checks whether a project has a certain description. There can be multiple descriptions added to this command. For example, `d/sunday october` will check for the projects that contain `sunday` or `october` in their description.
 * Searching by description only requires a partial match, similar to searching by name.
@@ -510,7 +505,7 @@ The following walkthrough shows how a user can use the find command to search fo
 3. All projects that contain `discussion` in their description will be shown.
 ![Find by Description Step 3](images/FindByDescription3.png)
 
-###### Searching by Tag
+##### Searching by Tag
 
 * The `t/` command checks whether a project has a certain tag. There can be multiple tags added to this command. For example, `t/freelance errands` will check for the projects that contain the tags `freelance` or `errands`.
 * Searching by tags will require a full word match unlike searching by name or description. This means that searching for the tag `free` will not find a project with the tag `freelance`.
@@ -518,7 +513,7 @@ The following walkthrough shows how a user can use the find command to search fo
 <div markdown="block" class="alert alert-info">
 
 :bulb: **Tip:**
-Searches for tags require a full match whilst searches partial matches are sufficient for searches by name and description.
+Searches for tags require a full match whilst partial matches are sufficient for searches by name and description.
 
 </div>
 
@@ -531,7 +526,7 @@ The following walkthrough shows how a user can use the find command to search fo
 3. All projects that contain the tag `webdesign` will be shown.
 ![Find by Tag Step 3](images/FindByTag3.png)
 
-###### Searching by Completion Status
+##### Searching by Completion Status
 
 * There are keywords, completed and incomplete for`c/KEYWORD`. Other keywords are not accepted.
 * The `c/` command checks whether a project is completed. For example, `c/completed` will check for the projects that are completed.
@@ -546,11 +541,11 @@ The following walkthrough shows how a user can use the find command to search fo
 3. All projects that are completed will be shown.
 ![Find by Completion Step 3](images/FindByCompletion3.png)
 
-###### Searching with Multiple Parameters
+##### Searching with Multiple Parameters
 
 You can search for projects/tasks with multiple keywords for names, descriptions and tags in a single search.
 
-A match type can also be specified as mentioned at the [start of this section](#filtering-projects).
+A match type can also be specified as mentioned at the [start of this section](#filtering-projects-find).
 
 Please look at the examples below to get a better understanding of how you can make searches with multiple commands.
 
@@ -563,17 +558,22 @@ Let's say that you have the following projects in Momentum:
 3. Name: `Write Article`, Description: `Write an article about why Momentum is the best app out there`, Tags: `Press` and `Writing`
 
 * `find match/any n/song article d/startup t/design` will return all three projects. This is because project 1 contains the keyword `startup` in its description and the tag `design`, project 2 contains the keyword `song` in its name and project 3 contains the keyword `article` in its name.
-* `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** the `startup` in its description and the tag `design`.
+
+* `find match/all n/song article d/startup t/design` will not return any project as there is no project with `song` **and** `article` in its name **and** `startup` in its description and the tag `design`.
+
 * `find match/none n/song article d/startup t/design` will not return any project as there is no project that **does not** contain `song` and `article` in its name, `startup` in its description and the tag `design`.
+
 * `find match/any n/write d/rock` will return projects 2 and 3. This is because project 2 contains `write` in its name and `rock` in its description. Project 3 also contains the word `write` in its name.
+
 * `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name **and** `rock` in its description.
+
 * `find match/none n/write d/rock` will return projects 1. This is because only project 1 **does not** contain `write` in its name and `rock` in its descriptions.
 
 <div markdown="block" class="alert alert-info">
 
 :bulb: **Tip:**
 If a certain search type is used more than once, the latest entry will be used.
-`find n/a n/b n/c` will only search for projects/task that contain`c` in their name.
+`find n/a n/b n/c` will only search for projects/tasks that contain`c` in their name.
 
 </div>
 
@@ -595,7 +595,7 @@ Momentum remembers each timer that you start/stop and uses this information to c
 
 #### Starting a Timer for a Project: `start`
 
-Format: `/start ID`
+Format: `start ID`
 
 * Starts a timer for the project or task at the specified `ID`.
 * Only 1 timer can be running for each project or task at any time.
@@ -617,20 +617,20 @@ You can run timers for a project separately from its tasks. This allows you to t
 
 </div>
 
-Example: `/start 2`
+Example: `start 2`
 
 Result: Starts a timer for the second project or task in the display list.
 
 #### Stopping a Timer for a Project: `stop`
 
-Format: `/stop ID`
+Format: `stop ID`
 
 * Stops a running timer for the project or task at the specified `ID`.
 * A timer can only be stopped if there is one already running.
 * The id refers to the id number shown in the displayed list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
-Example: `/stop 2`
+Example: `stop 2`
 
 Result: Stops the timer for the second project or task in the display list.
 
@@ -653,41 +653,41 @@ Suppose that you are going to start working on the project "Alpharad Youtube End
 
 You can perform time tracking with the following steps:
 
-1. To start the timer, type `start 1` into the command box and press `enter`.
+1. To start the timer, type `start 1` into the command box and press `Enter`.
 
 ![TimerExample2](images/TimerExample2.png)
 
-1. You should see the following message in the result box, indicating that the timer has been successfully started.
+2. You should see the following message in the result box, indicating that the timer has been successfully started.
 
 ![TimerExample3](images/TimerExample3.png)
 
-1. You should also see the project's name and start time in the active timers panel:
+3. You should also see the project's name and start time in the active timers panel:
 
 ![TimerExample4](images/TimerExample4.png)
 
-1. Now that the timer has been successfully started, you can proceed to do your work. You can also choose to close
+4. Now that the timer has been successfully started, you can proceed to do your work. You can also choose to close
  Momentum. The timer will continue to run even when Momentum is closed. Proceed to the next step when you are done
   with your work.
 
-1. To stop the timer, type `stop 1` into the command box and press `enter`.
+5. To stop the timer, type `stop 1` into the command box and press `Enter`.
 
 ![TimerExample5](images/TimerExample5.png)
 
-1. You should see the following message in the result box, indicating that the timer has been successfully stopped.
+6. You should see the following message in the result box, indicating that the timer has been successfully stopped.
 
 ![TimerExample6](images/TimerExample6.png)
 
-1. You should also see that the project has been removed from the active timers panel:
+7. You should also see that the project has been removed from the active timers panel:
 
 ![TimerExample7](images/TimerExample7.png)
 
-1. The statistics panel (see [statistics](#statistics)) will also be updated to reflect the time that you have spent
+8. The statistics panel (see [statistics](#statistics)) will also be updated to reflect the time that you have spent
  working on the
  project:
 
 ![TimerExample8](images/TimerExample8.png)
 
-## Reminders
+### Reminders
 
 Done by Cheong Ying Yi Clara
 
@@ -704,17 +704,17 @@ If there are multiple reminders set at the same date and time, only one of the r
 
 </div>
 
-## Undo/Redo
+### Undo/Redo
 
 Done By Kang Su Min
 
 Undo command undoes previous commmand and redo command redoes previously undone command.
 
-### Undoing the Previous Command: `undo`
+#### Undoing the Previous Command: `undo`
 
 The undo command resets the application to the state before previous command was executed.
 
-Format: `/undo`
+Format: `undo`
 
 Example: `start 1`, `undo`
 
@@ -723,7 +723,7 @@ Result: Timer for project/task at index 1 is started, then stopped and removed a
 The following walkthrough shows how a user can start a timer for a project, then undo the command.
 
 1. Key in command `start 1` in the command window.
-![Undo 1](Undo1.png)
+![Undo 1](images/Undo1.png)
 2. The result box will display a message to indicate that the command has been executed successfully, and the timer for that project will appear at the side panel.
 ![Undo 2](images/Undo2.png)
 3. Key in command `undo` in the command window.
@@ -733,17 +733,16 @@ The following walkthrough shows how a user can start a timer for a project, then
 5. The timer has been removed from the project. Timer is no longer running.
 ![Undo 5](images/Undo5.png)
 
-### Redoing the Previous Command: `redo`
+#### Redoing the Previous Command: `redo`
 
 The redo command redoes previously undone command and resets the application to the state before the previous undo command.
 
-Format: `/redo`
+Format: `redo`
 
 Example: `sort type/deadline`, `undo`, `redo`
 
 Result: Projects are sorted by deadline, then the application is reset to the sorting order before sort command was executed, then reset back to sort by deadline after redo command.
 
-<div markdown="block" class="alert alert-info">
 The following walkthrough shows how a user can start a timer for a project, then undo the command.
 
 1. Key in command `sort type/deadline` in the command window.
@@ -766,11 +765,11 @@ The following walkthrough shows how a user can start a timer for a project, then
 :bulb: **Tip:**
 
 * Undo/redo feature keeps track of changes in state, and hence will not work on `help` command which does not change the state of the application.
-* Redo command only works if there the previous command is `undo`.
+* Redo command only works if the previous command is `undo`.
 
 </div>
 
-## Statistics
+### Statistics
 
 Done by Farrell Nah Jun Hao
 
@@ -788,7 +787,7 @@ The statistics displayed correspond to the projects or tasks currently shown in 
 
 You do not need to use any additional commands to update or view the statistics.
 
-### Timeframes
+#### Timeframes
 
 Momentum only tracks your statistics within a particular timeframe. By default, the timeframe will be set to weekly.
 You can change the timeframe through the [settings](#settings).
@@ -801,7 +800,7 @@ Momentum allows you to track the time spent within these timeframes:
 
 Here are the statistics being tracked by Momentum:
 
-### Time Spent Per Project
+#### Time Spent Per Project
 
 This statistic tells you the total amount of time you have spent within the timeframe. For projects, this includes
  all the time you have spent on each individual task, as well as on the project as a whole.
@@ -814,7 +813,7 @@ The statistics are displayed in 2 different formats:
  and tasks with less time spent on them may not be shown.
 2. **Table**: Shows the exact (in minutes) amount of time spent on each project. Useful for calculations.
 
-## Settings
+### Settings
 
 Done by Khoo De Hui
 You can adjust various settings in Momentum, which includes:
@@ -843,7 +842,7 @@ Result: Sets a dark theme to the GUI and changes the statistics pane to show the
 3. The GUI theme has now been set to the light theme, and information in the statistics panel has been updated.
  ![Settings Walkthrough Step 3](images/SettingsDiagram3.png)
 
-## Clear All Projects/Tasks : `clear`
+### Clear All Projects/Tasks : `clear`
 
 Done by Farrell Nah Jun Hao
 
@@ -860,7 +859,7 @@ This command will also delete the saved data for the projects or tasks. You can 
 
 Format: `clear`
 
-## Dismissing a Reminder : `dismiss`
+### Dismissing a Reminder : `dismiss`
 
 Done by Cheong Ying Yi Clara
 
@@ -878,7 +877,7 @@ Undo a dismissal to show an expired reminder in the project.
 
 </div>
 
-### Walkthrough of Dismissing a Reminder
+#### Walkthrough of Dismissing a Reminder
 
 This walkthrough is a followup of [Walkthrough of Creating a Project](#walkthrough-of-creating-a-project).
 
@@ -889,7 +888,7 @@ This walkthrough is a followup of [Walkthrough of Creating a Project](#walkthrou
 1. The reminder panel is now hidden.
 ![Walkthrough of Dismissing a Reminder Step 3](images/DismissDiagram3.png)
 
-## Showing and Hiding SideBar Components : `show`
+### Showing and Hiding SideBar Components : `show`
 
 Done by Cheong Ying Yi Clara
 
@@ -902,7 +901,7 @@ Format: `show t/`
 
 Result: Shows or Hides the tags panel of the sidebar.
 
-### Walkthrough of Hiding Tags
+#### Walkthrough of Hiding Tags
 
 1. Type `show t/` in the command box, and press the `Enter` key to execute it.
 ![Walkthrough of Hiding Tags Step 1](images/ShowDiagram1.png)
@@ -912,7 +911,7 @@ Result: Shows or Hides the tags panel of the sidebar.
 3. The tags panel is now hidden.
 ![Walkthrough of Hiding Tags Step 3](images/ShowDiagram3.png)
 
-### Viewing help : `help`
+#### Viewing help : `help`
 
 Shows a message explaning how to access the help page.
 
@@ -920,7 +919,7 @@ Shows a message explaning how to access the help page.
 
 Format: `help`
 
-## Exiting the Program : `exit`
+### Exiting the Program : `exit`
 
 All project, task and timer data are saved automatically after every command. There is no need to save manually.
 
@@ -947,6 +946,7 @@ Result: Exits the program.
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
 * **Project View**: View all projects in the project book.
 * **Task View**: View all tasks that are added to a single project.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command Summary
@@ -968,5 +968,6 @@ Action | Format | Example
 **Showing and Hiding SideBar Components** | `show t/` | `show t/`
 **Undo** | `undo` | `undo`
 **Redo** | `redo` | `redo`
+**Help** | `help` | `help`
 **Settings** | `set [th/THEME] [st/TIMEFRAME]` | `set th/dark st/daily`
 **Exit** | `exit` | `exit`
