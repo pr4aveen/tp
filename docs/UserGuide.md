@@ -23,7 +23,7 @@ It is designed for people that prefer typing, so that frequent tasks can be done
 4. Double-click the file to start Momentum. The GUI similar to below should appear in a few seconds. <br>
    ![Ui](images/Ui.png)
 
-5. Type the command in the command box and press `Enter` to execute it. e.g. typing **`help`** and pressing `Enter` will open the help window.<br>
+5. Type the command in the command box and press `Enter` to execute it. e.g. typing `help` and pressing `Enter` will open the help window.<br>
    
    Some example commands you can try:
 
@@ -91,7 +91,7 @@ Below is an explanation of the formatting used to show commands:
 * Items with `…` inside square brackets `[t/TAG [MORE_TAGS]...]` can take in multiple space separated arguments
   e.g. `[[t/TAG [MORE_TAGS]...]` can represent `t/friend friend family`.
 * Parameters can be in any order.
-  e.g. If the command specifies `n/NAME dd/2020-11-05`, `dd/2020-11-05 n/NAME` is also acceptable.
+  e.g. If the command specifies `n/Blog Design dd/2020-11-05`, `dd/2020-11-05 n/Blog Design` is also acceptable.
 
 ## Date and Time Terms
 
@@ -207,7 +207,7 @@ Format: `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [
 * `[c/]`
   * The project is incomplete by default, adding `c/` will set the completion status to complete.
 * `[dd/DEADLINE_DATE [dt/DEADLINE_TIME]]`
-  * The `dt\DEADLINE_TIME` is part of the the prefix `dd/`, and is optional.
+  * The `dt/DEADLINE_TIME` is part of the the prefix `dd/`, and is optional.
   * A deadline cannot contain only the time field, but a deadline can contain only the date field.
   * The format for date of the deadline is YYYY-MM-DD, refer to [Date Terms](#date-terms) for more information on
    YYYY, MM and DD.
@@ -268,7 +268,7 @@ Format: `edit ID [n/NAME] [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TI
 * `[c/]`
   * Adding `c/` will reverse the completion status, if the project was incomplete the completion status will change to complete.
 * `[dd/DEADLINE_DATE [dt/DEADLINE_TIME]]`
-  * The `dt\DEADLINE_TIME` is part of the the prefix `dd/`, and is optional.
+  * The `dt/DEADLINE_TIME` is part of the the prefix `dd/`, and is optional.
   * A deadline cannot be edited with only the time field, but a deadline can be edited with only the date field.
   * The deadline will be replaced with an edit.
   * The format for date of the deadline is YYYY-MM-DD, refer to [Date Terms](#date-terms) for more information on
@@ -306,7 +306,7 @@ Deletes a project or task in the list.
 
 Format: `delete ID`
 
-* Deletes the project at the specified `ID`.
+* Deletes the project or task at the specified `ID`.
 * The id refers to the id number shown in the displayed list.
 * The id **must be a positive integer** 1, 2, 3, …​
 
@@ -343,7 +343,7 @@ Format: `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]`
   * `order/asc` will sort the list of projects in ascending order.
   * `order/dsc` will sort the list of projects in descending order.
 
-* The projects can be sorted by incomplete then completed.
+* The projects can be sorted by completion status.
     * This is the default sort, and is also the "dominant sort" that will ensure that all incomplete projects/tasks will be ordered before complete projects/tasks when completion status order is on.
     Within incomplete and complete projects/tasks, they will be ordered by specified order (alphabetical/deadline/created date, ascending/descending).
     * Run `sort c/` to toggle the default completion status sort.
@@ -366,7 +366,7 @@ Format: `sort`
 
 * Sorts projects in alphabetical, ascending order
 
-The following walkthrough shows how a user can sort projects in Momentum by specifying only the sort order.
+The following walkthrough shows how a user can sort projects in Momentum by the default order
 
 1. Key in command `sort` in the command window.
 ![Default Sort Step 1](images/DefaultSort1.png)
@@ -392,7 +392,7 @@ The following walkthrough shows how a user can sort projects in Momentum by togg
 3. All projects are ordered in default ascending alphabetical order without regard for completion status.
 ![Toggle Completion Status Step 3](images/ToggleCompletionStatus3.png)
 
-##### Sorting With Only Type Specified
+##### Sorting with Only Type Specified
 
 Format: `sort type/SORT_TYPE`
 
@@ -547,7 +547,7 @@ You can search for projects/tasks with multiple keywords for names, descriptions
 
 A match type can also be specified as mentioned at the [start of this section](#filtering-projects-find).
 
-Please look at the examples below to get a better understanding of how you can make searches with multiple commands.
+Please look at the examples below to get a better understanding of how you can make searches with multiple parameters.
 
 Examples:
 
@@ -567,7 +567,8 @@ Let's say that you have the following projects in Momentum:
 
 * `find match/all n/write d/rock` will only return project 2. This is because project 2 is the only project that contains both `write` in its name **and** `rock` in its description.
 
-* `find match/none n/write d/rock` will return projects 1. This is because only project 1 **does not** contain `write` in its name and `rock` in its descriptions.
+* `find match/none n/write d/rock` will return project 1. This is because only project 1 **does not** contain
+ `write` in its name and `rock` in its descriptions.
 
 <div markdown="block" class="alert alert-info">
 
@@ -655,15 +656,15 @@ You can perform time tracking with the following steps:
 
 1. To start the timer, type `start 1` into the command box and press `Enter`.
 
-![TimerExample2](images/TimerExample2.png)
+    ![TimerExample2](images/TimerExample2.png)
 
 2. You should see the following message in the result box, indicating that the timer has been successfully started.
 
-![TimerExample3](images/TimerExample3.png)
+    ![TimerExample3](images/TimerExample3.png)
 
 3. You should also see the project's name and start time in the active timers panel:
 
-![TimerExample4](images/TimerExample4.png)
+    ![TimerExample4](images/TimerExample4.png)
 
 4. Now that the timer has been successfully started, you can proceed to do your work. You can also choose to close
  Momentum. The timer will continue to run even when Momentum is closed. Proceed to the next step when you are done
@@ -671,21 +672,21 @@ You can perform time tracking with the following steps:
 
 5. To stop the timer, type `stop 1` into the command box and press `Enter`.
 
-![TimerExample5](images/TimerExample5.png)
+    ![TimerExample5](images/TimerExample5.png)
 
 6. You should see the following message in the result box, indicating that the timer has been successfully stopped.
 
-![TimerExample6](images/TimerExample6.png)
+    ![TimerExample6](images/TimerExample6.png)
 
 7. You should also see that the project has been removed from the active timers panel:
 
-![TimerExample7](images/TimerExample7.png)
+    ![TimerExample7](images/TimerExample7.png)
 
 8. The statistics panel (see [statistics](#statistics)) will also be updated to reflect the time that you have spent
  working on the
  project:
 
-![TimerExample8](images/TimerExample8.png)
+    ![TimerExample8](images/TimerExample8.png)
 
 ### Reminders
 
@@ -695,7 +696,7 @@ Done by Cheong Ying Yi Clara
 * The reminder will be removed after it is shown in the sidebar.
 * If a reminder was missed, it will be greyed out.
 * Refer to [Walkthrough of Creating a Project](#walkthrough-of-creating-a-project) for more details on how a reminder will be shown.
-* Refer to [Walkthrough of Dismissing a Reminder](#walkthrough-of-dismissing-a-reminder) for more details on hoe to dismiss a reminder.
+* Refer to [Walkthrough of Dismissing a Reminder](#walkthrough-of-dismissing-a-reminder) for more details on how to dismiss a reminder.
 
 <div markdown="block" class="alert alert-danger">
 
@@ -708,7 +709,7 @@ If there are multiple reminders set at the same date and time, only one of the r
 
 Done By Kang Su Min
 
-Undo command undoes previous commmand and redo command redoes previously undone command.
+Undo command undoes previous command and redo command redoes previously undone command.
 
 #### Undoing the Previous Command: `undo`
 
@@ -816,25 +817,26 @@ The statistics are displayed in 2 different formats:
 ### Settings
 
 Done by Khoo De Hui
+
 You can adjust various settings in Momentum, which includes:
 * GUI Theme
 * Statistics Timeframe
 
 Format: `set [th/THEME] [st/TIMEFRAME]`
 * At least one of the optional fields must be provided.
-* There are two GUI themes available, light and dark. The commands to apply them are:
+* There are two GUI themes available, light and dark. The keywords to apply them are:
   * `th/light`
   * `th/dark`
-* There are three available timeframes for statistics, daily, weekly and monthly. The commands to apply them are:
-
+* There are three available timeframes for statistics, daily, weekly and monthly. The keywords to apply them are:
   * `st/daily`
   * `st/weekly`
   * `st/monthly`
 
 Example: `set th/light st/monthly`
+
 Result: Sets a dark theme to the GUI and changes the statistics pane to show the time spent on projects within the day.
 
-### Walkthrough of Changing Application Settings
+#### Walkthrough of Changing Application Settings
 1. In order to set the GUI theme to light and the statistic timeframe to daily, enter `set th/light th/monthly` in the command box and press the `Enter` key to execute it.
  ![Settings Walkthrough Step 1](images/SettingsDiagram1.png)
 2. The result box will display a message to indicate that the command has been executed successfully.
@@ -848,12 +850,11 @@ Done by Farrell Nah Jun Hao
 
 When viewing all projects, this command deletes all the projects in Momentum, including their tasks.
 
-When viewing a specific project's tasks, this command will delete all the tasks in the project. The project will itself will not be deleted.
-Removes all projects and tasks in Momentum.
+When viewing a specific project's tasks, this command will delete all the tasks in the project. The project itself will not be deleted.
 
 <div markdown="block" class="alert alert-danger">
 :warning: **Warning**
-This command will also delete the saved data for the projects or tasks. You can undo this operation while Momentum remains open. However, you will not be able to undo this if once you close Momentum.
+This command will also delete the saved data for the projects or tasks. You can undo this operation while Momentum remains open. However, you will not be able to undo this once you close Momentum.
 
 </div>
 
@@ -873,7 +874,7 @@ Result: Hides the reminder panel of the sidebar.
 
 :warning: **Warning**
 A reminder that has been dismissed cannot be shown again in the reminder panel.
-Undo a dismissal to show an expired reminder in the project.
+Undo a dismissal to show an expired reminder in the project or task.
 
 </div>
 
@@ -906,12 +907,11 @@ Result: Shows or Hides the tags panel of the sidebar.
 1. Type `show t/` in the command box, and press the `Enter` key to execute it.
 ![Walkthrough of Hiding Tags Step 1](images/ShowDiagram1.png)
 2. The result box will display a message to indicate that the command has been executed successfully:
-   `Tags is removed from the sidebar.`
 ![Walkthrough of Hiding Tags Step 2](images/ShowDiagram2.png)
 3. The tags panel is now hidden.
 ![Walkthrough of Hiding Tags Step 3](images/ShowDiagram3.png)
 
-#### Viewing help : `help`
+### Viewing Help : `help`
 
 Shows a message explaning how to access the help page.
 
@@ -956,10 +956,10 @@ Action | Format | Example
 **View tasks in a project**| `view ID` |`view 3`
 **View all projects**| `home` | `home`
 **Creating a Project/Task** | `add n/NAME [d/DESCRIPTION] [c/] [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]​`|  `project n/Momentum d/CS2103T Team Project dd/2021-12-07 t/impt`
-**Editing a Project/Task** | `edit ID [n/NAME] [d/DESCRIPTION] [c/]  [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`| `edit 3 n/NewMomentum d/NewDescription dl/2021-12-07 r/2021-12-07T01:21:21 t/normal`
+**Editing a Project/Task** | `edit ID [n/NAME] [d/DESCRIPTION] [c/]  [dd/DEADLINE_DATE [dt/DEADLINE_TIME]] [r/REMINDER_DATE_TIME] [t/TAG]`| `edit 3 n/NewMomentum d/NewDescription dd/2021-12-07 r/2021-12-07T01:21:21 t/normal`
 **Delete a project/task** | `delete ID` | `delete 3`
 **Clear all projects/tasks** | `clear` | `clear`
-**Find a project/task** | `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...]  [c/]`  | `find match/any n/Momentum d/new t/normal`
+**Find a project/task** | `find [match/FILTER_TYPE] [n/NAME [MORE_NAMES]...] [d/DESCRIPTION [MORE_DESCRIPTIONS]...] [t/TAG [MORE_TAGS]...]  [c/COMPLETION_STATUS]`  | `find match/any n/Momentum d/new t/normal`
 **Show all projects/tasks (after find)** | `list` | `list`
 **Sort projects/tasks** | `sort [type/SORT_TYPE] [order/SORT_ORDER] [c/]` | `sort type/deadline order/dsc c/`
 **Start Timer** | `start ID` | `start 2`
